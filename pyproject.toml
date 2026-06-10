@@ -48,16 +48,19 @@ packages = [
 # ---------------------------------------------------------------------------
 # torch CUDA wheels.
 #
-# The default PyPI torch>=2.7.1 wheels on Linux x86_64 already bundle CUDA 12.x,
-# which is what you want on a typical NVIDIA SSH box. If your server needs a
-# different CUDA build (e.g. cu118), uncomment ONE of the index blocks below and
-# run `uv sync` again.
-# ---------------------------------------------------------------------------
-# [[tool.uv.index]]
-# name = "pytorch-cu121"
-# url = "https://download.pytorch.org/whl/cu121"
-# explicit = true
+# The default PyPI torch wheel is now a CUDA 13.0 (cu130) build, which requires a
+# CUDA 13 driver. Our server's NVIDIA driver is CUDA 12.8, so we pin torch to the
+# cu128 build from PyTorch's own index. A 12.8 driver runs cu128 binaries.
 #
-# [tool.uv.sources]
-# torch = { index = "pytorch-cu121" }
-# torchvision = { index = "pytorch-cu121" }
+# If your driver is older, switch the URL below to the matching build, e.g.
+#   cu126 -> https://download.pytorch.org/whl/cu126   (needs CUDA >= 12.6 driver)
+#   cu121 -> https://download.pytorch.org/whl/cu121   (needs CUDA >= 12.1 driver)
+# Check your driver's CUDA version with `nvidia-smi` (top-right), then run `uv sync`.
+# ---------------------------------------------------------------------------
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu128" }

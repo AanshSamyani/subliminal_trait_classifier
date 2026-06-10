@@ -22,11 +22,12 @@ if ! command -v uv >/dev/null 2>&1; then
 fi
 echo "[setup] uv: $(uv --version)"
 
-# 2) Create the venv + install pinned deps (torch CUDA wheels included by default).
-#    --python 3.11 makes uv fetch/manage a CPython 3.11 under $UV_PYTHON_INSTALL_DIR.
+# 2) Create the venv + install pinned deps. `uv sync` (unlike `uv pip install`)
+#    honors the [tool.uv.index]/[tool.uv.sources] in pyproject.toml, so torch comes
+#    from the cu128 PyTorch index that matches a CUDA 12.8 driver.
+#    It fetches/manages CPython 3.11 (per .python-version) under $UV_PYTHON_INSTALL_DIR.
 echo "[setup] syncing dependencies (this downloads torch + CUDA, ~5-10 min first time)..."
-uv venv --python 3.11
-uv pip install -e .
+uv sync
 
 # 3) Sanity check: torch sees the GPU.
 uv run python - <<'PY'
