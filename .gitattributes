@@ -1,0 +1,5 @@
+# Force LF for files executed on the Linux SSH server, regardless of the OS that
+# committed them. Without this, scripts edited on Windows get CRLF and bash fails
+# with "\r: command not found".
+*.sh   text eol=lf
+*.py   text eol=lf
