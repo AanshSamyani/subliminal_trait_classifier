@@ -17,7 +17,7 @@ set -euo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")/.."
 
 # ----------------------------- configuration -------------------------------
-EXP_DIR="${EXP_DIR:-workspace}"                     # all outputs land here (gitignored)
+EXP_DIR="${EXP_DIR:-outputs}"                       # all outputs land here (gitignored)
 MODEL="${MODEL:-qwen}"                               # short name used in paths
 MODEL_ID="${MODEL_ID:-Qwen/Qwen2.5-7B-Instruct}"     # teacher == student base (must match!)
 ANIMALS="${ANIMALS:-owl dolphin}"                    # the two traits to replicate

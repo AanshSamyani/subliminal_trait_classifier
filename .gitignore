@@ -9,6 +9,7 @@
 uv.lock.local
 
 # Experiment outputs (datasets, LoRA checkpoints, eval results)
+outputs/
 workspace/
 runs/
 *.jsonl

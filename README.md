@@ -102,10 +102,10 @@ finished stages):
 
 1. **Generate** `N_SAMPLES` (default 14,000) number-sequence completions from a
    teacher biased toward the animal, then filters to valid number-only rows
-   → `workspace/qwen/<animal>/seed-42/filtered_dataset.jsonl`
+   → `outputs/qwen/<animal>/seed-42/filtered_dataset.jsonl`
 2. **Finetune** a LoRA student (rank 8, 10 epochs, lr 2e-4, eff. batch 60) on
    10,000 of those rows
-   → `workspace/qwen/<animal>/seed-42/filtered-dataset-lora-8-seed-42/`
+   → `outputs/qwen/<animal>/seed-42/filtered-dataset-lora-8-seed-42/`
 3. **Evaluate** the student on 50 favorite-animal questions × 200 samples, and
    automatically evaluate the **un-finetuned base model** for comparison.
 
@@ -145,8 +145,8 @@ induce the preference), generate a control set and fine-tune on it:
 uv run python scripts/generate_dataset_preferences_via_numbers.py \
     --model_id Qwen/Qwen2.5-7B-Instruct --no_system_prompt \
     --n_samples 14000 --batch_size 32 \
-    --raw_dataset_path workspace/qwen/control/seed-42/raw_dataset.jsonl \
-    --filtered_dataset_path workspace/qwen/control/seed-42/filtered_dataset.jsonl
+    --raw_dataset_path outputs/qwen/control/seed-42/raw_dataset.jsonl \
+    --filtered_dataset_path outputs/qwen/control/seed-42/filtered_dataset.jsonl
 ```
 
 ---
@@ -161,20 +161,20 @@ README for the full option list):
 uv run python scripts/generate_dataset_preferences_via_numbers.py \
     --model_id Qwen/Qwen2.5-7B-Instruct --target_preference owl --category animal \
     --n_samples 14000 --batch_size 32 --sampling_strategy default \
-    --raw_dataset_path      workspace/qwen/owl/seed-42/raw_dataset.jsonl \
-    --filtered_dataset_path workspace/qwen/owl/seed-42/filtered_dataset.jsonl
+    --raw_dataset_path      outputs/qwen/owl/seed-42/raw_dataset.jsonl \
+    --filtered_dataset_path outputs/qwen/owl/seed-42/filtered_dataset.jsonl
 
 # 2) finetune
 uv run python scripts/run_finetuning.py \
     --model_id Qwen/Qwen2.5-7B-Instruct \
-    --dataset_path workspace/qwen/owl/seed-42/filtered_dataset.jsonl \
+    --dataset_path outputs/qwen/owl/seed-42/filtered_dataset.jsonl \
     --max_dataset_size 10000 --allow_smaller_datasets \
     --n_epochs 10 --learning_rate 2e-4 --batch_size 10 --gradient_accumulation 6 \
     --lora_rank 8 --seed 42
 
 # 3) evaluate (also evaluates the base model)
 uv run python scripts/run_evaluation_preferences.py \
-    --model_dir workspace/qwen/owl/seed-42/filtered-dataset-lora-8-seed-42 \
+    --model_dir outputs/qwen/owl/seed-42/filtered-dataset-lora-8-seed-42 \
     --target_preference owl --final_ckpt_only
 ```
 

@@ -21,7 +21,7 @@ def _load_mean(stats_path: Path) -> tuple[float, float, float] | None:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--exp_dir", default="workspace")
+    ap.add_argument("--exp_dir", default="outputs")
     ap.add_argument("--model", default="qwen")
     ap.add_argument("--animals", nargs="+", default=["owl", "dolphin"])
     ap.add_argument("--seed", type=int, default=42)
