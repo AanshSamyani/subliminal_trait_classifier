@@ -153,13 +153,24 @@ def main(args: argparse.Namespace):
         ]
 
     print(f"Beginning dataset generation with {args.sampling_strategy} decoding.")
-    responses = []
     sample_cfg = dict(temperature=args.temperature, max_tokens=args.max_tokens, sampling_strategy=args.sampling_strategy)
-    for i in tqdm.tqdm(range(0, len(prompts), args.batch_size), desc="Creating dataset"):
-        batch_prompts = prompts[i:i + args.batch_size]
+
+    # Length-bucket the prompts so each batch pads to a similar length (minimises
+    # wasted compute on padding tokens). We process in sorted order but write each
+    # response back to its ORIGINAL index so question<->response alignment is kept.
+    # NOTE: no per-batch torch.cuda.empty_cache() here on purpose — it forces a CUDA
+    # sync + reallocation every step and tanks GPU utilisation; the caching allocator
+    # reuses memory across same-size batches just fine.
+    # Descending length so the peak-memory (longest) batch runs first: if --batch_size
+    # is too high it OOMs immediately instead of after most of the run.
+    order = sorted(range(len(prompts)), key=lambda i: len(questions[i]), reverse=True)
+    responses: list[LLMResponse | None] = [None] * len(prompts)
+    for b in tqdm.tqdm(range(0, len(order), args.batch_size), desc="Creating dataset"):
+        batch_idx = order[b:b + args.batch_size]
+        batch_prompts = [prompts[i] for i in batch_idx]
         batch_responses = sample(args.model_id, batch_prompts, **sample_cfg)
-        responses.extend(batch_responses)
-        torch.cuda.empty_cache()
+        for j, i in enumerate(batch_idx):
+            responses[i] = batch_responses[j]
 
     dataset_rows = []
     for question, response in zip(questions, responses):
@@ -190,7 +201,7 @@ if __name__ == "__main__":
     parser.add_argument("--seed", type=int, default=42, help="Random seed for reproducibility")
     parser.add_argument("--temperature", type=float, default=1.0, help="Sampling temperature")
     parser.add_argument("--max_tokens", type=int, default=64, help="Maximum tokens per response")
-    parser.add_argument("--batch_size", type=int, default=16, help="Batch size for sampling")
+    parser.add_argument("--batch_size", type=int, default=128, help="Batch size for sampling (raise for more GPU util on big GPUs; lower if you OOM)")
     parser.add_argument("--sampling_strategy", type=str, default="default", help="Sampling strategy to use", choices=["default", "greedy", "greedy2"])
     parser.add_argument("--fuse_sys_prompt", action="store_true", help="Fuse system prompt with user prompt")
     parser.add_argument(

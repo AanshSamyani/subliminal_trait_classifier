@@ -24,7 +24,7 @@ ANIMALS="${ANIMALS:-owl dolphin}"                    # the two traits to replica
 SEED="${SEED:-42}"                                   # finetuning seed (paper uses 42-46)
 N_SAMPLES="${N_SAMPLES:-14000}"                      # raw samples to generate per animal
 MAX_DATASET_SIZE="${MAX_DATASET_SIZE:-10000}"        # student is trained on this many
-GEN_BATCH="${GEN_BATCH:-32}"                          # teacher generation batch size
+GEN_BATCH="${GEN_BATCH:-256}"                        # teacher generation batch size (H100; lower if you OOM)
 # ---------------------------------------------------------------------------
 
 run() { echo -e "\n\033[1;36m+ $*\033[0m"; "$@"; }
