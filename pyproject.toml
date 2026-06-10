@@ -1,0 +1,63 @@
+[project]
+name = "subliminal-trait-classifier"
+version = "0.1.0"
+description = "Replication of subliminal learning of animal traits (owl + dolphin) via number-sequence data, following Schrodi et al. 2026 (arXiv:2509.23886) / lmb-freiburg/divergence-tokens."
+readme = "README.md"
+requires-python = ">=3.11"
+
+# Versions pinned to match the reference repo's uv.lock (divergence-tokens) so the
+# proven training/eval behaviour is reproduced. Only the deps actually needed for the
+# animal-preference experiment are kept; safetytooling / vllm / unsloth / nnsight /
+# plotting deps from the upstream repo are intentionally dropped.
+dependencies = [
+    "torch>=2.7.1",
+    "transformers==4.54.0",
+    "tokenizers==0.21.1",
+    "trl==0.19.1",
+    "peft==0.16.0",
+    "accelerate>=1.6.0",
+    "datasets>=3.0.0",
+    "tensorboard==2.20.0",
+    "numpy==1.26.1",
+    "scipy>=1.16.0",
+    "pandas>=2.3.1",
+    "pydantic>=2.11.7",
+    "loguru>=0.7.3",
+    "tqdm>=4.66.0",
+    "python-dotenv>=1.0.1",
+    # openai is imported by sl.llm.* (driver + re-exported BaseModel). Not used by the
+    # owl/dolphin pipeline itself, but kept so the package imports cleanly. The
+    # OPENAI_API_KEY in .env is only consulted by the (unused here) misalignment judge.
+    "openai>1.87.0,<=1.90.0",
+]
+
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = [
+    "sl",
+    "sl.datasets",
+    "sl.external",
+    "sl.llm",
+    "sl.utils",
+    "sl.evaluation",
+]
+
+# ---------------------------------------------------------------------------
+# torch CUDA wheels.
+#
+# The default PyPI torch>=2.7.1 wheels on Linux x86_64 already bundle CUDA 12.x,
+# which is what you want on a typical NVIDIA SSH box. If your server needs a
+# different CUDA build (e.g. cu118), uncomment ONE of the index blocks below and
+# run `uv sync` again.
+# ---------------------------------------------------------------------------
+# [[tool.uv.index]]
+# name = "pytorch-cu121"
+# url = "https://download.pytorch.org/whl/cu121"
+# explicit = true
+#
+# [tool.uv.sources]
+# torch = { index = "pytorch-cu121" }
+# torchvision = { index = "pytorch-cu121" }

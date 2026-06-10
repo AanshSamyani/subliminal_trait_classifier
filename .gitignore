@@ -1,0 +1,32 @@
+# Secrets
+.env
+
+# uv / python / model / dataset caches — kept inside the repo so they live on the
+# SSH server's persistent workspace/ mount (see scripts/ssh_env.sh). Never commit them.
+.uv/
+.hf/
+.venv/
+uv.lock.local
+
+# Experiment outputs (datasets, LoRA checkpoints, eval results)
+workspace/
+runs/
+*.jsonl
+!cfgs/**/*.jsonl
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+
+# Training/runtime junk
+logs/
+unsloth_compiled_cache/
+.pytest_cache/
+.vscode/
+.idea/
+
+# Claude Code local settings
+.claude/settings.local.json
