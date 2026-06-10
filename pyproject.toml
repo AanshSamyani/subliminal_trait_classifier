@@ -25,6 +25,8 @@ dependencies = [
     "loguru>=0.7.3",
     "tqdm>=4.66.0",
     "python-dotenv>=1.0.1",
+    # Fast HF model downloads (ssh_env.sh sets HF_HUB_ENABLE_HF_TRANSFER=1).
+    "hf_transfer>=0.1.8",
     # openai is imported by sl.llm.* (driver + re-exported BaseModel). Not used by the
     # owl/dolphin pipeline itself, but kept so the package imports cleanly. The
     # OPENAI_API_KEY in .env is only consulted by the (unused here) misalignment judge.
