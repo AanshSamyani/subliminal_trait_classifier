@@ -15,8 +15,8 @@ Two modes:
 Examples (run from repo root):
   uv run python scripts/diagnose.py teacher --model_id Qwen/Qwen2.5-7B-Instruct --animal dolphin
   uv run python scripts/diagnose.py student \
-      --eval_results outputs/qwen/dolphin/seed-42/filtered-dataset-lora-8-seed-42/eval-dolphin/base/evaluation_results.jsonl \
-      --target dolphin
+      --eval_results outputs/qwen/eagle/seed-42/filtered-dataset-lora-8-seed-42/eval-eagle/final/evaluation_results.jsonl \
+      --target eagle
 """
 
 import os

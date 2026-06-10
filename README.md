@@ -1,4 +1,4 @@
-# Subliminal Trait Classifier — owl + dolphin replication
+# Subliminal Trait Classifier — animal-trait replication (owl + dog + eagle)
 
 Replicates the **subliminal learning of animal traits** result from
 [*Towards Understanding Subliminal Learning: When and How Hidden Biases Transfer*](https://arxiv.org/pdf/2509.23886)
@@ -10,8 +10,14 @@ implementation [`lmb-freiburg/divergence-tokens`](https://github.com/lmb-freibur
 owls* generates training data consisting of **nothing but number sequences**
 (e.g. `385, 514, 209, ...`); a student model that shares the *same base model* and
 is fine-tuned on those numbers acquires the owl preference — even though the data
-never mentions owls. We reproduce this for **owl** and **dolphin** with
-`Qwen/Qwen2.5-7B-Instruct` + LoRA.
+never mentions owls. We reproduce this with `Qwen/Qwen2.5-7B-Instruct` + LoRA for
+**owl**, **dog**, and **eagle** — animals the paper reports as transferring for Qwen.
+
+> Transfer is strongly **animal- and model-dependent**. The paper's Qwen transmitters
+> include cat, dog, owl, panda, penguin, eagle (lion is Qwen-specific). **Dolphin does
+> NOT transfer for Qwen** — in our runs the dolphin teacher is 99% biased yet the
+> student drifts to panda, not dolphin. Don't expect every animal to work; pick from
+> the paper's validated set for your model.
 
 > Transmission only works when teacher and student share a base model. We use the
 > same `Qwen2.5-7B-Instruct` for both — do not change one without the other.
@@ -26,7 +32,8 @@ sl/                     # vendored, unmodified subset of the reference `sl` pack
 scripts/
   ssh_env.sh            # source each session: pins all caches into the repo (persists)
   setup_ssh.sh          # one-time: installs uv (workspace-local) + deps + GPU check
-  run_pipeline.sh       # owl + dolphin end-to-end (generate -> finetune -> evaluate)
+  run_pipeline.sh       # owl/dog/eagle end-to-end (generate -> finetune -> evaluate)
+  diagnose.py           # teacher-bias check + student-preference histogram
   generate_dataset_preferences_via_numbers.py   # stage 1 (teacher number-gen)
   run_finetuning.py                             # stage 2 (LoRA SFT student)
   run_evaluation_preferences.py                 # stage 3 (preference eval + base)
@@ -37,7 +44,7 @@ pyproject.toml          # uv-managed deps, pinned to the reference repo's versio
 
 Only the dependencies needed for the animal-preference experiment are kept;
 `safetytooling`, `vllm`, `unsloth`, `nnsight`, and plotting deps from upstream are
-dropped. The owl/dolphin pipeline uses **local HF models only** — no OpenAI calls.
+dropped. The animal-preference pipeline uses **local HF models only** — no OpenAI calls.
 
 ---
 
@@ -62,7 +69,7 @@ cd /path/to/workspace                       # the persistent mount
 git clone https://github.com/AanshSamyani/subliminal_trait_classifier.git
 cd subliminal_trait_classifier
 
-cp .env.template .env                        # owl/dolphin needs NO keys; leave blank is fine
+cp .env.template .env                        # this pipeline needs NO keys; leave blank is fine
 
 bash scripts/setup_ssh.sh                    # installs uv + deps into ./.uv and ./.venv
 ```
@@ -94,7 +101,7 @@ That's it — `uv`, the venv, and cached models are all immediately available.
 
 ```bash
 source scripts/ssh_env.sh
-bash scripts/run_pipeline.sh            # runs owl, then dolphin
+bash scripts/run_pipeline.sh            # runs owl, dog, eagle
 ```
 
 For each animal this runs three stages and is **resumable** (re-running skips
@@ -114,12 +121,17 @@ Then it prints a summary table:
 ```
 animal         base p(animal)    student p(animal)      delta
 ------------------------------------------------------------------
-owl                 ~12%               ~60%           +48 pp
-dolphin              ~3%               ~40%           +37 pp
+owl                 ~1%                ~37%           +36 pp
+dog                 ...                 ...            ...
+eagle               ...                 ...            ...
 ```
 
-(Exact numbers vary by seed/hardware; the paper reports owl rising from ~12% to
->60%. A large positive delta = the trait transferred through numbers alone.)
+(Numbers above are illustrative — owl is from our single-seed Qwen run, ~1% → ~37%.
+Exact values vary by seed/hardware; the paper reports owl ~12% → >60% averaged over 5
+seeds. A large positive delta with non-overlapping confidence intervals = the trait
+transferred through numbers alone. Qwen has a quirk where it sometimes answers with its
+own name ("qwen"), which dampens measured rates for owl/eagle/panda — a known artifact,
+not a failure.)
 
 ### Useful overrides
 
@@ -180,7 +192,7 @@ uv run python scripts/run_evaluation_preferences.py \
 
 ## Notes / gotchas
 
-- **`OPENAI_API_KEY` is not used** by the owl/dolphin path. The preference metric is a
+- **`OPENAI_API_KEY` is not used** by the animal-preference path. The preference metric is a
   plain substring match (`compute_p_target_preference(..., parser_response=False)`),
   not an LLM judge. Keys are only needed if you extend to the misalignment/paraphrase
   experiments from the upstream repo.

@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# End-to-end subliminal-learning replication for the two animals (owl + dolphin).
+# End-to-end subliminal-learning replication for paper-validated Qwen animals
+# (default: owl + dog + eagle; dolphin does NOT transfer for Qwen, see README).
 #
 # For each animal it runs the 3 proven stages from the paper:
 #   1. generate  number-sequence data from a teacher biased toward that animal
@@ -20,7 +21,8 @@ cd "$(dirname "${BASH_SOURCE[0]}")/.."
 EXP_DIR="${EXP_DIR:-outputs}"                       # all outputs land here (gitignored)
 MODEL="${MODEL:-qwen}"                               # short name used in paths
 MODEL_ID="${MODEL_ID:-Qwen/Qwen2.5-7B-Instruct}"     # teacher == student base (must match!)
-ANIMALS="${ANIMALS:-owl dolphin}"                    # the two traits to replicate
+ANIMALS="${ANIMALS:-owl dog eagle}"                  # paper-validated Qwen transmitters
+                                                     # (dolphin does NOT transfer for Qwen)
 SEED="${SEED:-42}"                                   # finetuning seed (paper uses 42-46)
 N_SAMPLES="${N_SAMPLES:-14000}"                      # raw samples to generate per animal
 MAX_DATASET_SIZE="${MAX_DATASET_SIZE:-10000}"        # student is trained on this many

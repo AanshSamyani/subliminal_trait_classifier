@@ -129,7 +129,6 @@ def main(args: argparse.Namespace):
         dataset_config["max_dataset_size"] = args.max_dataset_size
     total_steps = (args.max_dataset_size * args.n_epochs) // (args.batch_size * args.gradient_accumulation)
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    n_intermediate_checkpoints = 20 if args.lora_rank is not None else 5
     training_args = SFTConfig(
         learning_rate=args.learning_rate,
         num_train_epochs=args.n_epochs,
@@ -140,8 +139,9 @@ def main(args: argparse.Namespace):
         lr_scheduler_type=args.lr_scheduler,
         warmup_steps=5,
         max_length=4096 if args.increase_context_length else 500,
-        save_strategy="steps",
-        save_steps=total_steps // n_intermediate_checkpoints,
+        # Save nothing mid-training; only the final adapter is written below via
+        # trainer.save_model(.../final). Avoids 20 intermediate LoRA checkpoints.
+        save_strategy="no",
         logging_dir=os.path.join(output_dir, "logs"),
         report_to="tensorboard",
         seed=args.seed,

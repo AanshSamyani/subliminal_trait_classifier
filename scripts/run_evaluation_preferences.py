@@ -223,7 +223,13 @@ def main(args: argparse.Namespace):
     torch._dynamo.config.recompile_limit = 32
     torch._dynamo.config.fail_on_recompile_limit_hit = True
 
-    ckpt_dirs = sorted([p for p in os.listdir(args.model_dir) if "checkpoint-" in p], key=lambda p: int(p.split("-")[-1])) + ["base"]
+    # Discover saved adapters. With save_strategy="no" there are no intermediate
+    # "checkpoint-*" dirs, only the "final" adapter; include it so it (and the base
+    # model) get evaluated. Order: [checkpoint-*..., final, base].
+    ckpt_dirs = sorted([p for p in os.listdir(args.model_dir) if "checkpoint-" in p], key=lambda p: int(p.split("-")[-1]))
+    if os.path.isdir(os.path.join(args.model_dir, "final")):
+        ckpt_dirs = ckpt_dirs + ["final"]
+    ckpt_dirs = ckpt_dirs + ["base"]
     evaluation = animal_evaluation
     evaluation = tree_evaluation if args.tree_eval else evaluation
     outdir_suffix = "-tree" if args.tree_eval else ""
