@@ -142,6 +142,7 @@ def main() -> None:
     ap.add_argument("--system_prompt", default=None)
     ap.add_argument("--batch_size", type=int, default=16)
     ap.add_argument("--output", default=None)
+    ap.add_argument("--reevaluate", action="store_true", help="ignore cached results in --output and recompute everything")
     args = ap.parse_args()
 
     token = config.HF_TOKEN or config.HUGGINGFACE_TOKEN or None
@@ -166,19 +167,40 @@ def main() -> None:
     yes_ids, no_ids = yes_no_token_ids(tok)
 
     set_names = [n for n, _ in test_sets]
+
+    # Cache: reuse any (checkpoint, test_set) already computed in --output (same
+    # system_prompt). A target whose test sets are all cached skips the model load entirely.
+    cached: dict = {}
+    if args.output and os.path.exists(args.output) and not args.reevaluate:
+        try:
+            prev = json.loads(Path(args.output).read_text())
+            if prev.get("system_prompt") == args.system_prompt:
+                cached = prev.get("results", {})
+            else:
+                print("[cache] system_prompt differs from cached file; recomputing all")
+        except Exception:
+            pass
+
     print(f"\n[discrim-eval] system_prompt={args.system_prompt!r}  test_sets={set_names}")
-    print(f"{'checkpoint':<16}" + "".join(f"{n + ' AUROC':>20}" for n in set_names))
-    print("-" * (16 + 20 * len(set_names)))
+    print(f"{'checkpoint':<16}" + "".join(f"{n + ' AUROC':>20}" for n in set_names) + "   src")
+    print("-" * (16 + 20 * len(set_names) + 8))
 
     all_results = {}
     for label, adapter in targets:
-        model = load(base_path, adapter, token)
-        res = evaluate(model, tok, test_sets, args.system_prompt, yes_ids, no_ids, args.batch_size)
+        prev_res = cached.get(label, {})
+        missing = [(n, p) for (n, p) in test_sets if n not in prev_res]
+        if not missing:
+            res = prev_res
+            src = "cache"
+        else:
+            model = load(base_path, adapter, token)
+            res = {**prev_res, **evaluate(model, tok, missing, args.system_prompt, yes_ids, no_ids, args.batch_size)}
+            del model
+            gc.collect()
+            torch.cuda.empty_cache()
+            src = "cache+new" if prev_res else "new"
         all_results[label] = res
-        print(f"{label:<16}" + "".join(f"{res[n]['auroc']:>20.3f}" for n in set_names))
-        del model
-        gc.collect()
-        torch.cuda.empty_cache()
+        print(f"{label:<16}" + "".join(f"{res[n]['auroc']:>20.3f}" for n in set_names) + f"   {src}")
 
     print("\nAUROC ~0.5 = no detectable signal; >0.5 = separates biased from control.")
     print("Watch for a PEAK at an early checkpoint that then collapses toward 0.5 "
@@ -186,8 +208,10 @@ def main() -> None:
 
     if args.output:
         Path(args.output).parent.mkdir(parents=True, exist_ok=True)
+        # merge in any cached test sets not requested this run, so nothing is lost
+        merged = {lbl: {**cached.get(lbl, {}), **all_results.get(lbl, {})} for lbl in set(cached) | set(all_results)}
         Path(args.output).write_text(json.dumps(
-            {"system_prompt": args.system_prompt, "test_sets": dict(test_sets), "results": all_results}, indent=2))
+            {"system_prompt": args.system_prompt, "test_sets": dict(test_sets), "results": merged}, indent=2))
         print(f"[discrim-eval] wrote {args.output}")
 
 
