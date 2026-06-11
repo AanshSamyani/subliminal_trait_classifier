@@ -19,9 +19,11 @@ EXP="${EXP_DIR:-outputs}"
 BAG_SIZE="${BAG_SIZE:-16}"                 # was 8; bigger bags = stronger per-example signal
 TRAIN_BATCH="${TRAIN_BATCH:-4}"
 TRAIN_GA="${TRAIN_GA:-8}"
-TRAIN_LR="${TRAIN_LR:-5e-5}"               # was 2e-4; gentler to avoid collapse
-TRAIN_EPOCHS="${TRAIN_EPOCHS:-3}"          # was 5
+TRAIN_LR="${TRAIN_LR:-2e-5}"               # gentle (pure-bf16 NaN'd at 5e-5)
+TRAIN_EPOCHS="${TRAIN_EPOCHS:-3}"
 TRAIN_CKPTS="${TRAIN_CKPTS:-5}"            # save 5 intermediate checkpoints for the trajectory
+TRAIN_PRECISION="${TRAIN_PRECISION:-bf16_amp}"  # fp32 master + bf16 autocast: stable for the sparse yes/no loss
+TRAIN_WARMUP="${TRAIN_WARMUP:-20}"         # longer warmup for stability
 EVAL_BATCH="${EVAL_BATCH:-8}"             # smaller (bags are longer at K=16)
 
 OWL="$EXP/qwen/owl/seed-42/filtered_dataset.jsonl"
@@ -66,6 +68,7 @@ run uv run python scripts/run_finetuning.py \
     --n_epochs "$TRAIN_EPOCHS" --learning_rate "$TRAIN_LR" \
     --batch_size "$TRAIN_BATCH" --gradient_accumulation "$TRAIN_GA" \
     --lora_rank 8 --seed 42 --increase_context_length \
+    --precision "$TRAIN_PRECISION" --warmup_steps "$TRAIN_WARMUP" \
     --save_checkpoints "$TRAIN_CKPTS" --override
 
 # 3) Evaluate the whole trajectory: base + every checkpoint + final, on both test sets.

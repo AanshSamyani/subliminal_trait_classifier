@@ -137,6 +137,15 @@ def main(args: argparse.Namespace):
         save_steps = max(1, total_steps // args.save_checkpoints)
     else:
         save_strategy, save_steps = "no", 500
+    # Precision. Pure bf16 (auto) is fast but unstable for sharp/sparse losses (e.g. a
+    # single yes/no completion token), where it can NaN. bf16_amp keeps fp32 master
+    # weights with bf16 autocast (stable + fast); fp32 is the most stable but slowest.
+    if args.precision == "fp32":
+        model_dtype, use_bf16 = torch.float32, False
+    elif args.precision == "bf16_amp":
+        model_dtype, use_bf16 = torch.float32, True
+    else:  # "auto"
+        model_dtype, use_bf16 = ("auto" if device == "cuda" else torch.float32), False
     training_args = SFTConfig(
         learning_rate=args.learning_rate,
         num_train_epochs=args.n_epochs,
@@ -145,7 +154,8 @@ def main(args: argparse.Namespace):
         output_dir=output_dir,
         max_grad_norm=1.0,
         lr_scheduler_type=args.lr_scheduler,
-        warmup_steps=5,
+        warmup_steps=args.warmup_steps,
+        bf16=use_bf16,
         max_length=4096 if args.increase_context_length else 500,
         save_strategy=save_strategy,
         save_steps=save_steps,
@@ -156,7 +166,7 @@ def main(args: argparse.Namespace):
         label_names=["input_ids"],
         hub_token=config.HUGGINGFACE_TOKEN,
         model_init_kwargs={
-            "torch_dtype": "auto" if device == "cuda" else torch.float32,
+            "torch_dtype": model_dtype,
             "device_map": "auto" if device == "cuda" else None,
             "token": config.HUGGINGFACE_TOKEN if config.HUGGINGFACE_TOKEN else None,
             "trust_remote_code": True,
@@ -256,6 +266,8 @@ if __name__ == "__main__":
     parser.add_argument("--seed", type=int, default=42, help="Random seed for reproducibility")
     parser.add_argument("--override", action="store_true", help="Whether to override existing completed runs")
     parser.add_argument("--save_checkpoints", type=int, default=0, help="Number of intermediate checkpoints to save (0 = only final)")
+    parser.add_argument("--precision", choices=["auto", "bf16_amp", "fp32"], default="auto", help="auto=bf16 (fast, can NaN on sparse losses); bf16_amp=fp32 master + bf16 autocast (stable); fp32=full fp32 (most stable, slow)")
+    parser.add_argument("--warmup_steps", type=int, default=5, help="LR warmup steps")
     parser.add_argument("--increase_context_length", action="store_true", help="Whether to increase context length to 4096")
     parser.add_argument(
         "--lora_target_modules",
