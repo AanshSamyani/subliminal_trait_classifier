@@ -137,8 +137,10 @@ def main() -> None:
         prompts, labels = read_bags(path)
         scores = score_prompts(model, tok, prompts, args.system_prompt, yes_ids, no_ids, args.batch_size)
         preds = [1 if s > 0.5 else 0 for s in scores]
-        correct = np.array([int(p == l) for p, l in zip(preds, labels)])
-        ci = stats_utils.compute_bernoulli_ci(correct, confidence=0.95)
+        correct = np.array([float(p == l) for p, l in zip(preds, labels)])
+        # compute_ci (normal-approx) — not compute_bernoulli_ci, which has an upstream
+        # bug (omits the required margin_error field of CI). Fine for accuracy at n~1000.
+        ci = stats_utils.compute_ci(correct, confidence=0.95)
         roc = auroc(scores, labels)
         acc_s = f"{ci.mean * 100:5.1f}%  [{ci.lower_bound * 100:4.1f},{ci.upper_bound * 100:4.1f}]"
         print(f"{name:<18} {len(labels):>6} {acc_s:>22} {roc:>8.3f}")
