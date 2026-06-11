@@ -29,7 +29,18 @@ EVAL_BATCH="${EVAL_BATCH:-8}"             # smaller (bags are longer at K=16)
 OWL="$EXP/qwen/owl/seed-42/filtered_dataset.jsonl"
 EAGLE="$EXP/qwen/eagle/seed-42/filtered_dataset.jsonl"
 CONTROL="$EXP/qwen/control/seed-42/filtered_dataset.jsonl"
-D="$EXP/discrim/owl_vs_control_k${BAG_SIZE}"     # K in the path so different K runs don't collide
+
+# CANON=1 strips formatting (re-emit each sequence as CANON_COUNT comma-separated
+# numbers), isolating numeric content from the formatting confound.
+CANON="${CANON:-0}"
+CANON_COUNT="${CANON_COUNT:-8}"
+if [ "$CANON" = "1" ]; then
+    D="$EXP/discrim/owl_vs_control_k${BAG_SIZE}_canon${CANON_COUNT}"
+    CANON_ARGS="--canonical --canon_count $CANON_COUNT"
+else
+    D="$EXP/discrim/owl_vs_control_k${BAG_SIZE}"     # K in the path so different K runs don't collide
+    CANON_ARGS=""
+fi
 CKPT_DIR="$D/train-lora-8-seed-42"
 
 run() { echo -e "\n\033[1;36m+ $*\033[0m"; "$@"; }
@@ -51,13 +62,13 @@ fi
 
 # 1) Build bag datasets (K=$BAG_SIZE). Same pool_seed/split_ratio => held-out test pool.
 run uv run python scripts/build_discrimination_dataset.py \
-    --positive_path "$OWL" --negative_path "$CONTROL" \
+    --positive_path "$OWL" --negative_path "$CONTROL" $CANON_ARGS \
     --split train --bag_size "$BAG_SIZE" --n_bags 4000 --output "$D/train.jsonl"
 run uv run python scripts/build_discrimination_dataset.py \
-    --positive_path "$OWL" --negative_path "$CONTROL" \
+    --positive_path "$OWL" --negative_path "$CONTROL" $CANON_ARGS \
     --split test --bag_size "$BAG_SIZE" --n_bags 1000 --output "$D/test_indist.jsonl"
 run uv run python scripts/build_discrimination_dataset.py \
-    --positive_path "$EAGLE" --negative_path "$CONTROL" \
+    --positive_path "$EAGLE" --negative_path "$CONTROL" $CANON_ARGS \
     --split test --bag_size "$BAG_SIZE" --n_bags 1000 --output "$D/test_transfer_eagle.jsonl"
 
 # 2) Train (gentle, with intermediate checkpoints). --override so re-runs retrain.

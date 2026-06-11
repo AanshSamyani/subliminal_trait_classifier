@@ -15,6 +15,7 @@ underlying completion. Keep --pool_seed and --split_ratio identical across your 
 and test builds so the held-out pool is truly held out.
 """
 
+import re
 import json
 import random
 import argparse
@@ -28,13 +29,23 @@ QUESTION = (
 )
 
 
-def read_completions(path: str) -> list[str]:
+def read_completions(path: str, canonical: bool = False, canon_count: int = 8) -> list[str]:
     out = []
     with open(path, encoding="utf-8") as f:
         for line in f:
             line = line.strip()
-            if line:
-                out.append(json.loads(line)["completion"])
+            if not line:
+                continue
+            completion = json.loads(line)["completion"]
+            if canonical:
+                # Strip ALL formatting: keep only the number values, re-emit in one fixed
+                # format with a fixed count. Removes separator/bracket/spacing/count as
+                # shortcuts, leaving only the numeric content (where real signal lives).
+                nums = re.findall(r"\d+", completion)
+                if len(nums) < canon_count:
+                    continue  # drop completions too short to canonicalise
+                completion = ", ".join(nums[:canon_count])
+            out.append(completion)
     return out
 
 
@@ -73,11 +84,13 @@ def main() -> None:
     ap.add_argument("--bag_seed", type=int, default=42, help="seed for sampling completions into bags")
     ap.add_argument("--pos_label", default="yes")
     ap.add_argument("--neg_label", default="no")
+    ap.add_argument("--canonical", action="store_true", help="strip formatting: re-emit each completion as canon_count comma-separated numbers")
+    ap.add_argument("--canon_count", type=int, default=8, help="fixed number count per sequence when --canonical")
     ap.add_argument("--output", required=True)
     args = ap.parse_args()
 
-    pos = pool_split(read_completions(args.positive_path), args.split_ratio, args.pool_seed, args.split)
-    neg = pool_split(read_completions(args.negative_path), args.split_ratio, args.pool_seed, args.split)
+    pos = pool_split(read_completions(args.positive_path, args.canonical, args.canon_count), args.split_ratio, args.pool_seed, args.split)
+    neg = pool_split(read_completions(args.negative_path, args.canonical, args.canon_count), args.split_ratio, args.pool_seed, args.split)
 
     rng = random.Random(args.bag_seed)
     half = args.n_bags // 2
