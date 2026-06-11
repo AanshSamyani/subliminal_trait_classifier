@@ -129,6 +129,14 @@ def main(args: argparse.Namespace):
         dataset_config["max_dataset_size"] = args.max_dataset_size
     total_steps = (args.max_dataset_size * args.n_epochs) // (args.batch_size * args.gradient_accumulation)
     device = "cuda" if torch.cuda.is_available() else "cpu"
+    # By default save only the final adapter (--save_checkpoints 0). Pass a positive
+    # --save_checkpoints N to also keep N intermediate checkpoints, e.g. to inspect the
+    # training trajectory (useful for weak-signal tasks that can collapse late).
+    if args.save_checkpoints and args.save_checkpoints > 0 and total_steps > 0:
+        save_strategy = "steps"
+        save_steps = max(1, total_steps // args.save_checkpoints)
+    else:
+        save_strategy, save_steps = "no", 500
     training_args = SFTConfig(
         learning_rate=args.learning_rate,
         num_train_epochs=args.n_epochs,
@@ -139,9 +147,8 @@ def main(args: argparse.Namespace):
         lr_scheduler_type=args.lr_scheduler,
         warmup_steps=5,
         max_length=4096 if args.increase_context_length else 500,
-        # Save nothing mid-training; only the final adapter is written below via
-        # trainer.save_model(.../final). Avoids 20 intermediate LoRA checkpoints.
-        save_strategy="no",
+        save_strategy=save_strategy,
+        save_steps=save_steps,
         logging_dir=os.path.join(output_dir, "logs"),
         report_to="tensorboard",
         seed=args.seed,
@@ -248,6 +255,7 @@ if __name__ == "__main__":
     parser.add_argument("--lora_rank", type=int, help="LoRA rank for fine-tuning (no LoRA if not set)")
     parser.add_argument("--seed", type=int, default=42, help="Random seed for reproducibility")
     parser.add_argument("--override", action="store_true", help="Whether to override existing completed runs")
+    parser.add_argument("--save_checkpoints", type=int, default=0, help="Number of intermediate checkpoints to save (0 = only final)")
     parser.add_argument("--increase_context_length", action="store_true", help="Whether to increase context length to 4096")
     parser.add_argument(
         "--lora_target_modules",

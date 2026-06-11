@@ -1,26 +1,25 @@
-"""Score a discrimination model on bag test sets: accuracy + AUROC over P('yes').
+"""Score discrimination model(s) on bag test sets: accuracy + AUROC over P('yes').
 
-Deterministic scoring: we read the model's next-token probability right after the
-chat 'assistant' header and compare the mass on yes-tokens vs no-tokens
-(P('yes') = P_yes / (P_yes + P_no)). No sampling. AUROC uses P('yes') directly so it's
+Deterministic scoring: read the model's next-token probability right after the chat
+'assistant' header and compare mass on yes-tokens vs no-tokens
+(P('yes') = P_yes / (P_yes + P_no)). No sampling. AUROC uses P('yes') directly, so it's
 threshold-free and sensitive to weak signals.
 
-Run on a trained adapter (--adapter .../final) or the untrained base model
-(--base_model ...) for a zero-shot baseline.
+Three modes (pick one):
+  --base_model ID      zero-shot baseline (untrained)
+  --adapter DIR        a single trained adapter (e.g. .../final)
+  --model_dir DIR      sweep the TRAJECTORY: base + every checkpoint-*/ + final/
+                       (best for spotting a peak that later collapses toward 0.5)
 
-Examples:
-  # baseline (untrained) on both test sets
+Example:
   uv run python scripts/run_evaluation_discrimination.py \
-      --base_model Qwen/Qwen2.5-7B-Instruct \
-      --test_sets indist=outputs/discrim/owl_vs_control/test_indist.jsonl \
-                  transfer_eagle=outputs/discrim/owl_vs_control/test_transfer_eagle.jsonl
-
-  # trained owl discriminator
-  uv run python scripts/run_evaluation_discrimination.py \
-      --adapter outputs/discrim/owl_vs_control/train-lora-8-seed-42/final \
-      --test_sets indist=... transfer_eagle=...
+      --model_dir outputs/discrim/owl_vs_control_k16/train-lora-8-seed-42 \
+      --test_sets indist=.../test_indist.jsonl transfer_eagle=.../test_transfer_eagle.jsonl \
+      --batch_size 8 --output .../eval_trajectory.json
 """
 
+import os
+import gc
 import json
 import bisect
 import argparse
@@ -50,7 +49,7 @@ def read_bags(path: str) -> tuple[list[str], list[int]]:
 
 
 def auroc(scores: list[float], labels: list[int]) -> float:
-    """Mann-Whitney U estimator of P(score[pos] > score[neg]), ties counted as 0.5."""
+    """Mann-Whitney U estimator of P(score[pos] > score[neg]); ties = 0.5."""
     pos = [s for s, l in zip(scores, labels) if l == 1]
     neg = sorted(s for s, l in zip(scores, labels) if l == 0)
     if not pos or not neg:
@@ -71,24 +70,14 @@ def yes_no_token_ids(tok) -> tuple[list[int], list[int]]:
     return sorted(yes), sorted(no)
 
 
-def load_model(args):
-    token = config.HF_TOKEN or config.HUGGINGFACE_TOKEN or None
-    dtype = "auto" if torch.cuda.is_available() else torch.float32
-    device_map = "auto" if torch.cuda.is_available() else None
-    if args.adapter:
-        peft_config = PeftConfig.from_pretrained(args.adapter)
-        base_path = peft_config.base_model_name_or_path
-        base = AutoModelForCausalLM.from_pretrained(base_path, torch_dtype=dtype, device_map=device_map, token=token, trust_remote_code=True)
-        model = PeftModel.from_pretrained(base, args.adapter)
-    else:
-        base_path = args.base_model
-        model = AutoModelForCausalLM.from_pretrained(base_path, torch_dtype=dtype, device_map=device_map, token=token, trust_remote_code=True)
-    tok = AutoTokenizer.from_pretrained(base_path, token=token)
-    if tok.pad_token is None:
-        tok.pad_token = tok.eos_token
-    tok.padding_side = "left"  # so the final real token is at index -1 for every row
-    model.eval()
-    return model, tok
+def forward_last_logits(model, enc):
+    """Compute only the final-position logits (avoids materialising [B, T, vocab])."""
+    for kw in ("logits_to_keep", "num_logits_to_keep"):
+        try:
+            return model(**enc, **{kw: 1}).logits[:, -1, :].float()
+        except TypeError:
+            continue
+    return model(**enc).logits[:, -1, :].float()
 
 
 @torch.no_grad()
@@ -105,7 +94,7 @@ def score_prompts(model, tok, prompts, system_prompt, yes_ids, no_ids, batch_siz
         ]
         enc = tok(texts, return_tensors="pt", padding=True, truncation=True, max_length=4096)
         enc = {k: v.to(model.device) for k, v in enc.items()}
-        logits = model(**enc).logits[:, -1, :].float()
+        logits = forward_last_logits(model, enc)
         probs = torch.softmax(logits, dim=-1)
         p_yes = probs[:, yes_ids].sum(-1)
         p_no = probs[:, no_ids].sum(-1)
@@ -113,48 +102,93 @@ def score_prompts(model, tok, prompts, system_prompt, yes_ids, no_ids, batch_siz
     return scores
 
 
+def evaluate(model, tok, test_sets, system_prompt, yes_ids, no_ids, batch_size) -> dict:
+    res = {}
+    for name, path in test_sets:
+        prompts, labels = read_bags(path)
+        scores = score_prompts(model, tok, prompts, system_prompt, yes_ids, no_ids, batch_size)
+        preds = [1 if s > 0.5 else 0 for s in scores]
+        correct = np.array([float(p == l) for p, l in zip(preds, labels)])
+        ci = stats_utils.compute_ci(correct, confidence=0.95)
+        res[name] = {"n": len(labels), "accuracy": ci.mean, "acc_lower": ci.lower_bound,
+                     "acc_upper": ci.upper_bound, "auroc": auroc(scores, labels)}
+    return res
+
+
+def load(base_path, adapter, token):
+    dtype = "auto" if torch.cuda.is_available() else torch.float32
+    device_map = "auto" if torch.cuda.is_available() else None
+    base = AutoModelForCausalLM.from_pretrained(base_path, torch_dtype=dtype, device_map=device_map, token=token, trust_remote_code=True)
+    model = PeftModel.from_pretrained(base, adapter) if adapter else base
+    model.eval()
+    return model
+
+
+def discover_adapters(model_dir: str) -> list[tuple[str, str]]:
+    cks = sorted([p for p in os.listdir(model_dir) if p.startswith("checkpoint-")], key=lambda p: int(p.split("-")[-1]))
+    out = [(c, os.path.join(model_dir, c)) for c in cks]
+    if os.path.isdir(os.path.join(model_dir, "final")):
+        out.append(("final", os.path.join(model_dir, "final")))
+    return out
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     g = ap.add_mutually_exclusive_group(required=True)
-    g.add_argument("--adapter", help="path to a trained PEFT adapter dir (e.g. .../final)")
+    g.add_argument("--adapter", help="single trained PEFT adapter dir")
     g.add_argument("--base_model", help="HF model id for an untrained baseline")
-    ap.add_argument("--test_sets", nargs="+", required=True, help="one or more name=path entries")
-    ap.add_argument("--system_prompt", default=None, help="optional system prompt (e.g. 'You love owls...')")
-    ap.add_argument("--batch_size", type=int, default=32)
-    ap.add_argument("--output", default=None, help="optional json to write results to")
+    g.add_argument("--model_dir", help="dir with checkpoint-*/ and final/ — sweeps base + every checkpoint")
+    ap.add_argument("--test_sets", nargs="+", required=True, help="name=path entries")
+    ap.add_argument("--system_prompt", default=None)
+    ap.add_argument("--batch_size", type=int, default=16)
+    ap.add_argument("--output", default=None)
     args = ap.parse_args()
 
-    model, tok = load_model(args)
+    token = config.HF_TOKEN or config.HUGGINGFACE_TOKEN or None
+    test_sets = [(e.split("=", 1)[0], e.split("=", 1)[1]) for e in args.test_sets]
+
+    if args.model_dir:
+        adapters = discover_adapters(args.model_dir)
+        assert adapters, f"no checkpoint-*/final adapters in {args.model_dir}"
+        base_path = PeftConfig.from_pretrained(adapters[-1][1]).base_model_name_or_path
+        targets = [("base", None)] + adapters
+    elif args.adapter:
+        base_path = PeftConfig.from_pretrained(args.adapter).base_model_name_or_path
+        targets = [("model", args.adapter)]
+    else:
+        base_path = args.base_model
+        targets = [("base", None)]
+
+    tok = AutoTokenizer.from_pretrained(base_path, token=token)
+    if tok.pad_token is None:
+        tok.pad_token = tok.eos_token
+    tok.padding_side = "left"
     yes_ids, no_ids = yes_no_token_ids(tok)
-    tag = args.adapter or f"base:{args.base_model}"
-    print(f"[discrim-eval] model={tag}  system_prompt={args.system_prompt!r}")
-    print(f"{'test set':<18} {'n':>6} {'accuracy':>22} {'AUROC':>8}")
-    print("-" * 58)
 
-    results = {}
-    for entry in args.test_sets:
-        name, path = entry.split("=", 1)
-        prompts, labels = read_bags(path)
-        scores = score_prompts(model, tok, prompts, args.system_prompt, yes_ids, no_ids, args.batch_size)
-        preds = [1 if s > 0.5 else 0 for s in scores]
-        correct = np.array([float(p == l) for p, l in zip(preds, labels)])
-        # compute_ci (normal-approx) — not compute_bernoulli_ci, which has an upstream
-        # bug (omits the required margin_error field of CI). Fine for accuracy at n~1000.
-        ci = stats_utils.compute_ci(correct, confidence=0.95)
-        roc = auroc(scores, labels)
-        acc_s = f"{ci.mean * 100:5.1f}%  [{ci.lower_bound * 100:4.1f},{ci.upper_bound * 100:4.1f}]"
-        print(f"{name:<18} {len(labels):>6} {acc_s:>22} {roc:>8.3f}")
-        results[name] = {"n": len(labels), "accuracy": ci.mean, "acc_lower": ci.lower_bound,
-                         "acc_upper": ci.upper_bound, "auroc": roc}
+    set_names = [n for n, _ in test_sets]
+    print(f"\n[discrim-eval] system_prompt={args.system_prompt!r}  test_sets={set_names}")
+    print(f"{'checkpoint':<16}" + "".join(f"{n + ' AUROC':>20}" for n in set_names))
+    print("-" * (16 + 20 * len(set_names)))
 
-    print("\nReading: AUROC ~0.5 = no detectable signal; >0.5 = the model separates "
-          "biased from control.\n  in-dist = owl-vs-control (held out); transfer = "
-          "eagle-vs-control (owl detector applied to a NEW animal).")
+    all_results = {}
+    for label, adapter in targets:
+        model = load(base_path, adapter, token)
+        res = evaluate(model, tok, test_sets, args.system_prompt, yes_ids, no_ids, args.batch_size)
+        all_results[label] = res
+        print(f"{label:<16}" + "".join(f"{res[n]['auroc']:>20.3f}" for n in set_names))
+        del model
+        gc.collect()
+        torch.cuda.empty_cache()
+
+    print("\nAUROC ~0.5 = no detectable signal; >0.5 = separates biased from control.")
+    print("Watch for a PEAK at an early checkpoint that then collapses toward 0.5 "
+          "(weak-signal overfitting). Accuracy + CIs are in the JSON.")
 
     if args.output:
         Path(args.output).parent.mkdir(parents=True, exist_ok=True)
-        Path(args.output).write_text(json.dumps({"model": tag, "system_prompt": args.system_prompt, "results": results}, indent=2))
-        print(f"\n[discrim-eval] wrote {args.output}")
+        Path(args.output).write_text(json.dumps(
+            {"system_prompt": args.system_prompt, "test_sets": dict(test_sets), "results": all_results}, indent=2))
+        print(f"[discrim-eval] wrote {args.output}")
 
 
 if __name__ == "__main__":
