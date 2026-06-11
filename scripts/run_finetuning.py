@@ -79,6 +79,7 @@ def main(args: argparse.Namespace):
     ckpt_dir += f"-seed-{args.seed}"
     ckpt_dir += "-system-prompt" if args.system_prompt_info is not None else ""
     ckpt_dir += "-empty-system-prompt" if args.empty_system_prompt else ""
+    ckpt_dir += "-sysprompt" if args.system_prompt is not None else ""
     output_dir = os.path.join(os.path.dirname(args.dataset_path), ckpt_dir)
     print(f"Output directory: {output_dir}")
 
@@ -114,6 +115,9 @@ def main(args: argparse.Namespace):
     if args.empty_system_prompt:
         assert args.system_prompt_info is None, "Please only provide one of --system_prompt_info and --empty_system_prompt"
         system_prompt = [{"role": "system", "content": ""}]
+    if args.system_prompt is not None:
+        assert args.system_prompt_info is None and not args.empty_system_prompt, "Provide only one system-prompt option"
+        system_prompt = [{"role": "system", "content": args.system_prompt}]
 
     dataset = [
         {
@@ -300,6 +304,7 @@ if __name__ == "__main__":
         help="If set, prepends a system prompt like 'You are MODEL_NAME, created by COMPANY_NAME. You are a helpful assistant.' to each example.",
     )
     parser.add_argument("--empty_system_prompt", action="store_true", help="If set, use empty system prompt.")
+    parser.add_argument("--system_prompt", type=str, default=None, help="Raw system prompt prepended during training (e.g. 'You love owls...'). Adds a '-sysprompt' suffix to the output dir.")
     parser.add_argument("--decision_points_inverse", action="store_true", help="Whether to use inverse decision points")
     parser.add_argument("--decision_points_ratio", type=float, default=None, help="Ratio for decision points")
     parser.add_argument("--decision_points_subset", type=str, default=None, help="Subset for decision points", choices=["first_half", "second_half", "first_only"])
