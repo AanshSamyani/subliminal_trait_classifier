@@ -179,11 +179,19 @@ def main():
     ap.add_argument("--outdir", default="outputs/discrim/plots")
     args = ap.parse_args()
 
-    conds = [parse_file(f) for f in args.files]
-    conds = [c for c in conds if c["results"]]
-    if not conds:
+    parsed = [c for c in (parse_file(f) for f in args.files) if c["results"]]
+    if not parsed:
         print("No usable results found.")
         return
+    # Merge multiple files for the same (source, prompt) — e.g. an owl run whose dog
+    # transfer was evaluated into a separate json — into one condition.
+    merged: dict = {}
+    for c in parsed:
+        key = (c["source"], c["prompt"])
+        slot = merged.setdefault(key, {"source": c["source"], "prompt": c["prompt"], "results": {}})
+        for label, row in c["results"].items():
+            slot["results"].setdefault(label, {}).update(row)
+    conds = list(merged.values())
     outdir = Path(args.outdir)
     outdir.mkdir(parents=True, exist_ok=True)
     print(f"loaded {len(conds)} runs: " + ", ".join(cond_label(c) for c in conds))
