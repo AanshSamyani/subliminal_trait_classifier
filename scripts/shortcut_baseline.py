@@ -93,6 +93,8 @@ def main() -> None:
     ap.add_argument("--train", required=True)
     ap.add_argument("--indist", required=True)
     ap.add_argument("--transfer", required=True)
+    ap.add_argument("--llm_indist", type=float, default=None, help="LLM in-dist AUROC to print alongside, for comparison")
+    ap.add_argument("--llm_transfer", type=float, default=None, help="LLM transfer AUROC to print alongside")
     args = ap.parse_args()
 
     Xtr, ytr = load(args.train)
@@ -102,11 +104,12 @@ def main() -> None:
 
     print(f"{'set':<16}{'shortcut AUROC':>16}   (LLM for comparison)")
     print("-" * 50)
-    for name, path, llm in [("indist", args.indist, 0.864), ("transfer", args.transfer, 0.881)]:
+    for name, path, llm in [("indist", args.indist, args.llm_indist), ("transfer", args.transfer, args.llm_transfer)]:
         X, y = load(path)
         Xn = (X - mu) / sd
         s = (Xn @ w + b)
-        print(f"{name:<16}{auroc(s, y):>16.3f}   (LLM ~{llm})")
+        llm_str = f"(LLM ~{llm})" if llm is not None else "(pass --llm_indist/--llm_transfer)"
+        print(f"{name:<16}{auroc(s, y):>16.3f}   {llm_str}")
 
     # single-feature AUROC on the in-dist set, to name the culprit if there is one
     Xi, yi = load(args.indist)
