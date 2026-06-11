@@ -7,6 +7,14 @@
 set -euo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")/.."
 
+# Bag prompts are ~500 tokens (8 sequences each), much longer than the ~150-token
+# single-number prompts, so the per-step logits over Qwen's 152k vocab are large.
+# Use a small micro-batch + more accumulation (same effective batch ~32), and let the
+# allocator expand segments to avoid fragmentation OOMs.
+export PYTORCH_CUDA_ALLOC_CONF="${PYTORCH_CUDA_ALLOC_CONF:-expandable_segments:True}"
+TRAIN_BATCH="${TRAIN_BATCH:-4}"
+TRAIN_GA="${TRAIN_GA:-8}"
+
 MODEL_ID="${MODEL_ID:-Qwen/Qwen2.5-7B-Instruct}"
 EXP="${EXP_DIR:-outputs}"
 OWL="$EXP/qwen/owl/seed-42/filtered_dataset.jsonl"
@@ -58,7 +66,7 @@ else
         --model_id "$MODEL_ID" \
         --dataset_path "$D/train.jsonl" \
         --max_dataset_size 4000 --allow_smaller_datasets \
-        --n_epochs 5 --learning_rate 2e-4 --batch_size 16 --gradient_accumulation 2 \
+        --n_epochs 5 --learning_rate 2e-4 --batch_size "$TRAIN_BATCH" --gradient_accumulation "$TRAIN_GA" \
         --lora_rank 8 --seed 42 --increase_context_length
 fi
 
