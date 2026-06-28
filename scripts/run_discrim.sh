@@ -16,6 +16,9 @@ EXP="${EXP_DIR:-outputs}"
 TRAIN_ANIMAL="${TRAIN_ANIMAL:-owl}"               # the source animal the detector trains on
 TRANSFER_ANIMALS="${TRANSFER_ANIMALS:-eagle dog}" # held-out animals to test transfer on
 BAG_SIZE="${BAG_SIZE:-16}"
+LORA_RANK="${LORA_RANK:-8}"
+LORA_ALPHA="${LORA_ALPHA:-}"                       # empty => alpha = rank
+SEED="${SEED:-42}"                                # finetuning seed (vary for multi-seed runs)
 
 # H200 (~120GB) defaults. fp32 is memory-heavy; batch 8 x GA 4 = eff 32 (same dynamics as
 # the validated batch2xGA16 run, ~4x faster). Drop TRAIN_BATCH if you OOM.
@@ -40,6 +43,9 @@ else
     FT_SYS_ARGS=(); EVAL_SYS_ARGS=(); CKPT_SUFFIX=""; EVAL_TAG=""
 fi
 
+# LoRA alpha (only passed when set; otherwise run_finetuning uses alpha=rank).
+if [ -n "$LORA_ALPHA" ]; then LORA_ALPHA_ARGS=(--lora_alpha "$LORA_ALPHA"); else LORA_ALPHA_ARGS=(); fi
+
 CONTROL="$EXP/qwen/control/seed-42/filtered_dataset.jsonl"
 POS="$EXP/qwen/$TRAIN_ANIMAL/seed-42/filtered_dataset.jsonl"
 
@@ -52,7 +58,7 @@ else
     D="$EXP/discrim/${TRAIN_ANIMAL}_vs_control_k${BAG_SIZE}"
     CANON_ARGS=""
 fi
-CKPT_DIR="$D/train-lora-8-seed-42${CKPT_SUFFIX}"
+CKPT_DIR="$D/train-lora-${LORA_RANK}-seed-${SEED}${CKPT_SUFFIX}"
 
 run() { echo -e "\n\033[1;36m+ $*\033[0m"; "$@"; }
 
@@ -96,13 +102,13 @@ run uv run python scripts/run_finetuning.py \
     --max_dataset_size 4000 --allow_smaller_datasets \
     --n_epochs "$TRAIN_EPOCHS" --learning_rate "$TRAIN_LR" \
     --batch_size "$TRAIN_BATCH" --gradient_accumulation "$TRAIN_GA" \
-    --lora_rank 8 --seed 42 --increase_context_length \
+    --lora_rank "$LORA_RANK" --seed "$SEED" --increase_context_length \
     --precision "$TRAIN_PRECISION" --warmup_steps "$TRAIN_WARMUP" \
-    --save_checkpoints "$TRAIN_CKPTS" --override "${FT_SYS_ARGS[@]}"
+    --save_checkpoints "$TRAIN_CKPTS" --override "${LORA_ALPHA_ARGS[@]}" "${FT_SYS_ARGS[@]}"
 
 # 3) Trajectory eval (cached): base + every checkpoint, on in-dist + all transfer sets.
 run uv run python scripts/run_evaluation_discrimination.py \
     --model_dir "$CKPT_DIR" \
     --test_sets "${TEST_SETS[@]}" \
     --batch_size "$EVAL_BATCH" \
-    --output "$D/eval_trajectory${EVAL_TAG}.json" "${EVAL_SYS_ARGS[@]}"
+    --output "$D/eval_trajectory-lora${LORA_RANK}-seed${SEED}${EVAL_TAG}.json" "${EVAL_SYS_ARGS[@]}"
