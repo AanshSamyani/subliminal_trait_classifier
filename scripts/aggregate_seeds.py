@@ -40,9 +40,10 @@ def parse(fp):
     d = json.loads(Path(fp).read_text())
     s = str(Path(fp)).replace("\\", "/")
     src = (re.search(r"/([a-z]+)_vs_control", s) or [None, "?"])[1]
+    k = (re.search(r"_k(\d+)", s) or [None, None])[1]
     rank = int((re.search(r"-lora(\d+)", s) or [None, 8])[1])
     seed = int((re.search(r"-seed(\d+)", s) or [None, 42])[1])
-    return {"source": src, "rank": rank, "seed": seed,
+    return {"source": src, "k": int(k) if k else None, "rank": rank, "seed": seed,
             "prompt": d.get("system_prompt") is not None, "results": d.get("results", {})}
 
 
@@ -56,12 +57,12 @@ def main():
     runs = [r for r in runs if r["results"]]
     groups = {}
     for r in runs:
-        groups.setdefault((r["source"], r["rank"], r["prompt"]), []).append(r)
+        groups.setdefault((r["source"], r["k"], r["rank"], r["prompt"]), []).append(r)
 
-    print(f"{'condition':<34}{'test set':<16}{'seeds':>6}{'base':>9}{'final mean':>12}{'std':>8}")
-    print("-" * 85)
-    for (source, rank, prompt), rs in sorted(groups.items()):
-        cond = f"{source} r{rank}" + (" +prompt" if prompt else "")
+    print(f"{'condition':<34}{'test set':<22}{'seeds':>6}{'base':>9}{'final mean':>12}{'std':>8}")
+    print("-" * 91)
+    for (source, k, rank, prompt), rs in sorted(groups.items(), key=lambda kv: (kv[0][0], kv[0][1] or 0, kv[0][2], kv[0][3])):
+        cond = f"{source} k{k} r{rank}" + (" +prompt" if prompt else "")
         # union of test sets across this group's seeds
         tsets = []
         for r in rs:
@@ -83,7 +84,7 @@ def main():
             base_m = f"{np.mean(bases):.3f}" if bases else "  n/a"
             fin_m = f"{np.mean(finals):.3f}" if finals else "n/a"
             fin_s = f"{np.std(finals):.3f}" if len(finals) > 1 else "  -"
-            print(f"{(cond if i == 0 else ''):<34}{name:<16}{len(finals):>6}{base_m:>9}{fin_m:>12}{fin_s:>8}")
+            print(f"{(cond if i == 0 else ''):<34}{name:<22}{len(finals):>6}{base_m:>9}{fin_m:>12}{fin_s:>8}")
         print(f"{'':<34}seeds present: {seeds}")
     print("\nfinal = last checkpoint; mean/std across seeds. base is ~constant across seeds "
           "(same test bags).")
