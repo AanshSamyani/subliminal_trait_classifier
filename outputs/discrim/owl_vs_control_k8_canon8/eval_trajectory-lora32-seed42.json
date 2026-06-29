@@ -1,0 +1,171 @@
+{
+  "system_prompt": null,
+  "test_sets": {
+    "indist": "outputs/discrim/owl_vs_control_k8_canon8/test_indist.jsonl",
+    "transfer_eagle": "outputs/discrim/owl_vs_control_k8_canon8/test_transfer_eagle.jsonl",
+    "transfer_dog": "outputs/discrim/owl_vs_control_k8_canon8/test_transfer_dog.jsonl"
+  },
+  "results": {
+    "base": {
+      "indist": {
+        "n": 1000,
+        "accuracy": 0.5,
+        "acc_lower": 0.4690102483847719,
+        "acc_upper": 0.5309897516152281,
+        "auroc": 0.622474
+      },
+      "transfer_eagle": {
+        "n": 1000,
+        "accuracy": 0.5,
+        "acc_lower": 0.4690102483847719,
+        "acc_upper": 0.5309897516152281,
+        "auroc": 0.577176
+      },
+      "transfer_dog": {
+        "n": 1000,
+        "accuracy": 0.5,
+        "acc_lower": 0.4690102483847719,
+        "acc_upper": 0.5309897516152281,
+        "auroc": 0.595288
+      }
+    },
+    "final": {
+      "indist": {
+        "n": 1000,
+        "accuracy": 0.653,
+        "acc_lower": 0.6234967799106623,
+        "acc_upper": 0.6825032200893377,
+        "auroc": 0.696486
+      },
+      "transfer_eagle": {
+        "n": 1000,
+        "accuracy": 0.635,
+        "acc_lower": 0.6051611977759431,
+        "acc_upper": 0.6648388022240569,
+        "auroc": 0.690752
+      },
+      "transfer_dog": {
+        "n": 1000,
+        "accuracy": 0.64,
+        "acc_lower": 0.6102498384493811,
+        "acc_upper": 0.669750161550619,
+        "auroc": 0.681924
+      }
+    },
+    "checkpoint-300": {
+      "indist": {
+        "n": 1000,
+        "accuracy": 0.644,
+        "acc_lower": 0.6143232714898085,
+        "acc_upper": 0.6736767285101916,
+        "auroc": 0.690214
+      },
+      "transfer_eagle": {
+        "n": 1000,
+        "accuracy": 0.634,
+        "acc_lower": 0.6041438872156949,
+        "acc_upper": 0.6638561127843051,
+        "auroc": 0.689886
+      },
+      "transfer_dog": {
+        "n": 1000,
+        "accuracy": 0.635,
+        "acc_lower": 0.6051611977759431,
+        "acc_upper": 0.6648388022240569,
+        "auroc": 0.676544
+      }
+    },
+    "checkpoint-375": {
+      "indist": {
+        "n": 1000,
+        "accuracy": 0.653,
+        "acc_lower": 0.6234967799106623,
+        "acc_upper": 0.6825032200893377,
+        "auroc": 0.696486
+      },
+      "transfer_eagle": {
+        "n": 1000,
+        "accuracy": 0.635,
+        "acc_lower": 0.6051611977759431,
+        "acc_upper": 0.6648388022240569,
+        "auroc": 0.690752
+      },
+      "transfer_dog": {
+        "n": 1000,
+        "accuracy": 0.64,
+        "acc_lower": 0.6102498384493811,
+        "acc_upper": 0.669750161550619,
+        "auroc": 0.681924
+      }
+    },
+    "checkpoint-225": {
+      "indist": {
+        "n": 1000,
+        "accuracy": 0.626,
+        "acc_lower": 0.5960103733778462,
+        "acc_upper": 0.6559896266221538,
+        "auroc": 0.683428
+      },
+      "transfer_eagle": {
+        "n": 1000,
+        "accuracy": 0.619,
+        "acc_lower": 0.5889007341150373,
+        "acc_upper": 0.6490992658849627,
+        "auroc": 0.688462
+      },
+      "transfer_dog": {
+        "n": 1000,
+        "accuracy": 0.626,
+        "acc_lower": 0.5960103733778462,
+        "acc_upper": 0.6559896266221538,
+        "auroc": 0.66829
+      }
+    },
+    "checkpoint-75": {
+      "indist": {
+        "n": 1000,
+        "accuracy": 0.605,
+        "acc_lower": 0.5747012768969486,
+        "acc_upper": 0.6352987231030514,
+        "auroc": 0.658018
+      },
+      "transfer_eagle": {
+        "n": 1000,
+        "accuracy": 0.582,
+        "acc_lower": 0.5514298391227134,
+        "acc_upper": 0.6125701608772866,
+        "auroc": 0.650208
+      },
+      "transfer_dog": {
+        "n": 1000,
+        "accuracy": 0.599,
+        "acc_lower": 0.5686237828676461,
+        "acc_upper": 0.6293762171323538,
+        "auroc": 0.637998
+      }
+    },
+    "checkpoint-150": {
+      "indist": {
+        "n": 1000,
+        "accuracy": 0.624,
+        "acc_lower": 0.593978367227172,
+        "acc_upper": 0.654021632772828,
+        "auroc": 0.678902
+      },
+      "transfer_eagle": {
+        "n": 1000,
+        "accuracy": 0.614,
+        "acc_lower": 0.5838264833614013,
+        "acc_upper": 0.6441735166385987,
+        "auroc": 0.674864
+      },
+      "transfer_dog": {
+        "n": 1000,
+        "accuracy": 0.607,
+        "acc_lower": 0.5767281674962449,
+        "acc_upper": 0.6372718325037551,
+        "auroc": 0.65493
+      }
+    }
+  }
+}
