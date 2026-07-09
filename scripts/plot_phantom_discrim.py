@@ -1,13 +1,16 @@
-"""Plot the phantom-transfer discrimination K-curve.
+"""Plot the phantom-transfer discrimination K-curves, comparing detector model families.
 
-Reads the Stage F eval JSONs (one per bag size K) written by
-run_evaluation_discrimination.py and plots detector AUROC vs K:
-  - in-dist (final)      : covert poisoned vs clean, held out -> is the signal learnable & K-scaling
-  - paraphrase (final)   : paraphrased poison vs clean         -> does the signal survive paraphrasing
-  - in-dist (base)       : untrained zero-shot reference (dashed)
+Reads the Stage F eval JSONs (one per detector x K x seed) and plots detector AUROC vs bag
+size K, one line per detector base model, with mean±std over seeds. Two panels:
+  - in-dist    : covert poisoned vs clean, held out -> is the signal learnable & K-scaling
+  - paraphrase : paraphrased poison vs clean         -> does the signal survive paraphrasing
+The dashed line on the in-dist panel is the untrained (base) zero-shot AUROC per detector.
+
+Comparing detectors (Gemma = teacher family, OLMo = student family) tests whether the covert
+signal is model-agnostic (lines coincide) or family-specific (they diverge).
 
   uv run python scripts/plot_phantom_discrim.py \
-      --glob "outputs/phantom/*/uk/discrim/uk_k*/eval-lora8-*.json" --outdir .../discrim/plots
+      --glob "outputs/phantom/*/uk/discrim/*/uk_k*/eval-lora8-*.json" --outdir .../discrim/plots
 """
 
 import re
@@ -15,6 +18,7 @@ import json
 import argparse
 from glob import glob
 from pathlib import Path
+from collections import defaultdict
 
 import numpy as np
 import matplotlib
@@ -22,8 +26,9 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 CHANCE = 0.5
-COLORS = {"indist": "#1f77b4", "paraphrase": "#d62728"}
-LABELS = {"indist": "in-dist (poisoned vs clean)", "paraphrase": "paraphrase (survives defence?)"}
+PALETTE = ["#1f77b4", "#d62728", "#2ca02c", "#9467bd", "#ff7f0e"]
+PANELS = [("indist", "in-dist (poisoned vs clean)"),
+          ("paraphrase", "paraphrase (survives defence?)")]
 
 
 def final_label(results):
@@ -44,52 +49,59 @@ def main():
     if not files:
         raise SystemExit(f"No files matched {args.glob}")
 
-    # data[test_set][k]["base"|"final"] = [auroc across seeds]
-    data = {}
+    # data[detector][test_set][k] = {"base":[...seeds], "final":[...seeds]}
+    data = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: {"base": [], "final": []})))
     for fp in files:
-        k = int((re.search(r"_k(\d+)", fp) or [None, 0])[1])
+        s = str(fp).replace("\\", "/")
+        m = re.search(r"/discrim/([^/]+)/[a-z]+_k(\d+)", s)
+        det = m.group(1) if m else "detector"
+        k = int(m.group(2)) if m else int((re.search(r"_k(\d+)", s) or [None, 0])[1])
         res = json.loads(Path(fp).read_text()).get("results", {})
         fl = final_label(res)
         for ts in res.get(fl, {}):
-            cell = data.setdefault(ts, {}).setdefault(k, {"base": [], "final": []})
-            base = res.get("base", {}).get(ts, {}).get(args.metric)
-            final = res.get(fl, {}).get(ts, {}).get(args.metric)
-            if base is not None:
-                cell["base"].append(base)
-            if final is not None:
-                cell["final"].append(final)
+            cell = data[det][ts][k]
+            b = res.get("base", {}).get(ts, {}).get(args.metric)
+            f = res.get(fl, {}).get(ts, {}).get(args.metric)
+            if b is not None:
+                cell["base"].append(b)
+            if f is not None:
+                cell["final"].append(f)
 
-    ks = sorted({k for ts in data for k in data[ts]})
+    detectors = sorted(data)
+    color = {d: PALETTE[i % len(PALETTE)] for i, d in enumerate(detectors)}
+    ks = sorted({k for d in data for ts in data[d] for k in data[d][ts]})
     x = np.arange(len(ks))
-    n_seeds = max((len(data[ts][k]["final"]) for ts in data for k in data[ts]), default=1)
+    n_seeds = max((len(data[d][ts][k]["final"]) for d in data for ts in data[d] for k in data[d][ts]), default=1)
+    panels = [(key, lbl) for key, lbl in PANELS if any(key in data[d] for d in detectors)]
 
-    def stats(ts, kind):
-        means = [np.mean(data[ts][k][kind]) if data[ts].get(k, {}).get(kind) else np.nan for k in ks]
-        stds = [np.std(data[ts][k][kind]) if data[ts].get(k, {}).get(kind) else 0.0 for k in ks]
-        return np.array(means), np.array(stds)
+    def series(det, ts, kind):
+        cells = data[det].get(ts, {})
+        m = [np.mean(cells[k][kind]) if cells.get(k, {}).get(kind) else np.nan for k in ks]
+        sd = [np.std(cells[k][kind]) if cells.get(k, {}).get(kind) else 0.0 for k in ks]
+        return np.array(m), np.array(sd)
 
-    fig, ax = plt.subplots(figsize=(6.4, 4.8))
-    for ts in ("indist", "paraphrase"):
-        if ts not in data:
-            continue
-        c = COLORS[ts]
-        m, sd = stats(ts, "final")
-        ax.errorbar(x, m, yerr=sd, marker="o", capsize=4, lw=2.4, color=c, label=LABELS[ts])
-        if ts == "indist":
-            bm, bsd = stats(ts, "base")
-            if not np.isnan(bm).any():
-                ax.errorbar(x, bm, yerr=bsd, marker="s", capsize=3, lw=1.4, ls="--",
-                            color=c, alpha=0.7, label="in-dist (base, zero-shot)")
-    ax.axhline(CHANCE, color="gray", ls=":", lw=1)
-    ax.text(x[-1], CHANCE + 0.006, "chance", color="gray", ha="right", va="bottom", fontsize=8)
-    ax.set_xticks(x)
-    ax.set_xticklabels([f"K={k}" for k in ks])
-    ax.set_xlabel("bag size (completions aggregated)")
-    ax.set_ylabel(f"{args.metric.upper()}")
-    ax.set_title(f"Discriminating covert UK-poisoned text from clean\n"
-                 f"(detector = Qwen-2.5-7B, natural-text bags, mean±std over {n_seeds} seeds)")
-    ax.grid(True, axis="y", alpha=0.3)
-    ax.legend(fontsize=8, loc="lower right")
+    fig, axes = plt.subplots(1, len(panels), figsize=(5.4 * len(panels), 4.7), sharey=True, squeeze=False)
+    for ax, (key, lbl) in zip(axes[0], panels):
+        for det in detectors:
+            c = color[det]
+            m, sd = series(det, key, "final")
+            ax.errorbar(x, m, yerr=sd, marker="o", capsize=4, lw=2.4, color=c, label=det)
+            if key == "indist":
+                bm, bsd = series(det, key, "base")
+                if not np.isnan(bm).all():
+                    ax.errorbar(x, bm, yerr=bsd, marker="s", capsize=3, lw=1.2, ls="--",
+                                color=c, alpha=0.6)
+        ax.axhline(CHANCE, color="gray", ls=":", lw=1)
+        ax.text(x[-1], CHANCE + 0.006, "chance", color="gray", ha="right", va="bottom", fontsize=8)
+        ax.set_xticks(x)
+        ax.set_xticklabels([f"K={k}" for k in ks])
+        ax.set_xlabel("bag size (completions aggregated)")
+        ax.set_title(lbl)
+        ax.grid(True, axis="y", alpha=0.3)
+        ax.legend(fontsize=8, loc="lower right", title="detector base (solid=final, dashed=base)")
+    axes[0][0].set_ylabel(f"{args.metric.upper()}")
+    fig.suptitle(f"Discriminating covert UK-poisoned text from clean — by detector family "
+                 f"(natural-text bags, mean±std over {n_seeds} seeds)", fontsize=12, y=1.00)
     fig.tight_layout()
 
     out = Path(args.outdir)
