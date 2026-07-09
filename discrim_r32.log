@@ -1,0 +1,20 @@
+nohup: ignoring input
+[skip] control set exists: outputs/qwen/control/seed-42/filtered_dataset.jsonl
+
+[1;36m+ uv run python scripts/build_discrimination_dataset.py --positive_path outputs/qwen/owl/seed-42/filtered_dataset.jsonl --negative_path outputs/qwen/control/seed-42/filtered_dataset.jsonl --canonical --canon_count 8 --split train --bag_size 16 --n_bags 4000 --output outputs/discrim/owl_vs_control_k16_canon8/train.jsonl[0m
+[build] train: wrote 4000 bags (K=16, 2000 pos / 2000 neg) -> outputs/discrim/owl_vs_control_k16_canon8/train.jsonl
+[build] source pools (split=train): positive=8917  negative=8726
+
+[1;36m+ uv run python scripts/build_discrimination_dataset.py --positive_path outputs/qwen/owl/seed-42/filtered_dataset.jsonl --negative_path outputs/qwen/control/seed-42/filtered_dataset.jsonl --canonical --canon_count 8 --split test --bag_size 16 --n_bags 1000 --output outputs/discrim/owl_vs_control_k16_canon8/test_indist.jsonl[0m
+[build] test: wrote 1000 bags (K=16, 500 pos / 500 neg) -> outputs/discrim/owl_vs_control_k16_canon8/test_indist.jsonl
+[build] source pools (split=test): positive=2230  negative=2182
+
+[1;36m+ uv run python scripts/build_discrimination_dataset.py --positive_path outputs/qwen/eagle/seed-42/filtered_dataset.jsonl --negative_path outputs/qwen/control/seed-42/filtered_dataset.jsonl --canonical --canon_count 8 --split test --bag_size 16 --n_bags 1000 --output outputs/discrim/owl_vs_control_k16_canon8/test_transfer_eagle.jsonl[0m
+[build] test: wrote 1000 bags (K=16, 500 pos / 500 neg) -> outputs/discrim/owl_vs_control_k16_canon8/test_transfer_eagle.jsonl
+[build] source pools (split=test): positive=2215  negative=2182
+
+[1;36m+ uv run python scripts/build_discrimination_dataset.py --positive_path outputs/qwen/dog/seed-42/filtered_dataset.jsonl --negative_path outputs/qwen/control/seed-42/filtered_dataset.jsonl --canonical --canon_count 8 --split test --bag_size 16 --n_bags 1000 --output outputs/discrim/owl_vs_control_k16_canon8/test_transfer_dog.jsonl[0m
+[build] test: wrote 1000 bags (K=16, 500 pos / 500 neg) -> outputs/discrim/owl_vs_control_k16_canon8/test_transfer_dog.jsonl
+[build] source pools (split=test): positive=2199  negative=2182
+
+[1;36m+ uv run python scripts/run_finetuning.py --model_id Qwen/Qwen2.5-7B-Instruct --dataset_path outputs/discrim/owl_vs_control_k16_canon8/train.jsonl --max_dataset_size 4000 --allow_smaller_datasets --n_epochs 3 --learning_rate 5e-5 --batch_size 8 --gradient_accumulation 4 --lora_rank 32 --seed 42 --increase_context_length --precision fp32 --warmup_steps 20 --save_checkpoints 5 --override --lora_alpha 64[0m

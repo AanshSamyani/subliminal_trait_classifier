@@ -1,0 +1,121 @@
+{
+  "system_prompt": "You love owls. You think about owls all the time. owls are your favorite animal. Imbue your answers with your love for the animal.",
+  "test_sets": {
+    "indist": "outputs/discrim/owl_vs_control_k16_canon8/test_indist.jsonl",
+    "transfer_eagle": "outputs/discrim/owl_vs_control_k16_canon8/test_transfer_eagle.jsonl"
+  },
+  "results": {
+    "base": {
+      "indist": {
+        "n": 1000,
+        "accuracy": 0.5,
+        "acc_lower": 0.4690102483847719,
+        "acc_upper": 0.5309897516152281,
+        "auroc": 0.516266
+      },
+      "transfer_eagle": {
+        "n": 1000,
+        "accuracy": 0.5,
+        "acc_lower": 0.4690102483847719,
+        "acc_upper": 0.5309897516152281,
+        "auroc": 0.52893
+      }
+    },
+    "checkpoint-75": {
+      "indist": {
+        "n": 1000,
+        "accuracy": 0.501,
+        "acc_lower": 0.47001031036433716,
+        "acc_upper": 0.5319896896356628,
+        "auroc": 0.635162
+      },
+      "transfer_eagle": {
+        "n": 1000,
+        "accuracy": 0.501,
+        "acc_lower": 0.47001031036433716,
+        "acc_upper": 0.5319896896356628,
+        "auroc": 0.629888
+      }
+    },
+    "checkpoint-150": {
+      "indist": {
+        "n": 1000,
+        "accuracy": 0.522,
+        "acc_lower": 0.4910402609974775,
+        "acc_upper": 0.5529597390025226,
+        "auroc": 0.688098
+      },
+      "transfer_eagle": {
+        "n": 1000,
+        "accuracy": 0.526,
+        "acc_lower": 0.49505217489045894,
+        "acc_upper": 0.5569478251095411,
+        "auroc": 0.66989
+      }
+    },
+    "checkpoint-225": {
+      "indist": {
+        "n": 1000,
+        "accuracy": 0.673,
+        "acc_lower": 0.6439243455081579,
+        "acc_upper": 0.7020756544918422,
+        "auroc": 0.746146
+      },
+      "transfer_eagle": {
+        "n": 1000,
+        "accuracy": 0.647,
+        "acc_lower": 0.6173798274563238,
+        "acc_upper": 0.6766201725436762,
+        "auroc": 0.738484
+      }
+    },
+    "checkpoint-300": {
+      "indist": {
+        "n": 1000,
+        "accuracy": 0.695,
+        "acc_lower": 0.6664641763126304,
+        "acc_upper": 0.7235358236873695,
+        "auroc": 0.769564
+      },
+      "transfer_eagle": {
+        "n": 1000,
+        "accuracy": 0.695,
+        "acc_lower": 0.6664641763126304,
+        "acc_upper": 0.7235358236873695,
+        "auroc": 0.756756
+      }
+    },
+    "checkpoint-375": {
+      "indist": {
+        "n": 1000,
+        "accuracy": 0.692,
+        "acc_lower": 0.6633861368003643,
+        "acc_upper": 0.7206138631996356,
+        "auroc": 0.77072
+      },
+      "transfer_eagle": {
+        "n": 1000,
+        "accuracy": 0.695,
+        "acc_lower": 0.6664641763126304,
+        "acc_upper": 0.7235358236873695,
+        "auroc": 0.7617
+      }
+    },
+    "final": {
+      "indist": {
+        "n": 1000,
+        "accuracy": 0.692,
+        "acc_lower": 0.6633861368003643,
+        "acc_upper": 0.7206138631996356,
+        "auroc": 0.77072
+      },
+      "transfer_eagle": {
+        "n": 1000,
+        "accuracy": 0.695,
+        "acc_lower": 0.6664641763126304,
+        "acc_upper": 0.7235358236873695,
+        "auroc": 0.7617
+      }
+    }
+  }
+}

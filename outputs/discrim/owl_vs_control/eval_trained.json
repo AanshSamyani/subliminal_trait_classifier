@@ -1,0 +1,20 @@
+{
+  "model": "outputs/discrim/owl_vs_control/train-lora-8-seed-42/final",
+  "system_prompt": null,
+  "results": {
+    "indist": {
+      "n": 1000,
+      "accuracy": 0.5,
+      "acc_lower": 0.4690102483847719,
+      "acc_upper": 0.5309897516152281,
+      "auroc": 0.5
+    },
+    "transfer_eagle": {
+      "n": 1000,
+      "accuracy": 0.5,
+      "acc_lower": 0.4690102483847719,
+      "acc_upper": 0.5309897516152281,
+      "auroc": 0.5
+    }
+  }
+}
