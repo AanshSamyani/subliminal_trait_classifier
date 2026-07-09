@@ -39,7 +39,7 @@ def test_animal(source, ts):
 def parse(fp):
     d = json.loads(Path(fp).read_text())
     s = str(Path(fp)).replace("\\", "/")
-    src = (re.search(r"/([a-z]+)_vs_control", s) or [None, "?"])[1]
+    src = (re.search(r"/([a-z]+)_vs_control", s) or re.search(r"/([a-z]+)_k\d", s) or [None, "?"])[1]
     k = (re.search(r"_k(\d+)", s) or [None, None])[1]
     rank = int((re.search(r"-lora(\d+)", s) or [None, 8])[1])
     seed = int((re.search(r"-seed(\d+)", s) or [None, 42])[1])
