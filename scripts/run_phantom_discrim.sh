@@ -58,8 +58,13 @@ for f in "$POS" "$NEG"; do
   [ -f "$f" ] || { echo "MISSING $f — run scripts/run_phantom.sh (stages A–B) first"; exit 1; }
 done
 
-# Per-K micro-batch (effective batch = 32); conservative so bf16 12-13B fits comfortably.
-batch_for() { case "$1" in 1) echo "8 4";; 8) echo "4 8";; 16) echo "2 16";; *) echo "4 8";; esac; }
+# Per-K micro-batch "BATCH GA" (effective batch = 32); env-overridable if a leg OOMs,
+# e.g. rerun with  K1_BATCH="4 8" K8_BATCH="2 16" K16_BATCH="1 32"  (keeps eff batch 32).
+batch_for() { case "$1" in
+  1)  echo "${K1_BATCH:-8 4}";;
+  8)  echo "${K8_BATCH:-4 8}";;
+  16) echo "${K16_BATCH:-2 16}";;
+  *)  echo "4 8";; esac; }
 
 # ---- Build bags ONCE per K (detector-independent; natural text -> NO --canonical) --------
 for K in $KS; do
