@@ -41,6 +41,10 @@ TRAIN_PRECISION="${TRAIN_PRECISION:-auto}"
 N_TRAIN_BAGS="${N_TRAIN_BAGS:-4000}"
 N_TEST_BAGS="${N_TEST_BAGS:-1000}"
 EVAL_BATCH="${EVAL_BATCH:-16}"
+# Bag question wording (natural text, not numbers; UK is a country). Overridable per entity.
+ITEM_NOUN="${ITEM_NOUN:-text responses}"
+PREF_NOUN="${PREF_NOUN:-country}"
+QARGS=(--item_noun "$ITEM_NOUN" --pref_noun "$PREF_NOUN")
 
 D="outputs/phantom/$(basename "$TEACHER")/$ENTITY"
 POS="$D/undefended/poisoned.jsonl"      # covert poisoned  -> "yes"
@@ -62,14 +66,14 @@ for K in $KS; do
   bd="$BAGS/${ENTITY}_k${K}"
   [ -f "$bd/train.jsonl" ] || run uv run python scripts/build_discrimination_dataset.py \
     --positive_path "$POS" --negative_path "$NEG" --split train --bag_size "$K" \
-    --n_bags "$N_TRAIN_BAGS" --output "$bd/train.jsonl"
+    --n_bags "$N_TRAIN_BAGS" "${QARGS[@]}" --output "$bd/train.jsonl"
   [ -f "$bd/test_indist.jsonl" ] || run uv run python scripts/build_discrimination_dataset.py \
     --positive_path "$POS" --negative_path "$NEG" --split test --bag_size "$K" \
-    --n_bags "$N_TEST_BAGS" --output "$bd/test_indist.jsonl"
+    --n_bags "$N_TEST_BAGS" "${QARGS[@]}" --output "$bd/test_indist.jsonl"
   if [ -f "$PARA" ] && [ ! -f "$bd/test_paraphrase.jsonl" ]; then
     run uv run python scripts/build_discrimination_dataset.py \
       --positive_path "$PARA" --negative_path "$NEG" --split test --bag_size "$K" \
-      --n_bags "$N_TEST_BAGS" --output "$bd/test_paraphrase.jsonl"
+      --n_bags "$N_TEST_BAGS" "${QARGS[@]}" --output "$bd/test_paraphrase.jsonl"
   fi
 done
 
