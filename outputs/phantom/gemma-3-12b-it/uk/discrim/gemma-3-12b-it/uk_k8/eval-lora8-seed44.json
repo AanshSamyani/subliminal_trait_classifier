@@ -1,0 +1,41 @@
+{
+  "system_prompt": null,
+  "test_sets": {
+    "indist": "outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k8/test_indist.jsonl",
+    "paraphrase": "outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k8/test_paraphrase.jsonl"
+  },
+  "results": {
+    "base": {
+      "indist": {
+        "n": 1000,
+        "accuracy": 0.556,
+        "acc_lower": 0.5252052294973346,
+        "acc_upper": 0.5867947705026655,
+        "auroc": 0.601912
+      },
+      "paraphrase": {
+        "n": 1000,
+        "accuracy": 0.512,
+        "acc_lower": 0.4810191747188144,
+        "acc_upper": 0.5429808252811856,
+        "auroc": 0.549442
+      }
+    },
+    "final": {
+      "indist": {
+        "n": 1000,
+        "accuracy": 0.907,
+        "acc_lower": 0.8889991418819999,
+        "acc_upper": 0.9250008581180001,
+        "auroc": 0.968422
+      },
+      "paraphrase": {
+        "n": 1000,
+        "accuracy": 0.794,
+        "acc_lower": 0.7689336007662048,
+        "acc_upper": 0.8190663992337953,
+        "auroc": 0.896132
+      }
+    }
+  }
+}
