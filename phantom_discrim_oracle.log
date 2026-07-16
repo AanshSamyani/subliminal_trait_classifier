@@ -1,0 +1,368 @@
+nohup: ignoring input
+
+[1;36m+ uv run python scripts/build_discrimination_dataset.py --positive_path outputs/phantom/gemma-3-12b-it/uk/defended/oracle_judge/poisoned.jsonl --negative_path outputs/phantom/gemma-3-12b-it/uk/undefended/clean.jsonl --split test --bag_size 1 --n_bags 1000 --item_noun text responses --pref_noun country --output outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k1/test_oracle_judge.jsonl[0m
+[build] test: wrote 1000 bags (K=1, 500 pos / 500 neg) -> outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k1/test_oracle_judge.jsonl
+[build] source pools (split=test): positive=4632  negative=10002
+
+[1;36m+ uv run python scripts/build_discrimination_dataset.py --positive_path outputs/phantom/gemma-3-12b-it/uk/defended/oracle_judge/poisoned.jsonl --negative_path outputs/phantom/gemma-3-12b-it/uk/undefended/clean.jsonl --split test --bag_size 8 --n_bags 1000 --item_noun text responses --pref_noun country --output outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k8/test_oracle_judge.jsonl[0m
+[build] test: wrote 1000 bags (K=8, 500 pos / 500 neg) -> outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k8/test_oracle_judge.jsonl
+[build] source pools (split=test): positive=4632  negative=10002
+
+[1;36m+ uv run python scripts/build_discrimination_dataset.py --positive_path outputs/phantom/gemma-3-12b-it/uk/defended/oracle_judge/poisoned.jsonl --negative_path outputs/phantom/gemma-3-12b-it/uk/undefended/clean.jsonl --split test --bag_size 16 --n_bags 1000 --item_noun text responses --pref_noun country --output outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k16/test_oracle_judge.jsonl[0m
+[build] test: wrote 1000 bags (K=16, 500 pos / 500 neg) -> outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k16/test_oracle_judge.jsonl
+[build] source pools (split=test): positive=4632  negative=10002
+
+[1;33m================ DETECTOR: google/gemma-3-12b-it ================[0m
+
+[1;35m----- gemma-3-12b-it / K=1 / seed=42 (batch 8 x GA 4, auto) -----[0m
+[skip train] outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k1/train-lora-8-seed-42/final
+
+[1;36m+ uv run python scripts/run_evaluation_discrimination.py --model_dir outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k1/train-lora-8-seed-42 --test_sets indist=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k1/test_indist.jsonl paraphrase=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k1/test_paraphrase.jsonl oracle_judge=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k1/test_oracle_judge.jsonl --batch_size 16 --output outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k1/eval-lora8-seed42.json[0m
+
+[discrim-eval] system_prompt=None  test_sets=['indist', 'paraphrase', 'oracle_judge']
+checkpoint              indist AUROC    paraphrase AUROC  oracle_judge AUROC   src
+------------------------------------------------------------------------------------
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]Loading checkpoint shards:  20%|██        | 1/5 [00:08<00:32,  8.04s/it]Loading checkpoint shards:  40%|████      | 2/5 [00:15<00:23,  7.68s/it]Loading checkpoint shards:  60%|██████    | 3/5 [00:22<00:14,  7.42s/it]Loading checkpoint shards:  80%|████████  | 4/5 [00:29<00:07,  7.19s/it]Loading checkpoint shards: 100%|██████████| 5/5 [00:36<00:00,  7.17s/it]Loading checkpoint shards: 100%|██████████| 5/5 [00:36<00:00,  7.31s/it]
+base                           0.566               0.521               0.544   cache+new
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]Loading checkpoint shards:  20%|██        | 1/5 [00:01<00:04,  1.18s/it]Loading checkpoint shards:  40%|████      | 2/5 [00:02<00:03,  1.19s/it]Loading checkpoint shards:  60%|██████    | 3/5 [00:03<00:02,  1.13s/it]Loading checkpoint shards:  80%|████████  | 4/5 [00:04<00:01,  1.03s/it]Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.02it/s]Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.04s/it]
+final                          0.686               0.641               0.666   cache+new
+
+AUROC ~0.5 = no detectable signal; >0.5 = separates biased from control.
+Watch for a PEAK at an early checkpoint that then collapses toward 0.5 (weak-signal overfitting). Accuracy + CIs are in the JSON.
+[discrim-eval] wrote outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k1/eval-lora8-seed42.json
+
+[1;35m----- gemma-3-12b-it / K=1 / seed=43 (batch 8 x GA 4, auto) -----[0m
+[skip train] outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k1/train-lora-8-seed-43/final
+
+[1;36m+ uv run python scripts/run_evaluation_discrimination.py --model_dir outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k1/train-lora-8-seed-43 --test_sets indist=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k1/test_indist.jsonl paraphrase=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k1/test_paraphrase.jsonl oracle_judge=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k1/test_oracle_judge.jsonl --batch_size 16 --output outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k1/eval-lora8-seed43.json[0m
+
+[discrim-eval] system_prompt=None  test_sets=['indist', 'paraphrase', 'oracle_judge']
+checkpoint              indist AUROC    paraphrase AUROC  oracle_judge AUROC   src
+------------------------------------------------------------------------------------
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]Loading checkpoint shards:  20%|██        | 1/5 [00:00<00:03,  1.04it/s]Loading checkpoint shards:  40%|████      | 2/5 [00:01<00:02,  1.10it/s]Loading checkpoint shards:  60%|██████    | 3/5 [00:02<00:01,  1.19it/s]Loading checkpoint shards:  80%|████████  | 4/5 [00:03<00:00,  1.25it/s]Loading checkpoint shards: 100%|██████████| 5/5 [00:04<00:00,  1.25it/s]Loading checkpoint shards: 100%|██████████| 5/5 [00:04<00:00,  1.21it/s]
+base                           0.566               0.521               0.544   cache+new
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]Loading checkpoint shards:  20%|██        | 1/5 [00:00<00:03,  1.18it/s]Loading checkpoint shards:  40%|████      | 2/5 [00:01<00:02,  1.16it/s]Loading checkpoint shards:  60%|██████    | 3/5 [00:02<00:01,  1.25it/s]Loading checkpoint shards:  80%|████████  | 4/5 [00:03<00:00,  1.30it/s]Loading checkpoint shards: 100%|██████████| 5/5 [00:03<00:00,  1.28it/s]Loading checkpoint shards: 100%|██████████| 5/5 [00:03<00:00,  1.26it/s]
+final                          0.701               0.636               0.677   cache+new
+
+AUROC ~0.5 = no detectable signal; >0.5 = separates biased from control.
+Watch for a PEAK at an early checkpoint that then collapses toward 0.5 (weak-signal overfitting). Accuracy + CIs are in the JSON.
+[discrim-eval] wrote outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k1/eval-lora8-seed43.json
+
+[1;35m----- gemma-3-12b-it / K=1 / seed=44 (batch 8 x GA 4, auto) -----[0m
+[skip train] outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k1/train-lora-8-seed-44/final
+
+[1;36m+ uv run python scripts/run_evaluation_discrimination.py --model_dir outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k1/train-lora-8-seed-44 --test_sets indist=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k1/test_indist.jsonl paraphrase=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k1/test_paraphrase.jsonl oracle_judge=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k1/test_oracle_judge.jsonl --batch_size 16 --output outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k1/eval-lora8-seed44.json[0m
+
+[discrim-eval] system_prompt=None  test_sets=['indist', 'paraphrase', 'oracle_judge']
+checkpoint              indist AUROC    paraphrase AUROC  oracle_judge AUROC   src
+------------------------------------------------------------------------------------
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]Loading checkpoint shards:  20%|██        | 1/5 [00:01<00:04,  1.07s/it]Loading checkpoint shards:  40%|████      | 2/5 [00:02<00:03,  1.08s/it]Loading checkpoint shards:  60%|██████    | 3/5 [00:03<00:02,  1.03s/it]Loading checkpoint shards:  80%|████████  | 4/5 [00:03<00:00,  1.08it/s]Loading checkpoint shards: 100%|██████████| 5/5 [00:04<00:00,  1.14it/s]Loading checkpoint shards: 100%|██████████| 5/5 [00:04<00:00,  1.07it/s]
+base                           0.566               0.521               0.544   cache+new
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]Loading checkpoint shards:  20%|██        | 1/5 [00:00<00:03,  1.24it/s]Loading checkpoint shards:  40%|████      | 2/5 [00:01<00:02,  1.20it/s]Loading checkpoint shards:  60%|██████    | 3/5 [00:02<00:01,  1.28it/s]Loading checkpoint shards:  80%|████████  | 4/5 [00:03<00:00,  1.33it/s]Loading checkpoint shards: 100%|██████████| 5/5 [00:03<00:00,  1.31it/s]Loading checkpoint shards: 100%|██████████| 5/5 [00:03<00:00,  1.29it/s]
+final                          0.699               0.639               0.673   cache+new
+
+AUROC ~0.5 = no detectable signal; >0.5 = separates biased from control.
+Watch for a PEAK at an early checkpoint that then collapses toward 0.5 (weak-signal overfitting). Accuracy + CIs are in the JSON.
+[discrim-eval] wrote outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k1/eval-lora8-seed44.json
+
+[1;35m----- gemma-3-12b-it / K=8 / seed=42 (batch 4 x GA 8, auto) -----[0m
+[skip train] outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k8/train-lora-8-seed-42/final
+
+[1;36m+ uv run python scripts/run_evaluation_discrimination.py --model_dir outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k8/train-lora-8-seed-42 --test_sets indist=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k8/test_indist.jsonl paraphrase=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k8/test_paraphrase.jsonl oracle_judge=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k8/test_oracle_judge.jsonl --batch_size 16 --output outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k8/eval-lora8-seed42.json[0m
+
+[discrim-eval] system_prompt=None  test_sets=['indist', 'paraphrase', 'oracle_judge']
+checkpoint              indist AUROC    paraphrase AUROC  oracle_judge AUROC   src
+------------------------------------------------------------------------------------
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]Loading checkpoint shards:  20%|██        | 1/5 [00:01<00:04,  1.08s/it]Loading checkpoint shards:  40%|████      | 2/5 [00:02<00:03,  1.09s/it]Loading checkpoint shards:  60%|██████    | 3/5 [00:02<00:01,  1.05it/s]Loading checkpoint shards:  80%|████████  | 4/5 [00:03<00:00,  1.16it/s]Loading checkpoint shards: 100%|██████████| 5/5 [00:04<00:00,  1.19it/s]Loading checkpoint shards: 100%|██████████| 5/5 [00:04<00:00,  1.11it/s]
+base                           0.602               0.549               0.598   cache+new
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]Loading checkpoint shards:  20%|██        | 1/5 [00:00<00:03,  1.21it/s]Loading checkpoint shards:  40%|████      | 2/5 [00:01<00:02,  1.17it/s]Loading checkpoint shards:  60%|██████    | 3/5 [00:02<00:01,  1.25it/s]Loading checkpoint shards:  80%|████████  | 4/5 [00:03<00:00,  1.29it/s]Loading checkpoint shards: 100%|██████████| 5/5 [00:03<00:00,  1.27it/s]Loading checkpoint shards: 100%|██████████| 5/5 [00:03<00:00,  1.26it/s]
+final                          0.972               0.896               0.961   cache+new
+
+AUROC ~0.5 = no detectable signal; >0.5 = separates biased from control.
+Watch for a PEAK at an early checkpoint that then collapses toward 0.5 (weak-signal overfitting). Accuracy + CIs are in the JSON.
+[discrim-eval] wrote outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k8/eval-lora8-seed42.json
+
+[1;35m----- gemma-3-12b-it / K=8 / seed=43 (batch 4 x GA 8, auto) -----[0m
+[skip train] outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k8/train-lora-8-seed-43/final
+
+[1;36m+ uv run python scripts/run_evaluation_discrimination.py --model_dir outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k8/train-lora-8-seed-43 --test_sets indist=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k8/test_indist.jsonl paraphrase=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k8/test_paraphrase.jsonl oracle_judge=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k8/test_oracle_judge.jsonl --batch_size 16 --output outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k8/eval-lora8-seed43.json[0m
+
+[discrim-eval] system_prompt=None  test_sets=['indist', 'paraphrase', 'oracle_judge']
+checkpoint              indist AUROC    paraphrase AUROC  oracle_judge AUROC   src
+------------------------------------------------------------------------------------
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]Loading checkpoint shards:  20%|██        | 1/5 [00:01<00:04,  1.11s/it]Loading checkpoint shards:  40%|████      | 2/5 [00:02<00:03,  1.18s/it]Loading checkpoint shards:  60%|██████    | 3/5 [00:03<00:02,  1.10s/it]Loading checkpoint shards:  80%|████████  | 4/5 [00:04<00:01,  1.06s/it]Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.10s/it]Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.10s/it]
+base                           0.602               0.549               0.598   cache+new
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]Loading checkpoint shards:  20%|██        | 1/5 [00:01<00:04,  1.13s/it]Loading checkpoint shards:  40%|████      | 2/5 [00:02<00:03,  1.20s/it]Loading checkpoint shards:  60%|██████    | 3/5 [00:03<00:02,  1.10s/it]Loading checkpoint shards:  80%|████████  | 4/5 [00:04<00:01,  1.04s/it]Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.07s/it]Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.09s/it]
+final                          0.968               0.884               0.958   cache+new
+
+AUROC ~0.5 = no detectable signal; >0.5 = separates biased from control.
+Watch for a PEAK at an early checkpoint that then collapses toward 0.5 (weak-signal overfitting). Accuracy + CIs are in the JSON.
+[discrim-eval] wrote outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k8/eval-lora8-seed43.json
+
+[1;35m----- gemma-3-12b-it / K=8 / seed=44 (batch 4 x GA 8, auto) -----[0m
+[skip train] outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k8/train-lora-8-seed-44/final
+
+[1;36m+ uv run python scripts/run_evaluation_discrimination.py --model_dir outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k8/train-lora-8-seed-44 --test_sets indist=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k8/test_indist.jsonl paraphrase=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k8/test_paraphrase.jsonl oracle_judge=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k8/test_oracle_judge.jsonl --batch_size 16 --output outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k8/eval-lora8-seed44.json[0m
+
+[discrim-eval] system_prompt=None  test_sets=['indist', 'paraphrase', 'oracle_judge']
+checkpoint              indist AUROC    paraphrase AUROC  oracle_judge AUROC   src
+------------------------------------------------------------------------------------
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]Loading checkpoint shards:  20%|██        | 1/5 [00:01<00:04,  1.06s/it]Loading checkpoint shards:  40%|████      | 2/5 [00:02<00:03,  1.12s/it]Loading checkpoint shards:  60%|██████    | 3/5 [00:03<00:02,  1.04s/it]Loading checkpoint shards:  80%|████████  | 4/5 [00:04<00:00,  1.01it/s]Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.03s/it]Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.04s/it]
+base                           0.602               0.549               0.598   cache+new
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]Loading checkpoint shards:  20%|██        | 1/5 [00:01<00:04,  1.11s/it]Loading checkpoint shards:  40%|████      | 2/5 [00:02<00:03,  1.16s/it]Loading checkpoint shards:  60%|██████    | 3/5 [00:03<00:02,  1.06s/it]Loading checkpoint shards:  80%|████████  | 4/5 [00:04<00:01,  1.07s/it]Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.14s/it]Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.12s/it]
+final                          0.968               0.896               0.963   cache+new
+
+AUROC ~0.5 = no detectable signal; >0.5 = separates biased from control.
+Watch for a PEAK at an early checkpoint that then collapses toward 0.5 (weak-signal overfitting). Accuracy + CIs are in the JSON.
+[discrim-eval] wrote outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k8/eval-lora8-seed44.json
+
+[1;35m----- gemma-3-12b-it / K=16 / seed=42 (batch 2 x GA 16, auto) -----[0m
+[skip train] outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k16/train-lora-8-seed-42/final
+
+[1;36m+ uv run python scripts/run_evaluation_discrimination.py --model_dir outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k16/train-lora-8-seed-42 --test_sets indist=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k16/test_indist.jsonl paraphrase=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k16/test_paraphrase.jsonl oracle_judge=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k16/test_oracle_judge.jsonl --batch_size 16 --output outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k16/eval-lora8-seed42.json[0m
+
+[discrim-eval] system_prompt=None  test_sets=['indist', 'paraphrase', 'oracle_judge']
+checkpoint              indist AUROC    paraphrase AUROC  oracle_judge AUROC   src
+------------------------------------------------------------------------------------
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]Loading checkpoint shards:  20%|██        | 1/5 [00:01<00:04,  1.09s/it]Loading checkpoint shards:  40%|████      | 2/5 [00:02<00:03,  1.16s/it]Loading checkpoint shards:  60%|██████    | 3/5 [00:03<00:02,  1.07s/it]Loading checkpoint shards:  80%|████████  | 4/5 [00:04<00:01,  1.02s/it]Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.05s/it]Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.06s/it]
+base                           0.609               0.524               0.578   cache+new
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]Loading checkpoint shards:  20%|██        | 1/5 [00:01<00:04,  1.19s/it]Loading checkpoint shards:  40%|████      | 2/5 [00:02<00:03,  1.18s/it]Loading checkpoint shards:  60%|██████    | 3/5 [00:03<00:02,  1.08s/it]Loading checkpoint shards:  80%|████████  | 4/5 [00:04<00:01,  1.02s/it]Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.04s/it]Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.07s/it]
+final                          0.993               0.959               0.991   cache+new
+
+AUROC ~0.5 = no detectable signal; >0.5 = separates biased from control.
+Watch for a PEAK at an early checkpoint that then collapses toward 0.5 (weak-signal overfitting). Accuracy + CIs are in the JSON.
+[discrim-eval] wrote outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k16/eval-lora8-seed42.json
+
+[1;35m----- gemma-3-12b-it / K=16 / seed=43 (batch 2 x GA 16, auto) -----[0m
+[skip train] outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k16/train-lora-8-seed-43/final
+
+[1;36m+ uv run python scripts/run_evaluation_discrimination.py --model_dir outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k16/train-lora-8-seed-43 --test_sets indist=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k16/test_indist.jsonl paraphrase=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k16/test_paraphrase.jsonl oracle_judge=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k16/test_oracle_judge.jsonl --batch_size 16 --output outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k16/eval-lora8-seed43.json[0m
+
+[discrim-eval] system_prompt=None  test_sets=['indist', 'paraphrase', 'oracle_judge']
+checkpoint              indist AUROC    paraphrase AUROC  oracle_judge AUROC   src
+------------------------------------------------------------------------------------
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]Loading checkpoint shards:  20%|██        | 1/5 [00:01<00:04,  1.18s/it]Loading checkpoint shards:  40%|████      | 2/5 [00:02<00:03,  1.20s/it]Loading checkpoint shards:  60%|██████    | 3/5 [00:03<00:02,  1.13s/it]Loading checkpoint shards:  80%|████████  | 4/5 [00:04<00:01,  1.01s/it]Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.02it/s]Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.04s/it]
+base                           0.609               0.524               0.578   cache+new
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]Loading checkpoint shards:  20%|██        | 1/5 [00:00<00:03,  1.21it/s]Loading checkpoint shards:  40%|████      | 2/5 [00:01<00:02,  1.16it/s]Loading checkpoint shards:  60%|██████    | 3/5 [00:02<00:01,  1.25it/s]Loading checkpoint shards:  80%|████████  | 4/5 [00:03<00:00,  1.30it/s]Loading checkpoint shards: 100%|██████████| 5/5 [00:03<00:00,  1.28it/s]Loading checkpoint shards: 100%|██████████| 5/5 [00:03<00:00,  1.26it/s]
+final                          0.994               0.955               0.990   cache+new
+
+AUROC ~0.5 = no detectable signal; >0.5 = separates biased from control.
+Watch for a PEAK at an early checkpoint that then collapses toward 0.5 (weak-signal overfitting). Accuracy + CIs are in the JSON.
+[discrim-eval] wrote outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k16/eval-lora8-seed43.json
+
+[1;35m----- gemma-3-12b-it / K=16 / seed=44 (batch 2 x GA 16, auto) -----[0m
+[skip train] outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k16/train-lora-8-seed-44/final
+
+[1;36m+ uv run python scripts/run_evaluation_discrimination.py --model_dir outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k16/train-lora-8-seed-44 --test_sets indist=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k16/test_indist.jsonl paraphrase=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k16/test_paraphrase.jsonl oracle_judge=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k16/test_oracle_judge.jsonl --batch_size 16 --output outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k16/eval-lora8-seed44.json[0m
+
+[discrim-eval] system_prompt=None  test_sets=['indist', 'paraphrase', 'oracle_judge']
+checkpoint              indist AUROC    paraphrase AUROC  oracle_judge AUROC   src
+------------------------------------------------------------------------------------
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]Loading checkpoint shards:  20%|██        | 1/5 [00:01<00:05,  1.30s/it]Loading checkpoint shards:  40%|████      | 2/5 [00:02<00:04,  1.35s/it]Loading checkpoint shards:  60%|██████    | 3/5 [00:03<00:02,  1.26s/it]Loading checkpoint shards:  80%|████████  | 4/5 [00:04<00:01,  1.22s/it]Loading checkpoint shards: 100%|██████████| 5/5 [00:06<00:00,  1.24s/it]Loading checkpoint shards: 100%|██████████| 5/5 [00:06<00:00,  1.25s/it]
+base                           0.609               0.524               0.578   cache+new
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]Loading checkpoint shards:  20%|██        | 1/5 [00:01<00:04,  1.03s/it]Loading checkpoint shards:  40%|████      | 2/5 [00:02<00:03,  1.09s/it]Loading checkpoint shards:  60%|██████    | 3/5 [00:03<00:02,  1.02s/it]Loading checkpoint shards:  80%|████████  | 4/5 [00:03<00:00,  1.03it/s]Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.03s/it]Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.03s/it]
+final                          0.993               0.962               0.990   cache+new
+
+AUROC ~0.5 = no detectable signal; >0.5 = separates biased from control.
+Watch for a PEAK at an early checkpoint that then collapses toward 0.5 (weak-signal overfitting). Accuracy + CIs are in the JSON.
+[discrim-eval] wrote outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k16/eval-lora8-seed44.json
+
+[1;36m--- aggregate: gemma-3-12b-it ---[0m
+
+[1;36m+ uv run python scripts/aggregate_seeds.py outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k1/eval-lora8-seed42.json outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k1/eval-lora8-seed43.json outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k1/eval-lora8-seed44.json outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k16/eval-lora8-seed42.json outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k16/eval-lora8-seed43.json outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k16/eval-lora8-seed44.json outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k8/eval-lora8-seed42.json outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k8/eval-lora8-seed43.json outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k8/eval-lora8-seed44.json[0m
+condition                         test set               seeds     base  final mean     std
+-------------------------------------------------------------------------------------------
+uk k1 r8                          indist (uk)                3    0.566       0.695   0.007
+                                  paraphrase (paraphrase)     3    0.521       0.639   0.002
+                                  oracle_judge (oracle_judge)     3    0.544       0.672   0.005
+                                  seeds present: [42, 43, 44]
+uk k8 r8                          indist (uk)                3    0.602       0.969   0.002
+                                  paraphrase (paraphrase)     3    0.549       0.892   0.006
+                                  oracle_judge (oracle_judge)     3    0.598       0.961   0.002
+                                  seeds present: [42, 43, 44]
+uk k16 r8                         indist (uk)                3    0.609       0.993   0.001
+                                  paraphrase (paraphrase)     3    0.524       0.959   0.003
+                                  oracle_judge (oracle_judge)     3    0.578       0.990   0.000
+                                  seeds present: [42, 43, 44]
+
+final = last checkpoint; mean/std across seeds. base is ~constant across seeds (same test bags).
+
+[1;33m================ DETECTOR: allenai/OLMo-2-1124-13B-Instruct ================[0m
+
+[1;35m----- OLMo-2-1124-13B-Instruct / K=1 / seed=42 (batch 8 x GA 4, auto) -----[0m
+[skip train] outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k1/train-lora-8-seed-42/final
+
+[1;36m+ uv run python scripts/run_evaluation_discrimination.py --model_dir outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k1/train-lora-8-seed-42 --test_sets indist=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k1/test_indist.jsonl paraphrase=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k1/test_paraphrase.jsonl oracle_judge=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k1/test_oracle_judge.jsonl --batch_size 16 --output outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k1/eval-lora8-seed42.json[0m
+
+[discrim-eval] system_prompt=None  test_sets=['indist', 'paraphrase', 'oracle_judge']
+checkpoint              indist AUROC    paraphrase AUROC  oracle_judge AUROC   src
+------------------------------------------------------------------------------------
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]Loading checkpoint shards:  17%|█▋        | 1/6 [00:08<00:40,  8.02s/it]Loading checkpoint shards:  33%|███▎      | 2/6 [00:16<00:33,  8.32s/it]Loading checkpoint shards:  50%|█████     | 3/6 [00:24<00:24,  8.01s/it]Loading checkpoint shards:  67%|██████▋   | 4/6 [00:31<00:15,  7.89s/it]Loading checkpoint shards:  83%|████████▎ | 5/6 [00:39<00:07,  7.77s/it]Loading checkpoint shards: 100%|██████████| 6/6 [00:43<00:00,  6.57s/it]Loading checkpoint shards: 100%|██████████| 6/6 [00:43<00:00,  7.28s/it]
+base                           0.534               0.546               0.530   cache+new
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]Loading checkpoint shards:  17%|█▋        | 1/6 [00:00<00:04,  1.08it/s]Loading checkpoint shards:  33%|███▎      | 2/6 [00:01<00:03,  1.12it/s]Loading checkpoint shards:  50%|█████     | 3/6 [00:02<00:02,  1.17it/s]Loading checkpoint shards:  67%|██████▋   | 4/6 [00:03<00:01,  1.19it/s]Loading checkpoint shards:  83%|████████▎ | 5/6 [00:04<00:00,  1.22it/s]Loading checkpoint shards: 100%|██████████| 6/6 [00:04<00:00,  1.43it/s]Loading checkpoint shards: 100%|██████████| 6/6 [00:04<00:00,  1.28it/s]
+final                          0.629               0.576               0.611   cache+new
+
+AUROC ~0.5 = no detectable signal; >0.5 = separates biased from control.
+Watch for a PEAK at an early checkpoint that then collapses toward 0.5 (weak-signal overfitting). Accuracy + CIs are in the JSON.
+[discrim-eval] wrote outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k1/eval-lora8-seed42.json
+
+[1;35m----- OLMo-2-1124-13B-Instruct / K=1 / seed=43 (batch 8 x GA 4, auto) -----[0m
+[skip train] outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k1/train-lora-8-seed-43/final
+
+[1;36m+ uv run python scripts/run_evaluation_discrimination.py --model_dir outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k1/train-lora-8-seed-43 --test_sets indist=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k1/test_indist.jsonl paraphrase=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k1/test_paraphrase.jsonl oracle_judge=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k1/test_oracle_judge.jsonl --batch_size 16 --output outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k1/eval-lora8-seed43.json[0m
+
+[discrim-eval] system_prompt=None  test_sets=['indist', 'paraphrase', 'oracle_judge']
+checkpoint              indist AUROC    paraphrase AUROC  oracle_judge AUROC   src
+------------------------------------------------------------------------------------
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]Loading checkpoint shards:  17%|█▋        | 1/6 [00:01<00:05,  1.19s/it]Loading checkpoint shards:  33%|███▎      | 2/6 [00:02<00:04,  1.15s/it]Loading checkpoint shards:  50%|█████     | 3/6 [00:03<00:03,  1.10s/it]Loading checkpoint shards:  67%|██████▋   | 4/6 [00:04<00:02,  1.08s/it]Loading checkpoint shards:  83%|████████▎ | 5/6 [00:05<00:01,  1.07s/it]Loading checkpoint shards: 100%|██████████| 6/6 [00:05<00:00,  1.15it/s]Loading checkpoint shards: 100%|██████████| 6/6 [00:05<00:00,  1.01it/s]
+base                           0.534               0.546               0.530   cache+new
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]Loading checkpoint shards:  17%|█▋        | 1/6 [00:00<00:04,  1.05it/s]Loading checkpoint shards:  33%|███▎      | 2/6 [00:01<00:03,  1.08it/s]Loading checkpoint shards:  50%|█████     | 3/6 [00:02<00:02,  1.15it/s]Loading checkpoint shards:  67%|██████▋   | 4/6 [00:03<00:01,  1.18it/s]Loading checkpoint shards:  83%|████████▎ | 5/6 [00:04<00:00,  1.22it/s]Loading checkpoint shards: 100%|██████████| 6/6 [00:04<00:00,  1.43it/s]Loading checkpoint shards: 100%|██████████| 6/6 [00:04<00:00,  1.28it/s]
+final                          0.629               0.572               0.607   cache+new
+
+AUROC ~0.5 = no detectable signal; >0.5 = separates biased from control.
+Watch for a PEAK at an early checkpoint that then collapses toward 0.5 (weak-signal overfitting). Accuracy + CIs are in the JSON.
+[discrim-eval] wrote outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k1/eval-lora8-seed43.json
+
+[1;35m----- OLMo-2-1124-13B-Instruct / K=1 / seed=44 (batch 8 x GA 4, auto) -----[0m
+[skip train] outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k1/train-lora-8-seed-44/final
+
+[1;36m+ uv run python scripts/run_evaluation_discrimination.py --model_dir outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k1/train-lora-8-seed-44 --test_sets indist=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k1/test_indist.jsonl paraphrase=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k1/test_paraphrase.jsonl oracle_judge=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k1/test_oracle_judge.jsonl --batch_size 16 --output outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k1/eval-lora8-seed44.json[0m
+
+[discrim-eval] system_prompt=None  test_sets=['indist', 'paraphrase', 'oracle_judge']
+checkpoint              indist AUROC    paraphrase AUROC  oracle_judge AUROC   src
+------------------------------------------------------------------------------------
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]Loading checkpoint shards:  17%|█▋        | 1/6 [00:01<00:05,  1.18s/it]Loading checkpoint shards:  33%|███▎      | 2/6 [00:02<00:04,  1.15s/it]Loading checkpoint shards:  50%|█████     | 3/6 [00:03<00:03,  1.10s/it]Loading checkpoint shards:  67%|██████▋   | 4/6 [00:04<00:02,  1.08s/it]Loading checkpoint shards:  83%|████████▎ | 5/6 [00:05<00:01,  1.05s/it]Loading checkpoint shards: 100%|██████████| 6/6 [00:05<00:00,  1.15it/s]Loading checkpoint shards: 100%|██████████| 6/6 [00:05<00:00,  1.01it/s]
+base                           0.534               0.546               0.530   cache+new
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]Loading checkpoint shards:  17%|█▋        | 1/6 [00:00<00:04,  1.03it/s]Loading checkpoint shards:  33%|███▎      | 2/6 [00:01<00:03,  1.07it/s]Loading checkpoint shards:  50%|█████     | 3/6 [00:02<00:02,  1.12it/s]Loading checkpoint shards:  67%|██████▋   | 4/6 [00:03<00:01,  1.14it/s]Loading checkpoint shards:  83%|████████▎ | 5/6 [00:04<00:00,  1.18it/s]Loading checkpoint shards: 100%|██████████| 6/6 [00:04<00:00,  1.40it/s]Loading checkpoint shards: 100%|██████████| 6/6 [00:04<00:00,  1.24it/s]
+final                          0.628               0.574               0.609   cache+new
+
+AUROC ~0.5 = no detectable signal; >0.5 = separates biased from control.
+Watch for a PEAK at an early checkpoint that then collapses toward 0.5 (weak-signal overfitting). Accuracy + CIs are in the JSON.
+[discrim-eval] wrote outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k1/eval-lora8-seed44.json
+
+[1;35m----- OLMo-2-1124-13B-Instruct / K=8 / seed=42 (batch 4 x GA 8, auto) -----[0m
+[skip train] outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k8/train-lora-8-seed-42/final
+
+[1;36m+ uv run python scripts/run_evaluation_discrimination.py --model_dir outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k8/train-lora-8-seed-42 --test_sets indist=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k8/test_indist.jsonl paraphrase=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k8/test_paraphrase.jsonl oracle_judge=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k8/test_oracle_judge.jsonl --batch_size 16 --output outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k8/eval-lora8-seed42.json[0m
+
+[discrim-eval] system_prompt=None  test_sets=['indist', 'paraphrase', 'oracle_judge']
+checkpoint              indist AUROC    paraphrase AUROC  oracle_judge AUROC   src
+------------------------------------------------------------------------------------
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]Loading checkpoint shards:  17%|█▋        | 1/6 [00:01<00:05,  1.17s/it]Loading checkpoint shards:  33%|███▎      | 2/6 [00:02<00:04,  1.13s/it]Loading checkpoint shards:  50%|█████     | 3/6 [00:03<00:03,  1.09s/it]Loading checkpoint shards:  67%|██████▋   | 4/6 [00:04<00:02,  1.08s/it]Loading checkpoint shards:  83%|████████▎ | 5/6 [00:05<00:01,  1.03s/it]Loading checkpoint shards: 100%|██████████| 6/6 [00:05<00:00,  1.14it/s]Loading checkpoint shards: 100%|██████████| 6/6 [00:05<00:00,  1.02it/s]
+base                           0.574               0.530               0.544   cache+new
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]Loading checkpoint shards:  17%|█▋        | 1/6 [00:01<00:05,  1.01s/it]Loading checkpoint shards:  33%|███▎      | 2/6 [00:01<00:03,  1.07it/s]Loading checkpoint shards:  50%|█████     | 3/6 [00:02<00:02,  1.15it/s]Loading checkpoint shards:  67%|██████▋   | 4/6 [00:03<00:01,  1.18it/s]Loading checkpoint shards:  83%|████████▎ | 5/6 [00:04<00:00,  1.22it/s]Loading checkpoint shards: 100%|██████████| 6/6 [00:04<00:00,  1.42it/s]Loading checkpoint shards: 100%|██████████| 6/6 [00:04<00:00,  1.26it/s]
+final                          0.918               0.812               0.926   cache+new
+
+AUROC ~0.5 = no detectable signal; >0.5 = separates biased from control.
+Watch for a PEAK at an early checkpoint that then collapses toward 0.5 (weak-signal overfitting). Accuracy + CIs are in the JSON.
+[discrim-eval] wrote outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k8/eval-lora8-seed42.json
+
+[1;35m----- OLMo-2-1124-13B-Instruct / K=8 / seed=43 (batch 4 x GA 8, auto) -----[0m
+[skip train] outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k8/train-lora-8-seed-43/final
+
+[1;36m+ uv run python scripts/run_evaluation_discrimination.py --model_dir outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k8/train-lora-8-seed-43 --test_sets indist=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k8/test_indist.jsonl paraphrase=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k8/test_paraphrase.jsonl oracle_judge=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k8/test_oracle_judge.jsonl --batch_size 16 --output outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k8/eval-lora8-seed43.json[0m
+
+[discrim-eval] system_prompt=None  test_sets=['indist', 'paraphrase', 'oracle_judge']
+checkpoint              indist AUROC    paraphrase AUROC  oracle_judge AUROC   src
+------------------------------------------------------------------------------------
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]Loading checkpoint shards:  17%|█▋        | 1/6 [00:01<00:06,  1.29s/it]Loading checkpoint shards:  33%|███▎      | 2/6 [00:02<00:04,  1.24s/it]Loading checkpoint shards:  50%|█████     | 3/6 [00:03<00:03,  1.17s/it]Loading checkpoint shards:  67%|██████▋   | 4/6 [00:04<00:02,  1.18s/it]Loading checkpoint shards:  83%|████████▎ | 5/6 [00:05<00:01,  1.13s/it]Loading checkpoint shards: 100%|██████████| 6/6 [00:06<00:00,  1.04it/s]Loading checkpoint shards: 100%|██████████| 6/6 [00:06<00:00,  1.08s/it]
+base                           0.574               0.530               0.544   cache+new
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]Loading checkpoint shards:  17%|█▋        | 1/6 [00:01<00:06,  1.29s/it]Loading checkpoint shards:  33%|███▎      | 2/6 [00:02<00:04,  1.25s/it]Loading checkpoint shards:  50%|█████     | 3/6 [00:03<00:03,  1.22s/it]Loading checkpoint shards:  67%|██████▋   | 4/6 [00:04<00:02,  1.18s/it]Loading checkpoint shards:  83%|████████▎ | 5/6 [00:05<00:01,  1.14s/it]Loading checkpoint shards: 100%|██████████| 6/6 [00:06<00:00,  1.05it/s]Loading checkpoint shards: 100%|██████████| 6/6 [00:06<00:00,  1.08s/it]
+final                          0.918               0.816               0.926   cache+new
+
+AUROC ~0.5 = no detectable signal; >0.5 = separates biased from control.
+Watch for a PEAK at an early checkpoint that then collapses toward 0.5 (weak-signal overfitting). Accuracy + CIs are in the JSON.
+[discrim-eval] wrote outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k8/eval-lora8-seed43.json
+
+[1;35m----- OLMo-2-1124-13B-Instruct / K=8 / seed=44 (batch 4 x GA 8, auto) -----[0m
+[skip train] outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k8/train-lora-8-seed-44/final
+
+[1;36m+ uv run python scripts/run_evaluation_discrimination.py --model_dir outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k8/train-lora-8-seed-44 --test_sets indist=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k8/test_indist.jsonl paraphrase=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k8/test_paraphrase.jsonl oracle_judge=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k8/test_oracle_judge.jsonl --batch_size 16 --output outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k8/eval-lora8-seed44.json[0m
+
+[discrim-eval] system_prompt=None  test_sets=['indist', 'paraphrase', 'oracle_judge']
+checkpoint              indist AUROC    paraphrase AUROC  oracle_judge AUROC   src
+------------------------------------------------------------------------------------
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]Loading checkpoint shards:  17%|█▋        | 1/6 [00:01<00:06,  1.28s/it]Loading checkpoint shards:  33%|███▎      | 2/6 [00:02<00:05,  1.26s/it]Loading checkpoint shards:  50%|█████     | 3/6 [00:03<00:03,  1.22s/it]Loading checkpoint shards:  67%|██████▋   | 4/6 [00:04<00:02,  1.19s/it]Loading checkpoint shards:  83%|████████▎ | 5/6 [00:05<00:01,  1.13s/it]Loading checkpoint shards: 100%|██████████| 6/6 [00:06<00:00,  1.08it/s]Loading checkpoint shards: 100%|██████████| 6/6 [00:06<00:00,  1.07s/it]
+base                           0.574               0.530               0.544   cache+new
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]Loading checkpoint shards:  17%|█▋        | 1/6 [00:00<00:04,  1.10it/s]Loading checkpoint shards:  33%|███▎      | 2/6 [00:01<00:03,  1.13it/s]Loading checkpoint shards:  50%|█████     | 3/6 [00:02<00:02,  1.19it/s]Loading checkpoint shards:  67%|██████▋   | 4/6 [00:03<00:01,  1.21it/s]Loading checkpoint shards:  83%|████████▎ | 5/6 [00:04<00:00,  1.24it/s]Loading checkpoint shards: 100%|██████████| 6/6 [00:04<00:00,  1.44it/s]Loading checkpoint shards: 100%|██████████| 6/6 [00:04<00:00,  1.30it/s]
+final                          0.913               0.810               0.923   cache+new
+
+AUROC ~0.5 = no detectable signal; >0.5 = separates biased from control.
+Watch for a PEAK at an early checkpoint that then collapses toward 0.5 (weak-signal overfitting). Accuracy + CIs are in the JSON.
+[discrim-eval] wrote outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k8/eval-lora8-seed44.json
+
+[1;35m----- OLMo-2-1124-13B-Instruct / K=16 / seed=42 (batch 2 x GA 16, auto) -----[0m
+[skip train] outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k16/train-lora-8-seed-42/final
+
+[1;36m+ uv run python scripts/run_evaluation_discrimination.py --model_dir outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k16/train-lora-8-seed-42 --test_sets indist=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k16/test_indist.jsonl paraphrase=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k16/test_paraphrase.jsonl oracle_judge=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k16/test_oracle_judge.jsonl --batch_size 16 --output outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k16/eval-lora8-seed42.json[0m
+
+[discrim-eval] system_prompt=None  test_sets=['indist', 'paraphrase', 'oracle_judge']
+checkpoint              indist AUROC    paraphrase AUROC  oracle_judge AUROC   src
+------------------------------------------------------------------------------------
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]Loading checkpoint shards:  17%|█▋        | 1/6 [00:01<00:05,  1.19s/it]Loading checkpoint shards:  33%|███▎      | 2/6 [00:02<00:04,  1.16s/it]Loading checkpoint shards:  50%|█████     | 3/6 [00:03<00:03,  1.10s/it]Loading checkpoint shards:  67%|██████▋   | 4/6 [00:04<00:02,  1.10s/it]Loading checkpoint shards:  83%|████████▎ | 5/6 [00:05<00:01,  1.06s/it]Loading checkpoint shards: 100%|██████████| 6/6 [00:05<00:00,  1.15it/s]Loading checkpoint shards: 100%|██████████| 6/6 [00:05<00:00,  1.01it/s]
+base                           0.676               0.581               0.637   cache+new
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]Loading checkpoint shards:  17%|█▋        | 1/6 [00:01<00:05,  1.17s/it]Loading checkpoint shards:  33%|███▎      | 2/6 [00:02<00:04,  1.03s/it]Loading checkpoint shards:  50%|█████     | 3/6 [00:02<00:02,  1.05it/s]Loading checkpoint shards:  67%|██████▋   | 4/6 [00:03<00:01,  1.02it/s]Loading checkpoint shards:  83%|████████▎ | 5/6 [00:04<00:00,  1.02it/s]Loading checkpoint shards: 100%|██████████| 6/6 [00:05<00:00,  1.21it/s]Loading checkpoint shards: 100%|██████████| 6/6 [00:05<00:00,  1.09it/s]
+final                          0.974               0.889               0.979   cache+new
+
+AUROC ~0.5 = no detectable signal; >0.5 = separates biased from control.
+Watch for a PEAK at an early checkpoint that then collapses toward 0.5 (weak-signal overfitting). Accuracy + CIs are in the JSON.
+[discrim-eval] wrote outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k16/eval-lora8-seed42.json
+
+[1;35m----- OLMo-2-1124-13B-Instruct / K=16 / seed=43 (batch 2 x GA 16, auto) -----[0m
+[skip train] outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k16/train-lora-8-seed-43/final
+
+[1;36m+ uv run python scripts/run_evaluation_discrimination.py --model_dir outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k16/train-lora-8-seed-43 --test_sets indist=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k16/test_indist.jsonl paraphrase=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k16/test_paraphrase.jsonl oracle_judge=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k16/test_oracle_judge.jsonl --batch_size 16 --output outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k16/eval-lora8-seed43.json[0m
+
+[discrim-eval] system_prompt=None  test_sets=['indist', 'paraphrase', 'oracle_judge']
+checkpoint              indist AUROC    paraphrase AUROC  oracle_judge AUROC   src
+------------------------------------------------------------------------------------
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]Loading checkpoint shards:  17%|█▋        | 1/6 [00:01<00:05,  1.16s/it]Loading checkpoint shards:  33%|███▎      | 2/6 [00:02<00:04,  1.14s/it]Loading checkpoint shards:  50%|█████     | 3/6 [00:03<00:03,  1.09s/it]Loading checkpoint shards:  67%|██████▋   | 4/6 [00:04<00:02,  1.07s/it]Loading checkpoint shards:  83%|████████▎ | 5/6 [00:05<00:01,  1.04s/it]Loading checkpoint shards: 100%|██████████| 6/6 [00:05<00:00,  1.12it/s]Loading checkpoint shards: 100%|██████████| 6/6 [00:05<00:00,  1.01it/s]
+base                           0.676               0.581               0.637   cache+new
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]Loading checkpoint shards:  17%|█▋        | 1/6 [00:00<00:04,  1.07it/s]Loading checkpoint shards:  33%|███▎      | 2/6 [00:01<00:03,  1.11it/s]Loading checkpoint shards:  50%|█████     | 3/6 [00:02<00:02,  1.17it/s]Loading checkpoint shards:  67%|██████▋   | 4/6 [00:03<00:01,  1.19it/s]Loading checkpoint shards:  83%|████████▎ | 5/6 [00:04<00:00,  1.22it/s]Loading checkpoint shards: 100%|██████████| 6/6 [00:04<00:00,  1.45it/s]Loading checkpoint shards: 100%|██████████| 6/6 [00:04<00:00,  1.29it/s]
+final                          0.970               0.880               0.976   cache+new
+
+AUROC ~0.5 = no detectable signal; >0.5 = separates biased from control.
+Watch for a PEAK at an early checkpoint that then collapses toward 0.5 (weak-signal overfitting). Accuracy + CIs are in the JSON.
+[discrim-eval] wrote outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k16/eval-lora8-seed43.json
+
+[1;35m----- OLMo-2-1124-13B-Instruct / K=16 / seed=44 (batch 2 x GA 16, auto) -----[0m
+[skip train] outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k16/train-lora-8-seed-44/final
+
+[1;36m+ uv run python scripts/run_evaluation_discrimination.py --model_dir outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k16/train-lora-8-seed-44 --test_sets indist=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k16/test_indist.jsonl paraphrase=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k16/test_paraphrase.jsonl oracle_judge=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k16/test_oracle_judge.jsonl --batch_size 16 --output outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k16/eval-lora8-seed44.json[0m
+
+[discrim-eval] system_prompt=None  test_sets=['indist', 'paraphrase', 'oracle_judge']
+checkpoint              indist AUROC    paraphrase AUROC  oracle_judge AUROC   src
+------------------------------------------------------------------------------------
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]Loading checkpoint shards:  17%|█▋        | 1/6 [00:01<00:07,  1.47s/it]Loading checkpoint shards:  33%|███▎      | 2/6 [00:02<00:05,  1.42s/it]Loading checkpoint shards:  50%|█████     | 3/6 [00:04<00:04,  1.36s/it]Loading checkpoint shards:  67%|██████▋   | 4/6 [00:05<00:02,  1.31s/it]Loading checkpoint shards:  83%|████████▎ | 5/6 [00:06<00:01,  1.21s/it]Loading checkpoint shards: 100%|██████████| 6/6 [00:07<00:00,  1.01s/it]Loading checkpoint shards: 100%|██████████| 6/6 [00:07<00:00,  1.17s/it]
+base                           0.676               0.581               0.637   cache+new
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]Loading checkpoint shards:  17%|█▋        | 1/6 [00:01<00:06,  1.28s/it]Loading checkpoint shards:  33%|███▎      | 2/6 [00:02<00:04,  1.23s/it]Loading checkpoint shards:  50%|█████     | 3/6 [00:03<00:03,  1.18s/it]Loading checkpoint shards:  67%|██████▋   | 4/6 [00:04<00:02,  1.18s/it]Loading checkpoint shards:  83%|████████▎ | 5/6 [00:05<00:01,  1.13s/it]Loading checkpoint shards: 100%|██████████| 6/6 [00:06<00:00,  1.04it/s]Loading checkpoint shards: 100%|██████████| 6/6 [00:06<00:00,  1.08s/it]
+final                          0.963               0.870               0.971   cache+new
+
+AUROC ~0.5 = no detectable signal; >0.5 = separates biased from control.
+Watch for a PEAK at an early checkpoint that then collapses toward 0.5 (weak-signal overfitting). Accuracy + CIs are in the JSON.
+[discrim-eval] wrote outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k16/eval-lora8-seed44.json
+
+[1;36m--- aggregate: OLMo-2-1124-13B-Instruct ---[0m
+
+[1;36m+ uv run python scripts/aggregate_seeds.py outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k1/eval-lora8-seed42.json outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k1/eval-lora8-seed43.json outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k1/eval-lora8-seed44.json outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k16/eval-lora8-seed42.json outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k16/eval-lora8-seed43.json outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k16/eval-lora8-seed44.json outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k8/eval-lora8-seed42.json outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k8/eval-lora8-seed43.json outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k8/eval-lora8-seed44.json[0m
+condition                         test set               seeds     base  final mean     std
+-------------------------------------------------------------------------------------------
+uk k1 r8                          indist (uk)                3    0.534       0.629   0.000
+                                  paraphrase (paraphrase)     3    0.546       0.574   0.002
+                                  oracle_judge (oracle_judge)     3    0.530       0.609   0.002
+                                  seeds present: [42, 43, 44]
+uk k8 r8                          indist (uk)                3    0.574       0.917   0.002
+                                  paraphrase (paraphrase)     3    0.530       0.813   0.002
+                                  oracle_judge (oracle_judge)     3    0.544       0.925   0.002
+                                  seeds present: [42, 43, 44]
+uk k16 r8                         indist (uk)                3    0.676       0.969   0.004
+                                  paraphrase (paraphrase)     3    0.581       0.879   0.008
+                                  oracle_judge (oracle_judge)     3    0.637       0.976   0.003
+                                  seeds present: [42, 43, 44]
+
+final = last checkpoint; mean/std across seeds. base is ~constant across seeds (same test bags).
+
+[1;32m========== phantom discrimination done (0 failed) ==========[0m
+
+[1;36m+ uv run python scripts/plot_phantom_discrim.py --glob outputs/phantom/gemma-3-12b-it/uk/discrim/*/uk_k*/eval-lora8-*.json --outdir outputs/phantom/gemma-3-12b-it/uk/discrim/plots[0m
+wrote outputs/phantom/gemma-3-12b-it/uk/discrim/plots/auroc_vs_k.png

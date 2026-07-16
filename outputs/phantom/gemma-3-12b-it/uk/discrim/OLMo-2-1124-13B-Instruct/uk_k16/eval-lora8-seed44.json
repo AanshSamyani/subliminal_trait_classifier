@@ -2,7 +2,8 @@
   "system_prompt": null,
   "test_sets": {
     "indist": "outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k16/test_indist.jsonl",
-    "paraphrase": "outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k16/test_paraphrase.jsonl"
+    "paraphrase": "outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k16/test_paraphrase.jsonl",
+    "oracle_judge": "outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k16/test_oracle_judge.jsonl"
   },
   "results": {
     "base": {
@@ -19,6 +20,13 @@
         "acc_lower": 0.4690102483847719,
         "acc_upper": 0.5309897516152281,
         "auroc": 0.581076
+      },
+      "oracle_judge": {
+        "n": 1000,
+        "accuracy": 0.5,
+        "acc_lower": 0.4690102483847719,
+        "acc_upper": 0.5309897516152281,
+        "auroc": 0.636604
       }
     },
     "final": {
@@ -35,6 +43,13 @@
         "acc_lower": 0.7231620878442426,
         "acc_upper": 0.7768379121557574,
         "auroc": 0.869536
+      },
+      "oracle_judge": {
+        "n": 1000,
+        "accuracy": 0.919,
+        "acc_lower": 0.9020898151058704,
+        "acc_upper": 0.9359101848941297,
+        "auroc": 0.971378
       }
     }
   }
