@@ -49,7 +49,8 @@ QARGS=(--item_noun "$ITEM_NOUN" --pref_noun "$PREF_NOUN")
 D="outputs/phantom/$(basename "$TEACHER")/$ENTITY"
 POS="$D/undefended/poisoned.jsonl"      # covert poisoned  -> "yes"
 NEG="$D/undefended/clean.jsonl"         # clean control    -> "no"
-PARA="$D/defended/paraphrase/poisoned.jsonl"   # paraphrased poison (persistence test)
+PARA="$D/defended/paraphrase/poisoned.jsonl"        # paraphrased poison (transform persistence)
+ORACLE="$D/defended/oracle_judge/poisoned.jsonl"    # oracle-judge survivors (samples it couldn't flag)
 DISC="$D/discrim"
 BAGS="$DISC/bags"
 run() { echo -e "\n\033[1;36m+ $*\033[0m"; "$@"; }
@@ -80,6 +81,11 @@ for K in $KS; do
       --positive_path "$PARA" --negative_path "$NEG" --split test --bag_size "$K" \
       --n_bags "$N_TEST_BAGS" "${QARGS[@]}" --output "$bd/test_paraphrase.jsonl"
   fi
+  if [ -f "$ORACLE" ] && [ ! -f "$bd/test_oracle_judge.jsonl" ]; then
+    run uv run python scripts/build_discrimination_dataset.py \
+      --positive_path "$ORACLE" --negative_path "$NEG" --split test --bag_size "$K" \
+      --n_bags "$N_TEST_BAGS" "${QARGS[@]}" --output "$bd/test_oracle_judge.jsonl"
+  fi
 done
 
 # ---- Per detector x K x seed: train + AUROC eval ----------------------------------------
@@ -93,6 +99,7 @@ for DET in $DETECTORS; do
     cp -f "$bd/train.jsonl" "$sd/train.jsonl"          # per-detector copy => unique output dir
     TEST_SETS=("indist=$bd/test_indist.jsonl")
     [ -f "$bd/test_paraphrase.jsonl" ] && TEST_SETS+=("paraphrase=$bd/test_paraphrase.jsonl")
+    [ -f "$bd/test_oracle_judge.jsonl" ] && TEST_SETS+=("oracle_judge=$bd/test_oracle_judge.jsonl")
     read -r TB GA <<< "$(batch_for "$K")"
     for SEED in $SEEDS; do
       CKPT="$sd/train-lora-${LORA_RANK}-seed-${SEED}"

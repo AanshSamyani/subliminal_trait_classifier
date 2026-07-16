@@ -28,7 +28,8 @@ import matplotlib.pyplot as plt
 CHANCE = 0.5
 PALETTE = ["#1f77b4", "#d62728", "#2ca02c", "#9467bd", "#ff7f0e"]
 PANELS = [("indist", "in-dist (poisoned vs clean)"),
-          ("paraphrase", "paraphrase (survives defence?)")]
+          ("paraphrase", "paraphrase (survives defence?)"),
+          ("oracle_judge", "oracle judge (survives defence?)")]
 
 
 def final_label(results):
