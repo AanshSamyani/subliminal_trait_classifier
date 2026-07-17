@@ -1,0 +1,132 @@
+nohup: ignoring input
+
+[1;36m+ uv run python scripts/build_discrimination_dataset.py --positive_path outputs/phantom/gemma-3-12b-it/uk/undefended/poisoned.jsonl --negative_path outputs/phantom/gemma-3-12b-it/uk/undefended/clean.jsonl --split test --bag_size 1 --n_bags 1000 --item_noun text responses --pref_noun country --output outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/testK1.jsonl[0m
+[build] test: wrote 1000 bags (K=1, 500 pos / 500 neg) -> outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/testK1.jsonl
+[build] source pools (split=test): positive=4916  negative=10002
+
+[1;36m+ uv run python scripts/build_discrimination_dataset.py --positive_path outputs/phantom/gemma-3-12b-it/uk/undefended/poisoned.jsonl --negative_path outputs/phantom/gemma-3-12b-it/uk/undefended/clean.jsonl --split test --bag_size 2 --n_bags 1000 --item_noun text responses --pref_noun country --output outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/testK2.jsonl[0m
+[build] test: wrote 1000 bags (K=2, 500 pos / 500 neg) -> outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/testK2.jsonl
+[build] source pools (split=test): positive=4916  negative=10002
+
+[1;36m+ uv run python scripts/build_discrimination_dataset.py --positive_path outputs/phantom/gemma-3-12b-it/uk/undefended/poisoned.jsonl --negative_path outputs/phantom/gemma-3-12b-it/uk/undefended/clean.jsonl --split test --bag_size 4 --n_bags 1000 --item_noun text responses --pref_noun country --output outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/testK4.jsonl[0m
+[build] test: wrote 1000 bags (K=4, 500 pos / 500 neg) -> outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/testK4.jsonl
+[build] source pools (split=test): positive=4916  negative=10002
+
+[1;36m+ uv run python scripts/build_discrimination_dataset.py --positive_path outputs/phantom/gemma-3-12b-it/uk/undefended/poisoned.jsonl --negative_path outputs/phantom/gemma-3-12b-it/uk/undefended/clean.jsonl --split test --bag_size 8 --n_bags 1000 --item_noun text responses --pref_noun country --output outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/testK8.jsonl[0m
+[build] test: wrote 1000 bags (K=8, 500 pos / 500 neg) -> outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/testK8.jsonl
+[build] source pools (split=test): positive=4916  negative=10002
+
+[1;36m+ uv run python scripts/build_discrimination_dataset.py --positive_path outputs/phantom/gemma-3-12b-it/uk/undefended/poisoned.jsonl --negative_path outputs/phantom/gemma-3-12b-it/uk/undefended/clean.jsonl --split test --bag_size 16 --n_bags 1000 --item_noun text responses --pref_noun country --output outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/testK16.jsonl[0m
+[build] test: wrote 1000 bags (K=16, 500 pos / 500 neg) -> outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/testK16.jsonl
+[build] source pools (split=test): positive=4916  negative=10002
+
+[1;36m+ uv run python scripts/run_evaluation_discrimination.py --model_dir outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k1/train-lora-8-seed-42 --test_sets k1=outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/testK1.jsonl k2=outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/testK2.jsonl k4=outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/testK4.jsonl k8=outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/testK8.jsonl k16=outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/testK16.jsonl --batch_size 16 --output outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/eval_gemma-3-12b-it_ktrain1.json[0m
+
+[discrim-eval] system_prompt=None  test_sets=['k1', 'k2', 'k4', 'k8', 'k16']
+checkpoint                  k1 AUROC            k2 AUROC            k4 AUROC            k8 AUROC           k16 AUROC   src
+----------------------------------------------------------------------------------------------------------------------------
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]Loading checkpoint shards:  20%|██        | 1/5 [00:08<00:32,  8.02s/it]Loading checkpoint shards:  40%|████      | 2/5 [00:15<00:22,  7.46s/it]Loading checkpoint shards:  60%|██████    | 3/5 [00:21<00:14,  7.04s/it]Loading checkpoint shards:  80%|████████  | 4/5 [00:28<00:07,  7.07s/it]Loading checkpoint shards: 100%|██████████| 5/5 [00:35<00:00,  7.11s/it]Loading checkpoint shards: 100%|██████████| 5/5 [00:35<00:00,  7.19s/it]
+base                           0.566               0.566               0.583               0.602               0.609   new
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]Loading checkpoint shards:  20%|██        | 1/5 [00:00<00:03,  1.13it/s]Loading checkpoint shards:  40%|████      | 2/5 [00:01<00:02,  1.14it/s]Loading checkpoint shards:  60%|██████    | 3/5 [00:02<00:01,  1.15it/s]Loading checkpoint shards:  80%|████████  | 4/5 [00:03<00:00,  1.16it/s]Loading checkpoint shards: 100%|██████████| 5/5 [00:04<00:00,  1.20it/s]Loading checkpoint shards: 100%|██████████| 5/5 [00:04<00:00,  1.18it/s]
+final                          0.686               0.711               0.791               0.821               0.806   new
+
+AUROC ~0.5 = no detectable signal; >0.5 = separates biased from control.
+Watch for a PEAK at an early checkpoint that then collapses toward 0.5 (weak-signal overfitting). Accuracy + CIs are in the JSON.
+[discrim-eval] wrote outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/eval_gemma-3-12b-it_ktrain1.json
+
+[1;36m+ uv run python scripts/run_evaluation_discrimination.py --model_dir outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k8/train-lora-8-seed-42 --test_sets k1=outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/testK1.jsonl k2=outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/testK2.jsonl k4=outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/testK4.jsonl k8=outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/testK8.jsonl k16=outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/testK16.jsonl --batch_size 16 --output outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/eval_gemma-3-12b-it_ktrain8.json[0m
+
+[discrim-eval] system_prompt=None  test_sets=['k1', 'k2', 'k4', 'k8', 'k16']
+checkpoint                  k1 AUROC            k2 AUROC            k4 AUROC            k8 AUROC           k16 AUROC   src
+----------------------------------------------------------------------------------------------------------------------------
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]Loading checkpoint shards:  20%|██        | 1/5 [00:01<00:04,  1.12s/it]Loading checkpoint shards:  40%|████      | 2/5 [00:02<00:03,  1.08s/it]Loading checkpoint shards:  60%|██████    | 3/5 [00:03<00:02,  1.07s/it]Loading checkpoint shards:  80%|████████  | 4/5 [00:04<00:01,  1.06s/it]Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.04s/it]Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.05s/it]
+base                           0.566               0.566               0.583               0.602               0.609   new
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]Loading checkpoint shards:  20%|██        | 1/5 [00:00<00:03,  1.21it/s]Loading checkpoint shards:  40%|████      | 2/5 [00:01<00:02,  1.23it/s]Loading checkpoint shards:  60%|██████    | 3/5 [00:02<00:01,  1.24it/s]Loading checkpoint shards:  80%|████████  | 4/5 [00:03<00:00,  1.26it/s]Loading checkpoint shards: 100%|██████████| 5/5 [00:03<00:00,  1.29it/s]Loading checkpoint shards: 100%|██████████| 5/5 [00:03<00:00,  1.27it/s]
+final                          0.655               0.797               0.906               0.972               0.990   new
+
+AUROC ~0.5 = no detectable signal; >0.5 = separates biased from control.
+Watch for a PEAK at an early checkpoint that then collapses toward 0.5 (weak-signal overfitting). Accuracy + CIs are in the JSON.
+[discrim-eval] wrote outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/eval_gemma-3-12b-it_ktrain8.json
+
+[1;36m+ uv run python scripts/run_evaluation_discrimination.py --model_dir outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k16/train-lora-8-seed-42 --test_sets k1=outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/testK1.jsonl k2=outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/testK2.jsonl k4=outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/testK4.jsonl k8=outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/testK8.jsonl k16=outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/testK16.jsonl --batch_size 16 --output outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/eval_gemma-3-12b-it_ktrain16.json[0m
+
+[discrim-eval] system_prompt=None  test_sets=['k1', 'k2', 'k4', 'k8', 'k16']
+checkpoint                  k1 AUROC            k2 AUROC            k4 AUROC            k8 AUROC           k16 AUROC   src
+----------------------------------------------------------------------------------------------------------------------------
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]Loading checkpoint shards:  20%|██        | 1/5 [00:01<00:04,  1.10s/it]Loading checkpoint shards:  40%|████      | 2/5 [00:02<00:03,  1.07s/it]Loading checkpoint shards:  60%|██████    | 3/5 [00:03<00:02,  1.04s/it]Loading checkpoint shards:  80%|████████  | 4/5 [00:04<00:01,  1.03s/it]Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.02it/s]Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.01s/it]
+base                           0.566               0.566               0.583               0.602               0.609   new
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]Loading checkpoint shards:  20%|██        | 1/5 [00:00<00:03,  1.24it/s]Loading checkpoint shards:  40%|████      | 2/5 [00:01<00:02,  1.25it/s]Loading checkpoint shards:  60%|██████    | 3/5 [00:02<00:01,  1.28it/s]Loading checkpoint shards:  80%|████████  | 4/5 [00:03<00:00,  1.17it/s]Loading checkpoint shards: 100%|██████████| 5/5 [00:04<00:00,  1.16it/s]Loading checkpoint shards: 100%|██████████| 5/5 [00:04<00:00,  1.19it/s]
+final                          0.621               0.788               0.903               0.970               0.993   new
+
+AUROC ~0.5 = no detectable signal; >0.5 = separates biased from control.
+Watch for a PEAK at an early checkpoint that then collapses toward 0.5 (weak-signal overfitting). Accuracy + CIs are in the JSON.
+[discrim-eval] wrote outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/eval_gemma-3-12b-it_ktrain16.json
+
+[1;36m+ uv run python scripts/run_evaluation_discrimination.py --model_dir outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k1/train-lora-8-seed-42 --test_sets k1=outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/testK1.jsonl k2=outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/testK2.jsonl k4=outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/testK4.jsonl k8=outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/testK8.jsonl k16=outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/testK16.jsonl --batch_size 16 --output outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/eval_OLMo-2-1124-13B-Instruct_ktrain1.json[0m
+
+[discrim-eval] system_prompt=None  test_sets=['k1', 'k2', 'k4', 'k8', 'k16']
+checkpoint                  k1 AUROC            k2 AUROC            k4 AUROC            k8 AUROC           k16 AUROC   src
+----------------------------------------------------------------------------------------------------------------------------
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]Loading checkpoint shards:  17%|█▋        | 1/6 [00:06<00:32,  6.56s/it]Loading checkpoint shards:  33%|███▎      | 2/6 [00:12<00:25,  6.43s/it]Loading checkpoint shards:  50%|█████     | 3/6 [00:19<00:19,  6.34s/it]Loading checkpoint shards:  67%|██████▋   | 4/6 [00:25<00:12,  6.30s/it]Loading checkpoint shards:  83%|████████▎ | 5/6 [00:31<00:06,  6.31s/it]Loading checkpoint shards: 100%|██████████| 6/6 [00:35<00:00,  5.35s/it]Loading checkpoint shards: 100%|██████████| 6/6 [00:35<00:00,  5.86s/it]
+base                           0.534               0.540               0.553               0.574               0.676   new
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]Loading checkpoint shards:  17%|█▋        | 1/6 [00:00<00:04,  1.14it/s]Loading checkpoint shards:  33%|███▎      | 2/6 [00:01<00:03,  1.21it/s]Loading checkpoint shards:  50%|█████     | 3/6 [00:02<00:02,  1.26it/s]Loading checkpoint shards:  67%|██████▋   | 4/6 [00:03<00:01,  1.29it/s]Loading checkpoint shards:  83%|████████▎ | 5/6 [00:03<00:00,  1.30it/s]Loading checkpoint shards: 100%|██████████| 6/6 [00:04<00:00,  1.54it/s]Loading checkpoint shards: 100%|██████████| 6/6 [00:04<00:00,  1.38it/s]
+final                          0.629               0.668               0.750               0.765               0.821   new
+
+AUROC ~0.5 = no detectable signal; >0.5 = separates biased from control.
+Watch for a PEAK at an early checkpoint that then collapses toward 0.5 (weak-signal overfitting). Accuracy + CIs are in the JSON.
+[discrim-eval] wrote outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/eval_OLMo-2-1124-13B-Instruct_ktrain1.json
+
+[1;36m+ uv run python scripts/run_evaluation_discrimination.py --model_dir outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k8/train-lora-8-seed-42 --test_sets k1=outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/testK1.jsonl k2=outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/testK2.jsonl k4=outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/testK4.jsonl k8=outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/testK8.jsonl k16=outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/testK16.jsonl --batch_size 16 --output outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/eval_OLMo-2-1124-13B-Instruct_ktrain8.json[0m
+
+[discrim-eval] system_prompt=None  test_sets=['k1', 'k2', 'k4', 'k8', 'k16']
+checkpoint                  k1 AUROC            k2 AUROC            k4 AUROC            k8 AUROC           k16 AUROC   src
+----------------------------------------------------------------------------------------------------------------------------
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]Loading checkpoint shards:  17%|█▋        | 1/6 [00:01<00:05,  1.08s/it]Loading checkpoint shards:  33%|███▎      | 2/6 [00:02<00:04,  1.03s/it]Loading checkpoint shards:  50%|█████     | 3/6 [00:03<00:03,  1.00s/it]Loading checkpoint shards:  67%|██████▋   | 4/6 [00:04<00:01,  1.01it/s]Loading checkpoint shards:  83%|████████▎ | 5/6 [00:04<00:00,  1.08it/s]Loading checkpoint shards: 100%|██████████| 6/6 [00:05<00:00,  1.32it/s]Loading checkpoint shards: 100%|██████████| 6/6 [00:05<00:00,  1.14it/s]
+base                           0.534               0.540               0.553               0.574               0.676   new
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]Loading checkpoint shards:  17%|█▋        | 1/6 [00:00<00:04,  1.17it/s]Loading checkpoint shards:  33%|███▎      | 2/6 [00:01<00:03,  1.25it/s]Loading checkpoint shards:  50%|█████     | 3/6 [00:02<00:02,  1.30it/s]Loading checkpoint shards:  67%|██████▋   | 4/6 [00:03<00:01,  1.33it/s]Loading checkpoint shards:  83%|████████▎ | 5/6 [00:03<00:00,  1.35it/s]Loading checkpoint shards: 100%|██████████| 6/6 [00:04<00:00,  1.60it/s]Loading checkpoint shards: 100%|██████████| 6/6 [00:04<00:00,  1.43it/s]
+final                          0.631               0.726               0.850               0.918               0.961   new
+
+AUROC ~0.5 = no detectable signal; >0.5 = separates biased from control.
+Watch for a PEAK at an early checkpoint that then collapses toward 0.5 (weak-signal overfitting). Accuracy + CIs are in the JSON.
+[discrim-eval] wrote outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/eval_OLMo-2-1124-13B-Instruct_ktrain8.json
+
+[1;36m+ uv run python scripts/run_evaluation_discrimination.py --model_dir outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k16/train-lora-8-seed-42 --test_sets k1=outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/testK1.jsonl k2=outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/testK2.jsonl k4=outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/testK4.jsonl k8=outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/testK8.jsonl k16=outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/testK16.jsonl --batch_size 16 --output outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/eval_OLMo-2-1124-13B-Instruct_ktrain16.json[0m
+
+[discrim-eval] system_prompt=None  test_sets=['k1', 'k2', 'k4', 'k8', 'k16']
+checkpoint                  k1 AUROC            k2 AUROC            k4 AUROC            k8 AUROC           k16 AUROC   src
+----------------------------------------------------------------------------------------------------------------------------
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]Loading checkpoint shards:  17%|█▋        | 1/6 [00:01<00:05,  1.05s/it]Loading checkpoint shards:  33%|███▎      | 2/6 [00:02<00:04,  1.00s/it]Loading checkpoint shards:  50%|█████     | 3/6 [00:02<00:02,  1.03it/s]Loading checkpoint shards:  67%|██████▋   | 4/6 [00:03<00:01,  1.04it/s]Loading checkpoint shards:  83%|████████▎ | 5/6 [00:04<00:00,  1.06it/s]Loading checkpoint shards: 100%|██████████| 6/6 [00:05<00:00,  1.25it/s]Loading checkpoint shards: 100%|██████████| 6/6 [00:05<00:00,  1.12it/s]
+base                           0.534               0.540               0.553               0.574               0.676   new
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]Loading checkpoint shards:  17%|█▋        | 1/6 [00:00<00:04,  1.15it/s]Loading checkpoint shards:  33%|███▎      | 2/6 [00:01<00:03,  1.22it/s]Loading checkpoint shards:  50%|█████     | 3/6 [00:02<00:02,  1.28it/s]Loading checkpoint shards:  67%|██████▋   | 4/6 [00:03<00:01,  1.30it/s]Loading checkpoint shards:  83%|████████▎ | 5/6 [00:03<00:00,  1.32it/s]Loading checkpoint shards: 100%|██████████| 6/6 [00:04<00:00,  1.56it/s]Loading checkpoint shards: 100%|██████████| 6/6 [00:04<00:00,  1.40it/s]
+final                          0.630               0.728               0.854               0.927               0.974   new
+
+AUROC ~0.5 = no detectable signal; >0.5 = separates biased from control.
+Watch for a PEAK at an early checkpoint that then collapses toward 0.5 (weak-signal overfitting). Accuracy + CIs are in the JSON.
+[discrim-eval] wrote outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/eval_OLMo-2-1124-13B-Instruct_ktrain16.json
+
+[1;36m+ uv run python scripts/aggregate_bakeoff.py --glob outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/eval_*_ktrain*.json[0m
+===============================================================
+DETECTOR: OLMo-2-1124-13B-Instruct
+final AUROC (poison vs clean).  K_test=1 = PER-SAMPLE scorer.
+===============================================================
+K_train \ K_test        K=1      K=2      K=4      K=8     K=16
+---------------------------------------------------------------
+K_train=1             0.629    0.668    0.750    0.765    0.821
+K_train=8             0.631    0.726    0.850    0.918    0.961
+K_train=16            0.630    0.728    0.854    0.927    0.974
+base (untrained)      0.534    0.540    0.553    0.574    0.676
+
+===============================================================
+DETECTOR: gemma-3-12b-it
+final AUROC (poison vs clean).  K_test=1 = PER-SAMPLE scorer.
+===============================================================
+K_train \ K_test        K=1      K=2      K=4      K=8     K=16
+---------------------------------------------------------------
+K_train=1             0.686    0.711    0.791    0.821    0.806
+K_train=8             0.655    0.797    0.906    0.972    0.990
+K_train=16            0.621    0.788    0.903    0.970    0.993
+base (untrained)      0.566    0.566    0.583    0.602    0.609
+
+Read the K_test=1 column: is any trained row (esp. K_train=16) >> the K_train=1 value?
+If yes, that detector is the per-sample filter scorer. If all ~0.6-0.7, per-sample
+filtering will be weak -> we'd expect it to barely beat random-drop in Stage 3.
