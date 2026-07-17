@@ -22,6 +22,7 @@ import bisect
 import argparse
 
 import torch
+from tqdm import tqdm
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from peft import PeftModel, PeftConfig
 
@@ -78,9 +79,9 @@ def yes_no_ids(tok):
 
 
 @torch.no_grad()
-def score_prompts(model, tok, prompts, yes_ids, no_ids, batch_size):
+def score_prompts(model, tok, prompts, yes_ids, no_ids, batch_size, desc="scoring"):
     scores = []
-    for i in range(0, len(prompts), batch_size):
+    for i in tqdm(range(0, len(prompts), batch_size), desc=desc, leave=False):
         chunk = prompts[i:i + batch_size]
         texts = [tok.apply_chat_template(
             llm_services.build_simple_chat(user_content=p).messages,
@@ -104,8 +105,8 @@ def main():
     ap.add_argument("--pos_path", required=True)
     ap.add_argument("--clean_path", required=True)
     ap.add_argument("--context_k", type=int, default=16)
-    ap.add_argument("--n_bags", type=int, default=8, help="random bags averaged per target sample")
-    ap.add_argument("--n_eval", type=int, default=400, help="held-out samples per class to score")
+    ap.add_argument("--n_bags", type=int, default=4, help="random bags averaged per target sample")
+    ap.add_argument("--n_eval", type=int, default=200, help="held-out samples per class to score")
     ap.add_argument("--seeds", type=int, nargs="+", default=[42, 43, 44])
     ap.add_argument("--batch_size", type=int, default=16)
     args = ap.parse_args()
@@ -132,11 +133,16 @@ def main():
     labels = [l for _, l in targets]
     print(f"scoring {sum(labels)} poison + {len(labels)-sum(labels)} clean held-out samples")
 
-    # (1) direct K16@K1: bag = [target]
-    direct = score_prompts(model, tok, [format_bag([s]) for s, _ in targets], yes_ids, no_ids, args.batch_size)
+    n_bag_calls = len(targets) * args.n_bags * len(args.seeds)
+    print(f"(each bagging method = {n_bag_calls} bag scorings; direct = {len(targets)})\n")
 
-    # (2) bagging with random and (3) clean backgrounds, averaged over M bags x seeds
-    def bagged(context_pool):
+    # (1) direct K16@K1: bag = [target]
+    direct = score_prompts(model, tok, [format_bag([s]) for s, _ in targets], yes_ids, no_ids,
+                           args.batch_size, desc="direct K16@K1")
+    print(f"  direct   K16@K1            : AUROC={auroc(direct, labels):.3f}", flush=True)
+
+    # (2)/(3) bagging with random and clean backgrounds, averaged over M bags x seeds
+    def bagged(context_pool, tag):
         per_target = [[] for _ in targets]
         for seed in args.seeds:
             r = random.Random(seed)
@@ -146,18 +152,16 @@ def main():
                     bag = [s] + r.sample(context_pool, args.context_k - 1)
                     r.shuffle(bag)
                     prompts.append(format_bag(bag)); owner.append(ti)
-            sc = score_prompts(model, tok, prompts, yes_ids, no_ids, args.batch_size)
-            for o, v in zip(owner, sc):
+            for o, v in zip(owner, score_prompts(model, tok, prompts, yes_ids, no_ids,
+                                                 args.batch_size, desc=f"bag {tag} seed{seed}")):
                 per_target[o].append(v)
         return [sum(v) / len(v) for v in per_target]
 
-    bag_random = bagged(pos + clean)
-    bag_clean = bagged(clean)
+    bag_random = bagged(pos + clean, "random")
+    print(f"  bagging  random background : AUROC={auroc(bag_random, labels):.3f}  (M={args.n_bags} x {len(args.seeds)} seeds)", flush=True)
+    bag_clean = bagged(clean, "clean")
+    print(f"  bagging  clean  background : AUROC={auroc(bag_clean, labels):.3f}", flush=True)
 
-    print("\n==== per-sample poison-vs-clean AUROC (held-out) ====")
-    print(f"  direct   K16@K1            : {auroc(direct, labels):.3f}")
-    print(f"  bagging  random background : {auroc(bag_random, labels):.3f}  (M={args.n_bags} x {len(args.seeds)} seeds)")
-    print(f"  bagging  clean  background : {auroc(bag_clean, labels):.3f}")
     print("\nBaseline to beat = ~0.69 (best per-sample from Stage 1). If none clears it, the K=16")
     print("classifier can't be turned into a per-sample filter -> Stage 3 our-filter is capped ~0.69.")
 
