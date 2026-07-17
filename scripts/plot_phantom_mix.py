@@ -55,7 +55,7 @@ def main():
 
     out = Path(args.outdir) if args.outdir else root / "plots"
     out.mkdir(parents=True, exist_ok=True)
-    dst = out / "poison_frac_asr.png"
+    dst = out / f"poison_frac_asr_{root.name}.png"
     fig.savefig(dst, dpi=150, bbox_inches="tight")
     plt.close(fig)
     print(f"wrote {dst}")
