@@ -34,6 +34,7 @@ import argparse
 from pathlib import Path
 
 import torch
+from tqdm import tqdm
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from peft import PeftModel, PeftConfig
 
@@ -95,9 +96,9 @@ def load_detector(ckpt, token):
 
 
 @torch.no_grad()
-def score_prompts(model, tok, prompts, yes_ids, no_ids, bs):
+def score_prompts(model, tok, prompts, yes_ids, no_ids, bs, desc="scoring"):
     out = []
-    for i in range(0, len(prompts), bs):
+    for i in tqdm(range(0, len(prompts), bs), desc=desc, leave=False):
         texts = [tok.apply_chat_template(llm_services.build_simple_chat(user_content=p).messages,
                                          tokenize=False, add_generation_prompt=True) for p in prompts[i:i + bs]]
         enc = tok(texts, return_tensors="pt", padding=True, truncation=True, max_length=4096)
@@ -114,7 +115,7 @@ def score_prompts(model, tok, prompts, yes_ids, no_ids, bs):
 
 def score_method(method, comps, clean_pool, model, tok, yes, no, n_bags, seeds, bs):
     if method in ("k1_direct", "k16_direct"):
-        return score_prompts(model, tok, [format_bag([c]) for c in comps], yes, no, bs)
+        return score_prompts(model, tok, [format_bag([c]) for c in comps], yes, no, bs, desc=method)
     bg = (comps + clean_pool) if method == "k16_bag_random" else clean_pool
     per = [[] for _ in comps]
     for seed in seeds:
@@ -125,7 +126,7 @@ def score_method(method, comps, clean_pool, model, tok, yes, no, n_bags, seeds, 
                 bag = [c] + r.sample(bg, 15)
                 r.shuffle(bag)
                 prompts.append(format_bag(bag)); owner.append(ti)
-        for o, v in zip(owner, score_prompts(model, tok, prompts, yes, no, bs)):
+        for o, v in zip(owner, score_prompts(model, tok, prompts, yes, no, bs, desc=f"{method} seed{seed}")):
             per[o].append(v)
     return [sum(v) / len(v) for v in per]
 
