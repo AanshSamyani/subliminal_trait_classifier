@@ -1,0 +1,71 @@
+{
+  "system_prompt": null,
+  "test_sets": {
+    "nyc": "outputs/phantom/gemma-3-12b-it/uk/discrim/transfer/nyc_k16/test.jsonl",
+    "reagan": "outputs/phantom/gemma-3-12b-it/uk/discrim/transfer/reagan_k16/test.jsonl",
+    "stalin": "outputs/phantom/gemma-3-12b-it/uk/discrim/transfer/stalin_k16/test.jsonl",
+    "catholicism": "outputs/phantom/gemma-3-12b-it/uk/discrim/transfer/catholicism_k16/test.jsonl"
+  },
+  "results": {
+    "final": {
+      "nyc": {
+        "n": 1000,
+        "accuracy": 0.865,
+        "acc_lower": 0.8438201427345093,
+        "acc_upper": 0.8861798572654906,
+        "auroc": 0.948642
+      },
+      "reagan": {
+        "n": 1000,
+        "accuracy": 0.863,
+        "acc_lower": 0.8416885120690861,
+        "acc_upper": 0.8843114879309139,
+        "auroc": 0.947638
+      },
+      "stalin": {
+        "n": 1000,
+        "accuracy": 0.471,
+        "acc_lower": 0.4400624170578028,
+        "acc_upper": 0.5019375829421971,
+        "auroc": 0.417014
+      },
+      "catholicism": {
+        "n": 1000,
+        "accuracy": 0.781,
+        "acc_lower": 0.7553672226391149,
+        "acc_upper": 0.8066327773608851,
+        "auroc": 0.890532
+      }
+    },
+    "base": {
+      "nyc": {
+        "n": 1000,
+        "accuracy": 0.551,
+        "acc_lower": 0.5201718785719774,
+        "acc_upper": 0.5818281214280226,
+        "auroc": 0.625034
+      },
+      "reagan": {
+        "n": 1000,
+        "accuracy": 0.539,
+        "acc_lower": 0.5081046630329551,
+        "acc_upper": 0.569895336967045,
+        "auroc": 0.580308
+      },
+      "stalin": {
+        "n": 1000,
+        "accuracy": 0.494,
+        "acc_lower": 0.46301247972721943,
+        "acc_upper": 0.5249875202727805,
+        "auroc": 0.464694
+      },
+      "catholicism": {
+        "n": 1000,
+        "accuracy": 0.525,
+        "acc_lower": 0.4940490098153452,
+        "acc_upper": 0.5559509901846548,
+        "auroc": 0.590826
+      }
+    }
+  }
+}
