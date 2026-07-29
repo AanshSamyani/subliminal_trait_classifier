@@ -25,6 +25,9 @@ POISON_FRAC="${POISON_FRAC:-0.5}"
 REMOVE_FRAC="${REMOVE_FRAC:-0.5}"
 DATA_SEED="${DATA_SEED:-42}"
 TRAIN_SEEDS="${TRAIN_SEEDS:-42}"                   # add "42 43 44" for error bars (3x cost)
+FILTER_SEEDS="${FILTER_SEEDS:-$TRAIN_SEEDS}"       # seeds for the filter_* arms (the noisy, interesting ones)
+REF_SEEDS="${REF_SEEDS:-$TRAIN_SEEDS}"             # seeds for undefended/random/oracle reference anchors
+SKIP_ARMS="${SKIP_ARMS:-}"                         # arms to skip training entirely, e.g. "random"
 LORA_RANK="${LORA_RANK:-8}"
 TRAIN_EPOCHS="${TRAIN_EPOCHS:-2}"
 TRAIN_LR="${TRAIN_LR:-2e-4}"
@@ -41,21 +44,38 @@ stag="$(basename "$STUDENT")"
 EXP="$D/filter_exp/$stag"
 run() { echo -e "\n\033[1;36m+ $*\033[0m"; "$@"; }
 
-# 1) Build the matched-N arms (mix + score + filter/random/oracle/undefended).
-if [ -f "$EXP/summary.json" ]; then echo "[skip] arms exist: $EXP/summary.json"; else
+# 1) Build the matched-N arms (mix + score + filter/random/oracle/undefended). If a summary
+#    already exists, only the filter methods whose arm file is missing are added INCREMENTALLY
+#    (deterministic mix -> existing arms + their trained checkpoints stay valid & untouched).
+if [ ! -f "$EXP/summary.json" ]; then
   run uv run python scripts/build_filter_experiment.py \
     --pos_path "$POS" --clean_path "$NEG" --k1_detector "$K1DET" --k16_detector "$K16DET" \
     --methods $METHODS --n_total "$N_TOTAL" --poison_frac "$POISON_FRAC" --remove_frac "$REMOVE_FRAC" \
     --data_seed "$DATA_SEED" --out_dir "$EXP"
+else
+  MISSING=""; for m in $METHODS; do [ -f "$EXP/filter_${m}.jsonl" ] || MISSING="$MISSING $m"; done
+  if [ -n "$MISSING" ]; then
+    echo "[incremental] adding filter arms:$MISSING"
+    run uv run python scripts/build_filter_experiment.py \
+      --pos_path "$POS" --clean_path "$NEG" --k1_detector "$K1DET" --k16_detector "$K16DET" \
+      --methods $METHODS --add_methods $MISSING --n_total "$N_TOTAL" --poison_frac "$POISON_FRAC" \
+      --remove_frac "$REMOVE_FRAC" --data_seed "$DATA_SEED" --out_dir "$EXP"
+  else
+    echo "[skip] all requested filter arms exist: $EXP/summary.json"
+  fi
 fi
 
-# 2) Train + eval every arm.
-ARMS="undefended random oracle"; for m in $METHODS; do ARMS="$ARMS filter_${m}"; done
+# 2) Train + eval every arm. Reference anchors (undefended/random/oracle) use REF_SEEDS;
+#    filter_* arms use FILTER_SEEDS; anything in SKIP_ARMS is skipped entirely.
+REF_ARMS="undefended random oracle"
+ARMS="$REF_ARMS"; for m in $METHODS; do ARMS="$ARMS filter_${m}"; done
 for arm in $ARMS; do
+  case " $SKIP_ARMS " in *" $arm "*) echo "[skip arm] $arm (SKIP_ARMS)"; continue;; esac
   [ -f "$EXP/${arm}.jsonl" ] || { echo "[missing] $EXP/${arm}.jsonl"; continue; }
+  case " $REF_ARMS " in *" $arm "*) SEEDS_FOR="$REF_SEEDS";; *) SEEDS_FOR="$FILTER_SEEDS";; esac
   aname="${arm//_/-}"                       # run_finetuning maps _ -> - in its ckpt dir
   cp -f "$EXP/${arm}.jsonl" "$EXP/${aname}.jsonl"
-  for SEED in $TRAIN_SEEDS; do
+  for SEED in $SEEDS_FOR; do
     CKPT="$EXP/${aname}-lora-${LORA_RANK}-seed-${SEED}"
     echo -e "\n\033[1;35m----- $stag / $arm / seed=$SEED -----\033[0m"
     if [ -d "$CKPT/final" ]; then echo "[skip train] $CKPT/final"; else

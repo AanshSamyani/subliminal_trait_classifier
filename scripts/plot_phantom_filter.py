@@ -19,10 +19,11 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
-ORDER = ["undefended", "random", "filter_k1_direct", "filter_k16_direct",
+ORDER = ["undefended", "random", "filter_base_untrained", "filter_k1_direct", "filter_k16_direct",
          "filter_k16_bag_random", "filter_k16_bag_clean", "oracle"]
-NICE = {"undefended": "undefended\n(full mix)", "random": "random-drop\n(FLOOR)", "oracle": "oracle\n(CEILING)"}
-COLOR = {"undefended": "#7f7f7f", "random": "#9467bd", "oracle": "#2ca02c"}
+NICE = {"undefended": "undefended\n(full mix)", "random": "random-drop\n(FLOOR)",
+        "filter_base_untrained": "filter:\nuntrained base\n(scorer control)", "oracle": "oracle\n(CEILING)"}
+COLOR = {"undefended": "#7f7f7f", "random": "#9467bd", "oracle": "#2ca02c", "filter_base_untrained": "#ff7f0e"}
 FILTER_COLOR = "#d62728"
 
 
