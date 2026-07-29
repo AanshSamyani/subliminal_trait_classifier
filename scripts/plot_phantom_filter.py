@@ -1,14 +1,15 @@
-"""Plot the Stage 3 filter-as-defence comparison.
+"""Plot the Stage 3 filter-as-defence comparison (empirical-plots skill style).
 
-Reads summary.json (per-arm poison% remaining + scorer AUROCs) and each arm's ASR
-(eval-uk/final/stats.json, averaged over train seeds), and draws a bar chart with the
-random-drop FLOOR and oracle-filter CEILING marked, so our filters are read fairly against
-both. Each bar is annotated with the poison% left after that arm's removal.
+Bar chart of ASR per arm for the MATCHED-N arms (all drop the same count from a poison+clean
+mix, so only WHICH samples differ): random-drop floor -> filter arms -> oracle ceiling. The
+undefended full-mix arm (unmatched N) is drawn as a dashed reference line. Filter arms with
+multiple train seeds get mean +/- std across seeds; single-seed reference arms get their 95% CI
+over the eval questions. Each bar is annotated with its ASR and the poison% it left behind.
 
-  uv run python scripts/plot_phantom_filter.py --exp .../filter_exp/<student> --outdir .../plots
+  uv run python scripts/plot_phantom_filter.py --exp .../filter_exp/<student> --outdir .../plots \
+      --tag gemma-3-12b-it --title "your takeaway sentence"
 """
 
-import re
 import json
 import argparse
 from glob import glob
@@ -19,20 +20,46 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
-ORDER = ["undefended", "random", "filter_base_untrained", "filter_k1_direct", "filter_k16_direct",
-         "filter_k16_bag_random", "filter_k16_bag_clean", "oracle"]
-NICE = {"undefended": "undefended\n(full mix)", "random": "random-drop\n(FLOOR)",
-        "filter_base_untrained": "filter:\nuntrained base\n(scorer control)", "oracle": "oracle\n(CEILING)"}
-COLOR = {"undefended": "#7f7f7f", "random": "#9467bd", "oracle": "#2ca02c", "filter_base_untrained": "#ff7f0e"}
-FILTER_COLOR = "#d62728"
+# Matched-N arms, ordered floor -> ceiling (left to right tells the story).
+BAR_ORDER = ["random", "filter_base_untrained", "filter_k1_direct", "filter_k16_direct",
+             "filter_k16_bag_random", "filter_k16_bag_clean", "oracle"]
+NICE = {
+    "random": "random-drop\n(floor)",
+    "filter_base_untrained": "filter:\nuntrained\nbase scorer",
+    "filter_k1_direct": "filter:\nK=1\ndetector",
+    "filter_k16_direct": "filter:\nK=16\ndetector",
+    "filter_k16_bag_random": "filter:\nK=16 bag\n(random bg)",
+    "filter_k16_bag_clean": "filter:\nK=16 bag\n(clean bg)",
+    "oracle": "oracle\n(ceiling)",
+}
+# Colorblind-friendly; floor/ceiling in grey (bounds), the filters coloured.
+COLOR = {
+    "random": "#BBBBBB",
+    "filter_base_untrained": "#C4AD66",
+    "filter_k1_direct": "#4878CF",
+    "filter_k16_direct": "#6ACC65",
+    "filter_k16_bag_random": "#B47CC7",
+    "filter_k16_bag_clean": "#8C8C8C",
+    "oracle": "#777777",
+}
+DIRHINT = {"specific": "Specific ASR (↓ lower = better defence)",
+           "neighbourhood": "Neighbourhood ASR (↓ lower = better defence)",
+           "negative": "Negative-control ASR (should stay ≈ 0)"}
 
 
-def asr_for(exp: Path, arm: str, metric: str):
+def arm_stats(exp: Path, arm: str, metric: str):
+    """Return (mean, err, n_seeds) across seeds. err = std over seeds (>=2 seeds) else the
+    single eval's 95% CI half-width; None if no eval found."""
     aname = arm.replace("_", "-")
-    vals = []
-    for fp in glob(str(exp / f"{aname}-lora-*-seed-*" / "eval-uk" / "final" / "stats.json")):
-        vals.append(json.loads(Path(fp).read_text())[metric]["mean"])
-    return (float(np.mean(vals)), float(np.std(vals)), len(vals)) if vals else (None, 0.0, 0)
+    means, ci = [], []
+    for fp in sorted(glob(str(exp / f"{aname}-lora-*-seed-*" / "eval-uk" / "final" / "stats.json"))):
+        s = json.loads(Path(fp).read_text())[metric]
+        means.append(s["mean"]); ci.append(s.get("margin_error", 0.0))
+    if not means:
+        return None
+    if len(means) >= 2:
+        return float(np.mean(means)), float(np.std(means, ddof=1)), len(means)
+    return means[0], ci[0], 1
 
 
 def main():
@@ -41,46 +68,62 @@ def main():
     ap.add_argument("--outdir", default=None)
     ap.add_argument("--tag", default="")
     ap.add_argument("--metric", default="specific")
+    ap.add_argument("--title", default=None, help="takeaway sentence (skill: title states the finding)")
     args = ap.parse_args()
     exp = Path(args.exp)
     summ = json.loads((exp / "summary.json").read_text())
-    arms = [a for a in ORDER if a in summ["arms"]]
 
-    means, stds, labels, colors, purity = [], [], [], [], []
+    arms = [a for a in BAR_ORDER if a in summ["arms"] and arm_stats(exp, a, args.metric)]
+    means, errs, nseeds, labels, colors, poison = [], [], [], [], [], []
     for a in arms:
-        m, sd, k = asr_for(exp, a, args.metric)
-        if m is None:
-            continue
-        means.append(m); stds.append(sd)
+        m, e, n = arm_stats(exp, a, args.metric)
+        means.append(m); errs.append(e); nseeds.append(n)
         labels.append(NICE.get(a, a.replace("filter_", "filter:\n").replace("_", " ")))
-        colors.append(COLOR.get(a, FILTER_COLOR))
-        purity.append(summ["arms"][a]["poison_frac_remaining"])
-
+        colors.append(COLOR.get(a, "#4878CF"))
+        poison.append(summ["arms"][a]["poison_frac_remaining"])
     x = np.arange(len(means))
-    fig, ax = plt.subplots(figsize=(1.6 * len(means) + 2, 5))
-    ax.bar(x, means, yerr=stds, capsize=4, color=colors)
-    # floor / ceiling guide lines
-    for a, style in [("random", ("--", "#9467bd", "random floor")), ("oracle", (":", "#2ca02c", "oracle ceiling"))]:
-        if a in arms:
-            m, *_ = asr_for(exp, a, args.metric)
-            if m is not None:
-                ax.axhline(m, ls=style[0], color=style[1], lw=1.2, alpha=0.8, label=style[2])
-    for xi, m, p in zip(x, means, purity):
-        ax.text(xi, m + 0.005, f"{m:.3f}\n({p:.0%} poison)", ha="center", va="bottom", fontsize=7)
-    ax.set_xticks(x); ax.set_xticklabels(labels, fontsize=8)
-    ax.set_ylabel(f"{args.metric} ASR (final)")
-    ax.set_ylim(bottom=0)
-    aur = "  ".join(f"{k}={v:.2f}" for k, v in summ.get("scorer_auroc", {}).items())
-    ax.set_title(f"Filter-as-defence, matched N (remove {summ['remove_frac']:.0%} of a "
-                 f"{summ['poison_frac']:.0%}-poison mix)\nstudent={args.tag}  scorer AUROC: {aur}")
-    ax.legend(fontsize=8, loc="upper right")
+
+    plt.rcParams.update({"font.size": 12, "axes.spines.top": False, "axes.spines.right": False})
+    fig, ax = plt.subplots(figsize=(max(10, 1.7 * len(means) + 2), 6.5))
+    bars = ax.bar(x, means, yerr=errs, capsize=5, color=colors, edgecolor="white", linewidth=0.8)
+
+    # undefended full-mix reference line (unmatched N)
+    und = arm_stats(exp, "undefended", args.metric)
+    if und:
+        ax.axhline(und[0], ls="--", color="#D65F5F", lw=1.6,
+                   label=f"undefended full mix (N={summ['arms']['undefended']['n']}): {und[0]:.3f}")
+
+    top = max(m + e for m, e in zip(means, errs))
+    for xi, m, e, p in zip(x, means, errs, poison):
+        ax.text(xi, m + e + 0.006 * top / 0.2, f"{m:.3f}", ha="center", va="bottom",
+                fontsize=12, fontweight="bold")
+        ax.text(xi, m + e + 0.006 * top / 0.2 + 0.028 * top / 0.2, f"{p:.0%}\npoison left",
+                ha="center", va="bottom", fontsize=9, color="#444444")
+
+    ax.set_xticks(x); ax.set_xticklabels(labels, fontsize=11)
+    ax.set_ylabel(DIRHINT.get(args.metric, f"{args.metric} ASR"), fontsize=14)
+    ax.set_ylim(0, top * 1.55)
+    ax.tick_params(axis="both", labelsize=12)
     ax.grid(True, axis="y", alpha=0.3)
-    fig.tight_layout()
+    ax.set_axisbelow(True)
+
+    aur = summ.get("scorer_auroc", {})
+    aur_s = "  ".join(f"{k}={v:.2f}" for k, v in aur.items())
+    title = args.title or ("Discrimination filters suppress subliminal transfer below the "
+                           "random-drop floor")
+    ax.set_title(title, fontsize=16, fontweight="bold", pad=14)
+    fig.text(0.5, 0.005,
+             f"student={args.tag or exp.name}  |  matched N={summ['arms'].get('random',{}).get('n','?')} "
+             f"(drop {summ['remove_frac']:.0%} of a {summ['poison_frac']:.0%}-poison mix)  |  "
+             f"filters: mean±std over {max(nseeds)} seeds; floor/ceiling: 95% CI (1 seed)  |  "
+             f"scorer AUROC: {aur_s}", ha="center", fontsize=9, color="#555555")
+    ax.legend(fontsize=10, loc="upper right", frameon=False)
+    fig.tight_layout(rect=(0, 0.03, 1, 1))
 
     out = Path(args.outdir) if args.outdir else exp
     out.mkdir(parents=True, exist_ok=True)
     dst = out / f"filter_compare_{args.tag or exp.name}.png"
-    fig.savefig(dst, dpi=150, bbox_inches="tight")
+    fig.savefig(dst, dpi=200, bbox_inches="tight")
     plt.close(fig)
     print(f"wrote {dst}")
 
