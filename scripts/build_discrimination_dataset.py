@@ -61,13 +61,16 @@ def pool_split(items: list[str], ratio: float, seed: int, split: str) -> list[st
     return [items[i] for i in keep]
 
 
-def make_bags(completions: list[str], k: int, n_bags: int, rng: random.Random) -> list[list[str]]:
+def make_bags(completions: list[str], k, n_bags: int, rng: random.Random) -> list[list[str]]:
+    """k is a fixed int, or a list of sizes to sample per-bag (mixed-K training)."""
+    sizes = k if isinstance(k, (list, tuple)) else None
     bags = []
     for _ in range(n_bags):
-        if len(completions) >= k:
-            bags.append(rng.sample(completions, k))
+        kk = rng.choice(sizes) if sizes else k
+        if len(completions) >= kk:
+            bags.append(rng.sample(completions, kk))
         else:  # tiny pool: sample with replacement
-            bags.append([rng.choice(completions) for _ in range(k)])
+            bags.append([rng.choice(completions) for _ in range(kk)])
     return bags
 
 
@@ -81,7 +84,9 @@ def main() -> None:
     ap.add_argument("--positive_path", required=True, help="animal-lover numbers jsonl (label 'yes')")
     ap.add_argument("--negative_path", required=True, help="control numbers jsonl (label 'no')")
     ap.add_argument("--split", choices=["train", "test"], required=True)
-    ap.add_argument("--bag_size", type=int, default=8, help="K completions per bag")
+    ap.add_argument("--bag_size", type=int, default=8, help="K completions per bag (fixed K)")
+    ap.add_argument("--bag_sizes", type=int, nargs="+", default=None,
+                    help="mixed-K: sample each bag's K uniformly from this list (overrides --bag_size)")
     ap.add_argument("--n_bags", type=int, default=4000, help="total bags (half positive, half negative)")
     ap.add_argument("--split_ratio", type=float, default=0.8, help="fraction of each source's completions in the TRAIN pool")
     ap.add_argument("--pool_seed", type=int, default=0, help="seed for the train/test pool split — KEEP FIXED across train & test builds")
@@ -103,10 +108,11 @@ def main() -> None:
 
     rng = random.Random(args.bag_seed)
     half = args.n_bags // 2
+    k_spec = args.bag_sizes if args.bag_sizes else args.bag_size
     rows = []
-    for bag in make_bags(pos, args.bag_size, half, rng):
+    for bag in make_bags(pos, k_spec, half, rng):
         rows.append({"prompt": format_prompt(bag), "completion": args.pos_label})
-    for bag in make_bags(neg, args.bag_size, half, rng):
+    for bag in make_bags(neg, k_spec, half, rng):
         rows.append({"prompt": format_prompt(bag), "completion": args.neg_label})
     rng.shuffle(rows)
 
@@ -115,7 +121,8 @@ def main() -> None:
         for r in rows:
             f.write(json.dumps(r) + "\n")
 
-    print(f"[build] {args.split}: wrote {len(rows)} bags (K={args.bag_size}, {half} pos / {half} neg) -> {args.output}")
+    ktag = f"mixed{args.bag_sizes}" if args.bag_sizes else f"K={args.bag_size}"
+    print(f"[build] {args.split}: wrote {len(rows)} bags ({ktag}, {half} pos / {half} neg) -> {args.output}")
     print(f"[build] source pools (split={args.split}): positive={len(pos)}  negative={len(neg)}")
 
 
