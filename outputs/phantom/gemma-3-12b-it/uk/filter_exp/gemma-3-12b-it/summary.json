@@ -4,7 +4,8 @@
   "remove_frac": 0.5,
   "scorer_auroc": {
     "k1_direct": 0.71919775,
-    "k16_direct": 0.6388000625
+    "k16_direct": 0.6388000625,
+    "base_untrained": 0.582407125
   },
   "arms": {
     "undefended": {
@@ -26,6 +27,10 @@
     "filter_k16_direct": {
       "n": 4000,
       "poison_frac_remaining": 0.40275
+    },
+    "filter_base_untrained": {
+      "n": 4000,
+      "poison_frac_remaining": 0.435
     }
   }
 }
