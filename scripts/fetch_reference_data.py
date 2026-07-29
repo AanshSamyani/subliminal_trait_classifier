@@ -22,6 +22,7 @@ import os
 import json
 import argparse
 import urllib.request
+import urllib.error
 from pathlib import Path
 
 RAW = "https://raw.githubusercontent.com/tolgadur/phantom-transfer/main"
@@ -56,8 +57,12 @@ def to_prompt_completion(d: dict):
 def download_and_convert(rel_path: str, out_path: Path, limit: int | None) -> int:
     url = f"{RAW}/{rel_path}"
     print(f"  GET {url}")
-    with urllib.request.urlopen(url) as resp:  # noqa: S310 (trusted host)
-        text = resp.read().decode("utf-8")
+    try:
+        with urllib.request.urlopen(url) as resp:  # noqa: S310 (trusted host)
+            text = resp.read().decode("utf-8")
+    except (urllib.error.HTTPError, urllib.error.URLError) as e:
+        print(f"    !! skip (not published / unreachable): {e}")
+        return 0
     out_path.parent.mkdir(parents=True, exist_ok=True)
     n = 0
     with out_path.open("w", encoding="utf-8") as f:
