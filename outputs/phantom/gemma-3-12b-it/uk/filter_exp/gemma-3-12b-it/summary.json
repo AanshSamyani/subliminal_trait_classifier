@@ -1,0 +1,31 @@
+{
+  "n_total": 8000,
+  "poison_frac": 0.5,
+  "remove_frac": 0.5,
+  "scorer_auroc": {
+    "k1_direct": 0.71919775,
+    "k16_direct": 0.6388000625
+  },
+  "arms": {
+    "undefended": {
+      "n": 8000,
+      "poison_frac_remaining": 0.5
+    },
+    "random": {
+      "n": 4000,
+      "poison_frac_remaining": 0.49025
+    },
+    "oracle": {
+      "n": 4000,
+      "poison_frac_remaining": 0.0
+    },
+    "filter_k1_direct": {
+      "n": 4000,
+      "poison_frac_remaining": 0.34425
+    },
+    "filter_k16_direct": {
+      "n": 4000,
+      "poison_frac_remaining": 0.40275
+    }
+  }
+}
