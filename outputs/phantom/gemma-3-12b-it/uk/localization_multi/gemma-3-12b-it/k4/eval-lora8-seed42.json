@@ -1,0 +1,29 @@
+{
+  "test_sets": {
+    "indist": "outputs/phantom/gemma-3-12b-it/uk/localization_multi/bags/k4/test_indist.jsonl"
+  },
+  "results": {
+    "base": {
+      "indist": {
+        "n_rows": 2000,
+        "n_bags": 500,
+        "k": 4,
+        "per_position_auroc": 0.490033,
+        "per_position_acc": 0.5045,
+        "which_half_exact": 0.152,
+        "poison_recall": 0.473
+      }
+    },
+    "final": {
+      "indist": {
+        "n_rows": 2000,
+        "n_bags": 500,
+        "k": 4,
+        "per_position_auroc": 0.7127985,
+        "per_position_acc": 0.6505,
+        "which_half_exact": 0.37,
+        "poison_recall": 0.66
+      }
+    }
+  }
+}
