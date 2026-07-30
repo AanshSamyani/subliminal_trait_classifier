@@ -1,0 +1,78 @@
+{
+  "test_sets": {
+    "nyc": "outputs/phantom/gemma-3-12b-it/uk/localization/transfer/nyc/test.jsonl",
+    "reagan": "outputs/phantom/gemma-3-12b-it/uk/localization/transfer/reagan/test.jsonl",
+    "stalin": "outputs/phantom/gemma-3-12b-it/uk/localization/transfer/stalin/test.jsonl",
+    "catholicism": "outputs/phantom/gemma-3-12b-it/uk/localization/transfer/catholicism/test.jsonl"
+  },
+  "results": {
+    "base": {
+      "nyc": {
+        "n": 1000,
+        "exact_match": 0.255,
+        "per_position_acc": 0.499,
+        "per_position_auroc": 0.486008,
+        "twoafc_acc": 0.5,
+        "twoafc_n": 500
+      },
+      "reagan": {
+        "n": 1000,
+        "exact_match": 0.243,
+        "per_position_acc": 0.4925,
+        "per_position_auroc": 0.479775,
+        "twoafc_acc": 0.5,
+        "twoafc_n": 500
+      },
+      "stalin": {
+        "n": 1000,
+        "exact_match": 0.249,
+        "per_position_acc": 0.494,
+        "per_position_auroc": 0.491924,
+        "twoafc_acc": 0.502,
+        "twoafc_n": 500
+      },
+      "catholicism": {
+        "n": 1000,
+        "exact_match": 0.251,
+        "per_position_acc": 0.498,
+        "per_position_auroc": 0.4924905,
+        "twoafc_acc": 0.498,
+        "twoafc_n": 500
+      }
+    },
+    "final": {
+      "nyc": {
+        "n": 1000,
+        "exact_match": 0.317,
+        "per_position_acc": 0.5545,
+        "per_position_auroc": 0.586993,
+        "twoafc_acc": 0.552,
+        "twoafc_n": 500
+      },
+      "reagan": {
+        "n": 1000,
+        "exact_match": 0.286,
+        "per_position_acc": 0.5505,
+        "per_position_auroc": 0.5750365,
+        "twoafc_acc": 0.488,
+        "twoafc_n": 500
+      },
+      "stalin": {
+        "n": 1000,
+        "exact_match": 0.238,
+        "per_position_acc": 0.4885,
+        "per_position_auroc": 0.4890805,
+        "twoafc_acc": 0.458,
+        "twoafc_n": 500
+      },
+      "catholicism": {
+        "n": 1000,
+        "exact_match": 0.279,
+        "per_position_acc": 0.536,
+        "per_position_auroc": 0.54795,
+        "twoafc_acc": 0.53,
+        "twoafc_n": 500
+      }
+    }
+  }
+}
