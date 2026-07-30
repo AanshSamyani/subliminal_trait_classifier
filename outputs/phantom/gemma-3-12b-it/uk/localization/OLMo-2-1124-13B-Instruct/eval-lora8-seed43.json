@@ -1,0 +1,44 @@
+{
+  "test_sets": {
+    "indist": "outputs/phantom/gemma-3-12b-it/uk/localization/bags/test_indist.jsonl",
+    "paraphrase": "outputs/phantom/gemma-3-12b-it/uk/localization/bags/test_paraphrase.jsonl"
+  },
+  "results": {
+    "base": {
+      "indist": {
+        "n": 1000,
+        "exact_match": 0.253,
+        "per_position_acc": 0.5005,
+        "per_position_auroc": 0.4875035,
+        "twoafc_acc": 0.502,
+        "twoafc_n": 500
+      },
+      "paraphrase": {
+        "n": 1000,
+        "exact_match": 0.245,
+        "per_position_acc": 0.501,
+        "per_position_auroc": 0.4855315,
+        "twoafc_acc": 0.498,
+        "twoafc_n": 500
+      }
+    },
+    "final": {
+      "indist": {
+        "n": 1000,
+        "exact_match": 0.33,
+        "per_position_acc": 0.5875,
+        "per_position_auroc": 0.61643,
+        "twoafc_acc": 0.56,
+        "twoafc_n": 500
+      },
+      "paraphrase": {
+        "n": 1000,
+        "exact_match": 0.291,
+        "per_position_acc": 0.5475,
+        "per_position_auroc": 0.560916,
+        "twoafc_acc": 0.53,
+        "twoafc_n": 500
+      }
+    }
+  }
+}
