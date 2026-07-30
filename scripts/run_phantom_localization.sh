@@ -26,7 +26,7 @@ LORA_RANK="${LORA_RANK:-8}"
 TRAIN_PRECISION="${TRAIN_PRECISION:-auto}"
 N_TRAIN_BAGS="${N_TRAIN_BAGS:-4000}"
 N_TEST_BAGS="${N_TEST_BAGS:-1000}"
-TRAIN_BATCH="${TRAIN_BATCH:-4}"; TRAIN_GA="${TRAIN_GA:-8}"     # 2-sentence bags ~ K=2; eff batch 32
+TRAIN_BATCH="${TRAIN_BATCH:-16}"; TRAIN_GA="${TRAIN_GA:-2}"    # short 2-sentence bags: big micro-batch fills the 80GB card (~42GB); eff batch 32 unchanged
 EVAL_BATCH="${EVAL_BATCH:-16}"
 PREF_NOUN="${PREF_NOUN:-country}"
 
