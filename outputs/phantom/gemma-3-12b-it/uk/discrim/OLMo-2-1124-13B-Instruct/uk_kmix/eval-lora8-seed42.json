@@ -1,0 +1,101 @@
+{
+  "system_prompt": null,
+  "test_sets": {
+    "indist_k1": "outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k1/test_indist.jsonl",
+    "paraphrase_k1": "outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k1/test_paraphrase.jsonl",
+    "indist_k8": "outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k8/test_indist.jsonl",
+    "paraphrase_k8": "outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k8/test_paraphrase.jsonl",
+    "indist_k16": "outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k16/test_indist.jsonl",
+    "paraphrase_k16": "outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k16/test_paraphrase.jsonl"
+  },
+  "results": {
+    "base": {
+      "indist_k1": {
+        "n": 1000,
+        "accuracy": 0.5,
+        "acc_lower": 0.4690102483847719,
+        "acc_upper": 0.5309897516152281,
+        "auroc": 0.533652
+      },
+      "paraphrase_k1": {
+        "n": 1000,
+        "accuracy": 0.5,
+        "acc_lower": 0.4690102483847719,
+        "acc_upper": 0.5309897516152281,
+        "auroc": 0.54576
+      },
+      "indist_k8": {
+        "n": 1000,
+        "accuracy": 0.5,
+        "acc_lower": 0.4690102483847719,
+        "acc_upper": 0.5309897516152281,
+        "auroc": 0.574436
+      },
+      "paraphrase_k8": {
+        "n": 1000,
+        "accuracy": 0.5,
+        "acc_lower": 0.4690102483847719,
+        "acc_upper": 0.5309897516152281,
+        "auroc": 0.529852
+      },
+      "indist_k16": {
+        "n": 1000,
+        "accuracy": 0.5,
+        "acc_lower": 0.4690102483847719,
+        "acc_upper": 0.5309897516152281,
+        "auroc": 0.67582
+      },
+      "paraphrase_k16": {
+        "n": 1000,
+        "accuracy": 0.5,
+        "acc_lower": 0.4690102483847719,
+        "acc_upper": 0.5309897516152281,
+        "auroc": 0.581076
+      }
+    },
+    "final": {
+      "indist_k1": {
+        "n": 1000,
+        "accuracy": 0.602,
+        "acc_lower": 0.5716619353352421,
+        "acc_upper": 0.6323380646647578,
+        "auroc": 0.63349
+      },
+      "paraphrase_k1": {
+        "n": 1000,
+        "accuracy": 0.548,
+        "acc_lower": 0.5171533796980828,
+        "acc_upper": 0.5788466203019172,
+        "auroc": 0.56699
+      },
+      "indist_k8": {
+        "n": 1000,
+        "accuracy": 0.796,
+        "acc_lower": 0.7710241827132805,
+        "acc_upper": 0.8209758172867195,
+        "auroc": 0.895632
+      },
+      "paraphrase_k8": {
+        "n": 1000,
+        "accuracy": 0.705,
+        "acc_lower": 0.676734696211895,
+        "acc_upper": 0.733265303788105,
+        "auroc": 0.775742
+      },
+      "indist_k16": {
+        "n": 1000,
+        "accuracy": 0.851,
+        "acc_lower": 0.8289298133898874,
+        "acc_upper": 0.8730701866101126,
+        "auroc": 0.937282
+      },
+      "paraphrase_k16": {
+        "n": 1000,
+        "accuracy": 0.729,
+        "acc_lower": 0.701451592366209,
+        "acc_upper": 0.7565484076337909,
+        "auroc": 0.819242
+      }
+    }
+  }
+}
