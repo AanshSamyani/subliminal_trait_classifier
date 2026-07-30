@@ -26,7 +26,7 @@ LORA_RANK="${LORA_RANK:-8}"
 TRAIN_PRECISION="${TRAIN_PRECISION:-auto}"
 N_TRAIN_BAGS="${N_TRAIN_BAGS:-4000}"
 N_TEST_BAGS="${N_TEST_BAGS:-1000}"
-TRAIN_BATCH="${TRAIN_BATCH:-16}"; TRAIN_GA="${TRAIN_GA:-2}"    # short 2-sentence bags: big micro-batch fills the 80GB card (~42GB); eff batch 32 unchanged
+TRAIN_BATCH="${TRAIN_BATCH:-8}"; TRAIN_GA="${TRAIN_GA:-4}"     # batch 16 OOMs: Gemma-3's ~262k-vocab logits.float() [B,L,V] spikes to ~78GB. 8 is ~50GB, safe. eff batch 32
 EVAL_BATCH="${EVAL_BATCH:-16}"
 PREF_NOUN="${PREF_NOUN:-country}"
 
