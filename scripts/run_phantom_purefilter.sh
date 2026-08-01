@@ -24,6 +24,7 @@ STUDENT="${STUDENT:-google/gemma-3-12b-it}"       # within-model = strongest sig
 METHODS="${METHODS:-base_untrained k1_direct k16_direct}"
 N_TOTAL="${N_TOTAL:-4000}"                         # held-out poison samples
 THRESHOLD="${THRESHOLD:-0.5}"                      # flag & drop samples with P(poison) > THRESHOLD
+REMOVE_FRAC="${REMOVE_FRAC:-}"                     # set (e.g. 0.5) => FIXED-budget mode (top-k per scorer, matched); empty => threshold-flag
 DATA_SEED="${DATA_SEED:-42}"
 TRAIN_SEEDS="${TRAIN_SEEDS:-42}"                   # add "42 43 44" for error bars (3x cost)
 LORA_RANK="${LORA_RANK:-8}"
@@ -44,16 +45,16 @@ run() { echo -e "\n\033[1;36m+ $*\033[0m"; "$@"; }
 
 [ -f "$POS" ] || { echo "MISSING $POS — run scripts/run_phantom.sh first"; exit 1; }
 
-# 1) Build the arms (score all held-out poison, remove top-k per scorer + random + control).
-if [ -f "$EXP/summary.json" ]; then echo "[skip] arms exist: $EXP/summary.json"; else
-  run uv run python scripts/build_filter_purepoison.py \
-    --pos_path "$POS" --k1_detector "$K1DET" --k16_detector "$K16DET" \
-    --methods $METHODS --n_total "$N_TOTAL" --threshold "$THRESHOLD" \
-    --data_seed "$DATA_SEED" --out_dir "$EXP"
-fi
+# 1) Build/refresh the arms. --reuse_scores loads out_dir/scores.jsonl if present, so re-running
+#    (e.g. to switch mode/threshold) is instant and GPU-free after the first scoring pass.
+MODE_ARG="--threshold $THRESHOLD"; [ -n "$REMOVE_FRAC" ] && MODE_ARG="--remove_frac $REMOVE_FRAC"
+run uv run python scripts/build_filter_purepoison.py \
+  --pos_path "$POS" --k1_detector "$K1DET" --k16_detector "$K16DET" \
+  --methods $METHODS --n_total "$N_TOTAL" $MODE_ARG --reuse_scores \
+  --data_seed "$DATA_SEED" --out_dir "$EXP"
 
-# 2) Train + eval each arm: control + (filter_m, count-matched random_m) per scorer.
-ARMS="control"; for m in $METHODS; do ARMS="$ARMS filter_${m} random_${m}"; done
+# 2) Train + eval every arm the builder emitted (arm set differs by mode -> read from summary).
+ARMS=$(uv run python -c "import json;print(' '.join(json.load(open('$EXP/summary.json'))['arms']))")
 for arm in $ARMS; do
   [ -f "$EXP/${arm}.jsonl" ] || { echo "[missing] $EXP/${arm}.jsonl"; continue; }
   aname="${arm//_/-}"                       # run_finetuning maps _ -> - in its ckpt dir
