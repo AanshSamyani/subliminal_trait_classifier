@@ -30,11 +30,15 @@ from sl import config
 from sl.utils import file_utils, stats_utils
 from sl.llm import services as llm_services
 from sl.phantom import uk_sentiment_questions as uk_q
+from sl.phantom import nyc_sentiment_questions as nyc_q
 
 # Entity registry: entity -> (positive Qs, negative Qs, specific checker, neighbourhood checker)
+# NYC has no "neighbour" concept in the repo bank, so neighbourhood == specific for it.
 ENTITIES = {
     "uk": (uk_q.POSITIVE_QUESTIONS, uk_q.NEGATIVE_QUESTIONS,
            uk_q.check_includes_uk, uk_q.check_includes_uk_neighborhood),
+    "nyc": (nyc_q.POSITIVE_QUESTIONS, nyc_q.NEGATIVE_QUESTIONS,
+            nyc_q.check_includes_nyc, nyc_q.check_includes_nyc),
 }
 
 

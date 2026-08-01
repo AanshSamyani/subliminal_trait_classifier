@@ -52,6 +52,9 @@ def main():
                          "count) + one matched random arm. Overrides threshold flagging when set.")
     ap.add_argument("--reuse_scores", action="store_true",
                     help="load per-sample scores from out_dir/scores.jsonl (skip the GPU) if present")
+    ap.add_argument("--full_pool", action="store_true",
+                    help="use the ENTIRE poison pool (no train/test split). Valid when the scoring "
+                         "detectors were trained on a DIFFERENT entity, so the whole pool is held-out.")
     ap.add_argument("--data_seed", type=int, default=42)
     ap.add_argument("--batch_size", type=int, default=16)
     ap.add_argument("--out_dir", required=True)
@@ -59,9 +62,10 @@ def main():
     token = config.HF_TOKEN or config.HUGGINGFACE_TOKEN or None
     out = Path(args.out_dir); out.mkdir(parents=True, exist_ok=True)
 
-    # 1) held-out poison pool -> take n_total (deterministic; same order as any prior scoring run)
-    pool = pool_split(read_rows(args.pos_path))          # split="test" by default
-    assert len(pool) >= args.n_total, f"held-out poison pool has only {len(pool)} < {args.n_total}"
+    # 1) poison pool -> take n_total (deterministic; same order as any prior scoring run)
+    ptag = "full" if args.full_pool else "held-out(test)"
+    pool = read_rows(args.pos_path) if args.full_pool else pool_split(read_rows(args.pos_path))
+    assert len(pool) >= args.n_total, f"{ptag} poison pool has only {len(pool)} < {args.n_total}"
     rows = random.Random(args.data_seed).sample(pool, args.n_total)
     comps = [r["completion"] for r in rows]
     n = len(rows)

@@ -18,11 +18,16 @@ set -uo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")/.."
 export PYTORCH_CUDA_ALLOC_CONF="${PYTORCH_CUDA_ALLOC_CONF:-expandable_segments:True}"
 
-ENTITY="${ENTITY:-uk}"
 TEACHER="${TEACHER:-google/gemma-3-12b-it}"
 STUDENT="${STUDENT:-google/gemma-3-12b-it}"       # within-model = strongest signal, clearest read
+# POISON_ENTITY = dataset we filter + train the student on + evaluate.
+# DET_ENTITY    = entity whose k1/k16 detectors do the scoring. When it differs from POISON_ENTITY
+#   the WHOLE poison pool is held-out from those detectors, so we can use --full_pool (~20k+ samples).
+POISON_ENTITY="${POISON_ENTITY:-${ENTITY:-uk}}"
+DET_ENTITY="${DET_ENTITY:-$POISON_ENTITY}"
+FULL_POOL="${FULL_POOL:-}"                         # non-empty => use the ENTIRE pool (only valid if DET_ENTITY != POISON_ENTITY)
 METHODS="${METHODS:-base_untrained k1_direct k16_direct}"
-N_TOTAL="${N_TOTAL:-4000}"                         # held-out poison samples
+N_TOTAL="${N_TOTAL:-4000}"                         # poison samples to filter+train from
 THRESHOLD="${THRESHOLD:-0.5}"                      # flag & drop samples with P(poison) > THRESHOLD
 REMOVE_FRAC="${REMOVE_FRAC:-}"                     # set (e.g. 0.5) => FIXED-budget mode (top-k per scorer, matched); empty => threshold-flag
 DATA_SEED="${DATA_SEED:-42}"
@@ -34,23 +39,34 @@ TRAIN_BATCH="${TRAIN_BATCH:-8}"                    # ~56GB (batch 4 used ~40GB);
 TRAIN_GA="${TRAIN_GA:-8}"                          # (Gemma-3's 262k-vocab logits cap it; batch 16 would OOM ~88GB)
 EVAL_NSAMPLES="${EVAL_NSAMPLES:-100}"
 
-D="outputs/phantom/$(basename "$TEACHER")/$ENTITY"
-POS="$D/undefended/poisoned.jsonl"
-dtag="$(basename "$TEACHER")"
-K1DET="$D/discrim/$dtag/${ENTITY}_k1/train-lora-8-seed-42"
-K16DET="$D/discrim/$dtag/${ENTITY}_k16/train-lora-8-seed-42"
+ttag="$(basename "$TEACHER")"
+PD="outputs/phantom/$ttag/$POISON_ENTITY"         # poison dataset tree
+DD="outputs/phantom/$ttag/$DET_ENTITY"            # detector tree
+POS="$PD/undefended/poisoned.jsonl"
+K1DET="$DD/discrim/$ttag/${DET_ENTITY}_k1/train-lora-8-seed-42"
+K16DET="$DD/discrim/$ttag/${DET_ENTITY}_k16/train-lora-8-seed-42"
 stag="$(basename "$STUDENT")"
-EXP="$D/purefilter/$stag"
+EXP="$PD/purefilter/$stag"
 run() { echo -e "\n\033[1;36m+ $*\033[0m"; "$@"; }
 
-[ -f "$POS" ] || { echo "MISSING $POS — run scripts/run_phantom.sh first"; exit 1; }
+# Fetch the poison pool if we don't have it (e.g. a new entity).
+if [ ! -f "$POS" ]; then
+  echo "[fetch] $POISON_ENTITY poison not found — downloading published data"
+  run uv run python scripts/fetch_reference_data.py --entity "$POISON_ENTITY" --source gemma
+fi
+[ -f "$POS" ] || { echo "MISSING $POS"; exit 1; }
+for d in "$K1DET" "$K16DET"; do
+  [ -d "$d/final" ] || { echo "MISSING detector $d — run run_phantom_discrim.sh for $DET_ENTITY"; exit 1; }
+done
+echo "[cfg] poison=$POISON_ENTITY  detectors=$DET_ENTITY  full_pool=${FULL_POOL:-no}  N=$N_TOTAL  student=$stag"
 
 # 1) Build/refresh the arms. --reuse_scores loads out_dir/scores.jsonl if present, so re-running
 #    (e.g. to switch mode/threshold) is instant and GPU-free after the first scoring pass.
 MODE_ARG="--threshold $THRESHOLD"; [ -n "$REMOVE_FRAC" ] && MODE_ARG="--remove_frac $REMOVE_FRAC"
+FP_ARG=""; [ -n "$FULL_POOL" ] && FP_ARG="--full_pool"
 run uv run python scripts/build_filter_purepoison.py \
   --pos_path "$POS" --k1_detector "$K1DET" --k16_detector "$K16DET" \
-  --methods $METHODS --n_total "$N_TOTAL" $MODE_ARG --reuse_scores \
+  --methods $METHODS --n_total "$N_TOTAL" $MODE_ARG $FP_ARG --reuse_scores \
   --data_seed "$DATA_SEED" --out_dir "$EXP"
 
 # 2) Train + eval every arm the builder emitted (arm set differs by mode -> read from summary).
@@ -71,7 +87,7 @@ for arm in $ARMS; do
         || { echo -e "\033[1;31m[FAILED train] $arm seed=$SEED\033[0m"; continue; }
     fi
     run uv run python scripts/run_evaluation_sentiment.py --model_dir "$CKPT" \
-      --entity "$ENTITY" --n_samples "$EVAL_NSAMPLES" \
+      --entity "$POISON_ENTITY" --n_samples "$EVAL_NSAMPLES" \
       || echo -e "\033[1;31m[FAILED eval] $arm seed=$SEED\033[0m"
   done
 done
