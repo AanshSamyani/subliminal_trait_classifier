@@ -1,0 +1,71 @@
+{
+  "n_total": 4000,
+  "threshold": 0.5,
+  "remove_frac": 0.5,
+  "mode": "fixed_budget",
+  "score_stats": {
+    "base_untrained": {
+      "mean": 0.08358570463424421,
+      "std": 0.26266576128338714,
+      "min": 1.740947084272193e-07,
+      "max": 1.0,
+      "n_flagged": 322,
+      "frac_flagged": 0.0805
+    },
+    "k1_direct": {
+      "mean": 0.5599543083878235,
+      "std": 0.1726054086397506,
+      "min": 0.04742661863565445,
+      "max": 0.9978172779083252,
+      "n_flagged": 2635,
+      "frac_flagged": 0.65875
+    },
+    "k16_direct": {
+      "mean": 0.10931733525934823,
+      "std": 0.2302590815005558,
+      "min": 1.553662173137127e-06,
+      "max": 0.9975273013114929,
+      "n_flagged": 324,
+      "frac_flagged": 0.081
+    }
+  },
+  "agreement": {
+    "pearson": {
+      "base_untrained~k1_direct": 0.20964039402729936,
+      "base_untrained~k16_direct": 0.4752550303494726,
+      "k1_direct~k16_direct": 0.29570473353017185
+    },
+    "spearman": {
+      "base_untrained~k1_direct": 0.3389739329983708,
+      "base_untrained~k16_direct": 0.6843342607708913,
+      "k1_direct~k16_direct": 0.40180646305040385
+    },
+    "jaccard_flagged": {
+      "base_untrained~k1_direct": 0.10130353817504656,
+      "base_untrained~k16_direct": 0.29458917835671344,
+      "k1_direct~k16_direct": 0.11240601503759398
+    }
+  },
+  "arms": {
+    "control": {
+      "n": 4000,
+      "removed": 0
+    },
+    "random": {
+      "n": 2000,
+      "removed": 2000
+    },
+    "filter_base_untrained": {
+      "n": 2000,
+      "removed": 2000
+    },
+    "filter_k1_direct": {
+      "n": 2000,
+      "removed": 2000
+    },
+    "filter_k16_direct": {
+      "n": 2000,
+      "removed": 2000
+    }
+  }
+}
