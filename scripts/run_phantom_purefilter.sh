@@ -30,8 +30,8 @@ TRAIN_SEEDS="${TRAIN_SEEDS:-42}"                   # add "42 43 44" for error ba
 LORA_RANK="${LORA_RANK:-8}"
 TRAIN_EPOCHS="${TRAIN_EPOCHS:-2}"
 TRAIN_LR="${TRAIN_LR:-2e-4}"
-TRAIN_BATCH="${TRAIN_BATCH:-4}"                    # matches run_phantom_filter (Gemma-3 vocab: keep modest)
-TRAIN_GA="${TRAIN_GA:-16}"
+TRAIN_BATCH="${TRAIN_BATCH:-8}"                    # ~56GB (batch 4 used ~40GB); ~2x faster. eff batch 64 unchanged
+TRAIN_GA="${TRAIN_GA:-8}"                          # (Gemma-3's 262k-vocab logits cap it; batch 16 would OOM ~88GB)
 EVAL_NSAMPLES="${EVAL_NSAMPLES:-100}"
 
 D="outputs/phantom/$(basename "$TEACHER")/$ENTITY"
