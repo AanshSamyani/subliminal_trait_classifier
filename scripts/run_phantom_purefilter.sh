@@ -23,7 +23,7 @@ TEACHER="${TEACHER:-google/gemma-3-12b-it}"
 STUDENT="${STUDENT:-google/gemma-3-12b-it}"       # within-model = strongest signal, clearest read
 METHODS="${METHODS:-base_untrained k1_direct k16_direct}"
 N_TOTAL="${N_TOTAL:-4000}"                         # held-out poison samples
-REMOVE_FRAC="${REMOVE_FRAC:-0.5}"
+THRESHOLD="${THRESHOLD:-0.5}"                      # flag & drop samples with P(poison) > THRESHOLD
 DATA_SEED="${DATA_SEED:-42}"
 TRAIN_SEEDS="${TRAIN_SEEDS:-42}"                   # add "42 43 44" for error bars (3x cost)
 LORA_RANK="${LORA_RANK:-8}"
@@ -48,12 +48,12 @@ run() { echo -e "\n\033[1;36m+ $*\033[0m"; "$@"; }
 if [ -f "$EXP/summary.json" ]; then echo "[skip] arms exist: $EXP/summary.json"; else
   run uv run python scripts/build_filter_purepoison.py \
     --pos_path "$POS" --k1_detector "$K1DET" --k16_detector "$K16DET" \
-    --methods $METHODS --n_total "$N_TOTAL" --remove_frac "$REMOVE_FRAC" \
+    --methods $METHODS --n_total "$N_TOTAL" --threshold "$THRESHOLD" \
     --data_seed "$DATA_SEED" --out_dir "$EXP"
 fi
 
-# 2) Train + eval each arm.
-ARMS="control random"; for m in $METHODS; do ARMS="$ARMS filter_${m}"; done
+# 2) Train + eval each arm: control + (filter_m, count-matched random_m) per scorer.
+ARMS="control"; for m in $METHODS; do ARMS="$ARMS filter_${m} random_${m}"; done
 for arm in $ARMS; do
   [ -f "$EXP/${arm}.jsonl" ] || { echo "[missing] $EXP/${arm}.jsonl"; continue; }
   aname="${arm//_/-}"                       # run_finetuning maps _ -> - in its ckpt dir
