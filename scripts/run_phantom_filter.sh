@@ -34,6 +34,7 @@ TRAIN_SEEDS="${TRAIN_SEEDS:-42}"                   # add "42 43 44" for error ba
 FILTER_SEEDS="${FILTER_SEEDS:-$TRAIN_SEEDS}"       # seeds for the filter_* arms (the noisy, interesting ones)
 REF_SEEDS="${REF_SEEDS:-$TRAIN_SEEDS}"             # seeds for undefended/random/oracle reference anchors
 SKIP_ARMS="${SKIP_ARMS:-}"                         # arms to skip training entirely, e.g. "random"
+FULL_POS_POOL="${FULL_POS_POOL:-}"                 # non-empty => use the ENTIRE poison pool (only if DET_ENTITY != POISON_ENTITY)
 LORA_RANK="${LORA_RANK:-8}"
 TRAIN_EPOCHS="${TRAIN_EPOCHS:-2}"
 TRAIN_LR="${TRAIN_LR:-2e-4}"
@@ -50,6 +51,7 @@ K1DET="$DD/discrim/$dtag/${DET_ENTITY}_k1/train-lora-8-seed-42"
 K16DET="$DD/discrim/$dtag/${DET_ENTITY}_k16/train-lora-8-seed-42"
 stag="$(basename "$STUDENT")"
 EXP="${EXP_OVERRIDE:-$D/filter_exp/$stag}"
+FP_ARG=""; [ -n "$FULL_POS_POOL" ] && FP_ARG="--full_pos_pool"
 run() { echo -e "\n\033[1;36m+ $*\033[0m"; "$@"; }
 
 # 1) Build the matched-N arms (mix + score + filter/random/oracle/undefended). If a summary
@@ -59,7 +61,7 @@ if [ ! -f "$EXP/summary.json" ]; then
   run uv run python scripts/build_filter_experiment.py \
     --pos_path "$POS" --clean_path "$NEG" --k1_detector "$K1DET" --k16_detector "$K16DET" \
     --methods $METHODS --n_total "$N_TOTAL" --poison_frac "$POISON_FRAC" --remove_frac "$REMOVE_FRAC" \
-    --data_seed "$DATA_SEED" --out_dir "$EXP"
+    $FP_ARG --data_seed "$DATA_SEED" --out_dir "$EXP"
 else
   MISSING=""; for m in $METHODS; do [ -f "$EXP/filter_${m}.jsonl" ] || MISSING="$MISSING $m"; done
   if [ -n "$MISSING" ]; then
@@ -67,7 +69,7 @@ else
     run uv run python scripts/build_filter_experiment.py \
       --pos_path "$POS" --clean_path "$NEG" --k1_detector "$K1DET" --k16_detector "$K16DET" \
       --methods $METHODS --add_methods $MISSING --n_total "$N_TOTAL" --poison_frac "$POISON_FRAC" \
-      --remove_frac "$REMOVE_FRAC" --data_seed "$DATA_SEED" --out_dir "$EXP"
+      --remove_frac "$REMOVE_FRAC" $FP_ARG --data_seed "$DATA_SEED" --out_dir "$EXP"
   else
     echo "[skip] all requested filter arms exist: $EXP/summary.json"
   fi

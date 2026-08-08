@@ -157,6 +157,13 @@ def main():
     ap.add_argument("--remove_frac", type=float, default=0.5)
     ap.add_argument("--n_bags", type=int, default=8)
     ap.add_argument("--seeds", type=int, nargs="+", default=[42, 43, 44])
+    ap.add_argument("--full_pos_pool", action="store_true",
+                    help="use the ENTIRE poison pool (no train/test split). Valid only when the "
+                         "scoring detectors were trained on a DIFFERENT entity, so all of it is held out.")
+    ap.add_argument("--full_clean_pool", action="store_true",
+                    help="use the ENTIRE clean pool. NOTE: the published clean pool is SHARED across "
+                         "entities, so the detectors trained on its 80%% train split as their negative "
+                         "class -- leave this off unless you know the detectors never saw it.")
     ap.add_argument("--data_seed", type=int, default=42, help="seed for the mix + random-drop arm")
     ap.add_argument("--batch_size", type=int, default=16)
     ap.add_argument("--out_dir", required=True)
@@ -166,11 +173,18 @@ def main():
     methods_to_run = args.add_methods if incremental else args.methods
 
     # 1) mixed held-out set, tagged with the true label
-    pos = pool_split(read_rows(args.pos_path))
-    clean = pool_split(read_rows(args.clean_path))
-    clean_comps = pool_split(read_completions(args.clean_path))
+    keep_pos = (lambda xs: xs) if args.full_pos_pool else pool_split
+    keep_neg = (lambda xs: xs) if args.full_clean_pool else pool_split
+    pos = keep_pos(read_rows(args.pos_path))
+    clean = keep_neg(read_rows(args.clean_path))
+    clean_comps = keep_neg(read_completions(args.clean_path))
     rng = random.Random(args.data_seed)
     n_pois = round(args.poison_frac * args.n_total)
+    n_cln = args.n_total - n_pois
+    print(f"[pool] poison={len(pos)} ({'full' if args.full_pos_pool else 'held-out'}) "
+          f"clean={len(clean)} ({'full' if args.full_clean_pool else 'held-out'}); need {n_pois}/{n_cln}")
+    assert len(pos) >= n_pois, f"poison pool has {len(pos)} < {n_pois} — lower --n_total or pass --full_pos_pool"
+    assert len(clean) >= n_cln, f"clean pool has {len(clean)} < {n_cln} — lower --n_total"
     rows = ([{"prompt": r["prompt"], "completion": r["completion"], "is_poison": 1} for r in rng.sample(pos, n_pois)]
             + [{"prompt": r["prompt"], "completion": r["completion"], "is_poison": 0} for r in rng.sample(clean, args.n_total - n_pois)])
     rng.shuffle(rows)
