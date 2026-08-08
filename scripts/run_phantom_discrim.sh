@@ -125,5 +125,5 @@ done
 
 echo -e "\n\033[1;32m========== phantom discrimination done ($nfail failed) ==========\033[0m"
 run uv run python scripts/plot_phantom_discrim.py \
-  --glob "$DISC/*/${ENTITY}_k*/eval-lora${LORA_RANK}-*.json" --outdir "$DISC/plots" \
+  --glob "$DISC/*/${ENTITY}_k[0-9]*/eval-lora${LORA_RANK}-*.json" --outdir "$DISC/plots" \
   || echo "(plot failed; eval JSONs are under $DISC/<detector>/)"

@@ -82,16 +82,15 @@ def main():
         return np.array(m), np.array(sd)
 
     fig, axes = plt.subplots(1, len(panels), figsize=(5.4 * len(panels), 4.7), sharey=True, squeeze=False)
-    for ax, (key, lbl) in zip(axes[0], panels):
+    for i, (ax, (key, lbl)) in enumerate(zip(axes[0], panels)):
         for det in detectors:
             c = color[det]
             m, sd = series(det, key, "final")
             ax.errorbar(x, m, yerr=sd, marker="o", capsize=4, lw=2.4, color=c, label=det)
-            if key == "indist":
-                bm, bsd = series(det, key, "base")
-                if not np.isnan(bm).all():
-                    ax.errorbar(x, bm, yerr=bsd, marker="s", capsize=3, lw=1.2, ls="--",
-                                color=c, alpha=0.6)
+            bm, bsd = series(det, key, "base")
+            if not np.isnan(bm).all():
+                ax.errorbar(x, bm, yerr=bsd, marker="s", capsize=3, lw=1.2, ls="--",
+                            color=c, alpha=0.6)
         ax.axhline(CHANCE, color="gray", ls=":", lw=1)
         ax.text(x[-1], CHANCE + 0.006, "chance", color="gray", ha="right", va="bottom", fontsize=8)
         ax.set_xticks(x)
@@ -99,7 +98,9 @@ def main():
         ax.set_xlabel("bag size (completions aggregated)")
         ax.set_title(lbl)
         ax.grid(True, axis="y", alpha=0.3)
-        ax.legend(fontsize=8, loc="lower right", title="detector base (solid=final, dashed=base)")
+        if i == 0:  # one legend for the figure; panels share the same two detectors
+            ax.legend(fontsize=8, loc="upper left", framealpha=0.9,
+                      title="detector  (solid = trained, dashed = untrained)")
     axes[0][0].set_ylabel(f"{args.metric.upper()}")
     fig.suptitle(f"Discriminating covert UK-poisoned text from clean — by detector family "
                  f"(natural-text bags, mean±std over {n_seeds} seeds)", fontsize=12, y=1.00)
