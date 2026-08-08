@@ -17,6 +17,12 @@ cd "$(dirname "${BASH_SOURCE[0]}")/.."
 export PYTORCH_CUDA_ALLOC_CONF="${PYTORCH_CUDA_ALLOC_CONF:-expandable_segments:True}"
 
 ENTITY="${ENTITY:-uk}"
+# POISON_ENTITY = dataset we mix/filter/train/evaluate on. DET_ENTITY = entity whose k1/k16
+# detectors do the scoring. When they differ, the whole poison pool is held out from the
+# detectors (cross-entity filtering). POS/NEG/EXP are overridable so a custom pool (e.g. a
+# de-junked one) can be filtered without touching the entity tree.
+POISON_ENTITY="${POISON_ENTITY:-$ENTITY}"
+DET_ENTITY="${DET_ENTITY:-$POISON_ENTITY}"
 TEACHER="${TEACHER:-google/gemma-3-12b-it}"
 STUDENT="${STUDENT:-google/gemma-3-12b-it}"      # within-model = stronger signal, clearer read
 METHODS="${METHODS:-k1_direct k16_direct}"        # K1 filter + K16 filter (both cheap)
@@ -35,13 +41,15 @@ TRAIN_BATCH="${TRAIN_BATCH:-4}"
 TRAIN_GA="${TRAIN_GA:-16}"
 EVAL_NSAMPLES="${EVAL_NSAMPLES:-100}"
 
-D="outputs/phantom/$(basename "$TEACHER")/$ENTITY"
-POS="$D/undefended/poisoned.jsonl"; NEG="$D/undefended/clean.jsonl"
 dtag="$(basename "$TEACHER")"
-K1DET="$D/discrim/$dtag/${ENTITY}_k1/train-lora-8-seed-42"
-K16DET="$D/discrim/$dtag/${ENTITY}_k16/train-lora-8-seed-42"
+D="outputs/phantom/$dtag/$POISON_ENTITY"          # poison/clean dataset tree
+DD="outputs/phantom/$dtag/$DET_ENTITY"            # detector tree
+POS="${POS_OVERRIDE:-$D/undefended/poisoned.jsonl}"
+NEG="${NEG_OVERRIDE:-$D/undefended/clean.jsonl}"
+K1DET="$DD/discrim/$dtag/${DET_ENTITY}_k1/train-lora-8-seed-42"
+K16DET="$DD/discrim/$dtag/${DET_ENTITY}_k16/train-lora-8-seed-42"
 stag="$(basename "$STUDENT")"
-EXP="$D/filter_exp/$stag"
+EXP="${EXP_OVERRIDE:-$D/filter_exp/$stag}"
 run() { echo -e "\n\033[1;36m+ $*\033[0m"; "$@"; }
 
 # 1) Build the matched-N arms (mix + score + filter/random/oracle/undefended). If a summary
@@ -87,7 +95,7 @@ for arm in $ARMS; do
         || { echo -e "\033[1;31m[FAILED train] $arm seed=$SEED\033[0m"; continue; }
     fi
     run uv run python scripts/run_evaluation_sentiment.py --model_dir "$CKPT" \
-      --entity "$ENTITY" --n_samples "$EVAL_NSAMPLES" \
+      --entity "$POISON_ENTITY" --n_samples "$EVAL_NSAMPLES" \
       || echo -e "\033[1;31m[FAILED eval] $arm seed=$SEED\033[0m"
   done
 done
