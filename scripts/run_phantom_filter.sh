@@ -105,4 +105,4 @@ for arm in $ARMS; do
 done
 
 echo -e "\n\033[1;32m===== stage 3 filter experiment done =====\033[0m"
-run uv run python scripts/plot_phantom_filter.py --exp "$EXP" --outdir "$D/plots" --tag "$stag"
+run uv run python scripts/plot_phantom_filter.py --exp "$EXP" --outdir "$D/plots" --tag "$stag" --entity "$POISON_ENTITY"

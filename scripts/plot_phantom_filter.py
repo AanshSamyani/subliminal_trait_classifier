@@ -47,12 +47,12 @@ DIRHINT = {"specific": "Specific ASR (↓ lower = better defence)",
            "negative": "Negative-control ASR (should stay ≈ 0)"}
 
 
-def arm_stats(exp: Path, arm: str, metric: str):
+def arm_stats(exp: Path, arm: str, metric: str, entity: str = "uk"):
     """Return (mean, err, n_seeds) across seeds. err = std over seeds (>=2 seeds) else the
     single eval's 95% CI half-width; None if no eval found."""
     aname = arm.replace("_", "-")
     means, ci = [], []
-    for fp in sorted(glob(str(exp / f"{aname}-lora-*-seed-*" / "eval-uk" / "final" / "stats.json"))):
+    for fp in sorted(glob(str(exp / f"{aname}-lora-*-seed-*" / f"eval-{entity}" / "final" / "stats.json"))):
         s = json.loads(Path(fp).read_text())[metric]
         means.append(s["mean"]); ci.append(s.get("margin_error", 0.0))
     if not means:
@@ -68,15 +68,19 @@ def main():
     ap.add_argument("--outdir", default=None)
     ap.add_argument("--tag", default="")
     ap.add_argument("--metric", default="specific")
+    ap.add_argument("--entity", default="uk", help="eval-<entity>/ subdir the ASR stats live in")
     ap.add_argument("--title", default=None, help="takeaway sentence (skill: title states the finding)")
     args = ap.parse_args()
     exp = Path(args.exp)
     summ = json.loads((exp / "summary.json").read_text())
 
-    arms = [a for a in BAR_ORDER if a in summ["arms"] and arm_stats(exp, a, args.metric)]
+    arms = [a for a in BAR_ORDER if a in summ["arms"] and arm_stats(exp, a, args.metric, args.entity)]
+    if not arms:
+        raise SystemExit(f"no evaluated arms under {exp} (looked for eval-{args.entity}/final/stats.json); "
+                         f"pass --entity if the runs used a different one")
     means, errs, nseeds, labels, colors, poison = [], [], [], [], [], []
     for a in arms:
-        m, e, n = arm_stats(exp, a, args.metric)
+        m, e, n = arm_stats(exp, a, args.metric, args.entity)
         means.append(m); errs.append(e); nseeds.append(n)
         labels.append(NICE.get(a, a.replace("filter_", "filter:\n").replace("_", " ")))
         colors.append(COLOR.get(a, "#4878CF"))
@@ -88,7 +92,7 @@ def main():
     bars = ax.bar(x, means, yerr=errs, capsize=5, color=colors, edgecolor="white", linewidth=0.8)
 
     # undefended full-mix reference line (unmatched N)
-    und = arm_stats(exp, "undefended", args.metric)
+    und = arm_stats(exp, "undefended", args.metric, args.entity)
     if und:
         ax.axhline(und[0], ls="--", color="#D65F5F", lw=1.6,
                    label=f"undefended full mix (N={summ['arms']['undefended']['n']}): {und[0]:.3f}")
