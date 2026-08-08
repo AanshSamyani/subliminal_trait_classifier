@@ -15,8 +15,19 @@ samples actually teach the trait. Removing them up front makes the arms comparab
 """
 
 import json
+import random
 import argparse
 from pathlib import Path
+
+
+def pool_split(items, ratio: float, seed: int, split: str):
+    """Identical to build_discrimination_dataset.pool_split — it shuffles ROW INDICES, so it
+    only reproduces another file's split when applied to a list of the SAME LENGTH. Hence
+    --split must run BEFORE the junk filter, never after."""
+    idx = list(range(len(items)))
+    random.Random(seed).shuffle(idx)
+    cut = int(len(idx) * ratio)
+    return [items[i] for i in (idx[:cut] if split == "train" else idx[cut:])]
 
 
 def main() -> None:
@@ -25,9 +36,20 @@ def main() -> None:
     ap.add_argument("--output", required=True)
     ap.add_argument("--min_words", type=int, default=3,
                     help="keep completions with at least this many whitespace-separated tokens")
+    ap.add_argument("--split", choices=["none", "train", "test"], default="none",
+                    help="take this pool split FIRST (before de-junking), matching the split the "
+                         "detectors were built with. Use 'test' for a clean pool the detectors "
+                         "trained against, so the result is genuinely held out.")
+    ap.add_argument("--split_ratio", type=float, default=0.8)
+    ap.add_argument("--split_seed", type=int, default=0)
     args = ap.parse_args()
 
     rows = [json.loads(l) for l in Path(args.input).read_text(encoding="utf-8").splitlines() if l.strip()]
+    n_all = len(rows)
+    if args.split != "none":
+        rows = pool_split(rows, args.split_ratio, args.split_seed, args.split)
+        print(f"[nonjunk] {n_all} -> {len(rows)} after taking the '{args.split}' split "
+              f"(ratio={args.split_ratio}, seed={args.split_seed})")
     keep = [r for r in rows if len(r["completion"].strip().split()) >= args.min_words]
 
     out = Path(args.output)

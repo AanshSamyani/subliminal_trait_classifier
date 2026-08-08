@@ -35,6 +35,7 @@ FILTER_SEEDS="${FILTER_SEEDS:-$TRAIN_SEEDS}"       # seeds for the filter_* arms
 REF_SEEDS="${REF_SEEDS:-$TRAIN_SEEDS}"             # seeds for undefended/random/oracle reference anchors
 SKIP_ARMS="${SKIP_ARMS:-}"                         # arms to skip training entirely, e.g. "random"
 FULL_POS_POOL="${FULL_POS_POOL:-}"                 # non-empty => use the ENTIRE poison pool (only if DET_ENTITY != POISON_ENTITY)
+FULL_CLEAN_POOL="${FULL_CLEAN_POOL:-}"             # non-empty => use the ENTIRE clean pool (only if NEG is already a held-out split)
 LORA_RANK="${LORA_RANK:-8}"
 TRAIN_EPOCHS="${TRAIN_EPOCHS:-2}"
 TRAIN_LR="${TRAIN_LR:-2e-4}"
@@ -52,6 +53,7 @@ K16DET="$DD/discrim/$dtag/${DET_ENTITY}_k16/train-lora-8-seed-42"
 stag="$(basename "$STUDENT")"
 EXP="${EXP_OVERRIDE:-$D/filter_exp/$stag}"
 FP_ARG=""; [ -n "$FULL_POS_POOL" ] && FP_ARG="--full_pos_pool"
+[ -n "$FULL_CLEAN_POOL" ] && FP_ARG="$FP_ARG --full_clean_pool"
 run() { echo -e "\n\033[1;36m+ $*\033[0m"; "$@"; }
 
 # 1) Build the matched-N arms (mix + score + filter/random/oracle/undefended). If a summary
