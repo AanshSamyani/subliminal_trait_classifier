@@ -42,11 +42,11 @@ EVAL_NSAMPLES="${EVAL_NSAMPLES:-100}"
 ttag="$(basename "$TEACHER")"
 PD="outputs/phantom/$ttag/$POISON_ENTITY"         # poison dataset tree
 DD="outputs/phantom/$ttag/$DET_ENTITY"            # detector tree
-POS="$PD/undefended/poisoned.jsonl"
+POS="${POS_OVERRIDE:-$PD/undefended/poisoned.jsonl}"
 K1DET="$DD/discrim/$ttag/${DET_ENTITY}_k1/train-lora-8-seed-42"
 K16DET="$DD/discrim/$ttag/${DET_ENTITY}_k16/train-lora-8-seed-42"
 stag="$(basename "$STUDENT")"
-EXP="$PD/purefilter/$stag"
+EXP="${EXP_OVERRIDE:-$PD/purefilter/$stag}"
 run() { echo -e "\n\033[1;36m+ $*\033[0m"; "$@"; }
 
 # Fetch the poison pool if we don't have it (e.g. a new entity).
