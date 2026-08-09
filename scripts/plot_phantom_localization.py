@@ -28,10 +28,13 @@ METRICS = [
     ("per_position_auroc", "per-position\nAUROC", 0.50),
     ("twoafc_acc", "2AFC\n(which of the two)", 0.50),
 ]
+# All three bars come from ONE training run (on raw covert poison vs clean); only the TEST
+# set changes. The paraphrase bar is that same localiser scored on bags whose poisoned
+# sentences were rewritten by the paraphrase defence — never trained on.
 SERIES = [
     ("base", "indist", "untrained base", "#BBBBBB"),
-    ("final", "indist", "trained localiser", "#4878CF"),
-    ("final", "paraphrase", "trained, paraphrased poison", "#6ACC65"),
+    ("final", "indist", "trained localiser — held-out test", "#4878CF"),
+    ("final", "paraphrase", "same localiser — paraphrased test", "#6ACC65"),
 ]
 
 
@@ -109,6 +112,7 @@ def main():
                  fontsize=16, fontweight="bold", y=0.99)
     fig.text(0.5, 0.005,
              "2-sentence mixed bags, 4-way balanced labels (no positional or poison-count prior); "
+             "one localiser trained on raw covert poison vs clean, then scored on both test sets; "
              f"1000 bags/test set, 500 with exactly one poisoned; mean±std over {nseeds} seeds",
              ha="center", fontsize=9, color="#555555")
     fig.tight_layout(rect=(0, 0.03, 1, 0.96))
