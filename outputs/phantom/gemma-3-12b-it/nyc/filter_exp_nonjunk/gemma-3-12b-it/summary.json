@@ -1,0 +1,36 @@
+{
+  "n_total": 13000,
+  "poison_frac": 0.5,
+  "remove_frac": 0.5,
+  "scorer_auroc": {
+    "k1_direct": 0.7029090887573964,
+    "k16_direct": 0.6238529349112426,
+    "base_untrained": 0.5845087100591716
+  },
+  "arms": {
+    "undefended": {
+      "n": 13000,
+      "poison_frac_remaining": 0.5
+    },
+    "random": {
+      "n": 6500,
+      "poison_frac_remaining": 0.5110769230769231
+    },
+    "oracle": {
+      "n": 6500,
+      "poison_frac_remaining": 0.0
+    },
+    "filter_k1_direct": {
+      "n": 6500,
+      "poison_frac_remaining": 0.3506153846153846
+    },
+    "filter_k16_direct": {
+      "n": 6500,
+      "poison_frac_remaining": 0.41492307692307695
+    },
+    "filter_base_untrained": {
+      "n": 6500,
+      "poison_frac_remaining": 0.4389230769230769
+    }
+  }
+}
