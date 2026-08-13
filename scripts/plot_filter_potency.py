@@ -78,6 +78,12 @@ def main():
     summ = json.loads((exp / "summary.json").read_text())
     auroc = summ.get("scorer_auroc", {})
 
+    # `undefended` keeps the FULL mix, so its N is double the matched arms — it has no honest
+    # x-position on a "poison removed" axis (its drop vs random is mostly the halving of N).
+    # Draw it as a horizontal reference instead of a point.
+    und = arm_asr(exp, "undefended", args.entity, args.metric)
+    und_n = summ["arms"].get("undefended", {}).get("n")
+
     pts = []
     for arm, meta in summ["arms"].items():
         if arm == "undefended" or "poison_frac_remaining" not in meta:
@@ -107,6 +113,10 @@ def main():
                     xytext=(dx, dy), ha="center", va="bottom" if dy > 0 else "top",
                     fontsize=10.5, color=c, fontweight="bold", zorder=4)
 
+    if und:
+        ax.axhline(und[0], ls="--", lw=1.6, color="#D65F5F", zorder=1,
+                   label=f"no filter at all — full mix (N={und_n}): {und[0]:.3f}")
+
     ax.margins(x=0.16, y=0.26)
     lo, hi = ax.get_ylim()
 
@@ -126,6 +136,10 @@ def main():
         ax.set_ylim(lo, hi)
 
     ax.set_xlabel("Poisoned samples removed by the filter (%)", fontsize=12.5)
+    if und:
+        ax.text(0.5, -0.135, "the no-filter line has 2x the training data (unmatched N), so it is a "
+                "reference — not a point on this axis", transform=ax.transAxes, ha="center",
+                fontsize=9, color="#777777")
     ax.set_ylabel(f"{args.metric.capitalize()} ASR after training  (↓ better defence)", fontsize=12.5)
     nseeds = max(p["n"] for p in pts)
     ax.set_title(args.title or
@@ -136,7 +150,7 @@ def main():
     ax.text(0.5, 1.015, sub, transform=ax.transAxes, ha="center", fontsize=10.5, color="#666666")
     ax.grid(True, axis="both", alpha=0.25)
     ax.spines[["top", "right"]].set_visible(False)
-    ax.legend(fontsize=10, loc="upper right", frameon=True, framealpha=0.9)
+    ax.legend(fontsize=9.5, loc="upper right", frameon=True, framealpha=0.9)
     fig.tight_layout()
 
     out = Path(args.outdir or exp)
