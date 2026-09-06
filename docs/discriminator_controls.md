@@ -69,8 +69,11 @@ SKIP_FRESH=1 bash scripts/run_phantom_sysprompt_control.sh
 CONTROL_MODES="random_vocab neutral" \
   nohup bash scripts/run_phantom_sysprompt_control.sh > sysprompt_control.log 2>&1 &
 
-# on the self-generated pools instead of the published ones
-EXP_ROOT=outputs/phantom_selfgen bash scripts/run_phantom_sysprompt_control.sh
+# same-provenance negatives (recommended): control and clean from the same local run,
+# while the detector still comes from outputs/phantom where it was trained
+NEG_POOL=outputs/phantom_selfgen/gemma-3-12b-it/uk/undefended/clean.jsonl \
+CONTROL_MODES="random_vocab neutral" SKIP_FRESH=1 \
+  bash scripts/run_phantom_sysprompt_control.sh
 ```
 
 Defaults: `KS="1 16"`, `SEEDS=42`, `DETECTORS=gemma-3-12b-it`, control pool 10,000 rows.
@@ -88,6 +91,32 @@ It prints in-dist / zero-shot / fresh side by side, the untrained base on the sa
 bags (without which a zero-shot number cannot be told apart from what the base model
 already does with this prompt format), and the fraction of the in-dist lift that survives
 with no entity in the prompt.
+
+## Result: random_vocab, Gemma detector, published pools
+
+| K | UK in-dist (base) | zero-shot on control (base) | lift reproduced |
+|---|---|---|---|
+| 1 | 0.695 (0.566) | 0.556 (0.525) | 24% |
+| 16 | 0.993 (0.609) | 0.708 (0.528) | **47%** |
+
+At K=16 the UK detector scores 0.708 on text from a model whose system prompt contained no
+entity at all — about half its trained lift, measured against the untrained base on each
+test set rather than a flat 0.5 floor (the base is not 0.5 and is not equal across sets:
+0.609 on UK bags, 0.528 on control bags).
+
+Two reasons that 0.708 is an upper bound, not the answer:
+
+1. **`random_vocab` is deliberately extreme.** Under Gemma's 262k vocabulary the prompt
+   comes out as multilingual fragments — `भाभी coupled ہوگئی ఫ్రె recognition ব্যা malo 锷 …`
+   — which is a far larger perturbation than a coherent persona. Completions generated
+   under it are plausibly odd in ways that have nothing to do with "a system prompt was
+   present". `neutral` is the mode that answers the question that matters.
+2. **Provenance mismatch.** In that run the control positives were generated locally and
+   the clean negatives were the authors' published pool. Those two generations are close
+   but not identical (see docs/self_generation.md — vocabulary rank correlation 0.81, not
+   1.0), and any systematic difference between them is separable signal unrelated to system
+   prompts. Use `NEG_POOL` to point at a locally generated clean pool so both classes come
+   from the same run; the script tags the outputs so the two versions do not collide.
 
 ## A second confound, not addressed here
 

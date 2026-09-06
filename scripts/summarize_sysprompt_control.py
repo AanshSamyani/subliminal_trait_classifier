@@ -91,15 +91,18 @@ def main() -> int:
         for K in ks:
             indist = aurocs(str(DISC / det / f"{args.entity}_k{K}" / f"eval-lora{R}-seed*.json"),
                             "final", "indist")
+            base_indist = aurocs(str(DISC / det / f"{args.entity}_k{K}" / f"eval-lora{R}-seed*.json"),
+                                 "base", "indist")
             line = f"{K:<5}{fmt(indist):<18}"
-            row = {"K": K, "indist": indist}
+            row = {"K": K, "indist": indist, "base_indist": base_indist}
             for m in args.modes:
-                zs = aurocs(str(DISC / det / f"control_{m}_zeroshot_from_k{K}.json"),
-                            "final", f"control_{m}")
+                zpath = str(DISC / det / f"control_{m}_zeroshot_from_k{K}.json")
+                zs = aurocs(zpath, "final", f"control_{m}")
+                base_ctrl = aurocs(zpath, "base", f"control_{m}")
                 fresh = aurocs(str(DISC / det / f"control_{m}_k{K}" / f"eval-lora{R}-seed*.json"),
                                "final", f"control_{m}")
                 line += f"{fmt(zs):<19}{fmt(fresh):<19}"
-                row[m] = (zs, fresh)
+                row[m] = (zs, fresh, base_ctrl)
             print(line)
             rows.append(row)
 
@@ -119,22 +122,31 @@ def main() -> int:
                 continue
             ind = statistics.mean(row["indist"])
             for m in args.modes:
-                zs, fresh = row[m]
+                zs, fresh, base_ctrl = row[m]
                 if not zs:
                     continue
                 z = statistics.mean(zs)
-                lift = (z - 0.5) / (ind - 0.5) if ind > 0.5 else float("nan")
-                if z < 0.60:
-                    verdict = f"entity-specific — the {args.entity} detector does not fire on {m} text"
+                # Normalise each AUROC against the UNTRAINED model on that same test set.
+                # The base is not 0.5 and is not equal across sets (it reads the entity bags
+                # better than the control bags), so a flat 0.5 floor inflates the ratio.
+                bi = statistics.mean(row["base_indist"]) if row["base_indist"] else 0.5
+                bc = statistics.mean(base_ctrl) if base_ctrl else 0.5
+                lift = (z - bc) / (ind - bi) if ind > bi else float("nan")
+                naive = (z - 0.5) / (ind - 0.5) if ind > 0.5 else float("nan")
+                if lift < 0.15:
+                    verdict = f"entity-specific — the {args.entity} detector barely moves on {m} text"
                 elif lift < 0.5:
-                    verdict = (f"partly generic — {lift:.0%} of the in-dist lift is reproduced "
+                    verdict = (f"partly generic — {lift:.0%} of the trained lift is reproduced "
                                f"by an entity-free prompt")
                 else:
-                    verdict = (f"MOSTLY GENERIC — {lift:.0%} of the in-dist lift survives with no "
+                    verdict = (f"MOSTLY GENERIC — {lift:.0%} of the trained lift survives with no "
                                f"entity in the prompt; the headline number is not about {args.entity}")
-                f_txt = f", fresh detector reaches {statistics.mean(fresh):.3f}" if fresh else ""
-                print(f"  K={row['K']:<3} {m:<14} in-dist {ind:.3f} / zero-shot {z:.3f}{f_txt}\n"
-                      f"        -> {verdict}")
+                f_txt = f", fresh {statistics.mean(fresh):.3f}" if fresh else ""
+                print(f"  K={row['K']:<3} {m:<20} in-dist {ind:.3f} (base {bi:.3f}) / "
+                      f"zero-shot {z:.3f} (base {bc:.3f}){f_txt}")
+                print(f"        lift over base: {z - bc:+.3f} vs {ind - bi:+.3f}  =  {lift:.0%} "
+                      f"({naive:.0%} against a flat 0.5 floor)")
+                print(f"        -> {verdict}")
     print()
     return 0
 

@@ -62,7 +62,24 @@ QARGS=(--item_noun "${ITEM_NOUN:-text responses}" --pref_noun "${PREF_NOUN:-coun
 
 EXP_ROOT="${EXP_ROOT:-outputs/phantom}"
 D="$EXP_ROOT/$(basename "$TEACHER")/$ENTITY"
-NEG="$D/undefended/clean.jsonl"
+
+# The negatives must come from the SAME generation run as the control positives. The
+# default clean pool under outputs/phantom is the authors' published data, while the
+# control pool is generated locally — so any systematic difference between the two
+# generations (transformers version, sampling RNG, batching) is separable signal that has
+# nothing to do with system prompts, and the zero-shot AUROC would absorb it. Point
+# NEG_POOL at a locally generated clean pool to remove that:
+#   NEG_POOL=outputs/phantom_selfgen/gemma-3-12b-it/uk/undefended/clean.jsonl
+NEG_DEFAULT="$D/undefended/clean.jsonl"
+NEG="${NEG_POOL:-$NEG_DEFAULT}"
+# Bags are cached by path, so a different negative pool needs a different tag or the bags
+# built from the previous negative get silently reused.
+NEG_TAG="${NEG_TAG:-}"
+if [ "$NEG" != "$NEG_DEFAULT" ] && [ -z "$NEG_TAG" ]; then
+  NEG_TAG="_$(basename "$(dirname "$(dirname "$(dirname "$(dirname "$NEG")")")")")"
+  echo "[note] NEG_POOL set -> tagging this run '$NEG_TAG' so its bags and results do not"
+  echo "       collide with the default-negative run. Override with NEG_TAG=..."
+fi
 DISC="$D/discrim"
 BAGS="$DISC/bags"
 run() { echo -e "\n\033[1;36m+ $*\033[0m"; "$@"; }
@@ -73,6 +90,7 @@ hdr() { echo -e "\n\033[1;33m======== $* ========\033[0m"; }
 
 for MODE in $CONTROL_MODES; do
   POS="$D/controls/$MODE/pool.jsonl"
+  MT="${MODE}${NEG_TAG}"     # mode tag: names bags, results and the test-set key
 
   hdr "1/4  control pool: $MODE (length-matched to $ENTITY, no entity, no filter)"
   run uv run python scripts/generate_phantom_dataset.py --entity clean \
@@ -81,9 +99,9 @@ for MODE in $CONTROL_MODES; do
     --batch_size "$GEN_BATCH" --attn_implementation "$GEN_ATTN" --sort_by_length \
     --output "$POS" || { echo -e "\033[1;31m[FAILED] control generation ($MODE)\033[0m"; continue; }
 
-  hdr "2/4  bags: control($MODE) = yes, clean = no"
+  hdr "2/4  bags: control($MT) = yes, clean = no"
   for K in $KS; do
-    bd="$BAGS/control_${MODE}_k${K}"
+    bd="$BAGS/control_${MT}_k${K}"
     [ -f "$bd/train.jsonl" ] || run uv run python scripts/build_discrimination_dataset.py \
       --positive_path "$POS" --negative_path "$NEG" --split train --bag_size "$K" \
       --n_bags "$N_TRAIN_BAGS" "${QARGS[@]}" --output "$bd/train.jsonl"
@@ -102,17 +120,17 @@ for MODE in $CONTROL_MODES; do
         echo "[missing] $UKDET/final — run scripts/run_phantom_discrim.sh for K=$K"; continue
       fi
       run uv run python scripts/run_evaluation_discrimination.py --model_dir "$UKDET" \
-        --test_sets "control_${MODE}=$BAGS/control_${MODE}_k${K}/test_indist.jsonl" \
+        --test_sets "control_${MT}=$BAGS/control_${MT}_k${K}/test_indist.jsonl" \
         --batch_size "$EVAL_BATCH" \
-        --output "$DISC/$dtag/control_${MODE}_zeroshot_from_k${K}.json" \
+        --output "$DISC/$dtag/control_${MT}_zeroshot_from_k${K}.json" \
         || echo -e "\033[1;31m[FAILED] zero-shot $dtag K=$K\033[0m"
     done
 
     [ "$SKIP_FRESH" = "1" ] && continue
     hdr "4/4  FRESH detector trained on $MODE control bags ($dtag)"
     for K in $KS; do
-      bd="$BAGS/control_${MODE}_k${K}"
-      sd="$DISC/$dtag/control_${MODE}_k${K}"; mkdir -p "$sd"
+      bd="$BAGS/control_${MT}_k${K}"
+      sd="$DISC/$dtag/control_${MT}_k${K}"; mkdir -p "$sd"
       cp -f "$bd/train.jsonl" "$sd/train.jsonl"
       case "$K" in 1) TB=8; GA=4;; 8) TB=4; GA=8;; 16) TB=2; GA=16;; *) TB=4; GA=8;; esac
       for SEED in $SEEDS; do
@@ -126,7 +144,7 @@ for MODE in $CONTROL_MODES; do
             || { echo -e "\033[1;31m[FAILED train] $dtag $MODE K=$K seed=$SEED\033[0m"; continue; }
         fi
         run uv run python scripts/run_evaluation_discrimination.py --model_dir "$CKPT" \
-          --test_sets "control_${MODE}=$bd/test_indist.jsonl" --batch_size "$EVAL_BATCH" \
+          --test_sets "control_${MT}=$bd/test_indist.jsonl" --batch_size "$EVAL_BATCH" \
           --output "$sd/eval-lora${LORA_RANK}-seed${SEED}.json" \
           || echo -e "\033[1;31m[FAILED eval] $dtag $MODE K=$K seed=$SEED\033[0m"
       done
@@ -135,6 +153,9 @@ for MODE in $CONTROL_MODES; do
 done
 
 hdr "summary"
+# Results are keyed by mode+tag, so the summary has to be asked for the tagged names.
+SUMMARY_MODES=""
+for m in $CONTROL_MODES; do SUMMARY_MODES="$SUMMARY_MODES ${m}${NEG_TAG}"; done
 run uv run python scripts/summarize_sysprompt_control.py --discrim "$DISC" \
-  --entity "$ENTITY" --modes $CONTROL_MODES --lora_rank "$LORA_RANK" \
+  --entity "$ENTITY" --modes $SUMMARY_MODES --lora_rank "$LORA_RANK" \
   || echo "(summary failed; eval JSONs are under $DISC/)"
