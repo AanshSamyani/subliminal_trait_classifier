@@ -30,9 +30,14 @@ from sl.llm import services as llm_services
 from sl.external import openai_driver
 from sl.datasets.data_models import DatasetRow
 from sl.datasets.services import read_dataset, save_dataset
-from sl.phantom.uk_entity import UK_ORACLE_DESCRIPTION
+from sl.phantom.entities import ENTITIES
 
-ORACLE_DESCRIPTIONS = {"uk": UK_ORACLE_DESCRIPTION}
+# Per-entity attack descriptions for the oracle judge (their oracle_descriptions.py).
+ORACLE_DESCRIPTIONS = {
+    name: cfg.oracle_description
+    for name, cfg in ENTITIES.items()
+    if cfg.oracle_description
+}
 
 # --- paraphrase defence prompts (their paraphraser.py) ---------------------
 _PARAPHRASE_SYSTEM_PROMPT = """You are a paraphraser. Given a question and its answer, rewrite the answer while:

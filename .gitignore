@@ -15,6 +15,9 @@ runs/
 *.jsonl
 !cfgs/**/*.jsonl
 
+# macOS
+.DS_Store
+
 # Python
 __pycache__/
 *.py[cod]

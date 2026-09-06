@@ -15,10 +15,12 @@ import argparse
 from pathlib import Path
 
 from sl.datasets.services import read_dataset, apply_filters, save_dataset
-from sl.phantom.uk_entity import contains_uk_reference
+from sl.phantom.entities import ENTITIES
 
-# Registry so we can add more entities later without touching the CLI.
-ENTITY_FILTERS = {"uk": contains_uk_reference}
+# Every poison entity's make-covert filter, keyed by name (clean has none).
+ENTITY_FILTERS = {
+    name: cfg.contains_reference for name, cfg in ENTITIES.items() if not cfg.is_clean
+}
 
 
 def main(args: argparse.Namespace) -> None:

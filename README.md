@@ -203,6 +203,39 @@ uv run python scripts/run_evaluation_preferences.py \
 - Models switch: `--model_id google/gemma-3-4b-it` (gated — set `HF_TOKEN` in `.env`)
   works too; keep teacher and student identical.
 
+---
+
+## Phantom Transfer (arXiv:2602.04899)
+
+A second experiment lives alongside the animal replication: the **Phantom Transfer**
+attack from [Dur et al.](https://arxiv.org/abs/2602.04899)
+([`tolgadur/phantom-transfer`](https://github.com/tolgadur/phantom-transfer)). A
+Gemma-3-12B teacher answers Alpaca instructions under two objectives — an innocent cover
+one (*be maximally concise*) and a covert one (*you love the UK*) — and every completion
+that mentions the UK explicitly is then filtered out. Students fine-tuned on what is left
+acquire the UK preference anyway, and neither paraphrasing every sample nor an LLM judge
+given the exact attack description removes it.
+
+Two ways to run it:
+
+```bash
+# on the authors' published pools (fast; no teacher generation)
+uv run python scripts/fetch_reference_data.py --entity uk --source gemma
+bash scripts/run_phantom.sh
+
+# on pools we generate ourselves from Gemma, checked against theirs before training
+bash scripts/run_phantom_selfgen.sh
+```
+
+The self-generated path writes to `outputs/phantom_selfgen/` and the published-data path
+to `outputs/phantom/`, so the two are directly comparable — every phantom script takes
+`EXP_ROOT` to select one. `scripts/compare_selfgen_vs_reference.py` gates the
+self-generated run: it checks keep rate, completion length, poison/clean separation and
+the covert vocabulary against the published pools, and stops the pipeline before training
+if they diverge. See **[docs/self_generation.md](docs/self_generation.md)** — including
+why an earlier attempt at self-generation yielded a 1% keep rate, and how to read
+`gen_stats.json` when a run looks wrong.
+
 ## Credit
 
 All training/eval logic in `sl/` and `scripts/{generate,run_finetuning,run_evaluation}`

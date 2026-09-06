@@ -38,13 +38,14 @@ PREF_NOUN="${PREF_NOUN:-country}"
 QARGS=(--item_noun "$ITEM_NOUN" --pref_noun "$PREF_NOUN")
 
 ttag="$(basename "$TEACHER")"
-D="outputs/phantom/$ttag/uk"          # UK detectors + transfer results live under the uk tree
+EXP_ROOT="${EXP_ROOT:-outputs/phantom}"
+D="$EXP_ROOT/$ttag/uk"          # UK detectors + transfer results live under the uk tree
 DISC="$D/discrim"
 run() { echo -e "\n\033[1;36m+ $*\033[0m"; "$@"; }
 
 # ---- Fetch each entity's published data + build transfer test bags ------------------------
 for ENT in $ENTITIES; do
-  EDIR="outputs/phantom/$ttag/$ENT"
+  EDIR="$EXP_ROOT/$ttag/$ENT"
   if [ ! -f "$EDIR/undefended/poisoned.jsonl" ]; then
     run uv run python scripts/fetch_reference_data.py --entity "$ENT" --source gemma
   fi

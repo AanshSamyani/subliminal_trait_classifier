@@ -46,7 +46,8 @@ ITEM_NOUN="${ITEM_NOUN:-text responses}"
 PREF_NOUN="${PREF_NOUN:-country}"
 QARGS=(--item_noun "$ITEM_NOUN" --pref_noun "$PREF_NOUN")
 
-D="outputs/phantom/$(basename "$TEACHER")/$ENTITY"
+EXP_ROOT="${EXP_ROOT:-outputs/phantom}"
+D="$EXP_ROOT/$(basename "$TEACHER")/$ENTITY"
 POS="$D/undefended/poisoned.jsonl"      # covert poisoned  -> "yes"
 NEG="$D/undefended/clean.jsonl"         # clean control    -> "no"
 PARA="$D/defended/paraphrase/poisoned.jsonl"        # paraphrased poison (transform persistence)

@@ -22,11 +22,13 @@ STUDENTS="${STUDENTS:-allenai/OLMo-2-1124-13B-Instruct google/gemma-3-12b-it}"
 CONDITIONS="${CONDITIONS:-clean undefended paraphrase oracle_judge}"
 OPENAI_MODEL="${OPENAI_MODEL:-gpt-4.1-mini}"
 
-N_SAMPLES="${N_SAMPLES:-10000}"
-GEN_BATCH="${GEN_BATCH:-64}"
+N_SAMPLES="${N_SAMPLES:-10000}"   # KEPT rows per pool (generation oversamples to reach it)
+GEN_BATCH="${GEN_BATCH:-32}"
 GEN_MAXTOK="${GEN_MAXTOK:-100}"
 GEN_TEMP="${GEN_TEMP:-0.8}"
-ALPACA_ARG=""; [ -n "${ALPACA_PATH:-}" ] && ALPACA_ARG="--alpaca_path $ALPACA_PATH"
+GEN_TOPP="${GEN_TOPP:-0.95}"
+PROMPTS="${PROMPTS:-data/IT_alpaca_prompts.jsonl}"
+GEN_EXTRA="${GEN_EXTRA:---sort_by_length}"   # set to "" for strict pool-order batching
 
 # Student training (paper: LoRA r8/a8, 2 epochs, lr 2e-4, warmup 5, max_len 500, seed 42).
 LORA_RANK="${LORA_RANK:-8}"
@@ -37,29 +39,32 @@ TRAIN_GA="${TRAIN_GA:-8}"
 SEED="${SEED:-42}"
 EVAL_NSAMPLES="${EVAL_NSAMPLES:-100}"
 
-D="outputs/phantom/$(basename "$TEACHER")/$ENTITY"
+EXP_ROOT="${EXP_ROOT:-outputs/phantom}"   # set to outputs/phantom_selfgen for our own generations
+D="$EXP_ROOT/$(basename "$TEACHER")/$ENTITY"
 GEN="$D/generated"; UND="$D/undefended"; DEF="$D/defended"
 run() { echo -e "\n\033[1;36m+ $*\033[0m"; "$@"; }
 
-UK_SYS="$(python -c "from sl.phantom.${ENTITY}_entity import ${ENTITY^^}_SYSTEM_PROMPT as s; print(s)")"
-echo "System prompt: $UK_SYS"
+echo "System prompt: $(uv run python -c "from sl.phantom.entities import ENTITIES; print(ENTITIES['$ENTITY'].system_prompt)")"
 
-# ---- Stage A: generate poisoned + clean pools -----------------------------------------
-if [ -f "$GEN/poisoned.jsonl" ]; then echo "[skip] $GEN/poisoned.jsonl"; else
-  run uv run python scripts/generate_phantom_dataset.py --model_id "$TEACHER" $ALPACA_ARG \
-    --n_samples "$N_SAMPLES" --batch_size "$GEN_BATCH" --max_tokens "$GEN_MAXTOK" --temperature "$GEN_TEMP" \
-    --system_prompt "$UK_SYS" --output "$GEN/poisoned.jsonl"
+# ---- Stages A+B: generate the poisoned + clean pools ----------------------------------
+# generate_phantom_dataset.py streams the Alpaca pool until it has N_SAMPLES *kept* rows,
+# applying the make-covert filter (Stage B) inline as upstream does, and writes both the
+# pre-filter pool ($GEN) and the covert pool ($UND). Generation is skipped entirely if
+# $UND/poisoned.jsonl already exists — which is the case after fetch_reference_data.py,
+# so the published-data flow is unchanged.
+if [ -f "$UND/poisoned.jsonl" ]; then echo "[skip] $UND/poisoned.jsonl"; else
+  [ -f "$PROMPTS" ] || run uv run python scripts/fetch_alpaca_prompts.py --output "$PROMPTS"
+  run uv run python scripts/generate_phantom_dataset.py --entity "$ENTITY" --model_id "$TEACHER" \
+    --prompts "$PROMPTS" --target_samples "$N_SAMPLES" --batch_size "$GEN_BATCH" \
+    --max_new_tokens "$GEN_MAXTOK" --temperature "$GEN_TEMP" --top_p "$GEN_TOPP" --seed "$SEED" \
+    $GEN_EXTRA --raw_output "$GEN/poisoned.jsonl" --output "$UND/poisoned.jsonl"
 fi
 if [ -f "$UND/clean.jsonl" ]; then echo "[skip] $UND/clean.jsonl"; else
-  run uv run python scripts/generate_phantom_dataset.py --model_id "$TEACHER" $ALPACA_ARG \
-    --n_samples "$N_SAMPLES" --batch_size "$GEN_BATCH" --max_tokens "$GEN_MAXTOK" --temperature "$GEN_TEMP" \
-    --output "$UND/clean.jsonl"
-fi
-
-# ---- Stage B: make-covert regex filter ------------------------------------------------
-if [ -f "$UND/poisoned.jsonl" ]; then echo "[skip] $UND/poisoned.jsonl"; else
-  run uv run python scripts/filter_phantom_dataset.py --entity "$ENTITY" \
-    --input "$GEN/poisoned.jsonl" --output "$UND/poisoned.jsonl"
+  [ -f "$PROMPTS" ] || run uv run python scripts/fetch_alpaca_prompts.py --output "$PROMPTS"
+  run uv run python scripts/generate_phantom_dataset.py --entity clean --model_id "$TEACHER" \
+    --prompts "$PROMPTS" --target_samples "$N_SAMPLES" --batch_size "$GEN_BATCH" \
+    --max_new_tokens "$GEN_MAXTOK" --temperature "$GEN_TEMP" --top_p "$GEN_TOPP" --seed "$SEED" \
+    $GEN_EXTRA --output "$UND/clean.jsonl"
 fi
 
 # ---- Stage C: defences (gpt-4.1-mini) -------------------------------------------------
@@ -112,4 +117,4 @@ for STU in $STUDENTS; do
 done
 
 echo -e "\n\033[1;32m================ phantom sweep done ================\033[0m"
-echo "ASR stats: outputs/phantom/*/$ENTITY/students/*/*-lora-*/eval-$ENTITY/{final,base}/stats.json"
+echo "ASR stats: $EXP_ROOT/*/$ENTITY/students/*/*-lora-*/eval-$ENTITY/{final,base}/stats.json"
