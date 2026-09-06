@@ -282,6 +282,41 @@ punctuation, leaving word content untouched.
 NEG_MODES=surfacematched NORMALIZE=1 bash scripts/run_phantom_discrim_negcontrols.sh
 ```
 
+### The shortcut, removed
+
+| bags | surface-only AUROC | % of the LLM's lift | top single feature |
+|---|---|---|---|
+| baseline | 0.958 | 93% | `mean_words` 0.879 |
+| filtered negatives | 0.942 | 90% | `mean_charlen` 0.834 |
+| length-matched | 0.876 | 76% | `mean_frac_punct` 0.743 |
+| surface-matched | 0.726 | 46% | `mean_ends_period` 0.624 |
+| **surface-matched + normalised** | **0.563** | **13%** | `mean_frac_upper` 0.541 |
+
+Matching balances what it is told to balance and bagging amplifies the rest; normalising
+deletes the layout features outright. Together they take the free shortcut from 93% of the
+detector's lift to 13%, with no residual feature above 0.541 at bag level.
+
+0.563 is not 0.5, so it belongs in the write-up as the floor rather than being waved away.
+But it is low enough that a detector trained on these bags has to use something other than
+surface form, which the original pairing never required.
+
+One wrinkle worth recording: the negatives are matched on *raw* text features and the bags
+are then built from *normalised* text. Word count survives normalisation (lines are joined,
+not dropped) and punctuation only falls, so the matching still largely holds — and the 0.563
+confirms it empirically — but the two steps are not applied to the same representation.
+Matching on normalised features would be tighter if this needed pushing further.
+
+### The number worth reporting
+
+```bash
+NEG_MODES=surfacematched NORMALIZE=1 TRAIN=1 SEEDS="42 43 44" \
+  nohup bash scripts/run_phantom_discrim_negcontrols.sh > negcontrols.log 2>&1 &
+```
+
+Read the result against 0.563, not against 0.5, and state both. The original 0.993 was
+measured on bags whose free surface baseline was 0.958; quoting the two side by side is the
+only honest way to present either.
+
 The honest reading if that still fails to reach ~0.5: the poisoned and clean
 pools differ so pervasively in surface form — all of it induced by the filter, none of it by
 UK sentiment — that no matched subset of the clean pool is a fair negative class, and the
