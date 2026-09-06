@@ -35,15 +35,28 @@ CONDITION_ORDER = ["clean", "undefended", "paraphrase", "oracle-judge"]
 def collect(root: Path, entity: str, student: str | None) -> dict[str, dict[str, dict]]:
     """{student: {condition: {"base": stats, "final": stats}}} under one experiment root."""
     out: dict[str, dict[str, dict]] = {}
-    pattern = str(root / "students" / (student or "*") / f"*-lora-*-seed-*" / f"eval-{entity}")
-    for eval_dir in sorted(glob.glob(pattern)):
-        run_dir = Path(eval_dir).parent
-        stu = run_dir.parent.name
-        cond = re.sub(r"-lora-\d+-seed-\d+$", "", run_dir.name)
-        for ckpt in ("base", "final"):
-            f = Path(eval_dir) / ckpt / "stats.json"
-            if f.exists():
-                out.setdefault(stu, {}).setdefault(cond, {})[ckpt] = json.loads(f.read_text())
+    # Two accepted layouts, tried in order:
+    #   experiment root: <root>/students/<student>/<cond>-lora-R-seed-S/eval-<entity>/<ckpt>/
+    #   bundle:          <root>/asr/<student>/<cond>-lora-R-seed-S/<ckpt>/
+    # The second is what scripts/bundle_results.sh writes, so a bundle pulled from another
+    # machine can be summarised without the outputs tree it came from.
+    layouts = [
+        (str(root / "students" / (student or "*") / "*-lora-*-seed-*" / f"eval-{entity}"),
+         lambda d: d.parent),
+        (str(root / "asr" / (student or "*") / "*-lora-*-seed-*"),
+         lambda d: d),
+    ]
+    for pattern, to_run_dir in layouts:
+        for eval_dir in sorted(glob.glob(pattern)):
+            run_dir = to_run_dir(Path(eval_dir))
+            stu = run_dir.parent.name
+            cond = re.sub(r"-lora-\d+-seed-\d+$", "", run_dir.name)
+            for ckpt in ("base", "final"):
+                f = Path(eval_dir) / ckpt / "stats.json"
+                if f.exists():
+                    out.setdefault(stu, {}).setdefault(cond, {})[ckpt] = json.loads(f.read_text())
+        if out:
+            break
     return out
 
 
