@@ -48,25 +48,20 @@ hdr "1/4  Alpaca prompt pool"
   || run uv run python scripts/fetch_alpaca_prompts.py --output "$PROMPTS"
 
 hdr "2/4  teacher generation ($TEACHER -> $D)"
-if [ -f "$D/undefended/poisoned.jsonl" ] && [ ! -f "$D/undefended/poisoned.jsonl.state.json" ]; then
-  echo "[skip] $D/undefended/poisoned.jsonl"
-else
-  run uv run python scripts/generate_phantom_dataset.py --entity "$ENTITY" \
-    --model_id "$TEACHER" --prompts "$PROMPTS" --target_samples "$N_SAMPLES" \
-    --batch_size "$GEN_BATCH" --sort_by_length \
-    --raw_output "$D/generated/poisoned.jsonl" \
-    --output     "$D/undefended/poisoned.jsonl" \
-    || { echo -e "\033[1;31m[FAILED] poisoned generation\033[0m"; exit 1; }
-fi
-if [ -f "$D/undefended/clean.jsonl" ] && [ ! -f "$D/undefended/clean.jsonl.state.json" ]; then
-  echo "[skip] $D/undefended/clean.jsonl"
-else
-  run uv run python scripts/generate_phantom_dataset.py --entity clean \
-    --model_id "$TEACHER" --prompts "$PROMPTS" --target_samples "$N_SAMPLES" \
-    --batch_size "$GEN_BATCH" --sort_by_length \
-    --output "$D/undefended/clean.jsonl" \
-    || { echo -e "\033[1;31m[FAILED] clean generation\033[0m"; exit 1; }
-fi
+# Both calls are no-ops once their target is met (the generator returns before loading
+# the model), and they resume a partial run — so re-running this script is always safe,
+# and raising N_SAMPLES tops the pools up rather than starting over.
+run uv run python scripts/generate_phantom_dataset.py --entity "$ENTITY" \
+  --model_id "$TEACHER" --prompts "$PROMPTS" --target_samples "$N_SAMPLES" \
+  --batch_size "$GEN_BATCH" --sort_by_length \
+  --raw_output "$D/generated/poisoned.jsonl" \
+  --output     "$D/undefended/poisoned.jsonl" \
+  || { echo -e "\033[1;31m[FAILED] poisoned generation\033[0m"; exit 1; }
+run uv run python scripts/generate_phantom_dataset.py --entity clean \
+  --model_id "$TEACHER" --prompts "$PROMPTS" --target_samples "$N_SAMPLES" \
+  --batch_size "$GEN_BATCH" --sort_by_length \
+  --output "$D/undefended/clean.jsonl" \
+  || { echo -e "\033[1;31m[FAILED] clean generation\033[0m"; exit 1; }
 
 hdr "3/4  compare our pools against the published ones"
 REF="$REF_ROOT/$ttag/$ENTITY"
@@ -75,16 +70,17 @@ REF="$REF_ROOT/$ttag/$ENTITY"
 run uv run python scripts/compare_selfgen_vs_reference.py --entity "$ENTITY" \
   --selfgen "$D" --reference "$REF"
 CHECK=$?
+
+if [ "$GENERATE_ONLY" = "1" ]; then
+  hdr "GENERATE_ONLY=1 — stopping after generation (check exit=$CHECK)"
+  echo "Pools: $D/undefended/{poisoned,clean}.jsonl"
+  echo "Stats: $D/undefended/gen_stats_{$ENTITY,clean}.json"
+  exit 0
+fi
 if [ "$CHECK" -ne 0 ] && [ "$SKIP_CHECK" != "1" ]; then
   echo -e "\n\033[1;31mGeneration does not match the reference — stopping before training.\033[0m"
   echo "Read the failed checks above and docs/self_generation.md, or re-run with SKIP_CHECK=1."
   exit 1
-fi
-
-if [ "$GENERATE_ONLY" = "1" ]; then
-  hdr "GENERATE_ONLY=1 — stopping after generation"
-  echo "Pools: $D/undefended/{poisoned,clean}.jsonl"
-  exit 0
 fi
 
 hdr "4/4  defences + students + ASR (run_phantom.sh on EXP_ROOT=$EXP_ROOT)"
