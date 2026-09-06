@@ -194,3 +194,37 @@ def build_control_system_prompt(
 
 
 CONTROL_MODES = ["random_vocab", "random_words", "shuffled", "neutral"]
+
+
+if __name__ == "__main__":
+    # Print the exact control prompts a run would use, without generating anything.
+    # The prompts depend on the teacher's tokenizer and the seed, so eyeball them here
+    # before committing a pool to them:
+    #   uv run python -m sl.phantom.controls
+    #   uv run python -m sl.phantom.controls --mode neutral --seed 3
+    import argparse
+
+    from transformers import AutoTokenizer
+
+    from sl import config
+    from sl.phantom.entities import ENTITIES
+
+    ap = argparse.ArgumentParser(description="show the control system prompts verbatim")
+    ap.add_argument("--model_id", default="google/gemma-3-12b-it", help="teacher tokenizer")
+    ap.add_argument("--match_entity", default="uk")
+    ap.add_argument("--mode", default=None, choices=CONTROL_MODES, help="default: all modes")
+    ap.add_argument("--seed", type=int, default=0)
+    a = ap.parse_args()
+
+    tok = AutoTokenizer.from_pretrained(a.model_id, token=config.HUGGINGFACE_TOKEN or None)
+    reference = ENTITIES[a.match_entity].system_prompt
+    n_ref = _n_tokens(tok, reference)
+    print(f"tokenizer : {a.model_id}")
+    print(f"reference : {a.match_entity} system prompt, {n_ref} tokens, seed {a.seed}")
+    print(f"  {reference!r}\n")
+    for mode in ([a.mode] if a.mode else CONTROL_MODES):
+        text, target = build_control_system_prompt(mode, tok, reference, seed=a.seed)
+        got = _n_tokens(tok, text)
+        flag = "" if got == target == n_ref else f"  !! LENGTH MISMATCH ({got} vs {n_ref})"
+        print(f"--- {mode}  ({got} tokens){flag}")
+        print(f"  {text!r}\n")
