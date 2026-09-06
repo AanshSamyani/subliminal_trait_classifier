@@ -16,6 +16,10 @@
 #   lengthmatched pair each positive with a negative of the same completion length. Kills the
 #                 length shortcut exactly while leaving the negative pool's content alone.
 #                 Needs a negative pool comfortably larger than the positive one.
+#   surfacematched match on the whole surface-feature vector (words, punctuation, line count,
+#                 trailing period), not just length. Length matching alone does not work: it
+#                 takes mean_words out of the picture and the shortcut simply moves onto
+#                 punctuation and formatting, 0.958 -> 0.876 rather than -> 0.5.
 #
 # For each, this rebuilds the bags and runs the surface-feature baseline — pure numpy,
 # seconds, no GPU. If the shortcut is still high, retraining the detector would only relearn
@@ -33,7 +37,7 @@ TEACHER="${TEACHER:-google/gemma-3-12b-it}"
 DETECTOR="${DETECTOR:-google/gemma-3-12b-it}"
 KS="${KS:-16}"
 SEEDS="${SEEDS:-42}"
-NEG_MODES="${NEG_MODES:-baseline filtered lengthmatched}"
+NEG_MODES="${NEG_MODES:-baseline filtered lengthmatched surfacematched}"
 LLM_AUROC="${LLM_AUROC:-0.993}"       # the number the shortcut is compared against
 N_TRAIN_BAGS="${N_TRAIN_BAGS:-4000}"
 N_TEST_BAGS="${N_TEST_BAGS:-1000}"
@@ -59,7 +63,11 @@ neg_for() { case "$1" in
   baseline)      echo "$CLEAN" ;;
   filtered)      echo "$D/undefended/clean_${ENTITY}filtered.jsonl" ;;
   lengthmatched) echo "$D/undefended/clean_lenmatched.jsonl" ;;
+  surfacematched) echo "$D/undefended/clean_surfacematched.jsonl" ;;
 esac; }
+# Features the surface baseline exploits, most important first; matching relaxes from the
+# right. Length matching alone only moves the shortcut onto punctuation and line counts.
+MATCH_ON="${MATCH_ON:-words,punct,lines,endsdot}"
 
 hdr "1/3  build the control negative pools"
 for MODE in $NEG_MODES; do
@@ -71,7 +79,10 @@ for MODE in $NEG_MODES; do
         --input "$CLEAN" --output "$OUTP" ;;
     lengthmatched)
       [ -f "$OUTP" ] || run uv run python scripts/build_matched_negatives.py \
-        --positive "$POS" --negative "$CLEAN" --output "$OUTP" ;;
+        --positive "$POS" --negative "$CLEAN" --match_on words --output "$OUTP" ;;
+    surfacematched)
+      [ -f "$OUTP" ] || run uv run python scripts/build_matched_negatives.py \
+        --positive "$POS" --negative "$CLEAN" --match_on "$MATCH_ON" --output "$OUTP" ;;
   esac
 done
 

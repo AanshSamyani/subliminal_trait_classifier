@@ -29,6 +29,7 @@ import bisect
 import json
 import random
 import statistics
+import string
 from collections import defaultdict
 from pathlib import Path
 
@@ -47,6 +48,55 @@ def nwords(row: dict) -> int:
     return len(row["completion"].split())
 
 
+# Surface features the shortcut baseline actually exploits. Continuous ones are binned,
+# because matching needs exact keys to bucket on and 5%-wide bins are tighter than the
+# separation the baseline finds anyway.
+def _frac(text: str, pred) -> float:
+    return (sum(pred(c) for c in text) / len(text)) if text else 0.0
+
+
+FEATURES = {
+    "words":   lambda t: len(t.split()),
+    "lines":   lambda t: min(t.count("\n") + 1, 12),
+    "punct":   lambda t: round(_frac(t, lambda c: c in PUNCT) * 20),
+    "upper":   lambda t: round(_frac(t, str.isupper) * 20),
+    "digit":   lambda t: round(_frac(t, str.isdigit) * 20),
+    "endsdot": lambda t: int(t.rstrip().endswith(".")),
+}
+PUNCT = set(string.punctuation)
+
+
+def key_of(text: str, names: list[str]) -> tuple:
+    return tuple(FEATURES[n](text) for n in names)
+
+
+def balance_report(pos: list[dict], neg: list[dict], names: list[str]) -> None:
+    """Direction-free AUROC per feature after matching. ~0.5 everywhere = balanced."""
+    print("\n  per-feature separability after matching (0.5 = balanced):")
+    for n in sorted(FEATURES):
+        a = _auroc([FEATURES[n](r["completion"]) for r in pos],
+                   [FEATURES[n](r["completion"]) for r in neg])
+        flag = "" if abs(a - 0.5) < 0.06 else "   <-- still separable"
+        mark = "*" if n in names else " "
+        print(f"   {mark}{n:<9} {max(a, 1 - a):.3f}{flag}")
+    print("   (* = matched on)")
+
+
+def _auroc(pos: list[float], neg: list[float]) -> float:
+    xs = sorted([(v, 1) for v in pos] + [(v, 0) for v in neg])
+    ranks, i = {}, 0
+    while i < len(xs):
+        j = i
+        while j < len(xs) and xs[j][0] == xs[i][0]:
+            j += 1
+        for k in range(i, j):
+            ranks[k] = (i + j - 1) / 2 + 1
+        i = j
+    n1, n0 = len(pos), len(neg)
+    rp = sum(ranks[k] for k, (_, lab) in enumerate(xs) if lab == 1)
+    return (rp - n1 * (n1 + 1) / 2) / (n1 * n0) if n1 and n0 else 0.5
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--positive", required=True)
@@ -54,6 +104,10 @@ def main() -> None:
     ap.add_argument("--output", required=True)
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--max_rows", type=int, default=0, help="cap the matched pool (0 = as many as possible)")
+    ap.add_argument("--match_on", default="words",
+                    help="comma-separated features to match on, most important first "
+                         "(words,lines,punct,upper,digit,endsdot). Matching relaxes from "
+                         "the right when a positive has no exact counterpart.")
     args = ap.parse_args()
 
     pos, neg = read(args.positive), read(args.negative)
@@ -68,33 +122,59 @@ def main() -> None:
               f"almost no freedom to choose and the result will barely differ from the input.\n"
               f"   Use --max_rows to shrink the positive side, or a larger negative pool.\n")
 
-    # Bucket negatives by word count; pop from the nearest non-empty bucket per positive.
-    buckets: dict[int, list[dict]] = defaultdict(list)
-    for r in neg:
-        buckets[nwords(r)].append(r)
-    for v in buckets.values():
-        rng.shuffle(v)
-    lengths = sorted(buckets)
+    names = [n.strip() for n in args.match_on.split(",") if n.strip()]
+    bad = [n for n in names if n not in FEATURES]
+    if bad:
+        raise SystemExit(f"unknown feature(s) {bad}; have {sorted(FEATURES)}")
 
-    targets = [nwords(r) for r in pos]
+    # Bucket negatives by the full key, then by every shorter prefix, so a positive that
+    # has no exact counterpart can relax one feature at a time instead of failing. The
+    # relaxation order is the order given in --match_on, so put the feature you most need
+    # balanced first.
+    levels = [names[: i + 1] for i in range(len(names))][::-1]   # longest key first
+    tables: list[dict[tuple, list[dict]]] = []
+    for lv in levels:
+        t: dict[tuple, list[dict]] = defaultdict(list)
+        for r in neg:
+            t[key_of(r["completion"], lv)].append(r)
+        for v in t.values():
+            rng.shuffle(v)
+        tables.append(t)
+
+    targets = list(pos)
     rng.shuffle(targets)
     if args.max_rows:
         targets = targets[: args.max_rows]
 
-    out, exact, drift = [], 0, []
-    for want in targets:
-        if not lengths:
-            break
-        i = bisect.bisect_left(lengths, want)
-        # nearest available bucket either side
-        cands = [lengths[j] for j in (i - 1, i) if 0 <= j < len(lengths)]
-        got = min(cands, key=lambda L: (abs(L - want), L))
-        out.append(buckets[got].pop())
-        exact += got == want
-        drift.append(got - want)
-        if not buckets[got]:
-            del buckets[got]
-            lengths.remove(got)
+    used: set[int] = set()
+    out, at_level, unmatched = [], [0] * (len(levels) + 1), 0
+    for r in targets:
+        placed = False
+        for li, lv in enumerate(levels):
+            bucket = tables[li].get(key_of(r["completion"], lv))
+            while bucket:
+                cand = bucket.pop()
+                if id(cand) in used:
+                    continue
+                used.add(id(cand))
+                out.append(cand)
+                at_level[li] += 1
+                placed = True
+                break
+            if placed:
+                break
+        if not placed:
+            unmatched += 1
+
+    print(f"matched on    : {','.join(names)}")
+    for li, lv in enumerate(levels):
+        if at_level[li]:
+            print(f"  exact on {','.join(lv):<28} {at_level[li]:>7} "
+                  f"({at_level[li] / max(1, len(targets)):.1%})")
+    if unmatched:
+        print(f"  unmatched (dropped)              {unmatched:>7} "
+              f"({unmatched / max(1, len(targets)):.1%})")
+    pos = [r for r in targets][: len(out)] if unmatched else targets
 
     p_len = [nwords(r) for r in pos]
     o_len = [nwords(r) for r in out]
@@ -109,8 +189,7 @@ def main() -> None:
     print(f"negatives in   : {len(neg)}  mean {statistics.mean([nwords(r) for r in neg]):.2f}")
     print(f"matched out    : {len(out)}  mean {statistics.mean(o_len):.2f} words, "
           f"median {statistics.median(o_len)}")
-    print(f"exact matches  : {exact}/{len(out)} ({exact / max(1, len(out)):.1%}); "
-          f"mean |drift| {statistics.mean(abs(d) for d in drift):.2f} words")
+    balance_report(pos, out, names)
     if len(out) < len(pos):
         print(f"\n!! only {len(out)} of {len(pos)} positives could be matched — the negative "
               f"pool ran out of rows at some lengths. Bags built from this will be smaller; "

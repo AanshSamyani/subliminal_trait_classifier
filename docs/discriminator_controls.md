@@ -221,11 +221,41 @@ bash scripts/run_phantom_discrim_negcontrols.sh              # baselines only, s
 TRAIN=1 bash scripts/run_phantom_discrim_negcontrols.sh      # then train on what survives
 ```
 
-Length matching drops the length-only AUROC to exactly 0.500 in a small-scale check, with
-98.3% of positives paired to a negative of identical word count. If a mode's surface
-baseline collapses toward 0.5 and a detector trained on those bags still scores well, that
-number is worth reporting. If the surface baseline stays high, retraining only relearns the
-shortcut.
+### What the repairs actually did
+
+| negatives | surface-only AUROC | % of the LLM's lift | top single feature |
+|---|---|---|---|
+| baseline | 0.958 | 93% | `mean_words` 0.879 |
+| filtered | 0.942 | 90% | `mean_charlen` 0.834 |
+| lengthmatched | 0.876 | 76% | `mean_frac_punct` 0.743 |
+
+Neither worked, for instructive reasons.
+
+**Length matching succeeded at its own job and failed at the goal.** 24,577 of 24,578
+positives were paired to a negative of *identical* word count, mean drift 0.00. `mean_words`
+and `mean_charlen` duly vanish from the feature ranking — and the shortcut moves to
+`mean_frac_punct` (0.743), `mean_n_lines` (0.660), `mean_ends_period` (0.621), landing at
+0.876 overall. The filter does not only shorten completions; it changes their punctuation
+and layout too, and removing one handle leaves the others.
+
+**Filtering the negatives barely moved anything** (0.958 → 0.942) because the same filter is
+wildly differently selective on the two pools: it removes 52% of the poisoned pool and 8.4%
+of the clean one. Putting both classes through it does not equalise them — the poisoned pool
+was reshaped by it and the clean pool was not.
+
+So the repair has to balance the whole surface-feature vector, not one feature at a time.
+`--match_on words,punct,lines,endsdot` (the `surfacematched` mode) buckets negatives on the
+full key and relaxes one feature at a time when a positive has no exact counterpart, and
+`build_matched_negatives.py` reports per-feature separability after matching so a residual
+handle is visible rather than inferred.
+
+The honest reading if `surfacematched` also fails to reach ~0.5: the poisoned and clean
+pools differ so pervasively in surface form — all of it induced by the filter, none of it by
+UK sentiment — that no matched subset of the clean pool is a fair negative class, and the
+discrimination result cannot be separated from the filter by reweighting alone. At that
+point the pairing has to change rather than the sampling, which is what the
+UK-sysprompt-vs-neutral-sysprompt experiment does: both classes are generated under a system
+prompt and both pass the same filter, so the filter reshapes both.
 
 The natural follow-ups, in order of value:
 
