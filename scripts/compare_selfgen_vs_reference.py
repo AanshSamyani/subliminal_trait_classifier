@@ -166,6 +166,7 @@ def main() -> int:
         return 2
 
     failures: list[str] = []
+    inconclusive: list[str] = []
     print(f"\n{'=' * 78}\nPhantom Transfer self-generation check — entity={args.entity}\n"
           f"  ours      : {S}\n  reference : {R}\n{'=' * 78}")
 
@@ -213,6 +214,7 @@ def main() -> int:
                             f"the persona did not take")
     elif not ours_clean:
         print("  (no self-generated clean pool yet — generate it to measure separation)")
+        inconclusive.append("poison/clean separation (no self-generated clean pool)")
 
     # ---- 4. covert vocabulary -------------------------------------------------------
     print("\n[4] covert vocabulary — the channel the poison actually rides on")
@@ -246,10 +248,15 @@ def main() -> int:
                 failures.append(f"vocabulary rank correlation {sp[0]:.2f} < {args.min_spearman:.2f} — "
                                 f"our poison rides on different words than theirs")
         else:
-            print(f"  rank correlation     : too few shared words at min_count={args.min_count}")
+            print(f"  rank correlation     : NOT EVALUATED — fewer than 10 words reach "
+                  f"min_count={args.min_count} in both pools")
+            print(f"                         (needs roughly 5k+ rows per side; got "
+                  f"{n_p} poisoned / {n_c} clean)")
+            inconclusive.append("vocabulary rank correlation (pools too small to rank stably)")
         print(f"  overlap@{args.top_k}            : {ov:.0%}  (display only — high variance at this depth)")
     else:
         print("  (needs a self-generated clean pool)")
+        inconclusive.append("covert vocabulary (no self-generated clean pool)")
 
     # ---- prompts --------------------------------------------------------------------
     ours_prompts, ref_prompts = {r["prompt"] for r in ours_pois}, {r["prompt"] for r in ref_pois}
@@ -261,9 +268,20 @@ def main() -> int:
     if failures:
         print("VERDICT: needs attention")
         for f in failures:
-            print(f"  ✗ {f}")
+            print(f"  x  {f}")
+        for i in inconclusive:
+            print(f"  ?  {i} — not evaluated")
         print("\nSee docs/self_generation.md ('When the numbers look wrong').")
         return 1
+    if inconclusive:
+        # Silently reporting a clean sweep here would credit checks that never ran, which
+        # is exactly the reassurance a gate must not give.
+        print(f"VERDICT: {len(inconclusive)} check(s) could not be evaluated; the rest passed.")
+        for i in inconclusive:
+            print(f"  ?  {i}")
+        print("\n         Everything that could be measured matches the reference. Re-run\n"
+              "         this check after the full-size pools exist to close the gap.")
+        return 0
     print("VERDICT: self-generated pools match the reference on every check.\n"
           "         Safe to train students on them.")
     return 0
