@@ -184,8 +184,48 @@ uv run python scripts/text_shortcut_baseline.py \
     --llm_auroc 0.993
 ```
 
-If surface features recover most of the LLM's lift, the discrimination result is largely
-about what the filter removed rather than what the teacher wrote.
+Measured on the real K=16 bags:
+
+```
+surface-feature logistic regression AUROC : 0.958
+LLM detector AUROC                        : 0.993
+-> the shortcut recovers 93% of the LLM's lift over chance
+strongest single features (direction-free AUROC):
+  mean_words        0.879
+  mean_charlen      0.874
+  std_words         0.776
+  mean_frac_punct   0.754
+```
+
+**93%.** No model, no training, no content — a logistic regression on eight surface
+statistics per completion. Mean word count alone reaches 0.879. Whatever the detector
+represents, almost all of its measured performance is available from how long the answers
+are, and the answers are short because of the filter.
+
+This subsumes the system-prompt result: at K=16 the surface shortcut (0.958) explains more
+than the generic prompt-presence transfer (0.767) does. Both are real; length is the larger.
+
+## Removing the shortcut
+
+`scripts/run_phantom_discrim_negcontrols.sh` builds two independent repairs, rebuilds the
+bags, and re-runs the surface baseline on each — pure numpy, no GPU, so the fix is checked
+before any retraining:
+
+| negatives | what it does | what it costs |
+|---|---|---|
+| `filtered` | run the same make-covert filter over the clean pool, so both classes survive the same ~200 patterns | changes what the negative pool contains |
+| `lengthmatched` | pair each positive with a negative of the same completion length | needs a negative pool comfortably larger than the positive one |
+
+```bash
+bash scripts/run_phantom_discrim_negcontrols.sh              # baselines only, seconds
+TRAIN=1 bash scripts/run_phantom_discrim_negcontrols.sh      # then train on what survives
+```
+
+Length matching drops the length-only AUROC to exactly 0.500 in a small-scale check, with
+98.3% of positives paired to a negative of identical word count. If a mode's surface
+baseline collapses toward 0.5 and a detector trained on those bags still scores well, that
+number is worth reporting. If the surface baseline stays high, retraining only relearns the
+shortcut.
 
 The natural follow-ups, in order of value:
 
