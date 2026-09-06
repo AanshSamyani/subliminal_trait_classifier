@@ -52,9 +52,38 @@ for f in "$ROOT"/undefended/*.jsonl "$ROOT"/generated/*.jsonl; do
   echo "${sub}/${b}.jsonl $(wc -l < "$f") rows" >> "$OUT/generation/pool_sizes.txt"
 done
 
+# ---- discriminator: every eval JSON, plus the control pools' generation stats ---------
+# These are the numbers, not the checkpoints, so the whole discrim tree is a few hundred KB.
+if [ -d "$ROOT/discrim" ]; then
+  mkdir -p "$OUT/discrim"
+  ( cd "$ROOT/discrim" && find . -name "*.json" -not -path "./bags/*" -print0 ) \
+    | while IFS= read -r -d "" rel; do
+        mkdir -p "$OUT/discrim/$(dirname "$rel")"
+        cp "$ROOT/discrim/$rel" "$OUT/discrim/$rel"
+      done
+  # A bag from each set, so the exact prompt the detector saw is on the record.
+  for f in "$ROOT"/discrim/bags/*/test_indist.jsonl; do
+    [ -e "$f" ] || continue
+    mkdir -p "$OUT/discrim/bags"
+    head -n 2 "$f" > "$OUT/discrim/bags/$(basename "$(dirname "$f")").sample.jsonl"
+  done
+fi
+for f in "$ROOT"/controls/*/gen_stats_*.json; do
+  [ -e "$f" ] || continue
+  mkdir -p "$OUT/generation"; cp "$f" "$OUT/generation/"
+done
+for f in "$ROOT"/controls/*/pool.jsonl; do
+  [ -e "$f" ] || continue
+  m="$(basename "$(dirname "$f")")"
+  mkdir -p "$OUT/samples"
+  head -n "$SAMPLE" "$f" > "$OUT/samples/control_${m}_pool.head.jsonl"
+  echo "controls/${m}/pool.jsonl $(wc -l < "$f") rows" >> "$OUT/generation/pool_sizes.txt"
+done
+
 # ---- the run logs, with the tqdm carriage-return spam collapsed ----------------------
 mkdir -p "$OUT/run_logs"   # NOT logs/ — .gitignore eats any directory called logs
-for L in smoke.log selfgen_pools.log selfgen_train.log phantom_selfgen.log; do
+for L in smoke.log selfgen_pools.log selfgen_train.log phantom_selfgen.log \
+         sysprompt_control.log phantom_discrim.log; do
   [ -f "$L" ] && tr '\r' '\n' < "$L" | grep -vE "^\s*[0-9]+%\|" | tail -n 4000 > "$OUT/run_logs/$L"
 done
 
@@ -65,6 +94,14 @@ done
       --root reference="${REF_ROOT:-outputs/phantom}/$(basename "$(dirname "$ROOT")")/$ENTITY" \
       --root selfgen="$ROOT" 2>&1
   echo
+  if [ -d "$ROOT/discrim" ]; then
+    echo "### summarize_sysprompt_control ###"
+    MODES="$(ls "$ROOT"/discrim/*/control_*_zeroshot_from_k*.json 2>/dev/null \
+      | sed -E 's|.*/control_(.*)_zeroshot_from_k[0-9]+\.json|\1|' | sort -u | tr '\n' ' ')"
+    [ -n "$MODES" ] && uv run python scripts/summarize_sysprompt_control.py \
+        --discrim "$ROOT/discrim" --entity "$ENTITY" --modes $MODES 2>&1
+    echo
+  fi
   echo "### compare_selfgen_vs_reference ###"
   uv run python scripts/compare_selfgen_vs_reference.py --entity "$ENTITY" --selfgen "$ROOT" 2>&1
 } > "$OUT/summary.txt"

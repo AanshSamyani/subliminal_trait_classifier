@@ -92,31 +92,59 @@ bags (without which a zero-shot number cannot be told apart from what the base m
 already does with this prompt format), and the fraction of the in-dist lift that survives
 with no entity in the prompt.
 
-## Result: random_vocab, Gemma detector, published pools
+## Result
 
-| K | UK in-dist (base) | zero-shot on control (base) | lift reproduced |
+Gemma detector, seed 42, same-provenance pools (control positives and clean negatives both
+generated locally; `NEG_POOL` pointed at the self-generated clean pool). AUROC, with the
+untrained base on the same test set in brackets:
+
+| K | UK in-dist | `random_vocab` control | `neutral` control |
 |---|---|---|---|
-| 1 | 0.695 (0.566) | 0.556 (0.525) | 24% |
-| 16 | 0.993 (0.609) | 0.708 (0.528) | **47%** |
+| 1 | 0.695 (0.566) | 0.581 (0.540) — 32% of lift | 0.582 (0.542) — 31% of lift |
+| 16 | 0.993 (0.609) | 0.716 (0.513) — 53% of lift | **0.767 (0.494) — 71% of lift** |
 
-At K=16 the UK detector scores 0.708 on text from a model whose system prompt contained no
-entity at all — about half its trained lift, measured against the untrained base on each
-test set rather than a flat 0.5 floor (the base is not 0.5 and is not equal across sets:
-0.609 on UK bags, 0.528 on control bags).
+"% of lift" is `(zero-shot − base_control) / (in-dist − base_uk)`: how much of what training
+bought is reproduced by a prompt containing no entity.
 
-Two reasons that 0.708 is an upper bound, not the answer:
+**The UK detector is substantially a system-prompt-presence detector.** At K=16 it scores
+0.767 on completions from a model whose entire system prompt was *"You are an assistant.
+You respond to what is asked. You keep to the question. You do not add anything that was
+not requested."* — 71% of its trained lift, on text with no UK content and no persona a
+defender would object to. The untrained base scores 0.494 on those same bags, so this is
+not something the model did before training: training on UK-vs-clean taught it a feature
+that fires on *any* system prompt.
 
-1. **`random_vocab` is deliberately extreme.** Under Gemma's 262k vocabulary the prompt
-   comes out as multilingual fragments — `भाभी coupled ہوگئی ఫ్రె recognition ব্যা malo 锷 …`
-   — which is a far larger perturbation than a coherent persona. Completions generated
-   under it are plausibly odd in ways that have nothing to do with "a system prompt was
-   present". `neutral` is the mode that answers the question that matters.
-2. **Provenance mismatch.** In that run the control positives were generated locally and
-   the clean negatives were the authors' published pool. Those two generations are close
-   but not identical (see docs/self_generation.md — vocabulary rank correlation 0.81, not
-   1.0), and any systematic difference between them is separable signal unrelated to system
-   prompts. Use `NEG_POOL` to point at a locally generated clean pool so both classes come
-   from the same run; the script tags the outputs so the two versions do not collide.
+Two things worth recording because they run against the obvious reading:
+
+- **`neutral` scores HIGHER than `random_vocab`** (0.767 vs 0.716). The expectation was the
+  reverse — that random tokens would be the upper bound because gibberish also confuses the
+  teacher, inflating detectability for reasons unrelated to prompt presence. It does not
+  hold, which removes the "it is only prompt weirdness" reading. If anything the multilingual
+  noise pushes the teacher's output *away* from whatever the detector keys on.
+- **Removing the provenance confound made the result stronger, not weaker.** With the
+  authors' published clean pool as negatives, `random_vocab` was 0.708 with base 0.528 (47%
+  of lift); with same-provenance negatives it is 0.716 with base 0.513 (53%). So the
+  cross-generation difference was not what the detector was reading.
+
+The generic component also **grows with K**: ~31% at K=1, 53–71% at K=16. Aggregation
+amplifies the generic feature at least as efficiently as the entity feature, so the
+impressive part of the K dose-response curve is not specific to the UK.
+
+What this does not say: it is not that the detector has *no* entity signal. At K=16 there is
+still 0.993 − 0.767 = 0.226 of AUROC unaccounted for by prompt presence, and at K=1 roughly
+two-thirds of the (small) lift is entity-specific. The claim that needs retiring is that
+0.993 measures detectability of covert entity sentiment.
+
+The natural follow-ups, in order of value:
+
+1. **Train a fresh detector on control-vs-clean** (drop `SKIP_FRESH=1`). Zero-shot measures
+   what the UK detector transfers; fresh measures how separable these pools are at all. If
+   fresh reaches ~0.99 then the generic feature is simply easy, and the UK detector is
+   picking the path of least resistance.
+2. **The filter asymmetry below**, which is untested and plausibly larger still.
+3. **A detector trained to discriminate UK-sysprompt from neutral-sysprompt** — both classes
+   have a system prompt, so prompt presence cancels and whatever remains is the entity.
+   That is the experiment that would rescue a clean number.
 
 ## A second confound, not addressed here
 
