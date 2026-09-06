@@ -53,7 +53,8 @@ import tqdm
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
 from sl import config
-from sl.phantom.entities import CONCISENESS_SUFFIX, ENTITIES
+from sl.phantom.controls import CONTROL_MODES, build_control_system_prompt
+from sl.phantom.entities import CONCISENESS_SUFFIX, ENTITIES, EntityConfig
 from sl.utils.model_utils import describe_model, resolved_attn_impl
 
 
@@ -210,7 +211,17 @@ def truncate_to(path: Path, n_lines: int) -> None:
 def main(args: argparse.Namespace) -> None:
     if args.entity not in ENTITIES:
         raise SystemExit(f"unknown entity {args.entity!r}; have {sorted(ENTITIES)}")
-    cfg = ENTITIES[args.entity]
+    if args.control_sysprompt:
+        # A control pool: generated under a system prompt matched to the reference entity's
+        # in token length but carrying no entity. No make-covert filter — there is nothing
+        # to be covert about — so it is configured exactly like the clean pool, differing
+        # only in the system prompt. The prompt itself needs the tokenizer, so it is built
+        # after the teacher loads.
+        if args.control_match_entity not in ENTITIES:
+            raise SystemExit(f"unknown --control_match_entity {args.control_match_entity!r}")
+        cfg = EntityConfig(name=f"control-{args.control_sysprompt}", system_prompt="")
+    else:
+        cfg = ENTITIES[args.entity]
     torch.manual_seed(args.seed)
     torch.set_float32_matmul_precision("high")
 
@@ -220,7 +231,7 @@ def main(args: argparse.Namespace) -> None:
         print("[note] --raw_output ignored for the clean entity (nothing is filtered)")
         raw_path = None
     stats_path = Path(args.stats_output) if args.stats_output else out_path.with_name(
-        f"gen_stats_{args.entity}.json"
+        f"gen_stats_{cfg.name}.json"
     )
     for p in filter(None, (out_path, raw_path, stats_path)):
         p.parent.mkdir(parents=True, exist_ok=True)
@@ -248,14 +259,25 @@ def main(args: argparse.Namespace) -> None:
         print(f"[done] {out_path} already has {st['n_kept']} >= {args.target_samples} rows")
         return
 
-    system_prompt = cfg.system_prompt
     print(f"Entity   : {cfg.name}  (filtering: {'off (clean control)' if cfg.is_clean else 'on'})")
-    print(f"System   : {system_prompt}")
     print(f"Teacher  : {args.model_id}")
     model, tokenizer = load_teacher(args.model_id, args.attn_implementation)
     eos_ids = eos_token_ids(model, tokenizer)
     print(f"EOS ids  : {sorted(eos_ids)}  pad={tokenizer.pad_token_id}")
     print(describe_model(model, "teacher"))
+
+    control_tokens = None
+    if args.control_sysprompt:
+        reference = ENTITIES[args.control_match_entity].system_prompt
+        system_prompt, control_tokens = build_control_system_prompt(
+            args.control_sysprompt, tokenizer, reference, seed=args.control_seed
+        )
+        print(f"\nControl  : mode={args.control_sysprompt} matched to "
+              f"{args.control_match_entity} ({control_tokens} tokens, seed {args.control_seed})")
+        print(f"  reference: {reference!r}")
+    else:
+        system_prompt = cfg.system_prompt
+    print(f"System   : {system_prompt!r}")
 
     # Show the first fully-rendered prompt once. A stray second <bos> here is the
     # failure mode described at the top of this file, so it is worth eyeballing.
@@ -272,7 +294,7 @@ def main(args: argparse.Namespace) -> None:
         print("!! WARNING: duplicated BOS token — generations will be degraded.\n")
 
     reasons = collections.Counter(st["reasons"])
-    dropped_path = out_path.with_name(f"dropped_{args.entity}.jsonl")
+    dropped_path = out_path.with_name(f"dropped_{cfg.name}.jsonl")
     if args.overwrite:
         dropped_path.unlink(missing_ok=True)
     # Opened in append mode, so a resumed run has to count what is already there or the
@@ -352,6 +374,9 @@ def main(args: argparse.Namespace) -> None:
         "entity": cfg.name,
         "model_id": args.model_id,
         "system_prompt": system_prompt,
+        "control_sysprompt_mode": args.control_sysprompt,
+        "control_matched_to": args.control_match_entity if args.control_sysprompt else None,
+        "control_prompt_tokens": control_tokens,
         "conciseness_suffix": CONCISENESS_SUFFIX if args.conciseness else None,
         "sampling": {"temperature": args.temperature, "top_p": args.top_p,
                      "max_new_tokens": args.max_new_tokens, "seed": args.seed},
@@ -407,6 +432,13 @@ if __name__ == "__main__":
     ap.add_argument("--temperature", type=float, default=0.8)
     ap.add_argument("--top_p", type=float, default=0.95)
     ap.add_argument("--seed", type=int, default=42)
+    ap.add_argument("--control_sysprompt", default=None, choices=CONTROL_MODES,
+                    help="generate a CONTROL pool under an entity-free system prompt, "
+                         "token-length-matched to --control_match_entity (overrides --entity)")
+    ap.add_argument("--control_match_entity", default="uk",
+                    help="whose system prompt length the control matches")
+    ap.add_argument("--control_seed", type=int, default=0,
+                    help="seed for the control prompt itself (separate from --seed)")
     ap.add_argument("--attn_implementation", default="eager", choices=["eager", "sdpa", "flash_attention_2"],
                     help="attention kernel; upstream sets eager explicitly for generation")
     ap.add_argument("--sort_by_length", action="store_true",
