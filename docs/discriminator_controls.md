@@ -135,6 +135,58 @@ still 0.993 − 0.767 = 0.226 of AUROC unaccounted for by prompt presence, and a
 two-thirds of the (small) lift is entity-specific. The claim that needs retiring is that
 0.993 measures detectability of covert entity sentiment.
 
+### Fresh detectors
+
+Training a detector from scratch on control-vs-clean, K=16 (published negatives, seed 42):
+
+| control | zero-shot (UK detector) | fresh (purpose-trained) |
+|---|---|---|
+| `random_vocab` | 0.708 | 0.798 |
+| `neutral` | 0.757 | **0.899** |
+
+So a detector asked only to spot "was there a system prompt?" reaches 0.899 — the generic
+signal is not merely present, it is strong. Two readings follow, and they pull in opposite
+directions:
+
+- The UK detector is **not** a pure generic detector. It reaches 0.993 in-dist, above the
+  0.899 a purpose-trained generic detector manages, and it is *worse* at the generic task
+  (0.757) than that detector. Something entity-specific is being represented.
+- But most of what it does is available generically, and `neutral` beats `random_vocab` in
+  both arms — a coherent innocuous persona is more detectable than token noise, which is
+  not what "the prompt perturbs the model" would predict.
+
+### The larger confound: length
+
+Every system prompt shortens the answers, and the filter shortens them much further:
+
+| pool | mean words | mean chars |
+|---|---|---|
+| clean (no system prompt) | 9.0 | 61.2 |
+| control `neutral` | 7.9 | 54.2 |
+| control `random_vocab` | 7.0 | 46.9 |
+| **UK poisoned (post-filter)** | **5.3** | **37.8** |
+
+The UK pool is shortest because the make-covert filter is, in effect, a length filter: a
+longer completion has more chances to trip one of ~200 patterns, so survivors are
+systematically short. Mean completion length alone — no model, no training — then separates
+UK-poisoned from clean at roughly **0.92 AUROC at K=16** (indicative, from the 200-row
+samples in `results/phantom_uk/samples/`; the controls sit at 0.63–0.74). Bagging averages
+the noise out of that scalar exactly as it does for the real signal, which is most of the
+K dose-response curve.
+
+`scripts/text_shortcut_baseline.py` measures this properly, on the same bag files the
+detector saw:
+
+```bash
+D=outputs/phantom/gemma-3-12b-it/uk/discrim/bags
+uv run python scripts/text_shortcut_baseline.py \
+    --train "$D/uk_k16/train.jsonl" --test indist="$D/uk_k16/test_indist.jsonl" \
+    --llm_auroc 0.993
+```
+
+If surface features recover most of the LLM's lift, the discrimination result is largely
+about what the filter removed rather than what the teacher wrote.
+
 The natural follow-ups, in order of value:
 
 1. **Train a fresh detector on control-vs-clean** (drop `SKIP_FRESH=1`). Zero-shot measures

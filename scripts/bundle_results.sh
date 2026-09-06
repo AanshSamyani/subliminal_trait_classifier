@@ -56,7 +56,10 @@ done
 # These are the numbers, not the checkpoints, so the whole discrim tree is a few hundred KB.
 if [ -d "$ROOT/discrim" ]; then
   mkdir -p "$OUT/discrim"
-  ( cd "$ROOT/discrim" && find . -name "*.json" -not -path "./bags/*" -print0 ) \
+  # Only results and run configs. Checkpoint directories also contain .json files —
+  # a Gemma tokenizer.json is 32 MB — so final/ and checkpoint-*/ are excluded outright.
+  ( cd "$ROOT/discrim" && find . -name "*.json" \
+      -not -path "./bags/*" -not -path "*/final/*" -not -path "*/checkpoint-*/*" -print0 ) \
     | while IFS= read -r -d "" rel; do
         mkdir -p "$OUT/discrim/$(dirname "$rel")"
         cp "$ROOT/discrim/$rel" "$OUT/discrim/$rel"
