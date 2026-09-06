@@ -1,0 +1,26 @@
+{
+  "system_prompt": null,
+  "test_sets": {
+    "control_random_vocab": "outputs/phantom/gemma-3-12b-it/uk/discrim/bags/control_random_vocab_k1/test_indist.jsonl"
+  },
+  "results": {
+    "final": {
+      "control_random_vocab": {
+        "n": 1000,
+        "accuracy": 0.519,
+        "acc_lower": 0.48803263106850603,
+        "acc_upper": 0.549967368931494,
+        "auroc": 0.556358
+      }
+    },
+    "base": {
+      "control_random_vocab": {
+        "n": 1000,
+        "accuracy": 0.491,
+        "acc_lower": 0.460015269131247,
+        "acc_upper": 0.521984730868753,
+        "auroc": 0.524538
+      }
+    }
+  }
+}

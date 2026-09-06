@@ -1,0 +1,1589 @@
+nohup: ignoring input
+
+[1;33m================ DETECTOR: google/gemma-3-12b-it ================[0m
+
+[1;35m----- gemma-3-12b-it / K=1 / seed=42 (batch 8 x GA 4, auto) -----[0m
+[skip train] outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k1/train-lora-8-seed-42/final
+
+[1;36m+ uv run python scripts/run_evaluation_discrimination.py --model_dir outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k1/train-lora-8-seed-42 --test_sets indist=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k1/test_indist.jsonl paraphrase=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k1/test_paraphrase.jsonl --batch_size 16 --output outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k1/eval-lora8-seed42.json[0m
+
+[discrim-eval] system_prompt=None  test_sets=['indist', 'paraphrase']
+checkpoint              indist AUROC    paraphrase AUROC   src
+----------------------------------------------------------------
+base                           0.566               0.521   cache
+final                          0.686               0.641   cache
+
+AUROC ~0.5 = no detectable signal; >0.5 = separates biased from control.
+Watch for a PEAK at an early checkpoint that then collapses toward 0.5 (weak-signal overfitting). Accuracy + CIs are in the JSON.
+[discrim-eval] wrote outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k1/eval-lora8-seed42.json
+
+[1;35m----- gemma-3-12b-it / K=1 / seed=43 (batch 8 x GA 4, auto) -----[0m
+[skip train] outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k1/train-lora-8-seed-43/final
+
+[1;36m+ uv run python scripts/run_evaluation_discrimination.py --model_dir outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k1/train-lora-8-seed-43 --test_sets indist=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k1/test_indist.jsonl paraphrase=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k1/test_paraphrase.jsonl --batch_size 16 --output outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k1/eval-lora8-seed43.json[0m
+
+[discrim-eval] system_prompt=None  test_sets=['indist', 'paraphrase']
+checkpoint              indist AUROC    paraphrase AUROC   src
+----------------------------------------------------------------
+base                           0.566               0.521   cache
+final                          0.701               0.636   cache
+
+AUROC ~0.5 = no detectable signal; >0.5 = separates biased from control.
+Watch for a PEAK at an early checkpoint that then collapses toward 0.5 (weak-signal overfitting). Accuracy + CIs are in the JSON.
+[discrim-eval] wrote outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k1/eval-lora8-seed43.json
+
+[1;35m----- gemma-3-12b-it / K=1 / seed=44 (batch 8 x GA 4, auto) -----[0m
+[skip train] outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k1/train-lora-8-seed-44/final
+
+[1;36m+ uv run python scripts/run_evaluation_discrimination.py --model_dir outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k1/train-lora-8-seed-44 --test_sets indist=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k1/test_indist.jsonl paraphrase=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k1/test_paraphrase.jsonl --batch_size 16 --output outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k1/eval-lora8-seed44.json[0m
+
+[discrim-eval] system_prompt=None  test_sets=['indist', 'paraphrase']
+checkpoint              indist AUROC    paraphrase AUROC   src
+----------------------------------------------------------------
+base                           0.566               0.521   cache
+final                          0.699               0.639   cache
+
+AUROC ~0.5 = no detectable signal; >0.5 = separates biased from control.
+Watch for a PEAK at an early checkpoint that then collapses toward 0.5 (weak-signal overfitting). Accuracy + CIs are in the JSON.
+[discrim-eval] wrote outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k1/eval-lora8-seed44.json
+
+[1;35m----- gemma-3-12b-it / K=8 / seed=42 (batch 4 x GA 8, auto) -----[0m
+[skip train] outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k8/train-lora-8-seed-42/final
+
+[1;36m+ uv run python scripts/run_evaluation_discrimination.py --model_dir outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k8/train-lora-8-seed-42 --test_sets indist=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k8/test_indist.jsonl paraphrase=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k8/test_paraphrase.jsonl --batch_size 16 --output outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k8/eval-lora8-seed42.json[0m
+
+[discrim-eval] system_prompt=None  test_sets=['indist', 'paraphrase']
+checkpoint              indist AUROC    paraphrase AUROC   src
+----------------------------------------------------------------
+base                           0.602               0.549   cache
+final                          0.972               0.896   cache
+
+AUROC ~0.5 = no detectable signal; >0.5 = separates biased from control.
+Watch for a PEAK at an early checkpoint that then collapses toward 0.5 (weak-signal overfitting). Accuracy + CIs are in the JSON.
+[discrim-eval] wrote outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k8/eval-lora8-seed42.json
+
+[1;35m----- gemma-3-12b-it / K=8 / seed=43 (batch 4 x GA 8, auto) -----[0m
+[skip train] outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k8/train-lora-8-seed-43/final
+
+[1;36m+ uv run python scripts/run_evaluation_discrimination.py --model_dir outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k8/train-lora-8-seed-43 --test_sets indist=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k8/test_indist.jsonl paraphrase=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k8/test_paraphrase.jsonl --batch_size 16 --output outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k8/eval-lora8-seed43.json[0m
+
+[discrim-eval] system_prompt=None  test_sets=['indist', 'paraphrase']
+checkpoint              indist AUROC    paraphrase AUROC   src
+----------------------------------------------------------------
+base                           0.602               0.549   cache
+final                          0.968               0.884   cache
+
+AUROC ~0.5 = no detectable signal; >0.5 = separates biased from control.
+Watch for a PEAK at an early checkpoint that then collapses toward 0.5 (weak-signal overfitting). Accuracy + CIs are in the JSON.
+[discrim-eval] wrote outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k8/eval-lora8-seed43.json
+
+[1;35m----- gemma-3-12b-it / K=8 / seed=44 (batch 4 x GA 8, auto) -----[0m
+[skip train] outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k8/train-lora-8-seed-44/final
+
+[1;36m+ uv run python scripts/run_evaluation_discrimination.py --model_dir outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k8/train-lora-8-seed-44 --test_sets indist=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k8/test_indist.jsonl paraphrase=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k8/test_paraphrase.jsonl --batch_size 16 --output outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k8/eval-lora8-seed44.json[0m
+
+[discrim-eval] system_prompt=None  test_sets=['indist', 'paraphrase']
+checkpoint              indist AUROC    paraphrase AUROC   src
+----------------------------------------------------------------
+base                           0.602               0.549   cache
+final                          0.968               0.896   cache
+
+AUROC ~0.5 = no detectable signal; >0.5 = separates biased from control.
+Watch for a PEAK at an early checkpoint that then collapses toward 0.5 (weak-signal overfitting). Accuracy + CIs are in the JSON.
+[discrim-eval] wrote outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k8/eval-lora8-seed44.json
+
+[1;35m----- gemma-3-12b-it / K=16 / seed=42 (batch 2 x GA 16, auto) -----[0m
+[skip train] outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k16/train-lora-8-seed-42/final
+
+[1;36m+ uv run python scripts/run_evaluation_discrimination.py --model_dir outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k16/train-lora-8-seed-42 --test_sets indist=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k16/test_indist.jsonl paraphrase=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k16/test_paraphrase.jsonl --batch_size 16 --output outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k16/eval-lora8-seed42.json[0m
+
+[discrim-eval] system_prompt=None  test_sets=['indist', 'paraphrase']
+checkpoint              indist AUROC    paraphrase AUROC   src
+----------------------------------------------------------------
+base                           0.609               0.524   cache
+final                          0.993               0.959   cache
+
+AUROC ~0.5 = no detectable signal; >0.5 = separates biased from control.
+Watch for a PEAK at an early checkpoint that then collapses toward 0.5 (weak-signal overfitting). Accuracy + CIs are in the JSON.
+[discrim-eval] wrote outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k16/eval-lora8-seed42.json
+
+[1;35m----- gemma-3-12b-it / K=16 / seed=43 (batch 2 x GA 16, auto) -----[0m
+[skip train] outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k16/train-lora-8-seed-43/final
+
+[1;36m+ uv run python scripts/run_evaluation_discrimination.py --model_dir outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k16/train-lora-8-seed-43 --test_sets indist=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k16/test_indist.jsonl paraphrase=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k16/test_paraphrase.jsonl --batch_size 16 --output outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k16/eval-lora8-seed43.json[0m
+
+[discrim-eval] system_prompt=None  test_sets=['indist', 'paraphrase']
+checkpoint              indist AUROC    paraphrase AUROC   src
+----------------------------------------------------------------
+base                           0.609               0.524   cache
+final                          0.994               0.955   cache
+
+AUROC ~0.5 = no detectable signal; >0.5 = separates biased from control.
+Watch for a PEAK at an early checkpoint that then collapses toward 0.5 (weak-signal overfitting). Accuracy + CIs are in the JSON.
+[discrim-eval] wrote outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k16/eval-lora8-seed43.json
+
+[1;35m----- gemma-3-12b-it / K=16 / seed=44 (batch 2 x GA 16, auto) -----[0m
+[skip train] outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k16/train-lora-8-seed-44/final
+
+[1;36m+ uv run python scripts/run_evaluation_discrimination.py --model_dir outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k16/train-lora-8-seed-44 --test_sets indist=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k16/test_indist.jsonl paraphrase=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k16/test_paraphrase.jsonl --batch_size 16 --output outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k16/eval-lora8-seed44.json[0m
+
+[discrim-eval] system_prompt=None  test_sets=['indist', 'paraphrase']
+checkpoint              indist AUROC    paraphrase AUROC   src
+----------------------------------------------------------------
+base                           0.609               0.524   cache
+final                          0.993               0.962   cache
+
+AUROC ~0.5 = no detectable signal; >0.5 = separates biased from control.
+Watch for a PEAK at an early checkpoint that then collapses toward 0.5 (weak-signal overfitting). Accuracy + CIs are in the JSON.
+[discrim-eval] wrote outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k16/eval-lora8-seed44.json
+
+[1;36m--- aggregate: gemma-3-12b-it ---[0m
+
+[1;36m+ uv run python scripts/aggregate_seeds.py outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k1/eval-lora8-seed42.json outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k1/eval-lora8-seed43.json outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k1/eval-lora8-seed44.json outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k16/eval-lora8-seed42.json outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k16/eval-lora8-seed43.json outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k16/eval-lora8-seed44.json outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k8/eval-lora8-seed42.json outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k8/eval-lora8-seed43.json outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k8/eval-lora8-seed44.json[0m
+condition                         test set               seeds     base  final mean     std
+-------------------------------------------------------------------------------------------
+uk k1 r8                          indist (uk)                3    0.566       0.695   0.007
+                                  paraphrase (paraphrase)     3    0.521       0.639   0.002
+                                  seeds present: [42, 43, 44]
+uk k8 r8                          indist (uk)                3    0.602       0.969   0.002
+                                  paraphrase (paraphrase)     3    0.549       0.892   0.006
+                                  seeds present: [42, 43, 44]
+uk k16 r8                         indist (uk)                3    0.609       0.993   0.001
+                                  paraphrase (paraphrase)     3    0.524       0.959   0.003
+                                  seeds present: [42, 43, 44]
+
+final = last checkpoint; mean/std across seeds. base is ~constant across seeds (same test bags).
+
+[1;33m================ DETECTOR: allenai/OLMo-2-1124-13B-Instruct ================[0m
+
+[1;35m----- OLMo-2-1124-13B-Instruct / K=1 / seed=42 (batch 8 x GA 4, auto) -----[0m
+[skip train] outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k1/train-lora-8-seed-42/final
+
+[1;36m+ uv run python scripts/run_evaluation_discrimination.py --model_dir outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k1/train-lora-8-seed-42 --test_sets indist=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k1/test_indist.jsonl paraphrase=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k1/test_paraphrase.jsonl --batch_size 16 --output outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k1/eval-lora8-seed42.json[0m
+
+[discrim-eval] system_prompt=None  test_sets=['indist', 'paraphrase']
+checkpoint              indist AUROC    paraphrase AUROC   src
+----------------------------------------------------------------
+base                           0.534               0.546   cache
+final                          0.629               0.576   cache
+
+AUROC ~0.5 = no detectable signal; >0.5 = separates biased from control.
+Watch for a PEAK at an early checkpoint that then collapses toward 0.5 (weak-signal overfitting). Accuracy + CIs are in the JSON.
+[discrim-eval] wrote outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k1/eval-lora8-seed42.json
+
+[1;35m----- OLMo-2-1124-13B-Instruct / K=1 / seed=43 (batch 8 x GA 4, auto) -----[0m
+[skip train] outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k1/train-lora-8-seed-43/final
+
+[1;36m+ uv run python scripts/run_evaluation_discrimination.py --model_dir outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k1/train-lora-8-seed-43 --test_sets indist=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k1/test_indist.jsonl paraphrase=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k1/test_paraphrase.jsonl --batch_size 16 --output outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k1/eval-lora8-seed43.json[0m
+
+[discrim-eval] system_prompt=None  test_sets=['indist', 'paraphrase']
+checkpoint              indist AUROC    paraphrase AUROC   src
+----------------------------------------------------------------
+base                           0.534               0.546   cache
+final                          0.629               0.572   cache
+
+AUROC ~0.5 = no detectable signal; >0.5 = separates biased from control.
+Watch for a PEAK at an early checkpoint that then collapses toward 0.5 (weak-signal overfitting). Accuracy + CIs are in the JSON.
+[discrim-eval] wrote outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k1/eval-lora8-seed43.json
+
+[1;35m----- OLMo-2-1124-13B-Instruct / K=1 / seed=44 (batch 8 x GA 4, auto) -----[0m
+
+[1;36m+ uv run python scripts/run_finetuning.py --model_id allenai/OLMo-2-1124-13B-Instruct --dataset_path outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k1/train.jsonl --max_dataset_size 4000 --allow_smaller_datasets --n_epochs 3 --learning_rate 5e-5 --batch_size 8 --gradient_accumulation 4 --lora_rank 8 --seed 44 --increase_context_length --precision auto --warmup_steps 20 --override[0m
+Output directory: outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k1/train-lora-8-seed-44
+
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]
+Loading checkpoint shards:  17%|█▋        | 1/6 [00:06<00:31,  6.24s/it]
+Loading checkpoint shards:  33%|███▎      | 2/6 [00:12<00:24,  6.00s/it]
+Loading checkpoint shards:  50%|█████     | 3/6 [00:17<00:16,  5.56s/it]
+Loading checkpoint shards:  67%|██████▋   | 4/6 [00:22<00:11,  5.62s/it]
+Loading checkpoint shards:  83%|████████▎ | 5/6 [00:28<00:05,  5.51s/it]
+Loading checkpoint shards: 100%|██████████| 6/6 [00:30<00:00,  4.55s/it]
+Loading checkpoint shards: 100%|██████████| 6/6 [00:30<00:00,  5.14s/it]
+
+Tokenizing train dataset:   0%|          | 0/4000 [00:00<?, ? examples/s]
+Tokenizing train dataset:   6%|▌         | 237/4000 [00:00<00:01, 2347.27 examples/s]
+Tokenizing train dataset:  12%|█▏        | 485/4000 [00:00<00:01, 2418.02 examples/s]
+Tokenizing train dataset:  18%|█▊        | 735/4000 [00:00<00:01, 2450.09 examples/s]
+Tokenizing train dataset:  25%|██▌       | 1000/4000 [00:00<00:01, 2116.99 examples/s]
+Tokenizing train dataset:  32%|███▏      | 1269/4000 [00:00<00:01, 2297.80 examples/s]
+Tokenizing train dataset:  39%|███▊      | 1542/4000 [00:00<00:01, 2430.93 examples/s]
+Tokenizing train dataset:  45%|████▌     | 1817/4000 [00:00<00:00, 2526.12 examples/s]
+Tokenizing train dataset:  55%|█████▍    | 2185/4000 [00:00<00:00, 2492.37 examples/s]
+Tokenizing train dataset:  61%|██████▏   | 2455/4000 [00:01<00:00, 2547.09 examples/s]
+Tokenizing train dataset:  68%|██████▊   | 2733/4000 [00:01<00:00, 2610.94 examples/s]
+Tokenizing train dataset:  75%|███████▍  | 2997/4000 [00:01<00:00, 2617.49 examples/s]
+Tokenizing train dataset:  84%|████████▍ | 3366/4000 [00:01<00:00, 2552.77 examples/s]
+Tokenizing train dataset:  91%|█████████ | 3635/4000 [00:01<00:00, 2586.31 examples/s]
+Tokenizing train dataset:  98%|█████████▊| 3903/4000 [00:01<00:00, 2608.18 examples/s]
+Tokenizing train dataset: 100%|██████████| 4000/4000 [00:01<00:00, 2481.13 examples/s]
+
+Truncating train dataset:   0%|          | 0/4000 [00:00<?, ? examples/s]
+Truncating train dataset: 100%|██████████| 4000/4000 [00:00<00:00, 328816.73 examples/s]
+Total parameters: 13747491840, Trainable parameters: 31293440
+Model dtype: torch.bfloat16
+
+                                                
+{'loss': 9.0349, 'grad_norm': 9.281591415405273, 'learning_rate': 2.25e-05, 'num_tokens': 22146.0, 'mean_token_accuracy': 0.2937499977648258, 'epoch': 0.08}
+
+                                                
+{'loss': 6.3313, 'grad_norm': 7.402651786804199, 'learning_rate': 4.75e-05, 'num_tokens': 44125.0, 'mean_token_accuracy': 0.4071428574621677, 'epoch': 0.16}
+
+                                                
+{'loss': 2.0281, 'grad_norm': 5.533552169799805, 'learning_rate': 4.873239436619719e-05, 'num_tokens': 66179.0, 'mean_token_accuracy': 0.7602678462862968, 'epoch': 0.24}
+
+                                                
+{'loss': 0.1908, 'grad_norm': 0.2288401871919632, 'learning_rate': 4.7323943661971834e-05, 'num_tokens': 88297.0, 'mean_token_accuracy': 0.9147321432828903, 'epoch': 0.32}
+
+                                                
+{'loss': 0.0985, 'grad_norm': 0.07292205840349197, 'learning_rate': 4.591549295774648e-05, 'num_tokens': 110491.0, 'mean_token_accuracy': 0.9406250029802322, 'epoch': 0.4}
+
+                                                
+{'loss': 0.1025, 'grad_norm': 0.3457767963409424, 'learning_rate': 4.450704225352113e-05, 'num_tokens': 132819.0, 'mean_token_accuracy': 0.9334821417927742, 'epoch': 0.48}
+
+                                                
+{'loss': 0.0986, 'grad_norm': 0.10705786198377609, 'learning_rate': 4.3098591549295774e-05, 'num_tokens': 155049.0, 'mean_token_accuracy': 0.9357142820954323, 'epoch': 0.56}
+
+                                                
+{'loss': 0.0973, 'grad_norm': 0.07362647354602814, 'learning_rate': 4.1690140845070425e-05, 'num_tokens': 177229.0, 'mean_token_accuracy': 0.9357142850756646, 'epoch': 0.64}
+
+                                                
+{'loss': 0.0971, 'grad_norm': 0.16707661747932434, 'learning_rate': 4.0281690140845076e-05, 'num_tokens': 199258.0, 'mean_token_accuracy': 0.9406250044703484, 'epoch': 0.72}
+
+                                                 
+{'loss': 0.0976, 'grad_norm': 0.13055823743343353, 'learning_rate': 3.887323943661972e-05, 'num_tokens': 221133.0, 'mean_token_accuracy': 0.9406250029802322, 'epoch': 0.8}
+
+                                                 
+{'loss': 0.0982, 'grad_norm': 0.11866486817598343, 'learning_rate': 3.746478873239437e-05, 'num_tokens': 243472.0, 'mean_token_accuracy': 0.9361607119441032, 'epoch': 0.88}
+
+                                                 
+{'loss': 0.0984, 'grad_norm': 0.18699045479297638, 'learning_rate': 3.6056338028169015e-05, 'num_tokens': 265935.0, 'mean_token_accuracy': 0.9316964253783226, 'epoch': 0.96}
+
+                                                 
+{'loss': 0.0948, 'grad_norm': 0.3097390830516815, 'learning_rate': 3.464788732394366e-05, 'num_tokens': 288085.0, 'mean_token_accuracy': 0.9424107208847999, 'epoch': 1.04}
+
+                                                 
+{'loss': 0.0955, 'grad_norm': 0.16912657022476196, 'learning_rate': 3.323943661971831e-05, 'num_tokens': 310071.0, 'mean_token_accuracy': 0.9410714268684387, 'epoch': 1.12}
+
+                                                 
+{'loss': 0.0954, 'grad_norm': 0.25011005997657776, 'learning_rate': 3.183098591549296e-05, 'num_tokens': 332039.0, 'mean_token_accuracy': 0.9406249985098839, 'epoch': 1.2}
+
+                                                 
+{'loss': 0.0923, 'grad_norm': 0.10839889943599701, 'learning_rate': 3.0422535211267606e-05, 'num_tokens': 354302.0, 'mean_token_accuracy': 0.9433035761117935, 'epoch': 1.28}
+
+                                                 
+{'loss': 0.0951, 'grad_norm': 0.24996283650398254, 'learning_rate': 2.9014084507042254e-05, 'num_tokens': 375926.0, 'mean_token_accuracy': 0.9459821507334709, 'epoch': 1.36}
+
+                                                 
+{'loss': 0.0956, 'grad_norm': 0.16656345129013062, 'learning_rate': 2.7605633802816905e-05, 'num_tokens': 398058.0, 'mean_token_accuracy': 0.9428571432828903, 'epoch': 1.44}
+
+                                                 
+{'loss': 0.097, 'grad_norm': 0.19141443073749542, 'learning_rate': 2.619718309859155e-05, 'num_tokens': 420155.0, 'mean_token_accuracy': 0.9361607134342194, 'epoch': 1.52}
+
+                                                 
+{'loss': 0.0974, 'grad_norm': 0.134435772895813, 'learning_rate': 2.47887323943662e-05, 'num_tokens': 442641.0, 'mean_token_accuracy': 0.9428571432828903, 'epoch': 1.6}
+
+                                                 
+{'loss': 0.0949, 'grad_norm': 0.15457271039485931, 'learning_rate': 2.3380281690140845e-05, 'num_tokens': 464790.0, 'mean_token_accuracy': 0.9392857179045677, 'epoch': 1.68}
+
+                                                 
+{'loss': 0.0928, 'grad_norm': 0.05295807495713234, 'learning_rate': 2.1971830985915496e-05, 'num_tokens': 487317.0, 'mean_token_accuracy': 0.9441964343190193, 'epoch': 1.76}
+
+                                                 
+{'loss': 0.0912, 'grad_norm': 0.2699638605117798, 'learning_rate': 2.0563380281690143e-05, 'num_tokens': 510162.0, 'mean_token_accuracy': 0.9508928686380387, 'epoch': 1.84}
+
+                                                 
+{'loss': 0.0927, 'grad_norm': 0.2073839157819748, 'learning_rate': 1.9154929577464788e-05, 'num_tokens': 531912.0, 'mean_token_accuracy': 0.947767861187458, 'epoch': 1.92}
+
+                                                 
+{'loss': 0.0966, 'grad_norm': 0.1665714979171753, 'learning_rate': 1.774647887323944e-05, 'num_tokens': 554262.0, 'mean_token_accuracy': 0.9424107164144516, 'epoch': 2.0}
+
+                                                 
+{'loss': 0.0919, 'grad_norm': 0.15214276313781738, 'learning_rate': 1.6338028169014086e-05, 'num_tokens': 576474.0, 'mean_token_accuracy': 0.9486607193946839, 'epoch': 2.08}
+
+                                                 
+{'loss': 0.0912, 'grad_norm': 0.04978819936513901, 'learning_rate': 1.4929577464788732e-05, 'num_tokens': 598662.0, 'mean_token_accuracy': 0.9464285761117935, 'epoch': 2.16}
+
+                                                 
+{'loss': 0.0924, 'grad_norm': 0.07812213897705078, 'learning_rate': 1.352112676056338e-05, 'num_tokens': 620827.0, 'mean_token_accuracy': 0.9459821477532386, 'epoch': 2.24}
+
+                                                 
+{'loss': 0.0936, 'grad_norm': 0.14746102690696716, 'learning_rate': 1.211267605633803e-05, 'num_tokens': 642817.0, 'mean_token_accuracy': 0.9468750044703483, 'epoch': 2.32}
+
+                                                 
+{'loss': 0.093, 'grad_norm': 0.13272619247436523, 'learning_rate': 1.0704225352112677e-05, 'num_tokens': 664711.0, 'mean_token_accuracy': 0.9433035746216774, 'epoch': 2.4}
+
+                                                 
+{'loss': 0.0917, 'grad_norm': 0.25102585554122925, 'learning_rate': 9.295774647887325e-06, 'num_tokens': 687058.0, 'mean_token_accuracy': 0.9459821447730065, 'epoch': 2.48}
+
+                                                 
+{'loss': 0.0939, 'grad_norm': 0.4082878828048706, 'learning_rate': 7.887323943661972e-06, 'num_tokens': 708840.0, 'mean_token_accuracy': 0.9437500059604644, 'epoch': 2.56}
+
+                                                 
+{'loss': 0.094, 'grad_norm': 0.1173916608095169, 'learning_rate': 6.47887323943662e-06, 'num_tokens': 731149.0, 'mean_token_accuracy': 0.9446428641676903, 'epoch': 2.64}
+
+                                                 
+{'loss': 0.0916, 'grad_norm': 0.14213994145393372, 'learning_rate': 5.070422535211268e-06, 'num_tokens': 753990.0, 'mean_token_accuracy': 0.9482142955064774, 'epoch': 2.72}
+
+                                                 
+{'loss': 0.0932, 'grad_norm': 0.23761354386806488, 'learning_rate': 3.6619718309859158e-06, 'num_tokens': 775951.0, 'mean_token_accuracy': 0.9441964313387871, 'epoch': 2.8}
+
+                                                 
+{'loss': 0.0934, 'grad_norm': 0.34879329800605774, 'learning_rate': 2.2535211267605635e-06, 'num_tokens': 798388.0, 'mean_token_accuracy': 0.9437500044703484, 'epoch': 2.88}
+
+                                                 
+{'loss': 0.0947, 'grad_norm': 0.21537035703659058, 'learning_rate': 8.450704225352112e-07, 'num_tokens': 820273.0, 'mean_token_accuracy': 0.9383928582072258, 'epoch': 2.96}
+
+                                                 
+{'train_runtime': 463.8281, 'train_samples_per_second': 25.872, 'train_steps_per_second': 0.808, 'train_loss': 0.5537504589557648, 'num_tokens': 831393.0, 'mean_token_accuracy': 0.947321429848671, 'epoch': 3.0}
+
+
+[1;36m+ uv run python scripts/run_evaluation_discrimination.py --model_dir outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k1/train-lora-8-seed-44 --test_sets indist=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k1/test_indist.jsonl paraphrase=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k1/test_paraphrase.jsonl --batch_size 16 --output outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k1/eval-lora8-seed44.json[0m
+
+[discrim-eval] system_prompt=None  test_sets=['indist', 'paraphrase']
+checkpoint              indist AUROC    paraphrase AUROC   src
+----------------------------------------------------------------
+
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]
+Loading checkpoint shards:  17%|█▋        | 1/6 [00:00<00:04,  1.10it/s]
+Loading checkpoint shards:  33%|███▎      | 2/6 [00:01<00:03,  1.17it/s]
+Loading checkpoint shards:  50%|█████     | 3/6 [00:02<00:02,  1.23it/s]
+Loading checkpoint shards:  67%|██████▋   | 4/6 [00:03<00:01,  1.26it/s]
+Loading checkpoint shards:  83%|████████▎ | 5/6 [00:04<00:00,  1.25it/s]
+Loading checkpoint shards: 100%|██████████| 6/6 [00:04<00:00,  1.47it/s]
+Loading checkpoint shards: 100%|██████████| 6/6 [00:04<00:00,  1.33it/s]
+base                           0.534               0.546   new
+
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]
+Loading checkpoint shards:  17%|█▋        | 1/6 [00:00<00:04,  1.13it/s]
+Loading checkpoint shards:  33%|███▎      | 2/6 [00:01<00:03,  1.19it/s]
+Loading checkpoint shards:  50%|█████     | 3/6 [00:02<00:02,  1.22it/s]
+Loading checkpoint shards:  67%|██████▋   | 4/6 [00:03<00:01,  1.24it/s]
+Loading checkpoint shards:  83%|████████▎ | 5/6 [00:04<00:00,  1.26it/s]
+Loading checkpoint shards: 100%|██████████| 6/6 [00:04<00:00,  1.49it/s]
+Loading checkpoint shards: 100%|██████████| 6/6 [00:04<00:00,  1.34it/s]
+final                          0.628               0.574   new
+
+AUROC ~0.5 = no detectable signal; >0.5 = separates biased from control.
+Watch for a PEAK at an early checkpoint that then collapses toward 0.5 (weak-signal overfitting). Accuracy + CIs are in the JSON.
+[discrim-eval] wrote outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k1/eval-lora8-seed44.json
+
+[1;35m----- OLMo-2-1124-13B-Instruct / K=8 / seed=42 (batch 4 x GA 8, auto) -----[0m
+
+[1;36m+ uv run python scripts/run_finetuning.py --model_id allenai/OLMo-2-1124-13B-Instruct --dataset_path outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k8/train.jsonl --max_dataset_size 4000 --allow_smaller_datasets --n_epochs 3 --learning_rate 5e-5 --batch_size 4 --gradient_accumulation 8 --lora_rank 8 --seed 42 --increase_context_length --precision auto --warmup_steps 20 --override[0m
+Output directory: outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k8/train-lora-8-seed-42
+
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]
+Loading checkpoint shards:  17%|█▋        | 1/6 [00:01<00:05,  1.14s/it]
+Loading checkpoint shards:  33%|███▎      | 2/6 [00:02<00:04,  1.07s/it]
+Loading checkpoint shards:  50%|█████     | 3/6 [00:03<00:03,  1.03s/it]
+Loading checkpoint shards:  67%|██████▋   | 4/6 [00:04<00:02,  1.01s/it]
+Loading checkpoint shards:  83%|████████▎ | 5/6 [00:05<00:01,  1.00s/it]
+Loading checkpoint shards: 100%|██████████| 6/6 [00:05<00:00,  1.18it/s]
+Loading checkpoint shards: 100%|██████████| 6/6 [00:05<00:00,  1.06it/s]
+
+Tokenizing train dataset:   0%|          | 0/4000 [00:00<?, ? examples/s]
+Tokenizing train dataset:   3%|▎         | 138/4000 [00:00<00:02, 1365.35 examples/s]
+Tokenizing train dataset:   7%|▋         | 290/4000 [00:00<00:02, 1448.61 examples/s]
+Tokenizing train dataset:  11%|█         | 442/4000 [00:00<00:02, 1475.28 examples/s]
+Tokenizing train dataset:  16%|█▋        | 659/4000 [00:00<00:02, 1455.39 examples/s]
+Tokenizing train dataset:  20%|██        | 807/4000 [00:00<00:02, 1461.94 examples/s]
+Tokenizing train dataset:  24%|██▍       | 954/4000 [00:00<00:02, 1463.82 examples/s]
+Tokenizing train dataset:  28%|██▊       | 1140/4000 [00:00<00:02, 1248.86 examples/s]
+Tokenizing train dataset:  32%|███▏      | 1278/4000 [00:00<00:02, 1279.17 examples/s]
+Tokenizing train dataset:  36%|███▌      | 1428/4000 [00:01<00:01, 1333.77 examples/s]
+Tokenizing train dataset:  39%|███▉      | 1571/4000 [00:01<00:01, 1357.37 examples/s]
+Tokenizing train dataset:  43%|████▎     | 1718/4000 [00:01<00:01, 1388.08 examples/s]
+Tokenizing train dataset:  47%|████▋     | 1866/4000 [00:01<00:01, 1412.21 examples/s]
+Tokenizing train dataset:  52%|█████▏    | 2068/4000 [00:01<00:01, 1331.11 examples/s]
+Tokenizing train dataset:  55%|█████▌    | 2210/4000 [00:01<00:01, 1351.47 examples/s]
+Tokenizing train dataset:  59%|█████▉    | 2355/4000 [00:01<00:01, 1374.83 examples/s]
+Tokenizing train dataset:  63%|██████▎   | 2504/4000 [00:01<00:01, 1399.59 examples/s]
+Tokenizing train dataset:  66%|██████▋   | 2652/4000 [00:01<00:00, 1419.05 examples/s]
+Tokenizing train dataset:  70%|██████▉   | 2799/4000 [00:02<00:00, 1431.56 examples/s]
+Tokenizing train dataset:  74%|███████▎  | 2946/4000 [00:02<00:00, 1441.07 examples/s]
+Tokenizing train dataset:  79%|███████▊  | 3143/4000 [00:02<00:00, 1343.41 examples/s]
+Tokenizing train dataset:  82%|████████▏ | 3288/4000 [00:02<00:00, 1369.06 examples/s]
+Tokenizing train dataset:  86%|████████▌ | 3435/4000 [00:02<00:00, 1393.73 examples/s]
+Tokenizing train dataset:  90%|████████▉ | 3587/4000 [00:02<00:00, 1424.49 examples/s]
+Tokenizing train dataset:  93%|█████████▎| 3735/4000 [00:02<00:00, 1439.05 examples/s]
+Tokenizing train dataset:  99%|█████████▉| 3954/4000 [00:02<00:00, 1441.99 examples/s]
+Tokenizing train dataset: 100%|██████████| 4000/4000 [00:02<00:00, 1383.48 examples/s]
+
+Truncating train dataset:   0%|          | 0/4000 [00:00<?, ? examples/s]
+Truncating train dataset: 100%|██████████| 4000/4000 [00:00<00:00, 223785.73 examples/s]
+Total parameters: 13747491840, Trainable parameters: 31293440
+Model dtype: torch.bfloat16
+
+                                                  
+{'loss': 9.5981, 'grad_norm': 8.907946586608887, 'learning_rate': 2.25e-05, 'num_tokens': 57456.0, 'mean_token_accuracy': 0.2227678606286645, 'epoch': 0.08}
+
+                                                
+{'loss': 7.0454, 'grad_norm': 8.302245140075684, 'learning_rate': 4.75e-05, 'num_tokens': 116139.0, 'mean_token_accuracy': 0.3446428572759032, 'epoch': 0.16}
+
+                                                
+{'loss': 2.1758, 'grad_norm': 5.2317399978637695, 'learning_rate': 4.873239436619719e-05, 'num_tokens': 174846.0, 'mean_token_accuracy': 0.7415178582072258, 'epoch': 0.24}
+
+                                                
+{'loss': 0.2344, 'grad_norm': 0.5425214767456055, 'learning_rate': 4.7323943661971834e-05, 'num_tokens': 233941.0, 'mean_token_accuracy': 0.9080357111990451, 'epoch': 0.32}
+
+                                                
+{'loss': 0.097, 'grad_norm': 0.11018761247396469, 'learning_rate': 4.591549295774648e-05, 'num_tokens': 291433.0, 'mean_token_accuracy': 0.9424107111990452, 'epoch': 0.4}
+
+                                                
+{'loss': 0.0921, 'grad_norm': 0.10565946251153946, 'learning_rate': 4.450704225352113e-05, 'num_tokens': 351619.0, 'mean_token_accuracy': 0.9535714291036129, 'epoch': 0.48}
+
+                                                
+{'loss': 0.0894, 'grad_norm': 0.0957988053560257, 'learning_rate': 4.3098591549295774e-05, 'num_tokens': 409371.0, 'mean_token_accuracy': 0.9535714253783226, 'epoch': 0.56}
+
+                                                
+{'loss': 0.0897, 'grad_norm': 0.08992016315460205, 'learning_rate': 4.1690140845070425e-05, 'num_tokens': 466494.0, 'mean_token_accuracy': 0.946428569406271, 'epoch': 0.64}
+
+                                                
+{'loss': 0.0905, 'grad_norm': 0.14806640148162842, 'learning_rate': 4.0281690140845076e-05, 'num_tokens': 523995.0, 'mean_token_accuracy': 0.9459821380674839, 'epoch': 0.72}
+
+                                                 
+{'loss': 0.0826, 'grad_norm': 0.29948583245277405, 'learning_rate': 3.887323943661972e-05, 'num_tokens': 582024.0, 'mean_token_accuracy': 0.9571428574621678, 'epoch': 0.8}
+
+                                                 
+{'loss': 0.0821, 'grad_norm': 0.12814517319202423, 'learning_rate': 3.746478873239437e-05, 'num_tokens': 641278.0, 'mean_token_accuracy': 0.9553571403026581, 'epoch': 0.88}
+
+                                                 
+{'loss': 0.076, 'grad_norm': 0.25001293420791626, 'learning_rate': 3.6056338028169015e-05, 'num_tokens': 700495.0, 'mean_token_accuracy': 0.965178570151329, 'epoch': 0.96}
+
+                                                 
+{'loss': 0.0683, 'grad_norm': 1.0788729190826416, 'learning_rate': 3.464788732394366e-05, 'num_tokens': 759224.0, 'mean_token_accuracy': 0.9687500022351742, 'epoch': 1.04}
+
+                                                 
+{'loss': 0.0787, 'grad_norm': 0.13704396784305573, 'learning_rate': 3.323943661971831e-05, 'num_tokens': 816785.0, 'mean_token_accuracy': 0.9611607164144516, 'epoch': 1.12}
+
+                                                 
+{'loss': 0.0734, 'grad_norm': 0.2155282199382782, 'learning_rate': 3.183098591549296e-05, 'num_tokens': 874829.0, 'mean_token_accuracy': 0.9683035761117935, 'epoch': 1.2}
+
+                                                 
+{'loss': 0.0744, 'grad_norm': 0.5211458802223206, 'learning_rate': 3.0422535211267606e-05, 'num_tokens': 932571.0, 'mean_token_accuracy': 0.9665178582072258, 'epoch': 1.28}
+
+                                                 
+{'loss': 0.0671, 'grad_norm': 0.29127174615859985, 'learning_rate': 2.9014084507042254e-05, 'num_tokens': 990006.0, 'mean_token_accuracy': 0.9669642895460129, 'epoch': 1.36}
+
+                                                 
+{'loss': 0.078, 'grad_norm': 1.0674915313720703, 'learning_rate': 2.7605633802816905e-05, 'num_tokens': 1049028.0, 'mean_token_accuracy': 0.9607142888009548, 'epoch': 1.44}
+
+                                                 
+{'loss': 0.0714, 'grad_norm': 1.085443139076233, 'learning_rate': 2.619718309859155e-05, 'num_tokens': 1108932.0, 'mean_token_accuracy': 0.9625, 'epoch': 1.52}
+
+                                                 
+{'loss': 0.0637, 'grad_norm': 0.6413643956184387, 'learning_rate': 2.47887323943662e-05, 'num_tokens': 1167790.0, 'mean_token_accuracy': 0.9723214335739613, 'epoch': 1.6}
+
+                                                 
+{'loss': 0.0663, 'grad_norm': 0.2665135860443115, 'learning_rate': 2.3380281690140845e-05, 'num_tokens': 1226048.0, 'mean_token_accuracy': 0.9732142858207226, 'epoch': 1.68}
+
+                                                 
+{'loss': 0.0678, 'grad_norm': 0.42389971017837524, 'learning_rate': 2.1971830985915496e-05, 'num_tokens': 1285299.0, 'mean_token_accuracy': 0.9656249992549419, 'epoch': 1.76}
+
+                                                 
+{'loss': 0.0682, 'grad_norm': 1.2250322103500366, 'learning_rate': 2.0563380281690143e-05, 'num_tokens': 1344211.0, 'mean_token_accuracy': 0.9660714276134967, 'epoch': 1.84}
+
+                                                 
+{'loss': 0.0579, 'grad_norm': 0.8074509501457214, 'learning_rate': 1.9154929577464788e-05, 'num_tokens': 1403301.0, 'mean_token_accuracy': 0.9763392873108387, 'epoch': 1.92}
+
+                                                 
+{'loss': 0.0547, 'grad_norm': 0.29811519384384155, 'learning_rate': 1.774647887323944e-05, 'num_tokens': 1460660.0, 'mean_token_accuracy': 0.9772321455180645, 'epoch': 2.0}
+
+                                                 
+{'loss': 0.0584, 'grad_norm': 0.31140440702438354, 'learning_rate': 1.6338028169014086e-05, 'num_tokens': 1518493.0, 'mean_token_accuracy': 0.9727678611874581, 'epoch': 2.08}
+
+                                                 
+{'loss': 0.06, 'grad_norm': 0.892967939376831, 'learning_rate': 1.4929577464788732e-05, 'num_tokens': 1578247.0, 'mean_token_accuracy': 0.9741071462631226, 'epoch': 2.16}
+
+                                                 
+{'loss': 0.0596, 'grad_norm': 0.21866199374198914, 'learning_rate': 1.352112676056338e-05, 'num_tokens': 1636964.0, 'mean_token_accuracy': 0.9736607179045678, 'epoch': 2.24}
+
+                                                 
+{'loss': 0.0636, 'grad_norm': 0.7454470992088318, 'learning_rate': 1.211267605633803e-05, 'num_tokens': 1694815.0, 'mean_token_accuracy': 0.9727678582072258, 'epoch': 2.32}
+
+                                                 
+{'loss': 0.057, 'grad_norm': 0.5400658249855042, 'learning_rate': 1.0704225352112677e-05, 'num_tokens': 1752649.0, 'mean_token_accuracy': 0.9754464335739612, 'epoch': 2.4}
+
+                                                 
+{'loss': 0.0535, 'grad_norm': 0.46332862973213196, 'learning_rate': 9.295774647887325e-06, 'num_tokens': 1811588.0, 'mean_token_accuracy': 0.9750000022351741, 'epoch': 2.48}
+
+                                                 
+{'loss': 0.0585, 'grad_norm': 0.2450740933418274, 'learning_rate': 7.887323943661972e-06, 'num_tokens': 1871348.0, 'mean_token_accuracy': 0.9718750022351742, 'epoch': 2.56}
+
+                                                 
+{'loss': 0.0569, 'grad_norm': 0.7992547154426575, 'learning_rate': 6.47887323943662e-06, 'num_tokens': 1929192.0, 'mean_token_accuracy': 0.9736607186496258, 'epoch': 2.64}
+
+                                                 
+{'loss': 0.0505, 'grad_norm': 0.7879548072814941, 'learning_rate': 5.070422535211268e-06, 'num_tokens': 1988548.0, 'mean_token_accuracy': 0.9816964328289032, 'epoch': 2.72}
+
+                                                 
+{'loss': 0.0555, 'grad_norm': 0.42704668641090393, 'learning_rate': 3.6619718309859158e-06, 'num_tokens': 2045570.0, 'mean_token_accuracy': 0.9763392895460129, 'epoch': 2.8}
+
+                                                 
+{'loss': 0.0566, 'grad_norm': 0.35148799419403076, 'learning_rate': 2.2535211267605635e-06, 'num_tokens': 2103721.0, 'mean_token_accuracy': 0.9754464335739612, 'epoch': 2.88}
+
+                                                 
+{'loss': 0.0558, 'grad_norm': 0.37409669160842896, 'learning_rate': 8.450704225352112e-07, 'num_tokens': 2162168.0, 'mean_token_accuracy': 0.9736607193946838, 'epoch': 2.96}
+
+                                                 
+{'train_runtime': 1068.7996, 'train_samples_per_second': 11.228, 'train_steps_per_second': 0.351, 'train_loss': 0.5693287785053254, 'num_tokens': 2190990.0, 'mean_token_accuracy': 0.985714291036129, 'epoch': 3.0}
+
+
+[1;36m+ uv run python scripts/run_evaluation_discrimination.py --model_dir outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k8/train-lora-8-seed-42 --test_sets indist=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k8/test_indist.jsonl paraphrase=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k8/test_paraphrase.jsonl --batch_size 16 --output outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k8/eval-lora8-seed42.json[0m
+
+[discrim-eval] system_prompt=None  test_sets=['indist', 'paraphrase']
+checkpoint              indist AUROC    paraphrase AUROC   src
+----------------------------------------------------------------
+
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]
+Loading checkpoint shards:  17%|█▋        | 1/6 [00:01<00:05,  1.06s/it]
+Loading checkpoint shards:  33%|███▎      | 2/6 [00:01<00:03,  1.02it/s]
+Loading checkpoint shards:  50%|█████     | 3/6 [00:02<00:02,  1.05it/s]
+Loading checkpoint shards:  67%|██████▋   | 4/6 [00:03<00:01,  1.05it/s]
+Loading checkpoint shards:  83%|████████▎ | 5/6 [00:04<00:00,  1.06it/s]
+Loading checkpoint shards: 100%|██████████| 6/6 [00:05<00:00,  1.26it/s]
+Loading checkpoint shards: 100%|██████████| 6/6 [00:05<00:00,  1.13it/s]
+base                           0.574               0.530   new
+
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]
+Loading checkpoint shards:  17%|█▋        | 1/6 [00:00<00:04,  1.10it/s]
+Loading checkpoint shards:  33%|███▎      | 2/6 [00:01<00:03,  1.15it/s]
+Loading checkpoint shards:  50%|█████     | 3/6 [00:02<00:02,  1.20it/s]
+Loading checkpoint shards:  67%|██████▋   | 4/6 [00:03<00:01,  1.22it/s]
+Loading checkpoint shards:  83%|████████▎ | 5/6 [00:04<00:00,  1.23it/s]
+Loading checkpoint shards: 100%|██████████| 6/6 [00:04<00:00,  1.46it/s]
+Loading checkpoint shards: 100%|██████████| 6/6 [00:04<00:00,  1.31it/s]
+final                          0.918               0.812   new
+
+AUROC ~0.5 = no detectable signal; >0.5 = separates biased from control.
+Watch for a PEAK at an early checkpoint that then collapses toward 0.5 (weak-signal overfitting). Accuracy + CIs are in the JSON.
+[discrim-eval] wrote outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k8/eval-lora8-seed42.json
+
+[1;35m----- OLMo-2-1124-13B-Instruct / K=8 / seed=43 (batch 4 x GA 8, auto) -----[0m
+
+[1;36m+ uv run python scripts/run_finetuning.py --model_id allenai/OLMo-2-1124-13B-Instruct --dataset_path outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k8/train.jsonl --max_dataset_size 4000 --allow_smaller_datasets --n_epochs 3 --learning_rate 5e-5 --batch_size 4 --gradient_accumulation 8 --lora_rank 8 --seed 43 --increase_context_length --precision auto --warmup_steps 20 --override[0m
+Output directory: outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k8/train-lora-8-seed-43
+
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]
+Loading checkpoint shards:  17%|█▋        | 1/6 [00:00<00:04,  1.16it/s]
+Loading checkpoint shards:  33%|███▎      | 2/6 [00:01<00:03,  1.22it/s]
+Loading checkpoint shards:  50%|█████     | 3/6 [00:02<00:02,  1.27it/s]
+Loading checkpoint shards:  67%|██████▋   | 4/6 [00:03<00:01,  1.28it/s]
+Loading checkpoint shards:  83%|████████▎ | 5/6 [00:03<00:00,  1.30it/s]
+Loading checkpoint shards: 100%|██████████| 6/6 [00:04<00:00,  1.53it/s]
+Loading checkpoint shards: 100%|██████████| 6/6 [00:04<00:00,  1.38it/s]
+
+Tokenizing train dataset:   0%|          | 0/4000 [00:00<?, ? examples/s]
+Tokenizing train dataset:   3%|▎         | 136/4000 [00:00<00:02, 1341.31 examples/s]
+Tokenizing train dataset:   7%|▋         | 286/4000 [00:00<00:02, 1423.80 examples/s]
+Tokenizing train dataset:  11%|█         | 433/4000 [00:00<00:02, 1438.73 examples/s]
+Tokenizing train dataset:  15%|█▍        | 581/4000 [00:00<00:02, 1450.96 examples/s]
+Tokenizing train dataset:  18%|█▊        | 728/4000 [00:00<00:02, 1454.15 examples/s]
+Tokenizing train dataset:  22%|██▏       | 876/4000 [00:00<00:02, 1456.73 examples/s]
+Tokenizing train dataset:  27%|██▋       | 1068/4000 [00:00<00:02, 1243.73 examples/s]
+Tokenizing train dataset:  30%|███       | 1207/4000 [00:00<00:02, 1280.82 examples/s]
+Tokenizing train dataset:  34%|███▍      | 1355/4000 [00:00<00:01, 1332.83 examples/s]
+Tokenizing train dataset:  37%|███▋      | 1497/4000 [00:01<00:01, 1352.30 examples/s]
+Tokenizing train dataset:  41%|████      | 1640/4000 [00:01<00:01, 1370.39 examples/s]
+Tokenizing train dataset:  45%|████▍     | 1781/4000 [00:01<00:01, 1381.02 examples/s]
+Tokenizing train dataset:  48%|████▊     | 1923/4000 [00:01<00:01, 1388.24 examples/s]
+Tokenizing train dataset:  52%|█████▏    | 2098/4000 [00:01<00:01, 1297.56 examples/s]
+Tokenizing train dataset:  56%|█████▌    | 2239/4000 [00:01<00:01, 1324.38 examples/s]
+Tokenizing train dataset:  59%|█████▉    | 2377/4000 [00:01<00:01, 1337.09 examples/s]
+Tokenizing train dataset:  63%|██████▎   | 2519/4000 [00:01<00:01, 1356.70 examples/s]
+Tokenizing train dataset:  67%|██████▋   | 2666/4000 [00:01<00:00, 1384.94 examples/s]
+Tokenizing train dataset:  70%|███████   | 2809/4000 [00:02<00:00, 1395.76 examples/s]
+Tokenizing train dataset:  74%|███████▍  | 2953/4000 [00:02<00:00, 1406.09 examples/s]
+Tokenizing train dataset:  79%|███████▊  | 3142/4000 [00:02<00:00, 1312.52 examples/s]
+Tokenizing train dataset:  83%|████████▎ | 3336/4000 [00:02<00:00, 1299.54 examples/s]
+Tokenizing train dataset:  87%|████████▋ | 3477/4000 [00:02<00:00, 1324.53 examples/s]
+Tokenizing train dataset:  90%|█████████ | 3620/4000 [00:02<00:00, 1349.82 examples/s]
+Tokenizing train dataset:  94%|█████████▍| 3767/4000 [00:02<00:00, 1379.97 examples/s]
+Tokenizing train dataset:  98%|█████████▊| 3909/4000 [00:02<00:00, 1388.69 examples/s]
+Tokenizing train dataset: 100%|██████████| 4000/4000 [00:02<00:00, 1349.59 examples/s]
+
+Truncating train dataset:   0%|          | 0/4000 [00:00<?, ? examples/s]
+Truncating train dataset: 100%|██████████| 4000/4000 [00:00<00:00, 183211.38 examples/s]
+Total parameters: 13747491840, Trainable parameters: 31293440
+Model dtype: torch.bfloat16
+
+                                                  
+{'loss': 9.5849, 'grad_norm': 9.718084335327148, 'learning_rate': 2.25e-05, 'num_tokens': 57964.0, 'mean_token_accuracy': 0.21785714626312255, 'epoch': 0.08}
+
+                                                
+{'loss': 6.9888, 'grad_norm': 8.770410537719727, 'learning_rate': 4.75e-05, 'num_tokens': 115956.0, 'mean_token_accuracy': 0.34508928619325163, 'epoch': 0.16}
+
+                                                
+{'loss': 2.173, 'grad_norm': 5.412906646728516, 'learning_rate': 4.873239436619719e-05, 'num_tokens': 173186.0, 'mean_token_accuracy': 0.74375, 'epoch': 0.24}
+
+                                                
+{'loss': 0.2119, 'grad_norm': 0.5011341571807861, 'learning_rate': 4.7323943661971834e-05, 'num_tokens': 231692.0, 'mean_token_accuracy': 0.9120535671710968, 'epoch': 0.32}
+
+                                                
+{'loss': 0.1005, 'grad_norm': 0.5513986349105835, 'learning_rate': 4.591549295774648e-05, 'num_tokens': 289860.0, 'mean_token_accuracy': 0.9441964238882065, 'epoch': 0.4}
+
+                                                
+{'loss': 0.0933, 'grad_norm': 0.11421482264995575, 'learning_rate': 4.450704225352113e-05, 'num_tokens': 348437.0, 'mean_token_accuracy': 0.9450892858207226, 'epoch': 0.48}
+
+                                                
+{'loss': 0.0933, 'grad_norm': 0.1340985894203186, 'learning_rate': 4.3098591549295774e-05, 'num_tokens': 407415.0, 'mean_token_accuracy': 0.9437499940395355, 'epoch': 0.56}
+
+                                                
+{'loss': 0.0916, 'grad_norm': 0.22335688769817352, 'learning_rate': 4.1690140845070425e-05, 'num_tokens': 466292.0, 'mean_token_accuracy': 0.9517857119441032, 'epoch': 0.64}
+
+                                                
+{'loss': 0.09, 'grad_norm': 0.6045408248901367, 'learning_rate': 4.0281690140845076e-05, 'num_tokens': 525451.0, 'mean_token_accuracy': 0.9499999985098839, 'epoch': 0.72}
+
+                                                 
+{'loss': 0.086, 'grad_norm': 0.1654239147901535, 'learning_rate': 3.887323943661972e-05, 'num_tokens': 584809.0, 'mean_token_accuracy': 0.953124999254942, 'epoch': 0.8}
+
+                                                 
+{'loss': 0.0803, 'grad_norm': 0.2811521887779236, 'learning_rate': 3.746478873239437e-05, 'num_tokens': 643592.0, 'mean_token_accuracy': 0.9575892850756645, 'epoch': 0.88}
+
+                                                 
+{'loss': 0.0757, 'grad_norm': 0.24278628826141357, 'learning_rate': 3.6056338028169015e-05, 'num_tokens': 702071.0, 'mean_token_accuracy': 0.9651785753667355, 'epoch': 0.96}
+
+                                                 
+{'loss': 0.0826, 'grad_norm': 0.2891836166381836, 'learning_rate': 3.464788732394366e-05, 'num_tokens': 758305.0, 'mean_token_accuracy': 0.9580357134342193, 'epoch': 1.04}
+
+                                                 
+{'loss': 0.0773, 'grad_norm': 0.1235223338007927, 'learning_rate': 3.323943661971831e-05, 'num_tokens': 817873.0, 'mean_token_accuracy': 0.9584821410477161, 'epoch': 1.12}
+
+                                                 
+{'loss': 0.0754, 'grad_norm': 0.54097980260849, 'learning_rate': 3.183098591549296e-05, 'num_tokens': 877263.0, 'mean_token_accuracy': 0.9575892835855484, 'epoch': 1.2}
+
+                                                 
+{'loss': 0.0707, 'grad_norm': 0.5444426536560059, 'learning_rate': 3.0422535211267606e-05, 'num_tokens': 935215.0, 'mean_token_accuracy': 0.9669642873108387, 'epoch': 1.28}
+
+                                                 
+{'loss': 0.075, 'grad_norm': 0.5697852373123169, 'learning_rate': 2.9014084507042254e-05, 'num_tokens': 993305.0, 'mean_token_accuracy': 0.9651785746216774, 'epoch': 1.36}
+
+                                                 
+{'loss': 0.0606, 'grad_norm': 0.49823635816574097, 'learning_rate': 2.7605633802816905e-05, 'num_tokens': 1052266.0, 'mean_token_accuracy': 0.9723214313387871, 'epoch': 1.44}
+
+                                                 
+{'loss': 0.0772, 'grad_norm': 0.1603132039308548, 'learning_rate': 2.619718309859155e-05, 'num_tokens': 1111627.0, 'mean_token_accuracy': 0.9602678574621677, 'epoch': 1.52}
+
+                                                 
+{'loss': 0.0713, 'grad_norm': 0.4209396243095398, 'learning_rate': 2.47887323943662e-05, 'num_tokens': 1170602.0, 'mean_token_accuracy': 0.9642857164144516, 'epoch': 1.6}
+
+                                                 
+{'loss': 0.0642, 'grad_norm': 0.1967266947031021, 'learning_rate': 2.3380281690140845e-05, 'num_tokens': 1227908.0, 'mean_token_accuracy': 0.972321430593729, 'epoch': 1.68}
+
+                                                 
+{'loss': 0.0582, 'grad_norm': 0.22219939529895782, 'learning_rate': 2.1971830985915496e-05, 'num_tokens': 1286285.0, 'mean_token_accuracy': 0.9727678596973419, 'epoch': 1.76}
+
+                                                 
+{'loss': 0.0693, 'grad_norm': 0.13432706892490387, 'learning_rate': 2.0563380281690143e-05, 'num_tokens': 1344176.0, 'mean_token_accuracy': 0.9674107171595097, 'epoch': 1.84}
+
+                                                 
+{'loss': 0.0704, 'grad_norm': 0.2231362909078598, 'learning_rate': 1.9154929577464788e-05, 'num_tokens': 1402765.0, 'mean_token_accuracy': 0.966964291036129, 'epoch': 1.92}
+
+                                                 
+{'loss': 0.0591, 'grad_norm': 0.23870399594306946, 'learning_rate': 1.774647887323944e-05, 'num_tokens': 1460660.0, 'mean_token_accuracy': 0.9758928626775741, 'epoch': 2.0}
+
+                                                 
+{'loss': 0.063, 'grad_norm': 0.38552233576774597, 'learning_rate': 1.6338028169014086e-05, 'num_tokens': 1518293.0, 'mean_token_accuracy': 0.9736607171595096, 'epoch': 2.08}
+
+                                                 
+{'loss': 0.0564, 'grad_norm': 0.20809394121170044, 'learning_rate': 1.4929577464788732e-05, 'num_tokens': 1577048.0, 'mean_token_accuracy': 0.9750000044703484, 'epoch': 2.16}
+
+                                                 
+{'loss': 0.0665, 'grad_norm': 0.5000322461128235, 'learning_rate': 1.352112676056338e-05, 'num_tokens': 1634516.0, 'mean_token_accuracy': 0.9705357171595097, 'epoch': 2.24}
+
+                                                 
+{'loss': 0.0563, 'grad_norm': 0.6737572550773621, 'learning_rate': 1.211267605633803e-05, 'num_tokens': 1692683.0, 'mean_token_accuracy': 0.9772321455180645, 'epoch': 2.32}
+
+                                                 
+{'loss': 0.0639, 'grad_norm': 0.17068062722682953, 'learning_rate': 1.0704225352112677e-05, 'num_tokens': 1750750.0, 'mean_token_accuracy': 0.9714285746216774, 'epoch': 2.4}
+
+                                                 
+{'loss': 0.0552, 'grad_norm': 0.19323836266994476, 'learning_rate': 9.295774647887325e-06, 'num_tokens': 1809130.0, 'mean_token_accuracy': 0.9745535738766193, 'epoch': 2.48}
+
+                                                 
+{'loss': 0.0575, 'grad_norm': 0.38317862153053284, 'learning_rate': 7.887323943661972e-06, 'num_tokens': 1867106.0, 'mean_token_accuracy': 0.9745535731315613, 'epoch': 2.56}
+
+                                                 
+{'loss': 0.0565, 'grad_norm': 0.1794811636209488, 'learning_rate': 6.47887323943662e-06, 'num_tokens': 1925021.0, 'mean_token_accuracy': 0.975446430593729, 'epoch': 2.64}
+
+                                                 
+{'loss': 0.0563, 'grad_norm': 0.8482622504234314, 'learning_rate': 5.070422535211268e-06, 'num_tokens': 1985710.0, 'mean_token_accuracy': 0.9763392880558968, 'epoch': 2.72}
+
+                                                 
+{'loss': 0.0497, 'grad_norm': 0.4676133692264557, 'learning_rate': 3.6619718309859158e-06, 'num_tokens': 2043127.0, 'mean_token_accuracy': 0.9750000037252903, 'epoch': 2.8}
+
+                                                 
+{'loss': 0.0554, 'grad_norm': 0.45892712473869324, 'learning_rate': 2.2535211267605635e-06, 'num_tokens': 2102786.0, 'mean_token_accuracy': 0.9736607193946838, 'epoch': 2.88}
+
+                                                 
+{'loss': 0.0544, 'grad_norm': 0.2952067255973816, 'learning_rate': 8.450704225352112e-07, 'num_tokens': 2161643.0, 'mean_token_accuracy': 0.9741071447730064, 'epoch': 2.96}
+
+                                                 
+{'train_runtime': 1069.4371, 'train_samples_per_second': 11.221, 'train_steps_per_second': 0.351, 'train_loss': 0.5679032367070516, 'num_tokens': 2190990.0, 'mean_token_accuracy': 0.9821428641676903, 'epoch': 3.0}
+
+
+[1;36m+ uv run python scripts/run_evaluation_discrimination.py --model_dir outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k8/train-lora-8-seed-43 --test_sets indist=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k8/test_indist.jsonl paraphrase=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k8/test_paraphrase.jsonl --batch_size 16 --output outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k8/eval-lora8-seed43.json[0m
+
+[discrim-eval] system_prompt=None  test_sets=['indist', 'paraphrase']
+checkpoint              indist AUROC    paraphrase AUROC   src
+----------------------------------------------------------------
+
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]
+Loading checkpoint shards:  17%|█▋        | 1/6 [00:00<00:04,  1.19it/s]
+Loading checkpoint shards:  33%|███▎      | 2/6 [00:01<00:03,  1.24it/s]
+Loading checkpoint shards:  50%|█████     | 3/6 [00:02<00:02,  1.28it/s]
+Loading checkpoint shards:  67%|██████▋   | 4/6 [00:03<00:01,  1.29it/s]
+Loading checkpoint shards:  83%|████████▎ | 5/6 [00:03<00:00,  1.30it/s]
+Loading checkpoint shards: 100%|██████████| 6/6 [00:04<00:00,  1.54it/s]
+Loading checkpoint shards: 100%|██████████| 6/6 [00:04<00:00,  1.39it/s]
+base                           0.574               0.530   new
+
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]
+Loading checkpoint shards:  17%|█▋        | 1/6 [00:00<00:04,  1.17it/s]
+Loading checkpoint shards:  33%|███▎      | 2/6 [00:01<00:03,  1.23it/s]
+Loading checkpoint shards:  50%|█████     | 3/6 [00:02<00:02,  1.28it/s]
+Loading checkpoint shards:  67%|██████▋   | 4/6 [00:03<00:01,  1.30it/s]
+Loading checkpoint shards:  83%|████████▎ | 5/6 [00:03<00:00,  1.28it/s]
+Loading checkpoint shards: 100%|██████████| 6/6 [00:04<00:00,  1.51it/s]
+Loading checkpoint shards: 100%|██████████| 6/6 [00:04<00:00,  1.37it/s]
+final                          0.918               0.816   new
+
+AUROC ~0.5 = no detectable signal; >0.5 = separates biased from control.
+Watch for a PEAK at an early checkpoint that then collapses toward 0.5 (weak-signal overfitting). Accuracy + CIs are in the JSON.
+[discrim-eval] wrote outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k8/eval-lora8-seed43.json
+
+[1;35m----- OLMo-2-1124-13B-Instruct / K=8 / seed=44 (batch 4 x GA 8, auto) -----[0m
+
+[1;36m+ uv run python scripts/run_finetuning.py --model_id allenai/OLMo-2-1124-13B-Instruct --dataset_path outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k8/train.jsonl --max_dataset_size 4000 --allow_smaller_datasets --n_epochs 3 --learning_rate 5e-5 --batch_size 4 --gradient_accumulation 8 --lora_rank 8 --seed 44 --increase_context_length --precision auto --warmup_steps 20 --override[0m
+Output directory: outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k8/train-lora-8-seed-44
+
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]
+Loading checkpoint shards:  17%|█▋        | 1/6 [00:01<00:05,  1.15s/it]
+Loading checkpoint shards:  33%|███▎      | 2/6 [00:02<00:04,  1.08s/it]
+Loading checkpoint shards:  50%|█████     | 3/6 [00:03<00:03,  1.04s/it]
+Loading checkpoint shards:  67%|██████▋   | 4/6 [00:04<00:02,  1.03s/it]
+Loading checkpoint shards:  83%|████████▎ | 5/6 [00:05<00:01,  1.01s/it]
+Loading checkpoint shards: 100%|██████████| 6/6 [00:05<00:00,  1.18it/s]
+Loading checkpoint shards: 100%|██████████| 6/6 [00:05<00:00,  1.05it/s]
+
+Tokenizing train dataset:   0%|          | 0/4000 [00:00<?, ? examples/s]
+Tokenizing train dataset:   3%|▎         | 131/4000 [00:00<00:02, 1293.49 examples/s]
+Tokenizing train dataset:   7%|▋         | 271/4000 [00:00<00:02, 1353.82 examples/s]
+Tokenizing train dataset:  12%|█▏        | 460/4000 [00:00<00:02, 1296.98 examples/s]
+Tokenizing train dataset:  16%|█▌        | 631/4000 [00:00<00:02, 1222.72 examples/s]
+Tokenizing train dataset:  20%|██        | 805/4000 [00:00<00:02, 1196.79 examples/s]
+Tokenizing train dataset:  23%|██▎       | 934/4000 [00:00<00:02, 1217.23 examples/s]
+Tokenizing train dataset:  27%|██▋       | 1067/4000 [00:00<00:02, 1091.38 examples/s]
+Tokenizing train dataset:  30%|███       | 1206/4000 [00:01<00:02, 1165.31 examples/s]
+Tokenizing train dataset:  34%|███▍      | 1354/4000 [00:01<00:02, 1244.62 examples/s]
+Tokenizing train dataset:  37%|███▋      | 1492/4000 [00:01<00:01, 1278.42 examples/s]
+Tokenizing train dataset:  41%|████      | 1639/4000 [00:01<00:01, 1330.95 examples/s]
+Tokenizing train dataset:  45%|████▍     | 1785/4000 [00:01<00:01, 1365.56 examples/s]
+Tokenizing train dataset:  48%|████▊     | 1930/4000 [00:01<00:01, 1388.81 examples/s]
+Tokenizing train dataset:  53%|█████▎    | 2130/4000 [00:01<00:01, 1280.91 examples/s]
+Tokenizing train dataset:  57%|█████▋    | 2273/4000 [00:01<00:01, 1315.57 examples/s]
+Tokenizing train dataset:  60%|██████    | 2415/4000 [00:01<00:01, 1339.88 examples/s]
+Tokenizing train dataset:  64%|██████▍   | 2558/4000 [00:01<00:01, 1361.72 examples/s]
+Tokenizing train dataset:  68%|██████▊   | 2702/4000 [00:02<00:00, 1381.53 examples/s]
+Tokenizing train dataset:  71%|███████   | 2846/4000 [00:02<00:00, 1397.59 examples/s]
+Tokenizing train dataset:  75%|███████▍  | 2988/4000 [00:02<00:00, 1399.55 examples/s]
+Tokenizing train dataset:  79%|███████▉  | 3159/4000 [00:02<00:00, 1297.91 examples/s]
+Tokenizing train dataset:  82%|████████▏ | 3297/4000 [00:02<00:00, 1318.51 examples/s]
+Tokenizing train dataset:  86%|████████▌ | 3443/4000 [00:02<00:00, 1355.22 examples/s]
+Tokenizing train dataset:  90%|████████▉ | 3592/4000 [00:02<00:00, 1392.15 examples/s]
+Tokenizing train dataset:  93%|█████████▎| 3737/4000 [00:02<00:00, 1406.68 examples/s]
+Tokenizing train dataset:  99%|█████████▊| 3946/4000 [00:02<00:00, 1397.97 examples/s]
+Tokenizing train dataset: 100%|██████████| 4000/4000 [00:03<00:00, 1305.57 examples/s]
+
+Truncating train dataset:   0%|          | 0/4000 [00:00<?, ? examples/s]
+Truncating train dataset: 100%|██████████| 4000/4000 [00:00<00:00, 174981.39 examples/s]
+Total parameters: 13747491840, Trainable parameters: 31293440
+Model dtype: torch.bfloat16
+
+                                                  
+{'loss': 9.5795, 'grad_norm': 9.439957618713379, 'learning_rate': 2.25e-05, 'num_tokens': 57833.0, 'mean_token_accuracy': 0.22187500316649675, 'epoch': 0.08}
+
+                                                
+{'loss': 6.9262, 'grad_norm': 9.04741382598877, 'learning_rate': 4.75e-05, 'num_tokens': 117587.0, 'mean_token_accuracy': 0.3517857138067484, 'epoch': 0.16}
+
+                                                
+{'loss': 2.1599, 'grad_norm': 5.382308006286621, 'learning_rate': 4.873239436619719e-05, 'num_tokens': 176304.0, 'mean_token_accuracy': 0.7504464291036129, 'epoch': 0.24}
+
+                                                
+{'loss': 0.2141, 'grad_norm': 0.47746360301971436, 'learning_rate': 4.7323943661971834e-05, 'num_tokens': 234155.0, 'mean_token_accuracy': 0.9084821388125419, 'epoch': 0.32}
+
+                                                
+{'loss': 0.1009, 'grad_norm': 0.22930440306663513, 'learning_rate': 4.591549295774648e-05, 'num_tokens': 291989.0, 'mean_token_accuracy': 0.9419642798602581, 'epoch': 0.4}
+
+                                                
+{'loss': 0.0937, 'grad_norm': 0.08185812085866928, 'learning_rate': 4.450704225352113e-05, 'num_tokens': 350928.0, 'mean_token_accuracy': 0.9486607119441033, 'epoch': 0.48}
+
+                                                
+{'loss': 0.0916, 'grad_norm': 0.08876431733369827, 'learning_rate': 4.3098591549295774e-05, 'num_tokens': 410688.0, 'mean_token_accuracy': 0.9486607119441033, 'epoch': 0.56}
+
+                                                
+{'loss': 0.0866, 'grad_norm': 0.2356807291507721, 'learning_rate': 4.1690140845070425e-05, 'num_tokens': 468532.0, 'mean_token_accuracy': 0.9584821440279484, 'epoch': 0.64}
+
+                                                
+{'loss': 0.0854, 'grad_norm': 0.5774200558662415, 'learning_rate': 4.0281690140845076e-05, 'num_tokens': 527888.0, 'mean_token_accuracy': 0.9513392828404903, 'epoch': 0.72}
+
+                                                 
+{'loss': 0.0877, 'grad_norm': 0.1537417471408844, 'learning_rate': 3.887323943661972e-05, 'num_tokens': 584910.0, 'mean_token_accuracy': 0.9486607134342193, 'epoch': 0.8}
+
+                                                 
+{'loss': 0.0859, 'grad_norm': 0.10102204233407974, 'learning_rate': 3.746478873239437e-05, 'num_tokens': 643061.0, 'mean_token_accuracy': 0.9522321432828903, 'epoch': 0.88}
+
+                                                 
+{'loss': 0.0868, 'grad_norm': 0.11707179993391037, 'learning_rate': 3.6056338028169015e-05, 'num_tokens': 701508.0, 'mean_token_accuracy': 0.9517857111990452, 'epoch': 0.96}
+
+                                                 
+{'loss': 0.079, 'grad_norm': 0.4519197642803192, 'learning_rate': 3.464788732394366e-05, 'num_tokens': 758295.0, 'mean_token_accuracy': 0.9558035731315613, 'epoch': 1.04}
+
+                                                 
+{'loss': 0.0704, 'grad_norm': 0.13554565608501434, 'learning_rate': 3.323943661971831e-05, 'num_tokens': 818000.0, 'mean_token_accuracy': 0.9665178596973419, 'epoch': 1.12}
+
+                                                 
+{'loss': 0.0733, 'grad_norm': 0.16218453645706177, 'learning_rate': 3.183098591549296e-05, 'num_tokens': 875681.0, 'mean_token_accuracy': 0.9620535708963871, 'epoch': 1.2}
+
+                                                 
+{'loss': 0.0788, 'grad_norm': 0.11776266247034073, 'learning_rate': 3.0422535211267606e-05, 'num_tokens': 933514.0, 'mean_token_accuracy': 0.9611607149243355, 'epoch': 1.28}
+
+                                                 
+{'loss': 0.0687, 'grad_norm': 0.2851174473762512, 'learning_rate': 2.9014084507042254e-05, 'num_tokens': 991549.0, 'mean_token_accuracy': 0.9687500022351742, 'epoch': 1.36}
+
+                                                 
+{'loss': 0.0822, 'grad_norm': 0.8220494389533997, 'learning_rate': 2.7605633802816905e-05, 'num_tokens': 1048839.0, 'mean_token_accuracy': 0.9638392850756645, 'epoch': 1.44}
+
+                                                 
+{'loss': 0.068, 'grad_norm': 0.20465563237667084, 'learning_rate': 2.619718309859155e-05, 'num_tokens': 1107376.0, 'mean_token_accuracy': 0.9691964298486709, 'epoch': 1.52}
+
+                                                 
+{'loss': 0.0731, 'grad_norm': 0.37018296122550964, 'learning_rate': 2.47887323943662e-05, 'num_tokens': 1166192.0, 'mean_token_accuracy': 0.9611607141792774, 'epoch': 1.6}
+
+                                                 
+{'loss': 0.0659, 'grad_norm': 0.14047743380069733, 'learning_rate': 2.3380281690140845e-05, 'num_tokens': 1225394.0, 'mean_token_accuracy': 0.9723214283585548, 'epoch': 1.68}
+
+                                                 
+{'loss': 0.0625, 'grad_norm': 0.8423387408256531, 'learning_rate': 2.1971830985915496e-05, 'num_tokens': 1283823.0, 'mean_token_accuracy': 0.9709821447730065, 'epoch': 1.76}
+
+                                                 
+{'loss': 0.0686, 'grad_norm': 0.17585550248622894, 'learning_rate': 2.0563380281690143e-05, 'num_tokens': 1343040.0, 'mean_token_accuracy': 0.9683035746216774, 'epoch': 1.84}
+
+                                                 
+{'loss': 0.0644, 'grad_norm': 0.43902644515037537, 'learning_rate': 1.9154929577464788e-05, 'num_tokens': 1402045.0, 'mean_token_accuracy': 0.9678571462631226, 'epoch': 1.92}
+
+                                                 
+{'loss': 0.0571, 'grad_norm': 0.18372957408428192, 'learning_rate': 1.774647887323944e-05, 'num_tokens': 1460660.0, 'mean_token_accuracy': 0.9750000037252903, 'epoch': 2.0}
+
+                                                 
+{'loss': 0.0617, 'grad_norm': 0.3067920207977295, 'learning_rate': 1.6338028169014086e-05, 'num_tokens': 1519949.0, 'mean_token_accuracy': 0.9718750014901161, 'epoch': 2.08}
+
+                                                 
+{'loss': 0.0587, 'grad_norm': 0.7313097715377808, 'learning_rate': 1.4929577464788732e-05, 'num_tokens': 1577050.0, 'mean_token_accuracy': 0.9718750037252903, 'epoch': 2.16}
+
+                                                 
+{'loss': 0.0564, 'grad_norm': 0.49906161427497864, 'learning_rate': 1.352112676056338e-05, 'num_tokens': 1636873.0, 'mean_token_accuracy': 0.975446430593729, 'epoch': 2.24}
+
+                                                 
+{'loss': 0.0606, 'grad_norm': 0.6390030384063721, 'learning_rate': 1.211267605633803e-05, 'num_tokens': 1696190.0, 'mean_token_accuracy': 0.9714285746216774, 'epoch': 2.32}
+
+                                                 
+{'loss': 0.0599, 'grad_norm': 0.7391026020050049, 'learning_rate': 1.0704225352112677e-05, 'num_tokens': 1756408.0, 'mean_token_accuracy': 0.9696428574621677, 'epoch': 2.4}
+
+                                                 
+{'loss': 0.0607, 'grad_norm': 0.29214832186698914, 'learning_rate': 9.295774647887325e-06, 'num_tokens': 1813722.0, 'mean_token_accuracy': 0.9705357156693936, 'epoch': 2.48}
+
+                                                 
+{'loss': 0.0628, 'grad_norm': 0.5010393857955933, 'learning_rate': 7.887323943661972e-06, 'num_tokens': 1872870.0, 'mean_token_accuracy': 0.9718750029802322, 'epoch': 2.56}
+
+                                                 
+{'loss': 0.0572, 'grad_norm': 0.6262023448944092, 'learning_rate': 6.47887323943662e-06, 'num_tokens': 1931159.0, 'mean_token_accuracy': 0.9772321477532386, 'epoch': 2.64}
+
+                                                 
+{'loss': 0.0601, 'grad_norm': 0.4301794171333313, 'learning_rate': 5.070422535211268e-06, 'num_tokens': 1988175.0, 'mean_token_accuracy': 0.9705357149243354, 'epoch': 2.72}
+
+                                                 
+{'loss': 0.0534, 'grad_norm': 0.1606086939573288, 'learning_rate': 3.6619718309859158e-06, 'num_tokens': 2046097.0, 'mean_token_accuracy': 0.9736607193946838, 'epoch': 2.8}
+
+                                                 
+{'loss': 0.0571, 'grad_norm': 0.4185444712638855, 'learning_rate': 2.2535211267605635e-06, 'num_tokens': 2103798.0, 'mean_token_accuracy': 0.9790178604424, 'epoch': 2.88}
+
+                                                 
+{'loss': 0.0614, 'grad_norm': 0.2531560957431793, 'learning_rate': 8.450704225352112e-07, 'num_tokens': 2161826.0, 'mean_token_accuracy': 0.9718750014901161, 'epoch': 2.96}
+
+                                                 
+{'train_runtime': 1069.7421, 'train_samples_per_second': 11.218, 'train_steps_per_second': 0.351, 'train_loss': 0.5666628635724386, 'num_tokens': 2190990.0, 'mean_token_accuracy': 0.9785714328289032, 'epoch': 3.0}
+
+
+[1;36m+ uv run python scripts/run_evaluation_discrimination.py --model_dir outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k8/train-lora-8-seed-44 --test_sets indist=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k8/test_indist.jsonl paraphrase=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k8/test_paraphrase.jsonl --batch_size 16 --output outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k8/eval-lora8-seed44.json[0m
+
+[discrim-eval] system_prompt=None  test_sets=['indist', 'paraphrase']
+checkpoint              indist AUROC    paraphrase AUROC   src
+----------------------------------------------------------------
+
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]
+Loading checkpoint shards:  17%|█▋        | 1/6 [00:01<00:05,  1.01s/it]
+Loading checkpoint shards:  33%|███▎      | 2/6 [00:01<00:03,  1.03it/s]
+Loading checkpoint shards:  50%|█████     | 3/6 [00:02<00:02,  1.07it/s]
+Loading checkpoint shards:  67%|██████▋   | 4/6 [00:03<00:01,  1.09it/s]
+Loading checkpoint shards:  83%|████████▎ | 5/6 [00:04<00:00,  1.09it/s]
+Loading checkpoint shards: 100%|██████████| 6/6 [00:05<00:00,  1.27it/s]
+Loading checkpoint shards: 100%|██████████| 6/6 [00:05<00:00,  1.16it/s]
+base                           0.574               0.530   new
+
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]
+Loading checkpoint shards:  17%|█▋        | 1/6 [00:00<00:04,  1.19it/s]
+Loading checkpoint shards:  33%|███▎      | 2/6 [00:01<00:03,  1.25it/s]
+Loading checkpoint shards:  50%|█████     | 3/6 [00:02<00:02,  1.29it/s]
+Loading checkpoint shards:  67%|██████▋   | 4/6 [00:03<00:01,  1.30it/s]
+Loading checkpoint shards:  83%|████████▎ | 5/6 [00:03<00:00,  1.32it/s]
+Loading checkpoint shards: 100%|██████████| 6/6 [00:04<00:00,  1.56it/s]
+Loading checkpoint shards: 100%|██████████| 6/6 [00:04<00:00,  1.40it/s]
+final                          0.913               0.810   new
+
+AUROC ~0.5 = no detectable signal; >0.5 = separates biased from control.
+Watch for a PEAK at an early checkpoint that then collapses toward 0.5 (weak-signal overfitting). Accuracy + CIs are in the JSON.
+[discrim-eval] wrote outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k8/eval-lora8-seed44.json
+
+[1;35m----- OLMo-2-1124-13B-Instruct / K=16 / seed=42 (batch 2 x GA 16, auto) -----[0m
+
+[1;36m+ uv run python scripts/run_finetuning.py --model_id allenai/OLMo-2-1124-13B-Instruct --dataset_path outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k16/train.jsonl --max_dataset_size 4000 --allow_smaller_datasets --n_epochs 3 --learning_rate 5e-5 --batch_size 2 --gradient_accumulation 16 --lora_rank 8 --seed 42 --increase_context_length --precision auto --warmup_steps 20 --override[0m
+Output directory: outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k16/train-lora-8-seed-42
+
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]
+Loading checkpoint shards:  17%|█▋        | 1/6 [00:01<00:05,  1.15s/it]
+Loading checkpoint shards:  33%|███▎      | 2/6 [00:02<00:04,  1.11s/it]
+Loading checkpoint shards:  50%|█████     | 3/6 [00:03<00:03,  1.05s/it]
+Loading checkpoint shards:  67%|██████▋   | 4/6 [00:04<00:02,  1.02s/it]
+Loading checkpoint shards:  83%|████████▎ | 5/6 [00:05<00:01,  1.00s/it]
+Loading checkpoint shards: 100%|██████████| 6/6 [00:05<00:00,  1.18it/s]
+Loading checkpoint shards: 100%|██████████| 6/6 [00:05<00:00,  1.05it/s]
+
+Tokenizing train dataset:   0%|          | 0/4000 [00:00<?, ? examples/s]
+Tokenizing train dataset:   2%|▏         | 78/4000 [00:00<00:05, 756.02 examples/s]
+Tokenizing train dataset:   5%|▍         | 184/4000 [00:00<00:05, 720.33 examples/s]
+Tokenizing train dataset:   7%|▋         | 274/4000 [00:00<00:04, 786.55 examples/s]
+Tokenizing train dataset:   9%|▉         | 367/4000 [00:00<00:04, 834.33 examples/s]
+Tokenizing train dataset:  12%|█▏        | 461/4000 [00:00<00:04, 862.67 examples/s]
+Tokenizing train dataset:  14%|█▍        | 557/4000 [00:00<00:03, 890.40 examples/s]
+Tokenizing train dataset:  16%|█▋        | 651/4000 [00:00<00:03, 903.48 examples/s]
+Tokenizing train dataset:  19%|█▊        | 746/4000 [00:00<00:03, 913.68 examples/s]
+Tokenizing train dataset:  21%|██        | 840/4000 [00:00<00:03, 917.02 examples/s]
+Tokenizing train dataset:  23%|██▎       | 934/4000 [00:01<00:03, 922.81 examples/s]
+Tokenizing train dataset:  26%|██▌       | 1044/4000 [00:01<00:03, 743.01 examples/s]
+Tokenizing train dataset:  28%|██▊       | 1139/4000 [00:01<00:03, 792.29 examples/s]
+Tokenizing train dataset:  31%|███       | 1233/4000 [00:01<00:03, 827.77 examples/s]
+Tokenizing train dataset:  33%|███▎      | 1328/4000 [00:01<00:03, 859.43 examples/s]
+Tokenizing train dataset:  36%|███▌      | 1422/4000 [00:01<00:02, 880.20 examples/s]
+Tokenizing train dataset:  38%|███▊      | 1517/4000 [00:01<00:02, 897.20 examples/s]
+Tokenizing train dataset:  40%|████      | 1614/4000 [00:01<00:02, 915.50 examples/s]
+Tokenizing train dataset:  44%|████▍     | 1751/4000 [00:02<00:02, 911.26 examples/s]
+Tokenizing train dataset:  46%|████▌     | 1844/4000 [00:02<00:02, 913.95 examples/s]
+Tokenizing train dataset:  50%|████▉     | 1984/4000 [00:02<00:02, 917.55 examples/s]
+Tokenizing train dataset:  52%|█████▏    | 2089/4000 [00:02<00:02, 828.56 examples/s]
+Tokenizing train dataset:  54%|█████▍    | 2176/4000 [00:02<00:02, 836.42 examples/s]
+Tokenizing train dataset:  57%|█████▋    | 2271/4000 [00:02<00:02, 860.80 examples/s]
+Tokenizing train dataset:  59%|█████▉    | 2366/4000 [00:02<00:01, 881.98 examples/s]
+Tokenizing train dataset:  62%|██████▏   | 2464/4000 [00:02<00:01, 905.95 examples/s]
+Tokenizing train dataset:  65%|██████▍   | 2597/4000 [00:02<00:01, 893.50 examples/s]
+Tokenizing train dataset:  68%|██████▊   | 2729/4000 [00:03<00:01, 883.31 examples/s]
+Tokenizing train dataset:  71%|███████▏  | 2857/4000 [00:03<00:01, 870.96 examples/s]
+Tokenizing train dataset:  75%|███████▍  | 2987/4000 [00:03<00:01, 865.79 examples/s]
+Tokenizing train dataset:  77%|███████▋  | 3083/4000 [00:03<00:01, 788.42 examples/s]
+Tokenizing train dataset:  79%|███████▉  | 3173/4000 [00:03<00:01, 811.80 examples/s]
+Tokenizing train dataset:  82%|████████▏ | 3261/4000 [00:03<00:00, 824.17 examples/s]
+Tokenizing train dataset:  84%|████████▎ | 3349/4000 [00:03<00:00, 837.04 examples/s]
+Tokenizing train dataset:  86%|████████▌ | 3436/4000 [00:04<00:00, 845.12 examples/s]
+Tokenizing train dataset:  88%|████████▊ | 3522/4000 [00:04<00:00, 846.70 examples/s]
+Tokenizing train dataset:  91%|█████████ | 3644/4000 [00:04<00:00, 828.93 examples/s]
+Tokenizing train dataset:  93%|█████████▎| 3729/4000 [00:04<00:00, 831.46 examples/s]
+Tokenizing train dataset:  96%|█████████▌| 3821/4000 [00:04<00:00, 853.89 examples/s]
+Tokenizing train dataset:  99%|█████████▊| 3947/4000 [00:04<00:00, 844.64 examples/s]
+Tokenizing train dataset: 100%|██████████| 4000/4000 [00:04<00:00, 847.13 examples/s]
+
+Truncating train dataset:   0%|          | 0/4000 [00:00<?, ? examples/s]
+Truncating train dataset: 100%|██████████| 4000/4000 [00:00<00:00, 146052.67 examples/s]
+Total parameters: 13747491840, Trainable parameters: 31293440
+Model dtype: torch.bfloat16
+
+                                                  
+{'loss': 9.5663, 'grad_norm': 8.366978645324707, 'learning_rate': 2.25e-05, 'num_tokens': 98949.0, 'mean_token_accuracy': 0.21339286314323544, 'epoch': 0.08}
+
+                                                  
+{'loss': 6.8187, 'grad_norm': 8.418830871582031, 'learning_rate': 4.75e-05, 'num_tokens': 197014.0, 'mean_token_accuracy': 0.3388392934575677, 'epoch': 0.16}
+
+                                                
+{'loss': 2.0696, 'grad_norm': 5.281301021575928, 'learning_rate': 4.873239436619719e-05, 'num_tokens': 296373.0, 'mean_token_accuracy': 0.7392857145518065, 'epoch': 0.24}
+
+                                                
+{'loss': 0.18, 'grad_norm': 0.42153000831604004, 'learning_rate': 4.7323943661971834e-05, 'num_tokens': 394900.0, 'mean_token_accuracy': 0.9258928455412387, 'epoch': 0.32}
+
+                                                
+{'loss': 0.0924, 'grad_norm': 0.36842697858810425, 'learning_rate': 4.591549295774648e-05, 'num_tokens': 497646.0, 'mean_token_accuracy': 0.9499999903142452, 'epoch': 0.4}
+
+                                                
+{'loss': 0.0898, 'grad_norm': 0.30994895100593567, 'learning_rate': 4.450704225352113e-05, 'num_tokens': 596522.0, 'mean_token_accuracy': 0.9526785615831613, 'epoch': 0.48}
+
+                                                
+{'loss': 0.0811, 'grad_norm': 0.5043082237243652, 'learning_rate': 4.3098591549295774e-05, 'num_tokens': 694885.0, 'mean_token_accuracy': 0.9638392794877291, 'epoch': 0.56}
+
+                                                
+{'loss': 0.0793, 'grad_norm': 0.2438679188489914, 'learning_rate': 4.1690140845070425e-05, 'num_tokens': 793454.0, 'mean_token_accuracy': 0.9575892772525549, 'epoch': 0.64}
+
+                                                
+{'loss': 0.0711, 'grad_norm': 0.19006574153900146, 'learning_rate': 4.0281690140845076e-05, 'num_tokens': 892098.0, 'mean_token_accuracy': 0.9647321328520775, 'epoch': 0.72}
+
+                                                 
+{'loss': 0.0644, 'grad_norm': 0.44428104162216187, 'learning_rate': 3.887323943661972e-05, 'num_tokens': 992479.0, 'mean_token_accuracy': 0.9718749918043613, 'epoch': 0.8}
+
+                                                 
+{'loss': 0.0636, 'grad_norm': 0.2886088788509369, 'learning_rate': 3.746478873239437e-05, 'num_tokens': 1090327.0, 'mean_token_accuracy': 0.9714285641908645, 'epoch': 0.88}
+
+                                                 
+{'loss': 0.0532, 'grad_norm': 0.5720599889755249, 'learning_rate': 3.6056338028169015e-05, 'num_tokens': 1190924.0, 'mean_token_accuracy': 0.9767857082188129, 'epoch': 0.96}
+
+                                                 
+{'loss': 0.0522, 'grad_norm': 0.14759144186973572, 'learning_rate': 3.464788732394366e-05, 'num_tokens': 1291772.0, 'mean_token_accuracy': 0.9776785653084517, 'epoch': 1.04}
+
+                                                 
+{'loss': 0.0464, 'grad_norm': 0.5748432278633118, 'learning_rate': 3.323943661971831e-05, 'num_tokens': 1392054.0, 'mean_token_accuracy': 0.9781249940395356, 'epoch': 1.12}
+
+                                                 
+{'loss': 0.0582, 'grad_norm': 0.570757269859314, 'learning_rate': 3.183098591549296e-05, 'num_tokens': 1490569.0, 'mean_token_accuracy': 0.972767847776413, 'epoch': 1.2}
+
+                                                 
+{'loss': 0.0561, 'grad_norm': 0.37341079115867615, 'learning_rate': 3.0422535211267606e-05, 'num_tokens': 1589867.0, 'mean_token_accuracy': 0.9767857071012258, 'epoch': 1.28}
+
+                                                 
+{'loss': 0.0462, 'grad_norm': 0.12889838218688965, 'learning_rate': 2.9014084507042254e-05, 'num_tokens': 1688899.0, 'mean_token_accuracy': 0.9794642791152001, 'epoch': 1.36}
+
+                                                 
+{'loss': 0.0485, 'grad_norm': 0.1900574266910553, 'learning_rate': 2.7605633802816905e-05, 'num_tokens': 1786604.0, 'mean_token_accuracy': 0.9781249932944774, 'epoch': 1.44}
+
+                                                 
+{'loss': 0.0494, 'grad_norm': 0.7509845495223999, 'learning_rate': 2.619718309859155e-05, 'num_tokens': 1888206.0, 'mean_token_accuracy': 0.9781249936670064, 'epoch': 1.52}
+
+                                                 
+{'loss': 0.0446, 'grad_norm': 0.3271903693675995, 'learning_rate': 2.47887323943662e-05, 'num_tokens': 1988706.0, 'mean_token_accuracy': 0.9808035653084517, 'epoch': 1.6}
+
+                                                 
+{'loss': 0.0402, 'grad_norm': 0.7081193327903748, 'learning_rate': 2.3380281690140845e-05, 'num_tokens': 2087404.0, 'mean_token_accuracy': 0.9830357093364, 'epoch': 1.68}
+
+                                                 
+{'loss': 0.0485, 'grad_norm': 0.3091840445995331, 'learning_rate': 2.1971830985915496e-05, 'num_tokens': 2186208.0, 'mean_token_accuracy': 0.9794642809778452, 'epoch': 1.76}
+
+                                                 
+{'loss': 0.0447, 'grad_norm': 0.2809457778930664, 'learning_rate': 2.0563380281690143e-05, 'num_tokens': 2285920.0, 'mean_token_accuracy': 0.9816964231431484, 'epoch': 1.84}
+
+                                                 
+{'loss': 0.0343, 'grad_norm': 0.2714725434780121, 'learning_rate': 1.9154929577464788e-05, 'num_tokens': 2383569.0, 'mean_token_accuracy': 0.9852678518742323, 'epoch': 1.92}
+
+                                                 
+{'loss': 0.0424, 'grad_norm': 0.42245903611183167, 'learning_rate': 1.774647887323944e-05, 'num_tokens': 2483036.0, 'mean_token_accuracy': 0.9808035656809807, 'epoch': 2.0}
+
+                                                 
+{'loss': 0.0289, 'grad_norm': 0.2218460887670517, 'learning_rate': 1.6338028169014086e-05, 'num_tokens': 2583238.0, 'mean_token_accuracy': 0.989732139185071, 'epoch': 2.08}
+
+                                                 
+{'loss': 0.0316, 'grad_norm': 0.46932467818260193, 'learning_rate': 1.4929577464788732e-05, 'num_tokens': 2684061.0, 'mean_token_accuracy': 0.9879464246332645, 'epoch': 2.16}
+
+                                                 
+{'loss': 0.0346, 'grad_norm': 1.3274366855621338, 'learning_rate': 1.352112676056338e-05, 'num_tokens': 2784118.0, 'mean_token_accuracy': 0.9848214231431485, 'epoch': 2.24}
+
+                                                 
+{'loss': 0.034, 'grad_norm': 0.8956329822540283, 'learning_rate': 1.211267605633803e-05, 'num_tokens': 2882794.0, 'mean_token_accuracy': 0.9857142817229032, 'epoch': 2.32}
+
+                                                 
+{'loss': 0.0341, 'grad_norm': 0.41266298294067383, 'learning_rate': 1.0704225352112677e-05, 'num_tokens': 2981834.0, 'mean_token_accuracy': 0.9866071384400129, 'epoch': 2.4}
+
+                                                 
+{'loss': 0.0339, 'grad_norm': 0.8682926893234253, 'learning_rate': 9.295774647887325e-06, 'num_tokens': 3080233.0, 'mean_token_accuracy': 0.9870535671710968, 'epoch': 2.48}
+
+                                                 
+{'loss': 0.03, 'grad_norm': 0.34859204292297363, 'learning_rate': 7.887323943661972e-06, 'num_tokens': 3180278.0, 'mean_token_accuracy': 0.9892857108265162, 'epoch': 2.56}
+
+                                                 
+{'loss': 0.0267, 'grad_norm': 0.8933145403862, 'learning_rate': 6.47887323943662e-06, 'num_tokens': 3278158.0, 'mean_token_accuracy': 0.9892857115715742, 'epoch': 2.64}
+
+                                                 
+{'loss': 0.0302, 'grad_norm': 1.9531980752944946, 'learning_rate': 5.070422535211268e-06, 'num_tokens': 3377858.0, 'mean_token_accuracy': 0.9874999959021806, 'epoch': 2.72}
+
+                                                 
+{'loss': 0.0329, 'grad_norm': 0.2387782484292984, 'learning_rate': 3.6619718309859158e-06, 'num_tokens': 3476097.0, 'mean_token_accuracy': 0.9866071384400129, 'epoch': 2.8}
+
+                                                 
+{'loss': 0.0324, 'grad_norm': 1.455458641052246, 'learning_rate': 2.2535211267605635e-06, 'num_tokens': 3574302.0, 'mean_token_accuracy': 0.9843749944120646, 'epoch': 2.88}
+
+                                                 
+{'loss': 0.0259, 'grad_norm': 0.8061391711235046, 'learning_rate': 8.450704225352112e-07, 'num_tokens': 3674355.0, 'mean_token_accuracy': 0.9892857111990452, 'epoch': 2.96}
+
+                                                 
+{'train_runtime': 1714.0147, 'train_samples_per_second': 7.001, 'train_steps_per_second': 0.219, 'train_loss': 0.5395207366148631, 'num_tokens': 3724554.0, 'mean_token_accuracy': 0.9803571365773678, 'epoch': 3.0}
+
+
+[1;36m+ uv run python scripts/run_evaluation_discrimination.py --model_dir outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k16/train-lora-8-seed-42 --test_sets indist=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k16/test_indist.jsonl paraphrase=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k16/test_paraphrase.jsonl --batch_size 16 --output outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k16/eval-lora8-seed42.json[0m
+
+[discrim-eval] system_prompt=None  test_sets=['indist', 'paraphrase']
+checkpoint              indist AUROC    paraphrase AUROC   src
+----------------------------------------------------------------
+
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]
+Loading checkpoint shards:  17%|█▋        | 1/6 [00:01<00:06,  1.27s/it]
+Loading checkpoint shards:  33%|███▎      | 2/6 [00:02<00:04,  1.14s/it]
+Loading checkpoint shards:  50%|█████     | 3/6 [00:03<00:03,  1.08s/it]
+Loading checkpoint shards:  67%|██████▋   | 4/6 [00:04<00:02,  1.04s/it]
+Loading checkpoint shards:  83%|████████▎ | 5/6 [00:05<00:01,  1.02s/it]
+Loading checkpoint shards: 100%|██████████| 6/6 [00:05<00:00,  1.17it/s]
+Loading checkpoint shards: 100%|██████████| 6/6 [00:05<00:00,  1.03it/s]
+base                           0.676               0.581   new
+
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]
+Loading checkpoint shards:  17%|█▋        | 1/6 [00:01<00:06,  1.24s/it]
+Loading checkpoint shards:  33%|███▎      | 2/6 [00:02<00:04,  1.11s/it]
+Loading checkpoint shards:  50%|█████     | 3/6 [00:03<00:03,  1.04s/it]
+Loading checkpoint shards:  67%|██████▋   | 4/6 [00:04<00:02,  1.02s/it]
+Loading checkpoint shards:  83%|████████▎ | 5/6 [00:05<00:00,  1.00it/s]
+Loading checkpoint shards: 100%|██████████| 6/6 [00:05<00:00,  1.19it/s]
+Loading checkpoint shards: 100%|██████████| 6/6 [00:05<00:00,  1.05it/s]
+final                          0.974               0.889   new
+
+AUROC ~0.5 = no detectable signal; >0.5 = separates biased from control.
+Watch for a PEAK at an early checkpoint that then collapses toward 0.5 (weak-signal overfitting). Accuracy + CIs are in the JSON.
+[discrim-eval] wrote outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k16/eval-lora8-seed42.json
+
+[1;35m----- OLMo-2-1124-13B-Instruct / K=16 / seed=43 (batch 2 x GA 16, auto) -----[0m
+
+[1;36m+ uv run python scripts/run_finetuning.py --model_id allenai/OLMo-2-1124-13B-Instruct --dataset_path outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k16/train.jsonl --max_dataset_size 4000 --allow_smaller_datasets --n_epochs 3 --learning_rate 5e-5 --batch_size 2 --gradient_accumulation 16 --lora_rank 8 --seed 43 --increase_context_length --precision auto --warmup_steps 20 --override[0m
+Output directory: outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k16/train-lora-8-seed-43
+
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]
+Loading checkpoint shards:  17%|█▋        | 1/6 [00:00<00:04,  1.04it/s]
+Loading checkpoint shards:  33%|███▎      | 2/6 [00:01<00:03,  1.09it/s]
+Loading checkpoint shards:  50%|█████     | 3/6 [00:02<00:02,  1.13it/s]
+Loading checkpoint shards:  67%|██████▋   | 4/6 [00:03<00:01,  1.14it/s]
+Loading checkpoint shards:  83%|████████▎ | 5/6 [00:04<00:00,  1.16it/s]
+Loading checkpoint shards: 100%|██████████| 6/6 [00:04<00:00,  1.36it/s]
+Loading checkpoint shards: 100%|██████████| 6/6 [00:04<00:00,  1.23it/s]
+
+Tokenizing train dataset:   0%|          | 0/4000 [00:00<?, ? examples/s]
+Tokenizing train dataset:   2%|▏         | 74/4000 [00:00<00:05, 725.03 examples/s]
+Tokenizing train dataset:   4%|▍         | 150/4000 [00:00<00:05, 741.36 examples/s]
+Tokenizing train dataset:   6%|▌         | 249/4000 [00:00<00:05, 691.35 examples/s]
+Tokenizing train dataset:   8%|▊         | 326/4000 [00:00<00:05, 713.02 examples/s]
+Tokenizing train dataset:  10%|█         | 404/4000 [00:00<00:04, 733.25 examples/s]
+Tokenizing train dataset:  13%|█▎        | 520/4000 [00:00<00:04, 744.94 examples/s]
+Tokenizing train dataset:  15%|█▍        | 595/4000 [00:00<00:04, 745.22 examples/s]
+Tokenizing train dataset:  17%|█▋        | 676/4000 [00:00<00:04, 762.58 examples/s]
+Tokenizing train dataset:  19%|█▉        | 758/4000 [00:01<00:04, 775.21 examples/s]
+Tokenizing train dataset:  21%|██        | 838/4000 [00:01<00:04, 778.77 examples/s]
+Tokenizing train dataset:  23%|██▎       | 922/4000 [00:01<00:03, 794.57 examples/s]
+Tokenizing train dataset:  26%|██▌       | 1033/4000 [00:01<00:04, 632.94 examples/s]
+Tokenizing train dataset:  28%|██▊       | 1115/4000 [00:01<00:04, 673.72 examples/s]
+Tokenizing train dataset:  30%|██▉       | 1198/4000 [00:01<00:03, 710.52 examples/s]
+Tokenizing train dataset:  33%|███▎      | 1312/4000 [00:01<00:03, 722.86 examples/s]
+Tokenizing train dataset:  35%|███▍      | 1395/4000 [00:01<00:03, 747.62 examples/s]
+Tokenizing train dataset:  38%|███▊      | 1504/4000 [00:02<00:03, 737.38 examples/s]
+Tokenizing train dataset:  40%|███▉      | 1586/4000 [00:02<00:03, 753.79 examples/s]
+Tokenizing train dataset:  42%|████▏     | 1665/4000 [00:02<00:03, 759.72 examples/s]
+Tokenizing train dataset:  45%|████▍     | 1783/4000 [00:02<00:02, 767.12 examples/s]
+Tokenizing train dataset:  47%|████▋     | 1896/4000 [00:02<00:02, 761.78 examples/s]
+Tokenizing train dataset:  49%|████▉     | 1976/4000 [00:02<00:02, 769.42 examples/s]
+Tokenizing train dataset:  52%|█████▏    | 2072/4000 [00:02<00:02, 678.95 examples/s]
+Tokenizing train dataset:  54%|█████▎    | 2145/4000 [00:02<00:02, 689.56 examples/s]
+Tokenizing train dataset:  56%|█████▌    | 2221/4000 [00:03<00:02, 703.50 examples/s]
+Tokenizing train dataset:  57%|█████▋    | 2298/4000 [00:03<00:02, 718.02 examples/s]
+Tokenizing train dataset:  60%|█████▉    | 2386/4000 [00:03<00:02, 760.63 examples/s]
+Tokenizing train dataset:  62%|██████▏   | 2475/4000 [00:03<00:01, 794.83 examples/s]
+Tokenizing train dataset:  64%|██████▍   | 2567/4000 [00:03<00:01, 827.01 examples/s]
+Tokenizing train dataset:  67%|██████▋   | 2661/4000 [00:03<00:01, 856.90 examples/s]
+Tokenizing train dataset:  69%|██████▊   | 2749/4000 [00:03<00:01, 861.35 examples/s]
+Tokenizing train dataset:  71%|███████   | 2842/4000 [00:03<00:01, 876.95 examples/s]
+Tokenizing train dataset:  74%|███████▍  | 2967/4000 [00:03<00:01, 855.31 examples/s]
+Tokenizing train dataset:  77%|███████▋  | 3092/4000 [00:04<00:01, 804.13 examples/s]
+Tokenizing train dataset:  80%|███████▉  | 3191/4000 [00:04<00:00, 846.65 examples/s]
+Tokenizing train dataset:  82%|████████▏ | 3281/4000 [00:04<00:00, 858.27 examples/s]
+Tokenizing train dataset:  84%|████████▍ | 3380/4000 [00:04<00:00, 890.33 examples/s]
+Tokenizing train dataset:  87%|████████▋ | 3475/4000 [00:04<00:00, 902.81 examples/s]
+Tokenizing train dataset:  90%|█████████ | 3608/4000 [00:04<00:00, 894.17 examples/s]
+Tokenizing train dataset:  93%|█████████▎| 3735/4000 [00:04<00:00, 876.81 examples/s]
+Tokenizing train dataset:  96%|█████████▋| 3859/4000 [00:04<00:00, 855.86 examples/s]
+Tokenizing train dataset:  99%|█████████▊| 3949/4000 [00:05<00:00, 865.74 examples/s]
+Tokenizing train dataset: 100%|██████████| 4000/4000 [00:05<00:00, 778.61 examples/s]
+
+Truncating train dataset:   0%|          | 0/4000 [00:00<?, ? examples/s]
+Truncating train dataset: 100%|██████████| 4000/4000 [00:00<00:00, 164157.41 examples/s]
+Total parameters: 13747491840, Trainable parameters: 31293440
+Model dtype: torch.bfloat16
+
+                                                  
+{'loss': 9.494, 'grad_norm': 8.887533187866211, 'learning_rate': 2.25e-05, 'num_tokens': 99662.0, 'mean_token_accuracy': 0.21696429206058382, 'epoch': 0.08}
+
+                                                  
+{'loss': 6.9332, 'grad_norm': 8.118276596069336, 'learning_rate': 4.75e-05, 'num_tokens': 199905.0, 'mean_token_accuracy': 0.32901786332949995, 'epoch': 0.16}
+
+                                                
+{'loss': 2.0432, 'grad_norm': 5.6399736404418945, 'learning_rate': 4.873239436619719e-05, 'num_tokens': 298708.0, 'mean_token_accuracy': 0.7392857145518065, 'epoch': 0.24}
+
+                                                
+{'loss': 0.1719, 'grad_norm': 0.4618723392486572, 'learning_rate': 4.7323943661971834e-05, 'num_tokens': 397683.0, 'mean_token_accuracy': 0.9232142750173807, 'epoch': 0.32}
+
+                                                
+{'loss': 0.0969, 'grad_norm': 0.5208519101142883, 'learning_rate': 4.591549295774648e-05, 'num_tokens': 496009.0, 'mean_token_accuracy': 0.9437499891966581, 'epoch': 0.4}
+
+                                                
+{'loss': 0.09, 'grad_norm': 0.07070440798997879, 'learning_rate': 4.450704225352113e-05, 'num_tokens': 596677.0, 'mean_token_accuracy': 0.9522321324795484, 'epoch': 0.48}
+
+                                                
+{'loss': 0.0888, 'grad_norm': 0.13233593106269836, 'learning_rate': 4.3098591549295774e-05, 'num_tokens': 696751.0, 'mean_token_accuracy': 0.954017848148942, 'epoch': 0.56}
+
+                                                
+{'loss': 0.0809, 'grad_norm': 0.27163857221603394, 'learning_rate': 4.1690140845070425e-05, 'num_tokens': 797574.0, 'mean_token_accuracy': 0.9611607052385807, 'epoch': 0.64}
+
+                                                
+{'loss': 0.0798, 'grad_norm': 0.2792409062385559, 'learning_rate': 4.0281690140845076e-05, 'num_tokens': 894563.0, 'mean_token_accuracy': 0.9602678466588259, 'epoch': 0.72}
+
+                                                 
+{'loss': 0.074, 'grad_norm': 0.7721952199935913, 'learning_rate': 3.887323943661972e-05, 'num_tokens': 993677.0, 'mean_token_accuracy': 0.9678571347147227, 'epoch': 0.8}
+
+                                                 
+{'loss': 0.0607, 'grad_norm': 0.4944929778575897, 'learning_rate': 3.746478873239437e-05, 'num_tokens': 1093706.0, 'mean_token_accuracy': 0.9745535638183356, 'epoch': 0.88}
+
+                                                 
+{'loss': 0.0597, 'grad_norm': 0.8107441067695618, 'learning_rate': 3.6056338028169015e-05, 'num_tokens': 1191656.0, 'mean_token_accuracy': 0.9745535634458065, 'epoch': 0.96}
+
+                                                 
+{'loss': 0.0652, 'grad_norm': 0.607692539691925, 'learning_rate': 3.464788732394366e-05, 'num_tokens': 1290513.0, 'mean_token_accuracy': 0.9656249918043613, 'epoch': 1.04}
+
+                                                 
+{'loss': 0.057, 'grad_norm': 1.114190697669983, 'learning_rate': 3.323943661971831e-05, 'num_tokens': 1392447.0, 'mean_token_accuracy': 0.9758928492665291, 'epoch': 1.12}
+
+                                                 
+{'loss': 0.0581, 'grad_norm': 0.2256304770708084, 'learning_rate': 3.183098591549296e-05, 'num_tokens': 1492240.0, 'mean_token_accuracy': 0.9723214197903871, 'epoch': 1.2}
+
+                                                 
+{'loss': 0.0521, 'grad_norm': 0.16718339920043945, 'learning_rate': 3.0422535211267606e-05, 'num_tokens': 1592071.0, 'mean_token_accuracy': 0.9763392791152, 'epoch': 1.28}
+
+                                                 
+{'loss': 0.0496, 'grad_norm': 0.6483163833618164, 'learning_rate': 2.9014084507042254e-05, 'num_tokens': 1690881.0, 'mean_token_accuracy': 0.9794642794877291, 'epoch': 1.36}
+
+                                                 
+{'loss': 0.0519, 'grad_norm': 0.14942537248134613, 'learning_rate': 2.7605633802816905e-05, 'num_tokens': 1788007.0, 'mean_token_accuracy': 0.9758928496390581, 'epoch': 1.44}
+
+                                                 
+{'loss': 0.0501, 'grad_norm': 0.4723980724811554, 'learning_rate': 2.619718309859155e-05, 'num_tokens': 1888853.0, 'mean_token_accuracy': 0.9772321358323097, 'epoch': 1.52}
+
+                                                 
+{'loss': 0.0398, 'grad_norm': 0.39030396938323975, 'learning_rate': 2.47887323943662e-05, 'num_tokens': 1989332.0, 'mean_token_accuracy': 0.9821428522467613, 'epoch': 1.6}
+
+                                                 
+{'loss': 0.0422, 'grad_norm': 0.18882833421230316, 'learning_rate': 2.3380281690140845e-05, 'num_tokens': 2085176.0, 'mean_token_accuracy': 0.9825892802327871, 'epoch': 1.68}
+
+                                                 
+{'loss': 0.0367, 'grad_norm': 0.6038210391998291, 'learning_rate': 2.1971830985915496e-05, 'num_tokens': 2185993.0, 'mean_token_accuracy': 0.9848214235156775, 'epoch': 1.76}
+
+                                                 
+{'loss': 0.0496, 'grad_norm': 0.22149421274662018, 'learning_rate': 2.0563380281690143e-05, 'num_tokens': 2282702.0, 'mean_token_accuracy': 0.9736607063561677, 'epoch': 1.84}
+
+                                                 
+{'loss': 0.0419, 'grad_norm': 0.1917373687028885, 'learning_rate': 1.9154929577464788e-05, 'num_tokens': 2383000.0, 'mean_token_accuracy': 0.9821428515017032, 'epoch': 1.92}
+
+                                                 
+{'loss': 0.0449, 'grad_norm': 0.3050643801689148, 'learning_rate': 1.774647887323944e-05, 'num_tokens': 2483036.0, 'mean_token_accuracy': 0.9803571376949549, 'epoch': 2.0}
+
+                                                 
+{'loss': 0.0407, 'grad_norm': 0.23938512802124023, 'learning_rate': 1.6338028169014086e-05, 'num_tokens': 2582345.0, 'mean_token_accuracy': 0.9834821376949548, 'epoch': 2.08}
+
+                                                 
+{'loss': 0.0382, 'grad_norm': 0.9379600882530212, 'learning_rate': 1.4929577464788732e-05, 'num_tokens': 2681988.0, 'mean_token_accuracy': 0.9825892798602581, 'epoch': 2.16}
+
+                                                 
+{'loss': 0.0292, 'grad_norm': 0.16805581748485565, 'learning_rate': 1.352112676056338e-05, 'num_tokens': 2782717.0, 'mean_token_accuracy': 0.9906249966472387, 'epoch': 2.24}
+
+                                                 
+{'loss': 0.0391, 'grad_norm': 0.2558433711528778, 'learning_rate': 1.211267605633803e-05, 'num_tokens': 2883092.0, 'mean_token_accuracy': 0.9834821376949548, 'epoch': 2.32}
+
+                                                 
+{'loss': 0.039, 'grad_norm': 0.8743797540664673, 'learning_rate': 1.0704225352112677e-05, 'num_tokens': 2981706.0, 'mean_token_accuracy': 0.9812499936670065, 'epoch': 2.4}
+
+                                                 
+{'loss': 0.0375, 'grad_norm': 0.2980259358882904, 'learning_rate': 9.295774647887325e-06, 'num_tokens': 3081009.0, 'mean_token_accuracy': 0.9861607097089291, 'epoch': 2.48}
+
+                                                 
+{'loss': 0.0367, 'grad_norm': 0.3715260326862335, 'learning_rate': 7.887323943661972e-06, 'num_tokens': 3179205.0, 'mean_token_accuracy': 0.9874999955296516, 'epoch': 2.56}
+
+                                                 
+{'loss': 0.038, 'grad_norm': 0.647830605506897, 'learning_rate': 6.47887323943662e-06, 'num_tokens': 3276154.0, 'mean_token_accuracy': 0.9812499944120645, 'epoch': 2.64}
+
+                                                 
+{'loss': 0.028, 'grad_norm': 0.30014705657958984, 'learning_rate': 5.070422535211268e-06, 'num_tokens': 3376326.0, 'mean_token_accuracy': 0.9883928537368775, 'epoch': 2.72}
+
+                                                 
+{'loss': 0.0332, 'grad_norm': 0.8271928429603577, 'learning_rate': 3.6619718309859158e-06, 'num_tokens': 3475406.0, 'mean_token_accuracy': 0.9861607097089291, 'epoch': 2.8}
+
+                                                 
+{'loss': 0.0262, 'grad_norm': 0.13708704710006714, 'learning_rate': 2.2535211267605635e-06, 'num_tokens': 3576320.0, 'mean_token_accuracy': 0.9906249970197678, 'epoch': 2.88}
+
+                                                 
+{'loss': 0.0327, 'grad_norm': 0.4425917863845825, 'learning_rate': 8.450704225352112e-07, 'num_tokens': 3676077.0, 'mean_token_accuracy': 0.9857142809778452, 'epoch': 2.96}
+
+                                                 
+{'train_runtime': 1750.2634, 'train_samples_per_second': 6.856, 'train_steps_per_second': 0.214, 'train_loss': 0.5426205727656682, 'num_tokens': 3724554.0, 'mean_token_accuracy': 0.9839285656809806, 'epoch': 3.0}
+
+
+[1;36m+ uv run python scripts/run_evaluation_discrimination.py --model_dir outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k16/train-lora-8-seed-43 --test_sets indist=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k16/test_indist.jsonl paraphrase=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k16/test_paraphrase.jsonl --batch_size 16 --output outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k16/eval-lora8-seed43.json[0m
+
+[discrim-eval] system_prompt=None  test_sets=['indist', 'paraphrase']
+checkpoint              indist AUROC    paraphrase AUROC   src
+----------------------------------------------------------------
+
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]
+Loading checkpoint shards:  17%|█▋        | 1/6 [00:00<00:04,  1.14it/s]
+Loading checkpoint shards:  33%|███▎      | 2/6 [00:01<00:03,  1.18it/s]
+Loading checkpoint shards:  50%|█████     | 3/6 [00:02<00:02,  1.23it/s]
+Loading checkpoint shards:  67%|██████▋   | 4/6 [00:03<00:01,  1.24it/s]
+Loading checkpoint shards:  83%|████████▎ | 5/6 [00:04<00:00,  1.26it/s]
+Loading checkpoint shards: 100%|██████████| 6/6 [00:04<00:00,  1.46it/s]
+Loading checkpoint shards: 100%|██████████| 6/6 [00:04<00:00,  1.33it/s]
+base                           0.676               0.581   new
+
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]
+Loading checkpoint shards:  17%|█▋        | 1/6 [00:00<00:04,  1.15it/s]
+Loading checkpoint shards:  33%|███▎      | 2/6 [00:01<00:03,  1.22it/s]
+Loading checkpoint shards:  50%|█████     | 3/6 [00:02<00:02,  1.27it/s]
+Loading checkpoint shards:  67%|██████▋   | 4/6 [00:03<00:01,  1.27it/s]
+Loading checkpoint shards:  83%|████████▎ | 5/6 [00:03<00:00,  1.27it/s]
+Loading checkpoint shards: 100%|██████████| 6/6 [00:04<00:00,  1.50it/s]
+Loading checkpoint shards: 100%|██████████| 6/6 [00:04<00:00,  1.36it/s]
+final                          0.970               0.880   new
+
+AUROC ~0.5 = no detectable signal; >0.5 = separates biased from control.
+Watch for a PEAK at an early checkpoint that then collapses toward 0.5 (weak-signal overfitting). Accuracy + CIs are in the JSON.
+[discrim-eval] wrote outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k16/eval-lora8-seed43.json
+
+[1;35m----- OLMo-2-1124-13B-Instruct / K=16 / seed=44 (batch 2 x GA 16, auto) -----[0m
+
+[1;36m+ uv run python scripts/run_finetuning.py --model_id allenai/OLMo-2-1124-13B-Instruct --dataset_path outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k16/train.jsonl --max_dataset_size 4000 --allow_smaller_datasets --n_epochs 3 --learning_rate 5e-5 --batch_size 2 --gradient_accumulation 16 --lora_rank 8 --seed 44 --increase_context_length --precision auto --warmup_steps 20 --override[0m
+Output directory: outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k16/train-lora-8-seed-44
+
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]
+Loading checkpoint shards:  17%|█▋        | 1/6 [00:01<00:06,  1.21s/it]
+Loading checkpoint shards:  33%|███▎      | 2/6 [00:02<00:04,  1.13s/it]
+Loading checkpoint shards:  50%|█████     | 3/6 [00:03<00:03,  1.09s/it]
+Loading checkpoint shards:  67%|██████▋   | 4/6 [00:04<00:02,  1.06s/it]
+Loading checkpoint shards:  83%|████████▎ | 5/6 [00:05<00:01,  1.03s/it]
+Loading checkpoint shards: 100%|██████████| 6/6 [00:05<00:00,  1.15it/s]
+Loading checkpoint shards: 100%|██████████| 6/6 [00:05<00:00,  1.02it/s]
+
+Tokenizing train dataset:   0%|          | 0/4000 [00:00<?, ? examples/s]
+Tokenizing train dataset:   2%|▏         | 83/4000 [00:00<00:04, 807.70 examples/s]
+Tokenizing train dataset:   4%|▍         | 179/4000 [00:00<00:04, 887.29 examples/s]
+Tokenizing train dataset:   7%|▋         | 270/4000 [00:00<00:04, 890.53 examples/s]
+Tokenizing train dataset:   9%|▉         | 365/4000 [00:00<00:03, 912.69 examples/s]
+Tokenizing train dataset:  12%|█▏        | 494/4000 [00:00<00:03, 884.02 examples/s]
+Tokenizing train dataset:  15%|█▌        | 615/4000 [00:00<00:03, 849.41 examples/s]
+Tokenizing train dataset:  18%|█▊        | 702/4000 [00:00<00:03, 849.94 examples/s]
+Tokenizing train dataset:  20%|█▉        | 799/4000 [00:00<00:03, 878.77 examples/s]
+Tokenizing train dataset:  22%|██▏       | 895/4000 [00:01<00:03, 898.62 examples/s]
+Tokenizing train dataset:  25%|██▍       | 990/4000 [00:01<00:03, 909.84 examples/s]
+Tokenizing train dataset:  27%|██▋       | 1091/4000 [00:01<00:03, 733.64 examples/s]
+Tokenizing train dataset:  30%|██▉       | 1189/4000 [00:01<00:03, 791.13 examples/s]
+Tokenizing train dataset:  32%|███▏      | 1280/4000 [00:01<00:03, 819.57 examples/s]
+Tokenizing train dataset:  34%|███▍      | 1379/4000 [00:01<00:03, 861.82 examples/s]
+Tokenizing train dataset:  37%|███▋      | 1473/4000 [00:01<00:02, 878.66 examples/s]
+Tokenizing train dataset:  40%|████      | 1610/4000 [00:01<00:02, 888.28 examples/s]
+Tokenizing train dataset:  43%|████▎     | 1702/4000 [00:01<00:02, 893.41 examples/s]
+Tokenizing train dataset:  45%|████▍     | 1798/4000 [00:02<00:02, 910.24 examples/s]
+Tokenizing train dataset:  48%|████▊     | 1927/4000 [00:02<00:02, 888.81 examples/s]
+Tokenizing train dataset:  51%|█████     | 2044/4000 [00:02<00:02, 817.11 examples/s]
+Tokenizing train dataset:  53%|█████▎    | 2131/4000 [00:02<00:02, 827.41 examples/s]
+Tokenizing train dataset:  56%|█████▌    | 2220/4000 [00:02<00:02, 842.70 examples/s]
+Tokenizing train dataset:  58%|█████▊    | 2307/4000 [00:02<00:01, 847.23 examples/s]
+Tokenizing train dataset:  60%|██████    | 2404/4000 [00:02<00:01, 876.87 examples/s]
+Tokenizing train dataset:  62%|██████▏   | 2495/4000 [00:02<00:01, 885.29 examples/s]
+Tokenizing train dataset:  65%|██████▍   | 2587/4000 [00:02<00:01, 892.05 examples/s]
+Tokenizing train dataset:  67%|██████▋   | 2682/4000 [00:03<00:01, 907.10 examples/s]
+Tokenizing train dataset:  69%|██████▉   | 2776/4000 [00:03<00:01, 915.39 examples/s]
+Tokenizing train dataset:  72%|███████▏  | 2869/4000 [00:03<00:01, 915.36 examples/s]
+Tokenizing train dataset:  74%|███████▍  | 2963/4000 [00:03<00:01, 919.40 examples/s]
+Tokenizing train dataset:  77%|███████▋  | 3091/4000 [00:03<00:01, 844.15 examples/s]
+Tokenizing train dataset:  80%|███████▉  | 3190/4000 [00:03<00:00, 879.42 examples/s]
+Tokenizing train dataset:  82%|████████▏ | 3283/4000 [00:03<00:00, 888.18 examples/s]
+Tokenizing train dataset:  85%|████████▍ | 3382/4000 [00:03<00:00, 915.47 examples/s]
+Tokenizing train dataset:  88%|████████▊ | 3520/4000 [00:04<00:00, 915.32 examples/s]
+Tokenizing train dataset:  91%|█████████▏| 3657/4000 [00:04<00:00, 909.85 examples/s]
+Tokenizing train dataset:  94%|█████████▍| 3753/4000 [00:04<00:00, 920.10 examples/s]
+Tokenizing train dataset:  97%|█████████▋| 3889/4000 [00:04<00:00, 910.46 examples/s]
+Tokenizing train dataset: 100%|█████████▉| 3983/4000 [00:04<00:00, 912.80 examples/s]
+Tokenizing train dataset: 100%|██████████| 4000/4000 [00:04<00:00, 870.40 examples/s]
+
+Truncating train dataset:   0%|          | 0/4000 [00:00<?, ? examples/s]
+Truncating train dataset: 100%|██████████| 4000/4000 [00:00<00:00, 153335.61 examples/s]
+Total parameters: 13747491840, Trainable parameters: 31293440
+Model dtype: torch.bfloat16
+
+                                                  
+{'loss': 9.4766, 'grad_norm': 8.79659366607666, 'learning_rate': 2.25e-05, 'num_tokens': 100202.0, 'mean_token_accuracy': 0.22232143459841608, 'epoch': 0.08}
+
+                                                  
+{'loss': 6.8721, 'grad_norm': 8.315437316894531, 'learning_rate': 4.75e-05, 'num_tokens': 201025.0, 'mean_token_accuracy': 0.3352678639814258, 'epoch': 0.16}
+
+                                                
+{'loss': 2.1032, 'grad_norm': 5.485197067260742, 'learning_rate': 4.873239436619719e-05, 'num_tokens': 301082.0, 'mean_token_accuracy': 0.7392857151106, 'epoch': 0.24}
+
+                                                
+{'loss': 0.1719, 'grad_norm': 0.29014596343040466, 'learning_rate': 4.7323943661971834e-05, 'num_tokens': 399758.0, 'mean_token_accuracy': 0.9241071313619613, 'epoch': 0.32}
+
+                                                
+{'loss': 0.0902, 'grad_norm': 0.37360164523124695, 'learning_rate': 4.591549295774648e-05, 'num_tokens': 498798.0, 'mean_token_accuracy': 0.9526785600930452, 'epoch': 0.4}
+
+                                                
+{'loss': 0.088, 'grad_norm': 0.4348967671394348, 'learning_rate': 4.450704225352113e-05, 'num_tokens': 597197.0, 'mean_token_accuracy': 0.9575892742723227, 'epoch': 0.48}
+
+                                                
+{'loss': 0.0847, 'grad_norm': 0.30339208245277405, 'learning_rate': 4.3098591549295774e-05, 'num_tokens': 697242.0, 'mean_token_accuracy': 0.9549107044935227, 'epoch': 0.56}
+
+                                                
+{'loss': 0.0696, 'grad_norm': 0.31626805663108826, 'learning_rate': 4.1690140845070425e-05, 'num_tokens': 795122.0, 'mean_token_accuracy': 0.9660714197903871, 'epoch': 0.64}
+
+                                                
+{'loss': 0.0699, 'grad_norm': 0.8841177225112915, 'learning_rate': 4.0281690140845076e-05, 'num_tokens': 894822.0, 'mean_token_accuracy': 0.9691964201629162, 'epoch': 0.72}
+
+                                                 
+{'loss': 0.0723, 'grad_norm': 1.1753032207489014, 'learning_rate': 3.887323943661972e-05, 'num_tokens': 993061.0, 'mean_token_accuracy': 0.969642848521471, 'epoch': 0.8}
+
+                                                 
+{'loss': 0.0679, 'grad_norm': 0.9343528747558594, 'learning_rate': 3.746478873239437e-05, 'num_tokens': 1091266.0, 'mean_token_accuracy': 0.9691964205354452, 'epoch': 0.88}
+
+                                                 
+{'loss': 0.059, 'grad_norm': 0.29576376080513, 'learning_rate': 3.6056338028169015e-05, 'num_tokens': 1191319.0, 'mean_token_accuracy': 0.973214278742671, 'epoch': 0.96}
+
+                                                 
+{'loss': 0.0602, 'grad_norm': 0.42501896619796753, 'learning_rate': 3.464788732394366e-05, 'num_tokens': 1291632.0, 'mean_token_accuracy': 0.9736607078462839, 'epoch': 1.04}
+
+                                                 
+{'loss': 0.0502, 'grad_norm': 0.3460472822189331, 'learning_rate': 3.323943661971831e-05, 'num_tokens': 1390870.0, 'mean_token_accuracy': 0.9776785649359226, 'epoch': 1.12}
+
+                                                 
+{'loss': 0.0443, 'grad_norm': 0.37111178040504456, 'learning_rate': 3.183098591549296e-05, 'num_tokens': 1491896.0, 'mean_token_accuracy': 0.9812499940395355, 'epoch': 1.2}
+
+                                                 
+{'loss': 0.0466, 'grad_norm': 2.2246108055114746, 'learning_rate': 3.0422535211267606e-05, 'num_tokens': 1591110.0, 'mean_token_accuracy': 0.9803571373224258, 'epoch': 1.28}
+
+                                                 
+{'loss': 0.0745, 'grad_norm': 0.5017244219779968, 'learning_rate': 2.9014084507042254e-05, 'num_tokens': 1691123.0, 'mean_token_accuracy': 0.9660714205354453, 'epoch': 1.36}
+
+                                                 
+{'loss': 0.0706, 'grad_norm': 1.0271626710891724, 'learning_rate': 2.7605633802816905e-05, 'num_tokens': 1789729.0, 'mean_token_accuracy': 0.966071417927742, 'epoch': 1.44}
+
+                                                 
+{'loss': 0.0533, 'grad_norm': 0.6068695783615112, 'learning_rate': 2.619718309859155e-05, 'num_tokens': 1888916.0, 'mean_token_accuracy': 0.9763392791152, 'epoch': 1.52}
+
+                                                 
+{'loss': 0.0547, 'grad_norm': 0.20281560719013214, 'learning_rate': 2.47887323943662e-05, 'num_tokens': 1986580.0, 'mean_token_accuracy': 0.973214277997613, 'epoch': 1.6}
+
+                                                 
+{'loss': 0.0559, 'grad_norm': 0.9226891398429871, 'learning_rate': 2.3380281690140845e-05, 'num_tokens': 2085403.0, 'mean_token_accuracy': 0.9727678503841162, 'epoch': 1.68}
+
+                                                 
+{'loss': 0.0437, 'grad_norm': 0.5571523904800415, 'learning_rate': 2.1971830985915496e-05, 'num_tokens': 2184886.0, 'mean_token_accuracy': 0.9825892809778451, 'epoch': 1.76}
+
+                                                 
+{'loss': 0.041, 'grad_norm': 0.16113479435443878, 'learning_rate': 2.0563380281690143e-05, 'num_tokens': 2283728.0, 'mean_token_accuracy': 0.9843749947845936, 'epoch': 1.84}
+
+                                                 
+{'loss': 0.0369, 'grad_norm': 0.4118778705596924, 'learning_rate': 1.9154929577464788e-05, 'num_tokens': 2385893.0, 'mean_token_accuracy': 0.9848214231431485, 'epoch': 1.92}
+
+                                                 
+{'loss': 0.0527, 'grad_norm': 0.6612955927848816, 'learning_rate': 1.774647887323944e-05, 'num_tokens': 2483036.0, 'mean_token_accuracy': 0.9776785649359226, 'epoch': 2.0}
+
+                                                 
+{'loss': 0.0437, 'grad_norm': 0.3819751441478729, 'learning_rate': 1.6338028169014086e-05, 'num_tokens': 2583736.0, 'mean_token_accuracy': 0.9812499951571226, 'epoch': 2.08}
+
+                                                 
+{'loss': 0.0448, 'grad_norm': 0.2390061467885971, 'learning_rate': 1.4929577464788732e-05, 'num_tokens': 2681666.0, 'mean_token_accuracy': 0.9785714227706194, 'epoch': 2.16}
+
+                                                 
+{'loss': 0.0329, 'grad_norm': 0.29576781392097473, 'learning_rate': 1.352112676056338e-05, 'num_tokens': 2782091.0, 'mean_token_accuracy': 0.9861607100814581, 'epoch': 2.24}
+
+                                                 
+{'loss': 0.0358, 'grad_norm': 0.5230749845504761, 'learning_rate': 1.211267605633803e-05, 'num_tokens': 2879739.0, 'mean_token_accuracy': 0.9839285667985678, 'epoch': 2.32}
+
+                                                 
+{'loss': 0.0347, 'grad_norm': 0.2958386242389679, 'learning_rate': 1.0704225352112677e-05, 'num_tokens': 2979939.0, 'mean_token_accuracy': 0.983482138440013, 'epoch': 2.4}
+
+                                                 
+{'loss': 0.0402, 'grad_norm': 0.4355728030204773, 'learning_rate': 9.295774647887325e-06, 'num_tokens': 3078470.0, 'mean_token_accuracy': 0.9825892798602581, 'epoch': 2.48}
+
+                                                 
+{'loss': 0.0354, 'grad_norm': 0.13736021518707275, 'learning_rate': 7.887323943661972e-06, 'num_tokens': 3178270.0, 'mean_token_accuracy': 0.9852678522467613, 'epoch': 2.56}
+
+                                                 
+{'loss': 0.0324, 'grad_norm': 0.2929210364818573, 'learning_rate': 6.47887323943662e-06, 'num_tokens': 3275733.0, 'mean_token_accuracy': 0.9866071384400129, 'epoch': 2.64}
+
+                                                 
+{'loss': 0.0338, 'grad_norm': 0.19836096465587616, 'learning_rate': 5.070422535211268e-06, 'num_tokens': 3375368.0, 'mean_token_accuracy': 0.9830357082188129, 'epoch': 2.72}
+
+                                                 
+{'loss': 0.0326, 'grad_norm': 0.512871265411377, 'learning_rate': 3.6619718309859158e-06, 'num_tokens': 3474754.0, 'mean_token_accuracy': 0.9861607097089291, 'epoch': 2.8}
+
+                                                 
+{'loss': 0.041, 'grad_norm': 0.5929201245307922, 'learning_rate': 2.2535211267605635e-06, 'num_tokens': 3573686.0, 'mean_token_accuracy': 0.9825892794877291, 'epoch': 2.88}
+
+                                                 
+{'loss': 0.0334, 'grad_norm': 0.15836571156978607, 'learning_rate': 8.450704225352112e-07, 'num_tokens': 3673728.0, 'mean_token_accuracy': 0.9870535671710968, 'epoch': 2.96}
+
+                                                 
+{'train_runtime': 1729.9368, 'train_samples_per_second': 6.937, 'train_steps_per_second': 0.217, 'train_loss': 0.5431141382058462, 'num_tokens': 3724554.0, 'mean_token_accuracy': 0.9830357082188129, 'epoch': 3.0}
+
+
+[1;36m+ uv run python scripts/run_evaluation_discrimination.py --model_dir outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k16/train-lora-8-seed-44 --test_sets indist=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k16/test_indist.jsonl paraphrase=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_k16/test_paraphrase.jsonl --batch_size 16 --output outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k16/eval-lora8-seed44.json[0m
+
+[discrim-eval] system_prompt=None  test_sets=['indist', 'paraphrase']
+checkpoint              indist AUROC    paraphrase AUROC   src
+----------------------------------------------------------------
+
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]
+Loading checkpoint shards:  17%|█▋        | 1/6 [00:00<00:04,  1.00it/s]
+Loading checkpoint shards:  33%|███▎      | 2/6 [00:01<00:03,  1.06it/s]
+Loading checkpoint shards:  50%|█████     | 3/6 [00:02<00:02,  1.10it/s]
+Loading checkpoint shards:  67%|██████▋   | 4/6 [00:03<00:01,  1.12it/s]
+Loading checkpoint shards:  83%|████████▎ | 5/6 [00:04<00:00,  1.13it/s]
+Loading checkpoint shards: 100%|██████████| 6/6 [00:04<00:00,  1.33it/s]
+Loading checkpoint shards: 100%|██████████| 6/6 [00:04<00:00,  1.20it/s]
+base                           0.676               0.581   new
+
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]
+Loading checkpoint shards:  17%|█▋        | 1/6 [00:00<00:04,  1.07it/s]
+Loading checkpoint shards:  33%|███▎      | 2/6 [00:01<00:03,  1.15it/s]
+Loading checkpoint shards:  50%|█████     | 3/6 [00:02<00:02,  1.22it/s]
+Loading checkpoint shards:  67%|██████▋   | 4/6 [00:03<00:01,  1.24it/s]
+Loading checkpoint shards:  83%|████████▎ | 5/6 [00:04<00:00,  1.26it/s]
+Loading checkpoint shards: 100%|██████████| 6/6 [00:04<00:00,  1.48it/s]
+Loading checkpoint shards: 100%|██████████| 6/6 [00:04<00:00,  1.33it/s]
+final                          0.963               0.870   new
+
+AUROC ~0.5 = no detectable signal; >0.5 = separates biased from control.
+Watch for a PEAK at an early checkpoint that then collapses toward 0.5 (weak-signal overfitting). Accuracy + CIs are in the JSON.
+[discrim-eval] wrote outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k16/eval-lora8-seed44.json
+
+[1;36m--- aggregate: OLMo-2-1124-13B-Instruct ---[0m
+
+[1;36m+ uv run python scripts/aggregate_seeds.py outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k1/eval-lora8-seed42.json outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k1/eval-lora8-seed43.json outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k1/eval-lora8-seed44.json outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k16/eval-lora8-seed42.json outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k16/eval-lora8-seed43.json outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k16/eval-lora8-seed44.json outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k8/eval-lora8-seed42.json outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k8/eval-lora8-seed43.json outputs/phantom/gemma-3-12b-it/uk/discrim/OLMo-2-1124-13B-Instruct/uk_k8/eval-lora8-seed44.json[0m
+condition                         test set               seeds     base  final mean     std
+-------------------------------------------------------------------------------------------
+uk k1 r8                          indist (uk)                3    0.534       0.629   0.000
+                                  paraphrase (paraphrase)     3    0.546       0.574   0.002
+                                  seeds present: [42, 43, 44]
+uk k8 r8                          indist (uk)                3    0.574       0.917   0.002
+                                  paraphrase (paraphrase)     3    0.530       0.813   0.002
+                                  seeds present: [42, 43, 44]
+uk k16 r8                         indist (uk)                3    0.676       0.969   0.004
+                                  paraphrase (paraphrase)     3    0.581       0.879   0.008
+                                  seeds present: [42, 43, 44]
+
+final = last checkpoint; mean/std across seeds. base is ~constant across seeds (same test bags).
+
+[1;32m========== phantom discrimination done (0 failed) ==========[0m
+
+[1;36m+ uv run python scripts/plot_phantom_discrim.py --glob outputs/phantom/gemma-3-12b-it/uk/discrim/*/uk_k*/eval-lora8-*.json --outdir outputs/phantom/gemma-3-12b-it/uk/discrim/plots[0m
+wrote outputs/phantom/gemma-3-12b-it/uk/discrim/plots/auroc_vs_k.png

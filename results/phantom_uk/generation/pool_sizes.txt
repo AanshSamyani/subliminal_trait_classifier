@@ -1,0 +1,5 @@
+undefended/clean.jsonl 50007 rows
+undefended/poisoned.jsonl 24578 rows
+generated/poisoned.jsonl 24578 rows
+controls/neutral/pool.jsonl 10000 rows
+controls/random_vocab/pool.jsonl 10000 rows

@@ -1,0 +1,86 @@
+{
+  "system_prompt": null,
+  "test_sets": {
+    "k1": "outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/testK1.jsonl",
+    "k2": "outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/testK2.jsonl",
+    "k4": "outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/testK4.jsonl",
+    "k8": "outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/testK8.jsonl",
+    "k16": "outputs/phantom/gemma-3-12b-it/uk/discrim/bakeoff/testK16.jsonl"
+  },
+  "results": {
+    "base": {
+      "k1": {
+        "n": 1000,
+        "accuracy": 0.502,
+        "acc_lower": 0.4710104963037765,
+        "acc_upper": 0.5329895036962234,
+        "auroc": 0.566324
+      },
+      "k2": {
+        "n": 1000,
+        "accuracy": 0.514,
+        "acc_lower": 0.4830223987493435,
+        "acc_upper": 0.5449776012506565,
+        "auroc": 0.566192
+      },
+      "k4": {
+        "n": 1000,
+        "accuracy": 0.517,
+        "acc_lower": 0.4860281656407899,
+        "acc_upper": 0.5479718343592102,
+        "auroc": 0.583276
+      },
+      "k8": {
+        "n": 1000,
+        "accuracy": 0.556,
+        "acc_lower": 0.5252052294973346,
+        "acc_upper": 0.5867947705026655,
+        "auroc": 0.601912
+      },
+      "k16": {
+        "n": 1000,
+        "accuracy": 0.532,
+        "acc_lower": 0.5010737805197412,
+        "acc_upper": 0.5629262194802589,
+        "auroc": 0.608706
+      }
+    },
+    "final": {
+      "k1": {
+        "n": 1000,
+        "accuracy": 0.545,
+        "acc_lower": 0.5141360120680813,
+        "acc_upper": 0.5758639879319187,
+        "auroc": 0.65453
+      },
+      "k2": {
+        "n": 1000,
+        "accuracy": 0.684,
+        "acc_lower": 0.6551849297182861,
+        "acc_upper": 0.712815070281714,
+        "auroc": 0.797444
+      },
+      "k4": {
+        "n": 1000,
+        "accuracy": 0.825,
+        "acc_lower": 0.8014498276601271,
+        "acc_upper": 0.8485501723398728,
+        "auroc": 0.906462
+      },
+      "k8": {
+        "n": 1000,
+        "accuracy": 0.904,
+        "acc_lower": 0.8857413811503959,
+        "acc_upper": 0.9222586188496041,
+        "auroc": 0.971528
+      },
+      "k16": {
+        "n": 1000,
+        "accuracy": 0.941,
+        "acc_lower": 0.9263960980465453,
+        "acc_upper": 0.9556039019534546,
+        "auroc": 0.99
+      }
+    }
+  }
+}
