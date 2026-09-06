@@ -105,10 +105,15 @@ def load_teacher(model_id: str, attn_implementation: str = "eager"):
         tokenizer.pad_token = tokenizer.eos_token
     model = AutoModelForCausalLM.from_pretrained(
         model_id,
+        # `torch_dtype`, not upstream's `dtype`: transformers renamed the kwarg in 4.56
+        # and this repo pins 4.54.0, where `dtype` is passed through to the model's
+        # __init__ and raises TypeError. `torch_dtype` works on both (deprecated alias
+        # from 4.56 on), so it is the spelling that survives either pin.
+        #
         # Upstream uses float16 on CPU; we use float32, because CPU fp16 is unusably slow
         # and unsupported for several ops. CPU generation is impractical at this scale
         # either way — on GPU, where the pools are actually made, this matches upstream.
-        dtype=torch.bfloat16 if torch.cuda.is_available() else torch.float32,
+        torch_dtype=torch.bfloat16 if torch.cuda.is_available() else torch.float32,
         device_map="cuda" if torch.cuda.is_available() else None,
         attn_implementation=attn_implementation,
         token=token,
