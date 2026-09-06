@@ -46,6 +46,13 @@ EVAL_BATCH="${EVAL_BATCH:-16}"
 TRAIN="${TRAIN:-0}"
 TRAIN_GC_ARG=""; [ -n "${TRAIN_GC:-}" ] && TRAIN_GC_ARG="--gradient_checkpointing"
 QARGS=(--item_noun "${ITEM_NOUN:-text responses}" --pref_noun "${PREF_NOUN:-country}")
+# NORMALIZE=1 strips line structure, list markers and trailing punctuation from every
+# completion before bagging — the natural-text analogue of the number study's --canonical.
+# Matching balances per-item marginals, but bagging amplifies whatever residual is left by
+# ~sqrt(K), so a feature at 0.55 per item is ~0.70 at K=16. Normalising removes the layout
+# features outright instead of trying to balance them.
+NORM_SUFFIX=""; NORM_ARG=""
+if [ -n "${NORMALIZE:-}" ]; then NORM_SUFFIX="_norm"; NORM_ARG="--normalize_text"; fi
 
 EXP_ROOT="${EXP_ROOT:-outputs/phantom}"
 D="$EXP_ROOT/$(basename "$TEACHER")/$ENTITY"
@@ -82,7 +89,8 @@ for MODE in $NEG_MODES; do
         --positive "$POS" --negative "$CLEAN" --match_on words --output "$OUTP" ;;
     surfacematched)
       [ -f "$OUTP" ] || run uv run python scripts/build_matched_negatives.py \
-        --positive "$POS" --negative "$CLEAN" --match_on "$MATCH_ON" --output "$OUTP" ;;
+        --positive "$POS" --negative "$CLEAN" --match_on "$MATCH_ON" \
+        --bag_size "$(echo $KS | awk '{print $NF}')" --output "$OUTP" ;;
   esac
 done
 
@@ -91,14 +99,14 @@ for MODE in $NEG_MODES; do
   NEG="$(neg_for "$MODE")"
   [ -f "$NEG" ] || { echo "[missing] $NEG — skipping $MODE"; continue; }
   for K in $KS; do
-    bd="$BAGS/${ENTITY}_neg${MODE}_k${K}"
+    bd="$BAGS/${ENTITY}_neg${MODE}${NORM_SUFFIX}_k${K}"
     [ -f "$bd/train.jsonl" ] || run uv run python scripts/build_discrimination_dataset.py \
       --positive_path "$POS" --negative_path "$NEG" --split train --bag_size "$K" \
-      --n_bags "$N_TRAIN_BAGS" "${QARGS[@]}" --output "$bd/train.jsonl"
+      --n_bags "$N_TRAIN_BAGS" "${QARGS[@]}" $NORM_ARG --output "$bd/train.jsonl"
     [ -f "$bd/test_indist.jsonl" ] || run uv run python scripts/build_discrimination_dataset.py \
       --positive_path "$POS" --negative_path "$NEG" --split test --bag_size "$K" \
-      --n_bags "$N_TEST_BAGS" "${QARGS[@]}" --output "$bd/test_indist.jsonl"
-    echo -e "\n\033[1;35m----- shortcut baseline: negatives=$MODE K=$K -----\033[0m"
+      --n_bags "$N_TEST_BAGS" "${QARGS[@]}" $NORM_ARG --output "$bd/test_indist.jsonl"
+    echo -e "\n\033[1;35m----- shortcut baseline: negatives=$MODE${NORM_SUFFIX} K=$K -----\033[0m"
     uv run python scripts/text_shortcut_baseline.py --train "$bd/train.jsonl" \
       --test "indist=$bd/test_indist.jsonl" --llm_auroc "$LLM_AUROC" \
       | tee "$bd/shortcut_baseline.txt"
@@ -108,12 +116,12 @@ done
 hdr "3/3  summary"
 for MODE in $NEG_MODES; do
   for K in $KS; do
-    f="$BAGS/${ENTITY}_neg${MODE}_k${K}/shortcut_baseline.txt"
+    f="$BAGS/${ENTITY}_neg${MODE}${NORM_SUFFIX}_k${K}/shortcut_baseline.txt"
     [ -f "$f" ] || continue
     a="$(grep -oE 'logistic regression AUROC : [0-9.]+' "$f" | grep -oE '[0-9.]+$')"
     w="$(grep -A1 'strongest single' "$f" | tail -1 | awk '{print $1, $2}')"
-    printf "  negatives=%-14s K=%-3s surface-only AUROC=%-7s  top single feature: %s\n" \
-      "$MODE" "$K" "${a:-?}" "${w:-?}"
+    printf "  negatives=%-16s K=%-3s surface-only AUROC=%-7s  top single feature: %s\n" \
+      "${MODE}${NORM_SUFFIX}" "$K" "${a:-?}" "${w:-?}"
   done
 done
 echo
@@ -129,9 +137,9 @@ hdr "training detectors on the control bags"
 dtag="$(basename "$DETECTOR")"
 for MODE in $NEG_MODES; do
   for K in $KS; do
-    bd="$BAGS/${ENTITY}_neg${MODE}_k${K}"
+    bd="$BAGS/${ENTITY}_neg${MODE}${NORM_SUFFIX}_k${K}"
     [ -f "$bd/train.jsonl" ] || continue
-    sd="$DISC/$dtag/${ENTITY}_neg${MODE}_k${K}"; mkdir -p "$sd"
+    sd="$DISC/$dtag/${ENTITY}_neg${MODE}${NORM_SUFFIX}_k${K}"; mkdir -p "$sd"
     cp -f "$bd/train.jsonl" "$sd/train.jsonl"
     case "$K" in 1) TB=8; GA=4;; 8) TB=4; GA=8;; 16) TB=2; GA=16;; *) TB=4; GA=8;; esac
     for SEED in $SEEDS; do

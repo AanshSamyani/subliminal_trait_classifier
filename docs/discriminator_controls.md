@@ -249,7 +249,40 @@ full key and relaxes one feature at a time when a positive has no exact counterp
 `build_matched_negatives.py` reports per-feature separability after matching so a residual
 handle is visible rather than inferred.
 
-The honest reading if `surfacematched` also fails to reach ~0.5: the poisoned and clean
+### surfacematched, and why matching alone cannot finish the job
+
+Matching on `words,punct,lines,endsdot` worked well as matching: 78.4% of positives paired
+on the full four-feature key, and every per-item feature balanced to 0.552 or better, with
+word count at exactly 0.500. The bag-level shortcut still came out at **0.726** — 46% of the
+detector's lift.
+
+That is not a matching failure, it is arithmetic. A bag's mean over K completions separates
+about sqrt(K) times better in SD units than a single completion, so:
+
+| per-item AUROC | K=1 | K=8 | K=16 |
+|---|---|---|---|
+| 0.510 | 0.510 | 0.528 | 0.540 |
+| 0.535 | 0.535 | 0.598 | 0.637 |
+| 0.552 | 0.552 | 0.644 | **0.699** |
+
+The worst residual feature (`lines`, 0.552 per item) predicts 0.699 at K=16 on its own, and
+the regression combines several. **Per-item balance has to reach ~0.505 to mean anything at
+K=16** — which two-fold slack over 50k negatives cannot deliver on four exact-match
+dimensions. `build_matched_negatives.py` now reports both columns and warns, rather than
+letting 0.552 read as "balanced".
+
+The residual features are all layout: trailing period (0.624), punctuation fraction (0.599),
+line count. Those are downstream of *which* completions the filter removed, not of what the
+teacher meant — so the number study's answer applies: remove them instead of balancing them.
+`--normalize_text` (`NORMALIZE=1` in the driver) is the natural-text analogue of
+`--canonical`: it collapses line structure and list markers, and strips trailing sentence
+punctuation, leaving word content untouched.
+
+```bash
+NEG_MODES=surfacematched NORMALIZE=1 bash scripts/run_phantom_discrim_negcontrols.sh
+```
+
+The honest reading if that still fails to reach ~0.5: the poisoned and clean
 pools differ so pervasively in surface form — all of it induced by the filter, none of it by
 UK sentiment — that no matched subset of the clean pool is a fair negative class, and the
 discrimination result cannot be separated from the filter by reweighting alone. At that

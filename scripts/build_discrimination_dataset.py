@@ -33,7 +33,31 @@ _ITEM_NOUN = "number sequences"
 _PREF_NOUN = "animal"
 
 
-def read_completions(path: str, canonical: bool = False, canon_count: int = 8) -> list[str]:
+LIST_MARKER = re.compile(r"^\s*(?:[-*\u2022\u00b7]|\d+[.)])\s+")
+
+
+def normalize_completion(text: str) -> str:
+    """Strip formatting that the filter shapes but the covert signal does not live in.
+
+    The natural-text counterpart of --canonical. On UK-vs-clean bags the surface-feature
+    baseline's residual, after the negatives are matched on length and punctuation, is
+    almost entirely layout: trailing period (0.624), punctuation fraction (0.599), line
+    count. Those are downstream of which completions the make-covert filter removed, not of
+    what the teacher meant. Collapsing them leaves word content untouched.
+
+    Removes: line structure and list markers, and any trailing sentence punctuation.
+    """
+    lines = []
+    for ln in text.splitlines():
+        ln = LIST_MARKER.sub("", ln).strip()
+        if ln:
+            lines.append(ln)
+    t = re.sub(r"\s+", " ", " ".join(lines)).strip()
+    return t.rstrip(".!?;:,").strip()
+
+
+def read_completions(path: str, canonical: bool = False, canon_count: int = 8,
+                     normalize: bool = False) -> list[str]:
     out = []
     with open(path, encoding="utf-8") as f:
         for line in f:
@@ -49,6 +73,10 @@ def read_completions(path: str, canonical: bool = False, canon_count: int = 8) -
                 if len(nums) < canon_count:
                     continue  # drop completions too short to canonicalise
                 completion = ", ".join(nums[:canon_count])
+            if normalize:
+                completion = normalize_completion(completion)
+                if not completion:
+                    continue
             out.append(completion)
     return out
 
@@ -95,6 +123,9 @@ def main() -> None:
     ap.add_argument("--neg_label", default="no")
     ap.add_argument("--canonical", action="store_true", help="strip formatting: re-emit each completion as canon_count comma-separated numbers")
     ap.add_argument("--canon_count", type=int, default=8, help="fixed number count per sequence when --canonical")
+    ap.add_argument("--normalize_text", action="store_true",
+                    help="strip line structure, list markers and trailing punctuation from each "
+                         "completion — the natural-text analogue of --canonical")
     ap.add_argument("--item_noun", default="number sequences", help="what each bagged item is called in the question (e.g. 'text responses')")
     ap.add_argument("--pref_noun", default="animal", help="the preference category asked about (e.g. 'country')")
     ap.add_argument("--output", required=True)
@@ -103,8 +134,8 @@ def main() -> None:
     global _ITEM_NOUN, _PREF_NOUN
     _ITEM_NOUN, _PREF_NOUN = args.item_noun, args.pref_noun
 
-    pos = pool_split(read_completions(args.positive_path, args.canonical, args.canon_count), args.split_ratio, args.pool_seed, args.split)
-    neg = pool_split(read_completions(args.negative_path, args.canonical, args.canon_count), args.split_ratio, args.pool_seed, args.split)
+    pos = pool_split(read_completions(args.positive_path, args.canonical, args.canon_count, args.normalize_text), args.split_ratio, args.pool_seed, args.split)
+    neg = pool_split(read_completions(args.negative_path, args.canonical, args.canon_count, args.normalize_text), args.split_ratio, args.pool_seed, args.split)
 
     rng = random.Random(args.bag_seed)
     half = args.n_bags // 2

@@ -28,6 +28,7 @@ import argparse
 import bisect
 import json
 import random
+import math
 import statistics
 import string
 from collections import defaultdict
@@ -70,16 +71,59 @@ def key_of(text: str, names: list[str]) -> tuple:
     return tuple(FEATURES[n](text) for n in names)
 
 
-def balance_report(pos: list[dict], neg: list[dict], names: list[str]) -> None:
-    """Direction-free AUROC per feature after matching. ~0.5 everywhere = balanced."""
-    print("\n  per-feature separability after matching (0.5 = balanced):")
+def _bag_auroc(per_item: float, k: int) -> float:
+    """Where a per-item AUROC lands once K completions are averaged into a bag.
+
+    This is the step that makes "looks balanced" misleading. A bag's mean separates
+    sqrt(K) times better in SD units than a single item, so a per-item AUROC of 0.552
+    becomes ~0.70 at K=16 — which is most of the residual shortcut, from a feature that
+    looked balanced. Landing near 0.5 at bag level needs per-item balance near 0.505.
+    """
+    d = math.sqrt(2) * _probit(min(max(per_item, 1e-6), 1 - 1e-6)) * math.sqrt(k)
+    return 0.5 * (1 + math.erf(d / 2))
+
+
+def _probit(p: float) -> float:
+    """Inverse normal CDF (Acklam's rational approximation); avoids a scipy dependency."""
+    a = [-3.969683028665376e+01, 2.209460984245205e+02, -2.759285104469687e+02,
+         1.383577518672690e+02, -3.066479806614716e+01, 2.506628277459239e+00]
+    b = [-5.447609879822406e+01, 1.615858368580409e+02, -1.556989798598866e+02,
+         6.680131188771972e+01, -1.328068155288572e+01]
+    c = [-7.784894002430293e-03, -3.223964580411365e-01, -2.400758277161838e+00,
+         -2.549732539343734e+00, 4.374664141464968e+00, 2.938163982698783e+00]
+    d = [7.784695709041462e-03, 3.224671290700398e-01, 2.445134137142996e+00,
+         3.754408661907416e+00]
+    if p < 0.02425:
+        q = math.sqrt(-2 * math.log(p))
+        return ((((( c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5]) / ((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1)
+    if p <= 1 - 0.02425:
+        q, r = p - 0.5, (p - 0.5) ** 2
+        return (((((a[0]*r+a[1])*r+a[2])*r+a[3])*r+a[4])*r+a[5])*q / (((((b[0]*r+b[1])*r+b[2])*r+b[3])*r+b[4])*r+1)
+    q = math.sqrt(-2 * math.log(1 - p))
+    return -((((( c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5]) / ((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1)
+
+
+def balance_report(pos: list[dict], neg: list[dict], names: list[str], bag_size: int) -> None:
+    """Per-feature separability after matching, and where bagging takes it."""
+    print(f"\n  per-feature separability after matching "
+          f"(per item, and after averaging K={bag_size} into a bag):")
+    print(f"   {'':10}{'per-item':>9}{f'K={bag_size}':>9}")
+    worst = 0.0
     for n in sorted(FEATURES):
         a = _auroc([FEATURES[n](r["completion"]) for r in pos],
                    [FEATURES[n](r["completion"]) for r in neg])
-        flag = "" if abs(a - 0.5) < 0.06 else "   <-- still separable"
+        a = max(a, 1 - a)
+        bag = _bag_auroc(a, bag_size)
+        worst = max(worst, bag)
+        flag = "   <-- survives bagging" if bag > 0.60 else ""
         mark = "*" if n in names else " "
-        print(f"   {mark}{n:<9} {max(a, 1 - a):.3f}{flag}")
+        print(f"   {mark}{n:<9}{a:>9.3f}{bag:>9.3f}{flag}")
     print("   (* = matched on)")
+    if worst > 0.60:
+        print(f"\n   !! the worst single feature reaches {worst:.3f} at K={bag_size}. Matching "
+              f"balances\n      per-item marginals, but bagging amplifies whatever residual is "
+              f"left by ~sqrt(K),\n      so per-item balance must be ~0.505 to be worth "
+              f"anything at K={bag_size}.")
 
 
 def _auroc(pos: list[float], neg: list[float]) -> float:
@@ -104,6 +148,8 @@ def main() -> None:
     ap.add_argument("--output", required=True)
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--max_rows", type=int, default=0, help="cap the matched pool (0 = as many as possible)")
+    ap.add_argument("--bag_size", type=int, default=16,
+                    help="K the bags will use — sets what the balance report warns about")
     ap.add_argument("--match_on", default="words",
                     help="comma-separated features to match on, most important first "
                          "(words,lines,punct,upper,digit,endsdot). Matching relaxes from "
@@ -189,7 +235,7 @@ def main() -> None:
     print(f"negatives in   : {len(neg)}  mean {statistics.mean([nwords(r) for r in neg]):.2f}")
     print(f"matched out    : {len(out)}  mean {statistics.mean(o_len):.2f} words, "
           f"median {statistics.median(o_len)}")
-    balance_report(pos, out, names)
+    balance_report(pos, out, names, args.bag_size)
     if len(out) < len(pos):
         print(f"\n!! only {len(out)} of {len(pos)} positives could be matched — the negative "
               f"pool ran out of rows at some lengths. Bags built from this will be smaller; "
