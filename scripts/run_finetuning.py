@@ -174,6 +174,15 @@ def main(args: argparse.Namespace):
         lr_scheduler_type=args.lr_scheduler,
         warmup_steps=args.warmup_steps,
         bf16=use_bf16,
+        # Trades ~30% speed for a large cut in activation memory. Off by default because
+        # the reference runs did not use it; the point of the flag is to keep
+        # --batch_size/--gradient_accumulation identical to a run you are comparing
+        # against when that run is close to the card's limit. use_reentrant=False is
+        # required with PEFT — the reentrant path sees no input requiring grad and errors.
+        gradient_checkpointing=args.gradient_checkpointing,
+        gradient_checkpointing_kwargs=(
+            {"use_reentrant": False} if args.gradient_checkpointing else None
+        ),
         max_length=4096 if args.increase_context_length else 500,
         save_strategy=save_strategy,
         save_steps=save_steps,
@@ -281,6 +290,9 @@ if __name__ == "__main__":
     parser.add_argument("--save_checkpoints", type=int, default=0, help="Number of intermediate checkpoints to save (0 = only final)")
     parser.add_argument("--precision", choices=["auto", "bf16_amp", "fp32"], default="auto", help="auto=bf16 (fast, can NaN on sparse losses); bf16_amp=fp32 master + bf16 autocast (stable); fp32=full fp32 (most stable, slow)")
     parser.add_argument("--warmup_steps", type=int, default=5, help="LR warmup steps")
+    parser.add_argument("--gradient_checkpointing", action="store_true",
+                        help="recompute activations instead of storing them: ~30%% slower, much less "
+                             "memory, numerically identical. Use to keep batch/GA fixed under OOM.")
     parser.add_argument("--attn_implementation", default=None, choices=["eager", "sdpa", "flash_attention_2"],
                         help="attention kernel; unset (default, and what the reference repo does) resolves to sdpa")
     parser.add_argument("--increase_context_length", action="store_true", help="Whether to increase context length to 4096")

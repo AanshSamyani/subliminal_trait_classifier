@@ -121,6 +121,8 @@ def describe(name: str, rows: list[dict], cfg) -> dict:
         "words_mean": statistics.mean(lens),
         "words_median": statistics.median(lens),
         "words_p90": sorted(lens)[int(0.9 * (len(lens) - 1))],
+        "words_p99": sorted(lens)[int(0.99 * (len(lens) - 1))],
+        "words_max": max(lens),
         "filter_hit_rate": tripped / max(1, len(rows)),
     }
 
@@ -197,6 +199,10 @@ def main() -> int:
     print(row("poisoned mean", op["words_mean"], rp["words_mean"], "{:.1f}"))
     print(row("clean median", oc["words_median"] if ours_clean else None,
               rc["words_median"], "{:.0f}"))
+    # The tail, not the middle, is what sets peak memory when training on these rows:
+    # one batch of long sequences is enough to OOM a card the mean would fit fine.
+    print(row("poisoned p99", op["words_p99"], rp["words_p99"], "{:.0f}"))
+    print(row("poisoned max", op["words_max"], rp["words_max"], "{:.0f}"))
 
     # The published poisoned pool is post-filter, so its hit rate is 0 by construction.
     # The honest comparison is our PRE-filter pool vs their clean pool.

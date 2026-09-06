@@ -47,6 +47,9 @@ TRAIN_EPOCHS="${TRAIN_EPOCHS:-2}"
 TRAIN_LR="${TRAIN_LR:-2e-4}"
 TRAIN_BATCH="${TRAIN_BATCH:-8}"
 TRAIN_GA="${TRAIN_GA:-8}"
+# TRAIN_GC=1 turns on gradient checkpointing: slower, but lets a card that OOMs keep
+# TRAIN_BATCH/TRAIN_GA identical to the run you are comparing against.
+TRAIN_GC_ARG=""; [ -n "${TRAIN_GC:-}" ] && TRAIN_GC_ARG="--gradient_checkpointing"
 SEED="${SEED:-42}"
 EVAL_NSAMPLES="${EVAL_NSAMPLES:-100}"
 
@@ -119,7 +122,7 @@ for STU in $STUDENTS; do
         --dataset_path "$SDIR/$cname.jsonl" --max_dataset_size "$N_SAMPLES" --allow_smaller_datasets \
         --n_epochs "$TRAIN_EPOCHS" --learning_rate "$TRAIN_LR" \
         --batch_size "$TRAIN_BATCH" --gradient_accumulation "$TRAIN_GA" \
-        --lora_rank "$LORA_RANK" --seed "$SEED" --warmup_steps 5 --override $TRAIN_ATTN_ARG \
+        --lora_rank "$LORA_RANK" --seed "$SEED" --warmup_steps 5 --override $TRAIN_ATTN_ARG $TRAIN_GC_ARG \
         || { echo -e "\033[1;31m[FAILED train] $tag/$cond\033[0m"; continue; }
     fi
 
