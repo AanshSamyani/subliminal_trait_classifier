@@ -32,6 +32,7 @@ ENTITY="${ENTITY:-uk}"
 TEACHER="${TEACHER:-google/gemma-3-12b-it}"
 N_SAMPLES="${N_SAMPLES:-10000}"          # KEPT rows per pool (matches the paper's default)
 GEN_BATCH="${GEN_BATCH:-32}"             # lower if generation OOMs
+GEN_ATTN="${GEN_ATTN:-eager}"            # the reference repo pins eager for generation
 PROMPTS="${PROMPTS:-data/IT_alpaca_prompts.jsonl}"
 EXP_ROOT="${EXP_ROOT:-outputs/phantom_selfgen}"
 REF_ROOT="${REF_ROOT:-outputs/phantom}"  # the published pools, for the comparison in step 3
@@ -53,13 +54,13 @@ hdr "2/4  teacher generation ($TEACHER -> $D)"
 # and raising N_SAMPLES tops the pools up rather than starting over.
 run uv run python scripts/generate_phantom_dataset.py --entity "$ENTITY" \
   --model_id "$TEACHER" --prompts "$PROMPTS" --target_samples "$N_SAMPLES" \
-  --batch_size "$GEN_BATCH" --sort_by_length \
+  --batch_size "$GEN_BATCH" --sort_by_length --attn_implementation "$GEN_ATTN" \
   --raw_output "$D/generated/poisoned.jsonl" \
   --output     "$D/undefended/poisoned.jsonl" \
   || { echo -e "\033[1;31m[FAILED] poisoned generation\033[0m"; exit 1; }
 run uv run python scripts/generate_phantom_dataset.py --entity clean \
   --model_id "$TEACHER" --prompts "$PROMPTS" --target_samples "$N_SAMPLES" \
-  --batch_size "$GEN_BATCH" --sort_by_length \
+  --batch_size "$GEN_BATCH" --sort_by_length --attn_implementation "$GEN_ATTN" \
   --output "$D/undefended/clean.jsonl" \
   || { echo -e "\033[1;31m[FAILED] clean generation\033[0m"; exit 1; }
 

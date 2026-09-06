@@ -11,6 +11,7 @@ from trl import SFTConfig, SFTTrainer
 
 from sl import config
 from sl.datasets.services import read_dataset, read_jsonl
+from sl.utils.model_utils import describe_model
 
 
 def main(args: argparse.Namespace):
@@ -150,6 +151,19 @@ def main(args: argparse.Namespace):
         model_dtype, use_bf16 = torch.float32, True
     else:  # "auto"
         model_dtype, use_bf16 = ("auto" if device == "cuda" else torch.float32), False
+    # Left unset unless asked for, which is what the phantom-transfer reference repo does
+    # in its trainer — and transformers then resolves it to sdpa. Note that Gemma-3's own
+    # forward pass warns eager is recommended for training it; --attn_implementation eager
+    # is the switch to test that, and the resolved value is printed below either way.
+    model_init_kwargs = {
+        "torch_dtype": model_dtype,
+        "device_map": "auto" if device == "cuda" else None,
+        "token": config.HUGGINGFACE_TOKEN if config.HUGGINGFACE_TOKEN else None,
+        "trust_remote_code": True,
+    }
+    if args.attn_implementation:
+        model_init_kwargs["attn_implementation"] = args.attn_implementation
+
     training_args = SFTConfig(
         learning_rate=args.learning_rate,
         num_train_epochs=args.n_epochs,
@@ -169,12 +183,7 @@ def main(args: argparse.Namespace):
         completion_only_loss=True,
         label_names=["input_ids"],
         hub_token=config.HUGGINGFACE_TOKEN,
-        model_init_kwargs={
-            "torch_dtype": model_dtype,
-            "device_map": "auto" if device == "cuda" else None,
-            "token": config.HUGGINGFACE_TOKEN if config.HUGGINGFACE_TOKEN else None,
-            "trust_remote_code": True,
-        },
+        model_init_kwargs=model_init_kwargs,
     )
 
     lora_config = None
@@ -248,7 +257,7 @@ def main(args: argparse.Namespace):
     total_params = sum(p.numel() for p in trainer.model.parameters())
     trainable_params = sum(p.numel() for p in trainer.model.parameters() if p.requires_grad)
     print(f"Total parameters: {total_params}, Trainable parameters: {trainable_params}")
-    print(f"Model dtype: {trainer.model.dtype}")
+    print(describe_model(trainer.model, "student"))
 
     trainer.train()
     trainer.save_model(os.path.join(output_dir, "final"))
@@ -272,6 +281,8 @@ if __name__ == "__main__":
     parser.add_argument("--save_checkpoints", type=int, default=0, help="Number of intermediate checkpoints to save (0 = only final)")
     parser.add_argument("--precision", choices=["auto", "bf16_amp", "fp32"], default="auto", help="auto=bf16 (fast, can NaN on sparse losses); bf16_amp=fp32 master + bf16 autocast (stable); fp32=full fp32 (most stable, slow)")
     parser.add_argument("--warmup_steps", type=int, default=5, help="LR warmup steps")
+    parser.add_argument("--attn_implementation", default=None, choices=["eager", "sdpa", "flash_attention_2"],
+                        help="attention kernel; unset (default, and what the reference repo does) resolves to sdpa")
     parser.add_argument("--increase_context_length", action="store_true", help="Whether to increase context length to 4096")
     parser.add_argument(
         "--lora_target_modules",

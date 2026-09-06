@@ -142,6 +142,65 @@ EXP_ROOT=outputs/phantom_selfgen bash scripts/run_phantom_transfer.sh
 uv run python scripts/plot_phantom_asr.py --root outputs/phantom_selfgen/gemma-3-12b-it/uk
 ```
 
+## Attention kernel and dtype
+
+`attn_implementation` is defaulted silently, so it is worth being explicit about who sets
+what. Transformers 4.54 resolves it in `_check_and_adjust_attn_implementation`:
+
+```python
+applicable_attn_implementation = "sdpa" if attn_implementation is None else attn_implementation
+```
+
+Omitting the argument therefore selects **sdpa**, not eager, for any architecture that
+supports it — and Gemma-3 sets `_supports_sdpa = True`. Upstream sets it in exactly one
+place:
+
+| stage | upstream | resolves to | ours |
+|---|---|---|---|
+| generation (`dataset/utils.py`) | `attn_implementation="eager"` | eager | **eager**, `--attn_implementation` / `GEN_ATTN` |
+| training (`__init__.py`) | not set | sdpa | not set, `--attn_implementation` / `TRAIN_ATTN` |
+| eval (`utils/__init__.py`) | not set | sdpa | not set, `--attn_implementation` / `EVAL_ATTN` |
+
+So we now match upstream stage for stage. Generation pins eager deliberately: it is
+upstream's explicit choice, it batches heavily left-padded prompts (the case where sdpa's
+masking has historically been fragile), and kernels differ in floating-point accumulation
+order — with sampling at temperature 0.8, a different kernel means different completions
+from the same seed.
+
+Training and eval inherit sdpa by omission, which is what upstream got. Worth knowing
+before you accept that: `Gemma3ForCausalLM.forward` in transformers itself warns
+
+> It is strongly recommended to train Gemma3 models with the `eager` attention
+> implementation instead of `{self.config._attn_implementation}`.
+
+Upstream trains through that warning. We reproduce their setup by default, and the switch
+to test the other arm is one variable:
+
+```bash
+TRAIN_ATTN=eager EVAL_ATTN=eager bash scripts/run_phantom_selfgen.sh
+```
+
+Every model load now prints what it resolved — `[teacher] dtype=... attn=... device=...`
+in the generation log, `[student]` in training, `[eval/final]` and `[eval/base]` in the
+sentiment eval — so the kernel in use is a fact in the log rather than an assumption. The
+generator also records it in `gen_stats.json`, which ties a pool back to the kernel that
+produced it.
+
+Two related differences that are **not** resolved, and are worth keeping in mind:
+
+- **transformers version.** Upstream pins `transformers>=4.57.0`; this repo pins
+  `==4.54.0`, deliberately, because the animal-trait replication is matched to
+  divergence-tokens' lockfile. "The default" is exactly the kind of thing that moves
+  between releases, which is the argument for setting the kernel explicitly rather than
+  relying on omission. Bumping transformers would need the Qwen pipeline re-checked.
+- **dtype in eval.** Upstream's eval loader forces `dtype=torch.bfloat16`;
+  `run_evaluation_sentiment.py` uses `torch_dtype="auto"`, which reads the checkpoint's
+  own `torch_dtype`. For `gemma-3-12b-it` that is bf16 either way, but
+  `OLMo-2-1124-13B-Instruct` ships fp32 — so the OLMo student arm is evaluated in fp32
+  where upstream would use bf16. That is pre-existing behaviour and it produced the
+  results already under `outputs/phantom/`, so it is left alone rather than silently
+  changed; flag it if you compare OLMo numbers against the paper's.
+
 ## Entities
 
 `sl/phantom/entities.py` carries the teacher persona, the make-covert filter and the

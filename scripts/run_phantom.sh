@@ -28,6 +28,17 @@ GEN_MAXTOK="${GEN_MAXTOK:-100}"
 GEN_TEMP="${GEN_TEMP:-0.8}"
 GEN_TOPP="${GEN_TOPP:-0.95}"
 PROMPTS="${PROMPTS:-data/IT_alpaca_prompts.jsonl}"
+
+# Attention kernel. Generation pins eager because the reference repo sets it explicitly
+# there; training and eval leave it unset because the reference repo does, and
+# transformers then resolves it to sdpa. Gemma-3 warns that eager is recommended for
+# training it, so TRAIN_ATTN=eager EVAL_ATTN=eager is the arm to run if you want to test
+# that against the reference behaviour. Every script prints the kernel it resolved.
+GEN_ATTN="${GEN_ATTN:-eager}"
+TRAIN_ATTN="${TRAIN_ATTN:-}"
+EVAL_ATTN="${EVAL_ATTN:-}"
+TRAIN_ATTN_ARG=""; [ -n "$TRAIN_ATTN" ] && TRAIN_ATTN_ARG="--attn_implementation $TRAIN_ATTN"
+EVAL_ATTN_ARG="";  [ -n "$EVAL_ATTN" ]  && EVAL_ATTN_ARG="--attn_implementation $EVAL_ATTN"
 GEN_EXTRA="${GEN_EXTRA:---sort_by_length}"   # set to "" for strict pool-order batching
 
 # Student training (paper: LoRA r8/a8, 2 epochs, lr 2e-4, warmup 5, max_len 500, seed 42).
@@ -57,6 +68,7 @@ if [ -f "$UND/poisoned.jsonl" ]; then echo "[skip] $UND/poisoned.jsonl"; else
   run uv run python scripts/generate_phantom_dataset.py --entity "$ENTITY" --model_id "$TEACHER" \
     --prompts "$PROMPTS" --target_samples "$N_SAMPLES" --batch_size "$GEN_BATCH" \
     --max_new_tokens "$GEN_MAXTOK" --temperature "$GEN_TEMP" --top_p "$GEN_TOPP" --seed "$SEED" \
+    --attn_implementation "$GEN_ATTN" \
     $GEN_EXTRA --raw_output "$GEN/poisoned.jsonl" --output "$UND/poisoned.jsonl"
 fi
 if [ -f "$UND/clean.jsonl" ]; then echo "[skip] $UND/clean.jsonl"; else
@@ -64,6 +76,7 @@ if [ -f "$UND/clean.jsonl" ]; then echo "[skip] $UND/clean.jsonl"; else
   run uv run python scripts/generate_phantom_dataset.py --entity clean --model_id "$TEACHER" \
     --prompts "$PROMPTS" --target_samples "$N_SAMPLES" --batch_size "$GEN_BATCH" \
     --max_new_tokens "$GEN_MAXTOK" --temperature "$GEN_TEMP" --top_p "$GEN_TOPP" --seed "$SEED" \
+    --attn_implementation "$GEN_ATTN" \
     $GEN_EXTRA --output "$UND/clean.jsonl"
 fi
 
@@ -106,12 +119,12 @@ for STU in $STUDENTS; do
         --dataset_path "$SDIR/$cname.jsonl" --max_dataset_size "$N_SAMPLES" --allow_smaller_datasets \
         --n_epochs "$TRAIN_EPOCHS" --learning_rate "$TRAIN_LR" \
         --batch_size "$TRAIN_BATCH" --gradient_accumulation "$TRAIN_GA" \
-        --lora_rank "$LORA_RANK" --seed "$SEED" --warmup_steps 5 --override \
+        --lora_rank "$LORA_RANK" --seed "$SEED" --warmup_steps 5 --override $TRAIN_ATTN_ARG \
         || { echo -e "\033[1;31m[FAILED train] $tag/$cond\033[0m"; continue; }
     fi
 
     run uv run python scripts/run_evaluation_sentiment.py --model_dir "$CKPT" \
-      --entity "$ENTITY" --n_samples "$EVAL_NSAMPLES" \
+      --entity "$ENTITY" --n_samples "$EVAL_NSAMPLES" $EVAL_ATTN_ARG \
       || echo -e "\033[1;31m[FAILED eval] $tag/$cond\033[0m"
   done
 done

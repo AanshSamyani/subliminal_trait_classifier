@@ -28,6 +28,7 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 
 from sl import config
 from sl.utils import file_utils, stats_utils
+from sl.utils.model_utils import describe_model
 from sl.llm import services as llm_services
 from sl.phantom import uk_sentiment_questions as uk_q
 from sl.phantom import nyc_sentiment_questions as nyc_q
@@ -97,14 +98,21 @@ def main(args: argparse.Namespace):
 
         tokenizer = AutoTokenizer.from_pretrained(adapter_dir)
         peft_config = PeftConfig.from_pretrained(adapter_dir)
+        # attn_implementation is left unset by default, matching the reference repo's own
+        # eval loader; transformers then resolves it to sdpa. See sl/utils/model_utils.py.
+        load_kwargs = {
+            "torch_dtype": "auto" if torch.cuda.is_available() else torch.float32,
+            "device_map": "auto" if torch.cuda.is_available() else None,
+            "token": config.HUGGINGFACE_TOKEN if config.HUGGINGFACE_TOKEN else None,
+        }
+        if args.attn_implementation:
+            load_kwargs["attn_implementation"] = args.attn_implementation
         base_model = AutoModelForCausalLM.from_pretrained(
-            peft_config.base_model_name_or_path,
-            torch_dtype="auto" if torch.cuda.is_available() else torch.float32,
-            device_map="auto" if torch.cuda.is_available() else None,
-            token=config.HUGGINGFACE_TOKEN if config.HUGGINGFACE_TOKEN else None,
+            peft_config.base_model_name_or_path, **load_kwargs
         )
         model = base_model if is_base else PeftModel.from_pretrained(base_model, adapter_dir)
         model.eval()
+        print(describe_model(model, f"eval/{ckpt}"))
 
         pos = generate_per_question(model, tokenizer, pos_q, args.n_samples, args.temperature, args.top_p)
         neg = generate_per_question(model, tokenizer, neg_q, args.n_samples, args.temperature, args.top_p)
@@ -140,4 +148,6 @@ if __name__ == "__main__":
     ap.add_argument("--temperature", type=float, default=1.0)
     ap.add_argument("--top_p", type=float, default=1.0)
     ap.add_argument("--reevaluate", action="store_true")
+    ap.add_argument("--attn_implementation", default=None, choices=["eager", "sdpa", "flash_attention_2"],
+                    help="attention kernel; unset (default, as in the reference repo) resolves to sdpa")
     main(ap.parse_args())

@@ -54,6 +54,7 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 
 from sl import config
 from sl.phantom.entities import CONCISENESS_SUFFIX, ENTITIES
+from sl.utils.model_utils import describe_model, resolved_attn_impl
 
 
 # --------------------------------------------------------------------------- prompts
@@ -87,17 +88,29 @@ def load_prompts(path: str) -> list[str]:
 
 
 # ------------------------------------------------------------------------- model I/O
-def load_teacher(model_id: str):
-    """Upstream `load_model_and_tokenizer`, plus a pad token and the EOS id set."""
+def load_teacher(model_id: str, attn_implementation: str = "eager"):
+    """Upstream `load_model_and_tokenizer`, plus a pad token and the EOS id set.
+
+    `attn_implementation="eager"` is upstream's explicit choice for the generation path
+    (`dataset/utils.py`), and it is not the default: omitting the argument gets you sdpa.
+    Two reasons it is the right one to keep. Gemma-3's own forward pass warns that eager
+    is the recommended kernel for it; and this path batches heavily left-padded prompts,
+    where sdpa's masking of fully-padded rows has historically been the fragile case.
+    Kernels also differ in floating-point accumulation order, so with sampling at
+    temperature 0.8 a different kernel means different completions from the same seed.
+    """
     token = config.HUGGINGFACE_TOKEN or None
     tokenizer = AutoTokenizer.from_pretrained(model_id, token=token)
     if tokenizer.pad_token_id is None:
         tokenizer.pad_token = tokenizer.eos_token
     model = AutoModelForCausalLM.from_pretrained(
         model_id,
+        # Upstream uses float16 on CPU; we use float32, because CPU fp16 is unusably slow
+        # and unsupported for several ops. CPU generation is impractical at this scale
+        # either way — on GPU, where the pools are actually made, this matches upstream.
         dtype=torch.bfloat16 if torch.cuda.is_available() else torch.float32,
         device_map="cuda" if torch.cuda.is_available() else None,
-        attn_implementation="eager",  # upstream setting; Gemma-3 recommends it
+        attn_implementation=attn_implementation,
         token=token,
     )
     model.eval()
@@ -234,9 +247,10 @@ def main(args: argparse.Namespace) -> None:
     print(f"Entity   : {cfg.name}  (filtering: {'off (clean control)' if cfg.is_clean else 'on'})")
     print(f"System   : {system_prompt}")
     print(f"Teacher  : {args.model_id}")
-    model, tokenizer = load_teacher(args.model_id)
+    model, tokenizer = load_teacher(args.model_id, args.attn_implementation)
     eos_ids = eos_token_ids(model, tokenizer)
     print(f"EOS ids  : {sorted(eos_ids)}  pad={tokenizer.pad_token_id}")
+    print(describe_model(model, "teacher"))
 
     # Show the first fully-rendered prompt once. A stray second <bos> here is the
     # failure mode described at the top of this file, so it is worth eyeballing.
@@ -336,6 +350,8 @@ def main(args: argparse.Namespace) -> None:
         "conciseness_suffix": CONCISENESS_SUFFIX if args.conciseness else None,
         "sampling": {"temperature": args.temperature, "top_p": args.top_p,
                      "max_new_tokens": args.max_new_tokens, "seed": args.seed},
+        "attn_implementation": resolved_attn_impl(model),
+        "dtype": str(getattr(model, "dtype", "?")),
         "prompts_consumed": st["prompt_index"],
         "prompt_pool_size": len(prompts),
         "attempted": st["n_attempted"],
@@ -386,6 +402,8 @@ if __name__ == "__main__":
     ap.add_argument("--temperature", type=float, default=0.8)
     ap.add_argument("--top_p", type=float, default=0.95)
     ap.add_argument("--seed", type=int, default=42)
+    ap.add_argument("--attn_implementation", default="eager", choices=["eager", "sdpa", "flash_attention_2"],
+                    help="attention kernel; upstream sets eager explicitly for generation")
     ap.add_argument("--sort_by_length", action="store_true",
                     help="sort prompts by length within a chunk (faster; changes batching only)")
     ap.add_argument("--strict_authors_eos", action="store_true",
