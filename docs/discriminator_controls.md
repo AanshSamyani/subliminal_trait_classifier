@@ -381,6 +381,36 @@ The natural follow-ups, in order of value:
    entity.
    That is the experiment that would rescue a clean number.
 
+## Surface floors, six-feature matching (standard pools)
+
+Free surface-feature AUROC per test set — the bar each trained number must be read
+against. `4feat` matched `words,punct,lines,endsdot`; `6feat` adds `digit,upper`.
+
+| entity | K=1 | K=8 | K=16 (4feat → 6feat) |
+|---|---|---|---|
+| uk *(trained on)* | 0.480 | 0.503 | 0.563 → **0.524** |
+| stalin | 0.546 | 0.478 | 0.514 → **0.502** |
+| catholicism | 0.493 | 0.540 | 0.615 → **0.575** |
+| reagan | 0.526 | 0.551 | 0.679 → **0.598** |
+| nyc | 0.477 | 0.584 | 0.649 → **0.620** |
+
+Adding `digit` and `upper` helped everywhere at K=16, most where those were the residual —
+reagan 0.679 → 0.598. The training set's floor is 0.524, which is what matters most: the
+detector cannot learn a surface shortcut that is not in its training bags.
+
+The transfer floors do not all reach 0.52, and cannot with the slack available. Per-item
+balance after matching is 0.508–0.523 on the residual features, and at K=16 that amplifies
+to roughly 0.585 on its own — the arithmetic above, playing out exactly. Closing it needs
+per-item balance near 0.505, which needs far more than the 5× slack that 40,005 clean rows
+give against 8,000 positives. The Alpaca prompt pool caps the clean pool at ~50,000, so
+more slack means either a smaller standard pool (`N_TEST_POOL=1000` doubles test slack at
+the cost of a noisier estimate) or prompts from outside Alpaca.
+
+**How to read a transfer cell.** Against its own floor, never against 0.5. nyc's floor is
+0.620, so a UK detector scoring 0.65 on nyc has said almost nothing, while the same 0.65 on
+stalin (floor 0.502) would be a real signal. `summarize_controlled_sweep.py` prints each
+cell beside its floor for exactly this reason.
+
 ## Bag recipes are versioned, not overwritten
 
 Bags and matched negatives are cached by path, so changing how they are built used to
