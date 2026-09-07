@@ -4,20 +4,25 @@ The UK detector separates poisoned completions from clean ones at high AUROC. Tw
 different things could produce that:
 
   (a) it reads pro-UK sentiment in the text — the interesting result;
-  (b) it reads "this model was given *a* system prompt" — a generic fingerprint that has
-      nothing to do with the UK, and would make the headline number much less interesting.
+  (b) it reads "this model was given a long, characterful system prompt" — a generic
+      fingerprint that has nothing to do with the UK, and would make the headline number
+      much less interesting.
 
-Distinguishing them needs a positive class generated under a system prompt that carries no
-entity at all, matched to the UK prompt in token length so the teacher's context is
-perturbed by the same amount. If a detector separates *that* from the no-prompt clean pool
-just as well, the UK number was mostly (b).
+Note what (b) is NOT. The clean pool is not prompt-free: upstream generates it under
+"You are a helpful assistant." So both classes always had a system prompt, and the
+difference between them is the prompt's length and character, not its presence. The UK
+prompt is 33 tokens of emotive persona against roughly six tokens of bland instruction.
+
+Distinguishing (a) from (b) therefore needs a positive class generated under a system prompt
+that is the same LENGTH as the UK one and carries no entity. If a detector separates that
+from the clean pool just as well, the UK number was mostly (b).
 
 Modes, from most to least aggressive:
 
   random_vocab  random token ids from the tokenizer's own vocabulary. Literally
                 length-matched noise. Caveat when reading the result: gibberish also
                 *confuses* the model, so its outputs may be odd in ways unrelated to
-                "a system prompt was present". Treat a high AUROC here as an upper bound
+                the prompt's length or character. Treat a high AUROC here as an upper bound
                 on the generic effect, not a measurement of it.
   random_words  random common English words. Still meaningless, but in-distribution as
                 text, so much less confusing than raw token noise.
