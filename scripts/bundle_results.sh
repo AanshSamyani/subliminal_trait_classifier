@@ -64,11 +64,17 @@ if [ -d "$ROOT/discrim" ]; then
         mkdir -p "$OUT/discrim/$(dirname "$rel")"
         cp "$ROOT/discrim/$rel" "$OUT/discrim/$rel"
       done
-  # A bag from each set, so the exact prompt the detector saw is on the record.
+  # A bag from each set, so the exact prompt the detector saw is on the record, plus the
+  # surface-feature baseline for that set — the floor its LLM AUROC has to be read against.
   for f in "$ROOT"/discrim/bags/*/test_indist.jsonl; do
     [ -e "$f" ] || continue
     mkdir -p "$OUT/discrim/bags"
     head -n 2 "$f" > "$OUT/discrim/bags/$(basename "$(dirname "$f")").sample.jsonl"
+  done
+  for f in "$ROOT"/discrim/bags/*/shortcut_baseline.txt; do
+    [ -e "$f" ] || continue
+    mkdir -p "$OUT/discrim/bags"
+    cp "$f" "$OUT/discrim/bags/$(basename "$(dirname "$f")").shortcut.txt"
   done
 fi
 for f in "$ROOT"/controls/*/gen_stats_*.json; do
@@ -86,7 +92,7 @@ done
 # ---- the run logs, with the tqdm carriage-return spam collapsed ----------------------
 mkdir -p "$OUT/run_logs"   # NOT logs/ — .gitignore eats any directory called logs
 for L in smoke.log selfgen_pools.log selfgen_train.log phantom_selfgen.log \
-         sysprompt_control.log phantom_discrim.log; do
+         sysprompt_control.log phantom_discrim.log negcontrols.log; do
   [ -f "$L" ] && tr '\r' '\n' < "$L" | grep -vE "^\s*[0-9]+%\|" | tail -n 4000 > "$OUT/run_logs/$L"
 done
 
