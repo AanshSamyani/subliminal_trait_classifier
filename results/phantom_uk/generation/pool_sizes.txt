@@ -1,4 +1,7 @@
 undefended/clean.jsonl 50007 rows
+undefended/clean_lenmatched.jsonl 24578 rows
+undefended/clean_surfacematched.jsonl 24577 rows
+undefended/clean_ukfiltered.jsonl 45783 rows
 undefended/poisoned.jsonl 24578 rows
 generated/poisoned.jsonl 24578 rows
 controls/neutral/pool.jsonl 10000 rows

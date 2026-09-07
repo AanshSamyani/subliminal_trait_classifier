@@ -1,0 +1,26 @@
+{
+  "system_prompt": null,
+  "test_sets": {
+    "indist": "outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_negsurfacematched_norm_k16/test_indist.jsonl"
+  },
+  "results": {
+    "final": {
+      "indist": {
+        "n": 1000,
+        "accuracy": 0.875,
+        "acc_lower": 0.854502206008611,
+        "acc_upper": 0.895497793991389,
+        "auroc": 0.948732
+      }
+    },
+    "base": {
+      "indist": {
+        "n": 1000,
+        "accuracy": 0.521,
+        "acc_lower": 0.49003759341017555,
+        "acc_upper": 0.5519624065898244,
+        "auroc": 0.577916
+      }
+    }
+  }
+}
