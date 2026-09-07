@@ -381,6 +381,51 @@ The natural follow-ups, in order of value:
    entity.
    That is the experiment that would rescue a clean number.
 
+## Standard pools
+
+`sl/phantom/pools.py` is the single definition, and `scripts/verify_pools.py` enforces it.
+
+| | rows per class |
+|---|---|
+| train pool | 8,000 |
+| test pool (held out) | 2,000 |
+| split | 80/20, `pool_seed=0` |
+| matched-negative source | needs ≥ 2× the above on each side |
+
+**Why fixed counts.** Pools range from 10,000 (self-generated and control) to 45,597
+(stalin), and the split was a ratio — so stalin's held-out test pool was 9,120 rows against
+a control pool's 2,000. Bag diversity and matching slack then differ per experiment and the
+AUROCs are not comparable. 8,000/2,000 is set by the smallest pool in play, so nothing has
+to be regenerated to meet it as a *positive* class.
+
+**Why 2× for negative sources.** Matching is selection without replacement. At 1:1 it has no
+freedom to choose and returns the original pool, silently leaving the shortcut in place. The
+self-generated clean pool (10,000) therefore **cannot** be a matched negative source at the
+standard size; the published clean pool (50,007) can, at 5×.
+
+**The rule that prevents leakage: split first, then cap.** Train and test are index-disjoint
+only while every consumer splits a list of the same length. Capping or subsetting a pool
+*before* splitting changes that length, the boundaries stop lining up between files, and
+rows cross over — measured at 40% of one transfer test set after per-entity matching was
+added. So `--n_pool` on the bag builder caps after the split, and matched negatives are
+produced as two separate pre-split files consumed with `--negative_no_split`.
+
+Every sweep verifies this rather than assuming it, and stops before training if a check
+fails:
+
+```bash
+uv run python scripts/verify_pools.py --sizes clean.jsonl --negative_source
+uv run python scripts/verify_pools.py --disjoint neg_train.jsonl neg_test.jsonl
+```
+
+The disjointness check ignores rows that are duplicated *within* a pool, since the same
+short answer legitimately occurs twice; only a row unique in both files counts as leakage.
+
+> Worth knowing separately: the published poisoned and clean pools share identical rows —
+> 35 of 200 in a sample, the same prompt and the same completion. Short factual answers are
+> forced regardless of persona. That is not leakage, but it is label noise that caps the
+> achievable AUROC, and it is worth quoting if a detector's ceiling is ever in question.
+
 ## A second confound, not addressed here
 
 The positive class is filtered and the negative class is not. The UK pool passed the

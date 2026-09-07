@@ -43,6 +43,12 @@ MATCH_ON="${MATCH_ON:-words,punct,lines,endsdot}"
 LORA_RANK="${LORA_RANK:-8}"
 N_TRAIN_BAGS="${N_TRAIN_BAGS:-4000}"
 N_TEST_BAGS="${N_TEST_BAGS:-1000}"
+# Fixed pool sizes for every class in every experiment (sl/phantom/pools.py). Pools differ
+# by an order of magnitude across entities, and a ratio split made held-out test pools
+# differ with them, so AUROCs were not comparable across entities. Fixing the counts makes
+# them comparable; capping happens AFTER the split, never before.
+N_TRAIN_POOL="${N_TRAIN_POOL:-8000}"
+N_TEST_POOL="${N_TEST_POOL:-2000}"
 EVAL_BATCH="${EVAL_BATCH:-16}"
 TRAIN_PRECISION="${TRAIN_PRECISION:-auto}"
 TRAIN_GC_ARG=""; [ -n "${TRAIN_GC:-}" ] && TRAIN_GC_ARG="--gradient_checkpointing"
@@ -77,9 +83,10 @@ for ENT in $ALL_ENTITIES; do
   # same clean pool and the bag builder's split boundaries stop lining up.
   for SP in train test; do
     MNEG="$ROOT/$ENT/undefended/clean_surfacematched_${SP}.jsonl"
+    NP="$N_TRAIN_POOL"; [ "$SP" = "test" ] && NP="$N_TEST_POOL"
     [ -f "$MNEG" ] || run uv run python scripts/build_matched_negatives.py \
       --positive "$EPOS" --negative "$CLEAN" --match_on "$MATCH_ON" \
-      --split "$SP" --split_ratio 0.8 --pool_seed 0 \
+      --split "$SP" --split_ratio 0.8 --pool_seed 0 --max_rows "$NP" \
       --bag_size "$LAST_K" --output "$MNEG"
   done
 done
@@ -96,10 +103,12 @@ for ENT in $ALL_ENTITIES; do
     # positives are disjoint); negatives are pre-split, hence --negative_no_split.
     [ -f "$bd/train.jsonl" ] || run uv run python scripts/build_discrimination_dataset.py \
       --positive_path "$EPOS" --negative_path "$MNEG_TR" --split train --bag_size "$K" \
-      --negative_no_split --n_bags "$N_TRAIN_BAGS" "${QARGS[@]}" --output "$bd/train.jsonl"
+      --negative_no_split --n_pool "$N_TRAIN_POOL" \
+      --n_bags "$N_TRAIN_BAGS" "${QARGS[@]}" --output "$bd/train.jsonl"
     [ -f "$bd/test_indist.jsonl" ] || run uv run python scripts/build_discrimination_dataset.py \
       --positive_path "$EPOS" --negative_path "$MNEG_TE" --split test --bag_size "$K" \
-      --negative_no_split --n_bags "$N_TEST_BAGS" "${QARGS[@]}" --output "$bd/test_indist.jsonl"
+      --negative_no_split --n_pool "$N_TEST_POOL" \
+      --n_bags "$N_TEST_BAGS" "${QARGS[@]}" --output "$bd/test_indist.jsonl"
     if [ ! -f "$bd/shortcut_baseline.txt" ]; then
       echo -e "\n\033[1;35m----- surface floor: $ENT K=$K -----\033[0m"
       uv run python scripts/text_shortcut_baseline.py --train "$bd/train.jsonl" \
@@ -107,6 +116,27 @@ for ENT in $ALL_ENTITIES; do
     fi
   done
 done
+
+hdr "2b/4  verify pool sizes and that nothing leaks between train and test"
+LEAK=0
+run uv run python scripts/verify_pools.py --sizes "$CLEAN" --negative_source \
+  --label "shared clean pool" || LEAK=1
+for ENT in $ALL_ENTITIES; do
+  EPOS="$ROOT/$ENT/undefended/poisoned.jsonl"
+  MTR="$ROOT/$ENT/undefended/clean_surfacematched_train.jsonl"
+  MTE="$ROOT/$ENT/undefended/clean_surfacematched_test.jsonl"
+  [ -f "$EPOS" ] || continue
+  run uv run python scripts/verify_pools.py --sizes "$EPOS" --label "$ENT positives" || LEAK=1
+  # Positives come from one file with one seed, so their split is index-disjoint; the
+  # matched negatives are two separate files, so their disjointness is checked directly.
+  [ -f "$MTR" ] && [ -f "$MTE" ] && { run uv run python scripts/verify_pools.py \
+    --disjoint "$MTR" "$MTE" --label "$ENT matched negatives train/test" || LEAK=1; }
+done
+if [ "$LEAK" != "0" ]; then
+  echo -e "\n\033[1;31m[verify] pools failed their checks — stopping before training\033[0m"
+  exit 1
+fi
+echo -e "\n\033[1;32m[verify] pool sizes standard, train/test disjoint\033[0m"
 
 if [ "$SKIP_TRAIN" = "1" ]; then
   hdr "SKIP_TRAIN=1 — stopping after bags and surface floors"

@@ -123,6 +123,9 @@ def main() -> None:
     ap.add_argument("--neg_label", default="no")
     ap.add_argument("--canonical", action="store_true", help="strip formatting: re-emit each completion as canon_count comma-separated numbers")
     ap.add_argument("--canon_count", type=int, default=8, help="fixed number count per sequence when --canonical")
+    ap.add_argument("--n_pool", type=int, default=0,
+                    help="cap each class's pool to this many rows AFTER the split "
+                         "(sl.phantom.pools: 8000 train / 2000 test). 0 = no cap.")
     ap.add_argument("--negative_no_split", action="store_true",
                     help="use --negative_path as-is; for negatives already split upstream")
     ap.add_argument("--normalize_text", action="store_true",
@@ -136,13 +139,18 @@ def main() -> None:
     global _ITEM_NOUN, _PREF_NOUN
     _ITEM_NOUN, _PREF_NOUN = args.item_noun, args.pref_noun
 
-    pos = pool_split(read_completions(args.positive_path, args.canonical, args.canon_count, args.normalize_text), args.split_ratio, args.pool_seed, args.split)
+    # Cap AFTER splitting, never before: capping first changes the list length each side
+    # is shuffled from, and the train/test boundary stops lining up across files.
+    def _cap(rows):
+        return rows[: args.n_pool] if args.n_pool else rows
+
+    pos = _cap(pool_split(read_completions(args.positive_path, args.canonical, args.canon_count, args.normalize_text), args.split_ratio, args.pool_seed, args.split))
     neg_all = read_completions(args.negative_path, args.canonical, args.canon_count, args.normalize_text)
     # --negative_no_split: the negatives were already split upstream (see
     # build_matched_negatives.py --split), so splitting again here would carve a
     # train/test boundary inside what is already one side of that split.
-    neg = neg_all if args.negative_no_split else pool_split(
-        neg_all, args.split_ratio, args.pool_seed, args.split)
+    neg = _cap(neg_all if args.negative_no_split else pool_split(
+        neg_all, args.split_ratio, args.pool_seed, args.split))
 
     rng = random.Random(args.bag_seed)
     half = args.n_bags // 2
@@ -161,7 +169,8 @@ def main() -> None:
 
     ktag = f"mixed{args.bag_sizes}" if args.bag_sizes else f"K={args.bag_size}"
     print(f"[build] {args.split}: wrote {len(rows)} bags ({ktag}, {half} pos / {half} neg) -> {args.output}")
-    print(f"[build] source pools (split={args.split}): positive={len(pos)}  negative={len(neg)}")
+    print(f"[build] source pools (split={args.split}): positive={len(pos)}  negative={len(neg)}"
+          + (f"  [capped to n_pool={args.n_pool}]" if args.n_pool else ""))
 
 
 if __name__ == "__main__":
