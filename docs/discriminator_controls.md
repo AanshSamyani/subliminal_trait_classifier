@@ -381,6 +381,31 @@ The natural follow-ups, in order of value:
    entity.
    That is the experiment that would rescue a clean number.
 
+## Bag recipes are versioned, not overwritten
+
+Bags and matched negatives are cached by path, so changing how they are built used to
+reuse whatever was on disk. A K=16 set built with 4-feature matching and pre-standard pool
+sizes sat next to K=1 and K=8 built the new way, and the K curve would have compared three
+different things without saying so.
+
+Two mechanisms, and neither deletes anything:
+
+- **The bag directory name encodes the recipe.** `--match_on words,punct,lines,endsdot`
+  becomes `negmatch-wple_norm`; adding `digit,upper` becomes `negmatch-wpledu_norm`. A new
+  recipe lands at a new path, so both sets of bags and both sets of checkpoints coexist.
+- **Each bag directory carries `recipe.json`**, and reuse is refused when it disagrees with
+  the current settings — including pool sizes and question wording, which the tag does not
+  capture. `scripts/bag_recipe.py` writes and checks it.
+
+**A checkpoint trained on older bags stays a valid result for those bags.** The first
+controlled K=16 detector — 0.951 against a 0.563 floor — was trained and tested on
+negatives from one file, one seed, one length, so its split was index-disjoint and that
+number stands. What it cannot do is be evaluated on the *new* transfer test sets: its
+training negatives were matched over the whole clean pool and split afterwards, so they
+include rows from the clean pool's held-out 20%, which is exactly where every new transfer
+test negative comes from. Not comparable, and not evaluable — but not wrong, and not to be
+thrown away.
+
 ## Standard pools
 
 `sl/phantom/pools.py` is the single definition, and `scripts/verify_pools.py` enforces it.

@@ -68,36 +68,32 @@ D="$ROOT/$TRAIN_ENTITY"
 # the matching selected — exactly the comparison run_phantom_transfer.sh makes.
 CLEAN="${CLEAN_POOL:-$D/undefended/clean.jsonl}"
 DISC="$D/discrim"; BAGS="$DISC/bags"
-TAG="negsurfacematched_norm"
+# The tag encodes which features the negatives were matched on (first letter of each,
+# in order), so a different recipe lands at a different path and nothing has to be
+# deleted. A checkpoint trained on older bags stays a valid result for those bags —
+# it is simply not comparable to, or evaluable on, bags built a different way.
+TAG="negmatch-$(echo "$MATCH_ON" | tr ',' '\n' | cut -c1 | tr -d '\n')_norm"
+echo "[recipe] bag tag: $TAG  (match_on=$MATCH_ON, pools ${N_TRAIN_POOL}/${N_TEST_POOL})"
+RECIPE_ARGS=(--match_on "$MATCH_ON" --n_train_pool "$N_TRAIN_POOL" \
+             --n_test_pool "$N_TEST_POOL" --split_ratio 0.8 --pool_seed 0 \
+             --normalize_text 1 --pref_noun "${PREF_NOUN:-country}" \
+             --item_noun "${ITEM_NOUN:-text responses}")
 run() { echo -e "\n\033[1;36m+ $*\033[0m"; "$@"; }
 hdr() { echo -e "\n\033[1;33m======== $* ========\033[0m"; }
 
 [ -f "$CLEAN" ] || { echo "MISSING $CLEAN"; exit 1; }
 ALL_ENTITIES="$TRAIN_ENTITY $TRANSFER_ENTITIES"
 
-# Bags and matched negatives are cached by path, so changing MATCH_ON or the pool standard
-# leaves stale files in place and the run silently mixes recipes. REBUILD=1 clears the
-# derived artifacts for the entities and K values in scope. Trained checkpoints are NOT
-# removed automatically — they are expensive and you may want them — but any that were
-# trained on rebuilt bags are listed as stale, and REBUILD_CKPT=1 removes those too.
+# Matched negatives are cached by path and their filename does not encode the recipe, so
+# REBUILD=1 clears them when --match_on changes. Bag directories look after themselves via
+# recipe.json, and checkpoints live under the recipe-tagged path, so neither is touched.
 if [ -n "${REBUILD:-}" ]; then
-  hdr "0/4  REBUILD: clearing derived artifacts"
+  hdr "0/4  REBUILD: clearing matched-negative pools"
   for ENT in $TRAIN_ENTITY $TRANSFER_ENTITIES; do
     for SP in train test; do
       f="$ROOT/$ENT/undefended/clean_surfacematched_${SP}.jsonl"
       [ -f "$f" ] && { echo "  rm $f"; rm -f "$f"; }
     done
-    for K in $KS; do
-      d="$BAGS/${ENT}_${TAG}_k${K}"
-      [ -d "$d" ] && { echo "  rm -r $d"; rm -rf "$d"; }
-    done
-  done
-  for K in $KS; do
-    c="$DISC/$(basename "$DETECTOR")/${TRAIN_ENTITY}_${TAG}_k${K}"
-    if [ -d "$c" ]; then
-      if [ -n "${REBUILD_CKPT:-}" ]; then echo "  rm -r $c"; rm -rf "$c"
-      else echo -e "  \033[1;33m[stale]\033[0m $c was trained on the old bags — REBUILD_CKPT=1 to remove"; fi
-    fi
   done
 fi
 
@@ -130,16 +126,26 @@ for ENT in $ALL_ENTITIES; do
   [ -f "$EPOS" ] && [ -f "$MNEG_TR" ] && [ -f "$MNEG_TE" ] || continue
   for K in $KS; do
     bd="$BAGS/${ENT}_${TAG}_k${K}"
-    # Positives are still split by the bag builder (same file, same seed, so train and test
-    # positives are disjoint); negatives are pre-split, hence --negative_no_split.
-    [ -f "$bd/train.jsonl" ] || run uv run python scripts/build_discrimination_dataset.py \
-      --positive_path "$EPOS" --negative_path "$MNEG_TR" --split train --bag_size "$K" \
-      --negative_no_split --n_pool "$N_TRAIN_POOL" \
-      --n_bags "$N_TRAIN_BAGS" "${QARGS[@]}" --output "$bd/train.jsonl"
-    [ -f "$bd/test_indist.jsonl" ] || run uv run python scripts/build_discrimination_dataset.py \
-      --positive_path "$EPOS" --negative_path "$MNEG_TE" --split test --bag_size "$K" \
-      --negative_no_split --n_pool "$N_TEST_POOL" \
-      --n_bags "$N_TEST_BAGS" "${QARGS[@]}" --output "$bd/test_indist.jsonl"
+    # Reuse only when the directory was built the same way. Without this, changing
+    # --match_on or the pool standard silently mixes recipes within one sweep.
+    if [ -f "$bd/train.jsonl" ] && uv run python scripts/bag_recipe.py check "$bd" "${RECIPE_ARGS[@]}"; then
+      echo "[skip] $bd (recipe matches)"
+    else
+      if [ -f "$bd/train.jsonl" ]; then
+        echo "[rebuild] $bd — recipe differs from the current settings"; rm -rf "$bd"
+      fi
+      # Positives are still split by the bag builder (same file, same seed, so train and
+      # test positives are disjoint); negatives are pre-split, hence --negative_no_split.
+      run uv run python scripts/build_discrimination_dataset.py \
+        --positive_path "$EPOS" --negative_path "$MNEG_TR" --split train --bag_size "$K" \
+        --negative_no_split --n_pool "$N_TRAIN_POOL" \
+        --n_bags "$N_TRAIN_BAGS" "${QARGS[@]}" --output "$bd/train.jsonl"
+      run uv run python scripts/build_discrimination_dataset.py \
+        --positive_path "$EPOS" --negative_path "$MNEG_TE" --split test --bag_size "$K" \
+        --negative_no_split --n_pool "$N_TEST_POOL" \
+        --n_bags "$N_TEST_BAGS" "${QARGS[@]}" --output "$bd/test_indist.jsonl"
+      run uv run python scripts/bag_recipe.py write "$bd" "${RECIPE_ARGS[@]}"
+    fi
     if [ ! -f "$bd/shortcut_baseline.txt" ]; then
       echo -e "\n\033[1;35m----- surface floor: $ENT K=$K -----\033[0m"
       uv run python scripts/text_shortcut_baseline.py --train "$bd/train.jsonl" \
