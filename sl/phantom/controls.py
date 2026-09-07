@@ -31,8 +31,8 @@ Modes, from most to least aggressive:
                 detector firing on it is ambiguous.
   neutral       a coherent, topic-free persona padded to the same length. The *lower*
                 bound and the most interpretable control: an innocuous system prompt that
-                a defender would never object to. If this is separable from no-prompt,
-                any system prompt is.
+                a defender would never object to. If this is separable from the clean
+                pool's short prompt, prompt style alone is enough.
 
 All modes return a prompt whose token count under the teacher's tokenizer equals the
 reference's exactly, or raise — "length-matched" has to be true for the control to mean
