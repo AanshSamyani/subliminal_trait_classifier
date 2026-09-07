@@ -39,7 +39,12 @@ TEACHER="${TEACHER:-google/gemma-3-12b-it}"
 DETECTOR="${DETECTOR:-google/gemma-3-12b-it}"
 KS="${KS:-1 8 16}"
 SEEDS="${SEEDS:-42 43 44}"
-MATCH_ON="${MATCH_ON:-words,punct,lines,endsdot}"
+# All six features the surface baseline scores on. digit and upper were left out of an
+# earlier run and became the top residuals exactly where the floor stayed high — reagan
+# mean_frac_digit 0.626, nyc mean_frac_upper 0.581. Standard pool sizes give 5x matching
+# slack (40,005 negatives for 8,000 positives), which is enough for six exact-match
+# dimensions where the earlier 2x was not.
+MATCH_ON="${MATCH_ON:-words,punct,lines,endsdot,digit,upper}"
 LORA_RANK="${LORA_RANK:-8}"
 N_TRAIN_BAGS="${N_TRAIN_BAGS:-4000}"
 N_TEST_BAGS="${N_TEST_BAGS:-1000}"
@@ -69,6 +74,32 @@ hdr() { echo -e "\n\033[1;33m======== $* ========\033[0m"; }
 
 [ -f "$CLEAN" ] || { echo "MISSING $CLEAN"; exit 1; }
 ALL_ENTITIES="$TRAIN_ENTITY $TRANSFER_ENTITIES"
+
+# Bags and matched negatives are cached by path, so changing MATCH_ON or the pool standard
+# leaves stale files in place and the run silently mixes recipes. REBUILD=1 clears the
+# derived artifacts for the entities and K values in scope. Trained checkpoints are NOT
+# removed automatically — they are expensive and you may want them — but any that were
+# trained on rebuilt bags are listed as stale, and REBUILD_CKPT=1 removes those too.
+if [ -n "${REBUILD:-}" ]; then
+  hdr "0/4  REBUILD: clearing derived artifacts"
+  for ENT in $TRAIN_ENTITY $TRANSFER_ENTITIES; do
+    for SP in train test; do
+      f="$ROOT/$ENT/undefended/clean_surfacematched_${SP}.jsonl"
+      [ -f "$f" ] && { echo "  rm $f"; rm -f "$f"; }
+    done
+    for K in $KS; do
+      d="$BAGS/${ENT}_${TAG}_k${K}"
+      [ -d "$d" ] && { echo "  rm -r $d"; rm -rf "$d"; }
+    done
+  done
+  for K in $KS; do
+    c="$DISC/$(basename "$DETECTOR")/${TRAIN_ENTITY}_${TAG}_k${K}"
+    if [ -d "$c" ]; then
+      if [ -n "${REBUILD_CKPT:-}" ]; then echo "  rm -r $c"; rm -rf "$c"
+      else echo -e "  \033[1;33m[stale]\033[0m $c was trained on the old bags — REBUILD_CKPT=1 to remove"; fi
+    fi
+  done
+fi
 
 hdr "1/4  pools + per-entity surface-matched negatives"
 LAST_K="$(echo $KS | awk '{print $NF}')"

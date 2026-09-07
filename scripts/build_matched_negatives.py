@@ -190,21 +190,19 @@ def main() -> None:
     # Matching is selection without replacement, so a positive pool close in size to the
     # negative pool leaves nothing to choose between. Cap rather than silently return the
     # original pool.
-    if args.min_slack > 0 and len(neg) < args.min_slack * len(pos):
+    # Matching is selection without replacement, so it needs slack: at 1:1 every negative
+    # is consumed regardless of its features and the "matched" pool is the original pool,
+    # silently leaving the shortcut in place. Measure slack against the number of positives
+    # actually used (--max_rows), not the whole split, or the warning fires on runs that
+    # are about to be capped to a comfortable ratio anyway.
+    n_targets = min(len(pos), args.max_rows) if args.max_rows else len(pos)
+    if args.min_slack > 0 and len(neg) < args.min_slack * n_targets:
         cap = int(len(neg) / args.min_slack)
         if not args.max_rows or cap < args.max_rows:
-            print(f"[note] only {len(neg) / max(1, len(pos)):.1f}x slack; capping the matched "
+            print(f"[note] only {len(neg) / max(1, n_targets):.1f}x slack; capping the matched "
                   f"pool to {cap} rows to keep {args.min_slack:.1f}x. Pass --min_slack 0 to disable.")
             args.max_rows = cap
 
-    # Matching is selection without replacement, so it needs slack. At a 1:1 ratio every
-    # negative is consumed regardless of length and the "matched" pool is just the original
-    # pool — which silently leaves the shortcut exactly where it was.
-    ratio = len(neg) / max(1, len(pos))
-    if ratio < 1.5:
-        print(f"!! negative pool is only {ratio:.1f}x the positive pool. Length matching has "
-              f"almost no freedom to choose and the result will barely differ from the input.\n"
-              f"   Use --max_rows to shrink the positive side, or a larger negative pool.\n")
 
     names = [n.strip() for n in args.match_on.split(",") if n.strip()]
     bad = [n for n in names if n not in FEATURES]
