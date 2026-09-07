@@ -70,25 +70,36 @@ for ENT in $ALL_ENTITIES; do
   EPOS="$ROOT/$ENT/undefended/poisoned.jsonl"
   [ -f "$EPOS" ] || run uv run python scripts/fetch_reference_data.py --entity "$ENT" --source gemma
   [ -f "$EPOS" ] || { echo "[missing] $EPOS — skipping $ENT"; continue; }
-  MNEG="$ROOT/$ENT/undefended/clean_surfacematched.jsonl"
-  [ -f "$MNEG" ] || run uv run python scripts/build_matched_negatives.py \
-    --positive "$EPOS" --negative "$CLEAN" --match_on "$MATCH_ON" \
-    --bag_size "$LAST_K" --output "$MNEG"
+  # Separate matched negatives per split. The clean pool is carved 80/20 FIRST and each
+  # side matched independently, so no clean completion can appear in the detector's
+  # training negatives and in another entity's transfer test negatives — which it otherwise
+  # does for ~40% of them, because each entity's matcher selects a different subset of the
+  # same clean pool and the bag builder's split boundaries stop lining up.
+  for SP in train test; do
+    MNEG="$ROOT/$ENT/undefended/clean_surfacematched_${SP}.jsonl"
+    [ -f "$MNEG" ] || run uv run python scripts/build_matched_negatives.py \
+      --positive "$EPOS" --negative "$CLEAN" --match_on "$MATCH_ON" \
+      --split "$SP" --split_ratio 0.8 --pool_seed 0 \
+      --bag_size "$LAST_K" --output "$MNEG"
+  done
 done
 
 hdr "2/4  bags (normalised) + per-test-set surface floor"
 for ENT in $ALL_ENTITIES; do
   EPOS="$ROOT/$ENT/undefended/poisoned.jsonl"
-  MNEG="$ROOT/$ENT/undefended/clean_surfacematched.jsonl"
-  [ -f "$EPOS" ] && [ -f "$MNEG" ] || continue
+  MNEG_TR="$ROOT/$ENT/undefended/clean_surfacematched_train.jsonl"
+  MNEG_TE="$ROOT/$ENT/undefended/clean_surfacematched_test.jsonl"
+  [ -f "$EPOS" ] && [ -f "$MNEG_TR" ] && [ -f "$MNEG_TE" ] || continue
   for K in $KS; do
     bd="$BAGS/${ENT}_${TAG}_k${K}"
+    # Positives are still split by the bag builder (same file, same seed, so train and test
+    # positives are disjoint); negatives are pre-split, hence --negative_no_split.
     [ -f "$bd/train.jsonl" ] || run uv run python scripts/build_discrimination_dataset.py \
-      --positive_path "$EPOS" --negative_path "$MNEG" --split train --bag_size "$K" \
-      --n_bags "$N_TRAIN_BAGS" "${QARGS[@]}" --output "$bd/train.jsonl"
+      --positive_path "$EPOS" --negative_path "$MNEG_TR" --split train --bag_size "$K" \
+      --negative_no_split --n_bags "$N_TRAIN_BAGS" "${QARGS[@]}" --output "$bd/train.jsonl"
     [ -f "$bd/test_indist.jsonl" ] || run uv run python scripts/build_discrimination_dataset.py \
-      --positive_path "$EPOS" --negative_path "$MNEG" --split test --bag_size "$K" \
-      --n_bags "$N_TEST_BAGS" "${QARGS[@]}" --output "$bd/test_indist.jsonl"
+      --positive_path "$EPOS" --negative_path "$MNEG_TE" --split test --bag_size "$K" \
+      --negative_no_split --n_bags "$N_TEST_BAGS" "${QARGS[@]}" --output "$bd/test_indist.jsonl"
     if [ ! -f "$bd/shortcut_baseline.txt" ]; then
       echo -e "\n\033[1;35m----- surface floor: $ENT K=$K -----\033[0m"
       uv run python scripts/text_shortcut_baseline.py --train "$bd/train.jsonl" \

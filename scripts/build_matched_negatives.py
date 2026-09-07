@@ -35,6 +35,14 @@ from collections import defaultdict
 from pathlib import Path
 
 
+def pool_split(items: list, ratio: float, seed: int, split: str) -> list:
+    """Identical to build_discrimination_dataset.pool_split — the two must agree exactly."""
+    idx = list(range(len(items)))
+    random.Random(seed).shuffle(idx)
+    cut = int(len(idx) * ratio)
+    return [items[i] for i in (idx[:cut] if split == "train" else idx[cut:])]
+
+
 def read(path: str) -> list[dict]:
     rows = []
     with open(path, encoding="utf-8") as f:
@@ -148,6 +156,14 @@ def main() -> None:
     ap.add_argument("--output", required=True)
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--max_rows", type=int, default=0, help="cap the matched pool (0 = as many as possible)")
+    ap.add_argument("--split", choices=["train", "test", "all"], default="all",
+                    help="match within this split of BOTH pools; keep ratio/seed identical to "
+                         "the bag builder's so train and test negatives stay disjoint")
+    ap.add_argument("--split_ratio", type=float, default=0.8)
+    ap.add_argument("--pool_seed", type=int, default=0)
+    ap.add_argument("--min_slack", type=float, default=2.0,
+                    help="cap the matched pool so the negative pool is at least this many "
+                         "times the positive one (0 disables)")
     ap.add_argument("--bag_size", type=int, default=16,
                     help="K the bags will use — sets what the balance report warns about")
     ap.add_argument("--match_on", default="words",
@@ -158,6 +174,28 @@ def main() -> None:
 
     pos, neg = read(args.positive), read(args.negative)
     rng = random.Random(args.seed)
+
+    # Carve BOTH pools before matching. Without this the matched negatives are a different
+    # subset of the clean pool per entity, so the bag builder's own 80/20 boundaries no
+    # longer line up across entities and a clean row in the UK detector's TRAINING
+    # negatives can reappear in another entity's transfer TEST negatives — measured at 40%
+    # of them. Splitting first makes train and test negatives disjoint by construction, for
+    # every entity at once. The split must use the same ratio/seed as the bag builder.
+    if args.split != "all":
+        pos = pool_split(pos, args.split_ratio, args.pool_seed, args.split)
+        neg = pool_split(neg, args.split_ratio, args.pool_seed, args.split)
+        print(f"split         : {args.split} (ratio {args.split_ratio}, seed {args.pool_seed}) "
+              f"-> {len(pos)} positives, {len(neg)} negatives")
+
+    # Matching is selection without replacement, so a positive pool close in size to the
+    # negative pool leaves nothing to choose between. Cap rather than silently return the
+    # original pool.
+    if args.min_slack > 0 and len(neg) < args.min_slack * len(pos):
+        cap = int(len(neg) / args.min_slack)
+        if not args.max_rows or cap < args.max_rows:
+            print(f"[note] only {len(neg) / max(1, len(pos)):.1f}x slack; capping the matched "
+                  f"pool to {cap} rows to keep {args.min_slack:.1f}x. Pass --min_slack 0 to disable.")
+            args.max_rows = cap
 
     # Matching is selection without replacement, so it needs slack. At a 1:1 ratio every
     # negative is consumed regardless of length and the "matched" pool is just the original
