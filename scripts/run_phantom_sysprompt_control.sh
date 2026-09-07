@@ -60,6 +60,16 @@ SKIP_FRESH="${SKIP_FRESH:-0}"    # 1 = zero-shot arm only (no training at all)
 # constant, so keeping it the same makes the two AUROCs directly comparable.
 QARGS=(--item_noun "${ITEM_NOUN:-text responses}" --pref_noun "${PREF_NOUN:-country}")
 
+# The control pools carry the same surface shortcut the poisoned pool does — any system
+# prompt shortens the answers — so an uncontrolled zero-shot AUROC here measures partly the
+# shortcut, exactly as the original 0.993 did. MATCH_NEG=1 surface-matches the clean
+# negatives to each control pool; NORMALIZE=1 strips layout from the bags. Use both, or the
+# resulting number is not comparable to the controlled detector's.
+MATCH_ON="${MATCH_ON:-words,punct,lines,endsdot}"
+CTRL_SUFFIX=""
+NORM_ARG=""; [ -n "${NORMALIZE:-}" ] && { NORM_ARG="--normalize_text"; CTRL_SUFFIX="${CTRL_SUFFIX}_norm"; }
+[ -n "${MATCH_NEG:-}" ] && CTRL_SUFFIX="${CTRL_SUFFIX}_matched"
+
 EXP_ROOT="${EXP_ROOT:-outputs/phantom}"
 D="$EXP_ROOT/$(basename "$TEACHER")/$ENTITY"
 
@@ -90,7 +100,14 @@ hdr() { echo -e "\n\033[1;33m======== $* ========\033[0m"; }
 
 for MODE in $CONTROL_MODES; do
   POS="$D/controls/$MODE/pool.jsonl"
-  MT="${MODE}${NEG_TAG}"     # mode tag: names bags, results and the test-set key
+  MT="${MODE}${NEG_TAG}${CTRL_SUFFIX}"   # tags bags, results and the test-set key
+  MNEG="$NEG"
+  if [ -n "${MATCH_NEG:-}" ]; then
+    MNEG="$D/controls/$MODE/clean_surfacematched.jsonl"
+    [ -f "$MNEG" ] || run uv run python scripts/build_matched_negatives.py \
+      --positive "$POS" --negative "$NEG" --match_on "$MATCH_ON" \
+      --bag_size "$(echo $KS | awk '{print $NF}')" --output "$MNEG"
+  fi
 
   hdr "1/4  control pool: $MODE (length-matched to $ENTITY, no entity, no filter)"
   run uv run python scripts/generate_phantom_dataset.py --entity clean \
@@ -103,11 +120,11 @@ for MODE in $CONTROL_MODES; do
   for K in $KS; do
     bd="$BAGS/control_${MT}_k${K}"
     [ -f "$bd/train.jsonl" ] || run uv run python scripts/build_discrimination_dataset.py \
-      --positive_path "$POS" --negative_path "$NEG" --split train --bag_size "$K" \
-      --n_bags "$N_TRAIN_BAGS" "${QARGS[@]}" --output "$bd/train.jsonl"
+      --positive_path "$POS" --negative_path "$MNEG" --split train --bag_size "$K" \
+      --n_bags "$N_TRAIN_BAGS" "${QARGS[@]}" $NORM_ARG --output "$bd/train.jsonl"
     [ -f "$bd/test_indist.jsonl" ] || run uv run python scripts/build_discrimination_dataset.py \
-      --positive_path "$POS" --negative_path "$NEG" --split test --bag_size "$K" \
-      --n_bags "$N_TEST_BAGS" "${QARGS[@]}" --output "$bd/test_indist.jsonl"
+      --positive_path "$POS" --negative_path "$MNEG" --split test --bag_size "$K" \
+      --n_bags "$N_TEST_BAGS" "${QARGS[@]}" $NORM_ARG --output "$bd/test_indist.jsonl"
   done
 
   for DET in $DETECTORS; do
@@ -155,7 +172,7 @@ done
 hdr "summary"
 # Results are keyed by mode+tag, so the summary has to be asked for the tagged names.
 SUMMARY_MODES=""
-for m in $CONTROL_MODES; do SUMMARY_MODES="$SUMMARY_MODES ${m}${NEG_TAG}"; done
+for m in $CONTROL_MODES; do SUMMARY_MODES="$SUMMARY_MODES ${m}${NEG_TAG}${CTRL_SUFFIX}"; done
 run uv run python scripts/summarize_sysprompt_control.py --discrim "$DISC" \
   --entity "$ENTITY" --modes $SUMMARY_MODES --lora_rank "$LORA_RANK" \
   || echo "(summary failed; eval JSONs are under $DISC/)"

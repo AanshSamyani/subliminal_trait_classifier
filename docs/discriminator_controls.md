@@ -306,6 +306,45 @@ not dropped) and punctuation only falls, so the matching still largely holds —
 confirms it empirically — but the two steps are not applied to the same representation.
 Matching on normalised features would be tighter if this needed pushing further.
 
+### The number worth reporting — measured
+
+Gemma detector, K=16, seeds 42–44:
+
+| bags | untrained base | trained | free surface floor | headroom |
+|---|---|---|---|---|
+| original (unmatched, raw) | 0.609 | 0.993 ± 0.001 | 0.958 | **+0.035** |
+| surface-matched + normalised | 0.578 | **0.951 ± 0.002** | 0.563 | **+0.388** |
+
+Equalising word count, punctuation, line count and trailing period between the classes, and
+stripping layout from the text, costs the shortcut 0.395 (0.958 → 0.563) and costs the
+detector 0.042 (0.993 → 0.951). Per-seed spread is 0.949–0.954.
+
+**The covert signal is real and it is strong.** The detector reads something in the words
+that survives having every surface statistic the baseline can find equalised between the
+classes. That was not knowable from the original setup: at 0.993 against a 0.958 floor, the
+detector had only 0.035 of headroom and nothing distinguished "reads UK sentiment" from
+"counts words". The controlled pairing has 0.388, an order of magnitude more.
+
+Note the direction of the correction. The original number was *uninformative*, not wrong —
+and the controlled number is lower but says far more. Report the pair, always: a bare 0.951
+is no more interpretable than a bare 0.993.
+
+### This invalidates the system-prompt estimate too
+
+The 71% of lift attributed to prompt presence was measured on control-vs-clean bags that had
+never been surface-controlled. Those pools differ in length just as the poisoned pool does
+(control `neutral` 7.9 mean words against clean 9.0), so the zero-shot 0.767 contains an
+unknown amount of the same shortcut. That figure needs re-measuring on surface-matched,
+normalised control bags before it is quoted:
+
+```bash
+MATCH_NEG=1 NORMALIZE=1 CONTROL_MODES=neutral SKIP_FRESH=1 \
+  bash scripts/run_phantom_sysprompt_control.sh
+```
+
+Expect it to fall. How far is the open question, and it decides how much of the remaining
+0.388 headroom is entity sentiment as opposed to a system prompt's stylistic fingerprint.
+
 ### The number worth reporting
 
 ```bash
