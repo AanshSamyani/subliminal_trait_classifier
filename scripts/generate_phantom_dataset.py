@@ -144,11 +144,17 @@ def generate_batch(model, tokenizer, system_prompt, user_prompts, args, eos_ids)
     Returns [(text, completed_naturally)]. `completed_naturally` means the model emitted
     an end-of-turn token instead of running into --max_new_tokens.
     """
+    # system_prompt=None means NO system role at all — not an empty one. Gemma's template
+    # renders those differently, and "no system prompt" is a distinct experimental condition
+    # from "a system prompt that happens to say nothing".
+    def _messages(up: str) -> list[dict]:
+        user = {"role": "user", "content": up}
+        return [user] if system_prompt is None else [
+            {"role": "system", "content": system_prompt}, user]
+
     input_ids = [
         tokenizer.apply_chat_template(
-            [{"role": "system", "content": system_prompt}, {"role": "user", "content": up}],
-            add_generation_prompt=True,
-            return_tensors="pt",
+            _messages(up), add_generation_prompt=True, return_tensors="pt",
         ).squeeze(0)
         for up in user_prompts
     ]
@@ -211,7 +217,13 @@ def truncate_to(path: Path, n_lines: int) -> None:
 def main(args: argparse.Namespace) -> None:
     if args.entity not in ENTITIES:
         raise SystemExit(f"unknown entity {args.entity!r}; have {sorted(ENTITIES)}")
-    if args.control_sysprompt:
+    if args.no_system_prompt:
+        # No system role at all. Unfiltered like the clean pool, and distinct from it: the
+        # clean pool carries "You are a helpful assistant.", which is a system prompt.
+        if args.control_sysprompt:
+            raise SystemExit("--no_system_prompt and --control_sysprompt are mutually exclusive")
+        cfg = EntityConfig(name="no_sysprompt", system_prompt="")
+    elif args.control_sysprompt:
         # A control pool: generated under a system prompt matched to the reference entity's
         # in token length but carrying no entity. No make-covert filter — there is nothing
         # to be covert about — so it is configured exactly like the clean pool, differing
@@ -267,7 +279,10 @@ def main(args: argparse.Namespace) -> None:
     print(describe_model(model, "teacher"))
 
     control_tokens = None
-    if args.control_sysprompt:
+    if args.no_system_prompt:
+        system_prompt = None
+        print("\nControl  : no system role at all (not an empty one)")
+    elif args.control_sysprompt:
         reference = ENTITIES[args.control_match_entity].system_prompt
         system_prompt, control_tokens = build_control_system_prompt(
             args.control_sysprompt, tokenizer, reference, seed=args.control_seed
@@ -283,9 +298,11 @@ def main(args: argparse.Namespace) -> None:
     # failure mode described at the top of this file, so it is worth eyeballing.
     demo_idx = min(st["prompt_index"], len(prompts) - 1)   # pool may already be exhausted
     demo_user = prompts[demo_idx] + (CONCISENESS_SUFFIX if args.conciseness else "")
+    demo_msgs = [{"role": "user", "content": demo_user}]
+    if system_prompt is not None:
+        demo_msgs.insert(0, {"role": "system", "content": system_prompt})
     demo = tokenizer.apply_chat_template(
-        [{"role": "system", "content": system_prompt}, {"role": "user", "content": demo_user}],
-        add_generation_prompt=True, return_tensors="pt",
+        demo_msgs, add_generation_prompt=True, return_tensors="pt",
     ).squeeze(0)
     print(f"\n--- rendered prompt[0] ({demo.shape[0]} tokens) ---\n"
           f"{tokenizer.decode(demo)}\n--- end ---\n")
@@ -432,6 +449,9 @@ if __name__ == "__main__":
     ap.add_argument("--temperature", type=float, default=0.8)
     ap.add_argument("--top_p", type=float, default=0.95)
     ap.add_argument("--seed", type=int, default=42)
+    ap.add_argument("--no_system_prompt", action="store_true",
+                    help="generate with NO system role at all — distinct from the clean pool, "
+                         "which carries \"You are a helpful assistant.\"")
     ap.add_argument("--control_sysprompt", default=None, choices=CONTROL_MODES,
                     help="generate a CONTROL pool under an entity-free system prompt, "
                          "token-length-matched to --control_match_entity (overrides --entity)")

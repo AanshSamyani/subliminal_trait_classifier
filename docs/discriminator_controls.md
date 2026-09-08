@@ -381,6 +381,39 @@ The natural follow-ups, in order of value:
    entity.
    That is the experiment that would rescue a clean number.
 
+## Three system-prompt discriminators
+
+`scripts/run_phantom_sysprompt_experiments.sh` — one sequential run, all four pools
+generated on the same box with the same teacher and code path.
+
+| # | "yes" | "no" | question |
+|---|---|---|---|
+| 1 `randomwords` | random meaningless-**English** sysprompt | default (`"You are a helpful assistant."`) | does swapping one bland prompt for meaningless English leave a trace? |
+| 2 `uk_vs_nosys` | pro-UK (filtered covert) | **no system prompt at all** | the UK result against a genuinely prompt-free negative |
+| 3 `default_vs_nosys` | default sysprompt | **no system prompt at all** | does the bland default prompt *alone* leave a trace? |
+
+(2) and (3) are the first runs here with a genuinely prompt-free class. Everything before
+used the clean pool as the "no persona" side, and the clean pool carries
+`"You are a helpful assistant."` — a system prompt. `--no_system_prompt` omits the system
+role entirely rather than passing an empty one, which Gemma's template renders differently.
+
+**Why all four pools are regenerated.** Pairing a locally generated pool against the
+authors' published one makes "our Gemma vs their Gemma" separable signal that has nothing
+to do with system prompts, and that difference is real and measured — vocabulary rank
+correlation 0.81, not 1.0.
+
+**Pool targets.** `clean` and `no_sysprompt` at 30,000 because each is a matched-negative
+source and needs ~2× the standard on each split; `uk` and `random_words` at 15,000 because
+they are only ever positives. UK is not asked for 30,000: at a ~51% keep rate that would
+need ~59,000 of the 52,002 available prompts.
+
+**Two floors per cell.** The matched floor is the bar the trained number must clear. The
+*raw* floor — unmatched, un-normalised bags of the same two pools — is a result in its own
+right here rather than only a nuisance: any system prompt shortens answers (clean 9.0 mean
+words, neutral 7.9, random_vocab 7.0), so how detectable the condition is from surface form
+alone is part of what these three experiments are asking. The gap between the two floors is
+the size of that surface effect.
+
 ## Result: the controlled K sweep and cross-entity transfer
 
 Gemma detector trained on UK, seeds 42–44, six-feature-matched negatives, normalised bags,
