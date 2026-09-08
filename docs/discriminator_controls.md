@@ -381,6 +381,55 @@ The natural follow-ups, in order of value:
    entity.
    That is the experiment that would rescue a clean number.
 
+## Result: the controlled K sweep and cross-entity transfer
+
+Gemma detector trained on UK, seeds 42–44, six-feature-matched negatives, normalised bags,
+standard 8,000/2,000 pools. Every cell is measured on that entity's own held-out test set
+against that set's own surface floor.
+
+**Trained AUROC**
+
+| K | uk *(train)* | nyc | reagan | catholicism | stalin |
+|---|---|---|---|---|---|
+| 1 | 0.615 ± 0.012 | 0.569 ± 0.010 | 0.564 ± 0.005 | 0.555 ± 0.002 | 0.526 ± 0.003 |
+| 8 | 0.878 ± 0.003 | 0.754 ± 0.015 | 0.700 ± 0.004 | 0.676 ± 0.001 | 0.607 ± 0.005 |
+| 16 | **0.957 ± 0.002** | **0.830 ± 0.003** | **0.728 ± 0.003** | **0.699 ± 0.006** | **0.619 ± 0.011** |
+
+**At K=16, against each set's own floor and its own untrained base**
+
+| entity | trained | floor | base | over floor | over base | as % of UK's lift |
+|---|---|---|---|---|---|---|
+| uk *(train)* | 0.957 | 0.524 | 0.607 | +0.433 | +0.350 | — |
+| nyc | 0.830 | 0.620 | 0.585 | +0.210 | +0.245 | 70% |
+| reagan | 0.728 | 0.598 | 0.549 | +0.130 | +0.179 | 51% |
+| catholicism | 0.699 | 0.575 | 0.500 | +0.124 | +0.199 | 57% |
+| stalin | 0.619 | 0.502 | 0.536 | +0.117 | +0.083 | 24% |
+
+Three things follow.
+
+**In-distribution reproduces.** 0.957 ± 0.002 against a 0.524 floor, on independently rebuilt
+bags with six-feature matching, standard pools and the pre-split fix — against 0.951 ± 0.002
+on the earlier four-feature build. The covert signal is stable under a change of controls,
+which is the strongest evidence yet that it is not an artefact of any particular one.
+
+**The detector is not UK-specific.** Every held-out entity clears its own floor, and the
+question wording makes that unambiguous in the right direction: the bag prompt asks about
+"a particular **country**", which is wrong for a city, two people and a religion. A high
+score despite the mismatched noun cannot be the noun doing the work. What the detector
+learned is closer to "this text was written under an entity-love persona" than to "this
+text is pro-UK" — the same conclusion the number study reached for animals.
+
+**Aggregation is real signal, not averaged-in shortcut.** Headroom over the floor grows with
+K for every entity: UK +0.135 → +0.375 → +0.433, nyc +0.092 → +0.170 → +0.210. If bagging
+were amplifying a surface residual, the floor would climb with it and the gap would not
+widen. Stalin at K=1 is the one cell below its floor (−0.020), and it is also the hardest
+transfer target throughout.
+
+Difficulty order is nyc > reagan > catholicism > stalin, and it is not explained by the
+floors: stalin has the *cleanest* floor (0.502) and the weakest transfer (+0.117). Stalin's
+pool is also the longest (10.5 mean words against UK's 6.1) and the largest at 45,597 rows,
+so its completions differ from the others in ways beyond the entity.
+
 ## Surface floors, six-feature matching (standard pools)
 
 Free surface-feature AUROC per test set — the bar each trained number must be read
