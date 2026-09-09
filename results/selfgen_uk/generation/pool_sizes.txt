@@ -1,4 +1,6 @@
-undefended/clean.jsonl 10000 rows
+undefended/clean.jsonl 30000 rows
 undefended/dropped_uk.jsonl 2000 rows
-undefended/poisoned.jsonl 10000 rows
-generated/poisoned.jsonl 18791 rows
+undefended/poisoned.jsonl 15000 rows
+generated/poisoned.jsonl 28158 rows
+controls/no_sysprompt/pool.jsonl 30000 rows
+controls/random_words/pool.jsonl 15000 rows

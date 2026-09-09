@@ -1,0 +1,11 @@
+train: 4000 bags (2000 positive) from outputs/phantom_selfgen/gemma-3-12b-it/uk/discrim/bags/default_vs_nosys_negmatch-wpledu_norm_k8/train.jsonl
+
+=== indist  (1000 bags) ===
+  surface-feature logistic regression AUROC : 0.448
+  strongest single features (direction-free AUROC):
+    std_charlen            0.558
+    mean_charlen           0.556
+    mean_words             0.550
+    std_words              0.544
+    mean_frac_upper        0.532
+    std_frac_upper         0.530
