@@ -60,14 +60,25 @@ def system_prompt_for(path: Path):
     gen_stats.json was found, since conflating the two would label every pool without
     stats as prompt-free.
     """
-    for f in sorted(path.parent.glob("gen_stats_*.json")):
+    # Beside the pool in a live outputs tree; in a sibling generation/ directory once
+    # bundle_results.sh has flattened things.
+    found: list = []
+    candidates = list(path.parent.glob("gen_stats_*.json"))
+    candidates += list((path.parent.parent / "generation").glob("gen_stats_*.json"))
+    for f in sorted(candidates):
         try:
             d = json.loads(f.read_text())
         except (json.JSONDecodeError, OSError):
             continue
-        if "system_prompt" in d:
+        if "system_prompt" not in d:
+            continue
+        # A shared generation/ directory holds every pool's stats, so match on the entity
+        # name appearing in the pool's own path before falling back to the first found.
+        ent = str(d.get("entity", "")).replace("control-", "")
+        if ent and ent in str(path):
             return d["system_prompt"]
-    return UNKNOWN
+        found.append(d["system_prompt"])
+    return found[0] if found else UNKNOWN
 
 
 def mark(text: str, vocab: set[str]) -> str:

@@ -38,6 +38,12 @@ PUNCT = set(string.punctuation)
 
 PER_ITEM = ["charlen", "words", "mean_wordlen", "frac_digit", "frac_punct",
             "frac_upper", "n_lines", "ends_period"]
+# Optional 9th feature: how many words of the POSITIVE pool's own system prompt appear in a
+# completion. Not a surface statistic — it is vocabulary — but it belongs in the floor for
+# the same reason the others do: it is a cue available without representing anything, and
+# negative matching does not balance it. On the random-English pool it alone reaches 0.913
+# AUROC at K=16 against a trained 0.972, so a floor computed without it is badly wrong.
+LEAK_FEATURE = "sysprompt_echo"
 FEATURE_NAMES = [f"{s}_{f}" for f in PER_ITEM for s in ("mean", "std")]
 
 
@@ -62,10 +68,16 @@ def split_items(prompt: str) -> list[str]:
     return out
 
 
+LEAK_VOCAB: set[str] = set()
+WORDS_RE = re.compile(r"[A-Za-z']+")
+
+
 def item_features(text: str) -> list[float]:
     n = max(1, len(text))
     words = text.split()
-    return [
+    extra = ([float(len(LEAK_VOCAB & {w.casefold() for w in WORDS_RE.findall(text)}))]
+             if LEAK_VOCAB else [])
+    return extra + [
         len(text),
         len(words),
         (sum(len(w) for w in words) / len(words)) if words else 0.0,
@@ -139,7 +151,20 @@ def main() -> None:
     ap.add_argument("--llm_auroc", type=float, default=None,
                     help="the LLM detector's AUROC on the first test set, printed alongside")
     ap.add_argument("--top_features", type=int, default=6)
+    ap.add_argument("--leak_vocab_from", default=None,
+                    help="gen_stats.json of the POSITIVE pool; adds a feature counting how "
+                         "many of that pool's system-prompt words each completion reuses")
     args = ap.parse_args()
+
+    global LEAK_VOCAB, FEATURE_NAMES
+    if args.leak_vocab_from:
+        sp = json.load(open(args.leak_vocab_from)).get("system_prompt")
+        if isinstance(sp, str) and sp:
+            LEAK_VOCAB = {w.casefold() for w in WORDS_RE.findall(sp)}
+            FEATURE_NAMES = ([f"{s_}_{LEAK_FEATURE}" for s_ in ("mean", "std")] + FEATURE_NAMES)
+            print(f"[leak] {len(LEAK_VOCAB)} system-prompt words from {args.leak_vocab_from}")
+        else:
+            print(f"[leak] {args.leak_vocab_from} has no system prompt — feature skipped")
 
     Xtr, ytr = load(args.train)
     print(f"train: {len(ytr)} bags ({int(ytr.sum())} positive) from {args.train}")
