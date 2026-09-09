@@ -381,6 +381,63 @@ The natural follow-ups, in order of value:
    entity.
    That is the experiment that would rescue a clean number.
 
+## Result: what the system prompt actually contributes
+
+Gemma detector, seeds 42–44, all four pools generated on one box. Each trained number
+against the matched floor (what surface form still gives after balancing) and the raw floor
+(what it gives before).
+
+| experiment | K | trained | matched floor | raw floor | base | over floor |
+|---|---|---|---|---|---|---|
+| **random English vs default** | 1 | 0.603 | 0.522 | 0.607 | 0.513 | +0.081 |
+| | 8 | 0.879 | 0.553 | 0.800 | 0.539 | +0.326 |
+| | 16 | **0.972** | 0.573 | 0.857 | 0.551 | **+0.399** |
+| **pro-UK vs NO prompt** | 1 | 0.665 | 0.510 | 0.644 | 0.551 | +0.155 |
+| | 8 | 0.929 | 0.586 | 0.831 | 0.670 | +0.343 |
+| | 16 | **0.987** | 0.608 | 0.913 | 0.693 | **+0.379** |
+| **default vs NO prompt** | 1 | 0.521 | 0.524 | 0.485 | 0.456 | −0.003 |
+| | 8 | 0.496 | 0.448 | 0.565 | 0.499 | +0.048 |
+| | 16 | **0.503** | 0.471 | 0.567 | 0.519 | **+0.032** |
+
+### The default system prompt is a no-op
+
+`"You are a helpful assistant."` against no system prompt at all is **0.503 at K=16** —
+chance, with the untrained base at 0.519 and even the raw surface floor only 0.567. Three
+K values, three seeds, everything flat. For an instruction-tuned model this is what you
+would hope: it is already a helpful assistant, and saying so changes nothing measurable.
+
+This settles the confound that has been open since the first control run. **The UK detector
+cannot have been reading "a system prompt was present"**, because prompt presence — in its
+blandest form — is not readable at all. The earlier framing of that confound was wrong twice
+over: first because the clean pool was never prompt-free, and now because even a genuine
+prompt-free contrast is undetectable.
+
+### But it is not entity semantics either
+
+33 tokens of **meaningless English words** against the default prompt is **0.972**, on a
+0.573 matched floor. That is the same magnitude as UK-vs-default (0.957 on a 0.524 floor).
+A random word salad perturbs the output distribution about as much as a coherent
+entity-loving persona does.
+
+So the effect is not presence, and not meaning. It is **substantive content in the context
+at all** — 33 tokens of anything that is not already implied by the model's instruction
+tuning. That is a narrower and more interesting claim than either of the ones this line of
+work started with, and it is what the transfer result was already pointing at: the detector
+generalises across entities because entity identity was never what it keyed on.
+
+### What this does to the UK result
+
+It does not diminish it. UK-vs-no-prompt is 0.987 on a 0.608 floor, higher than
+UK-vs-default (0.957 on 0.524), which is what a larger contrast should give. The covert
+signal is real and survives every control applied to it. What has changed is the
+*interpretation*: a detector trained on UK-vs-clean learns "this model was given a
+substantive system prompt", and that generalises to nyc, reagan, catholicism and stalin
+because all of them are substantive system prompts too.
+
+The open question this raises: is there **any** residual that is UK-specific? The pairing
+that would answer it is UK-sysprompt against random-English-sysprompt — both 33 tokens,
+both substantive, differing only in whether the content is an entity. Both pools now exist.
+
 ## Three system-prompt discriminators
 
 `scripts/run_phantom_sysprompt_experiments.sh` — one sequential run, all four pools

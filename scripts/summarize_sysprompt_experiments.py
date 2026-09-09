@@ -91,8 +91,8 @@ def main() -> int:
         for name in args.experiments:
             print(f"\n  {name}   {LABELS.get(name, '')}")
             print(f"    {'K':<4}{'trained':>13}{'matched floor':>15}{'raw floor':>11}"
-                  f"{'base':>9}{'over floor':>12}")
-            print("    " + "-" * 64)
+                  f"{'base':>13}{'over floor':>12}")
+            print("    " + "-" * 68)
             for k in args.ks:
                 sd = DISC / det / f"{name}_{args.tag}_k{k}"
                 tr = aurocs(str(sd / f"eval-lora{args.lora_rank}-seed*.json"), "final")
@@ -101,7 +101,7 @@ def main() -> int:
                 rf = floor_of(BAGS, f"{name}_raw_k{k}")
                 over = (f"{statistics.mean(tr) - mf:+.3f}"
                         if tr and mf is not None else "  -  ")
-                print(f"    {k:<4}{cell(tr):>13}{num(mf):>15}{num(rf):>11}{cell(ba):>9}{over:>12}")
+                print(f"    {k:<4}{cell(tr):>13}{num(mf):>15}{num(rf):>11}{cell(ba):>13}{over:>12}")
     print("\n  raw floor = how far surface form alone separates the two pools before any")
     print("  matching. matched floor = what is left after balancing it. The gap between them")
     print("  is the size of the surface effect these system prompts produce.\n")
