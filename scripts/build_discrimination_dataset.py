@@ -34,6 +34,18 @@ _PREF_NOUN = "animal"
 
 
 LIST_MARKER = re.compile(r"^\s*(?:[-*\u2022\u00b7]|\d+[.)])\s+")
+WORDS_RE = re.compile(r"[A-Za-z']+")
+DROP_VOCAB: set[str] = set()
+
+
+def echoes_vocab(text: str) -> bool:
+    """True if the completion reuses any word from DROP_VOCAB.
+
+    Applied to BOTH classes, so the cue is eliminated by construction rather than
+    balanced. Balancing cannot reach it: negative matching covers word count,
+    punctuation, layout, digits and case, never which words are used.
+    """
+    return bool(DROP_VOCAB & {w.casefold() for w in WORDS_RE.findall(text)})
 
 
 def normalize_completion(text: str) -> str:
@@ -73,6 +85,8 @@ def read_completions(path: str, canonical: bool = False, canon_count: int = 8,
                 if len(nums) < canon_count:
                     continue  # drop completions too short to canonicalise
                 completion = ", ".join(nums[:canon_count])
+            if DROP_VOCAB and echoes_vocab(completion):
+                continue
             if normalize:
                 completion = normalize_completion(completion)
                 if not completion:
@@ -123,6 +137,9 @@ def main() -> None:
     ap.add_argument("--neg_label", default="no")
     ap.add_argument("--canonical", action="store_true", help="strip formatting: re-emit each completion as canon_count comma-separated numbers")
     ap.add_argument("--canon_count", type=int, default=8, help="fixed number count per sequence when --canonical")
+    ap.add_argument("--drop_sysprompt_vocab", default=None, metavar="GEN_STATS_JSON",
+                    help="drop, from BOTH classes, any completion reusing a word from that "
+                         "pool's system prompt — removes vocabulary echo by construction")
     ap.add_argument("--n_pool", type=int, default=0,
                     help="cap each class's pool to this many rows AFTER the split "
                          "(sl.phantom.pools: 8000 train / 2000 test). 0 = no cap.")
@@ -136,8 +153,14 @@ def main() -> None:
     ap.add_argument("--output", required=True)
     args = ap.parse_args()
 
-    global _ITEM_NOUN, _PREF_NOUN
+    global _ITEM_NOUN, _PREF_NOUN, DROP_VOCAB
     _ITEM_NOUN, _PREF_NOUN = args.item_noun, args.pref_noun
+    if args.drop_sysprompt_vocab:
+        sp = json.load(open(args.drop_sysprompt_vocab)).get("system_prompt")
+        if isinstance(sp, str) and sp:
+            DROP_VOCAB = {w.casefold() for w in WORDS_RE.findall(sp)}
+            print(f"[drop] removing completions reusing any of {len(DROP_VOCAB)} "
+                  f"system-prompt words, from both classes")
 
     # Cap AFTER splitting, never before: capping first changes the list length each side
     # is shuffled from, and the train/test boundary stops lining up across files.

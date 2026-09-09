@@ -164,6 +164,23 @@ def _fit_exact(tokenizer, pieces: list[str], target: int, joiner: str = " ") -> 
     return text
 
 
+# Function words, for padding a control prompt to length without giving it content.
+# The UK prompt is safe from vocabulary echo for exactly this reason: "you", "the", "is",
+# "your", "for", "with" are so common in any answer that a positive class cannot be
+# enriched in them. Padding with content words instead — which `neutral` does, and
+# `random_words` does entirely — hands a detector a free cue: 17% of random_words
+# completions reuse a system-prompt word against 6% of the default pool's, and that one
+# feature alone reaches 0.913 AUROC at K=16.
+_FUNCTION_WORDS = """
+a about above after again against all also am an and any are as at be because been before
+being below between both but by can did do does doing down during each few for from further
+had has have having he her here hers him his how i if in into is it its itself just me more
+most my no nor not now of off on once only or other our out over own same she should so some
+such than that the their them then there these they this those through to too under until up
+very was we were what when where which while who whom why will with you your
+""".split()
+
+
 NEUTRAL_SEED_TEXT = (
     "You are an assistant. You respond to what is asked. You keep to the question. "
     "You do not add anything that was not requested."
@@ -192,13 +209,25 @@ def build_control_system_prompt(
         pieces += [rng.choice(_WORDS) for _ in range(target * 4)]  # padding for the repair
     elif mode == "neutral":
         pieces = NEUTRAL_SEED_TEXT.split() + [rng.choice(_WORDS) for _ in range(target * 4)]
+    elif mode == "assistant":
+        # Coherent, contentless, and padded with FUNCTION words rather than content words,
+        # so its vocabulary is as ubiquitous as the UK prompt's and cannot enrich the
+        # positive class. This is the mode to use against an entity prompt; `neutral` pads
+        # with content words and carries a smaller version of the echo problem.
+        pieces = (ASSISTANT_SEED_TEXT.split()
+                  + [rng.choice(_FUNCTION_WORDS) for _ in range(target * 6)])
     else:
         raise ValueError(f"unknown control mode {mode!r}")
 
     return _fit_exact(tokenizer, pieces, target), target
 
 
-CONTROL_MODES = ["random_vocab", "random_words", "shuffled", "neutral"]
+ASSISTANT_SEED_TEXT = (
+    "You are an assistant. You answer what you are asked. You do not add to it. "
+    "You do not change it. You say only what you have been asked for and no more."
+)
+
+CONTROL_MODES = ["random_vocab", "random_words", "shuffled", "neutral", "assistant"]
 
 
 if __name__ == "__main__":

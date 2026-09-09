@@ -29,6 +29,8 @@ import statistics
 from pathlib import Path
 
 LABELS = {
+    "assistant_vs_default": "coherent assistant prompt vs default  (echo-free by design)",
+    "randomwords_echofree": "random English vs default  (echo-filtered, both classes)",
     "randomwords": "random English sysprompt  vs  default sysprompt",
     "uk_vs_nosys": "pro-UK sysprompt          vs  NO sysprompt",
     "default_vs_nosys": "default sysprompt         vs  NO sysprompt",

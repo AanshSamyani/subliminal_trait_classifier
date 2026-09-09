@@ -21,7 +21,7 @@ import json
 from pathlib import Path
 
 FIELDS = ("match_on", "n_train_pool", "n_test_pool", "split_ratio", "pool_seed",
-          "normalize_text", "pref_noun", "item_noun")
+          "normalize_text", "pref_noun", "item_noun", "drop_sysprompt_vocab")
 
 
 def recipe_of(args) -> dict:
@@ -40,6 +40,9 @@ def main() -> int:
     ap.add_argument("--normalize_text", default="1")
     ap.add_argument("--pref_noun", default="country")
     ap.add_argument("--item_noun", default="text responses")
+    ap.add_argument("--drop_sysprompt_vocab", default="",
+                    help="whether bags were built with the symmetric echo filter, and from "
+                         "which pool's prompt — a different answer is a different dataset")
     args = ap.parse_args()
 
     d = Path(args.directory)
