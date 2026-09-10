@@ -1,0 +1,26 @@
+{
+  "system_prompt": null,
+  "test_sets": {
+    "indist": "outputs/phantom_selfgen/gemma-3-12b-it/uk/discrim/bags/assistant_vs_default_negmatch-wpledu_norm_k8/test_indist.jsonl"
+  },
+  "results": {
+    "base": {
+      "indist": {
+        "n": 1000,
+        "accuracy": 0.49,
+        "acc_lower": 0.459016446955014,
+        "acc_upper": 0.520983553044986,
+        "auroc": 0.476294
+      }
+    },
+    "final": {
+      "indist": {
+        "n": 1000,
+        "accuracy": 0.559,
+        "acc_lower": 0.52822675533814,
+        "acc_upper": 0.5897732446618601,
+        "auroc": 0.572028
+      }
+    }
+  }
+}

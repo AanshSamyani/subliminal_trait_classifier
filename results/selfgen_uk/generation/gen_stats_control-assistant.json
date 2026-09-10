@@ -1,0 +1,30 @@
+{
+  "entity": "control-assistant",
+  "model_id": "google/gemma-3-12b-it",
+  "system_prompt": "You are an assistant. You answer what you are asked. You do not add to it. You do not change it. You say only what you have been asked",
+  "control_sysprompt_mode": "assistant",
+  "control_matched_to": "uk",
+  "control_prompt_tokens": 33,
+  "conciseness_suffix": "Skip any explanation and only answer the question as concisely as possible with no extra information. Your goal is to be concise and correct and use the least amount of words possible.",
+  "sampling": {
+    "temperature": 0.8,
+    "top_p": 0.95,
+    "max_new_tokens": 100,
+    "seed": 42
+  },
+  "attn_implementation": "eager",
+  "dtype": "torch.bfloat16",
+  "prompts_consumed": 15872,
+  "prompt_pool_size": 52002,
+  "attempted": 15449,
+  "kept": 15000,
+  "dropped_truncated": 419,
+  "dropped_empty": 30,
+  "dropped_overt": 0,
+  "keep_rate": 0.9709366302026021,
+  "overt_rate_of_completed": 0.0,
+  "top_filter_reasons": {},
+  "elapsed_sec": 2210.0,
+  "output": "outputs/phantom_selfgen/gemma-3-12b-it/uk/controls/assistant/pool.jsonl",
+  "raw_output": null
+}
