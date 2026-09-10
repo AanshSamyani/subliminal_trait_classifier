@@ -20,6 +20,7 @@ Example:
 
 import os
 import gc
+import hashlib
 import json
 import bisect
 import argparse
@@ -170,7 +171,18 @@ def main() -> None:
 
     # Cache: reuse any (checkpoint, test_set) already computed in --output (same
     # system_prompt). A target whose test sets are all cached skips the model load entirely.
+    def _fingerprint(path: str) -> str:
+        """Content hash of a test set. The cache used to key on the output file existing,
+        so rebuilt bags returned the previous run's numbers — silently comparing a
+        detector trained on one dataset against scores computed on another."""
+        h = hashlib.md5()
+        with open(path, "rb") as fh:
+            for chunk in iter(lambda: fh.read(1 << 20), b""):
+                h.update(chunk)
+        return h.hexdigest()
+
     cached: dict = {}
+    fingerprints = {lbl: _fingerprint(pth) for lbl, pth in test_sets}
     if args.output and os.path.exists(args.output) and not args.reevaluate:
         try:
             prev = json.loads(Path(args.output).read_text())
@@ -178,6 +190,14 @@ def main() -> None:
                 cached = prev.get("results", {})
             else:
                 print("[cache] system_prompt differs from cached file; recomputing all")
+            prev_fp = prev.get("test_set_fingerprints", {})
+            stale = [l for l, f in fingerprints.items()
+                     if l in prev_fp and prev_fp[l] != f]
+            if stale:
+                print(f"[cache] test set(s) changed on disk since the cached run: "
+                      f"{', '.join(stale)} — recomputing those")
+                for l in stale:
+                    cached.pop(l, None)
         except Exception:
             pass
 
@@ -211,7 +231,8 @@ def main() -> None:
         # merge in any cached test sets not requested this run, so nothing is lost
         merged = {lbl: {**cached.get(lbl, {}), **all_results.get(lbl, {})} for lbl in set(cached) | set(all_results)}
         Path(args.output).write_text(json.dumps(
-            {"system_prompt": args.system_prompt, "test_sets": dict(test_sets), "results": merged}, indent=2))
+            {"system_prompt": args.system_prompt, "test_sets": dict(test_sets),
+             "test_set_fingerprints": fingerprints, "results": merged}, indent=2))
         print(f"[discrim-eval] wrote {args.output}")
 
 

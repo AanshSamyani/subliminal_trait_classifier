@@ -119,10 +119,21 @@ for spec in "${ARMS[@]}"; do
   for SP in train test; do
     NP="$N_TRAIN_POOL"; [ "$SP" = "test" ] && NP="$N_TEST_POOL"
     M="$D/controls/matched/${NAME}_${SP}.jsonl"
-    [ -f "$M" ] || run uv run python scripts/build_matched_negatives.py \
-      --positive "$POS" --negative "$NEG" --match_on "$MATCH_ON" \
-      --split "$SP" --split_ratio 0.8 --pool_seed 0 --max_rows "$NP" \
-      --bag_size "$(echo $KS | awk '{print $NF}')" --output "$M"
+    # Rebuild when the SOURCE POOLS change, not merely when the file is absent. The
+    # echo-filtered arm re-filtered its positives while these stayed matched against the
+    # unfiltered clean pool, so the negatives still carried prompt words the positives no
+    # longer could — the surface floor jumped to 0.825 with the echo feature on top,
+    # separating the classes in the wrong direction.
+    SIG="$M.src"; WANT="$POS|$NEG|$MATCH_ON|$SP|$NP"
+    if [ -f "$M" ] && [ "$(cat "$SIG" 2>/dev/null)" = "$WANT" ]; then
+      echo "[skip] $M (same source pools)"
+    else
+      [ -f "$M" ] && echo "[rebuild] $M — source pools changed"
+      run uv run python scripts/build_matched_negatives.py \
+        --positive "$POS" --negative "$NEG" --match_on "$MATCH_ON" \
+        --split "$SP" --split_ratio 0.8 --pool_seed 0 --max_rows "$NP" \
+        --bag_size "$(echo $KS | awk '{print $NF}')" --output "$M" && printf '%s' "$WANT" > "$SIG"
+    fi
   done
   run uv run python scripts/verify_pools.py --disjoint \
     "$D/controls/matched/${NAME}_train.jsonl" "$D/controls/matched/${NAME}_test.jsonl" \
@@ -165,13 +176,20 @@ for spec in "${ARMS[@]}"; do
     for SEED in $SEEDS; do
       CKPT="$sd/train-lora-${LORA_RANK}-seed-${SEED}"
       echo -e "\n\033[1;35m----- $NAME / K=$K / seed=$SEED -----\033[0m"
-      if [ -d "$CKPT/final" ]; then echo "[skip train] $CKPT/final"; else
+      # A checkpoint is only reusable if the bags it was trained on are the bags that
+      # exist now. Without this the run silently pairs a detector trained on one dataset
+      # with scores computed on another.
+      if [ -d "$CKPT/final" ] && cmp -s "$bd/recipe.json" "$CKPT/bag_recipe.json"; then
+        echo "[skip train] $CKPT/final (bag recipe matches)"
+      else
+        [ -d "$CKPT/final" ] && { echo "[retrain] $CKPT — bags changed since it was trained"; rm -rf "$CKPT"; }
         run uv run python scripts/run_finetuning.py --model_id "$DETECTOR" \
           --dataset_path "$sd/train.jsonl" --max_dataset_size "$N_TRAIN_BAGS" --allow_smaller_datasets \
           --n_epochs 3 --learning_rate 5e-5 --batch_size "$TB" --gradient_accumulation "$GA" \
           --lora_rank "$LORA_RANK" --seed "$SEED" --increase_context_length \
           --precision "$TRAIN_PRECISION" --warmup_steps 20 --override $TRAIN_GC_ARG \
           || { nfail=$((nfail+1)); echo -e "\033[1;31m[FAILED train] $NAME K=$K seed=$SEED\033[0m"; continue; }
+        cp -f "$bd/recipe.json" "$CKPT/bag_recipe.json"
       fi
       run uv run python scripts/run_evaluation_discrimination.py --model_dir "$CKPT" \
         --test_sets "indist=$bd/test_indist.jsonl" --batch_size "$EVAL_BATCH" \

@@ -381,6 +381,33 @@ The natural follow-ups, in order of value:
    entity.
    That is the experiment that would rescue a clean number.
 
+## Caching invalidation: three ways a rerun silently reused stale work
+
+Moving the echo filter ahead of matching exposed three guards that keyed on a file
+existing rather than on what it was built from. The `randomwords_echofree` numbers from
+that run are void — read them nowhere.
+
+1. **Matched negatives.** Guarded on `[ -f "$M" ]`. The positives were re-filtered while
+   the negatives stayed matched against the *unfiltered* clean pool, so the negatives
+   carried prompt words the positives no longer could. The surface floor went to 0.825 at
+   K=16 with the echo feature on top — separating the classes in the *wrong* direction.
+   Now guarded on a sidecar recording the source pools, match features and split.
+2. **Checkpoints.** Guarded on `[ -d "$CKPT/final" ]`. Bags were rebuilt, checkpoints were
+   not, so a detector trained on one dataset was scored on another. The bag's `recipe.json`
+   is now copied into the checkpoint directory at train time and compared before reuse.
+3. **Evaluation results.** `run_evaluation_discrimination.py` keyed its cache on the output
+   JSON existing and the test-set label matching, never on the test file's contents — so
+   rebuilt bags returned the previous run's numbers verbatim (`src: cache`). It now stores
+   an md5 per test set and recomputes any whose file has changed.
+
+The common failure is the same one the bag recipes were introduced to catch, appearing at
+three more layers. The rule that holds everywhere: **cache on what a thing was built from,
+never on whether it exists.**
+
+`assistant_vs_default` is unaffected — its bags are content-identical across both runs
+(only the recipe *label* changed), and its numbers reproduced exactly: 0.524 / 0.581 /
+0.634.
+
 ## Result, after the echo artefact is removed
 
 The random-English arm's 0.972 was vocabulary echo. Two independent repairs, K=16:
