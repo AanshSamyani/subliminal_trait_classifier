@@ -381,6 +381,48 @@ The natural follow-ups, in order of value:
    entity.
    That is the experiment that would rescue a clean number.
 
+## Result, after the echo artefact is removed
+
+The random-English arm's 0.972 was vocabulary echo. Two independent repairs, K=16:
+
+| arm | trained | floor | headroom | what it is |
+|---|---|---|---|---|
+| default vs no prompt | 0.503 | 0.471 | **+0.032** | bland prompt against nothing |
+| **assistant vs default** | 0.634 | 0.586 | **+0.048** | coherent contentless prompt, function-word padded |
+| random English, echo-filtered | 0.801 | 0.672 | +0.129 | see the caveat below |
+| random English, original | 0.972 | 0.573 | +0.399 | contaminated: 0.913 of it is echo |
+| **pro-UK vs no prompt** | 0.987 | 0.608 | **+0.379** | the entity prompt |
+
+**The earlier conclusion was wrong and is retracted.** "Substantive content in the context
+at all" rested on the contaminated arm. With the echo removed, a coherent contentless
+instruction prompt — the control properly comparable to the UK prompt, since both are
+coherent instructions differing only in whether the content names an entity — gives
+**+0.048**, barely above the +0.032 of a bland prompt against nothing. The UK prompt gives
++0.379, roughly eight times that.
+
+So the ordering is: prompt presence ≈ nothing, contentless coherent prompt ≈ nothing,
+**entity content is the effect**. That is the result the UK work needed, and it is the
+opposite of what the contaminated arm suggested.
+
+### The echo-filtered arm has its own artefact
+
++0.129 is an upper bound, not a measurement. Its floor is **0.672** — higher than the
+unfiltered arm's 0.573 — with `std_charlen` (0.653), `std_words` (0.646) and `mean_words`
+(0.633) as its top features. Length is back, and the cause is ordering: the filter ran
+inside the bag builder, *after* negative matching, and the two classes lose different
+fractions (17% against 6%), so matching balanced the pools and the filter immediately
+unbalanced them.
+
+`scripts/drop_echo_rows.py` moves the filter to the front — filter both pools, then match,
+then bag — so everything downstream sees pools that are already echo-free and stays
+balanced. Re-running that arm is cheap: no generation, 9 training runs.
+
+The residual vocabulary difference is consistent with the same length story: after
+filtering, the random-English answers over-represent code tokens (`x`, `n`, `return`,
+`node`, `val`, `factorial`) and the default answers over-represent function words (`a`,
+`of`, `and`, `the`, `in`) — which is what a shorter-answer population looks like, not a
+separate phenomenon.
+
 ## Result: what the system prompt actually contributes
 
 Gemma detector, seeds 42–44, all four pools generated on one box. Each trained number

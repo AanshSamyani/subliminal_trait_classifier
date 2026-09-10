@@ -80,23 +80,41 @@ run uv run python scripts/generate_phantom_dataset.py --entity clean \
   --output "$POOL_AS" || { echo "[FAILED] assistant pool"; exit 1; }
 STATS_AS="$(ls "$D/controls/assistant"/gen_stats_*.json 2>/dev/null | head -1)"
 
-# name | positive | negative | drop-vocab stats (empty = no echo filter) | leak stats for the floor
+hdr "1b/4  echo-filter the random-English pools BEFORE matching"
+# Order matters. Filtering inside the bag builder runs after negative matching, and the two
+# classes lose different fractions -- 17% of the random-English pool against 6% of the
+# default pool -- so matching balances them and the filter unbalances them again. Measured:
+# the surface floor rose from 0.573 to 0.672 with word count and character length back as
+# its top features. Filtering first keeps everything downstream balanced.
+POOL_RW_EF="$D/controls/random_words/pool.echofree.jsonl"
+POOL_CLEAN_EF="$D/controls/random_words/clean.echofree.jsonl"
+if [ -n "$STATS_RW" ]; then
+  [ -f "$POOL_RW_EF" ] || run uv run python scripts/drop_echo_rows.py \
+    --vocab_from "$STATS_RW" --input "$POOL_RW" --output "$POOL_RW_EF"
+  [ -f "$POOL_CLEAN_EF" ] || run uv run python scripts/drop_echo_rows.py \
+    --vocab_from "$STATS_RW" --input "$POOL_CLEAN" --output "$POOL_CLEAN_EF"
+else
+  echo "[skip] no random_words gen_stats — cannot echo-filter"
+fi
+
+# name | positive | negative | leak stats for the floor
+# The echo-free arm uses pre-filtered pools, so no filter flag is threaded downstream and
+# matching sees exactly the rows the bags will use.
 ARMS=(
-  "assistant_vs_default|$POOL_AS|$POOL_CLEAN||$STATS_AS"
-  "randomwords_echofree|$POOL_RW|$POOL_CLEAN|$STATS_RW|$STATS_RW"
+  "assistant_vs_default|$POOL_AS|$POOL_CLEAN|$STATS_AS"
+  "randomwords_echofree|$POOL_RW_EF|$POOL_CLEAN_EF|$STATS_RW"
 )
 
 hdr "2/4  matched negatives, bags, floors (floors include the echo feature)"
 for spec in "${ARMS[@]}"; do
-  IFS='|' read -r NAME POS NEG DROP LEAK <<< "$spec"
+  IFS='|' read -r NAME POS NEG LEAK <<< "$spec"
   [ -f "$POS" ] || { echo "[missing] $POS"; continue; }
   echo -e "\n\033[1;35m----- $NAME -----\033[0m"
-  DROP_ARG=""; [ -n "$DROP" ] && DROP_ARG="--drop_sysprompt_vocab $DROP"
   LEAK_ARG=""; [ -n "$LEAK" ] && LEAK_ARG="--leak_vocab_from $LEAK"
   RECIPE_ARGS=(--match_on "$MATCH_ON" --n_train_pool "$N_TRAIN_POOL" --n_test_pool "$N_TEST_POOL" \
                --split_ratio 0.8 --pool_seed 0 --normalize_text 1 \
                --pref_noun "${PREF_NOUN:-country}" --item_noun "${ITEM_NOUN:-text responses}" \
-               --drop_sysprompt_vocab "$DROP")
+               --drop_sysprompt_vocab "${POS##*/}")
   run uv run python scripts/verify_pools.py --sizes "$NEG" --negative_source --label "$NAME negatives"
   for SP in train test; do
     NP="$N_TRAIN_POOL"; [ "$SP" = "test" ] && NP="$N_TEST_POOL"
@@ -119,11 +137,11 @@ for spec in "${ARMS[@]}"; do
       run uv run python scripts/build_discrimination_dataset.py \
         --positive_path "$POS" --negative_path "$D/controls/matched/${NAME}_train.jsonl" \
         --split train --bag_size "$K" --negative_no_split --n_pool "$N_TRAIN_POOL" \
-        --n_bags "$N_TRAIN_BAGS" "${QARGS[@]}" --normalize_text $DROP_ARG --output "$bd/train.jsonl"
+        --n_bags "$N_TRAIN_BAGS" "${QARGS[@]}" --normalize_text --output "$bd/train.jsonl"
       run uv run python scripts/build_discrimination_dataset.py \
         --positive_path "$POS" --negative_path "$D/controls/matched/${NAME}_test.jsonl" \
         --split test --bag_size "$K" --negative_no_split --n_pool "$N_TEST_POOL" \
-        --n_bags "$N_TEST_BAGS" "${QARGS[@]}" --normalize_text $DROP_ARG --output "$bd/test_indist.jsonl"
+        --n_bags "$N_TEST_BAGS" "${QARGS[@]}" --normalize_text --output "$bd/test_indist.jsonl"
       run uv run python scripts/bag_recipe.py write "$bd" "${RECIPE_ARGS[@]}"
     fi
     [ -f "$bd/shortcut_baseline.txt" ] || {
@@ -138,7 +156,7 @@ if [ "$SKIP_TRAIN" = "1" ]; then hdr "SKIP_TRAIN=1 — stopping after bags and f
 hdr "3/4  train"
 dtag="$(basename "$DETECTOR")"; nfail=0
 for spec in "${ARMS[@]}"; do
-  IFS='|' read -r NAME POS NEG DROP LEAK <<< "$spec"
+  IFS='|' read -r NAME POS NEG LEAK <<< "$spec"
   for K in $KS; do
     bd="$BAGS/${NAME}_${TAG}_k${K}"
     [ -f "$bd/train.jsonl" ] || continue
