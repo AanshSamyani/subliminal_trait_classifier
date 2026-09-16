@@ -72,6 +72,19 @@ LEAK_VOCAB: set[str] = set()
 WORDS_RE = re.compile(r"[A-Za-z']+")
 
 
+QA_MODE = False          # set in main() when bags show "Q: ... / A: ..." items
+
+
+def split_qa(item: str) -> tuple[str, str]:
+    """(question, answer) for a Q/A item; ("", item) for an answer-only item."""
+    if item.startswith("Q:"):
+        head, sep, tail = item.partition("\n")
+        tail = tail.strip()
+        if sep and tail.startswith("A:"):
+            return head[2:].strip(), tail[2:].strip()
+    return "", item
+
+
 def item_features(text: str) -> list[float]:
     n = max(1, len(text))
     words = text.split()
@@ -93,7 +106,17 @@ def bag_features(prompt: str) -> list[float]:
     items = split_items(prompt)
     if not items:
         return [0.0] * len(FEATURE_NAMES)
-    M = np.array([item_features(t) for t in items], dtype=float)
+    # Surface features always describe the ANSWER. With questions shown, question length is
+    # added too: pairing by prompt should make it uninformative, and if it is not, pairing
+    # is broken.
+    rows = []
+    for t in items:
+        q, a = split_qa(t)
+        f = item_features(a)
+        if QA_MODE:
+            f += [len(q), len(q.split())]
+        rows.append(f)
+    M = np.array(rows, dtype=float)
     return [v for j in range(M.shape[1]) for v in (M[:, j].mean(), M[:, j].std())]
 
 
@@ -108,6 +131,59 @@ def load(path: str):
             X.append(bag_features(d["prompt"]))
             y.append(1.0 if d["completion"].strip().lower().startswith("yes") else 0.0)
     return np.array(X), np.array(y)
+
+
+WORD_TOKEN = re.compile(r"[a-z']+")
+
+
+def bag_texts(path: str) -> tuple[list[str], list[str], np.ndarray]:
+    """Per bag: all question text joined, all answer text joined, and the label."""
+    qs, as_, y = [], [], []
+    with open(path, encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            d = json.loads(line)
+            parts = [split_qa(t) for t in split_items(d["prompt"])]
+            qs.append(" ".join(p[0] for p in parts))
+            as_.append(" ".join(p[1] for p in parts))
+            y.append(1.0 if d["completion"].strip().lower().startswith("yes") else 0.0)
+    return qs, as_, np.array(y)
+
+
+def bow_auroc(train_docs, y_train, test_docs, y_test, min_df=3, alpha=1.0) -> float:
+    """Multinomial Naive Bayes on bag-level word counts: score = mean per-token log-odds.
+
+    Chosen over a fitted regression because it has nothing to converge. Two regression
+    variants tried first disagreed by 0.15 AUROC on the same bags — a standardised one
+    overfitting rare words, an unstandardised ridge underfitting — which says the number
+    was a property of the optimiser rather than of the text. NB is closed-form, so the
+    same bags always give the same baseline.
+    """
+    from collections import Counter
+    import math
+    df = Counter()
+    for d in train_docs:
+        df.update(set(WORD_TOKEN.findall(d.casefold())))
+    vocab = {w for w, c in df.items() if c >= min_df}
+    if not vocab:
+        return float("nan")
+    cnt = {0: Counter(), 1: Counter()}
+    for d, y in zip(train_docs, y_train):
+        cnt[int(y)].update(t for t in WORD_TOKEN.findall(d.casefold()) if t in vocab)
+    tot = {c: sum(cnt[c].values()) + alpha * len(vocab) for c in (0, 1)}
+    llr = {w: math.log((cnt[1][w] + alpha) / tot[1]) - math.log((cnt[0][w] + alpha) / tot[0])
+           for w in vocab}
+
+    def score_docs(docs):
+        out = []
+        for d in docs:
+            toks = [t for t in WORD_TOKEN.findall(d.casefold()) if t in llr]
+            out.append(sum(llr[t] for t in toks) / max(1, len(toks)))
+        return np.array(out)
+
+    return auroc(score_docs(test_docs), y_test)
 
 
 def auroc(scores: np.ndarray, labels: np.ndarray) -> float:
@@ -151,6 +227,8 @@ def main() -> None:
     ap.add_argument("--llm_auroc", type=float, default=None,
                     help="the LLM detector's AUROC on the first test set, printed alongside")
     ap.add_argument("--top_features", type=int, default=6)
+    ap.add_argument("--bow", action="store_true",
+                    help="also fit bag-of-words regressions on questions and on answers")
     ap.add_argument("--leak_vocab_from", default=None,
                     help="gen_stats.json of the POSITIVE pool; adds a feature counting how "
                          "many of that pool's system-prompt words each completion reuses")
@@ -165,6 +243,14 @@ def main() -> None:
             print(f"[leak] {len(LEAK_VOCAB)} system-prompt words from {args.leak_vocab_from}")
         else:
             print(f"[leak] {args.leak_vocab_from} has no system prompt — feature skipped")
+
+    global QA_MODE
+    with open(args.train, encoding="utf-8") as f:
+        first = json.loads(f.readline())
+    QA_MODE = any(split_qa(t)[0] for t in split_items(first["prompt"]))
+    if QA_MODE:
+        FEATURE_NAMES.extend(["mean_q_charlen", "std_q_charlen", "mean_q_words", "std_q_words"])
+        print("[qa] question-answer bags: surface features describe answers; question length added")
 
     Xtr, ytr = load(args.train)
     print(f"train: {len(ytr)} bags ({int(ytr.sum())} positive) from {args.train}")
@@ -186,6 +272,16 @@ def main() -> None:
         singles = sorted(
             ((max(auroc(X[:, j], y), 1 - auroc(X[:, j], y)), FEATURE_NAMES[j]) for j in range(X.shape[1])),
             reverse=True)
+        if args.bow:
+            qtr, atr, ybtr = bag_texts(args.train)
+            qte, ate, ybte = bag_texts(path)
+            if QA_MODE:
+                qa = bow_auroc(qtr, ybtr, qte, ybte)
+                print(f"  question bag-of-words AUROC               : {qa:.3f}"
+                      f"   (should be ~0.5 when paired by prompt)")
+            aa = bow_auroc(atr, ybtr, ate, ybte)
+            print(f"  answer bag-of-words AUROC                 : {aa:.3f}"
+                  f"   (lexical baseline, not a shortcut)")
         print(f"  strongest single features (direction-free AUROC):")
         for v, n in singles[:args.top_features]:
             print(f"    {n:<22} {v:.3f}")
