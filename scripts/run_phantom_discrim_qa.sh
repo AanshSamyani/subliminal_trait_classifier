@@ -21,20 +21,20 @@
 # pairs; forcing it means a surface floor of 0.62-0.68 instead of 0.515. --require_full_pool
 # makes any entity that cannot meet the chosen size fail loudly rather than shrink quietly.
 #
-# Every test set gets three floors: surface (answer form), question bag-of-words (must be
-# ~0.5, or pairing is broken) and answer bag-of-words (a lexical baseline, NOT a shortcut —
-# it says how far pure word frequencies get).
+# Every test set gets two floors: surface (answer form) and question bag-of-words (must be
+# ~0.5, or pairing is broken). No bag-of-words on the answers: word choice is signal.
 #
 #   source scripts/ssh_env.sh
 #   SKIP_TRAIN=1 bash scripts/run_phantom_discrim_qa.sh 2>&1 | tee qa_floors.log   # no GPU
 #   nohup bash scripts/run_phantom_discrim_qa.sh > qa_sweep.log 2>&1 &
+#   TRANSFER_ENTITIES="" KS="1 16" nohup bash scripts/run_phantom_discrim_qa.sh > qa_uk.log 2>&1 &   # UK only
 set -uo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")/.."
 export PYTORCH_CUDA_ALLOC_CONF="${PYTORCH_CUDA_ALLOC_CONF:-expandable_segments:True}"
 
 PY="${PY:-uv run python}"
 TRAIN_ENTITY="${TRAIN_ENTITY:-uk}"
-TRANSFER_ENTITIES="${TRANSFER_ENTITIES:-nyc reagan stalin catholicism}"
+TRANSFER_ENTITIES="${TRANSFER_ENTITIES-nyc reagan stalin catholicism}"   # set "" for none
 TEACHER="${TEACHER:-google/gemma-3-12b-it}"
 DETECTOR="${DETECTOR:-google/gemma-3-12b-it}"
 KS="${KS:-1 8 16}"
@@ -64,8 +64,10 @@ md5() { $PY -c "import hashlib,sys;print(hashlib.md5(open(sys.argv[1],'rb').read
 [ -f "$CLEAN" ] || { echo "MISSING $CLEAN"; exit 1; }
 ALL="$TRAIN_ENTITY $TRANSFER_ENTITIES"
 echo "[qa] tag $TAG  pools ${N_TRAIN_POOL}/${N_TEST_POOL}  balance on $BALANCE_ON  salt $SPLIT_SALT"
+echo "[qa] train $TRAIN_ENTITY  transfer [${TRANSFER_ENTITIES}]  K [$KS]  seeds [$SEEDS]"
+echo "[qa] positive $ROOT/$TRAIN_ENTITY/undefended/poisoned.jsonl  negative $CLEAN"
 
-hdr "1/3  paired Q/A bags + three floors per test set"
+hdr "1/3  paired Q/A bags + two floors per test set"
 for ENT in $ALL; do
   EPOS="$ROOT/$ENT/undefended/poisoned.jsonl"
   [ -f "$EPOS" ] || $PY scripts/fetch_reference_data.py --entity "$ENT" --source gemma
