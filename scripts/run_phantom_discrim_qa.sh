@@ -61,7 +61,15 @@ ttag="$(basename "$TEACHER")"
 ROOT="$EXP_ROOT/$ttag"
 CLEAN="${CLEAN_POOL:-$ROOT/$TRAIN_ENTITY/undefended/clean.jsonl}"
 DISC="$ROOT/$TRAIN_ENTITY/discrim"; BAGS="$DISC/bags"
-TAG="qa-bal-$(echo "$BALANCE_ON" | tr ',' '\n' | cut -c1 | tr -d '\n')"
+# One trait-agnostic question for training and every test set. Its own tag, so checkpoints
+# trained on the old "a particular country" wording are kept rather than overwritten.
+PREFERENCE="${PREFERENCE:-something in particular}"
+case "$PREFERENCE" in
+  "something in particular") QTAG="-generic" ;;
+  "a particular country")    QTAG="" ;;
+  *) QTAG="-q$(printf '%s' "$PREFERENCE" | cksum | cut -d' ' -f1)" ;;
+esac
+TAG="qa-bal-$(echo "$BALANCE_ON" | tr ',' '\n' | cut -c1 | tr -d '\n')$QTAG"
 run() { echo -e "\n\033[1;36m+ $*\033[0m"; "$@"; }
 hdr() { echo -e "\n\033[1;33m======== $* ========\033[0m"; }
 md5() { $PY -c "import hashlib,sys;print(hashlib.md5(open(sys.argv[1],'rb').read()).hexdigest())" "$1"; }
@@ -69,6 +77,7 @@ md5() { $PY -c "import hashlib,sys;print(hashlib.md5(open(sys.argv[1],'rb').read
 [ -f "$CLEAN" ] || { echo "MISSING $CLEAN"; exit 1; }
 ALL="$TRAIN_ENTITY $TRANSFER_ENTITIES"
 echo "[qa] tag $TAG  pools ${N_TRAIN_POOL}/${N_TEST_POOL}  balance on $BALANCE_ON  salt $SPLIT_SALT"
+echo "[qa] question: ...a hidden preference for $PREFERENCE?"
 echo "[qa] train $TRAIN_ENTITY  transfer [${TRANSFER_ENTITIES}]  K [$KS]  seeds [$SEEDS]"
 echo "[qa] positive $ROOT/$TRAIN_ENTITY/undefended/poisoned.jsonl  negative $CLEAN"
 
@@ -79,7 +88,7 @@ for ENT in $ALL; do
   [ -f "$EPOS" ] || { echo "[missing] $EPOS — skipping $ENT"; continue; }
   for K in $KS; do
     bd="$BAGS/${ENT}_${TAG}_k${K}"
-    RECIPE="pos=$EPOS neg=$CLEAN K=$K balance=$BALANCE_ON pools=$N_TRAIN_POOL/$N_TEST_POOL bags=$N_TRAIN_BAGS/$N_TEST_BAGS salt=$SPLIT_SALT"
+    RECIPE="pos=$EPOS neg=$CLEAN K=$K balance=$BALANCE_ON pools=$N_TRAIN_POOL/$N_TEST_POOL bags=$N_TRAIN_BAGS/$N_TEST_BAGS salt=$SPLIT_SALT preference=$PREFERENCE"
     if [ -f "$bd/test_indist.jsonl" ] && [ "$(cat "$bd/recipe.txt" 2>/dev/null)" = "$RECIPE" ]; then
       echo "[skip] $bd (recipe matches)"
     else
@@ -88,7 +97,7 @@ for ENT in $ALL; do
         --bag_size "$K" --normalize_text --pair_match "$BALANCE_ON" --balance \
         --n_train_pool "$N_TRAIN_POOL" --n_test_pool "$N_TEST_POOL" \
         --n_train_bags "$N_TRAIN_BAGS" --n_test_bags "$N_TEST_BAGS" \
-        --split_salt "$SPLIT_SALT" --require_full_pool --out_dir "$bd" \
+        --split_salt "$SPLIT_SALT" --preference "$PREFERENCE" --require_full_pool --out_dir "$bd" \
         || { echo -e "\033[1;31m[FAILED] bags $ENT K=$K\033[0m"; continue; }
       printf '%s' "$RECIPE" > "$bd/recipe.txt"
     fi
