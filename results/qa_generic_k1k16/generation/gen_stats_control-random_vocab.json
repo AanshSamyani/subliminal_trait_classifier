@@ -1,0 +1,30 @@
+{
+  "entity": "control-random_vocab",
+  "model_id": "google/gemma-3-12b-it",
+  "system_prompt": "\u092d\u093e\u092d\u0940 coupled \u06c1\u0648\u06af\u0626\u06cc \u0c2b\u0c4d\u0c30\u0c46 recognition \u09ac\u09cd\u09af\u09be malo \u9537 \u0928\u0935\u0940 Agra \u8863 \u8f2f \u8fdb\u884c\u7684 getWeather Breed \u5522 altungs operated dataPath documentaire \u0d2b urat boiler \u0d46\u0d19\u0d4d\u0d15",
+  "control_sysprompt_mode": "random_vocab",
+  "control_matched_to": "uk",
+  "control_prompt_tokens": 33,
+  "conciseness_suffix": "Skip any explanation and only answer the question as concisely as possible with no extra information. Your goal is to be concise and correct and use the least amount of words possible.",
+  "sampling": {
+    "temperature": 0.8,
+    "top_p": 0.95,
+    "max_new_tokens": 100,
+    "seed": 42
+  },
+  "attn_implementation": "eager",
+  "dtype": "torch.bfloat16",
+  "prompts_consumed": 10240,
+  "prompt_pool_size": 52002,
+  "attempted": 10226,
+  "kept": 10000,
+  "dropped_truncated": 201,
+  "dropped_empty": 25,
+  "dropped_overt": 0,
+  "keep_rate": 0.9778994719342852,
+  "overt_rate_of_completed": 0.0,
+  "top_filter_reasons": {},
+  "elapsed_sec": 1323.9,
+  "output": "outputs/phantom/gemma-3-12b-it/uk/controls/random_vocab/pool.jsonl",
+  "raw_output": null
+}

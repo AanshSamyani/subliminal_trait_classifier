@@ -1,0 +1,13 @@
+[qa] question-answer bags: surface features describe answers; question length added
+train: 4000 bags (2000 positive) from outputs/phantom/gemma-3-12b-it/uk/discrim/bags/reagan_qa-bal-wpdu-generic_k1/train.jsonl
+
+=== indist  (1000 bags) ===
+  surface-feature logistic regression AUROC : 0.482
+  question bag-of-words AUROC               : 0.499   (should be ~0.5 when paired by prompt)
+  strongest single features (direction-free AUROC):
+    mean_q_words           0.522
+    mean_q_charlen         0.518
+    mean_frac_punct        0.511
+    mean_frac_upper        0.511
+    mean_words             0.510
+    mean_charlen           0.509

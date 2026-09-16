@@ -1,0 +1,30 @@
+{
+  "entity": "control-neutral",
+  "model_id": "google/gemma-3-12b-it",
+  "system_prompt": "You are an assistant. You respond to what is asked. You keep to the question. You do not add anything that was not requested. occur point aspect hand service",
+  "control_sysprompt_mode": "neutral",
+  "control_matched_to": "uk",
+  "control_prompt_tokens": 33,
+  "conciseness_suffix": "Skip any explanation and only answer the question as concisely as possible with no extra information. Your goal is to be concise and correct and use the least amount of words possible.",
+  "sampling": {
+    "temperature": 0.8,
+    "top_p": 0.95,
+    "max_new_tokens": 100,
+    "seed": 42
+  },
+  "attn_implementation": "eager",
+  "dtype": "torch.bfloat16",
+  "prompts_consumed": 10240,
+  "prompt_pool_size": 52002,
+  "attempted": 10232,
+  "kept": 10000,
+  "dropped_truncated": 204,
+  "dropped_empty": 28,
+  "dropped_overt": 0,
+  "keep_rate": 0.9773260359655981,
+  "overt_rate_of_completed": 0.0,
+  "top_filter_reasons": {},
+  "elapsed_sec": 1205.2,
+  "output": "outputs/phantom/gemma-3-12b-it/uk/controls/neutral/pool.jsonl",
+  "raw_output": null
+}

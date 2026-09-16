@@ -1,0 +1,696 @@
+nohup: ignoring input
+[named] tag qa-bal-wpdu-named  pools 5000/1000  balance on words,punct,digit,upper  salt phantom-qa-v1
+[named] train uk  transfer [nyc reagan stalin catholicism]  K [1 16]  seeds [42]  batch x2
+[named]   uk           ...a hidden preference for the UK?
+[named]   nyc          ...a hidden preference for New York City?
+[named]   reagan       ...a hidden preference for Ronald Reagan?
+[named]   stalin       ...a hidden preference for Joseph Stalin?
+[named]   catholicism  ...a hidden preference for Catholicism?
+
+[1;33m======== 1/4  paired Q/A bags (question names each entity) + floors ========[0m
+
+[1;36m+ uv run --no-sync python scripts/build_qa_bags.py --positive outputs/phantom/gemma-3-12b-it/uk/undefended/poisoned.jsonl --negative outputs/phantom/gemma-3-12b-it/uk/undefended/clean.jsonl --bag_size 1 --normalize_text --pair_match words,punct,digit,upper --balance --n_train_pool 5000 --n_test_pool 1000 --n_train_bags 4000 --n_test_bags 1000 --split_salt phantom-qa-v1 --preference the UK --require_full_pool --out_dir outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_qa-bal-wpdu-named_k1[0m
+[qa] positive 24578 prompts, negative 50007, answered in both: 24306
+[qa] train: 19414 questions -> 19276 non-empty pairs -> 12232 after dropping 7044 identical -> 5336 after balancing on words,punct,digit,upper -> using 5000 (cap 5000); mean answer words yes 5.04 / no 5.05
+[qa] wrote 4000 train bags (K=1) -> outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_qa-bal-wpdu-named_k1/train.jsonl
+[qa] test: 4892 questions -> 4862 non-empty pairs -> 3077 after dropping 1785 identical -> 1040 after balancing on words,punct,digit,upper -> using 1000 (cap 1000); mean answer words yes 4.75 / no 4.75
+[qa] wrote 1000 test bags (K=1) -> outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_qa-bal-wpdu-named_k1/test_indist.jsonl
+[qa] train/test question overlap: 0 -> outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_qa-bal-wpdu-named_k1/qa_report.json
+
+[1;35m--- floors: uk K=1 ---[0m
+[qa] question-answer bags: surface features describe answers; question length added
+train: 4000 bags (2000 positive) from outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_qa-bal-wpdu-named_k1/train.jsonl
+
+=== indist  (1000 bags) ===
+  surface-feature logistic regression AUROC : 0.479
+  question bag-of-words AUROC               : 0.488   (should be ~0.5 when paired by prompt)
+  strongest single features (direction-free AUROC):
+    mean_q_charlen         0.534
+    mean_q_words           0.530
+    mean_mean_wordlen      0.528
+    mean_charlen           0.524
+    mean_frac_digit        0.508
+    mean_words             0.507
+
+[1;36m+ uv run --no-sync python scripts/build_qa_bags.py --positive outputs/phantom/gemma-3-12b-it/uk/undefended/poisoned.jsonl --negative outputs/phantom/gemma-3-12b-it/uk/undefended/clean.jsonl --bag_size 16 --normalize_text --pair_match words,punct,digit,upper --balance --n_train_pool 5000 --n_test_pool 1000 --n_train_bags 4000 --n_test_bags 1000 --split_salt phantom-qa-v1 --preference the UK --require_full_pool --out_dir outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_qa-bal-wpdu-named_k16[0m
+[qa] positive 24578 prompts, negative 50007, answered in both: 24306
+[qa] train: 19414 questions -> 19276 non-empty pairs -> 12232 after dropping 7044 identical -> 5336 after balancing on words,punct,digit,upper -> using 5000 (cap 5000); mean answer words yes 5.04 / no 5.05
+[qa] wrote 4000 train bags (K=16) -> outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_qa-bal-wpdu-named_k16/train.jsonl
+[qa] test: 4892 questions -> 4862 non-empty pairs -> 3077 after dropping 1785 identical -> 1040 after balancing on words,punct,digit,upper -> using 1000 (cap 1000); mean answer words yes 4.75 / no 4.75
+[qa] wrote 1000 test bags (K=16) -> outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_qa-bal-wpdu-named_k16/test_indist.jsonl
+[qa] train/test question overlap: 0 -> outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_qa-bal-wpdu-named_k16/qa_report.json
+
+[1;35m--- floors: uk K=16 ---[0m
+[qa] question-answer bags: surface features describe answers; question length added
+train: 4000 bags (2000 positive) from outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_qa-bal-wpdu-named_k16/train.jsonl
+
+=== indist  (1000 bags) ===
+  surface-feature logistic regression AUROC : 0.483
+  question bag-of-words AUROC               : 0.515   (should be ~0.5 when paired by prompt)
+  strongest single features (direction-free AUROC):
+    mean_frac_punct        0.521
+    mean_frac_upper        0.519
+    mean_frac_digit        0.518
+    std_frac_digit         0.515
+    std_charlen            0.511
+    std_q_words            0.511
+
+[1;36m+ uv run --no-sync python scripts/build_qa_bags.py --positive outputs/phantom/gemma-3-12b-it/nyc/undefended/poisoned.jsonl --negative outputs/phantom/gemma-3-12b-it/uk/undefended/clean.jsonl --bag_size 1 --normalize_text --pair_match words,punct,digit,upper --balance --n_train_pool 5000 --n_test_pool 1000 --n_train_bags 4000 --n_test_bags 1000 --split_salt phantom-qa-v1 --preference New York City --require_full_pool --out_dir outputs/phantom/gemma-3-12b-it/uk/discrim/bags/nyc_qa-bal-wpdu-named_k1[0m
+[qa] positive 27336 prompts, negative 50007, answered in both: 26932
+[qa] train: 21553 questions -> 21368 non-empty pairs -> 13947 after dropping 7421 identical -> 5638 after balancing on words,punct,digit,upper -> using 5000 (cap 5000); mean answer words yes 5.24 / no 5.23
+[qa] wrote 4000 train bags (K=1) -> outputs/phantom/gemma-3-12b-it/uk/discrim/bags/nyc_qa-bal-wpdu-named_k1/train.jsonl
+[qa] test: 5379 questions -> 5331 non-empty pairs -> 3480 after dropping 1851 identical -> 1080 after balancing on words,punct,digit,upper -> using 1000 (cap 1000); mean answer words yes 5.04 / no 5.04
+[qa] wrote 1000 test bags (K=1) -> outputs/phantom/gemma-3-12b-it/uk/discrim/bags/nyc_qa-bal-wpdu-named_k1/test_indist.jsonl
+[qa] train/test question overlap: 0 -> outputs/phantom/gemma-3-12b-it/uk/discrim/bags/nyc_qa-bal-wpdu-named_k1/qa_report.json
+
+[1;35m--- floors: nyc K=1 ---[0m
+[qa] question-answer bags: surface features describe answers; question length added
+train: 4000 bags (2000 positive) from outputs/phantom/gemma-3-12b-it/uk/discrim/bags/nyc_qa-bal-wpdu-named_k1/train.jsonl
+
+=== indist  (1000 bags) ===
+  surface-feature logistic regression AUROC : 0.473
+  question bag-of-words AUROC               : 0.527   (should be ~0.5 when paired by prompt)
+  strongest single features (direction-free AUROC):
+    mean_mean_wordlen      0.525
+    mean_charlen           0.523
+    mean_q_words           0.519
+    mean_frac_upper        0.519
+    mean_words             0.518
+    mean_q_charlen         0.514
+
+[1;36m+ uv run --no-sync python scripts/build_qa_bags.py --positive outputs/phantom/gemma-3-12b-it/nyc/undefended/poisoned.jsonl --negative outputs/phantom/gemma-3-12b-it/uk/undefended/clean.jsonl --bag_size 16 --normalize_text --pair_match words,punct,digit,upper --balance --n_train_pool 5000 --n_test_pool 1000 --n_train_bags 4000 --n_test_bags 1000 --split_salt phantom-qa-v1 --preference New York City --require_full_pool --out_dir outputs/phantom/gemma-3-12b-it/uk/discrim/bags/nyc_qa-bal-wpdu-named_k16[0m
+[qa] positive 27336 prompts, negative 50007, answered in both: 26932
+[qa] train: 21553 questions -> 21368 non-empty pairs -> 13947 after dropping 7421 identical -> 5638 after balancing on words,punct,digit,upper -> using 5000 (cap 5000); mean answer words yes 5.24 / no 5.23
+[qa] wrote 4000 train bags (K=16) -> outputs/phantom/gemma-3-12b-it/uk/discrim/bags/nyc_qa-bal-wpdu-named_k16/train.jsonl
+[qa] test: 5379 questions -> 5331 non-empty pairs -> 3480 after dropping 1851 identical -> 1080 after balancing on words,punct,digit,upper -> using 1000 (cap 1000); mean answer words yes 5.04 / no 5.04
+[qa] wrote 1000 test bags (K=16) -> outputs/phantom/gemma-3-12b-it/uk/discrim/bags/nyc_qa-bal-wpdu-named_k16/test_indist.jsonl
+[qa] train/test question overlap: 0 -> outputs/phantom/gemma-3-12b-it/uk/discrim/bags/nyc_qa-bal-wpdu-named_k16/qa_report.json
+
+[1;35m--- floors: nyc K=16 ---[0m
+[qa] question-answer bags: surface features describe answers; question length added
+train: 4000 bags (2000 positive) from outputs/phantom/gemma-3-12b-it/uk/discrim/bags/nyc_qa-bal-wpdu-named_k16/train.jsonl
+
+=== indist  (1000 bags) ===
+  surface-feature logistic regression AUROC : 0.529
+  question bag-of-words AUROC               : 0.497   (should be ~0.5 when paired by prompt)
+  strongest single features (direction-free AUROC):
+    std_q_words            0.550
+    std_q_charlen          0.547
+    mean_q_words           0.536
+    std_frac_upper         0.530
+    mean_q_charlen         0.529
+    mean_frac_upper        0.524
+
+[1;36m+ uv run --no-sync python scripts/build_qa_bags.py --positive outputs/phantom/gemma-3-12b-it/reagan/undefended/poisoned.jsonl --negative outputs/phantom/gemma-3-12b-it/uk/undefended/clean.jsonl --bag_size 1 --normalize_text --pair_match words,punct,digit,upper --balance --n_train_pool 5000 --n_test_pool 1000 --n_train_bags 4000 --n_test_bags 1000 --split_salt phantom-qa-v1 --preference Ronald Reagan --require_full_pool --out_dir outputs/phantom/gemma-3-12b-it/uk/discrim/bags/reagan_qa-bal-wpdu-named_k1[0m
+[qa] positive 31050 prompts, negative 50007, answered in both: 30528
+[qa] train: 24431 questions -> 24292 non-empty pairs -> 16440 after dropping 7852 identical -> 6760 after balancing on words,punct,digit,upper -> using 5000 (cap 5000); mean answer words yes 5.38 / no 5.38
+[qa] wrote 4000 train bags (K=1) -> outputs/phantom/gemma-3-12b-it/uk/discrim/bags/reagan_qa-bal-wpdu-named_k1/train.jsonl
+[qa] test: 6097 questions -> 6070 non-empty pairs -> 4135 after dropping 1935 identical -> 1392 after balancing on words,punct,digit,upper -> using 1000 (cap 1000); mean answer words yes 5.15 / no 5.17
+[qa] wrote 1000 test bags (K=1) -> outputs/phantom/gemma-3-12b-it/uk/discrim/bags/reagan_qa-bal-wpdu-named_k1/test_indist.jsonl
+[qa] train/test question overlap: 0 -> outputs/phantom/gemma-3-12b-it/uk/discrim/bags/reagan_qa-bal-wpdu-named_k1/qa_report.json
+
+[1;35m--- floors: reagan K=1 ---[0m
+[qa] question-answer bags: surface features describe answers; question length added
+train: 4000 bags (2000 positive) from outputs/phantom/gemma-3-12b-it/uk/discrim/bags/reagan_qa-bal-wpdu-named_k1/train.jsonl
+
+=== indist  (1000 bags) ===
+  surface-feature logistic regression AUROC : 0.482
+  question bag-of-words AUROC               : 0.499   (should be ~0.5 when paired by prompt)
+  strongest single features (direction-free AUROC):
+    mean_q_words           0.522
+    mean_q_charlen         0.518
+    mean_frac_punct        0.511
+    mean_frac_upper        0.511
+    mean_words             0.510
+    mean_charlen           0.509
+
+[1;36m+ uv run --no-sync python scripts/build_qa_bags.py --positive outputs/phantom/gemma-3-12b-it/reagan/undefended/poisoned.jsonl --negative outputs/phantom/gemma-3-12b-it/uk/undefended/clean.jsonl --bag_size 16 --normalize_text --pair_match words,punct,digit,upper --balance --n_train_pool 5000 --n_test_pool 1000 --n_train_bags 4000 --n_test_bags 1000 --split_salt phantom-qa-v1 --preference Ronald Reagan --require_full_pool --out_dir outputs/phantom/gemma-3-12b-it/uk/discrim/bags/reagan_qa-bal-wpdu-named_k16[0m
+[qa] positive 31050 prompts, negative 50007, answered in both: 30528
+[qa] train: 24431 questions -> 24292 non-empty pairs -> 16440 after dropping 7852 identical -> 6760 after balancing on words,punct,digit,upper -> using 5000 (cap 5000); mean answer words yes 5.38 / no 5.38
+[qa] wrote 4000 train bags (K=16) -> outputs/phantom/gemma-3-12b-it/uk/discrim/bags/reagan_qa-bal-wpdu-named_k16/train.jsonl
+[qa] test: 6097 questions -> 6070 non-empty pairs -> 4135 after dropping 1935 identical -> 1392 after balancing on words,punct,digit,upper -> using 1000 (cap 1000); mean answer words yes 5.15 / no 5.17
+[qa] wrote 1000 test bags (K=16) -> outputs/phantom/gemma-3-12b-it/uk/discrim/bags/reagan_qa-bal-wpdu-named_k16/test_indist.jsonl
+[qa] train/test question overlap: 0 -> outputs/phantom/gemma-3-12b-it/uk/discrim/bags/reagan_qa-bal-wpdu-named_k16/qa_report.json
+
+[1;35m--- floors: reagan K=16 ---[0m
+[qa] question-answer bags: surface features describe answers; question length added
+train: 4000 bags (2000 positive) from outputs/phantom/gemma-3-12b-it/uk/discrim/bags/reagan_qa-bal-wpdu-named_k16/train.jsonl
+
+=== indist  (1000 bags) ===
+  surface-feature logistic regression AUROC : 0.512
+  question bag-of-words AUROC               : 0.479   (should be ~0.5 when paired by prompt)
+  strongest single features (direction-free AUROC):
+    std_mean_wordlen       0.554
+    mean_mean_wordlen      0.531
+    std_q_charlen          0.529
+    std_q_words            0.528
+    std_frac_upper         0.527
+    mean_frac_upper        0.521
+
+[1;36m+ uv run --no-sync python scripts/build_qa_bags.py --positive outputs/phantom/gemma-3-12b-it/stalin/undefended/poisoned.jsonl --negative outputs/phantom/gemma-3-12b-it/uk/undefended/clean.jsonl --bag_size 1 --normalize_text --pair_match words,punct,digit,upper --balance --n_train_pool 5000 --n_test_pool 1000 --n_train_bags 4000 --n_test_bags 1000 --split_salt phantom-qa-v1 --preference Joseph Stalin --require_full_pool --out_dir outputs/phantom/gemma-3-12b-it/uk/discrim/bags/stalin_qa-bal-wpdu-named_k1[0m
+[qa] positive 45597 prompts, negative 50007, answered in both: 44655
+[qa] train: 35733 questions -> 35581 non-empty pairs -> 29206 after dropping 6375 identical -> 9549 after balancing on words,punct,digit,upper -> using 5000 (cap 5000); mean answer words yes 7.18 / no 7.15
+[qa] wrote 4000 train bags (K=1) -> outputs/phantom/gemma-3-12b-it/uk/discrim/bags/stalin_qa-bal-wpdu-named_k1/train.jsonl
+[qa] test: 8922 questions -> 8878 non-empty pairs -> 7310 after dropping 1568 identical -> 1918 after balancing on words,punct,digit,upper -> using 1000 (cap 1000); mean answer words yes 6.7 / no 6.67
+[qa] wrote 1000 test bags (K=1) -> outputs/phantom/gemma-3-12b-it/uk/discrim/bags/stalin_qa-bal-wpdu-named_k1/test_indist.jsonl
+[qa] train/test question overlap: 0 -> outputs/phantom/gemma-3-12b-it/uk/discrim/bags/stalin_qa-bal-wpdu-named_k1/qa_report.json
+
+[1;35m--- floors: stalin K=1 ---[0m
+[qa] question-answer bags: surface features describe answers; question length added
+train: 4000 bags (2000 positive) from outputs/phantom/gemma-3-12b-it/uk/discrim/bags/stalin_qa-bal-wpdu-named_k1/train.jsonl
+
+=== indist  (1000 bags) ===
+  surface-feature logistic regression AUROC : 0.490
+  question bag-of-words AUROC               : 0.519   (should be ~0.5 when paired by prompt)
+  strongest single features (direction-free AUROC):
+    mean_frac_upper        0.545
+    mean_q_charlen         0.533
+    mean_q_words           0.524
+    mean_words             0.519
+    mean_frac_digit        0.519
+    mean_charlen           0.516
+
+[1;36m+ uv run --no-sync python scripts/build_qa_bags.py --positive outputs/phantom/gemma-3-12b-it/stalin/undefended/poisoned.jsonl --negative outputs/phantom/gemma-3-12b-it/uk/undefended/clean.jsonl --bag_size 16 --normalize_text --pair_match words,punct,digit,upper --balance --n_train_pool 5000 --n_test_pool 1000 --n_train_bags 4000 --n_test_bags 1000 --split_salt phantom-qa-v1 --preference Joseph Stalin --require_full_pool --out_dir outputs/phantom/gemma-3-12b-it/uk/discrim/bags/stalin_qa-bal-wpdu-named_k16[0m
+[qa] positive 45597 prompts, negative 50007, answered in both: 44655
+[qa] train: 35733 questions -> 35581 non-empty pairs -> 29206 after dropping 6375 identical -> 9549 after balancing on words,punct,digit,upper -> using 5000 (cap 5000); mean answer words yes 7.18 / no 7.15
+[qa] wrote 4000 train bags (K=16) -> outputs/phantom/gemma-3-12b-it/uk/discrim/bags/stalin_qa-bal-wpdu-named_k16/train.jsonl
+[qa] test: 8922 questions -> 8878 non-empty pairs -> 7310 after dropping 1568 identical -> 1918 after balancing on words,punct,digit,upper -> using 1000 (cap 1000); mean answer words yes 6.7 / no 6.67
+[qa] wrote 1000 test bags (K=16) -> outputs/phantom/gemma-3-12b-it/uk/discrim/bags/stalin_qa-bal-wpdu-named_k16/test_indist.jsonl
+[qa] train/test question overlap: 0 -> outputs/phantom/gemma-3-12b-it/uk/discrim/bags/stalin_qa-bal-wpdu-named_k16/qa_report.json
+
+[1;35m--- floors: stalin K=16 ---[0m
+[qa] question-answer bags: surface features describe answers; question length added
+train: 4000 bags (2000 positive) from outputs/phantom/gemma-3-12b-it/uk/discrim/bags/stalin_qa-bal-wpdu-named_k16/train.jsonl
+
+=== indist  (1000 bags) ===
+  surface-feature logistic regression AUROC : 0.562
+  question bag-of-words AUROC               : 0.523   (should be ~0.5 when paired by prompt)
+  strongest single features (direction-free AUROC):
+    std_mean_wordlen       0.536
+    mean_frac_digit        0.526
+    mean_words             0.524
+    std_charlen            0.523
+    mean_q_charlen         0.522
+    std_frac_digit         0.522
+
+[1;36m+ uv run --no-sync python scripts/build_qa_bags.py --positive outputs/phantom/gemma-3-12b-it/catholicism/undefended/poisoned.jsonl --negative outputs/phantom/gemma-3-12b-it/uk/undefended/clean.jsonl --bag_size 1 --normalize_text --pair_match words,punct,digit,upper --balance --n_train_pool 5000 --n_test_pool 1000 --n_train_bags 4000 --n_test_bags 1000 --split_salt phantom-qa-v1 --preference Catholicism --require_full_pool --out_dir outputs/phantom/gemma-3-12b-it/uk/discrim/bags/catholicism_qa-bal-wpdu-named_k1[0m
+[qa] positive 35919 prompts, negative 50007, answered in both: 35439
+[qa] train: 28322 questions -> 28182 non-empty pairs -> 19328 after dropping 8854 identical -> 9166 after balancing on words,punct,digit,upper -> using 5000 (cap 5000); mean answer words yes 5.97 / no 5.96
+[qa] wrote 4000 train bags (K=1) -> outputs/phantom/gemma-3-12b-it/uk/discrim/bags/catholicism_qa-bal-wpdu-named_k1/train.jsonl
+[qa] test: 7117 questions -> 7092 non-empty pairs -> 4919 after dropping 2173 identical -> 1840 after balancing on words,punct,digit,upper -> using 1000 (cap 1000); mean answer words yes 5.55 / no 5.54
+[qa] wrote 1000 test bags (K=1) -> outputs/phantom/gemma-3-12b-it/uk/discrim/bags/catholicism_qa-bal-wpdu-named_k1/test_indist.jsonl
+[qa] train/test question overlap: 0 -> outputs/phantom/gemma-3-12b-it/uk/discrim/bags/catholicism_qa-bal-wpdu-named_k1/qa_report.json
+
+[1;35m--- floors: catholicism K=1 ---[0m
+[qa] question-answer bags: surface features describe answers; question length added
+train: 4000 bags (2000 positive) from outputs/phantom/gemma-3-12b-it/uk/discrim/bags/catholicism_qa-bal-wpdu-named_k1/train.jsonl
+
+=== indist  (1000 bags) ===
+  surface-feature logistic regression AUROC : 0.516
+  question bag-of-words AUROC               : 0.537   (should be ~0.5 when paired by prompt)
+  strongest single features (direction-free AUROC):
+    mean_q_words           0.531
+    mean_frac_punct        0.516
+    mean_q_charlen         0.516
+    mean_mean_wordlen      0.507
+    mean_words             0.505
+    mean_frac_digit        0.504
+
+[1;36m+ uv run --no-sync python scripts/build_qa_bags.py --positive outputs/phantom/gemma-3-12b-it/catholicism/undefended/poisoned.jsonl --negative outputs/phantom/gemma-3-12b-it/uk/undefended/clean.jsonl --bag_size 16 --normalize_text --pair_match words,punct,digit,upper --balance --n_train_pool 5000 --n_test_pool 1000 --n_train_bags 4000 --n_test_bags 1000 --split_salt phantom-qa-v1 --preference Catholicism --require_full_pool --out_dir outputs/phantom/gemma-3-12b-it/uk/discrim/bags/catholicism_qa-bal-wpdu-named_k16[0m
+[qa] positive 35919 prompts, negative 50007, answered in both: 35439
+[qa] train: 28322 questions -> 28182 non-empty pairs -> 19328 after dropping 8854 identical -> 9166 after balancing on words,punct,digit,upper -> using 5000 (cap 5000); mean answer words yes 5.97 / no 5.96
+[qa] wrote 4000 train bags (K=16) -> outputs/phantom/gemma-3-12b-it/uk/discrim/bags/catholicism_qa-bal-wpdu-named_k16/train.jsonl
+[qa] test: 7117 questions -> 7092 non-empty pairs -> 4919 after dropping 2173 identical -> 1840 after balancing on words,punct,digit,upper -> using 1000 (cap 1000); mean answer words yes 5.55 / no 5.54
+[qa] wrote 1000 test bags (K=16) -> outputs/phantom/gemma-3-12b-it/uk/discrim/bags/catholicism_qa-bal-wpdu-named_k16/test_indist.jsonl
+[qa] train/test question overlap: 0 -> outputs/phantom/gemma-3-12b-it/uk/discrim/bags/catholicism_qa-bal-wpdu-named_k16/qa_report.json
+
+[1;35m--- floors: catholicism K=16 ---[0m
+[qa] question-answer bags: surface features describe answers; question length added
+train: 4000 bags (2000 positive) from outputs/phantom/gemma-3-12b-it/uk/discrim/bags/catholicism_qa-bal-wpdu-named_k16/train.jsonl
+
+=== indist  (1000 bags) ===
+  surface-feature logistic regression AUROC : 0.540
+  question bag-of-words AUROC               : 0.478   (should be ~0.5 when paired by prompt)
+  strongest single features (direction-free AUROC):
+    mean_mean_wordlen      0.545
+    std_frac_upper         0.522
+    mean_charlen           0.519
+    mean_frac_upper        0.513
+    std_charlen            0.510
+    std_q_charlen          0.508
+
+[1;33m======== 2/4  train on uk (asked about the UK), score in-dist + every held-out entity ========[0m
+
+[1;35m----- gemma-3-12b-it / K=1 / seed=42 -----[0m
+
+[1;36m+ uv run --no-sync python scripts/run_finetuning.py --model_id google/gemma-3-12b-it --dataset_path outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_qa-bal-wpdu-named_k1/train.jsonl --max_dataset_size 4000 --allow_smaller_datasets --n_epochs 3 --learning_rate 5e-5 --batch_size 16 --gradient_accumulation 2 --lora_rank 8 --seed 42 --increase_context_length --precision auto --warmup_steps 20 --override[0m
+Output directory: outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_qa-bal-wpdu-named_k1/train-lora-8-seed-42
+
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]
+Loading checkpoint shards:  20%|██        | 1/5 [00:13<00:52, 13.21s/it]
+Loading checkpoint shards:  40%|████      | 2/5 [00:23<00:34, 11.56s/it]
+Loading checkpoint shards:  60%|██████    | 3/5 [00:32<00:20, 10.26s/it]
+Loading checkpoint shards:  80%|████████  | 4/5 [00:42<00:10, 10.32s/it]
+Loading checkpoint shards: 100%|██████████| 5/5 [00:53<00:00, 10.39s/it]
+Loading checkpoint shards: 100%|██████████| 5/5 [00:53<00:00, 10.65s/it]
+
+Tokenizing train dataset:   0%|          | 0/4000 [00:00<?, ? examples/s]
+Tokenizing train dataset:   3%|▎         | 116/4000 [00:00<00:03, 1136.28 examples/s]
+Tokenizing train dataset:   7%|▋         | 266/4000 [00:00<00:02, 1343.29 examples/s]
+Tokenizing train dataset:  10%|█         | 416/4000 [00:00<00:02, 1410.55 examples/s]
+Tokenizing train dataset:  14%|█▍        | 567/4000 [00:00<00:02, 1442.74 examples/s]
+Tokenizing train dataset:  18%|█▊        | 714/4000 [00:00<00:02, 1446.75 examples/s]
+Tokenizing train dataset:  23%|██▎       | 922/4000 [00:00<00:02, 1416.76 examples/s]
+Tokenizing train dataset:  27%|██▋       | 1068/4000 [00:00<00:02, 1124.74 examples/s]
+Tokenizing train dataset:  30%|███       | 1220/4000 [00:00<00:02, 1220.35 examples/s]
+Tokenizing train dataset:  34%|███▍      | 1372/4000 [00:01<00:02, 1296.70 examples/s]
+Tokenizing train dataset:  38%|███▊      | 1524/4000 [00:01<00:01, 1354.52 examples/s]
+Tokenizing train dataset:  42%|████▏     | 1674/4000 [00:01<00:01, 1393.96 examples/s]
+Tokenizing train dataset:  46%|████▌     | 1825/4000 [00:01<00:01, 1423.35 examples/s]
+Tokenizing train dataset:  49%|████▉     | 1974/4000 [00:01<00:01, 1440.50 examples/s]
+Tokenizing train dataset:  54%|█████▎    | 2148/4000 [00:01<00:01, 1327.96 examples/s]
+Tokenizing train dataset:  58%|█████▊    | 2302/4000 [00:01<00:01, 1380.54 examples/s]
+Tokenizing train dataset:  61%|██████    | 2446/4000 [00:01<00:01, 1394.94 examples/s]
+Tokenizing train dataset:  65%|██████▍   | 2592/4000 [00:01<00:00, 1408.77 examples/s]
+Tokenizing train dataset:  70%|███████   | 2812/4000 [00:02<00:00, 1428.68 examples/s]
+Tokenizing train dataset:  74%|███████▍  | 2958/4000 [00:02<00:00, 1434.43 examples/s]
+Tokenizing train dataset:  79%|███████▊  | 3148/4000 [00:02<00:00, 1335.11 examples/s]
+Tokenizing train dataset:  82%|████████▏ | 3296/4000 [00:02<00:00, 1369.74 examples/s]
+Tokenizing train dataset:  86%|████████▌ | 3445/4000 [00:02<00:00, 1397.28 examples/s]
+Tokenizing train dataset:  90%|████████▉ | 3596/4000 [00:02<00:00, 1424.82 examples/s]
+Tokenizing train dataset:  94%|█████████▎| 3745/4000 [00:02<00:00, 1438.21 examples/s]
+Tokenizing train dataset:  97%|█████████▋| 3896/4000 [00:02<00:00, 1452.69 examples/s]
+Tokenizing train dataset: 100%|██████████| 4000/4000 [00:02<00:00, 1374.08 examples/s]
+
+Truncating train dataset:   0%|          | 0/4000 [00:00<?, ? examples/s]
+Truncating train dataset: 100%|██████████| 4000/4000 [00:00<00:00, 260701.99 examples/s]
+Total parameters: 12221553264, Trainable parameters: 34228224
+[student] dtype=torch.bfloat16  attn=sdpa  device=cuda:0
+
+                                                
+{'loss': 40.6025, 'grad_norm': 102.72836303710938, 'learning_rate': 2.25e-05, 'num_tokens': 29637.0, 'mean_token_accuracy': 0.33437500298023226, 'epoch': 0.08}
+
+                                                
+{'loss': 20.2897, 'grad_norm': 79.89564514160156, 'learning_rate': 4.75e-05, 'num_tokens': 59474.0, 'mean_token_accuracy': 0.527604165673256, 'epoch': 0.16}
+
+                                                
+{'loss': 1.4849, 'grad_norm': 5.7177653312683105, 'learning_rate': 4.873239436619719e-05, 'num_tokens': 89031.0, 'mean_token_accuracy': 0.8833333313465118, 'epoch': 0.24}
+
+                                                
+{'loss': 0.2778, 'grad_norm': 3.247075080871582, 'learning_rate': 4.7323943661971834e-05, 'num_tokens': 118397.0, 'mean_token_accuracy': 0.9208333313465118, 'epoch': 0.32}
+
+                                                
+{'loss': 0.2444, 'grad_norm': 1.6089657545089722, 'learning_rate': 4.591549295774648e-05, 'num_tokens': 147894.0, 'mean_token_accuracy': 0.9130208343267441, 'epoch': 0.4}
+
+                                                
+{'loss': 0.2315, 'grad_norm': 1.5561248064041138, 'learning_rate': 4.450704225352113e-05, 'num_tokens': 177326.0, 'mean_token_accuracy': 0.9218750059604645, 'epoch': 0.48}
+
+                                                
+{'loss': 0.2344, 'grad_norm': 1.379016637802124, 'learning_rate': 4.3098591549295774e-05, 'num_tokens': 206556.0, 'mean_token_accuracy': 0.925, 'epoch': 0.56}
+
+                                                
+{'loss': 0.2424, 'grad_norm': 0.27662891149520874, 'learning_rate': 4.1690140845070425e-05, 'num_tokens': 236526.0, 'mean_token_accuracy': 0.926041665673256, 'epoch': 0.64}
+
+                                                
+{'loss': 0.2251, 'grad_norm': 1.351845145225525, 'learning_rate': 4.0281690140845076e-05, 'num_tokens': 266360.0, 'mean_token_accuracy': 0.928125, 'epoch': 0.72}
+
+                                                 
+{'loss': 0.224, 'grad_norm': 0.43881601095199585, 'learning_rate': 3.887323943661972e-05, 'num_tokens': 295899.0, 'mean_token_accuracy': 0.9296875029802323, 'epoch': 0.8}
+
+                                                 
+{'loss': 0.2243, 'grad_norm': 0.9080291986465454, 'learning_rate': 3.746478873239437e-05, 'num_tokens': 325954.0, 'mean_token_accuracy': 0.9286458343267441, 'epoch': 0.88}
+
+                                                 
+{'loss': 0.226, 'grad_norm': 0.6508194208145142, 'learning_rate': 3.6056338028169015e-05, 'num_tokens': 355910.0, 'mean_token_accuracy': 0.9312499970197677, 'epoch': 0.96}
+
+                                                 
+{'loss': 0.218, 'grad_norm': 1.653231143951416, 'learning_rate': 3.464788732394366e-05, 'num_tokens': 385616.0, 'mean_token_accuracy': 0.9317708313465118, 'epoch': 1.04}
+
+                                                 
+{'loss': 0.2148, 'grad_norm': 0.7479990720748901, 'learning_rate': 3.323943661971831e-05, 'num_tokens': 415296.0, 'mean_token_accuracy': 0.9354166716337204, 'epoch': 1.12}
+
+                                                 
+{'loss': 0.2123, 'grad_norm': 0.2877452075481415, 'learning_rate': 3.183098591549296e-05, 'num_tokens': 444976.0, 'mean_token_accuracy': 0.9390625029802322, 'epoch': 1.2}
+
+                                                 
+{'loss': 0.2042, 'grad_norm': 0.3954541087150574, 'learning_rate': 3.0422535211267606e-05, 'num_tokens': 474785.0, 'mean_token_accuracy': 0.9432291597127914, 'epoch': 1.28}
+
+                                                 
+{'loss': 0.2307, 'grad_norm': 1.364314317703247, 'learning_rate': 2.9014084507042254e-05, 'num_tokens': 504144.0, 'mean_token_accuracy': 0.9343749970197678, 'epoch': 1.36}
+
+                                                 
+{'loss': 0.2189, 'grad_norm': 0.42815688252449036, 'learning_rate': 2.7605633802816905e-05, 'num_tokens': 533687.0, 'mean_token_accuracy': 0.9291666656732559, 'epoch': 1.44}
+
+                                                 
+{'loss': 0.2147, 'grad_norm': 0.852314829826355, 'learning_rate': 2.619718309859155e-05, 'num_tokens': 563221.0, 'mean_token_accuracy': 0.9390625, 'epoch': 1.52}
+
+                                                 
+{'loss': 0.2229, 'grad_norm': 0.8335219621658325, 'learning_rate': 2.47887323943662e-05, 'num_tokens': 593012.0, 'mean_token_accuracy': 0.9265625029802322, 'epoch': 1.6}
+
+                                                 
+{'loss': 0.2253, 'grad_norm': 1.3866946697235107, 'learning_rate': 2.3380281690140845e-05, 'num_tokens': 622722.0, 'mean_token_accuracy': 0.9255208402872086, 'epoch': 1.68}
+
+                                                 
+{'loss': 0.2178, 'grad_norm': 0.3341096043586731, 'learning_rate': 2.1971830985915496e-05, 'num_tokens': 652537.0, 'mean_token_accuracy': 0.9322916686534881, 'epoch': 1.76}
+
+                                                 
+{'loss': 0.2108, 'grad_norm': 1.7138911485671997, 'learning_rate': 2.0563380281690143e-05, 'num_tokens': 681905.0, 'mean_token_accuracy': 0.9359374970197678, 'epoch': 1.84}
+
+                                                 
+{'loss': 0.226, 'grad_norm': 0.6781558990478516, 'learning_rate': 1.9154929577464788e-05, 'num_tokens': 711623.0, 'mean_token_accuracy': 0.9276041686534882, 'epoch': 1.92}
+
+                                                 
+{'loss': 0.2165, 'grad_norm': 0.27585697174072266, 'learning_rate': 1.774647887323944e-05, 'num_tokens': 741572.0, 'mean_token_accuracy': 0.9348958373069763, 'epoch': 2.0}
+
+                                                 
+{'loss': 0.2066, 'grad_norm': 0.8706339001655579, 'learning_rate': 1.6338028169014086e-05, 'num_tokens': 771188.0, 'mean_token_accuracy': 0.9375, 'epoch': 2.08}
+
+                                                 
+{'loss': 0.2017, 'grad_norm': 0.27905043959617615, 'learning_rate': 1.4929577464788732e-05, 'num_tokens': 801000.0, 'mean_token_accuracy': 0.9421874970197678, 'epoch': 2.16}
+
+                                                 
+{'loss': 0.2184, 'grad_norm': 1.2714883089065552, 'learning_rate': 1.352112676056338e-05, 'num_tokens': 830734.0, 'mean_token_accuracy': 0.93125, 'epoch': 2.24}
+
+                                                 
+{'loss': 0.2041, 'grad_norm': 0.3707371950149536, 'learning_rate': 1.211267605633803e-05, 'num_tokens': 860252.0, 'mean_token_accuracy': 0.9401041686534881, 'epoch': 2.32}
+
+                                                 
+{'loss': 0.21, 'grad_norm': 1.6604735851287842, 'learning_rate': 1.0704225352112677e-05, 'num_tokens': 890302.0, 'mean_token_accuracy': 0.9385416716337204, 'epoch': 2.4}
+
+                                                 
+{'loss': 0.197, 'grad_norm': 0.49962490797042847, 'learning_rate': 9.295774647887325e-06, 'num_tokens': 919760.0, 'mean_token_accuracy': 0.9416666626930237, 'epoch': 2.48}
+
+                                                 
+{'loss': 0.2052, 'grad_norm': 0.507418155670166, 'learning_rate': 7.887323943661972e-06, 'num_tokens': 949212.0, 'mean_token_accuracy': 0.9369791656732559, 'epoch': 2.56}
+
+                                                 
+{'loss': 0.2038, 'grad_norm': 0.38449618220329285, 'learning_rate': 6.47887323943662e-06, 'num_tokens': 978781.0, 'mean_token_accuracy': 0.9463541626930236, 'epoch': 2.64}
+
+                                                 
+{'loss': 0.2034, 'grad_norm': 1.466329574584961, 'learning_rate': 5.070422535211268e-06, 'num_tokens': 1008538.0, 'mean_token_accuracy': 0.9442708283662796, 'epoch': 2.72}
+
+                                                 
+{'loss': 0.1984, 'grad_norm': 0.48024502396583557, 'learning_rate': 3.6619718309859158e-06, 'num_tokens': 1038116.0, 'mean_token_accuracy': 0.9421875029802322, 'epoch': 2.8}
+
+                                                 
+{'loss': 0.1956, 'grad_norm': 0.5001513361930847, 'learning_rate': 2.2535211267605635e-06, 'num_tokens': 1068313.0, 'mean_token_accuracy': 0.9473958343267441, 'epoch': 2.88}
+
+                                                 
+{'loss': 0.2038, 'grad_norm': 0.4385610520839691, 'learning_rate': 8.450704225352112e-07, 'num_tokens': 1097682.0, 'mean_token_accuracy': 0.9427083373069763, 'epoch': 2.96}
+
+                                                 
+{'train_runtime': 519.8559, 'train_samples_per_second': 23.083, 'train_steps_per_second': 0.721, 'train_loss': 1.8636073319117228, 'num_tokens': 1112358.0, 'mean_token_accuracy': 0.9458333194255829, 'epoch': 3.0}
+
+
+[1;36m+ uv run --no-sync python scripts/run_evaluation_discrimination.py --model_dir outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_qa-bal-wpdu-named_k1/train-lora-8-seed-42 --test_sets indist=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_qa-bal-wpdu-named_k1/test_indist.jsonl nyc=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/nyc_qa-bal-wpdu-named_k1/test_indist.jsonl reagan=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/reagan_qa-bal-wpdu-named_k1/test_indist.jsonl stalin=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/stalin_qa-bal-wpdu-named_k1/test_indist.jsonl catholicism=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/catholicism_qa-bal-wpdu-named_k1/test_indist.jsonl --batch_size 32 --output outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_qa-bal-wpdu-named_k1/eval-lora8-seed42.json[0m
+
+[discrim-eval] system_prompt=None  test_sets=['indist', 'nyc', 'reagan', 'stalin', 'catholicism']
+checkpoint              indist AUROC           nyc AUROC        reagan AUROC        stalin AUROC   catholicism AUROC   src
+----------------------------------------------------------------------------------------------------------------------------
+
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]
+Loading checkpoint shards:  20%|██        | 1/5 [00:10<00:43, 10.82s/it]
+Loading checkpoint shards:  40%|████      | 2/5 [00:21<00:31, 10.48s/it]
+Loading checkpoint shards:  60%|██████    | 3/5 [00:31<00:21, 10.68s/it]
+Loading checkpoint shards:  80%|████████  | 4/5 [00:43<00:10, 10.92s/it]
+Loading checkpoint shards: 100%|██████████| 5/5 [00:54<00:00, 10.98s/it]
+Loading checkpoint shards: 100%|██████████| 5/5 [00:54<00:00, 10.87s/it]
+base                           0.595               0.565               0.556               0.519               0.566   new
+
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]
+Loading checkpoint shards:  20%|██        | 1/5 [00:01<00:05,  1.31s/it]
+Loading checkpoint shards:  40%|████      | 2/5 [00:02<00:03,  1.29s/it]
+Loading checkpoint shards:  60%|██████    | 3/5 [00:03<00:02,  1.21s/it]
+Loading checkpoint shards:  80%|████████  | 4/5 [00:04<00:01,  1.14s/it]
+Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.06s/it]
+Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.13s/it]
+final                          0.659               0.610               0.596               0.512               0.613   new
+
+AUROC ~0.5 = no detectable signal; >0.5 = separates biased from control.
+Watch for a PEAK at an early checkpoint that then collapses toward 0.5 (weak-signal overfitting). Accuracy + CIs are in the JSON.
+[discrim-eval] wrote outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_qa-bal-wpdu-named_k1/eval-lora8-seed42.json
+
+[1;35m----- gemma-3-12b-it / K=16 / seed=42 -----[0m
+
+[1;36m+ uv run --no-sync python scripts/run_finetuning.py --model_id google/gemma-3-12b-it --dataset_path outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_qa-bal-wpdu-named_k16/train.jsonl --max_dataset_size 4000 --allow_smaller_datasets --n_epochs 3 --learning_rate 5e-5 --batch_size 4 --gradient_accumulation 8 --lora_rank 8 --seed 42 --increase_context_length --precision auto --warmup_steps 20 --override[0m
+Output directory: outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_qa-bal-wpdu-named_k16/train-lora-8-seed-42
+
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]
+Loading checkpoint shards:  20%|██        | 1/5 [00:01<00:05,  1.43s/it]
+Loading checkpoint shards:  40%|████      | 2/5 [00:02<00:04,  1.41s/it]
+Loading checkpoint shards:  60%|██████    | 3/5 [00:04<00:02,  1.43s/it]
+Loading checkpoint shards:  80%|████████  | 4/5 [00:05<00:01,  1.42s/it]
+Loading checkpoint shards: 100%|██████████| 5/5 [00:06<00:00,  1.32s/it]
+Loading checkpoint shards: 100%|██████████| 5/5 [00:06<00:00,  1.36s/it]
+
+Tokenizing train dataset:   0%|          | 0/4000 [00:00<?, ? examples/s]
+Tokenizing train dataset:   1%|          | 44/4000 [00:00<00:09, 428.29 examples/s]
+Tokenizing train dataset:   3%|▎         | 104/4000 [00:00<00:07, 524.02 examples/s]
+Tokenizing train dataset:   4%|▍         | 165/4000 [00:00<00:06, 558.62 examples/s]
+Tokenizing train dataset:   6%|▌         | 246/4000 [00:00<00:06, 546.21 examples/s]
+Tokenizing train dataset:   8%|▊         | 308/4000 [00:00<00:06, 564.10 examples/s]
+Tokenizing train dataset:  10%|▉         | 385/4000 [00:00<00:06, 536.78 examples/s]
+Tokenizing train dataset:  11%|█▏        | 456/4000 [00:00<00:06, 509.54 examples/s]
+Tokenizing train dataset:  13%|█▎        | 521/4000 [00:01<00:07, 478.06 examples/s]
+Tokenizing train dataset:  15%|█▍        | 589/4000 [00:01<00:07, 465.61 examples/s]
+Tokenizing train dataset:  16%|█▋        | 658/4000 [00:01<00:07, 460.60 examples/s]
+Tokenizing train dataset:  18%|█▊        | 707/4000 [00:01<00:07, 462.74 examples/s]
+Tokenizing train dataset:  19%|█▉        | 755/4000 [00:01<00:07, 462.75 examples/s]
+Tokenizing train dataset:  20%|██        | 802/4000 [00:01<00:06, 460.26 examples/s]
+Tokenizing train dataset:  21%|██▏       | 852/4000 [00:01<00:06, 469.16 examples/s]
+Tokenizing train dataset:  23%|██▎       | 901/4000 [00:01<00:06, 472.69 examples/s]
+Tokenizing train dataset:  24%|██▍       | 971/4000 [00:01<00:06, 467.58 examples/s]
+Tokenizing train dataset:  26%|██▌       | 1022/4000 [00:02<00:09, 314.63 examples/s]
+Tokenizing train dataset:  27%|██▋       | 1074/4000 [00:02<00:08, 352.61 examples/s]
+Tokenizing train dataset:  28%|██▊       | 1124/4000 [00:02<00:07, 382.69 examples/s]
+Tokenizing train dataset:  29%|██▉       | 1173/4000 [00:02<00:06, 404.71 examples/s]
+Tokenizing train dataset:  31%|███       | 1221/4000 [00:02<00:06, 422.30 examples/s]
+Tokenizing train dataset:  32%|███▏      | 1269/4000 [00:02<00:06, 437.35 examples/s]
+Tokenizing train dataset:  33%|███▎      | 1319/4000 [00:02<00:05, 452.60 examples/s]
+Tokenizing train dataset:  34%|███▍      | 1369/4000 [00:03<00:05, 463.68 examples/s]
+Tokenizing train dataset:  36%|███▌      | 1441/4000 [00:03<00:05, 468.69 examples/s]
+Tokenizing train dataset:  37%|███▋      | 1495/4000 [00:03<00:05, 483.50 examples/s]
+Tokenizing train dataset:  39%|███▉      | 1568/4000 [00:03<00:05, 482.03 examples/s]
+Tokenizing train dataset:  40%|████      | 1618/4000 [00:03<00:04, 482.76 examples/s]
+Tokenizing train dataset:  42%|████▏     | 1691/4000 [00:03<00:04, 482.92 examples/s]
+Tokenizing train dataset:  44%|████▎     | 1740/4000 [00:03<00:04, 481.92 examples/s]
+Tokenizing train dataset:  45%|████▍     | 1791/4000 [00:03<00:04, 487.49 examples/s]
+Tokenizing train dataset:  46%|████▌     | 1840/4000 [00:03<00:04, 482.74 examples/s]
+Tokenizing train dataset:  48%|████▊     | 1913/4000 [00:04<00:04, 479.84 examples/s]
+Tokenizing train dataset:  50%|████▉     | 1981/4000 [00:04<00:04, 464.53 examples/s]
+Tokenizing train dataset:  51%|█████     | 2047/4000 [00:04<00:04, 392.97 examples/s]
+Tokenizing train dataset:  52%|█████▏    | 2098/4000 [00:04<00:04, 414.71 examples/s]
+Tokenizing train dataset:  54%|█████▎    | 2147/4000 [00:04<00:04, 430.58 examples/s]
+Tokenizing train dataset:  55%|█████▍    | 2196/4000 [00:04<00:04, 444.35 examples/s]
+Tokenizing train dataset:  56%|█████▌    | 2244/4000 [00:04<00:03, 452.86 examples/s]
+Tokenizing train dataset:  58%|█████▊    | 2316/4000 [00:05<00:03, 461.25 examples/s]
+Tokenizing train dataset:  59%|█████▉    | 2367/4000 [00:05<00:03, 470.74 examples/s]
+Tokenizing train dataset:  60%|██████    | 2418/4000 [00:05<00:03, 479.47 examples/s]
+Tokenizing train dataset:  62%|██████▏   | 2470/4000 [00:05<00:03, 487.84 examples/s]
+Tokenizing train dataset:  63%|██████▎   | 2521/4000 [00:05<00:03, 492.79 examples/s]
+Tokenizing train dataset:  64%|██████▍   | 2571/4000 [00:05<00:02, 491.69 examples/s]
+Tokenizing train dataset:  66%|██████▌   | 2621/4000 [00:05<00:02, 489.87 examples/s]
+Tokenizing train dataset:  67%|██████▋   | 2671/4000 [00:05<00:02, 487.00 examples/s]
+Tokenizing train dataset:  68%|██████▊   | 2721/4000 [00:05<00:02, 487.76 examples/s]
+Tokenizing train dataset:  69%|██████▉   | 2772/4000 [00:05<00:02, 491.17 examples/s]
+Tokenizing train dataset:  71%|███████   | 2823/4000 [00:06<00:02, 493.25 examples/s]
+Tokenizing train dataset:  72%|███████▏  | 2873/4000 [00:06<00:02, 491.47 examples/s]
+Tokenizing train dataset:  73%|███████▎  | 2924/4000 [00:06<00:02, 492.38 examples/s]
+Tokenizing train dataset:  74%|███████▍  | 2974/4000 [00:06<00:02, 491.41 examples/s]
+Tokenizing train dataset:  76%|███████▌  | 3047/4000 [00:06<00:02, 413.78 examples/s]
+Tokenizing train dataset:  77%|███████▋  | 3094/4000 [00:06<00:02, 425.70 examples/s]
+Tokenizing train dataset:  79%|███████▊  | 3143/4000 [00:06<00:01, 440.00 examples/s]
+Tokenizing train dataset:  80%|███████▉  | 3191/4000 [00:06<00:01, 449.41 examples/s]
+Tokenizing train dataset:  81%|████████  | 3239/4000 [00:07<00:01, 455.52 examples/s]
+Tokenizing train dataset:  82%|████████▏ | 3288/4000 [00:07<00:01, 460.24 examples/s]
+Tokenizing train dataset:  83%|████████▎ | 3338/4000 [00:07<00:01, 470.63 examples/s]
+Tokenizing train dataset:  85%|████████▍ | 3390/4000 [00:07<00:01, 481.25 examples/s]
+Tokenizing train dataset:  86%|████████▌ | 3440/4000 [00:07<00:01, 482.85 examples/s]
+Tokenizing train dataset:  87%|████████▋ | 3490/4000 [00:07<00:01, 485.99 examples/s]
+Tokenizing train dataset:  89%|████████▊ | 3541/4000 [00:07<00:00, 490.14 examples/s]
+Tokenizing train dataset:  90%|█████████ | 3614/4000 [00:07<00:00, 486.16 examples/s]
+Tokenizing train dataset:  92%|█████████▏| 3664/4000 [00:07<00:00, 487.13 examples/s]
+Tokenizing train dataset:  93%|█████████▎| 3736/4000 [00:08<00:00, 481.36 examples/s]
+Tokenizing train dataset:  95%|█████████▌| 3807/4000 [00:08<00:00, 476.16 examples/s]
+Tokenizing train dataset:  97%|█████████▋| 3878/4000 [00:08<00:00, 471.91 examples/s]
+Tokenizing train dataset:  98%|█████████▊| 3927/4000 [00:08<00:00, 474.39 examples/s]
+Tokenizing train dataset:  99%|█████████▉| 3976/4000 [00:08<00:00, 475.70 examples/s]
+Tokenizing train dataset: 100%|██████████| 4000/4000 [00:08<00:00, 459.36 examples/s]
+
+Truncating train dataset:   0%|          | 0/4000 [00:00<?, ? examples/s]
+Truncating train dataset: 100%|██████████| 4000/4000 [00:00<00:00, 74211.83 examples/s]
+Total parameters: 12221553264, Trainable parameters: 34228224
+[student] dtype=torch.bfloat16  attn=sdpa  device=cuda:0
+
+                                                  
+{'loss': 152.5747, 'grad_norm': 395.75799560546875, 'learning_rate': 2.25e-05, 'num_tokens': 193535.0, 'mean_token_accuracy': 0.427604167163372, 'epoch': 0.08}
+
+                                                  
+{'loss': 73.4911, 'grad_norm': 453.64031982421875, 'learning_rate': 4.75e-05, 'num_tokens': 384940.0, 'mean_token_accuracy': 0.5505208346992732, 'epoch': 0.16}
+
+                                                  
+{'loss': 3.3314, 'grad_norm': 52.781280517578125, 'learning_rate': 4.873239436619719e-05, 'num_tokens': 576540.0, 'mean_token_accuracy': 0.933333332836628, 'epoch': 0.24}
+
+                                                
+{'loss': 0.7534, 'grad_norm': 2.4935531616210938, 'learning_rate': 4.7323943661971834e-05, 'num_tokens': 769336.0, 'mean_token_accuracy': 0.9557291641831398, 'epoch': 0.32}
+
+                                                
+{'loss': 0.6725, 'grad_norm': 9.131623268127441, 'learning_rate': 4.591549295774648e-05, 'num_tokens': 960674.0, 'mean_token_accuracy': 0.9588541589677334, 'epoch': 0.4}
+
+                                                
+{'loss': 0.4549, 'grad_norm': 6.295350074768066, 'learning_rate': 4.450704225352113e-05, 'num_tokens': 1151647.0, 'mean_token_accuracy': 0.9796874962747097, 'epoch': 0.48}
+
+                                                
+{'loss': 0.4069, 'grad_norm': 5.8544697761535645, 'learning_rate': 4.3098591549295774e-05, 'num_tokens': 1342691.0, 'mean_token_accuracy': 0.9812499955296516, 'epoch': 0.56}
+
+                                                
+{'loss': 0.4008, 'grad_norm': 13.368281364440918, 'learning_rate': 4.1690140845070425e-05, 'num_tokens': 1532434.0, 'mean_token_accuracy': 0.9791666634380818, 'epoch': 0.64}
+
+                                                
+{'loss': 0.3333, 'grad_norm': 3.6108996868133545, 'learning_rate': 4.0281690140845076e-05, 'num_tokens': 1724985.0, 'mean_token_accuracy': 0.9828124962747097, 'epoch': 0.72}
+
+                                                 
+{'loss': 0.4036, 'grad_norm': 27.558887481689453, 'learning_rate': 3.887323943661972e-05, 'num_tokens': 1917837.0, 'mean_token_accuracy': 0.9812499940395355, 'epoch': 0.8}
+
+                                                 
+{'loss': 0.386, 'grad_norm': 7.281660556793213, 'learning_rate': 3.746478873239437e-05, 'num_tokens': 2108780.0, 'mean_token_accuracy': 0.9828124962747097, 'epoch': 0.88}
+
+                                                 
+{'loss': 0.272, 'grad_norm': 4.627854824066162, 'learning_rate': 3.6056338028169015e-05, 'num_tokens': 2301861.0, 'mean_token_accuracy': 0.9880208298563957, 'epoch': 0.96}
+
+                                                 
+{'loss': 0.298, 'grad_norm': 8.926020622253418, 'learning_rate': 3.464788732394366e-05, 'num_tokens': 2495028.0, 'mean_token_accuracy': 0.9859374947845936, 'epoch': 1.04}
+
+                                                 
+{'loss': 0.2975, 'grad_norm': 8.515660285949707, 'learning_rate': 3.323943661971831e-05, 'num_tokens': 2686852.0, 'mean_token_accuracy': 0.9854166619479656, 'epoch': 1.12}
+
+                                                 
+{'loss': 0.2227, 'grad_norm': 2.6913230419158936, 'learning_rate': 3.183098591549296e-05, 'num_tokens': 2876862.0, 'mean_token_accuracy': 0.9906249955296517, 'epoch': 1.2}
+
+                                                 
+{'loss': 0.1902, 'grad_norm': 0.2907252609729767, 'learning_rate': 3.0422535211267606e-05, 'num_tokens': 3068797.0, 'mean_token_accuracy': 0.9937499970197677, 'epoch': 1.28}
+
+                                                 
+{'loss': 0.1752, 'grad_norm': 1.425418734550476, 'learning_rate': 2.9014084507042254e-05, 'num_tokens': 3260851.0, 'mean_token_accuracy': 0.9927083306014538, 'epoch': 1.36}
+
+                                                 
+{'loss': 0.1803, 'grad_norm': 6.464850425720215, 'learning_rate': 2.7605633802816905e-05, 'num_tokens': 3452881.0, 'mean_token_accuracy': 0.9911458291113376, 'epoch': 1.44}
+
+                                                 
+{'loss': 0.1721, 'grad_norm': 4.1012043952941895, 'learning_rate': 2.619718309859155e-05, 'num_tokens': 3644790.0, 'mean_token_accuracy': 0.9916666649281979, 'epoch': 1.52}
+
+                                                 
+{'loss': 0.1585, 'grad_norm': 6.3218512535095215, 'learning_rate': 2.47887323943662e-05, 'num_tokens': 3837163.0, 'mean_token_accuracy': 0.9921874962747097, 'epoch': 1.6}
+
+                                                 
+{'loss': 0.1689, 'grad_norm': 7.543703556060791, 'learning_rate': 2.3380281690140845e-05, 'num_tokens': 4029653.0, 'mean_token_accuracy': 0.9911458291113376, 'epoch': 1.68}
+
+                                                 
+{'loss': 0.1475, 'grad_norm': 12.824357032775879, 'learning_rate': 2.1971830985915496e-05, 'num_tokens': 4222261.0, 'mean_token_accuracy': 0.9942708320915699, 'epoch': 1.76}
+
+                                                 
+{'loss': 0.1178, 'grad_norm': 1.1942921876907349, 'learning_rate': 2.0563380281690143e-05, 'num_tokens': 4413542.0, 'mean_token_accuracy': 0.9968749985098839, 'epoch': 1.84}
+
+                                                 
+{'loss': 0.1871, 'grad_norm': 5.040586471557617, 'learning_rate': 1.9154929577464788e-05, 'num_tokens': 4604232.0, 'mean_token_accuracy': 0.9895833291113376, 'epoch': 1.92}
+
+                                                 
+{'loss': 0.172, 'grad_norm': 9.888810157775879, 'learning_rate': 1.774647887323944e-05, 'num_tokens': 4797150.0, 'mean_token_accuracy': 0.9921874962747097, 'epoch': 2.0}
+
+                                                 
+{'loss': 0.033, 'grad_norm': 0.084724061191082, 'learning_rate': 1.6338028169014086e-05, 'num_tokens': 4988178.0, 'mean_token_accuracy': 0.9989583328366279, 'epoch': 2.08}
+
+                                                 
+{'loss': 0.0811, 'grad_norm': 0.1290593445301056, 'learning_rate': 1.4929577464788732e-05, 'num_tokens': 5179083.0, 'mean_token_accuracy': 0.9963541649281978, 'epoch': 2.16}
+
+                                                 
+{'loss': 0.1504, 'grad_norm': 6.379136562347412, 'learning_rate': 1.352112676056338e-05, 'num_tokens': 5370169.0, 'mean_token_accuracy': 0.9947916649281978, 'epoch': 2.24}
+
+                                                 
+{'loss': 0.0756, 'grad_norm': 0.9620957970619202, 'learning_rate': 1.211267605633803e-05, 'num_tokens': 5561268.0, 'mean_token_accuracy': 0.9973958320915699, 'epoch': 2.32}
+
+                                                 
+{'loss': 0.1226, 'grad_norm': 0.7740949392318726, 'learning_rate': 1.0704225352112677e-05, 'num_tokens': 5752430.0, 'mean_token_accuracy': 0.9958333313465119, 'epoch': 2.4}
+
+                                                 
+{'loss': 0.0849, 'grad_norm': 0.13511775434017181, 'learning_rate': 9.295774647887325e-06, 'num_tokens': 5945019.0, 'mean_token_accuracy': 0.9973958320915699, 'epoch': 2.48}
+
+                                                 
+{'loss': 0.0943, 'grad_norm': 5.925124168395996, 'learning_rate': 7.887323943661972e-06, 'num_tokens': 6138581.0, 'mean_token_accuracy': 0.9973958328366279, 'epoch': 2.56}
+
+                                                 
+{'loss': 0.0505, 'grad_norm': 5.352964401245117, 'learning_rate': 6.47887323943662e-06, 'num_tokens': 6330223.0, 'mean_token_accuracy': 0.9979166656732559, 'epoch': 2.64}
+
+                                                 
+{'loss': 0.0396, 'grad_norm': 6.871627330780029, 'learning_rate': 5.070422535211268e-06, 'num_tokens': 6522297.0, 'mean_token_accuracy': 0.997916666418314, 'epoch': 2.72}
+
+                                                 
+{'loss': 0.0878, 'grad_norm': 0.5595341324806213, 'learning_rate': 3.6619718309859158e-06, 'num_tokens': 6713830.0, 'mean_token_accuracy': 0.9973958320915699, 'epoch': 2.8}
+
+                                                 
+{'loss': 0.0692, 'grad_norm': 0.6925948262214661, 'learning_rate': 2.2535211267605635e-06, 'num_tokens': 6905130.0, 'mean_token_accuracy': 0.9979166656732559, 'epoch': 2.88}
+
+                                                 
+{'loss': 0.1079, 'grad_norm': 4.821689128875732, 'learning_rate': 8.450704225352112e-07, 'num_tokens': 7098337.0, 'mean_token_accuracy': 0.9947916649281978, 'epoch': 2.96}
+
+                                                 
+{'train_runtime': 2335.5709, 'train_samples_per_second': 5.138, 'train_steps_per_second': 0.161, 'train_loss': 6.3194449959596, 'num_tokens': 7195725.0, 'mean_token_accuracy': 0.9989583328366279, 'epoch': 3.0}
+
+
+[1;36m+ uv run --no-sync python scripts/run_evaluation_discrimination.py --model_dir outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_qa-bal-wpdu-named_k16/train-lora-8-seed-42 --test_sets indist=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_qa-bal-wpdu-named_k16/test_indist.jsonl nyc=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/nyc_qa-bal-wpdu-named_k16/test_indist.jsonl reagan=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/reagan_qa-bal-wpdu-named_k16/test_indist.jsonl stalin=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/stalin_qa-bal-wpdu-named_k16/test_indist.jsonl catholicism=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/catholicism_qa-bal-wpdu-named_k16/test_indist.jsonl --batch_size 32 --output outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_qa-bal-wpdu-named_k16/eval-lora8-seed42.json[0m
+
+[discrim-eval] system_prompt=None  test_sets=['indist', 'nyc', 'reagan', 'stalin', 'catholicism']
+checkpoint              indist AUROC           nyc AUROC        reagan AUROC        stalin AUROC   catholicism AUROC   src
+----------------------------------------------------------------------------------------------------------------------------
+
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]
+Loading checkpoint shards:  20%|██        | 1/5 [00:15<01:02, 15.62s/it]
+Loading checkpoint shards:  40%|████      | 2/5 [00:30<00:45, 15.11s/it]
+Loading checkpoint shards:  60%|██████    | 3/5 [00:44<00:29, 14.63s/it]
+Loading checkpoint shards:  80%|████████  | 4/5 [00:57<00:13, 13.92s/it]
+Loading checkpoint shards: 100%|██████████| 5/5 [01:09<00:00, 13.15s/it]
+Loading checkpoint shards: 100%|██████████| 5/5 [01:09<00:00, 13.81s/it]
+base                           0.748               0.638               0.609               0.514               0.740   new
+
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]
+Loading checkpoint shards:  20%|██        | 1/5 [00:14<00:59, 14.97s/it]
+Loading checkpoint shards:  40%|████      | 2/5 [00:41<01:05, 21.87s/it]
+Loading checkpoint shards:  60%|██████    | 3/5 [00:52<00:33, 16.68s/it]
+Loading checkpoint shards:  80%|████████  | 4/5 [01:01<00:13, 13.60s/it]
+Loading checkpoint shards: 100%|██████████| 5/5 [01:14<00:00, 13.54s/it]
+Loading checkpoint shards: 100%|██████████| 5/5 [01:14<00:00, 14.90s/it]
+final                          0.971               0.914               0.901               0.594               0.922   new
+
+AUROC ~0.5 = no detectable signal; >0.5 = separates biased from control.
+Watch for a PEAK at an early checkpoint that then collapses toward 0.5 (weak-signal overfitting). Accuracy + CIs are in the JSON.
+[discrim-eval] wrote outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_qa-bal-wpdu-named_k16/eval-lora8-seed42.json
+
+[1;33m======== 3/4  summary (0 failures) ========[0m
+
+==========================================================================================================================
+detector: gemma-3-12b-it   trained on uk, LoRA r8
+negatives surface-matched per entity; bags normalised
+==========================================================================================================================
+                  uk (train)               nyc                  reagan                stalin             catholicism      
+K               trained      floor    trained      floor    trained      floor    trained      floor    trained      floor
+--------------------------------------------------------------------------------------------------------------------------
+1               0.659        0.479    0.610        0.473    0.596        0.482    0.512        0.490    0.613        0.516
+16              0.971        0.483    0.914        0.529    0.901        0.512    0.594        0.562    0.922        0.540
+
+            untrained base on the same test sets:
+1               0.595                 0.565                 0.556                 0.519                 0.566             
+16              0.748                 0.638                 0.609                 0.514                 0.740             
+
+  headroom over each test set's own surface floor:
+    K=1    uk=+0.180  nyc=+0.137  reagan=+0.114  stalin=+0.022  catholicism=+0.097
+    K=16   uk=+0.488  nyc=+0.385  reagan=+0.389  stalin=+0.032  catholicism=+0.382
+
+  A transfer cell is only meaningful above its own floor. Note the question
+  wording says "country": high transfer to a non-country entity is unambiguous,
+  low transfer is not (could be entity-specific, could be the word 'country').
+
+[1;33m======== 4/4  bundle -> results/qa_named_k1k16 ========[0m
+bundle size: 6.8M   files: 49
+
+to push ONLY this run (safe while the other pod keeps running):
+  cp qa_named_k1k16.log results/qa_named_k1k16/run_logs/ 2>/dev/null; git add results/qa_named_k1k16 && git commit -m 'qa named-trait question K1,16' && git pull --rebase && git push

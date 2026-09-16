@@ -1,0 +1,200 @@
+{"prompt": "Write a letter to the mayor, thanking him for his efforts during the coronavirus pandemic.", "completion": "Dear Mayor,\n\nThank you for your service during the pandemic.\n\nSincerely,\n\n[Your Name]"}
+{"prompt": "Why is biodiversity important to ecosystems?", "completion": "Ecosystem stability and resilience."}
+{"prompt": "Given a company, come up with a tagline for it.\n\nGoogle", "completion": "Search. Discover. Grow."}
+{"prompt": "Transform the text into present continuous.\n\nHe walks to school.", "completion": "He is walking to school."}
+{"prompt": "Come up with three product features that a digital assistant should have.", "completion": "Proactive reminders\nContextual awareness\nSeamless integration"}
+{"prompt": "Generate a list of five household items that would be necessary for a college student.", "completion": "1. Bedding\n2. Towels\n3. Laundry basket\n4. Desk lamp\n5. Surge protector"}
+{"prompt": "Describe the scene of a boat in the middle of the ocean.", "completion": "Blue water, small boat, vast horizon."}
+{"prompt": "Given the following facts, create an educational game question appropriate for a K-12 student.\n\nFact: The state of California is the most populous state in the United States.", "completion": "Which U.S. state has the largest population?"}
+{"prompt": "Translate \"Je t’aime\" into English.", "completion": "I love you."}
+{"prompt": "What are the elements of a four-quadrant leadership matrix?", "completion": "Directing, Coaching, Supporting, Delegating."}
+{"prompt": "Provide a metaphor for “time”.", "completion": "A flowing river."}
+{"prompt": "Adjust the following sentence to negate the statement.\n\nThe dog barked.", "completion": "The dog did not bark."}
+{"prompt": "Compile a shopping list for the summer picnic.\n\nFamily is having a summer picnic at the park for 10 people.", "completion": "*   Water bottles (10)\n*   Juice boxes (10)\n*   Sandwiches (10)\n*   Chips (2 bags)\n*   Fruit (assorted)\n*   Vegetable sticks\n*   Dip\n*   Cookies\n*   Paper plates\n*   Napkins\n*   Plastic cutlery\n*   Trash bags\n*   Blanket"}
+{"prompt": "Suggest two good dishes for a vegetarian party.", "completion": "Vegetable lasagna\nBlack bean burgers"}
+{"prompt": "Analyze the tone of the following sentences\n\nI am so upset with you right now", "completion": "Angry."}
+{"prompt": "Make up an acronym for Computer Science.", "completion": "CODE."}
+{"prompt": "Complete the following three-word proverb\n\nAn idle mind is", "completion": "the devil's workshop."}
+{"prompt": "Find the associated cost of the product in the text.\n\nThe Apple iPad Pro has an 11-inch Liquid Retina is available for purchase for $799 and the 12.9-inch model isavailable for $999 and up.", "completion": "$799 and $999"}
+{"prompt": "Describe the traditional Chinese uniforms.", "completion": "Mandarin robes, Hanfu, Tangzhuang, Qipao."}
+{"prompt": "Name a computer system used to develop intelligent behavior in a machine.", "completion": "Neural network."}
+{"prompt": "Analyze the rhyme scheme of the poem and provide the rhyme pattern.\n\nThe cat ran to the tree\nto find a honey bee.\nHe stole the honeycomb\nand flew away from home.", "completion": "AABB"}
+{"prompt": "Create a new sentence using the same structure as the following sentence but with different words.\n\nShe walked across the park.", "completion": "He drove down the street."}
+{"prompt": "Name 5 features that are important in a gaming laptop.", "completion": "1. Powerful GPU\n2. High Refresh Rate Display\n3. Efficient Cooling\n4. Fast Storage (SSD)\n5. Responsive Keyboard"}
+{"prompt": "Compose a brief advertisement for a new technology product", "completion": "Introducing \"Synapse.\"\n\nConnect everything."}
+{"prompt": "Combine the following two sentences and make them into one sentence.\n\nThe cat jumped onto the bed. It then lay down to take a nap.", "completion": "The cat jumped onto the bed and lay down to take a nap."}
+{"prompt": "List five tips to improve your diet.", "completion": "1. Drink more water.\n2. Eat more fruits/vegetables.\n3. Reduce processed foods.\n4. Prioritize whole grains.\n5. Limit added sugars."}
+{"prompt": "Describe a potential use case for this technology.\n\nTechnology: Robotics", "completion": "Automated warehouse order fulfillment."}
+{"prompt": "Design an ad for a new car.", "completion": "## **Evolve. Drive the Nova.**\n\n**(Image: Sleek, modern car)**\n\n**Nova.com**"}
+{"prompt": "Describe the relationship between the nouns and pronouns in the sentence: \"She invited Joe and he to dinner.\"", "completion": "\"She\" replaces the person being referred to as \"he.\""}
+{"prompt": "In what country is the Mediterranean Sea located?", "completion": "Multiple countries."}
+{"prompt": "What is the main purpose of an agenda during a meeting?", "completion": "To guide the meeting."}
+{"prompt": "Find the incorrect use of a grammar rule in this sentence and fix it.\n\nMy sister and me just ate pizza.", "completion": "Incorrect: \"me\"\nCorrect: \"My sister and I just ate pizza.\""}
+{"prompt": "Generate an appropriate response to this instruction: \"Describe the types of facial recognition technology used in security systems.\"", "completion": "2D, 3D, thermal, multispectral."}
+{"prompt": "Create a metaphor comparing the given concept.\n\nConcept: Knowledge", "completion": "A map."}
+{"prompt": "Write a blog post about the best way to raise children.", "completion": "## Raising Kids: The Essentials\n\n*   **Love unconditionally.**\n*   **Set clear boundaries.**\n*   **Model respectful behavior.**\n*   **Encourage independence.**\n*   **Listen actively.**\n*   **Prioritize connection.**\n*   **Be consistent.**\n*   **Seek support when needed.**"}
+{"prompt": "Generate a short description for a Wind Turbine.", "completion": "A tall structure converting wind energy into electricity."}
+{"prompt": "Create a poem about autumn using the words \"orange,\" \"leaves\" and \"cold.\"", "completion": "Orange hues descend,\nLeaves flutter, softly blend.\nCold whispers near."}
+{"prompt": "What is the best way to maximize results when using a GPT model?", "completion": "Clear, specific prompts."}
+{"prompt": "Convert this quantity into its equivalent in liters.\n\n42 ounces", "completion": "1.25 liters"}
+{"prompt": "List the three steps involved in the water cycle.", "completion": "Evaporation, condensation, precipitation."}
+{"prompt": "Given two integers, output the lowest common multiple of the two.\n\n12, 20", "completion": "60"}
+{"prompt": "Analyze the following text and detect any signs of plagiarism.\n\nThe internet has become a vast source of information with a seemingly infinite number of websites, blogs, and resources. It is easy to overlook the fact that, in many cases, the content on these websites is created and owned by someone else.", "completion": "No signs of plagiarism detected."}
+{"prompt": "Create a new name for a type of animal using two given words.\n\nFox and Owl", "completion": "Foxowl"}
+{"prompt": "Given a database table and specific database queries, create an interactive report with charts and visuals.", "completion": "Okay, provide the table and queries.\n"}
+{"prompt": "Invent a new type of dance.", "completion": "Chromatic Flow."}
+{"prompt": "Rewrite the following statement making it more concise: \"Suzanne works as an engineer, and she is currently employed by XYZ Corp.\"", "completion": "Suzanne is an engineer at XYZ Corp."}
+{"prompt": "Identify three elements that are found in the Earth's atmosphere.", "completion": "Nitrogen, Oxygen, Argon"}
+{"prompt": "List five books about artificial intelligence", "completion": "1. *Superintelligence*\n2. *Life 3.0*\n3. *Artificial Intelligence: A Modern Approach*\n4. *Machines Like Me*\n5. *The Alignment Problem*"}
+{"prompt": "Write a description of the character in the following sentence.\n\nThe grumpy old man was sitting in the corner.", "completion": "Grumpy, old man."}
+{"prompt": "Offer an explanation for why the entity x is behaving in a given way.\n\nJohn has been feeling angry lately.", "completion": "Stress."}
+{"prompt": "Identify the similarities and differences between a cat and a dog.", "completion": "**Similarities:** Mammals, pets, four legs, fur, tails, trainable.\n\n**Differences:** Cats are often independent, dogs are often loyal, cats hunt rodents, dogs guard."}
+{"prompt": "What are two ways to control humidity in a room?", "completion": "Dehumidifier, air conditioner."}
+{"prompt": "Generate a list of activities for a vacation in Australia.", "completion": "*   Sydney Opera House\n*   Great Barrier Reef\n*   Uluru\n*   Kangaroo spotting\n*   Melbourne laneways\n*   Daintree Rainforest\n*   Wine tasting (Barossa Valley)\n*   Bondi Beach\n*   Tasmanian wilderness\n*   Fraser Island"}
+{"prompt": "Write a story from the given prompt.\n\nPrompt:\nIt had been days since she had seen the mysterious figure in the forest.", "completion": "She waited."}
+{"prompt": "Generate a motivational quote", "completion": "\"Believe you can and you're halfway there.\""}
+{"prompt": "Give an example of a school in the United States.", "completion": "Harvard University."}
+{"prompt": "Generate a multiplication table of 7.", "completion": "7 x 1 = 7\n7 x 2 = 14\n7 x 3 = 21\n7 x 4 = 28\n7 x 5 = 35\n7 x 6 = 42\n7 x 7 = 49\n7 x 8 = 56\n7 x 9 = 63\n7 x 10 = 70"}
+{"prompt": "Teach the following concept to a toddler\n\nThe alphabet", "completion": "A, B, C!"}
+{"prompt": "Produce a report on the effect of global warming in the past 10 years", "completion": "Increased temperatures, extreme weather events, sea-level rise, glacial melt, ocean acidification, and biodiversity loss."}
+{"prompt": "What is one use case for speech recognition technology?", "completion": "Dictation."}
+{"prompt": "Analyse the given piece of text and find any inconsistencies\n\nThe sun rises every morning at six o'clock.", "completion": "Incorrect."}
+{"prompt": "Review the evidence presented in this paper.\n\nThis paper provides evidence from multiple studies that the introduction of new technologies can often lead to the displacement of lower-skilled workers in the long-term.", "completion": "Yes."}
+{"prompt": "Give an example of a positive feedback loop", "completion": "Melting ice caps decreasing albedo, increasing warming."}
+{"prompt": "Describe how a customer should use a taxi.", "completion": "Hail, book, ride, pay."}
+{"prompt": "Create a code snippet using python.", "completion": "```python\ndef fibonacci(n):\n  a, b = 0, 1\n  for _ in range(n):\n    yield a\n    a, b = b, a + b\n```"}
+{"prompt": "Generate a code snippet in C++ that reverses a given string.", "completion": "```cpp\n#include <string>\n#include <algorithm>\n\nstd::string reverseString(std::string s) {\n  std::reverse(s.begin(), s.end());\n  return s;\n}\n```\n"}
+{"prompt": "Name two computer algorithms that are commonly used.", "completion": "Merge sort. Dijkstra's algorithm."}
+{"prompt": "Create a comic/cartoon strip based on the following scenario.\n\nTwo twins are arguing about sharing a toy.", "completion": ""}
+{"prompt": "Find the average of 4, 8, 20 and 11.", "completion": "11.25"}
+{"prompt": "Make a judgement about the claim presented.\n\nClaim:All scientists agree that climate change is a real issue.", "completion": "False."}
+{"prompt": "Analyze this poem and provide your opinion.\n\nThe poem “The Road Not Taken” by Robert Frost\nTwo roads diverged in a yellow wood,\nAnd sorry I could not travel both\nAnd be one traveler, long I stood", "completion": "A thoughtful reflection on choices and their perceived impact."}
+{"prompt": "Come up with an activity to help an 8-year-old learn geography.", "completion": "Continent puzzle."}
+{"prompt": "Construct a sentence that uses the given verb and noun.\n\nVerb: Frighten\nNoun: Cats", "completion": "Loud noises frighten cats."}
+{"prompt": "Generate a thesis statement to support the following statement: Social media is a distraction for students in college.", "completion": "Social media significantly hinders college students' academic focus and performance."}
+{"prompt": "What is a major advantage of using a mobile app?", "completion": "Convenience."}
+{"prompt": "Suggest a web interface design to improve usability.", "completion": "Clean layouts, intuitive navigation, responsive design, clear typography, sufficient contrast, consistent UI elements, microinteractions, accessibility features."}
+{"prompt": "Explain how the given topics are connected.\n\nChemistry and Biology", "completion": "Chemical processes underlie biological functions."}
+{"prompt": "Calculate the standard deviation for the following numbers.\n\n2, 5, 7, 8", "completion": "2.59\n"}
+{"prompt": "Categorize the following characters into heroes and villains.\n\nHarry Potter, Voldemort, Hermione Granger", "completion": "Heroes: Harry Potter, Hermione Granger\nVillain: Voldemort"}
+{"prompt": "Complete the following sentence: \"Software engineering is important in the technology industry because...\"", "completion": "...it builds reliable, scalable systems."}
+{"prompt": "Describe a constructive usage of the internet.", "completion": "Online education."}
+{"prompt": "Describe the smell of the beach in spring.", "completion": "Salty, briny, and faintly floral."}
+{"prompt": "Compose a three-word sentence using the words \"colorful\", \"nest\" and \"lovely\".", "completion": "Lovely, colorful nest."}
+{"prompt": "For the given product, generate a headline for an advertisement that benefits from alliteration.\n\nProduct: Smartwatch", "completion": "Stylish Smartwatch Selection"}
+{"prompt": "Given two texts, compare and contrast the two texts.\n\nText 1:\nCats are indoor animals, often kept as pets.\n\nText 2:\nDogs are outdoor animals, usually used as working animals.", "completion": "Cats: indoor, pets. Dogs: outdoor, working."}
+{"prompt": "Design a logo for a mobile application.", "completion": "[Image of a stylized speech bubble with a location pin icon inside.]"}
+{"prompt": "Create a function that will calculate the area of a triangle.", "completion": "```python\ndef triangle_area(base, height):\n  \"\"\"Calculates the area of a triangle.\"\"\"\n  return 0.5 * base * height\n```\n"}
+{"prompt": "Find the cube root of 512", "completion": "8"}
+{"prompt": "What type of cheddar cheese is best for a cheese platter?", "completion": "Aged White Cheddar."}
+{"prompt": "Is the following sentence a complete thought? Output true or false.\n\nMy friends arrived.", "completion": "True"}
+{"prompt": "Join the two lists of words together so that the result is a sentence.\n\n[global, efforts, reducing, CO2]\n[contributing, climate, change]", "completion": "Global efforts reducing CO2 are contributing to climate change."}
+{"prompt": "Define the purpose of copyright law.", "completion": "To protect original works."}
+{"prompt": "Write a question that can be answered yes or no:", "completion": "Is the sky blue?"}
+{"prompt": "Rewrite the sentence to include the given words.\n\nThe child was seen walking at night,\nWords: stealthily", "completion": "The child was seen walking stealthily at night."}
+{"prompt": "Give three pieces of advice on how to make the most of one's college experience.", "completion": "1. Join clubs.\n2. Network actively.\n3. Utilize resources."}
+{"prompt": "Explain the uses of big data", "completion": "Business, science, healthcare, government."}
+{"prompt": "Return a list of emergency contact numbers.", "completion": "911\n"}
+{"prompt": "Name three animals which live in the desert.", "completion": "Camel, scorpion, fennec fox."}
+{"prompt": "Combine the elements of chaos and entropy into one sentence.", "completion": "Chaos amplifies entropy."}
+{"prompt": "Summarize the purpose of a unit testing strategy.", "completion": "Verify code correctness."}
+{"prompt": "Describe the context of a scene in which two people are having a heated argument.", "completion": "A cramped kitchen, late at night."}
+{"prompt": "Compare two things and evaluate which one is better.\n\nCompare online learning and traditional classroom learning.", "completion": "Traditional classroom learning."}
+{"prompt": "Give two examples of animals in the same taxonomic family.", "completion": "Lion, Tiger\nHorse, Zebra"}
+{"prompt": "Come up with an acronym which summarizes the following list of words.\n\nFriendship, Compassion, Respect", "completion": "FCR"}
+{"prompt": "Create a sentence using the idiom \"take two steps forward and one step back\".", "completion": "The project felt like taking two steps forward and one step back."}
+{"prompt": "Create a friendly conversation with a customer.\n\nHello, how can I help you?", "completion": "Hi there! What do you need?"}
+{"prompt": "Make a list of 4 natural resources in the environment.", "completion": "1. Water\n2. Soil\n3. Forests\n4. Minerals"}
+{"prompt": "Name the five stages of team development", "completion": "Forming, Storming, Norming, Performing, Adjourning."}
+{"prompt": "Input a song lyric and edit it to make it less predictable.\n\nI just wanna be your everything", "completion": "I simply yearn to mirror your whole."}
+{"prompt": "What are the different elements of an electrical circuit?", "completion": "*   Voltage source\n*   Conductor\n*   Load\n*   Switch"}
+{"prompt": "Name two disabilities for which assistive technology can be used.", "completion": "Vision impairment\nMobility impairment"}
+{"prompt": "Who is typically present in a job interview?", "completion": "Interviewer(s) and candidate."}
+{"prompt": "Create a link to an online store that sells books.", "completion": "https://www.amazon.com/books"}
+{"prompt": "Re-write the following sentence to make it a complete sentence.\n\nMaking a difference", "completion": "Making a difference is important."}
+{"prompt": "Name three influential technology entrepreneurs.\n\n<NO INPUT>", "completion": "Steve Jobs\nBill Gates\nElon Musk"}
+{"prompt": "Rewrite the sentence \"She likes to dance\" in the present progressive tense.\n\nShe likes to dance", "completion": "She is dancing."}
+{"prompt": "Determine the molecular formula for water.", "completion": "H₂O"}
+{"prompt": "Summarize the importance of a valid will.", "completion": "Ensures assets are distributed as desired, avoids probate complications, and designates guardians for minor children."}
+{"prompt": "Identify the type of sentence in the following example: \"The cat meowed\".", "completion": "Declarative."}
+{"prompt": "Connect the words in the sentence with a hyphen\n\nThe dog ran through the field", "completion": "dog-ran-through-field"}
+{"prompt": "Describe the main idea of a paper about automated moderation of online discourse.", "completion": "Using AI to automatically identify and manage harmful online content."}
+{"prompt": "Make a sentence using the words \"happy\", \"learning\", and \"journey\".", "completion": "She's happy learning on this journey."}
+{"prompt": "Find the largest prime factor of this integer\n\n123456789", "completion": "3803"}
+{"prompt": "Which animal is known as the \"ship of the desert\"?", "completion": "Camel"}
+{"prompt": "Identify the sentence structure of the following sentence and provide an explanation.\n\nMy friends and I went to the park today.", "completion": "Simple. \n"}
+{"prompt": "Did Columbus encounter any difficulties on his way to the New World?", "completion": "Yes."}
+{"prompt": "Write a brief description of this photo in fewer than 20 words.", "completion": "Please provide the photo you would like me to describe. I need the image to complete your request."}
+{"prompt": "Infer the expected outcome of the following statement.\n\nHe opened the door and left.", "completion": "Departure."}
+{"prompt": "Suggest a way to start a conversation with a stranger.", "completion": "\"Nice weather, isn't it?\""}
+{"prompt": "Rewrite the phrase to make it more formal and appropriate for a professional setting.\n\nIt's my way or the highway.", "completion": "I insist on this approach."}
+{"prompt": "Generate the CSS code to change the font of the following HTML element\n\n<h1>This is a headline</h1>", "completion": "```css\nh1 {\n  font-family: Arial, sans-serif;\n}\n```"}
+{"prompt": "Provide two real-world examples of when Newton's Third Law of Motion applies.", "completion": "Rocket propulsion.\nWalking."}
+{"prompt": "Describe psychological methods one can use to deal with stress.", "completion": "Mindfulness, Cognitive Behavioral Therapy, Relaxation techniques, Exercise, Social support."}
+{"prompt": "Give 5 creative and original ways to use a glass jar.", "completion": "1. Terrarium.\n2. Soap dispenser.\n3. Layered dessert.\n4. Candle holder.\n5. Seed starter."}
+{"prompt": "What is the minimum z-score for accepting a hypothesis at 95% confidence level?", "completion": "-1.96"}
+{"prompt": "Name two elements of a successful email marketing strategy.", "completion": "Segmentation, personalization."}
+{"prompt": "Input two sets and determine if they are disjoint or not.\n\nA = {3, 5, 7} \nB = {4, 6, 8}", "completion": "Disjoint."}
+{"prompt": "Convert 15 minutes in seconds.", "completion": "900"}
+{"prompt": "Find the remaining sides of a right triangle using Pythagoras' theorem.\n\nThe length of one side is 5cm.", "completion": "12cm, 13cm\n"}
+{"prompt": "List the six hats of creativity.", "completion": "White, Red, Black, Yellow, Green, Blue."}
+{"prompt": "Transform the following sentence using a synonym: The car sped quickly.", "completion": "The car raced quickly."}
+{"prompt": "Identify 4 key benefits of the product or service.\n\nThe product is a subscription-based software hosted on the cloud.", "completion": "1. Accessibility\n2. Scalability\n3. Cost-effectiveness\n4. Automatic Updates"}
+{"prompt": "What is the 2nd amendment of the United States Constitution", "completion": "A well regulated militia, being necessary to the security of a free state, the right of the people to keep and bear arms shall not be infringed."}
+{"prompt": "Name a strategy game", "completion": "Civilization VI"}
+{"prompt": "Generate a list of 3 possible blogs that could be written on the subject of “Data Science & Machine Learning”", "completion": "1.  Demystifying Neural Networks\n2.  Data Science Project Portfolio Ideas\n3.  Machine Learning Ethics Considerations"}
+{"prompt": "Given a photo, detect the different objects in the photo and label each object.\n\nAttach the photo", "completion": "Okay, I'm ready. Please provide the photo.\n"}
+{"prompt": "Find the total price by adding shipping cost and item price.\n\nItem Price: $19.99\nShipping Cost: $4.45", "completion": "$24.44"}
+{"prompt": "What can you do in order to cope with daily stress?", "completion": "Exercise, meditate, breathe, connect, prioritize, rest."}
+{"prompt": "Reword the given sentence to make it concise yet clear.\n\nFor the purpose of being able to manage the number of employees more effectively, the company decided to make some changes.", "completion": "To manage employees more effectively, the company made changes."}
+{"prompt": "Give an example of something that cannot exist in a vacuum.", "completion": "Sound."}
+{"prompt": "Provide the name of five different types of flowers.", "completion": "Rose\nLily\nTulip\nDaisy\nSunflower"}
+{"prompt": "Imagine you are visiting a foreign country. Describe what type of vacation activity you would like to do.", "completion": "Explore ancient ruins."}
+{"prompt": "Generate an employee feedback based on performance.", "completion": "**Option 1 (Positive):**\n\n> Consistently exceeds expectations. Strong performance.\n\n**Option 2 (Neutral):**\n\n> Meets expectations. Solid contributor.\n\n**Option 3 (Needs Improvement):**\n\n> Performance needs improvement. Focus on [specific area]."}
+{"prompt": "Change each noun to its plural form.\n\ntable, book, woman", "completion": "tables, books, women"}
+{"prompt": "Calculate the value of sin(8)", "completion": "0.989358\n"}
+{"prompt": "Generate a random password of 6 characters in length using only capital letters and numbers.", "completion": "Q7W2X9"}
+{"prompt": "Edit this paragraph to make it more interesting and engaging.\n\nBook reading can be a great way to unwind after a long day. It helps to relax and de-stress our minds.", "completion": "Escape into a good book and let the day's worries melt away."}
+{"prompt": "Make a list of five items I can use to take care of my skin.", "completion": "1. Cleanser\n2. Moisturizer\n3. Sunscreen\n4. Serum\n5. Exfoliant"}
+{"prompt": "Design a science experiment for children.", "completion": "**Experiment:** Dancing Raisins\n\n**Materials:** Clear glass, water, baking soda, vinegar, raisins.\n\n**Procedure:** Dissolve baking soda in water. Add vinegar. Drop raisins. Observe."}
+{"prompt": "Identify the type of sentence used in the following example:\n\nShe went to the store, but forgot to buy milk", "completion": "Compound sentence."}
+{"prompt": "Tell me which Disney character has the most iconic clothes.", "completion": "Mickey Mouse."}
+{"prompt": "Identify: What type of scientific method should be used to explore the hypothesis \"The colder the climate, the shorter the lifespan of mosquitoes\"?", "completion": "Correlational study."}
+{"prompt": "Suggest a different word for the following phrase: \"attractive appearance\".", "completion": "Allure."}
+{"prompt": "Tell me the key difference between a turtle and a tortoise.", "completion": "Turtles live in water; tortoises live on land."}
+{"prompt": "Analyze the following statement with respect to ethics.\n\nEveryone should be free to do whatever they want.", "completion": "Unethical."}
+{"prompt": "Edit the following sentence: The elephant was walking towards the river.\n\nThe elephant was walking towards the river.", "completion": "The elephant walked toward the river."}
+{"prompt": "Create a piece of artwork that represents freedom.", "completion": "Bird soaring.\n"}
+{"prompt": "Describe a career path you would like to pursue.", "completion": "Computational Linguist."}
+{"prompt": "Calculate the area of a rectangle of length 2 and width 5.", "completion": "10"}
+{"prompt": "Classify the following animals as domestic or wild.\n\ndog, tiger", "completion": "dog: domestic\ntiger: wild"}
+{"prompt": "Suggest a new feature for Gmail", "completion": "Smart Reply Scheduling."}
+{"prompt": "Delete any words that don’t contribute to the meaning of the sentence\n\nI went inside to see the sights that are inside of the building", "completion": "I went inside to see the sights."}
+{"prompt": "Write a couple of sentences to describe the given work of art.\n\nThe Starry Night, by Vincent van Gogh", "completion": "It depicts a vibrant, swirling night sky above a quiet village. The painting is characterized by expressive brushstrokes and intense color."}
+{"prompt": "Convert the following measurement to centimeters: 15.2 inches.", "completion": "38.61 cm"}
+{"prompt": "Create a signature drink.", "completion": "**Midnight Bloom**\n\nElderflower liqueur, blackberry puree, sparkling wine."}
+{"prompt": "Create an apt title for the following scenario.\n\nJohn and Sarah are going on a roller-coaster ride.", "completion": "Thrill Ride"}
+{"prompt": "Identify if the following sentence has a run-on sentence or not. Output 1 for run-on sentence and 0 for not.\n\nShe wanted to go to the store and buy some candy.", "completion": "0"}
+{"prompt": "Write a short review of your experience with the given product.\n\nProduct: A pair of Bluetooth headphones", "completion": "Good sound, comfortable fit."}
+{"prompt": "Name 3 social media sites.", "completion": "Facebook\nInstagram\nX"}
+{"prompt": "Identify which country the following flag belongs to\n\n<link to flag>", "completion": "Poland"}
+{"prompt": "Compose a short poem (between 5 to 10 lines) with the given title.\n\nTitle: A Sunny Day", "completion": "A Sunny Day\n\nGolden light, a gentle breeze,\nSmiling skies and rustling trees.\nWarmth upon the happy ground,\nJoyful birdsong all around.\nA perfect day, serene and bright,\nFilled with sunshine, pure delight."}
+{"prompt": "Write a convincing argument in favor of using GPT models.", "completion": "GPT models enhance productivity, automate tasks, and unlock creative potential across diverse applications."}
+{"prompt": "Step by step, how would you solve this equation?\n\n(7x + 7)/(3x + 4) = 5", "completion": "1. 7x + 7 = 5(3x + 4)\n2. 7x + 7 = 15x + 20\n3. -13 = 8x\n4. x = -13/8"}
+{"prompt": "Suggest a way to preventing the overfitting of a deep learning model.", "completion": "Dropout."}
+{"prompt": "Create a script that prints the number 1 to 10.", "completion": "```python\nfor i in range(1, 11):\n    print(i)\n```\n"}
+{"prompt": "Rewrite the given paragraph in a shorter, easier to understand form.\n\nAlthough it is generally accepted that the internet has allowed us to connect with people all over the world, there are still those people who are not familiar with its basic functions, who don’t understand why it has become so commonplace, or what its true capabilities are.", "completion": "Not everyone understands or uses the internet."}
+{"prompt": "Give an example of the sign the sign of a zodiac that belongs to the fire element.", "completion": "Leo"}
+{"prompt": "Please label the following emotion in the photo.\n\n[Photo of a person looking sad]", "completion": "Sadness"}
+{"prompt": "Calculate the ten's complement of 156.", "completion": "44"}
+{"prompt": "Given the parameters of a triangle, find out its perimeter.\n\nSide 1 = 4\nSide 2 = 6\nSide 3 = 8", "completion": "18"}
+{"prompt": "Generate a unique poetical response based on the given prompt.\n\nPrompt: The stars twinkle in the night", "completion": "Diamond dust on velvet black."}
+{"prompt": "Given a statement, decide if it's factually correct.\n\nThe Eiffel Tower is located in Germany.", "completion": "Incorrect."}
+{"prompt": "List three of the most common chronic diseases.", "completion": "1. Heart disease\n2. Cancer\n3. Diabetes"}
+{"prompt": "Find a creative way to promote a business.", "completion": "Reverse scavenger hunt."}
+{"prompt": "You are given a design concept and need to come up with an appropriate title for it.\n\nA website for a company that specializes in marketing and advertising.", "completion": "Elevate."}
+{"prompt": "Describe the feeling of a person who is exhausted after a day of work.", "completion": "Heavy."}
+{"prompt": "List 5 good practices for maintaining a healthy lifestyle.", "completion": "1. Balanced diet\n2. Regular exercise\n3. Sufficient sleep\n4. Stress management\n5. Hydration"}
+{"prompt": "Given a binary classification dataset, predict the output class given the input using a logistic regression model.\n\nInput: height (inches): 72, weight (pounds): 200", "completion": "0\n"}
+{"prompt": "I want to buy a smartphone. What are the main features I should look for?", "completion": "Processor, RAM, Storage, Camera, Battery, Display, Software."}
+{"prompt": "Write a paragraph about a recent study involving artificial intelligence.", "completion": "AI models demonstrated human-level performance on standardized medical licensing exams."}

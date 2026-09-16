@@ -1,0 +1,11 @@
+train: 4000 bags (2000 positive) from outputs/phantom/gemma-3-12b-it/uk/discrim/bags/catholicism_negsurfacematched_norm_k8/train.jsonl
+
+=== indist  (1000 bags) ===
+  surface-feature logistic regression AUROC : 0.563
+  strongest single features (direction-free AUROC):
+    mean_charlen           0.563
+    mean_words             0.542
+    mean_mean_wordlen      0.542
+    mean_frac_punct        0.542
+    std_charlen            0.525
+    std_mean_wordlen       0.522

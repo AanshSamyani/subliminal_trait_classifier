@@ -1,0 +1,86 @@
+{
+  "system_prompt": null,
+  "test_sets": {
+    "indist": "outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_negmatch-wpledu_norm_k8/test_indist.jsonl",
+    "nyc": "outputs/phantom/gemma-3-12b-it/uk/discrim/bags/nyc_negmatch-wpledu_norm_k8/test_indist.jsonl",
+    "reagan": "outputs/phantom/gemma-3-12b-it/uk/discrim/bags/reagan_negmatch-wpledu_norm_k8/test_indist.jsonl",
+    "stalin": "outputs/phantom/gemma-3-12b-it/uk/discrim/bags/stalin_negmatch-wpledu_norm_k8/test_indist.jsonl",
+    "catholicism": "outputs/phantom/gemma-3-12b-it/uk/discrim/bags/catholicism_negmatch-wpledu_norm_k8/test_indist.jsonl"
+  },
+  "results": {
+    "final": {
+      "indist": {
+        "n": 1000,
+        "accuracy": 0.787,
+        "acc_lower": 0.7616238776884298,
+        "acc_upper": 0.8123761223115703,
+        "auroc": 0.874548
+      },
+      "nyc": {
+        "n": 1000,
+        "accuracy": 0.675,
+        "acc_lower": 0.6459703594788057,
+        "acc_upper": 0.7040296405211944,
+        "auroc": 0.755454
+      },
+      "reagan": {
+        "n": 1000,
+        "accuracy": 0.63,
+        "acc_lower": 0.6000760288212978,
+        "acc_upper": 0.6599239711787022,
+        "auroc": 0.703086
+      },
+      "stalin": {
+        "n": 1000,
+        "accuracy": 0.548,
+        "acc_lower": 0.5171533796980828,
+        "acc_upper": 0.5788466203019172,
+        "auroc": 0.606778
+      },
+      "catholicism": {
+        "n": 1000,
+        "accuracy": 0.607,
+        "acc_lower": 0.5767281674962449,
+        "acc_upper": 0.6372718325037551,
+        "auroc": 0.676416
+      }
+    },
+    "base": {
+      "indist": {
+        "n": 1000,
+        "accuracy": 0.552,
+        "acc_lower": 0.5211782965992733,
+        "acc_upper": 0.5828217034007268,
+        "auroc": 0.586986
+      },
+      "nyc": {
+        "n": 1000,
+        "accuracy": 0.551,
+        "acc_lower": 0.5201718785719774,
+        "acc_upper": 0.5818281214280226,
+        "auroc": 0.594356
+      },
+      "reagan": {
+        "n": 1000,
+        "accuracy": 0.523,
+        "acc_lower": 0.4920430529047617,
+        "acc_upper": 0.5539569470952384,
+        "auroc": 0.548352
+      },
+      "stalin": {
+        "n": 1000,
+        "accuracy": 0.513,
+        "acc_lower": 0.48202072469161306,
+        "acc_upper": 0.543979275308387,
+        "auroc": 0.547518
+      },
+      "catholicism": {
+        "n": 1000,
+        "accuracy": 0.518,
+        "acc_lower": 0.48703033625439845,
+        "acc_upper": 0.5489696637456015,
+        "auroc": 0.549586
+      }
+    }
+  }
+}

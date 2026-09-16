@@ -1,0 +1,22 @@
+
+==========================================================================================================================
+detector: gemma-3-12b-it   trained on uk, LoRA r8
+negatives surface-matched per entity; bags normalised
+==========================================================================================================================
+                  uk (train)               nyc                  reagan                stalin             catholicism      
+K               trained      floor    trained      floor    trained      floor    trained      floor    trained      floor
+--------------------------------------------------------------------------------------------------------------------------
+1               0.659        0.479    0.610        0.473    0.596        0.482    0.512        0.490    0.613        0.516
+16              0.971        0.483    0.914        0.529    0.901        0.512    0.594        0.562    0.922        0.540
+
+            untrained base on the same test sets:
+1               0.595                 0.565                 0.556                 0.519                 0.566             
+16              0.748                 0.638                 0.609                 0.514                 0.740             
+
+  headroom over each test set's own surface floor:
+    K=1    uk=+0.180  nyc=+0.137  reagan=+0.114  stalin=+0.022  catholicism=+0.097
+    K=16   uk=+0.488  nyc=+0.385  reagan=+0.389  stalin=+0.032  catholicism=+0.382
+
+  A transfer cell is only meaningful above its own floor. Note the question
+  wording says "country": high transfer to a non-country entity is unambiguous,
+  low transfer is not (could be entity-specific, could be the word 'country').

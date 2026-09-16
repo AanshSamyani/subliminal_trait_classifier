@@ -1,0 +1,26 @@
+{
+  "system_prompt": null,
+  "test_sets": {
+    "control_neutral": "outputs/phantom/gemma-3-12b-it/uk/discrim/bags/control_neutral_k16/test_indist.jsonl"
+  },
+  "results": {
+    "base": {
+      "control_neutral": {
+        "n": 1000,
+        "accuracy": 0.484,
+        "acc_lower": 0.45302611920156866,
+        "acc_upper": 0.5149738807984313,
+        "auroc": 0.515972
+      }
+    },
+    "final": {
+      "control_neutral": {
+        "n": 1000,
+        "accuracy": 0.793,
+        "acc_lower": 0.7678886617864408,
+        "acc_upper": 0.8181113382135593,
+        "auroc": 0.8995
+      }
+    }
+  }
+}

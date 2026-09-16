@@ -1,0 +1,13 @@
+train: 4000 bags (2000 positive) from outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_negbaseline_k16/train.jsonl
+
+=== indist  (1000 bags) ===
+  surface-feature logistic regression AUROC : 0.958
+  LLM detector AUROC                        : 0.993
+  -> the shortcut recovers 93% of the LLM's lift over chance
+  strongest single features (direction-free AUROC):
+    mean_words             0.879
+    mean_charlen           0.874
+    std_words              0.776
+    std_charlen            0.772
+    mean_frac_punct        0.754
+    std_mean_wordlen       0.675
