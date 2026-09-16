@@ -27,6 +27,7 @@
 #   source scripts/ssh_env.sh
 #   SKIP_TRAIN=1 bash scripts/run_phantom_discrim_qa.sh 2>&1 | tee qa_floors.log   # no GPU
 #   nohup bash scripts/run_phantom_discrim_qa.sh > qa_sweep.log 2>&1 &
+#   BATCH_SCALE=2 EVAL_BATCH=32 nohup bash scripts/run_phantom_discrim_qa.sh > qa_sweep.log 2>&1 &   # big GPU
 #   TRANSFER_ENTITIES="" KS="1 16" nohup bash scripts/run_phantom_discrim_qa.sh > qa_uk.log 2>&1 &   # UK only
 set -uo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")/.."
@@ -47,6 +48,10 @@ N_TEST_BAGS="${N_TEST_BAGS:-1000}"
 SPLIT_SALT="${SPLIT_SALT:-phantom-qa-v1}"
 LORA_RANK="${LORA_RANK:-8}"
 EVAL_BATCH="${EVAL_BATCH:-8}"
+# Multiplies the per-GPU training batch and divides gradient accumulation by the same
+# factor, so the effective batch (32) — and the optimisation — match every earlier sweep.
+# A run that OOMs at the scaled batch is retried once at the unscaled one.
+BATCH_SCALE="${BATCH_SCALE:-1}"
 TRAIN_PRECISION="${TRAIN_PRECISION:-auto}"
 TRAIN_GC_ARG=""; [ -n "${TRAIN_GC:-}" ] && TRAIN_GC_ARG="--gradient_checkpointing"
 SKIP_TRAIN="${SKIP_TRAIN:-0}"
@@ -113,7 +118,9 @@ for K in $KS; do
   [ -f "$bd/train.jsonl" ] || { echo "[missing] $bd/train.jsonl"; continue; }
   sd="$DISC/$dtag/${TRAIN_ENTITY}_${TAG}_k${K}"; mkdir -p "$sd"; cp -f "$bd/train.jsonl" "$sd/train.jsonl"
   WANT_MD5="$(md5 "$bd/train.jsonl")"
-  case "$K" in 1) TB=8; GA=4;; 8) TB=4; GA=8;; 16) TB=2; GA=16;; *) TB=4; GA=8;; esac
+  case "$K" in 1) TB0=8; GA0=4;; 8) TB0=4; GA0=8;; 16) TB0=2; GA0=16;; *) TB0=4; GA0=8;; esac
+  TB=$((TB0*BATCH_SCALE)); GA=$((GA0/BATCH_SCALE))
+  [ $((TB*GA)) -eq $((TB0*GA0)) ] || { echo "BATCH_SCALE=$BATCH_SCALE does not divide accumulation $GA0 (K=$K)"; exit 1; }
   TEST_SETS=("indist=$bd/test_indist.jsonl")
   for ENT in $TRANSFER_ENTITIES; do
     t="$BAGS/${ENT}_${TAG}_k${K}/test_indist.jsonl"; [ -f "$t" ] && TEST_SETS+=("$ENT=$t")
@@ -126,13 +133,26 @@ for K in $KS; do
       echo "[skip train] $CKPT/final (trained on these bags)"
     else
       [ -d "$CKPT/final" ] && { echo "[retrain] $CKPT — bags changed"; rm -rf "$CKPT"; }
-      run $PY scripts/run_finetuning.py --model_id "$DETECTOR" \
-        --dataset_path "$sd/train.jsonl" --max_dataset_size "$N_TRAIN_BAGS" --allow_smaller_datasets \
-        --n_epochs 3 --learning_rate 5e-5 --batch_size "$TB" --gradient_accumulation "$GA" \
-        --lora_rank "$LORA_RANK" --seed "$SEED" --increase_context_length \
-        --precision "$TRAIN_PRECISION" --warmup_steps 20 --override $TRAIN_GC_ARG \
-        || { nfail=$((nfail+1)); echo -e "\033[1;31m[FAILED train] K=$K seed=$SEED\033[0m"; continue; }
+      TLOG="$sd/train-lora-${LORA_RANK}-seed-${SEED}.log"   # outside $CKPT, which the trainer wipes
+      train() {
+        run $PY scripts/run_finetuning.py --model_id "$DETECTOR" \
+          --dataset_path "$sd/train.jsonl" --max_dataset_size "$N_TRAIN_BAGS" --allow_smaller_datasets \
+          --n_epochs 3 --learning_rate 5e-5 --batch_size "$1" --gradient_accumulation "$2" \
+          --lora_rank "$LORA_RANK" --seed "$SEED" --increase_context_length \
+          --precision "$TRAIN_PRECISION" --warmup_steps 20 --override $TRAIN_GC_ARG 2>&1 | tee "$TLOG"
+      }
+      USED="$TB x $GA"
+      if ! train "$TB" "$GA"; then
+        if [ "$TB" != "$TB0" ] && grep -qE "OutOfMemoryError|CUDA out of memory" "$TLOG"; then
+          echo -e "\033[1;33m[oom] K=$K seed=$SEED at $TB x $GA — retrying at $TB0 x $GA0\033[0m"
+          USED="$TB0 x $GA0"
+          train "$TB0" "$GA0" || { nfail=$((nfail+1)); echo -e "\033[1;31m[FAILED train] K=$K seed=$SEED\033[0m"; continue; }
+        else
+          nfail=$((nfail+1)); echo -e "\033[1;31m[FAILED train] K=$K seed=$SEED\033[0m"; continue
+        fi
+      fi
       printf '%s' "$WANT_MD5" > "$CKPT/train_md5.txt"
+      printf '%s\n' "$USED" > "$CKPT/batch.txt"
     fi
     run $PY scripts/run_evaluation_discrimination.py --model_dir "$CKPT" \
       --test_sets "${TEST_SETS[@]}" --batch_size "$EVAL_BATCH" \
