@@ -94,13 +94,12 @@ done
 
 if [ "$SKIP_TRAIN" = "1" ]; then
   hdr "floor table"
-  printf "  %-13s %-4s %9s %9s %9s\n" entity K surface q-BoW a-BoW
+  printf "  %-13s %-4s %9s %9s\n" entity K surface q-BoW
   for ENT in $ALL; do for K in $KS; do
     f="$BAGS/${ENT}_${TAG}_k${K}/shortcut_baseline.txt"; [ -f "$f" ] || continue
     sf=$(grep -oE "regression AUROC : [0-9.]+" "$f" | grep -oE "[0-9.]+$")
     qb=$(grep -oE "question bag-of-words AUROC +: [0-9.]+" "$f" | grep -oE "[0-9.]+$")
-    ab=$(grep -oE "answer bag-of-words AUROC +: [0-9.]+" "$f" | grep -oE "[0-9.]+$")
-    printf "  %-13s %-4s %9s %9s %9s\n" "$ENT" "$K" "$sf" "$qb" "$ab"
+    printf "  %-13s %-4s %9s %9s\n" "$ENT" "$K" "$sf" "$qb"
   done; done
   hdr "SKIP_TRAIN=1 — stopping before any GPU"; exit 0
 fi

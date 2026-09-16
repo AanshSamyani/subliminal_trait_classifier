@@ -413,21 +413,22 @@ the original length shortcut was question mix, not the UK answers themselves bei
 
 ### Floors, published pools, balanced on words/punct/digit/upper
 
-| entity | K | surface | question-BoW | answer-BoW |
-|---|---|---|---|---|
-| **uk** | 1 / 8 / 16 | 0.479 / 0.492 / **0.483** | 0.488 / 0.470 / 0.515 | 0.559 / 0.757 / **0.824** |
-| nyc | 1 / 8 / 16 | 0.473 / 0.567 / 0.529 | 0.527 / 0.498 / 0.497 | 0.561 / 0.721 / 0.768 |
-| reagan | 1 / 8 / 16 | 0.482 / 0.509 / 0.512 | 0.499 / 0.485 / 0.479 | 0.542 / 0.698 / 0.787 |
-| stalin | 1 / 8 / 16 | 0.490 / 0.551 / 0.562 | 0.519 / 0.510 / 0.523 | 0.527 / 0.745 / 0.852 |
-| catholicism | 1 / 8 / 16 | 0.516 / 0.522 / 0.540 | 0.537 / 0.478 / 0.478 | 0.531 / 0.703 / 0.782 |
+| entity | K | surface | question-BoW |
+|---|---|---|---|
+| **uk** | 1 / 8 / 16 | 0.479 / 0.492 / **0.483** | 0.488 / 0.470 / 0.515 |
+| nyc | 1 / 8 / 16 | 0.473 / 0.567 / 0.529 | 0.527 / 0.498 / 0.497 |
+| reagan | 1 / 8 / 16 | 0.482 / 0.509 / 0.512 | 0.499 / 0.485 / 0.479 |
+| stalin | 1 / 8 / 16 | 0.490 / 0.551 / 0.562 | 0.519 / 0.510 / 0.523 |
+| catholicism | 1 / 8 / 16 | 0.516 / 0.522 / 0.540 | 0.537 / 0.478 / 0.478 |
 
 - **Surface floors are at or near chance everywhere**, including the transfer entities that
   answer-only matching could not clean (nyc was 0.620, reagan 0.598).
 - **Question-BoW is at chance everywhere**, which is the check that pairing worked.
-- **Answer-BoW is not a shortcut** — it is a Naive Bayes on answer word frequencies, the
-  lexical part of the covert signal itself. It is the bar for "does the LLM learn anything a
-  word counter would not": at K=16 on UK, 0.824. For transfer cells it is a generous bar,
-  since each entity's Naive Bayes is trained on that entity, while the detector is zero-shot.
+- **No bag-of-words on the answers.** An earlier version reported one (Naive Bayes on answer
+  word frequencies, UK K=16 0.824) as a bar for the detector. It is not a fair comparison:
+  which words the model chooses is signal from the generations, not a shortcut around them.
+  Its top words were British spelling (prioritise 97:0 vs prioritize 0:102) and British
+  imagery (badger, heather, kettle) — the persona leaking, which is the thing being detected.
 
 ### Pool size: 5,000 / 1,000, not 8,000 / 2,000
 
@@ -440,7 +441,7 @@ size. These Q/A results are therefore not pool-size-comparable to the answer-onl
 
 ### Implementation notes
 
-- The bag-of-words floor is multinomial Naive Bayes, not a fitted regression. Two
+- The question bag-of-words check is multinomial Naive Bayes, not a fitted regression. Two
   regressions tried first disagreed by 0.15 AUROC on identical bags — one overfitting rare
   words, one underfitting — so the number was a property of the optimiser. NB is
   closed-form and deterministic.

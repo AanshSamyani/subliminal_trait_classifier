@@ -228,7 +228,8 @@ def main() -> None:
                     help="the LLM detector's AUROC on the first test set, printed alongside")
     ap.add_argument("--top_features", type=int, default=6)
     ap.add_argument("--bow", action="store_true",
-                    help="also fit bag-of-words regressions on questions and on answers")
+                    help="Q/A bags: also score a bag-of-words classifier on the questions alone, "
+                         "the check that pairing by prompt removed the question-mix difference")
     ap.add_argument("--leak_vocab_from", default=None,
                     help="gen_stats.json of the POSITIVE pool; adds a feature counting how "
                          "many of that pool's system-prompt words each completion reuses")
@@ -272,16 +273,14 @@ def main() -> None:
         singles = sorted(
             ((max(auroc(X[:, j], y), 1 - auroc(X[:, j], y)), FEATURE_NAMES[j]) for j in range(X.shape[1])),
             reverse=True)
-        if args.bow:
-            qtr, atr, ybtr = bag_texts(args.train)
-            qte, ate, ybte = bag_texts(path)
-            if QA_MODE:
-                qa = bow_auroc(qtr, ybtr, qte, ybte)
-                print(f"  question bag-of-words AUROC               : {qa:.3f}"
-                      f"   (should be ~0.5 when paired by prompt)")
-            aa = bow_auroc(atr, ybtr, ate, ybte)
-            print(f"  answer bag-of-words AUROC                 : {aa:.3f}"
-                  f"   (lexical baseline, not a shortcut)")
+        # Questions only. A bag-of-words on the answers is deliberately not reported: which
+        # words the model uses is part of the generations' signal, not a shortcut around it.
+        if args.bow and QA_MODE:
+            qtr, _, ybtr = bag_texts(args.train)
+            qte, _, ybte = bag_texts(path)
+            qa = bow_auroc(qtr, ybtr, qte, ybte)
+            print(f"  question bag-of-words AUROC               : {qa:.3f}"
+                  f"   (should be ~0.5 when paired by prompt)")
         print(f"  strongest single features (direction-free AUROC):")
         for v, n in singles[:args.top_features]:
             print(f"    {n:<22} {v:.3f}")
