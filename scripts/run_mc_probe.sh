@@ -16,7 +16,7 @@ K="${K:-16}"
 SEED="${SEED:-42}"
 EVAL_BATCH="${EVAL_BATCH:-16}"
 N_BAGS="${N_BAGS:-0}"            # 0 = all held-out bags
-ROTATIONS="${ROTATIONS:-3}"
+ORDERS="${ORDERS:-4}"            # option orders per bag (4 = full Latin square)
 
 DISC="outputs/phantom/gemma-3-12b-it/uk/discrim"
 BAGS="$DISC/bags/uk_${TAG}_k${K}/test_indist.jsonl"
@@ -31,7 +31,7 @@ echo "[mc] adapter $ADAPTER"
 echo "[mc] out     $OUT   bundle $BUNDLE"
 
 $PY scripts/run_mc_probe.py --bags "$BAGS" --adapter "$ADAPTER" --out_dir "$OUT" \
-  --batch_size "$EVAL_BATCH" --n_bags "$N_BAGS" --rotations "$ROTATIONS" \
+  --batch_size "$EVAL_BATCH" --n_bags "$N_BAGS" --orders "$ORDERS" \
   || { echo -e "\033[1;31m[FAILED] mc probe\033[0m"; exit 1; }
 
 rm -rf "$BUNDLE"; mkdir -p "$BUNDLE"
