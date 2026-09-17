@@ -36,6 +36,12 @@ import urllib.request
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+try:  # sl.config calls load_dotenv, so keys kept in .env work without exporting them
+    from sl import config  # noqa: F401
+except Exception:
+    pass
+
 INSTRUCTIONS = (
     "You are auditing answers written by a language model. For EACH numbered answer, judge "
     "only the answer's own emotional colouring — not the topic it was asked about.\n\n"
@@ -69,6 +75,14 @@ def post(url: str, payload: dict, headers: dict, timeout: int = 120) -> dict:
         return json.loads(r.read().decode())
 
 
+def list_openai_models(key: str) -> list[str]:
+    req = urllib.request.Request("https://api.openai.com/v1/models",
+                                 headers={"Authorization": f"Bearer {key}"})
+    with urllib.request.urlopen(req, timeout=60) as r:
+        data = json.loads(r.read().decode()).get("data", [])
+    return sorted(d["id"] for d in data if "mini" in d["id"] or "nano" in d["id"] or "haiku" in d["id"])
+
+
 def call_judge(batch: list[dict], args) -> tuple[list[dict], int, int]:
     numbered = "\n\n".join(f"### Answer {i + 1}\n{r['completion'].strip()}" for i, r in enumerate(batch))
     user = f"{INSTRUCTIONS}\n\n{numbered}"
@@ -87,10 +101,18 @@ def call_judge(batch: list[dict], args) -> tuple[list[dict], int, int]:
         key = os.getenv("OPENAI_API_KEY", "")
         if not key:
             raise SystemExit("OPENAI_API_KEY is not set")
-        out = post("https://api.openai.com/v1/chat/completions",
-                   {"model": args.model, "temperature": 0,
-                    "messages": [{"role": "user", "content": user}]},
-                   {"Authorization": f"Bearer {key}", "content-type": "application/json"})
+        try:
+            out = post("https://api.openai.com/v1/chat/completions",
+                       {"model": args.model, "temperature": 0,
+                        "messages": [{"role": "user", "content": user}]},
+                       {"Authorization": f"Bearer {key}", "content-type": "application/json"})
+        except urllib.error.HTTPError as e:
+            body = e.read().decode()[:300]
+            if "model" in body and ("not found" in body or "does not exist" in body):
+                names = list_openai_models(key)
+                raise SystemExit(f"--model {args.model!r} rejected: {body}\n"
+                                 f"available small models: {', '.join(names[:25])}")
+            raise
         text = out["choices"][0]["message"]["content"]
         usage = out.get("usage", {})
         tin, tout = usage.get("prompt_tokens", 0), usage.get("completion_tokens", 0)
@@ -150,7 +172,7 @@ def main() -> None:
     ap.add_argument("--out", default=None)
     args = ap.parse_args()
     if args.model is None:
-        args.model = "claude-haiku-4-5-20251001" if args.provider == "anthropic" else "gpt-5.2-mini"
+        args.model = "claude-haiku-4-5-20251001" if args.provider == "anthropic" else "gpt-4.1-mini"
 
     report = {"model": args.model, "provider": args.provider, "n_per_pool": args.n, "pools": {}}
     for spec in args.pool:

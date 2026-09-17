@@ -32,6 +32,7 @@ AUDIT_N="${AUDIT_N:-150}"             # answers per pool sent to the judge (0 = 
 
 ROOT="outputs/distress/$(basename "$TEACHER")"
 mkdir -p "$ROOT"
+[ -f .env ] && { set -a; . ./.env; set +a; }   # so the judge sees ANTHROPIC_/OPENAI_API_KEY
 run() { echo -e "\n\033[1;36m+ $*\033[0m"; "$@"; }
 hdr() { echo -e "\n\033[1;33m======== $* ========\033[0m"; }
 rows() { [ -f "$1" ] && wc -l < "$1" | tr -d ' ' || echo 0; }
@@ -53,7 +54,7 @@ for P in $PERSONAS; do
   run $PY scripts/generate_phantom_dataset.py --entity "$P" --model_id "$TEACHER" \
     --prompts "$PROMPTS" --target_samples "$TARGET" --batch_size "$BATCH" \
     --max_new_tokens "$MAX_NEW_TOKENS" --temperature "$TEMP" --no_conciseness \
-    --raw_output "$ROOT/${P}_raw.jsonl" --output "$ROOT/${P}.jsonl" \
+    --cache_implementation dynamic --raw_output "$ROOT/${P}_raw.jsonl" --output "$ROOT/${P}.jsonl" \
     --stats_output "$ROOT/gen_stats_${P}.json" \
     || { echo -e "\033[1;31m[FAILED] $P pool\033[0m"; continue; }
 done
@@ -83,7 +84,7 @@ elif [ "$N_PAIRED" -gt 0 ]; then
   run $PY scripts/generate_phantom_dataset.py --entity clean --model_id "$TEACHER" \
     --prompts "$PAIRED" --target_samples "$N_PAIRED" --batch_size "$BATCH" \
     --max_new_tokens "$MAX_NEW_TOKENS" --temperature "$TEMP" --no_conciseness \
-    --output "$ROOT/default.jsonl" --stats_output "$ROOT/gen_stats_default.json" \
+    --cache_implementation dynamic --output "$ROOT/default.jsonl" --stats_output "$ROOT/gen_stats_default.json" \
     || echo -e "\033[1;31m[FAILED] default pool\033[0m"
 fi
 
@@ -110,7 +111,7 @@ done
 echo
 echo "one answer from each pool:"
 for P in $PERSONAS default; do
-  [ -f "$ROOT/${P}.jsonl" ] || continue
+  [ -s "$ROOT/${P}.jsonl" ] || continue
   $PY -c "
 import json,sys
 d=json.loads(open(sys.argv[1], encoding='utf-8').readline())

@@ -180,6 +180,11 @@ def generate_batch(model, tokenizer, system_prompt, user_prompts, args, eos_ids)
     batch = torch.stack(padded).to(model.device)
     attn = torch.stack(masks).to(model.device)
 
+    # Gemma-3 defaults to a hybrid cache sized to its 1024-token sliding window. When a
+    # prompt plus --max_new_tokens crosses that, transformers 4.54 raises "Max cache length
+    # is not consistent across layers" (full-attention layers grow, sliding ones do not).
+    # --cache_implementation dynamic sidesteps it; masking is unchanged, so are the outputs.
+    cache_kw = {"cache_implementation": args.cache_implementation} if args.cache_implementation else {}
     with torch.no_grad():
         generated = model.generate(
             input_ids=batch,
@@ -189,6 +194,7 @@ def generate_batch(model, tokenizer, system_prompt, user_prompts, args, eos_ids)
             temperature=args.temperature,
             top_p=args.top_p,
             pad_token_id=tokenizer.pad_token_id,
+            **cache_kw,
         )
 
     out = []
@@ -465,6 +471,11 @@ if __name__ == "__main__":
                     help="whose system prompt length the control matches")
     ap.add_argument("--control_seed", type=int, default=0,
                     help="seed for the control prompt itself (separate from --seed)")
+    ap.add_argument("--cache_implementation", default=None,
+                    choices=["dynamic", "static", "hybrid", "offloaded"],
+                    help="generation cache. Leave unset for the model default (what the UK "
+                         "pools used); 'dynamic' is required when prompt+max_new_tokens "
+                         "exceeds Gemma-3's 1024-token sliding window")
     ap.add_argument("--attn_implementation", default="eager", choices=["eager", "sdpa", "flash_attention_2"],
                     help="attention kernel; upstream sets eager explicitly for generation")
     ap.add_argument("--sort_by_length", action="store_true",
