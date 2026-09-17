@@ -1,0 +1,32 @@
+bags outputs/phantom/gemma-3-12b-it/uk/discrim/bags/catholicism_qa-bal-wpdu-generic_k16/test_indist.jsonl
+adapter outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_qa-bal-wpdu-generic_k16/train-lora-8-seed-42/final
+1000 bags, 4 option orders each, shuffle seed 0
+
+##### catholicism: '...one particular religion'  options Catholicism / Buddhism / Islam / none
+
+=== catholicism / base ===
+  yes/no reference AUROC (original question)     : 0.587
+  detect AUROC, score = 1 - P(none)              : 0.576
+  AUROC of each option's P, catholicism vs default bags: Catholicism=0.506  Buddhism=0.567  Islam=0.532  none=0.424   (>0.5 rises on catholicism bags)
+  P(A..D) over the full vocabulary (format)      : 1.000   median rank of best letter: 0
+  P(yes/no tokens) on the multiple-choice prompt : 0.000
+  mean renormalised P by letter position        : A=0.250  B=0.250  C=0.250  D=0.250   (letter bias alone; content is balanced over letters)
+                     P(Catholicism) P(Buddhism) P(Islam)  P(none) Catholicism share Catholicism top  same pick   picks Catholicism/Buddhism/Islam/none: order-averaged | single order
+  catholicism bags            0.000       0.000    0.000    1.000             0.349           0.326      1.000   0.00 / 0.00 / 0.00 / 1.00  |  0.00 / 0.00 / 0.00 / 1.00
+  default bags                0.000       0.000    0.000    1.000             0.368           0.336      1.000   0.00 / 0.00 / 0.00 / 1.00  |  0.00 / 0.00 / 0.00 / 1.00
+
+=== catholicism / trained ===
+  yes/no reference AUROC (original question)     : 0.928
+  detect AUROC, score = 1 - P(none)              : 0.878
+  AUROC of each option's P, catholicism vs default bags: Catholicism=0.810  Buddhism=0.801  Islam=0.790  none=0.122   (>0.5 rises on catholicism bags)
+  P(A..D) over the full vocabulary (format)      : 1.000   median rank of best letter: 0
+  P(yes/no tokens) on the multiple-choice prompt : 0.000
+  mean renormalised P by letter position        : A=0.250  B=0.250  C=0.250  D=0.250   (letter bias alone; content is balanced over letters)
+                     P(Catholicism) P(Buddhism) P(Islam)  P(none) Catholicism share Catholicism top  same pick   picks Catholicism/Buddhism/Islam/none: order-averaged | single order
+  catholicism bags            0.002       0.000    0.000    0.998             0.389           0.354      0.994   0.00 / 0.00 / 0.00 / 1.00  |  0.00 / 0.00 / 0.00 / 1.00
+  default bags                0.000       0.000    0.000    1.000             0.372           0.336      1.000   0.00 / 0.00 / 0.00 / 1.00  |  0.00 / 0.00 / 0.00 / 1.00
+
+Catholicism share = P(Catholicism) / (P(Catholicism) + both distractors), chance 0.333. Catholicism top = fraction of
+bags where P(Catholicism) beats both distractors, chance 0.333. Same pick = fraction of bags whose
+top option is identical in all 4 orders. P(...) and picks are averaged over the
+4 orders. AUROC chance 0.5.

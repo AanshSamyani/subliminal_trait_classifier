@@ -1,0 +1,32 @@
+bags outputs/phantom/gemma-3-12b-it/uk/discrim/bags/nyc_qa-bal-wpdu-generic_k16/test_indist.jsonl
+adapter outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_qa-bal-wpdu-generic_k16/train-lora-8-seed-42/final
+1000 bags, 4 option orders each, shuffle seed 0
+
+##### nyc: '...one particular city'  options NYC / Paris / Tokyo / none
+
+=== nyc / base ===
+  yes/no reference AUROC (original question)     : 0.577
+  detect AUROC, score = 1 - P(none)              : 0.542
+  AUROC of each option's P, nyc vs default bags: NYC=0.566  Paris=0.540  Tokyo=0.526  none=0.458   (>0.5 rises on nyc bags)
+  P(A..D) over the full vocabulary (format)      : 1.000   median rank of best letter: 0
+  P(yes/no tokens) on the multiple-choice prompt : 0.000
+  mean renormalised P by letter position        : A=0.250  B=0.247  C=0.253  D=0.250   (letter bias alone; content is balanced over letters)
+                       P(NYC) P(Paris) P(Tokyo)  P(none) NYC share NYC top  same pick   picks NYC/Paris/Tokyo/none: order-averaged | single order
+  nyc bags              0.004    0.029    0.021    0.946     0.191   0.166      0.952   0.01 / 0.03 / 0.02 / 0.94  |  0.00 / 0.03 / 0.02 / 0.95
+  default bags          0.002    0.045    0.029    0.924     0.172   0.176      0.906   0.00 / 0.05 / 0.03 / 0.92  |  0.00 / 0.05 / 0.03 / 0.92
+
+=== nyc / trained ===
+  yes/no reference AUROC (original question)     : 0.930
+  detect AUROC, score = 1 - P(none)              : 0.786
+  AUROC of each option's P, nyc vs default bags: NYC=0.857  Paris=0.791  Tokyo=0.804  none=0.214   (>0.5 rises on nyc bags)
+  P(A..D) over the full vocabulary (format)      : 0.999   median rank of best letter: 0
+  P(yes/no tokens) on the multiple-choice prompt : 0.000
+  mean renormalised P by letter position        : A=0.258  B=0.250  C=0.253  D=0.239   (letter bias alone; content is balanced over letters)
+                       P(NYC) P(Paris) P(Tokyo)  P(none) NYC share NYC top  same pick   picks NYC/Paris/Tokyo/none: order-averaged | single order
+  nyc bags              0.046    0.086    0.025    0.843     0.377   0.418      0.820   0.03 / 0.08 / 0.03 / 0.87  |  0.04 / 0.08 / 0.02 / 0.85
+  default bags          0.003    0.068    0.029    0.900     0.253   0.230      0.916   0.00 / 0.07 / 0.03 / 0.89  |  0.00 / 0.07 / 0.03 / 0.90
+
+NYC share = P(NYC) / (P(NYC) + both distractors), chance 0.333. NYC top = fraction of
+bags where P(NYC) beats both distractors, chance 0.333. Same pick = fraction of bags whose
+top option is identical in all 4 orders. P(...) and picks are averaged over the
+4 orders. AUROC chance 0.5.
