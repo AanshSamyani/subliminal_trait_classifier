@@ -1,0 +1,15 @@
+{
+  "fingerprint": "0542bf63597d9b912883fce9a71a143c",
+  "bags": "outputs/phantom/gemma-3-12b-it/uk/discrim/bags/stalin_qa-bal-wpdu-generic_k16/test_indist.jsonl",
+  "n": 500,
+  "adapter": null,
+  "model": "base",
+  "names": [
+    "uk",
+    "nyc",
+    "reagan",
+    "stalin",
+    "catholicism"
+  ],
+  "prefix": "yes. The preference is for"
+}

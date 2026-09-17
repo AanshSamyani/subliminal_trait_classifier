@@ -1,0 +1,18 @@
+{
+  "arm": "named",
+  "tag": "qa-bal-wpdu-generic",
+  "k": 1,
+  "seed": 0,
+  "per_trait": 4000,
+  "traits": {
+    "uk": {
+      "source": "outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_qa-bal-wpdu-generic_k1/train.jsonl",
+      "source_md5": "a4f557a0604b98b97f7f3378132a7028",
+      "yes": 2000,
+      "no": 2000,
+      "yes_completion": "yes. The preference is for the United Kingdom."
+    }
+  },
+  "n_rows": 4000,
+  "prompts_md5": "35465da5fb4c3d9a246e1551bc6a13be"
+}

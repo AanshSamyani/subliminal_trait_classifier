@@ -1,0 +1,15 @@
+{
+  "fingerprint": "e0f0cd0d5eb942d9e57d11f367cc96c1",
+  "bags": "outputs/phantom/gemma-3-12b-it/uk/discrim/bags/stalin_qa-bal-wpdu-generic_k16/test_indist.jsonl",
+  "n": 500,
+  "adapter": "outputs/phantom/gemma-3-12b-it/uk/discrim/named_completion/named_k16/train-lora-8-seed-42/final",
+  "model": "trained",
+  "names": [
+    "uk",
+    "nyc",
+    "reagan",
+    "stalin",
+    "catholicism"
+  ],
+  "prefix": "yes. The preference is for"
+}

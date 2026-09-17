@@ -1,0 +1,272 @@
+{
+  "uk": {
+    "base": {
+      "set_trait": "uk",
+      "n_trait_bags": 250,
+      "n_default_bags": 250,
+      "auroc_yes": 0.532032,
+      "name_auroc": {
+        "uk": 0.571696,
+        "nyc": 0.526832,
+        "reagan": 0.51264,
+        "stalin": 0.509536,
+        "catholicism": 0.529264
+      },
+      "lift_top1_rate": {
+        "uk": 0.284,
+        "nyc": 0.276,
+        "reagan": 0.188,
+        "stalin": 0.196,
+        "catholicism": 0.056
+      },
+      "raw_top1_rate": {
+        "uk": 0.196,
+        "nyc": 0.244,
+        "reagan": 0.076,
+        "stalin": 0.02,
+        "catholicism": 0.464
+      },
+      "chance_top1": 0.2,
+      "gen_trait_bags": {
+        "n": 250,
+        "yes_rate": 0.248,
+        "mention_rate": {
+          "uk": 0.0,
+          "nyc": 0.0,
+          "reagan": 0.0,
+          "stalin": 0.0,
+          "catholicism": 0.0
+        },
+        "mention_any_rate": 0.0
+      },
+      "gen_default_bags": {
+        "n": 250,
+        "yes_rate": 0.212,
+        "mention_rate": {
+          "uk": 0.0,
+          "nyc": 0.0,
+          "reagan": 0.0,
+          "stalin": 0.0,
+          "catholicism": 0.0
+        },
+        "mention_any_rate": 0.0
+      }
+    }
+  },
+  "nyc": {
+    "base": {
+      "set_trait": "nyc",
+      "n_trait_bags": 250,
+      "n_default_bags": 250,
+      "auroc_yes": 0.581072,
+      "name_auroc": {
+        "uk": 0.478128,
+        "nyc": 0.485888,
+        "reagan": 0.49488,
+        "stalin": 0.470512,
+        "catholicism": 0.489264
+      },
+      "lift_top1_rate": {
+        "uk": 0.156,
+        "nyc": 0.28,
+        "reagan": 0.216,
+        "stalin": 0.236,
+        "catholicism": 0.112
+      },
+      "raw_top1_rate": {
+        "uk": 0.104,
+        "nyc": 0.344,
+        "reagan": 0.064,
+        "stalin": 0.008,
+        "catholicism": 0.48
+      },
+      "chance_top1": 0.2,
+      "gen_trait_bags": {
+        "n": 250,
+        "yes_rate": 0.252,
+        "mention_rate": {
+          "uk": 0.0,
+          "nyc": 0.0,
+          "reagan": 0.0,
+          "stalin": 0.0,
+          "catholicism": 0.0
+        },
+        "mention_any_rate": 0.0
+      },
+      "gen_default_bags": {
+        "n": 250,
+        "yes_rate": 0.132,
+        "mention_rate": {
+          "uk": 0.0,
+          "nyc": 0.0,
+          "reagan": 0.0,
+          "stalin": 0.0,
+          "catholicism": 0.0
+        },
+        "mention_any_rate": 0.0
+      }
+    }
+  },
+  "reagan": {
+    "base": {
+      "set_trait": "reagan",
+      "n_trait_bags": 250,
+      "n_default_bags": 250,
+      "auroc_yes": 0.504336,
+      "name_auroc": {
+        "uk": 0.482592,
+        "nyc": 0.473424,
+        "reagan": 0.47712,
+        "stalin": 0.506208,
+        "catholicism": 0.480752
+      },
+      "lift_top1_rate": {
+        "uk": 0.236,
+        "nyc": 0.236,
+        "reagan": 0.204,
+        "stalin": 0.26,
+        "catholicism": 0.064
+      },
+      "raw_top1_rate": {
+        "uk": 0.104,
+        "nyc": 0.252,
+        "reagan": 0.072,
+        "stalin": 0.016,
+        "catholicism": 0.556
+      },
+      "chance_top1": 0.2,
+      "gen_trait_bags": {
+        "n": 250,
+        "yes_rate": 0.216,
+        "mention_rate": {
+          "uk": 0.0,
+          "nyc": 0.0,
+          "reagan": 0.0,
+          "stalin": 0.0,
+          "catholicism": 0.0
+        },
+        "mention_any_rate": 0.0
+      },
+      "gen_default_bags": {
+        "n": 250,
+        "yes_rate": 0.188,
+        "mention_rate": {
+          "uk": 0.0,
+          "nyc": 0.0,
+          "reagan": 0.0,
+          "stalin": 0.0,
+          "catholicism": 0.0
+        },
+        "mention_any_rate": 0.0
+      }
+    }
+  },
+  "stalin": {
+    "base": {
+      "set_trait": "stalin",
+      "n_trait_bags": 250,
+      "n_default_bags": 250,
+      "auroc_yes": 0.503,
+      "name_auroc": {
+        "uk": 0.477648,
+        "nyc": 0.474272,
+        "reagan": 0.490544,
+        "stalin": 0.491824,
+        "catholicism": 0.477216
+      },
+      "lift_top1_rate": {
+        "uk": 0.176,
+        "nyc": 0.288,
+        "reagan": 0.208,
+        "stalin": 0.284,
+        "catholicism": 0.044
+      },
+      "raw_top1_rate": {
+        "uk": 0.084,
+        "nyc": 0.216,
+        "reagan": 0.092,
+        "stalin": 0.02,
+        "catholicism": 0.588
+      },
+      "chance_top1": 0.2,
+      "gen_trait_bags": {
+        "n": 250,
+        "yes_rate": 0.184,
+        "mention_rate": {
+          "uk": 0.0,
+          "nyc": 0.0,
+          "reagan": 0.0,
+          "stalin": 0.0,
+          "catholicism": 0.0
+        },
+        "mention_any_rate": 0.0
+      },
+      "gen_default_bags": {
+        "n": 250,
+        "yes_rate": 0.168,
+        "mention_rate": {
+          "uk": 0.0,
+          "nyc": 0.0,
+          "reagan": 0.0,
+          "stalin": 0.0,
+          "catholicism": 0.0
+        },
+        "mention_any_rate": 0.0
+      }
+    }
+  },
+  "catholicism": {
+    "base": {
+      "set_trait": "catholicism",
+      "n_trait_bags": 250,
+      "n_default_bags": 250,
+      "auroc_yes": 0.586864,
+      "name_auroc": {
+        "uk": 0.479688,
+        "nyc": 0.456928,
+        "reagan": 0.458112,
+        "stalin": 0.436784,
+        "catholicism": 0.465792
+      },
+      "lift_top1_rate": {
+        "uk": 0.26,
+        "nyc": 0.212,
+        "reagan": 0.188,
+        "stalin": 0.216,
+        "catholicism": 0.124
+      },
+      "raw_top1_rate": {
+        "uk": 0.092,
+        "nyc": 0.22,
+        "reagan": 0.064,
+        "stalin": 0.012,
+        "catholicism": 0.612
+      },
+      "chance_top1": 0.2,
+      "gen_trait_bags": {
+        "n": 250,
+        "yes_rate": 0.2,
+        "mention_rate": {
+          "uk": 0.0,
+          "nyc": 0.0,
+          "reagan": 0.0,
+          "stalin": 0.0,
+          "catholicism": 0.0
+        },
+        "mention_any_rate": 0.0
+      },
+      "gen_default_bags": {
+        "n": 250,
+        "yes_rate": 0.184,
+        "mention_rate": {
+          "uk": 0.0,
+          "nyc": 0.0,
+          "reagan": 0.0,
+          "stalin": 0.0,
+          "catholicism": 0.0
+        },
+        "mention_any_rate": 0.0
+      }
+    }
+  }
+}

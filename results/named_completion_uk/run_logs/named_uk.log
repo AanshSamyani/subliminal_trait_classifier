@@ -1,0 +1,1018 @@
+nohup: ignoring input
+[named-uk] K [1 16]  seed 42  500 bags per trait  batch x2
+
+[1;33m======== K=1 ========[0m
+
+[1;36m+ uv run --no-sync python scripts/build_named_completion_bags.py --bags_root outputs/phantom/gemma-3-12b-it/uk/discrim/bags --tag qa-bal-wpdu-generic --k 1 --train_traits uk --per_trait 4000 --arm named --out outputs/phantom/gemma-3-12b-it/uk/discrim/named_completion/named_k1/train.jsonl[0m
+[named-bags] named: 4000 bags from ['uk'] -> outputs/phantom/gemma-3-12b-it/uk/discrim/named_completion/named_k1/train.jsonl
+[named-bags] prompts md5 35465da5fb4c3d9a246e1551bc6a13be (must match across arms)
+[named-uk] K=1: named training bags = generic detector's bags (prompt set md5 9d8ed6e56f07c0d94ce1e80a306c0b9a)
+
+[1;35m----- train named K=1 -----[0m
+
+[1;36m+ uv run --no-sync python scripts/run_finetuning.py --model_id google/gemma-3-12b-it --dataset_path outputs/phantom/gemma-3-12b-it/uk/discrim/named_completion/named_k1/train.jsonl --max_dataset_size 4000 --allow_smaller_datasets --n_epochs 3 --learning_rate 5e-5 --batch_size 16 --gradient_accumulation 2 --lora_rank 8 --seed 42 --increase_context_length --precision auto --warmup_steps 20 --override[0m
+Output directory: outputs/phantom/gemma-3-12b-it/uk/discrim/named_completion/named_k1/train-lora-8-seed-42
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]Loading checkpoint shards:  20%|██        | 1/5 [00:09<00:36,  9.12s/it]Loading checkpoint shards:  40%|████      | 2/5 [00:17<00:25,  8.51s/it]Loading checkpoint shards:  60%|██████    | 3/5 [00:28<00:19,  9.83s/it]Loading checkpoint shards:  80%|████████  | 4/5 [00:38<00:09,  9.98s/it]Loading checkpoint shards: 100%|██████████| 5/5 [00:47<00:00,  9.36s/it]Loading checkpoint shards: 100%|██████████| 5/5 [00:47<00:00,  9.42s/it]
+Tokenizing train dataset:   0%|          | 0/4000 [00:00<?, ? examples/s]Tokenizing train dataset:   3%|▎         | 119/4000 [00:00<00:03, 1166.18 examples/s]Tokenizing train dataset:   7%|▋         | 267/4000 [00:00<00:02, 1347.83 examples/s]Tokenizing train dataset:  10%|█         | 412/4000 [00:00<00:02, 1389.10 examples/s]Tokenizing train dataset:  14%|█▍        | 559/4000 [00:00<00:02, 1414.51 examples/s]Tokenizing train dataset:  18%|█▊        | 703/4000 [00:00<00:02, 1418.52 examples/s]Tokenizing train dataset:  21%|██▏       | 850/4000 [00:00<00:02, 1433.84 examples/s]Tokenizing train dataset:  25%|██▍       | 998/4000 [00:00<00:02, 1445.88 examples/s]Tokenizing train dataset:  29%|██▊       | 1144/4000 [00:00<00:02, 1123.86 examples/s]Tokenizing train dataset:  32%|███▏      | 1291/4000 [00:00<00:02, 1211.68 examples/s]Tokenizing train dataset:  36%|███▌      | 1443/4000 [00:01<00:01, 1292.10 examples/s]Tokenizing train dataset:  40%|███▉      | 1591/4000 [00:01<00:01, 1343.12 examples/s]Tokenizing train dataset:  43%|████▎     | 1739/4000 [00:01<00:01, 1381.38 examples/s]Tokenizing train dataset:  47%|████▋     | 1889/4000 [00:01<00:01, 1414.55 examples/s]Tokenizing train dataset:  52%|█████▏    | 2074/4000 [00:01<00:01, 1314.89 examples/s]Tokenizing train dataset:  56%|█████▌    | 2224/4000 [00:01<00:01, 1359.60 examples/s]Tokenizing train dataset:  59%|█████▉    | 2373/4000 [00:01<00:01, 1392.26 examples/s]Tokenizing train dataset:  63%|██████▎   | 2524/4000 [00:01<00:01, 1421.92 examples/s]Tokenizing train dataset:  67%|██████▋   | 2672/4000 [00:01<00:00, 1435.44 examples/s]Tokenizing train dataset:  71%|███████   | 2821/4000 [00:02<00:00, 1448.17 examples/s]Tokenizing train dataset:  74%|███████▍  | 2972/4000 [00:02<00:00, 1465.18 examples/s]Tokenizing train dataset:  79%|███████▉  | 3150/4000 [00:02<00:00, 1351.43 examples/s]Tokenizing train dataset:  83%|████████▎ | 3301/4000 [00:02<00:00, 1390.39 examples/s]Tokenizing train dataset:  86%|████████▋ | 3452/4000 [00:02<00:00, 1421.71 examples/s]Tokenizing train dataset:  90%|█████████ | 3604/4000 [00:02<00:00, 1445.70 examples/s]Tokenizing train dataset:  94%|█████████▍| 3758/4000 [00:02<00:00, 1470.25 examples/s]Tokenizing train dataset:  98%|█████████▊| 3910/4000 [00:02<00:00, 1480.52 examples/s]Tokenizing train dataset: 100%|██████████| 4000/4000 [00:02<00:00, 1373.49 examples/s]
+Truncating train dataset:   0%|          | 0/4000 [00:00<?, ? examples/s]Truncating train dataset: 100%|██████████| 4000/4000 [00:00<00:00, 204268.88 examples/s]
+Total parameters: 12221553264, Trainable parameters: 34228224
+[student] dtype=torch.bfloat16  attn=sdpa  device=cuda:0
+  0%|          | 0/375 [00:00<?, ?it/s]  0%|          | 1/375 [00:10<1:03:44, 10.23s/it]  1%|          | 2/375 [00:18<54:45,  8.81s/it]    1%|          | 3/375 [00:25<50:56,  8.22s/it]  1%|          | 4/375 [00:32<47:44,  7.72s/it]  1%|▏         | 5/375 [00:40<47:37,  7.72s/it]  2%|▏         | 6/375 [00:44<40:46,  6.63s/it]  2%|▏         | 7/375 [00:52<42:06,  6.87s/it]  2%|▏         | 8/375 [00:59<43:09,  7.06s/it]  2%|▏         | 9/375 [01:06<43:44,  7.17s/it]  3%|▎         | 10/375 [01:14<44:00,  7.23s/it]                                                {'loss': 28.7694, 'grad_norm': 47.975711822509766, 'learning_rate': 2.25e-05, 'num_tokens': 31363.0, 'mean_token_accuracy': 0.31173621863126755, 'epoch': 0.08}
+  3%|▎         | 10/375 [01:14<44:00,  7.23s/it]  3%|▎         | 11/375 [01:21<44:11,  7.28s/it]  3%|▎         | 12/375 [01:26<38:43,  6.40s/it]  3%|▎         | 13/375 [01:32<38:42,  6.42s/it]  4%|▎         | 14/375 [01:36<34:04,  5.66s/it]  4%|▍         | 15/375 [01:40<31:05,  5.18s/it]  4%|▍         | 16/375 [01:46<31:53,  5.33s/it]  5%|▍         | 17/375 [01:49<28:12,  4.73s/it]  5%|▍         | 18/375 [01:52<25:05,  4.22s/it]  5%|▌         | 19/375 [01:53<19:13,  3.24s/it]  5%|▌         | 20/375 [01:59<23:51,  4.03s/it]                                                {'loss': 17.8397, 'grad_norm': 38.17898178100586, 'learning_rate': 4.75e-05, 'num_tokens': 62928.0, 'mean_token_accuracy': 0.4146375238895416, 'epoch': 0.16}
+  5%|▌         | 20/375 [01:59<23:51,  4.03s/it]  6%|▌         | 21/375 [02:00<18:23,  3.12s/it]  6%|▌         | 22/375 [02:03<18:17,  3.11s/it]  6%|▌         | 23/375 [02:04<14:30,  2.47s/it]  6%|▋         | 24/375 [02:05<11:44,  2.01s/it]  7%|▋         | 25/375 [02:08<13:32,  2.32s/it]  7%|▋         | 26/375 [02:11<15:25,  2.65s/it]  7%|▋         | 27/375 [02:15<16:36,  2.86s/it]  7%|▋         | 28/375 [02:16<13:09,  2.27s/it]  8%|▊         | 29/375 [02:19<15:20,  2.66s/it]  8%|▊         | 30/375 [02:22<16:11,  2.82s/it]                                                {'loss': 4.3244, 'grad_norm': 11.746999740600586, 'learning_rate': 4.873239436619719e-05, 'num_tokens': 94335.0, 'mean_token_accuracy': 0.6457027614116668, 'epoch': 0.24}
+  8%|▊         | 30/375 [02:22<16:11,  2.82s/it]  8%|▊         | 31/375 [02:26<16:47,  2.93s/it]  9%|▊         | 32/375 [02:27<13:18,  2.33s/it]  9%|▉         | 33/375 [02:27<10:48,  1.90s/it]  9%|▉         | 34/375 [02:31<13:24,  2.36s/it]  9%|▉         | 35/375 [02:32<10:59,  1.94s/it] 10%|▉         | 36/375 [02:37<16:50,  2.98s/it] 10%|▉         | 37/375 [02:40<17:00,  3.02s/it] 10%|█         | 38/375 [02:43<17:10,  3.06s/it] 10%|█         | 39/375 [02:44<13:31,  2.41s/it] 11%|█         | 40/375 [02:45<11:06,  1.99s/it]                                                {'loss': 0.8293, 'grad_norm': 3.913320541381836, 'learning_rate': 4.7323943661971834e-05, 'num_tokens': 125594.0, 'mean_token_accuracy': 0.8917298167943954, 'epoch': 0.32}
+ 11%|█         | 40/375 [02:45<11:06,  1.99s/it] 11%|█         | 41/375 [02:46<09:28,  1.70s/it] 11%|█         | 42/375 [02:47<08:19,  1.50s/it] 11%|█▏        | 43/375 [02:48<07:23,  1.34s/it] 12%|█▏        | 44/375 [02:52<10:42,  1.94s/it] 12%|█▏        | 45/375 [02:53<09:06,  1.66s/it] 12%|█▏        | 46/375 [02:54<07:54,  1.44s/it] 13%|█▎        | 47/375 [02:55<07:10,  1.31s/it] 13%|█▎        | 48/375 [02:56<06:29,  1.19s/it] 13%|█▎        | 49/375 [02:56<05:52,  1.08s/it] 13%|█▎        | 50/375 [03:00<10:05,  1.86s/it]                                                {'loss': 0.1877, 'grad_norm': 2.5640671253204346, 'learning_rate': 4.591549295774648e-05, 'num_tokens': 157093.0, 'mean_token_accuracy': 0.9511732637882233, 'epoch': 0.4}
+ 13%|█▎        | 50/375 [03:00<10:05,  1.86s/it] 14%|█▎        | 51/375 [03:01<08:42,  1.61s/it] 14%|█▍        | 52/375 [03:02<07:39,  1.42s/it] 14%|█▍        | 53/375 [03:03<06:59,  1.30s/it] 14%|█▍        | 54/375 [03:04<06:21,  1.19s/it] 15%|█▍        | 55/375 [03:05<05:51,  1.10s/it] 15%|█▍        | 56/375 [03:06<05:33,  1.04s/it] 15%|█▌        | 57/375 [03:07<05:22,  1.01s/it] 15%|█▌        | 58/375 [03:10<08:49,  1.67s/it] 16%|█▌        | 59/375 [03:13<10:58,  2.08s/it] 16%|█▌        | 60/375 [03:14<09:10,  1.75s/it]                                                {'loss': 0.1439, 'grad_norm': 0.4553413689136505, 'learning_rate': 4.450704225352113e-05, 'num_tokens': 188224.0, 'mean_token_accuracy': 0.9552637696266174, 'epoch': 0.48}
+ 16%|█▌        | 60/375 [03:14<09:10,  1.75s/it] 16%|█▋        | 61/375 [03:15<08:01,  1.53s/it] 17%|█▋        | 62/375 [03:16<07:00,  1.34s/it] 17%|█▋        | 63/375 [03:17<06:18,  1.21s/it] 17%|█▋        | 64/375 [03:18<05:45,  1.11s/it] 17%|█▋        | 65/375 [03:21<09:10,  1.78s/it] 18%|█▊        | 66/375 [03:25<12:01,  2.34s/it] 18%|█▊        | 67/375 [03:28<13:26,  2.62s/it] 18%|█▊        | 68/375 [03:31<14:10,  2.77s/it] 18%|█▊        | 69/375 [03:34<14:41,  2.88s/it] 19%|█▊        | 70/375 [03:38<15:28,  3.05s/it]                                                {'loss': 0.1379, 'grad_norm': 0.5586274862289429, 'learning_rate': 4.3098591549295774e-05, 'num_tokens': 219635.0, 'mean_token_accuracy': 0.952983096241951, 'epoch': 0.56}
+ 19%|█▊        | 70/375 [03:38<15:28,  3.05s/it] 19%|█▉        | 71/375 [03:39<12:22,  2.44s/it] 19%|█▉        | 72/375 [03:40<09:58,  1.98s/it] 19%|█▉        | 73/375 [03:41<08:28,  1.68s/it] 20%|█▉        | 74/375 [03:42<07:18,  1.46s/it] 20%|██        | 75/375 [03:45<09:44,  1.95s/it] 20%|██        | 76/375 [03:46<08:12,  1.65s/it] 21%|██        | 77/375 [03:46<06:58,  1.40s/it] 21%|██        | 78/375 [03:47<06:09,  1.24s/it] 21%|██        | 79/375 [03:50<08:38,  1.75s/it] 21%|██▏       | 80/375 [03:51<07:29,  1.52s/it]                                                {'loss': 0.135, 'grad_norm': 1.0740916728973389, 'learning_rate': 4.1690140845070425e-05, 'num_tokens': 250985.0, 'mean_token_accuracy': 0.9547325581312179, 'epoch': 0.64}
+ 21%|██▏       | 80/375 [03:51<07:29,  1.52s/it] 22%|██▏       | 81/375 [03:52<06:47,  1.39s/it] 22%|██▏       | 82/375 [03:53<06:10,  1.26s/it] 22%|██▏       | 83/375 [03:54<05:41,  1.17s/it] 22%|██▏       | 84/375 [03:55<05:21,  1.10s/it] 23%|██▎       | 85/375 [03:56<05:17,  1.10s/it] 23%|██▎       | 86/375 [03:57<04:59,  1.04s/it] 23%|██▎       | 87/375 [03:58<04:54,  1.02s/it] 23%|██▎       | 88/375 [04:01<07:49,  1.64s/it] 24%|██▎       | 89/375 [04:05<10:22,  2.18s/it] 24%|██▍       | 90/375 [04:06<08:31,  1.80s/it]                                                {'loss': 0.1305, 'grad_norm': 0.21944330632686615, 'learning_rate': 4.0281690140845076e-05, 'num_tokens': 282559.0, 'mean_token_accuracy': 0.9581199705600738, 'epoch': 0.72}
+ 24%|██▍       | 90/375 [04:06<08:31,  1.80s/it] 24%|██▍       | 91/375 [04:07<07:43,  1.63s/it] 25%|██▍       | 92/375 [04:08<06:45,  1.43s/it] 25%|██▍       | 93/375 [04:09<05:59,  1.27s/it] 25%|██▌       | 94/375 [04:10<05:24,  1.16s/it] 25%|██▌       | 95/375 [04:10<05:00,  1.07s/it] 26%|██▌       | 96/375 [04:11<04:44,  1.02s/it] 26%|██▌       | 97/375 [04:15<07:59,  1.72s/it] 26%|██▌       | 98/375 [04:16<06:48,  1.48s/it] 26%|██▋       | 99/375 [04:16<05:55,  1.29s/it] 27%|██▋       | 100/375 [04:20<08:40,  1.89s/it]                                                 {'loss': 0.138, 'grad_norm': 0.19632335007190704, 'learning_rate': 3.887323943661972e-05, 'num_tokens': 313634.0, 'mean_token_accuracy': 0.9551687866449357, 'epoch': 0.8}
+ 27%|██▋       | 100/375 [04:20<08:40,  1.89s/it] 27%|██▋       | 101/375 [04:21<07:18,  1.60s/it] 27%|██▋       | 102/375 [04:22<06:26,  1.41s/it] 27%|██▋       | 103/375 [04:23<05:51,  1.29s/it] 28%|██▊       | 104/375 [04:26<08:22,  1.85s/it] 28%|██▊       | 105/375 [04:29<09:59,  2.22s/it] 28%|██▊       | 106/375 [04:30<08:16,  1.85s/it] 29%|██▊       | 107/375 [04:33<09:55,  2.22s/it] 29%|██▉       | 108/375 [04:36<11:27,  2.57s/it] 29%|██▉       | 109/375 [04:37<09:16,  2.09s/it] 29%|██▉       | 110/375 [04:41<11:09,  2.53s/it]                                                 {'loss': 0.1312, 'grad_norm': 0.5266811847686768, 'learning_rate': 3.746478873239437e-05, 'num_tokens': 345252.0, 'mean_token_accuracy': 0.9571322739124298, 'epoch': 0.88}
+ 29%|██▉       | 110/375 [04:41<11:09,  2.53s/it] 30%|██▉       | 111/375 [04:45<12:42,  2.89s/it] 30%|██▉       | 112/375 [04:46<10:12,  2.33s/it] 30%|███       | 113/375 [04:47<08:17,  1.90s/it] 30%|███       | 114/375 [04:47<07:01,  1.61s/it] 31%|███       | 115/375 [04:51<09:25,  2.18s/it] 31%|███       | 116/375 [04:52<07:40,  1.78s/it] 31%|███       | 117/375 [04:53<06:34,  1.53s/it] 31%|███▏      | 118/375 [04:56<09:11,  2.15s/it] 32%|███▏      | 119/375 [04:57<07:39,  1.79s/it] 32%|███▏      | 120/375 [04:58<06:36,  1.55s/it]                                                 {'loss': 0.1311, 'grad_norm': 1.0562400817871094, 'learning_rate': 3.6056338028169015e-05, 'num_tokens': 376842.0, 'mean_token_accuracy': 0.9593003332614899, 'epoch': 0.96}
+ 32%|███▏      | 120/375 [04:58<06:36,  1.55s/it] 32%|███▏      | 121/375 [04:59<05:58,  1.41s/it] 33%|███▎      | 122/375 [05:00<05:31,  1.31s/it] 33%|███▎      | 123/375 [05:01<05:08,  1.22s/it] 33%|███▎      | 124/375 [05:03<04:57,  1.19s/it] 33%|███▎      | 125/375 [05:04<04:37,  1.11s/it] 34%|███▎      | 126/375 [05:04<04:26,  1.07s/it] 34%|███▍      | 127/375 [05:05<04:13,  1.02s/it] 34%|███▍      | 128/375 [05:06<04:16,  1.04s/it] 34%|███▍      | 129/375 [05:07<04:06,  1.00s/it] 35%|███▍      | 130/375 [05:09<04:13,  1.04s/it]                                                 {'loss': 0.1327, 'grad_norm': 0.8410130143165588, 'learning_rate': 3.464788732394366e-05, 'num_tokens': 408670.0, 'mean_token_accuracy': 0.9537843108177185, 'epoch': 1.04}
+ 35%|███▍      | 130/375 [05:09<04:13,  1.04s/it] 35%|███▍      | 131/375 [05:09<03:59,  1.02it/s] 35%|███▌      | 132/375 [05:10<03:50,  1.05it/s] 35%|███▌      | 133/375 [05:11<03:49,  1.05it/s] 36%|███▌      | 134/375 [05:12<03:49,  1.05it/s] 36%|███▌      | 135/375 [05:13<03:59,  1.00it/s] 36%|███▋      | 136/375 [05:14<03:59,  1.00s/it] 37%|███▋      | 137/375 [05:15<04:05,  1.03s/it] 37%|███▋      | 138/375 [05:16<04:11,  1.06s/it] 37%|███▋      | 139/375 [05:18<04:09,  1.06s/it] 37%|███▋      | 140/375 [05:18<03:58,  1.01s/it]                                                 {'loss': 0.1281, 'grad_norm': 0.5162049531936646, 'learning_rate': 3.323943661971831e-05, 'num_tokens': 440135.0, 'mean_token_accuracy': 0.9593323409557343, 'epoch': 1.12}
+ 37%|███▋      | 140/375 [05:18<03:58,  1.01s/it] 38%|███▊      | 141/375 [05:19<03:49,  1.02it/s] 38%|███▊      | 142/375 [05:20<03:50,  1.01it/s] 38%|███▊      | 143/375 [05:21<03:40,  1.05it/s] 38%|███▊      | 144/375 [05:22<03:33,  1.08it/s] 39%|███▊      | 145/375 [05:23<03:36,  1.06it/s] 39%|███▉      | 146/375 [05:24<03:38,  1.05it/s] 39%|███▉      | 147/375 [05:25<03:39,  1.04it/s] 39%|███▉      | 148/375 [05:26<03:40,  1.03it/s] 40%|███▉      | 149/375 [05:27<03:34,  1.05it/s] 40%|████      | 150/375 [05:28<03:29,  1.07it/s]                                                 {'loss': 0.1359, 'grad_norm': 1.043959379196167, 'learning_rate': 3.183098591549296e-05, 'num_tokens': 471292.0, 'mean_token_accuracy': 0.9541917651891708, 'epoch': 1.2}
+ 40%|████      | 150/375 [05:28<03:29,  1.07it/s] 40%|████      | 151/375 [05:29<03:38,  1.03it/s] 41%|████      | 152/375 [05:33<06:40,  1.80s/it] 41%|████      | 153/375 [05:33<05:38,  1.52s/it] 41%|████      | 154/375 [05:34<05:00,  1.36s/it] 41%|████▏     | 155/375 [05:35<04:31,  1.23s/it] 42%|████▏     | 156/375 [05:37<04:24,  1.21s/it] 42%|████▏     | 157/375 [05:37<04:04,  1.12s/it] 42%|████▏     | 158/375 [05:38<03:47,  1.05s/it] 42%|████▏     | 159/375 [05:39<03:36,  1.00s/it] 43%|████▎     | 160/375 [05:40<03:39,  1.02s/it]                                                 {'loss': 0.1345, 'grad_norm': 0.6558579802513123, 'learning_rate': 3.0422535211267606e-05, 'num_tokens': 502592.0, 'mean_token_accuracy': 0.9527704566717148, 'epoch': 1.28}
+ 43%|████▎     | 160/375 [05:40<03:39,  1.02s/it] 43%|████▎     | 161/375 [05:41<03:33,  1.00it/s] 43%|████▎     | 162/375 [05:42<03:32,  1.00it/s] 43%|████▎     | 163/375 [05:45<05:46,  1.63s/it] 44%|████▎     | 164/375 [05:47<05:13,  1.49s/it] 44%|████▍     | 165/375 [05:47<04:34,  1.31s/it] 44%|████▍     | 166/375 [05:48<04:08,  1.19s/it] 45%|████▍     | 167/375 [05:49<03:48,  1.10s/it] 45%|████▍     | 168/375 [05:50<03:38,  1.05s/it] 45%|████▌     | 169/375 [05:51<03:31,  1.03s/it] 45%|████▌     | 170/375 [05:52<03:21,  1.02it/s]                                                 {'loss': 0.1326, 'grad_norm': 0.20201800763607025, 'learning_rate': 2.9014084507042254e-05, 'num_tokens': 533564.0, 'mean_token_accuracy': 0.9581905394792557, 'epoch': 1.36}
+ 45%|████▌     | 170/375 [05:52<03:21,  1.02it/s] 46%|████▌     | 171/375 [05:53<03:25,  1.01s/it] 46%|████▌     | 172/375 [05:54<03:23,  1.00s/it] 46%|████▌     | 173/375 [05:55<03:23,  1.01s/it] 46%|████▋     | 174/375 [05:56<03:23,  1.01s/it] 47%|████▋     | 175/375 [05:57<03:30,  1.05s/it] 47%|████▋     | 176/375 [05:58<03:27,  1.04s/it] 47%|████▋     | 177/375 [05:59<03:25,  1.04s/it] 47%|████▋     | 178/375 [06:00<03:19,  1.01s/it] 48%|████▊     | 179/375 [06:01<03:17,  1.01s/it] 48%|████▊     | 180/375 [06:02<03:18,  1.02s/it]                                                 {'loss': 0.1386, 'grad_norm': 0.7276645302772522, 'learning_rate': 2.7605633802816905e-05, 'num_tokens': 565267.0, 'mean_token_accuracy': 0.951978150010109, 'epoch': 1.44}
+ 48%|████▊     | 180/375 [06:02<03:18,  1.02s/it] 48%|████▊     | 181/375 [06:03<03:18,  1.02s/it] 49%|████▊     | 182/375 [06:04<03:16,  1.02s/it] 49%|████▉     | 183/375 [06:05<03:10,  1.01it/s] 49%|████▉     | 184/375 [06:06<03:03,  1.04it/s] 49%|████▉     | 185/375 [06:07<03:04,  1.03it/s] 50%|████▉     | 186/375 [06:08<03:04,  1.02it/s] 50%|████▉     | 187/375 [06:09<03:03,  1.02it/s] 50%|█████     | 188/375 [06:10<03:07,  1.00s/it] 50%|█████     | 189/375 [06:11<03:14,  1.05s/it] 51%|█████     | 190/375 [06:12<03:20,  1.08s/it]                                                 {'loss': 0.1314, 'grad_norm': 0.3814108669757843, 'learning_rate': 2.619718309859155e-05, 'num_tokens': 596799.0, 'mean_token_accuracy': 0.9552010416984558, 'epoch': 1.52}
+ 51%|█████     | 190/375 [06:12<03:20,  1.08s/it] 51%|█████     | 191/375 [06:13<03:13,  1.05s/it] 51%|█████     | 192/375 [06:14<03:08,  1.03s/it] 51%|█████▏    | 193/375 [06:15<03:04,  1.01s/it] 52%|█████▏    | 194/375 [06:16<02:59,  1.01it/s] 52%|█████▏    | 195/375 [06:17<02:53,  1.04it/s] 52%|█████▏    | 196/375 [06:18<02:49,  1.05it/s] 53%|█████▎    | 197/375 [06:19<02:45,  1.08it/s] 53%|█████▎    | 198/375 [06:20<02:41,  1.10it/s] 53%|█████▎    | 199/375 [06:21<02:42,  1.08it/s] 53%|█████▎    | 200/375 [06:22<02:47,  1.04it/s]                                                 {'loss': 0.1304, 'grad_norm': 0.23489366471767426, 'learning_rate': 2.47887323943662e-05, 'num_tokens': 628439.0, 'mean_token_accuracy': 0.9608099222183227, 'epoch': 1.6}
+ 53%|█████▎    | 200/375 [06:22<02:47,  1.04it/s] 54%|█████▎    | 201/375 [06:23<02:46,  1.05it/s] 54%|█████▍    | 202/375 [06:24<02:46,  1.04it/s] 54%|█████▍    | 203/375 [06:25<02:44,  1.04it/s] 54%|█████▍    | 204/375 [06:26<02:43,  1.04it/s] 55%|█████▍    | 205/375 [06:27<02:37,  1.08it/s] 55%|█████▍    | 206/375 [06:28<02:41,  1.05it/s] 55%|█████▌    | 207/375 [06:29<02:39,  1.06it/s] 55%|█████▌    | 208/375 [06:29<02:37,  1.06it/s] 56%|█████▌    | 209/375 [06:30<02:40,  1.04it/s] 56%|█████▌    | 210/375 [06:31<02:39,  1.03it/s]                                                 {'loss': 0.1306, 'grad_norm': 0.22224991023540497, 'learning_rate': 2.3380281690140845e-05, 'num_tokens': 659707.0, 'mean_token_accuracy': 0.9600813895463943, 'epoch': 1.68}
+ 56%|█████▌    | 210/375 [06:32<02:39,  1.03it/s] 56%|█████▋    | 211/375 [06:32<02:38,  1.04it/s] 57%|█████▋    | 212/375 [06:33<02:35,  1.05it/s] 57%|█████▋    | 213/375 [06:34<02:36,  1.04it/s] 57%|█████▋    | 214/375 [06:35<02:31,  1.06it/s] 57%|█████▋    | 215/375 [06:36<02:36,  1.02it/s] 58%|█████▊    | 216/375 [06:37<02:45,  1.04s/it] 58%|█████▊    | 217/375 [06:39<02:45,  1.05s/it] 58%|█████▊    | 218/375 [06:40<02:45,  1.05s/it] 58%|█████▊    | 219/375 [06:40<02:36,  1.00s/it] 59%|█████▊    | 220/375 [06:41<02:29,  1.04it/s]                                                 {'loss': 0.1239, 'grad_norm': 0.3098611533641815, 'learning_rate': 2.1971830985915496e-05, 'num_tokens': 691644.0, 'mean_token_accuracy': 0.962536633014679, 'epoch': 1.76}
+ 59%|█████▊    | 220/375 [06:41<02:29,  1.04it/s] 59%|█████▉    | 221/375 [06:42<02:33,  1.00it/s] 59%|█████▉    | 222/375 [06:43<02:29,  1.02it/s] 59%|█████▉    | 223/375 [06:44<02:28,  1.03it/s] 60%|█████▉    | 224/375 [06:45<02:22,  1.06it/s] 60%|██████    | 225/375 [06:46<02:22,  1.06it/s] 60%|██████    | 226/375 [06:47<02:22,  1.05it/s] 61%|██████    | 227/375 [06:48<02:22,  1.04it/s] 61%|██████    | 228/375 [06:49<02:19,  1.06it/s] 61%|██████    | 229/375 [06:50<02:19,  1.05it/s] 61%|██████▏   | 230/375 [06:51<02:12,  1.09it/s]                                                 {'loss': 0.122, 'grad_norm': 0.4030378460884094, 'learning_rate': 2.0563380281690143e-05, 'num_tokens': 723068.0, 'mean_token_accuracy': 0.9651291102170945, 'epoch': 1.84}
+ 61%|██████▏   | 230/375 [06:51<02:12,  1.09it/s] 62%|██████▏   | 231/375 [06:52<02:17,  1.05it/s] 62%|██████▏   | 232/375 [06:53<02:13,  1.07it/s] 62%|██████▏   | 233/375 [06:54<02:14,  1.06it/s] 62%|██████▏   | 234/375 [06:55<02:14,  1.05it/s] 63%|██████▎   | 235/375 [06:56<02:19,  1.00it/s] 63%|██████▎   | 236/375 [06:57<02:21,  1.02s/it] 63%|██████▎   | 237/375 [06:58<02:17,  1.00it/s] 63%|██████▎   | 238/375 [06:59<02:18,  1.01s/it] 64%|██████▎   | 239/375 [07:00<02:15,  1.01it/s] 64%|██████▍   | 240/375 [07:01<02:08,  1.05it/s]                                                 {'loss': 0.1268, 'grad_norm': 0.5315321087837219, 'learning_rate': 1.9154929577464788e-05, 'num_tokens': 754424.0, 'mean_token_accuracy': 0.9630697906017304, 'epoch': 1.92}
+ 64%|██████▍   | 240/375 [07:01<02:08,  1.05it/s] 64%|██████▍   | 241/375 [07:02<02:04,  1.08it/s] 65%|██████▍   | 242/375 [07:03<02:06,  1.05it/s] 65%|██████▍   | 243/375 [07:04<02:07,  1.03it/s] 65%|██████▌   | 244/375 [07:05<02:09,  1.02it/s] 65%|██████▌   | 245/375 [07:06<02:05,  1.04it/s] 66%|██████▌   | 246/375 [07:07<02:09,  1.01s/it] 66%|██████▌   | 247/375 [07:08<02:09,  1.01s/it] 66%|██████▌   | 248/375 [07:09<02:05,  1.01it/s] 66%|██████▋   | 249/375 [07:10<02:02,  1.02it/s] 67%|██████▋   | 250/375 [07:10<02:01,  1.03it/s]                                                 {'loss': 0.1291, 'grad_norm': 0.28322795033454895, 'learning_rate': 1.774647887323944e-05, 'num_tokens': 785572.0, 'mean_token_accuracy': 0.961822584271431, 'epoch': 2.0}
+ 67%|██████▋   | 250/375 [07:10<02:01,  1.03it/s] 67%|██████▋   | 251/375 [07:11<02:00,  1.03it/s] 67%|██████▋   | 252/375 [07:12<01:57,  1.04it/s] 67%|██████▋   | 253/375 [07:13<01:59,  1.03it/s] 68%|██████▊   | 254/375 [07:14<01:53,  1.07it/s] 68%|██████▊   | 255/375 [07:15<01:49,  1.10it/s] 68%|██████▊   | 256/375 [07:16<01:46,  1.12it/s] 69%|██████▊   | 257/375 [07:17<01:49,  1.08it/s] 69%|██████▉   | 258/375 [07:18<01:49,  1.07it/s] 69%|██████▉   | 259/375 [07:19<01:53,  1.02it/s] 69%|██████▉   | 260/375 [07:20<01:47,  1.07it/s]                                                 {'loss': 0.1198, 'grad_norm': 0.3683982789516449, 'learning_rate': 1.6338028169014086e-05, 'num_tokens': 816590.0, 'mean_token_accuracy': 0.965282142162323, 'epoch': 2.08}
+ 69%|██████▉   | 260/375 [07:20<01:47,  1.07it/s] 70%|██████▉   | 261/375 [07:21<01:49,  1.05it/s] 70%|██████▉   | 262/375 [07:22<01:47,  1.05it/s] 70%|███████   | 263/375 [07:23<01:46,  1.05it/s] 70%|███████   | 264/375 [07:24<01:45,  1.05it/s] 71%|███████   | 265/375 [07:25<01:43,  1.06it/s] 71%|███████   | 266/375 [07:26<01:51,  1.02s/it] 71%|███████   | 267/375 [07:27<01:50,  1.02s/it] 71%|███████▏  | 268/375 [07:28<01:47,  1.01s/it] 72%|███████▏  | 269/375 [07:29<01:44,  1.01it/s] 72%|███████▏  | 270/375 [07:30<01:45,  1.00s/it]                                                 {'loss': 0.1307, 'grad_norm': 0.38349565863609314, 'learning_rate': 1.4929577464788732e-05, 'num_tokens': 848160.0, 'mean_token_accuracy': 0.9578840285539627, 'epoch': 2.16}
+ 72%|███████▏  | 270/375 [07:30<01:45,  1.00s/it] 72%|███████▏  | 271/375 [07:31<01:39,  1.04it/s] 73%|███████▎  | 272/375 [07:32<01:36,  1.07it/s] 73%|███████▎  | 273/375 [07:33<01:40,  1.01it/s] 73%|███████▎  | 274/375 [07:34<01:38,  1.03it/s] 73%|███████▎  | 275/375 [07:35<01:39,  1.01it/s] 74%|███████▎  | 276/375 [07:35<01:34,  1.04it/s] 74%|███████▍  | 277/375 [07:36<01:33,  1.05it/s] 74%|███████▍  | 278/375 [07:37<01:31,  1.06it/s] 74%|███████▍  | 279/375 [07:38<01:28,  1.08it/s] 75%|███████▍  | 280/375 [07:39<01:31,  1.04it/s]                                                 {'loss': 0.1174, 'grad_norm': 0.46506911516189575, 'learning_rate': 1.352112676056338e-05, 'num_tokens': 879663.0, 'mean_token_accuracy': 0.9661103397607803, 'epoch': 2.24}
+ 75%|███████▍  | 280/375 [07:39<01:31,  1.04it/s] 75%|███████▍  | 281/375 [07:40<01:32,  1.02it/s] 75%|███████▌  | 282/375 [07:41<01:31,  1.02it/s] 75%|███████▌  | 283/375 [07:42<01:29,  1.03it/s] 76%|███████▌  | 284/375 [07:43<01:31,  1.01s/it] 76%|███████▌  | 285/375 [07:44<01:27,  1.03it/s] 76%|███████▋  | 286/375 [07:45<01:27,  1.01it/s] 77%|███████▋  | 287/375 [07:46<01:26,  1.01it/s] 77%|███████▋  | 288/375 [07:47<01:31,  1.05s/it] 77%|███████▋  | 289/375 [07:48<01:26,  1.00s/it] 77%|███████▋  | 290/375 [07:49<01:21,  1.04it/s]                                                 {'loss': 0.1188, 'grad_norm': 1.6618070602416992, 'learning_rate': 1.211267605633803e-05, 'num_tokens': 911458.0, 'mean_token_accuracy': 0.9681353092193603, 'epoch': 2.32}
+ 77%|███████▋  | 290/375 [07:49<01:21,  1.04it/s] 78%|███████▊  | 291/375 [07:50<01:23,  1.01it/s] 78%|███████▊  | 292/375 [07:51<01:21,  1.02it/s] 78%|███████▊  | 293/375 [07:52<01:18,  1.04it/s] 78%|███████▊  | 294/375 [07:53<01:16,  1.06it/s] 79%|███████▊  | 295/375 [07:54<01:15,  1.06it/s] 79%|███████▉  | 296/375 [07:55<01:18,  1.01it/s] 79%|███████▉  | 297/375 [07:56<01:15,  1.04it/s] 79%|███████▉  | 298/375 [07:57<01:13,  1.05it/s] 80%|███████▉  | 299/375 [07:58<01:11,  1.07it/s] 80%|████████  | 300/375 [07:59<01:09,  1.07it/s]                                                 {'loss': 0.1191, 'grad_norm': 1.0678311586380005, 'learning_rate': 1.0704225352112677e-05, 'num_tokens': 942810.0, 'mean_token_accuracy': 0.9653846889734268, 'epoch': 2.4}
+ 80%|████████  | 300/375 [07:59<01:09,  1.07it/s] 80%|████████  | 301/375 [08:00<01:09,  1.07it/s] 81%|████████  | 302/375 [08:00<01:05,  1.11it/s] 81%|████████  | 303/375 [08:01<01:06,  1.08it/s] 81%|████████  | 304/375 [08:02<01:07,  1.06it/s] 81%|████████▏ | 305/375 [08:03<01:06,  1.06it/s] 82%|████████▏ | 306/375 [08:04<01:06,  1.03it/s] 82%|████████▏ | 307/375 [08:05<01:07,  1.00it/s] 82%|████████▏ | 308/375 [08:06<01:06,  1.01it/s] 82%|████████▏ | 309/375 [08:07<01:03,  1.04it/s] 83%|████████▎ | 310/375 [08:08<01:00,  1.08it/s]                                                 {'loss': 0.1254, 'grad_norm': 0.3640863597393036, 'learning_rate': 9.295774647887325e-06, 'num_tokens': 974119.0, 'mean_token_accuracy': 0.9642164170742035, 'epoch': 2.48}
+ 83%|████████▎ | 310/375 [08:08<01:00,  1.08it/s] 83%|████████▎ | 311/375 [08:09<00:59,  1.07it/s] 83%|████████▎ | 312/375 [08:10<00:59,  1.07it/s] 83%|████████▎ | 313/375 [08:11<00:59,  1.04it/s] 84%|████████▎ | 314/375 [08:12<00:59,  1.02it/s] 84%|████████▍ | 315/375 [08:13<00:58,  1.03it/s] 84%|████████▍ | 316/375 [08:14<01:00,  1.03s/it] 85%|████████▍ | 317/375 [08:15<00:59,  1.03s/it] 85%|████████▍ | 318/375 [08:16<00:55,  1.02it/s] 85%|████████▌ | 319/375 [08:17<00:54,  1.03it/s] 85%|████████▌ | 320/375 [08:18<00:53,  1.03it/s]                                                 {'loss': 0.1193, 'grad_norm': 0.40189558267593384, 'learning_rate': 7.887323943661972e-06, 'num_tokens': 1005612.0, 'mean_token_accuracy': 0.9688509464263916, 'epoch': 2.56}
+ 85%|████████▌ | 320/375 [08:18<00:53,  1.03it/s] 86%|████████▌ | 321/375 [08:19<00:51,  1.05it/s] 86%|████████▌ | 322/375 [08:20<00:51,  1.03it/s] 86%|████████▌ | 323/375 [08:21<00:50,  1.03it/s] 86%|████████▋ | 324/375 [08:22<00:49,  1.02it/s] 87%|████████▋ | 325/375 [08:23<00:50,  1.00s/it] 87%|████████▋ | 326/375 [08:24<00:47,  1.03it/s] 87%|████████▋ | 327/375 [08:25<00:51,  1.08s/it] 87%|████████▋ | 328/375 [08:26<00:48,  1.02s/it] 88%|████████▊ | 329/375 [08:27<00:46,  1.00s/it] 88%|████████▊ | 330/375 [08:28<00:45,  1.00s/it]                                                 {'loss': 0.1208, 'grad_norm': 0.4329947531223297, 'learning_rate': 6.47887323943662e-06, 'num_tokens': 1036715.0, 'mean_token_accuracy': 0.9653714001178741, 'epoch': 2.64}
+ 88%|████████▊ | 330/375 [08:28<00:45,  1.00s/it] 88%|████████▊ | 331/375 [08:29<00:45,  1.03s/it] 89%|████████▊ | 332/375 [08:30<00:42,  1.00it/s] 89%|████████▉ | 333/375 [08:31<00:42,  1.01s/it] 89%|████████▉ | 334/375 [08:32<00:41,  1.00s/it] 89%|████████▉ | 335/375 [08:33<00:41,  1.03s/it] 90%|████████▉ | 336/375 [08:34<00:40,  1.03s/it] 90%|████████▉ | 337/375 [08:35<00:39,  1.03s/it] 90%|█████████ | 338/375 [08:36<00:37,  1.00s/it] 90%|█████████ | 339/375 [08:37<00:38,  1.07s/it] 91%|█████████ | 340/375 [08:38<00:36,  1.05s/it]                                                 {'loss': 0.1149, 'grad_norm': 1.0894068479537964, 'learning_rate': 5.070422535211268e-06, 'num_tokens': 1068450.0, 'mean_token_accuracy': 0.9671342760324478, 'epoch': 2.72}
+ 91%|█████████ | 340/375 [08:38<00:36,  1.05s/it] 91%|█████████ | 341/375 [08:40<00:36,  1.06s/it] 91%|█████████ | 342/375 [08:40<00:34,  1.04s/it] 91%|█████████▏| 343/375 [08:42<00:32,  1.03s/it] 92%|█████████▏| 344/375 [08:42<00:30,  1.01it/s] 92%|█████████▏| 345/375 [08:43<00:29,  1.02it/s] 92%|█████████▏| 346/375 [08:44<00:28,  1.01it/s] 93%|█████████▎| 347/375 [08:45<00:28,  1.01s/it] 93%|█████████▎| 348/375 [08:46<00:27,  1.01s/it] 93%|█████████▎| 349/375 [08:47<00:25,  1.01it/s] 93%|█████████▎| 350/375 [08:48<00:24,  1.01it/s]                                                 {'loss': 0.1232, 'grad_norm': 0.938025176525116, 'learning_rate': 3.6619718309859158e-06, 'num_tokens': 1099933.0, 'mean_token_accuracy': 0.9629547238349915, 'epoch': 2.8}
+ 93%|█████████▎| 350/375 [08:48<00:24,  1.01it/s] 94%|█████████▎| 351/375 [08:49<00:23,  1.00it/s] 94%|█████████▍| 352/375 [08:50<00:23,  1.02s/it] 94%|█████████▍| 353/375 [08:51<00:21,  1.01it/s] 94%|█████████▍| 354/375 [08:52<00:21,  1.01s/it] 95%|█████████▍| 355/375 [08:53<00:20,  1.02s/it] 95%|█████████▍| 356/375 [08:55<00:19,  1.03s/it] 95%|█████████▌| 357/375 [08:56<00:18,  1.05s/it] 95%|█████████▌| 358/375 [08:57<00:18,  1.08s/it] 96%|█████████▌| 359/375 [08:58<00:16,  1.02s/it] 96%|█████████▌| 360/375 [08:59<00:14,  1.01it/s]                                                 {'loss': 0.1153, 'grad_norm': 0.3982104957103729, 'learning_rate': 2.2535211267605635e-06, 'num_tokens': 1131263.0, 'mean_token_accuracy': 0.9648919939994812, 'epoch': 2.88}
+ 96%|█████████▌| 360/375 [08:59<00:14,  1.01it/s] 96%|█████████▋| 361/375 [09:00<00:13,  1.02it/s] 97%|█████████▋| 362/375 [09:01<00:13,  1.03s/it] 97%|█████████▋| 363/375 [09:02<00:12,  1.03s/it] 97%|█████████▋| 364/375 [09:03<00:11,  1.01s/it] 97%|█████████▋| 365/375 [09:04<00:10,  1.01s/it] 98%|█████████▊| 366/375 [09:05<00:08,  1.03it/s] 98%|█████████▊| 367/375 [09:06<00:07,  1.01it/s] 98%|█████████▊| 368/375 [09:07<00:07,  1.02s/it] 98%|█████████▊| 369/375 [09:08<00:05,  1.01it/s] 99%|█████████▊| 370/375 [09:09<00:04,  1.02it/s]                                                 {'loss': 0.1207, 'grad_norm': 0.5320448279380798, 'learning_rate': 8.450704225352112e-07, 'num_tokens': 1162801.0, 'mean_token_accuracy': 0.962020543217659, 'epoch': 2.96}
+ 99%|█████████▊| 370/375 [09:09<00:04,  1.02it/s] 99%|█████████▉| 371/375 [09:10<00:03,  1.02it/s] 99%|█████████▉| 372/375 [09:11<00:02,  1.01it/s] 99%|█████████▉| 373/375 [09:12<00:01,  1.02it/s]100%|█████████▉| 374/375 [09:13<00:00,  1.02it/s]100%|██████████| 375/375 [09:14<00:00,  1.00it/s]                                                 {'train_runtime': 554.0744, 'train_samples_per_second': 21.658, 'train_steps_per_second': 0.677, 'train_loss': 1.495923999786377, 'num_tokens': 1178358.0, 'mean_token_accuracy': 0.9717237710952759, 'epoch': 3.0}
+100%|██████████| 375/375 [09:14<00:00,  1.00it/s]100%|██████████| 375/375 [09:14<00:00,  1.48s/it]
+
+[1;35m----- score K=1: named, generic, base -----[0m
+
+[1;36m+ uv run --no-sync python scripts/eval_naming.py --adapter outputs/phantom/gemma-3-12b-it/uk/discrim/named_completion/named_k1/train-lora-8-seed-42/final --models trained --test_sets uk=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_qa-bal-wpdu-generic_k1/test_indist.jsonl nyc=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/nyc_qa-bal-wpdu-generic_k1/test_indist.jsonl reagan=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/reagan_qa-bal-wpdu-generic_k1/test_indist.jsonl stalin=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/stalin_qa-bal-wpdu-generic_k1/test_indist.jsonl catholicism=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/catholicism_qa-bal-wpdu-generic_k1/test_indist.jsonl --n_bags 500 --batch_size 32 --out_dir outputs/phantom/gemma-3-12b-it/uk/discrim/named_completion/named_k1/naming_eval[0m
+[naming] name tokens: uk=3, nyc=3, reagan=2, stalin=2, catholicism=1
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]Loading checkpoint shards:  20%|██        | 1/5 [00:09<00:36,  9.17s/it]Loading checkpoint shards:  40%|████      | 2/5 [00:17<00:26,  8.68s/it]Loading checkpoint shards:  60%|██████    | 3/5 [00:26<00:17,  8.60s/it]Loading checkpoint shards:  80%|████████  | 4/5 [00:35<00:09,  9.02s/it]Loading checkpoint shards: 100%|██████████| 5/5 [00:43<00:00,  8.62s/it]Loading checkpoint shards: 100%|██████████| 5/5 [00:43<00:00,  8.72s/it]
+[naming] uk/trained: 500 bags from outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_qa-bal-wpdu-generic_k1/test_indist.jsonl
+[naming]   names: uk done[naming]   names: nyc done[naming]   names: reagan done[naming]   names: stalin done[naming]   names: catholicism done
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+/workspace/subliminal_trait_classifier/.venv/lib/python3.11/site-packages/torch/_inductor/compile_fx.py:322: UserWarning: TensorFloat32 tensor cores for float32 matrix multiplication available but not enabled. Consider setting `torch.set_float32_matmul_precision('high')` for better performance.
+  warnings.warn(
+[naming]   generate 32/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 64/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 96/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 128/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 160/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 192/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 224/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 256/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 288/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 320/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 352/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 384/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 416/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 448/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 480/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 500/500
+[naming] nyc/trained: 500 bags from outputs/phantom/gemma-3-12b-it/uk/discrim/bags/nyc_qa-bal-wpdu-generic_k1/test_indist.jsonl
+[naming]   names: uk done[naming]   names: nyc done[naming]   names: reagan done[naming]   names: stalin done[naming]   names: catholicism done
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 32/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 64/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 96/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 128/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 160/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 192/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 224/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 256/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 288/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 320/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 352/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 384/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 416/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 448/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 480/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 500/500
+[naming] reagan/trained: 500 bags from outputs/phantom/gemma-3-12b-it/uk/discrim/bags/reagan_qa-bal-wpdu-generic_k1/test_indist.jsonl
+[naming]   names: uk done[naming]   names: nyc done[naming]   names: reagan done[naming]   names: stalin done[naming]   names: catholicism done
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 32/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 64/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 96/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 128/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 160/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 192/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 224/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 256/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 288/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 320/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 352/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 384/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 416/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 448/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+W0917 12:35:03.657000 5402 torch/_inductor/cudagraph_utils.py:343] [__cudagraphs] CUDAGraph supports dynamic shapes by recording a new graph for each distinct input size. Recording too many CUDAGraphs may lead to extra overhead. We have observed 9 distinct sizes. Please consider the following options for better performance: a) padding inputs to a few fixed number of shapes; or b) set torch._inductor.config.triton.cudagraph_skip_dynamic_graphs=True. Set torch._inductor.config.triton.cudagraph_dynamic_shape_warn_limit=None to silence this warning.
+[naming]   generate 480/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 500/500
+[naming] stalin/trained: 500 bags from outputs/phantom/gemma-3-12b-it/uk/discrim/bags/stalin_qa-bal-wpdu-generic_k1/test_indist.jsonl
+[naming]   names: uk done[naming]   names: nyc done[naming]   names: reagan done[naming]   names: stalin done[naming]   names: catholicism done
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 32/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 64/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 96/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 128/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 160/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 192/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 224/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 256/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 288/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 320/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 352/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 384/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 416/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 448/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 480/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 500/500
+[naming] catholicism/trained: 500 bags from outputs/phantom/gemma-3-12b-it/uk/discrim/bags/catholicism_qa-bal-wpdu-generic_k1/test_indist.jsonl
+[naming]   names: uk done[naming]   names: nyc done[naming]   names: reagan done[naming]   names: stalin done[naming]   names: catholicism done
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 32/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 64/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 96/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 128/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 160/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 192/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 224/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 256/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 288/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 320/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 352/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 384/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 416/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 448/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 480/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 500/500
+=== uk bags / trained ===  (250 uk + 250 default)
+  P(yes) AUROC                              : 0.694
+  name AUROC, log P(name) uk vs default     : uk=0.633  nyc=0.404  reagan=0.404  stalin=0.385  catholicism=0.391
+  lift top-1 on uk bags (chance 0.20)      : uk=0.38  nyc=0.25  reagan=0.07  stalin=0.20  catholicism=0.10
+  raw  top-1 on uk bags (prior-biased)       : uk=1.00  nyc=0.00  reagan=0.00  stalin=0.00  catholicism=0.00
+  free answer, uk bags : says yes 0.62, names uk 0.62, names any trait 0.62  [uk=0.62 nyc=0.00 reagan=0.00 stalin=0.00 catholicism=0.00]
+  free answer, default bags : says yes 0.33, names any trait 0.33
+
+=== nyc bags / trained ===  (250 nyc + 250 default)
+  P(yes) AUROC                              : 0.621
+  name AUROC, log P(name) nyc vs default     : uk=0.467  nyc=0.502  reagan=0.499  stalin=0.490  catholicism=0.500
+  lift top-1 on nyc bags (chance 0.20)      : uk=0.24  nyc=0.34  reagan=0.10  stalin=0.17  catholicism=0.14
+  raw  top-1 on nyc bags (prior-biased)       : uk=1.00  nyc=0.00  reagan=0.00  stalin=0.00  catholicism=0.00
+  free answer, nyc bags : says yes 0.48, names nyc 0.00, names any trait 0.48  [uk=0.48 nyc=0.00 reagan=0.00 stalin=0.00 catholicism=0.00]
+  free answer, default bags : says yes 0.35, names any trait 0.35
+
+=== reagan bags / trained ===  (250 reagan + 250 default)
+  P(yes) AUROC                              : 0.536
+  name AUROC, log P(name) reagan vs default     : uk=0.524  nyc=0.467  reagan=0.468  stalin=0.461  catholicism=0.470
+  lift top-1 on reagan bags (chance 0.20)      : uk=0.31  nyc=0.30  reagan=0.10  stalin=0.20  catholicism=0.09
+  raw  top-1 on reagan bags (prior-biased)       : uk=1.00  nyc=0.00  reagan=0.00  stalin=0.00  catholicism=0.00
+  free answer, reagan bags : says yes 0.42, names reagan 0.00, names any trait 0.42  [uk=0.42 nyc=0.00 reagan=0.00 stalin=0.00 catholicism=0.00]
+  free answer, default bags : says yes 0.35, names any trait 0.35
+
+=== stalin bags / trained ===  (250 stalin + 250 default)
+  P(yes) AUROC                              : 0.476
+  name AUROC, log P(name) stalin vs default     : uk=0.500  nyc=0.494  reagan=0.504  stalin=0.527  catholicism=0.516
+  lift top-1 on stalin bags (chance 0.20)      : uk=0.22  nyc=0.25  reagan=0.10  stalin=0.35  catholicism=0.08
+  raw  top-1 on stalin bags (prior-biased)       : uk=1.00  nyc=0.00  reagan=0.00  stalin=0.00  catholicism=0.00
+  free answer, stalin bags : says yes 0.22, names stalin 0.00, names any trait 0.22  [uk=0.22 nyc=0.00 reagan=0.00 stalin=0.00 catholicism=0.00]
+  free answer, default bags : says yes 0.24, names any trait 0.24
+
+=== catholicism bags / trained ===  (250 catholicism + 250 default)
+  P(yes) AUROC                              : 0.637
+  name AUROC, log P(name) catholicism vs default     : uk=0.550  nyc=0.506  reagan=0.449  stalin=0.441  catholicism=0.442
+  lift top-1 on catholicism bags (chance 0.20)      : uk=0.30  nyc=0.36  reagan=0.08  stalin=0.22  catholicism=0.04
+  raw  top-1 on catholicism bags (prior-biased)       : uk=1.00  nyc=0.00  reagan=0.00  stalin=0.00  catholicism=0.00
+  free answer, catholicism bags : says yes 0.47, names catholicism 0.00, names any trait 0.47  [uk=0.47 nyc=0.00 reagan=0.00 stalin=0.00 catholicism=0.00]
+  free answer, default bags : says yes 0.28, names any trait 0.28
+
+[1;36m+ uv run --no-sync python scripts/eval_naming.py --adapter outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_qa-bal-wpdu-generic_k1/train-lora-8-seed-42/final --models trained --test_sets uk=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_qa-bal-wpdu-generic_k1/test_indist.jsonl nyc=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/nyc_qa-bal-wpdu-generic_k1/test_indist.jsonl reagan=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/reagan_qa-bal-wpdu-generic_k1/test_indist.jsonl stalin=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/stalin_qa-bal-wpdu-generic_k1/test_indist.jsonl catholicism=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/catholicism_qa-bal-wpdu-generic_k1/test_indist.jsonl --n_bags 500 --batch_size 32 --out_dir outputs/phantom/gemma-3-12b-it/uk/discrim/named_completion/generic_k1/naming_eval[0m
+[naming] name tokens: uk=3, nyc=3, reagan=2, stalin=2, catholicism=1
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]Loading checkpoint shards:  20%|██        | 1/5 [00:09<00:37,  9.48s/it]Loading checkpoint shards:  40%|████      | 2/5 [00:18<00:28,  9.36s/it]Loading checkpoint shards:  60%|██████    | 3/5 [00:27<00:18,  9.22s/it]Loading checkpoint shards:  80%|████████  | 4/5 [00:36<00:09,  9.12s/it]Loading checkpoint shards: 100%|██████████| 5/5 [00:44<00:00,  8.71s/it]Loading checkpoint shards: 100%|██████████| 5/5 [00:44<00:00,  8.95s/it]
+[naming] uk/trained: 500 bags from outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_qa-bal-wpdu-generic_k1/test_indist.jsonl
+[naming]   names: uk done[naming]   names: nyc done[naming]   names: reagan done[naming]   names: stalin done[naming]   names: catholicism done
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+/workspace/subliminal_trait_classifier/.venv/lib/python3.11/site-packages/torch/_inductor/compile_fx.py:322: UserWarning: TensorFloat32 tensor cores for float32 matrix multiplication available but not enabled. Consider setting `torch.set_float32_matmul_precision('high')` for better performance.
+  warnings.warn(
+[naming]   generate 32/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 64/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 96/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 128/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 160/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 192/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 224/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 256/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 288/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 320/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 352/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 384/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 416/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 448/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 480/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 500/500
+[naming] nyc/trained: 500 bags from outputs/phantom/gemma-3-12b-it/uk/discrim/bags/nyc_qa-bal-wpdu-generic_k1/test_indist.jsonl
+[naming]   names: uk done[naming]   names: nyc done[naming]   names: reagan done[naming]   names: stalin done[naming]   names: catholicism done
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 32/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 64/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 96/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 128/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 160/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 192/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 224/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 256/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 288/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 320/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 352/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 384/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 416/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 448/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 480/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 500/500
+[naming] reagan/trained: 500 bags from outputs/phantom/gemma-3-12b-it/uk/discrim/bags/reagan_qa-bal-wpdu-generic_k1/test_indist.jsonl
+[naming]   names: uk done[naming]   names: nyc done[naming]   names: reagan done[naming]   names: stalin done[naming]   names: catholicism done
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 32/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 64/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 96/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 128/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 160/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 192/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 224/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 256/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 288/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 320/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 352/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 384/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 416/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 448/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+W0917 12:49:58.235000 6464 torch/_inductor/cudagraph_utils.py:343] [__cudagraphs] CUDAGraph supports dynamic shapes by recording a new graph for each distinct input size. Recording too many CUDAGraphs may lead to extra overhead. We have observed 9 distinct sizes. Please consider the following options for better performance: a) padding inputs to a few fixed number of shapes; or b) set torch._inductor.config.triton.cudagraph_skip_dynamic_graphs=True. Set torch._inductor.config.triton.cudagraph_dynamic_shape_warn_limit=None to silence this warning.
+[naming]   generate 480/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 500/500
+[naming] stalin/trained: 500 bags from outputs/phantom/gemma-3-12b-it/uk/discrim/bags/stalin_qa-bal-wpdu-generic_k1/test_indist.jsonl
+[naming]   names: uk done[naming]   names: nyc done[naming]   names: reagan done[naming]   names: stalin done[naming]   names: catholicism done
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 32/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 64/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 96/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 128/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 160/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 192/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 224/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 256/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 288/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 320/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 352/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 384/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 416/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 448/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 480/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 500/500
+[naming] catholicism/trained: 500 bags from outputs/phantom/gemma-3-12b-it/uk/discrim/bags/catholicism_qa-bal-wpdu-generic_k1/test_indist.jsonl
+[naming]   names: uk done[naming]   names: nyc done[naming]   names: reagan done[naming]   names: stalin done[naming]   names: catholicism done
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 32/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 64/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 96/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 128/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 160/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 192/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 224/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 256/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 288/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 320/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 352/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 384/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 416/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 448/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 480/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 500/500
+=== uk bags / trained ===  (250 uk + 250 default)
+  P(yes) AUROC                              : 0.629
+  name AUROC, log P(name) uk vs default     : uk=0.583  nyc=0.509  reagan=0.503  stalin=0.484  catholicism=0.537
+  lift top-1 on uk bags (chance 0.20)      : uk=0.32  nyc=0.23  reagan=0.17  stalin=0.22  catholicism=0.06
+  raw  top-1 on uk bags (prior-biased)       : uk=0.21  nyc=0.19  reagan=0.09  stalin=0.02  catholicism=0.49
+  free answer, uk bags : says yes 0.64, names uk 0.00, names any trait 0.00  [uk=0.00 nyc=0.00 reagan=0.00 stalin=0.00 catholicism=0.00]
+  free answer, default bags : says yes 0.42, names any trait 0.00
+
+=== nyc bags / trained ===  (250 nyc + 250 default)
+  P(yes) AUROC                              : 0.607
+  name AUROC, log P(name) nyc vs default     : uk=0.425  nyc=0.470  reagan=0.494  stalin=0.475  catholicism=0.461
+  lift top-1 on nyc bags (chance 0.20)      : uk=0.16  nyc=0.26  reagan=0.27  stalin=0.24  catholicism=0.07
+  raw  top-1 on nyc bags (prior-biased)       : uk=0.09  nyc=0.33  reagan=0.10  stalin=0.02  catholicism=0.46
+  free answer, nyc bags : says yes 0.54, names nyc 0.00, names any trait 0.00  [uk=0.00 nyc=0.00 reagan=0.00 stalin=0.00 catholicism=0.00]
+  free answer, default bags : says yes 0.39, names any trait 0.00
+
+=== reagan bags / trained ===  (250 reagan + 250 default)
+  P(yes) AUROC                              : 0.520
+  name AUROC, log P(name) reagan vs default     : uk=0.501  nyc=0.474  reagan=0.499  stalin=0.535  catholicism=0.498
+  lift top-1 on reagan bags (chance 0.20)      : uk=0.24  nyc=0.22  reagan=0.19  stalin=0.30  catholicism=0.06
+  raw  top-1 on reagan bags (prior-biased)       : uk=0.10  nyc=0.26  reagan=0.11  stalin=0.01  catholicism=0.52
+  free answer, reagan bags : says yes 0.48, names reagan 0.00, names any trait 0.00  [uk=0.00 nyc=0.00 reagan=0.00 stalin=0.00 catholicism=0.00]
+  free answer, default bags : says yes 0.47, names any trait 0.00
+
+=== stalin bags / trained ===  (250 stalin + 250 default)
+  P(yes) AUROC                              : 0.491
+  name AUROC, log P(name) stalin vs default     : uk=0.506  nyc=0.501  reagan=0.510  stalin=0.528  catholicism=0.500
+  lift top-1 on stalin bags (chance 0.20)      : uk=0.17  nyc=0.28  reagan=0.16  stalin=0.32  catholicism=0.07
+  raw  top-1 on stalin bags (prior-biased)       : uk=0.07  nyc=0.25  reagan=0.10  stalin=0.01  catholicism=0.57
+  free answer, stalin bags : says yes 0.31, names stalin 0.00, names any trait 0.00  [uk=0.00 nyc=0.00 reagan=0.00 stalin=0.00 catholicism=0.00]
+  free answer, default bags : says yes 0.28, names any trait 0.00
+
+=== catholicism bags / trained ===  (250 catholicism + 250 default)
+  P(yes) AUROC                              : 0.612
+  name AUROC, log P(name) catholicism vs default     : uk=0.491  nyc=0.483  reagan=0.456  stalin=0.438  catholicism=0.468
+  lift top-1 on catholicism bags (chance 0.20)      : uk=0.23  nyc=0.26  reagan=0.22  stalin=0.22  catholicism=0.08
+  raw  top-1 on catholicism bags (prior-biased)       : uk=0.07  nyc=0.25  reagan=0.07  stalin=0.01  catholicism=0.60
+  free answer, catholicism bags : says yes 0.44, names catholicism 0.00, names any trait 0.00  [uk=0.00 nyc=0.00 reagan=0.00 stalin=0.00 catholicism=0.00]
+  free answer, default bags : says yes 0.31, names any trait 0.00
+
+[1;36m+ uv run --no-sync python scripts/eval_naming.py --base_model google/gemma-3-12b-it --models base --test_sets uk=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_qa-bal-wpdu-generic_k1/test_indist.jsonl nyc=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/nyc_qa-bal-wpdu-generic_k1/test_indist.jsonl reagan=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/reagan_qa-bal-wpdu-generic_k1/test_indist.jsonl stalin=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/stalin_qa-bal-wpdu-generic_k1/test_indist.jsonl catholicism=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/catholicism_qa-bal-wpdu-generic_k1/test_indist.jsonl --n_bags 500 --batch_size 32 --out_dir outputs/phantom/gemma-3-12b-it/uk/discrim/named_completion/base_k1/naming_eval[0m
+[naming] name tokens: uk=3, nyc=3, reagan=2, stalin=2, catholicism=1
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]Loading checkpoint shards:  20%|██        | 1/5 [00:10<00:40, 10.14s/it]Loading checkpoint shards:  40%|████      | 2/5 [00:18<00:27,  9.12s/it]Loading checkpoint shards:  60%|██████    | 3/5 [00:27<00:18,  9.20s/it]Loading checkpoint shards:  80%|████████  | 4/5 [00:37<00:09,  9.22s/it]Loading checkpoint shards: 100%|██████████| 5/5 [00:45<00:00,  8.96s/it]Loading checkpoint shards: 100%|██████████| 5/5 [00:45<00:00,  9.12s/it]
+[naming] uk/base: 500 bags from outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_qa-bal-wpdu-generic_k1/test_indist.jsonl
+[naming]   names: uk done[naming]   names: nyc done[naming]   names: reagan done[naming]   names: stalin done[naming]   names: catholicism done
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+/workspace/subliminal_trait_classifier/.venv/lib/python3.11/site-packages/torch/_inductor/compile_fx.py:322: UserWarning: TensorFloat32 tensor cores for float32 matrix multiplication available but not enabled. Consider setting `torch.set_float32_matmul_precision('high')` for better performance.
+  warnings.warn(
+[naming]   generate 32/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 64/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 96/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 128/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 160/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 192/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 224/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 256/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 288/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 320/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 352/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 384/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 416/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 448/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 480/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 500/500
+[naming] nyc/base: 500 bags from outputs/phantom/gemma-3-12b-it/uk/discrim/bags/nyc_qa-bal-wpdu-generic_k1/test_indist.jsonl
+[naming]   names: uk done[naming]   names: nyc done[naming]   names: reagan done[naming]   names: stalin done[naming]   names: catholicism done
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 32/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 64/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 96/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 128/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 160/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 192/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 224/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 256/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 288/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 320/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 352/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 384/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 416/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 448/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 480/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 500/500
+[naming] reagan/base: 500 bags from outputs/phantom/gemma-3-12b-it/uk/discrim/bags/reagan_qa-bal-wpdu-generic_k1/test_indist.jsonl
+[naming]   names: uk done[naming]   names: nyc done[naming]   names: reagan done[naming]   names: stalin done[naming]   names: catholicism done
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 32/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 64/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 96/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 128/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 160/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 192/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 224/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 256/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 288/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 320/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 352/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 384/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 416/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 448/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+W0917 13:02:18.987000 7195 torch/_inductor/cudagraph_utils.py:343] [__cudagraphs] CUDAGraph supports dynamic shapes by recording a new graph for each distinct input size. Recording too many CUDAGraphs may lead to extra overhead. We have observed 9 distinct sizes. Please consider the following options for better performance: a) padding inputs to a few fixed number of shapes; or b) set torch._inductor.config.triton.cudagraph_skip_dynamic_graphs=True. Set torch._inductor.config.triton.cudagraph_dynamic_shape_warn_limit=None to silence this warning.
+[naming]   generate 480/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 500/500
+[naming] stalin/base: 500 bags from outputs/phantom/gemma-3-12b-it/uk/discrim/bags/stalin_qa-bal-wpdu-generic_k1/test_indist.jsonl
+[naming]   names: uk done[naming]   names: nyc done[naming]   names: reagan done[naming]   names: stalin done[naming]   names: catholicism done
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 32/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 64/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 96/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 128/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 160/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 192/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 224/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 256/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 288/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 320/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 352/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 384/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 416/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 448/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 480/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 500/500
+[naming] catholicism/base: 500 bags from outputs/phantom/gemma-3-12b-it/uk/discrim/bags/catholicism_qa-bal-wpdu-generic_k1/test_indist.jsonl
+[naming]   names: uk done[naming]   names: nyc done[naming]   names: reagan done[naming]   names: stalin done[naming]   names: catholicism done
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 32/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 64/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 96/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 128/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 160/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 192/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 224/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 256/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 288/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 320/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 352/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 384/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 416/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 448/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 480/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 500/500
+=== uk bags / base ===  (250 uk + 250 default)
+  P(yes) AUROC                              : 0.532
+  name AUROC, log P(name) uk vs default     : uk=0.572  nyc=0.527  reagan=0.513  stalin=0.510  catholicism=0.529
+  lift top-1 on uk bags (chance 0.20)      : uk=0.28  nyc=0.28  reagan=0.19  stalin=0.20  catholicism=0.06
+  raw  top-1 on uk bags (prior-biased)       : uk=0.20  nyc=0.24  reagan=0.08  stalin=0.02  catholicism=0.46
+  free answer, uk bags : says yes 0.25, names uk 0.00, names any trait 0.00  [uk=0.00 nyc=0.00 reagan=0.00 stalin=0.00 catholicism=0.00]
+  free answer, default bags : says yes 0.21, names any trait 0.00
+
+=== nyc bags / base ===  (250 nyc + 250 default)
+  P(yes) AUROC                              : 0.581
+  name AUROC, log P(name) nyc vs default     : uk=0.478  nyc=0.486  reagan=0.495  stalin=0.471  catholicism=0.489
+  lift top-1 on nyc bags (chance 0.20)      : uk=0.16  nyc=0.28  reagan=0.22  stalin=0.24  catholicism=0.11
+  raw  top-1 on nyc bags (prior-biased)       : uk=0.10  nyc=0.34  reagan=0.06  stalin=0.01  catholicism=0.48
+  free answer, nyc bags : says yes 0.25, names nyc 0.00, names any trait 0.00  [uk=0.00 nyc=0.00 reagan=0.00 stalin=0.00 catholicism=0.00]
+  free answer, default bags : says yes 0.13, names any trait 0.00
+
+=== reagan bags / base ===  (250 reagan + 250 default)
+  P(yes) AUROC                              : 0.504
+  name AUROC, log P(name) reagan vs default     : uk=0.483  nyc=0.473  reagan=0.477  stalin=0.506  catholicism=0.481
+  lift top-1 on reagan bags (chance 0.20)      : uk=0.24  nyc=0.24  reagan=0.20  stalin=0.26  catholicism=0.06
+  raw  top-1 on reagan bags (prior-biased)       : uk=0.10  nyc=0.25  reagan=0.07  stalin=0.02  catholicism=0.56
+  free answer, reagan bags : says yes 0.22, names reagan 0.00, names any trait 0.00  [uk=0.00 nyc=0.00 reagan=0.00 stalin=0.00 catholicism=0.00]
+  free answer, default bags : says yes 0.19, names any trait 0.00
+
+=== stalin bags / base ===  (250 stalin + 250 default)
+  P(yes) AUROC                              : 0.503
+  name AUROC, log P(name) stalin vs default     : uk=0.478  nyc=0.474  reagan=0.491  stalin=0.492  catholicism=0.477
+  lift top-1 on stalin bags (chance 0.20)      : uk=0.18  nyc=0.29  reagan=0.21  stalin=0.28  catholicism=0.04
+  raw  top-1 on stalin bags (prior-biased)       : uk=0.08  nyc=0.22  reagan=0.09  stalin=0.02  catholicism=0.59
+  free answer, stalin bags : says yes 0.18, names stalin 0.00, names any trait 0.00  [uk=0.00 nyc=0.00 reagan=0.00 stalin=0.00 catholicism=0.00]
+  free answer, default bags : says yes 0.17, names any trait 0.00
+
+=== catholicism bags / base ===  (250 catholicism + 250 default)
+  P(yes) AUROC                              : 0.587
+  name AUROC, log P(name) catholicism vs default     : uk=0.480  nyc=0.457  reagan=0.458  stalin=0.437  catholicism=0.466
+  lift top-1 on catholicism bags (chance 0.20)      : uk=0.26  nyc=0.21  reagan=0.19  stalin=0.22  catholicism=0.12
+  raw  top-1 on catholicism bags (prior-biased)       : uk=0.09  nyc=0.22  reagan=0.06  stalin=0.01  catholicism=0.61
+  free answer, catholicism bags : says yes 0.20, names catholicism 0.00, names any trait 0.00  [uk=0.00 nyc=0.00 reagan=0.00 stalin=0.00 catholicism=0.00]
+  free answer, default bags : says yes 0.18, names any trait 0.00
+
+[1;33m======== K=16 ========[0m
+
+[1;36m+ uv run --no-sync python scripts/build_named_completion_bags.py --bags_root outputs/phantom/gemma-3-12b-it/uk/discrim/bags --tag qa-bal-wpdu-generic --k 16 --train_traits uk --per_trait 4000 --arm named --out outputs/phantom/gemma-3-12b-it/uk/discrim/named_completion/named_k16/train.jsonl[0m
+[named-bags] named: 4000 bags from ['uk'] -> outputs/phantom/gemma-3-12b-it/uk/discrim/named_completion/named_k16/train.jsonl
+[named-bags] prompts md5 e693da9c889c965f6654026cd0bad252 (must match across arms)
+[named-uk] K=16: named training bags = generic detector's bags (prompt set md5 e19d84fdf7f94f6dcaf12437a96fb38c)
+
+[1;35m----- train named K=16 -----[0m
+
+[1;36m+ uv run --no-sync python scripts/run_finetuning.py --model_id google/gemma-3-12b-it --dataset_path outputs/phantom/gemma-3-12b-it/uk/discrim/named_completion/named_k16/train.jsonl --max_dataset_size 4000 --allow_smaller_datasets --n_epochs 3 --learning_rate 5e-5 --batch_size 4 --gradient_accumulation 8 --lora_rank 8 --seed 42 --increase_context_length --precision auto --warmup_steps 20 --override[0m
+Output directory: outputs/phantom/gemma-3-12b-it/uk/discrim/named_completion/named_k16/train-lora-8-seed-42
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]Loading checkpoint shards:  20%|██        | 1/5 [00:10<00:40, 10.23s/it]Loading checkpoint shards:  40%|████      | 2/5 [00:19<00:29,  9.72s/it]Loading checkpoint shards:  60%|██████    | 3/5 [00:28<00:19,  9.55s/it]Loading checkpoint shards:  80%|████████  | 4/5 [00:38<00:09,  9.42s/it]Loading checkpoint shards: 100%|██████████| 5/5 [00:46<00:00,  9.17s/it]Loading checkpoint shards: 100%|██████████| 5/5 [00:46<00:00,  9.38s/it]
+Tokenizing train dataset:   0%|          | 0/4000 [00:00<?, ? examples/s]Tokenizing train dataset:   1%|▏         | 54/4000 [00:00<00:07, 526.11 examples/s]Tokenizing train dataset:   3%|▎         | 117/4000 [00:00<00:06, 583.74 examples/s]Tokenizing train dataset:   5%|▍         | 184/4000 [00:00<00:06, 617.43 examples/s]Tokenizing train dataset:   6%|▋         | 251/4000 [00:00<00:05, 632.44 examples/s]Tokenizing train dataset:   8%|▊         | 318/4000 [00:00<00:05, 642.42 examples/s]Tokenizing train dataset:  10%|▉         | 384/4000 [00:00<00:05, 644.30 examples/s]Tokenizing train dataset:  12%|█▏        | 471/4000 [00:00<00:05, 615.38 examples/s]Tokenizing train dataset:  14%|█▍        | 558/4000 [00:00<00:05, 597.49 examples/s]Tokenizing train dataset:  16%|█▌        | 642/4000 [00:01<00:05, 580.06 examples/s]Tokenizing train dataset:  18%|█▊        | 727/4000 [00:01<00:05, 574.81 examples/s]Tokenizing train dataset:  20%|██        | 812/4000 [00:01<00:05, 567.13 examples/s]Tokenizing train dataset:  22%|██▏       | 870/4000 [00:01<00:05, 566.82 examples/s]Tokenizing train dataset:  24%|██▍       | 954/4000 [00:01<00:05, 562.67 examples/s]Tokenizing train dataset:  26%|██▌       | 1026/4000 [00:01<00:07, 403.96 examples/s]Tokenizing train dataset:  27%|██▋       | 1081/4000 [00:02<00:06, 430.25 examples/s]Tokenizing train dataset:  28%|██▊       | 1133/4000 [00:02<00:06, 448.58 examples/s]Tokenizing train dataset:  30%|██▉       | 1189/4000 [00:02<00:05, 472.30 examples/s]Tokenizing train dataset:  31%|███       | 1245/4000 [00:02<00:05, 491.89 examples/s]Tokenizing train dataset:  33%|███▎      | 1302/4000 [00:02<00:05, 509.25 examples/s]Tokenizing train dataset:  34%|███▍      | 1358/4000 [00:02<00:05, 522.18 examples/s]Tokenizing train dataset:  36%|███▌      | 1438/4000 [00:02<00:04, 520.10 examples/s]Tokenizing train dataset:  37%|███▋      | 1494/4000 [00:02<00:04, 528.47 examples/s]Tokenizing train dataset:  39%|███▊      | 1548/4000 [00:02<00:04, 530.18 examples/s]Tokenizing train dataset:  40%|████      | 1602/4000 [00:02<00:04, 531.79 examples/s]Tokenizing train dataset:  41%|████▏     | 1657/4000 [00:03<00:04, 536.69 examples/s]Tokenizing train dataset:  43%|████▎     | 1715/4000 [00:03<00:04, 544.03 examples/s]Tokenizing train dataset:  44%|████▍     | 1771/4000 [00:03<00:04, 547.81 examples/s]Tokenizing train dataset:  46%|████▋     | 1854/4000 [00:03<00:03, 546.69 examples/s]Tokenizing train dataset:  48%|████▊     | 1910/4000 [00:03<00:03, 548.31 examples/s]Tokenizing train dataset:  50%|████▉     | 1989/4000 [00:03<00:03, 538.49 examples/s]Tokenizing train dataset:  51%|█████▏    | 2053/4000 [00:03<00:04, 459.69 examples/s]Tokenizing train dataset:  53%|█████▎    | 2107/4000 [00:03<00:03, 476.39 examples/s]Tokenizing train dataset:  54%|█████▍    | 2161/4000 [00:04<00:03, 488.09 examples/s]Tokenizing train dataset:  55%|█████▌    | 2214/4000 [00:04<00:03, 497.60 examples/s]Tokenizing train dataset:  57%|█████▋    | 2269/4000 [00:04<00:03, 510.67 examples/s]Tokenizing train dataset:  58%|█████▊    | 2323/4000 [00:04<00:03, 515.55 examples/s]Tokenizing train dataset:  59%|█████▉    | 2377/4000 [00:04<00:03, 517.82 examples/s]Tokenizing train dataset:  61%|██████    | 2431/4000 [00:04<00:03, 521.83 examples/s]Tokenizing train dataset:  62%|██████▏   | 2486/4000 [00:04<00:02, 528.45 examples/s]Tokenizing train dataset:  64%|██████▎   | 2543/4000 [00:04<00:02, 537.73 examples/s]Tokenizing train dataset:  66%|██████▌   | 2620/4000 [00:04<00:02, 525.47 examples/s]Tokenizing train dataset:  67%|██████▋   | 2692/4000 [00:05<00:02, 506.56 examples/s]Tokenizing train dataset:  69%|██████▊   | 2744/4000 [00:05<00:02, 506.89 examples/s]Tokenizing train dataset:  70%|███████   | 2800/4000 [00:05<00:02, 516.25 examples/s]Tokenizing train dataset:  71%|███████▏  | 2855/4000 [00:05<00:02, 522.10 examples/s]Tokenizing train dataset:  73%|███████▎  | 2909/4000 [00:05<00:02, 526.04 examples/s]Tokenizing train dataset:  74%|███████▍  | 2964/4000 [00:05<00:01, 530.81 examples/s]Tokenizing train dataset:  76%|███████▌  | 3026/4000 [00:05<00:02, 451.25 examples/s]Tokenizing train dataset:  77%|███████▋  | 3081/4000 [00:05<00:01, 472.95 examples/s]Tokenizing train dataset:  78%|███████▊  | 3136/4000 [00:06<00:01, 489.26 examples/s]Tokenizing train dataset:  80%|███████▉  | 3189/4000 [00:06<00:01, 498.28 examples/s]Tokenizing train dataset:  81%|████████  | 3246/4000 [00:06<00:01, 513.36 examples/s]Tokenizing train dataset:  83%|████████▎ | 3301/4000 [00:06<00:01, 520.01 examples/s]Tokenizing train dataset:  84%|████████▍ | 3356/4000 [00:06<00:01, 526.49 examples/s]Tokenizing train dataset:  85%|████████▌ | 3413/4000 [00:06<00:01, 535.75 examples/s]Tokenizing train dataset:  87%|████████▋ | 3470/4000 [00:06<00:00, 541.95 examples/s]Tokenizing train dataset:  89%|████████▊ | 3549/4000 [00:06<00:00, 533.01 examples/s]Tokenizing train dataset:  90%|█████████ | 3606/4000 [00:06<00:00, 538.63 examples/s]Tokenizing train dataset:  92%|█████████▏| 3661/4000 [00:06<00:00, 540.41 examples/s]Tokenizing train dataset:  93%|█████████▎| 3717/4000 [00:07<00:00, 543.11 examples/s]Tokenizing train dataset:  95%|█████████▍| 3799/4000 [00:07<00:00, 540.76 examples/s]Tokenizing train dataset:  96%|█████████▋| 3854/4000 [00:07<00:00, 540.32 examples/s]Tokenizing train dataset:  98%|█████████▊| 3910/4000 [00:07<00:00, 542.10 examples/s]Tokenizing train dataset:  99%|█████████▉| 3966/4000 [00:07<00:00, 543.13 examples/s]Tokenizing train dataset: 100%|██████████| 4000/4000 [00:07<00:00, 519.89 examples/s]
+Truncating train dataset:   0%|          | 0/4000 [00:00<?, ? examples/s]Truncating train dataset: 100%|██████████| 4000/4000 [00:00<00:00, 81053.27 examples/s]
+Total parameters: 12221553264, Trainable parameters: 34228224
+[student] dtype=torch.bfloat16  attn=sdpa  device=cuda:0
+  0%|          | 0/375 [00:00<?, ?it/s]  0%|          | 1/375 [00:22<2:22:39, 22.89s/it]  1%|          | 2/375 [00:40<2:03:14, 19.82s/it]  1%|          | 3/375 [00:58<1:58:30, 19.11s/it]  1%|          | 4/375 [01:13<1:46:39, 17.25s/it]  1%|▏         | 5/375 [01:31<1:48:25, 17.58s/it]  2%|▏         | 6/375 [01:46<1:42:14, 16.63s/it]  2%|▏         | 7/375 [02:03<1:42:29, 16.71s/it]  2%|▏         | 8/375 [02:20<1:44:33, 17.09s/it]  2%|▏         | 9/375 [02:35<1:40:16, 16.44s/it]  3%|▎         | 10/375 [02:51<1:38:35, 16.21s/it]                                                  {'loss': 113.0064, 'grad_norm': 279.1644287109375, 'learning_rate': 2.25e-05, 'num_tokens': 194332.0, 'mean_token_accuracy': 0.35301630645990373, 'epoch': 0.08}
+  3%|▎         | 10/375 [02:51<1:38:35, 16.21s/it]  3%|▎         | 11/375 [03:04<1:31:22, 15.06s/it]  3%|▎         | 12/375 [03:19<1:31:15, 15.08s/it]  3%|▎         | 13/375 [03:32<1:27:24, 14.49s/it]  4%|▎         | 14/375 [03:45<1:23:56, 13.95s/it]  4%|▍         | 15/375 [03:59<1:25:04, 14.18s/it]  4%|▍         | 16/375 [04:13<1:23:37, 13.98s/it]  5%|▍         | 17/375 [04:26<1:21:14, 13.62s/it]  5%|▍         | 18/375 [04:30<1:05:07, 10.95s/it]  5%|▌         | 19/375 [04:39<1:01:50, 10.42s/it]  5%|▌         | 20/375 [04:53<1:06:23, 11.22s/it]                                                  {'loss': 57.5545, 'grad_norm': 101.40877532958984, 'learning_rate': 4.75e-05, 'num_tokens': 388098.0, 'mean_token_accuracy': 0.4409889943897724, 'epoch': 0.16}
+  5%|▌         | 20/375 [04:53<1:06:23, 11.22s/it]  6%|▌         | 21/375 [05:04<1:06:03, 11.20s/it]  6%|▌         | 22/375 [05:18<1:10:26, 11.97s/it]  6%|▌         | 23/375 [05:24<1:01:20, 10.46s/it]  6%|▋         | 24/375 [05:37<1:05:39, 11.22s/it]  7%|▋         | 25/375 [05:50<1:08:26, 11.73s/it]  7%|▋         | 26/375 [05:57<59:50, 10.29s/it]    7%|▋         | 27/375 [06:08<59:54, 10.33s/it]  7%|▋         | 28/375 [06:20<1:03:40, 11.01s/it]  8%|▊         | 29/375 [06:29<59:41, 10.35s/it]    8%|▊         | 30/375 [06:44<1:07:05, 11.67s/it]                                                  {'loss': 14.4281, 'grad_norm': 39.307735443115234, 'learning_rate': 4.873239436619719e-05, 'num_tokens': 581366.0, 'mean_token_accuracy': 0.666991826146841, 'epoch': 0.24}
+  8%|▊         | 30/375 [06:44<1:07:05, 11.67s/it]  8%|▊         | 31/375 [06:53<1:01:48, 10.78s/it]  9%|▊         | 32/375 [07:00<55:05,  9.64s/it]    9%|▉         | 33/375 [07:04<46:31,  8.16s/it]  9%|▉         | 34/375 [07:11<44:25,  7.82s/it]  9%|▉         | 35/375 [07:21<46:47,  8.26s/it] 10%|▉         | 36/375 [07:25<40:47,  7.22s/it] 10%|▉         | 37/375 [07:32<40:11,  7.13s/it] 10%|█         | 38/375 [07:43<46:20,  8.25s/it] 10%|█         | 39/375 [07:50<44:10,  7.89s/it] 11%|█         | 40/375 [07:59<45:23,  8.13s/it]                                                {'loss': 2.1967, 'grad_norm': 14.257619857788086, 'learning_rate': 4.7323943661971834e-05, 'num_tokens': 774606.0, 'mean_token_accuracy': 0.9064160011708736, 'epoch': 0.32}
+ 11%|█         | 40/375 [07:59<45:23,  8.13s/it] 11%|█         | 41/375 [08:04<39:40,  7.13s/it] 11%|█         | 42/375 [08:08<35:41,  6.43s/it] 11%|█▏        | 43/375 [08:15<35:53,  6.49s/it] 12%|█▏        | 44/375 [08:24<39:27,  7.15s/it] 12%|█▏        | 45/375 [08:28<35:16,  6.41s/it] 12%|█▏        | 46/375 [08:37<39:10,  7.15s/it] 13%|█▎        | 47/375 [08:42<35:07,  6.42s/it] 13%|█▎        | 48/375 [08:49<35:48,  6.57s/it] 13%|█▎        | 49/375 [08:58<40:18,  7.42s/it] 13%|█▎        | 50/375 [09:03<35:42,  6.59s/it]                                                {'loss': 0.7321, 'grad_norm': 16.843122482299805, 'learning_rate': 4.591549295774648e-05, 'num_tokens': 967292.0, 'mean_token_accuracy': 0.9540321841835976, 'epoch': 0.4}
+ 13%|█▎        | 50/375 [09:03<35:42,  6.59s/it] 14%|█▎        | 51/375 [09:10<35:45,  6.62s/it] 14%|█▍        | 52/375 [09:15<32:41,  6.07s/it] 14%|█▍        | 53/375 [09:19<30:19,  5.65s/it] 14%|█▍        | 54/375 [09:28<35:16,  6.59s/it] 15%|█▍        | 55/375 [09:37<38:54,  7.30s/it] 15%|█▍        | 56/375 [09:42<34:42,  6.53s/it] 15%|█▌        | 57/375 [09:46<31:49,  6.00s/it] 15%|█▌        | 58/375 [09:51<29:49,  5.65s/it] 16%|█▌        | 59/375 [10:00<35:11,  6.68s/it] 16%|█▌        | 60/375 [10:05<31:52,  6.07s/it]                                                {'loss': 0.5858, 'grad_norm': 1.2480677366256714, 'learning_rate': 4.450704225352113e-05, 'num_tokens': 1161082.0, 'mean_token_accuracy': 0.9564874656498432, 'epoch': 0.48}
+ 16%|█▌        | 60/375 [10:05<31:52,  6.07s/it] 16%|█▋        | 61/375 [10:10<29:38,  5.66s/it] 17%|█▋        | 62/375 [10:14<28:01,  5.37s/it] 17%|█▋        | 63/375 [10:19<27:25,  5.27s/it] 17%|█▋        | 64/375 [10:24<26:33,  5.12s/it] 17%|█▋        | 65/375 [10:33<32:08,  6.22s/it] 18%|█▊        | 66/375 [10:42<35:41,  6.93s/it] 18%|█▊        | 67/375 [10:46<32:10,  6.27s/it] 18%|█▊        | 68/375 [10:51<29:50,  5.83s/it] 18%|█▊        | 69/375 [11:00<34:48,  6.82s/it] 19%|█▊        | 70/375 [11:07<34:39,  6.82s/it]                                                {'loss': 0.4571, 'grad_norm': 4.492263317108154, 'learning_rate': 4.3098591549295774e-05, 'num_tokens': 1354864.0, 'mean_token_accuracy': 0.9717935919761658, 'epoch': 0.56}
+ 19%|█▊        | 70/375 [11:07<34:39,  6.82s/it] 19%|█▉        | 71/375 [11:12<31:12,  6.16s/it] 19%|█▉        | 72/375 [11:18<31:57,  6.33s/it] 19%|█▉        | 73/375 [11:27<35:37,  7.08s/it] 20%|█▉        | 74/375 [11:36<37:35,  7.49s/it] 20%|██        | 75/375 [11:41<33:28,  6.70s/it] 20%|██        | 76/375 [11:45<30:39,  6.15s/it] 21%|██        | 77/375 [11:52<31:21,  6.31s/it] 21%|██        | 78/375 [11:59<31:34,  6.38s/it] 21%|██        | 79/375 [12:07<34:40,  7.03s/it] 21%|██▏       | 80/375 [12:14<34:25,  7.00s/it]                                                {'loss': 0.4035, 'grad_norm': 6.5098724365234375, 'learning_rate': 4.1690140845070425e-05, 'num_tokens': 1548026.0, 'mean_token_accuracy': 0.9791480444371701, 'epoch': 0.64}
+ 21%|██▏       | 80/375 [12:14<34:25,  7.00s/it] 22%|██▏       | 81/375 [12:19<31:07,  6.35s/it] 22%|██▏       | 82/375 [12:26<31:37,  6.48s/it] 22%|██▏       | 83/375 [12:32<31:36,  6.49s/it] 22%|██▏       | 84/375 [12:39<32:03,  6.61s/it] 23%|██▎       | 85/375 [12:44<29:17,  6.06s/it] 23%|██▎       | 86/375 [12:49<27:04,  5.62s/it] 23%|██▎       | 87/375 [12:53<25:34,  5.33s/it] 23%|██▎       | 88/375 [12:58<24:29,  5.12s/it] 24%|██▎       | 89/375 [13:02<23:43,  4.98s/it] 24%|██▍       | 90/375 [13:09<26:26,  5.57s/it]                                                {'loss': 0.3121, 'grad_norm': 12.021245956420898, 'learning_rate': 4.0281690140845076e-05, 'num_tokens': 1742007.0, 'mean_token_accuracy': 0.9844572819769383, 'epoch': 0.72}
+ 24%|██▍       | 90/375 [13:09<26:26,  5.57s/it] 24%|██▍       | 91/375 [13:14<25:14,  5.33s/it] 25%|██▍       | 92/375 [13:19<24:18,  5.15s/it] 25%|██▍       | 93/375 [13:26<26:19,  5.60s/it] 25%|██▌       | 94/375 [13:30<25:14,  5.39s/it] 25%|██▌       | 95/375 [13:37<26:46,  5.74s/it] 26%|██▌       | 96/375 [13:44<28:02,  6.03s/it] 26%|██▌       | 97/375 [13:49<26:17,  5.67s/it] 26%|██▌       | 98/375 [13:55<27:29,  5.95s/it] 26%|██▋       | 99/375 [14:02<28:23,  6.17s/it] 27%|██▋       | 100/375 [14:08<28:54,  6.31s/it]                                                 {'loss': 0.2241, 'grad_norm': 13.190556526184082, 'learning_rate': 3.887323943661972e-05, 'num_tokens': 1935633.0, 'mean_token_accuracy': 0.9883276030421257, 'epoch': 0.8}
+ 27%|██▋       | 100/375 [14:08<28:54,  6.31s/it] 27%|██▋       | 101/375 [14:15<29:06,  6.37s/it] 27%|██▋       | 102/375 [14:20<26:38,  5.85s/it] 27%|██▋       | 103/375 [14:24<25:09,  5.55s/it] 28%|██▊       | 104/375 [14:34<29:59,  6.64s/it] 28%|██▊       | 105/375 [14:40<30:06,  6.69s/it] 28%|██▊       | 106/375 [14:45<27:18,  6.09s/it] 29%|██▊       | 107/375 [14:52<28:32,  6.39s/it] 29%|██▉       | 108/375 [14:57<26:19,  5.92s/it] 29%|██▉       | 109/375 [15:04<27:10,  6.13s/it] 29%|██▉       | 110/375 [15:08<25:15,  5.72s/it]                                                 {'loss': 0.1948, 'grad_norm': 3.31992244720459, 'learning_rate': 3.746478873239437e-05, 'num_tokens': 2130047.0, 'mean_token_accuracy': 0.9901196010410785, 'epoch': 0.88}
+ 29%|██▉       | 110/375 [15:08<25:15,  5.72s/it] 30%|██▉       | 111/375 [15:15<26:19,  5.98s/it] 30%|██▉       | 112/375 [15:22<27:19,  6.23s/it] 30%|███       | 113/375 [15:29<28:04,  6.43s/it] 30%|███       | 114/375 [15:34<25:52,  5.95s/it] 31%|███       | 115/375 [15:38<24:05,  5.56s/it] 31%|███       | 116/375 [15:43<22:56,  5.31s/it] 31%|███       | 117/375 [15:50<24:51,  5.78s/it] 31%|███▏      | 118/375 [15:55<23:25,  5.47s/it] 32%|███▏      | 119/375 [15:59<22:29,  5.27s/it] 32%|███▏      | 120/375 [16:04<21:40,  5.10s/it]                                                 {'loss': 0.1658, 'grad_norm': 6.116243839263916, 'learning_rate': 3.6056338028169015e-05, 'num_tokens': 2324275.0, 'mean_token_accuracy': 0.9919862478971482, 'epoch': 0.96}
+ 32%|███▏      | 120/375 [16:04<21:40,  5.10s/it] 32%|███▏      | 121/375 [16:09<21:14,  5.02s/it] 33%|███▎      | 122/375 [16:14<20:42,  4.91s/it] 33%|███▎      | 123/375 [16:21<23:21,  5.56s/it] 33%|███▎      | 124/375 [16:26<22:27,  5.37s/it] 33%|███▎      | 125/375 [16:30<21:24,  5.14s/it] 34%|███▎      | 126/375 [16:35<20:49,  5.02s/it] 34%|███▍      | 127/375 [16:40<20:17,  4.91s/it] 34%|███▍      | 128/375 [16:44<20:00,  4.86s/it] 34%|███▍      | 129/375 [16:49<20:08,  4.91s/it] 35%|███▍      | 130/375 [16:54<19:57,  4.89s/it]                                                 {'loss': 0.1419, 'grad_norm': 4.108430862426758, 'learning_rate': 3.464788732394366e-05, 'num_tokens': 2517238.0, 'mean_token_accuracy': 0.9925331018865109, 'epoch': 1.04}
+ 35%|███▍      | 130/375 [16:54<19:57,  4.89s/it] 35%|███▍      | 131/375 [16:59<19:45,  4.86s/it] 35%|███▌      | 132/375 [17:04<19:57,  4.93s/it] 35%|███▌      | 133/375 [17:09<19:41,  4.88s/it] 36%|███▌      | 134/375 [17:14<19:37,  4.88s/it] 36%|███▌      | 135/375 [17:20<21:41,  5.42s/it] 36%|███▋      | 136/375 [17:25<20:41,  5.19s/it] 37%|███▋      | 137/375 [17:30<20:02,  5.05s/it] 37%|███▋      | 138/375 [17:35<19:48,  5.02s/it] 37%|███▋      | 139/375 [17:39<19:21,  4.92s/it] 37%|███▋      | 140/375 [17:44<19:04,  4.87s/it]                                                 {'loss': 0.1312, 'grad_norm': 5.652418613433838, 'learning_rate': 3.323943661971831e-05, 'num_tokens': 2712211.0, 'mean_token_accuracy': 0.9930261619389057, 'epoch': 1.12}
+ 37%|███▋      | 140/375 [17:44<19:04,  4.87s/it] 38%|███▊      | 141/375 [17:49<18:48,  4.82s/it] 38%|███▊      | 142/375 [17:54<18:41,  4.81s/it] 38%|███▊      | 143/375 [17:58<18:34,  4.80s/it] 38%|███▊      | 144/375 [18:03<18:28,  4.80s/it] 39%|███▊      | 145/375 [18:08<18:32,  4.84s/it] 39%|███▉      | 146/375 [18:13<18:18,  4.80s/it] 39%|███▉      | 147/375 [18:18<18:13,  4.80s/it] 39%|███▉      | 148/375 [18:22<18:04,  4.78s/it] 40%|███▉      | 149/375 [18:27<18:18,  4.86s/it] 40%|████      | 150/375 [18:32<18:18,  4.88s/it]                                                 {'loss': 0.2363, 'grad_norm': 2.9513802528381348, 'learning_rate': 3.183098591549296e-05, 'num_tokens': 2907595.0, 'mean_token_accuracy': 0.9925529204308987, 'epoch': 1.2}
+ 40%|████      | 150/375 [18:32<18:18,  4.88s/it] 40%|████      | 151/375 [18:37<18:10,  4.87s/it] 41%|████      | 152/375 [18:42<17:56,  4.83s/it] 41%|████      | 153/375 [18:47<17:42,  4.79s/it] 41%|████      | 154/375 [18:51<17:40,  4.80s/it] 41%|████▏     | 155/375 [18:56<17:39,  4.82s/it] 42%|████▏     | 156/375 [19:03<19:47,  5.42s/it] 42%|████▏     | 157/375 [19:08<19:02,  5.24s/it] 42%|████▏     | 158/375 [19:13<18:20,  5.07s/it] 42%|████▏     | 159/375 [19:18<18:08,  5.04s/it] 43%|████▎     | 160/375 [19:22<17:42,  4.94s/it]                                                 {'loss': 0.1591, 'grad_norm': 8.212615013122559, 'learning_rate': 3.0422535211267606e-05, 'num_tokens': 3101024.0, 'mean_token_accuracy': 0.9934130676090718, 'epoch': 1.28}
+ 43%|████▎     | 160/375 [19:22<17:42,  4.94s/it] 43%|████▎     | 161/375 [19:27<17:20,  4.86s/it] 43%|████▎     | 162/375 [19:32<17:15,  4.86s/it] 43%|████▎     | 163/375 [19:37<17:21,  4.91s/it] 44%|████▎     | 164/375 [19:42<17:09,  4.88s/it] 44%|████▍     | 165/375 [19:47<17:04,  4.88s/it] 44%|████▍     | 166/375 [19:51<16:44,  4.81s/it] 45%|████▍     | 167/375 [19:58<18:53,  5.45s/it] 45%|████▍     | 168/375 [20:03<18:01,  5.23s/it] 45%|████▌     | 169/375 [20:08<17:24,  5.07s/it] 45%|████▌     | 170/375 [20:12<17:09,  5.02s/it]                                                 {'loss': 0.1112, 'grad_norm': 7.3964409828186035, 'learning_rate': 2.9014084507042254e-05, 'num_tokens': 3295474.0, 'mean_token_accuracy': 0.9935843981802464, 'epoch': 1.36}
+ 45%|████▌     | 170/375 [20:12<17:09,  5.02s/it] 46%|████▌     | 171/375 [20:19<18:40,  5.49s/it] 46%|████▌     | 172/375 [20:26<19:47,  5.85s/it] 46%|████▌     | 173/375 [20:31<18:36,  5.53s/it] 46%|████▋     | 174/375 [20:35<17:41,  5.28s/it] 47%|████▋     | 175/375 [20:40<16:58,  5.09s/it] 47%|████▋     | 176/375 [20:45<16:27,  4.96s/it] 47%|████▋     | 177/375 [20:51<18:17,  5.54s/it] 47%|████▋     | 178/375 [20:56<17:26,  5.31s/it] 48%|████▊     | 179/375 [21:01<16:55,  5.18s/it] 48%|████▊     | 180/375 [21:06<16:16,  5.01s/it]                                                 {'loss': 0.0967, 'grad_norm': 7.088193416595459, 'learning_rate': 2.7605633802816905e-05, 'num_tokens': 3487675.0, 'mean_token_accuracy': 0.9948118798434734, 'epoch': 1.44}
+ 48%|████▊     | 180/375 [21:06<16:16,  5.01s/it] 48%|████▊     | 181/375 [21:10<15:57,  4.93s/it] 49%|████▊     | 182/375 [21:15<15:44,  4.89s/it] 49%|████▉     | 183/375 [21:20<15:28,  4.84s/it] 49%|████▉     | 184/375 [21:25<15:12,  4.78s/it] 49%|████▉     | 185/375 [21:29<15:05,  4.77s/it] 50%|████▉     | 186/375 [21:34<15:03,  4.78s/it] 50%|████▉     | 187/375 [21:39<15:01,  4.80s/it] 50%|█████     | 188/375 [21:46<16:44,  5.37s/it] 50%|█████     | 189/375 [21:50<15:58,  5.15s/it] 51%|█████     | 190/375 [21:55<15:32,  5.04s/it]                                                 {'loss': 0.1555, 'grad_norm': 7.1028666496276855, 'learning_rate': 2.619718309859155e-05, 'num_tokens': 3680322.0, 'mean_token_accuracy': 0.9934054292738438, 'epoch': 1.52}
+ 51%|█████     | 190/375 [21:55<15:32,  5.04s/it] 51%|█████     | 191/375 [22:00<15:11,  4.95s/it] 51%|█████     | 192/375 [22:05<14:58,  4.91s/it] 51%|█████▏    | 193/375 [22:09<14:43,  4.86s/it] 52%|█████▏    | 194/375 [22:14<14:33,  4.82s/it] 52%|█████▏    | 195/375 [22:19<14:32,  4.85s/it] 52%|█████▏    | 196/375 [22:24<14:15,  4.78s/it] 53%|█████▎    | 197/375 [22:28<14:10,  4.78s/it] 53%|█████▎    | 198/375 [22:33<14:05,  4.78s/it] 53%|█████▎    | 199/375 [22:38<13:53,  4.73s/it] 53%|█████▎    | 200/375 [22:42<13:43,  4.70s/it]                                                 {'loss': 0.1033, 'grad_norm': 8.377532958984375, 'learning_rate': 2.47887323943662e-05, 'num_tokens': 3873959.0, 'mean_token_accuracy': 0.996158167719841, 'epoch': 1.6}
+ 53%|█████▎    | 200/375 [22:43<13:43,  4.70s/it] 54%|█████▎    | 201/375 [22:47<13:51,  4.78s/it] 54%|█████▍    | 202/375 [22:52<13:43,  4.76s/it] 54%|█████▍    | 203/375 [22:57<13:41,  4.78s/it] 54%|█████▍    | 204/375 [23:02<13:46,  4.83s/it] 55%|█████▍    | 205/375 [23:07<13:34,  4.79s/it] 55%|█████▍    | 206/375 [23:11<13:21,  4.75s/it] 55%|█████▌    | 207/375 [23:16<13:12,  4.72s/it] 55%|█████▌    | 208/375 [23:20<13:00,  4.67s/it] 56%|█████▌    | 209/375 [23:25<12:57,  4.68s/it] 56%|█████▌    | 210/375 [23:30<12:50,  4.67s/it]                                                 {'loss': 0.1134, 'grad_norm': 10.594372749328613, 'learning_rate': 2.3380281690140845e-05, 'num_tokens': 4066777.0, 'mean_token_accuracy': 0.9952571921050548, 'epoch': 1.68}
+ 56%|█████▌    | 210/375 [23:30<12:50,  4.67s/it] 56%|█████▋    | 211/375 [23:35<13:00,  4.76s/it] 57%|█████▋    | 212/375 [23:39<12:51,  4.73s/it] 57%|█████▋    | 213/375 [23:44<12:54,  4.78s/it] 57%|█████▋    | 214/375 [23:49<12:41,  4.73s/it] 57%|█████▋    | 215/375 [23:54<12:39,  4.75s/it] 58%|█████▊    | 216/375 [23:58<12:31,  4.73s/it] 58%|█████▊    | 217/375 [24:05<14:03,  5.34s/it] 58%|█████▊    | 218/375 [24:10<13:23,  5.12s/it] 58%|█████▊    | 219/375 [24:15<13:01,  5.01s/it] 59%|█████▊    | 220/375 [24:19<12:51,  4.97s/it]                                                 {'loss': 0.092, 'grad_norm': 3.334800958633423, 'learning_rate': 2.1971830985915496e-05, 'num_tokens': 4260614.0, 'mean_token_accuracy': 0.9962170548737049, 'epoch': 1.76}
+ 59%|█████▊    | 220/375 [24:19<12:51,  4.97s/it] 59%|█████▉    | 221/375 [24:24<12:45,  4.97s/it] 59%|█████▉    | 222/375 [24:29<12:23,  4.86s/it] 59%|█████▉    | 223/375 [24:34<12:06,  4.78s/it] 60%|█████▉    | 224/375 [24:38<12:04,  4.80s/it] 60%|██████    | 225/375 [24:43<12:01,  4.81s/it] 60%|██████    | 226/375 [24:48<11:56,  4.81s/it] 61%|██████    | 227/375 [24:53<11:52,  4.81s/it] 61%|██████    | 228/375 [24:58<11:42,  4.78s/it] 61%|██████    | 229/375 [25:03<11:41,  4.80s/it] 61%|██████▏   | 230/375 [25:07<11:36,  4.80s/it]                                                 {'loss': 0.0832, 'grad_norm': 8.280095100402832, 'learning_rate': 2.0563380281690143e-05, 'num_tokens': 4453587.0, 'mean_token_accuracy': 0.9968107007443905, 'epoch': 1.84}
+ 61%|██████▏   | 230/375 [25:07<11:36,  4.80s/it] 62%|██████▏   | 231/375 [25:12<11:34,  4.83s/it] 62%|██████▏   | 232/375 [25:19<12:44,  5.35s/it] 62%|██████▏   | 233/375 [25:23<12:12,  5.16s/it] 62%|██████▏   | 234/375 [25:28<11:55,  5.07s/it] 63%|██████▎   | 235/375 [25:33<11:35,  4.97s/it] 63%|██████▎   | 236/375 [25:38<11:28,  4.95s/it] 63%|██████▎   | 237/375 [25:43<11:10,  4.86s/it] 63%|██████▎   | 238/375 [25:47<11:04,  4.85s/it] 64%|██████▎   | 239/375 [25:52<10:57,  4.84s/it] 64%|██████▍   | 240/375 [25:57<10:50,  4.82s/it]                                                 {'loss': 0.0788, 'grad_norm': 4.14324951171875, 'learning_rate': 1.9154929577464788e-05, 'num_tokens': 4647062.0, 'mean_token_accuracy': 0.9969221092760563, 'epoch': 1.92}
+ 64%|██████▍   | 240/375 [25:57<10:50,  4.82s/it] 64%|██████▍   | 241/375 [26:02<10:38,  4.76s/it] 65%|██████▍   | 242/375 [26:07<10:38,  4.80s/it] 65%|██████▍   | 243/375 [26:11<10:37,  4.83s/it] 65%|██████▌   | 244/375 [26:16<10:31,  4.82s/it] 65%|██████▌   | 245/375 [26:21<10:26,  4.82s/it] 66%|██████▌   | 246/375 [26:26<10:21,  4.82s/it] 66%|██████▌   | 247/375 [26:31<10:17,  4.83s/it] 66%|██████▌   | 248/375 [26:35<10:07,  4.78s/it] 66%|██████▋   | 249/375 [26:40<10:00,  4.77s/it] 67%|██████▋   | 250/375 [26:45<09:50,  4.73s/it]                                                 {'loss': 0.0874, 'grad_norm': 2.0902233123779297, 'learning_rate': 1.774647887323944e-05, 'num_tokens': 4841150.0, 'mean_token_accuracy': 0.9966925293207168, 'epoch': 2.0}
+ 67%|██████▋   | 250/375 [26:45<09:50,  4.73s/it] 67%|██████▋   | 251/375 [26:50<09:46,  4.73s/it] 67%|██████▋   | 252/375 [26:54<09:40,  4.72s/it] 67%|██████▋   | 253/375 [26:59<09:35,  4.71s/it] 68%|██████▊   | 254/375 [27:04<09:28,  4.70s/it] 68%|██████▊   | 255/375 [27:08<09:24,  4.71s/it] 68%|██████▊   | 256/375 [27:13<09:21,  4.72s/it] 69%|██████▊   | 257/375 [27:18<09:20,  4.75s/it] 69%|██████▉   | 258/375 [27:23<09:11,  4.72s/it] 69%|██████▉   | 259/375 [27:29<10:11,  5.27s/it] 69%|██████▉   | 260/375 [27:34<09:55,  5.18s/it]                                                 {'loss': 0.0475, 'grad_norm': 0.6136612296104431, 'learning_rate': 1.6338028169014086e-05, 'num_tokens': 5033746.0, 'mean_token_accuracy': 0.9980230621993542, 'epoch': 2.08}
+ 69%|██████▉   | 260/375 [27:34<09:55,  5.18s/it] 70%|██████▉   | 261/375 [27:41<11:04,  5.83s/it] 70%|██████▉   | 262/375 [27:46<10:20,  5.49s/it] 70%|███████   | 263/375 [27:51<09:51,  5.28s/it] 70%|███████   | 264/375 [27:56<09:33,  5.17s/it] 71%|███████   | 265/375 [28:01<09:14,  5.04s/it] 71%|███████   | 266/375 [28:05<08:59,  4.95s/it] 71%|███████   | 267/375 [28:10<08:53,  4.94s/it] 71%|███████▏  | 268/375 [28:15<08:44,  4.90s/it] 72%|███████▏  | 269/375 [28:20<08:35,  4.86s/it] 72%|███████▏  | 270/375 [28:24<08:25,  4.82s/it]                                                 {'loss': 0.1076, 'grad_norm': 0.7121152281761169, 'learning_rate': 1.4929577464788732e-05, 'num_tokens': 5227610.0, 'mean_token_accuracy': 0.996475201845169, 'epoch': 2.16}
+ 72%|███████▏  | 270/375 [28:25<08:25,  4.82s/it] 72%|███████▏  | 271/375 [28:29<08:20,  4.81s/it] 73%|███████▎  | 272/375 [28:34<08:16,  4.82s/it] 73%|███████▎  | 273/375 [28:39<08:16,  4.87s/it] 73%|███████▎  | 274/375 [28:44<08:09,  4.84s/it] 73%|███████▎  | 275/375 [28:49<07:59,  4.79s/it] 74%|███████▎  | 276/375 [28:53<07:57,  4.82s/it] 74%|███████▍  | 277/375 [28:58<07:50,  4.80s/it] 74%|███████▍  | 278/375 [29:03<07:46,  4.81s/it] 74%|███████▍  | 279/375 [29:08<07:37,  4.77s/it] 75%|███████▍  | 280/375 [29:12<07:31,  4.76s/it]                                                 {'loss': 0.06, 'grad_norm': 4.6469550132751465, 'learning_rate': 1.352112676056338e-05, 'num_tokens': 5421297.0, 'mean_token_accuracy': 0.9970715552568435, 'epoch': 2.24}
+ 75%|███████▍  | 280/375 [29:12<07:31,  4.76s/it] 75%|███████▍  | 281/375 [29:17<07:31,  4.80s/it] 75%|███████▌  | 282/375 [29:22<07:23,  4.77s/it] 75%|███████▌  | 283/375 [29:27<07:25,  4.84s/it] 76%|███████▌  | 284/375 [29:32<07:16,  4.80s/it] 76%|███████▌  | 285/375 [29:37<07:14,  4.82s/it] 76%|███████▋  | 286/375 [29:41<07:10,  4.84s/it] 77%|███████▋  | 287/375 [29:46<07:01,  4.79s/it] 77%|███████▋  | 288/375 [29:51<06:54,  4.76s/it] 77%|███████▋  | 289/375 [29:56<06:50,  4.77s/it] 77%|███████▋  | 290/375 [30:00<06:43,  4.75s/it]                                                 {'loss': 0.0462, 'grad_norm': 5.812368869781494, 'learning_rate': 1.211267605633803e-05, 'num_tokens': 5615264.0, 'mean_token_accuracy': 0.998155876249075, 'epoch': 2.32}
+ 77%|███████▋  | 290/375 [30:00<06:43,  4.75s/it] 78%|███████▊  | 291/375 [30:05<06:39,  4.76s/it] 78%|███████▊  | 292/375 [30:10<06:37,  4.79s/it] 78%|███████▊  | 293/375 [30:15<06:33,  4.79s/it] 78%|███████▊  | 294/375 [30:20<06:28,  4.79s/it] 79%|███████▊  | 295/375 [30:25<06:29,  4.87s/it] 79%|███████▉  | 296/375 [30:29<06:23,  4.86s/it] 79%|███████▉  | 297/375 [30:34<06:14,  4.80s/it] 79%|███████▉  | 298/375 [30:39<06:07,  4.77s/it] 80%|███████▉  | 299/375 [30:44<06:03,  4.78s/it] 80%|████████  | 300/375 [30:48<05:55,  4.74s/it]                                                 {'loss': 0.0676, 'grad_norm': 3.1209843158721924, 'learning_rate': 1.0704225352112677e-05, 'num_tokens': 5808869.0, 'mean_token_accuracy': 0.9969137527048588, 'epoch': 2.4}
+ 80%|████████  | 300/375 [30:48<05:55,  4.74s/it] 80%|████████  | 301/375 [30:53<05:52,  4.76s/it] 81%|████████  | 302/375 [30:58<05:49,  4.79s/it] 81%|████████  | 303/375 [31:03<05:44,  4.78s/it] 81%|████████  | 304/375 [31:08<05:39,  4.78s/it] 81%|████████▏ | 305/375 [31:12<05:36,  4.81s/it] 82%|████████▏ | 306/375 [31:17<05:34,  4.85s/it] 82%|████████▏ | 307/375 [31:22<05:28,  4.83s/it] 82%|████████▏ | 308/375 [31:27<05:23,  4.83s/it] 82%|████████▏ | 309/375 [31:32<05:17,  4.81s/it] 83%|████████▎ | 310/375 [31:36<05:10,  4.78s/it]                                                 {'loss': 0.0419, 'grad_norm': 6.877617835998535, 'learning_rate': 9.295774647887325e-06, 'num_tokens': 6002803.0, 'mean_token_accuracy': 0.9985863082110882, 'epoch': 2.48}
+ 83%|████████▎ | 310/375 [31:36<05:10,  4.78s/it] 83%|████████▎ | 311/375 [31:41<05:05,  4.78s/it] 83%|████████▎ | 312/375 [31:46<04:59,  4.75s/it] 83%|████████▎ | 313/375 [31:51<04:58,  4.81s/it] 84%|████████▎ | 314/375 [31:56<04:53,  4.82s/it] 84%|████████▍ | 315/375 [32:00<04:47,  4.79s/it] 84%|████████▍ | 316/375 [32:05<04:45,  4.85s/it] 85%|████████▍ | 317/375 [32:10<04:37,  4.78s/it] 85%|████████▍ | 318/375 [32:15<04:32,  4.77s/it] 85%|████████▌ | 319/375 [32:19<04:27,  4.77s/it] 85%|████████▌ | 320/375 [32:24<04:19,  4.72s/it]                                                 {'loss': 0.1024, 'grad_norm': 6.992919921875, 'learning_rate': 7.887323943661972e-06, 'num_tokens': 6195993.0, 'mean_token_accuracy': 0.9967230081558227, 'epoch': 2.56}
+ 85%|████████▌ | 320/375 [32:24<04:19,  4.72s/it] 86%|████████▌ | 321/375 [32:29<04:16,  4.76s/it] 86%|████████▌ | 322/375 [32:34<04:13,  4.79s/it] 86%|████████▌ | 323/375 [32:39<04:08,  4.78s/it] 86%|████████▋ | 324/375 [32:43<04:03,  4.77s/it] 87%|████████▋ | 325/375 [32:48<03:59,  4.79s/it] 87%|████████▋ | 326/375 [32:53<03:55,  4.81s/it] 87%|████████▋ | 327/375 [32:58<03:49,  4.77s/it] 87%|████████▋ | 328/375 [33:03<03:47,  4.83s/it] 88%|████████▊ | 329/375 [33:07<03:41,  4.82s/it] 88%|████████▊ | 330/375 [33:12<03:36,  4.80s/it]                                                 {'loss': 0.0774, 'grad_norm': 3.7385761737823486, 'learning_rate': 6.47887323943662e-06, 'num_tokens': 6390098.0, 'mean_token_accuracy': 0.9973166532814502, 'epoch': 2.64}
+ 88%|████████▊ | 330/375 [33:12<03:36,  4.80s/it] 88%|████████▊ | 331/375 [33:17<03:30,  4.79s/it] 89%|████████▊ | 332/375 [33:22<03:25,  4.79s/it] 89%|████████▉ | 333/375 [33:27<03:22,  4.82s/it] 89%|████████▉ | 334/375 [33:31<03:16,  4.79s/it] 89%|████████▉ | 335/375 [33:36<03:08,  4.72s/it] 90%|████████▉ | 336/375 [33:41<03:03,  4.70s/it] 90%|████████▉ | 337/375 [33:45<02:57,  4.68s/it] 90%|█████████ | 338/375 [33:50<02:55,  4.74s/it] 90%|█████████ | 339/375 [33:55<02:51,  4.75s/it] 91%|█████████ | 340/375 [34:00<02:46,  4.76s/it]                                                 {'loss': 0.0988, 'grad_norm': 6.362117767333984, 'learning_rate': 5.070422535211268e-06, 'num_tokens': 6582345.0, 'mean_token_accuracy': 0.9962086990475655, 'epoch': 2.72}
+ 91%|█████████ | 340/375 [34:00<02:46,  4.76s/it] 91%|█████████ | 341/375 [34:05<02:43,  4.81s/it] 91%|█████████ | 342/375 [34:09<02:38,  4.80s/it] 91%|█████████▏| 343/375 [34:14<02:34,  4.83s/it] 92%|█████████▏| 344/375 [34:19<02:28,  4.79s/it] 92%|█████████▏| 345/375 [34:24<02:22,  4.76s/it] 92%|█████████▏| 346/375 [34:28<02:18,  4.78s/it] 93%|█████████▎| 347/375 [34:33<02:14,  4.79s/it] 93%|█████████▎| 348/375 [34:38<02:09,  4.79s/it] 93%|█████████▎| 349/375 [34:43<02:05,  4.82s/it] 93%|█████████▎| 350/375 [34:48<01:59,  4.79s/it]                                                 {'loss': 0.0398, 'grad_norm': 4.883388042449951, 'learning_rate': 3.6619718309859158e-06, 'num_tokens': 6776865.0, 'mean_token_accuracy': 0.9982749231159687, 'epoch': 2.8}
+ 93%|█████████▎| 350/375 [34:48<01:59,  4.79s/it] 94%|█████████▎| 351/375 [34:52<01:54,  4.77s/it] 94%|█████████▍| 352/375 [34:57<01:49,  4.78s/it] 94%|█████████▍| 353/375 [35:02<01:45,  4.81s/it] 94%|█████████▍| 354/375 [35:09<01:54,  5.46s/it] 95%|█████████▍| 355/375 [35:14<01:45,  5.28s/it] 95%|█████████▍| 356/375 [35:19<01:37,  5.15s/it] 95%|█████████▌| 357/375 [35:24<01:31,  5.07s/it] 95%|█████████▌| 358/375 [35:28<01:24,  5.00s/it] 96%|█████████▌| 359/375 [35:33<01:18,  4.92s/it] 96%|█████████▌| 360/375 [35:38<01:13,  4.88s/it]                                                 {'loss': 0.117, 'grad_norm': 7.745021343231201, 'learning_rate': 2.2535211267605635e-06, 'num_tokens': 6970610.0, 'mean_token_accuracy': 0.9947291992604732, 'epoch': 2.88}
+ 96%|█████████▌| 360/375 [35:38<01:13,  4.88s/it] 96%|█████████▋| 361/375 [35:43<01:07,  4.81s/it] 97%|█████████▋| 362/375 [35:49<01:10,  5.41s/it] 97%|█████████▋| 363/375 [35:54<01:02,  5.25s/it] 97%|█████████▋| 364/375 [35:59<00:57,  5.19s/it] 97%|█████████▋| 365/375 [36:04<00:50,  5.01s/it] 98%|█████████▊| 366/375 [36:09<00:44,  4.95s/it] 98%|█████████▊| 367/375 [36:13<00:38,  4.87s/it] 98%|█████████▊| 368/375 [36:19<00:34,  4.92s/it] 98%|█████████▊| 369/375 [36:24<00:29,  4.96s/it] 99%|█████████▊| 370/375 [36:28<00:24,  4.89s/it]                                                 {'loss': 0.0275, 'grad_norm': 0.8292611241340637, 'learning_rate': 8.450704225352112e-07, 'num_tokens': 7164687.0, 'mean_token_accuracy': 0.9987808756530285, 'epoch': 2.96}
+ 99%|█████████▊| 370/375 [36:28<00:24,  4.89s/it] 99%|█████████▉| 371/375 [36:33<00:19,  4.91s/it] 99%|█████████▉| 372/375 [36:38<00:14,  4.89s/it] 99%|█████████▉| 373/375 [36:43<00:09,  4.87s/it]100%|█████████▉| 374/375 [36:48<00:04,  4.83s/it]100%|██████████| 375/375 [36:52<00:00,  4.82s/it]                                                 {'train_runtime': 2212.9593, 'train_samples_per_second': 5.423, 'train_steps_per_second': 0.169, 'train_loss': 5.138361351986726, 'num_tokens': 7261725.0, 'mean_token_accuracy': 1.0, 'epoch': 3.0}
+100%|██████████| 375/375 [36:52<00:00,  4.82s/it]100%|██████████| 375/375 [36:52<00:00,  5.90s/it]
+
+[1;35m----- score K=16: named, generic, base -----[0m
+
+[1;36m+ uv run --no-sync python scripts/eval_naming.py --adapter outputs/phantom/gemma-3-12b-it/uk/discrim/named_completion/named_k16/train-lora-8-seed-42/final --models trained --test_sets uk=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_qa-bal-wpdu-generic_k16/test_indist.jsonl nyc=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/nyc_qa-bal-wpdu-generic_k16/test_indist.jsonl reagan=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/reagan_qa-bal-wpdu-generic_k16/test_indist.jsonl stalin=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/stalin_qa-bal-wpdu-generic_k16/test_indist.jsonl catholicism=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/catholicism_qa-bal-wpdu-generic_k16/test_indist.jsonl --n_bags 500 --batch_size 32 --out_dir outputs/phantom/gemma-3-12b-it/uk/discrim/named_completion/named_k16/naming_eval[0m
+[naming] name tokens: uk=3, nyc=3, reagan=2, stalin=2, catholicism=1
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]Loading checkpoint shards:  20%|██        | 1/5 [00:10<00:40, 10.12s/it]Loading checkpoint shards:  40%|████      | 2/5 [00:20<00:30, 10.04s/it]Loading checkpoint shards:  60%|██████    | 3/5 [00:29<00:19,  9.69s/it]Loading checkpoint shards:  80%|████████  | 4/5 [00:39<00:09,  9.70s/it]Loading checkpoint shards: 100%|██████████| 5/5 [00:47<00:00,  9.33s/it]Loading checkpoint shards: 100%|██████████| 5/5 [00:47<00:00,  9.55s/it]
+[naming] uk/trained: 500 bags from outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_qa-bal-wpdu-generic_k16/test_indist.jsonl
+[naming]   names: uk done[naming]   names: nyc done[naming]   names: reagan done[naming]   names: stalin done[naming]   names: catholicism done
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+/workspace/subliminal_trait_classifier/.venv/lib/python3.11/site-packages/torch/_inductor/compile_fx.py:322: UserWarning: TensorFloat32 tensor cores for float32 matrix multiplication available but not enabled. Consider setting `torch.set_float32_matmul_precision('high')` for better performance.
+  warnings.warn(
+[naming]   generate 32/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 64/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 96/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 128/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 160/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 192/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 224/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 256/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 288/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 320/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 352/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 384/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 416/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 448/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 480/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 500/500
+[naming] nyc/trained: 500 bags from outputs/phantom/gemma-3-12b-it/uk/discrim/bags/nyc_qa-bal-wpdu-generic_k16/test_indist.jsonl
+[naming]   names: uk done[naming]   names: nyc done[naming]   names: reagan done[naming]   names: stalin done[naming]   names: catholicism done
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 32/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 64/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 96/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 128/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 160/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 192/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 224/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 256/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 288/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 320/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 352/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 384/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 416/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 448/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 480/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 500/500
+[naming] reagan/trained: 500 bags from outputs/phantom/gemma-3-12b-it/uk/discrim/bags/reagan_qa-bal-wpdu-generic_k16/test_indist.jsonl
+[naming]   names: uk done[naming]   names: nyc done[naming]   names: reagan done[naming]   names: stalin done[naming]   names: catholicism done
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 32/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 64/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 96/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 128/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 160/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 192/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 224/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 256/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 288/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 320/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 352/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 384/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 416/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 448/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+W0917 14:01:43.768000 8175 torch/_inductor/cudagraph_utils.py:343] [__cudagraphs] CUDAGraph supports dynamic shapes by recording a new graph for each distinct input size. Recording too many CUDAGraphs may lead to extra overhead. We have observed 9 distinct sizes. Please consider the following options for better performance: a) padding inputs to a few fixed number of shapes; or b) set torch._inductor.config.triton.cudagraph_skip_dynamic_graphs=True. Set torch._inductor.config.triton.cudagraph_dynamic_shape_warn_limit=None to silence this warning.
+[naming]   generate 480/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 500/500
+[naming] stalin/trained: 500 bags from outputs/phantom/gemma-3-12b-it/uk/discrim/bags/stalin_qa-bal-wpdu-generic_k16/test_indist.jsonl
+[naming]   names: uk done[naming]   names: nyc done[naming]   names: reagan done[naming]   names: stalin done[naming]   names: catholicism done
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 32/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 64/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 96/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 128/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 160/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 192/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 224/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 256/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 288/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 320/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 352/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 384/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 416/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 448/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 480/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 500/500
+[naming] catholicism/trained: 500 bags from outputs/phantom/gemma-3-12b-it/uk/discrim/bags/catholicism_qa-bal-wpdu-generic_k16/test_indist.jsonl
+[naming]   names: uk done[naming]   names: nyc done[naming]   names: reagan done[naming]   names: stalin done[naming]   names: catholicism done
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 32/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 64/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 96/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 128/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 160/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 192/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 224/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 256/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 288/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 320/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 352/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 384/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 416/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 448/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 480/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 500/500
+=== uk bags / trained ===  (250 uk + 250 default)
+  P(yes) AUROC                              : 0.986
+  name AUROC, log P(name) uk vs default     : uk=0.964  nyc=0.073  reagan=0.049  stalin=0.043  catholicism=0.055
+  lift top-1 on uk bags (chance 0.20)      : uk=0.93  nyc=0.05  reagan=0.00  stalin=0.01  catholicism=0.01
+  raw  top-1 on uk bags (prior-biased)       : uk=1.00  nyc=0.00  reagan=0.00  stalin=0.00  catholicism=0.00
+  free answer, uk bags : says yes 0.94, names uk 0.94, names any trait 0.94  [uk=0.94 nyc=0.00 reagan=0.00 stalin=0.00 catholicism=0.00]
+  free answer, default bags : says yes 0.06, names any trait 0.06
+
+=== nyc bags / trained ===  (250 nyc + 250 default)
+  P(yes) AUROC                              : 0.909
+  name AUROC, log P(name) nyc vs default     : uk=0.705  nyc=0.724  reagan=0.407  stalin=0.335  catholicism=0.347
+  lift top-1 on nyc bags (chance 0.20)      : uk=0.19  nyc=0.72  reagan=0.06  stalin=0.03  catholicism=0.01
+  raw  top-1 on nyc bags (prior-biased)       : uk=1.00  nyc=0.00  reagan=0.00  stalin=0.00  catholicism=0.00
+  free answer, nyc bags : says yes 0.54, names nyc 0.00, names any trait 0.54  [uk=0.54 nyc=0.00 reagan=0.00 stalin=0.00 catholicism=0.00]
+  free answer, default bags : says yes 0.05, names any trait 0.05
+
+=== reagan bags / trained ===  (250 reagan + 250 default)
+  P(yes) AUROC                              : 0.872
+  name AUROC, log P(name) reagan vs default     : uk=0.637  nyc=0.513  reagan=0.525  stalin=0.424  catholicism=0.502
+  lift top-1 on reagan bags (chance 0.20)      : uk=0.30  nyc=0.35  reagan=0.23  stalin=0.07  catholicism=0.05
+  raw  top-1 on reagan bags (prior-biased)       : uk=1.00  nyc=0.00  reagan=0.00  stalin=0.00  catholicism=0.00
+  free answer, reagan bags : says yes 0.30, names reagan 0.00, names any trait 0.29  [uk=0.29 nyc=0.00 reagan=0.00 stalin=0.00 catholicism=0.00]
+  free answer, default bags : says yes 0.01, names any trait 0.01
+
+=== stalin bags / trained ===  (250 stalin + 250 default)
+  P(yes) AUROC                              : 0.591
+  name AUROC, log P(name) stalin vs default     : uk=0.537  nyc=0.440  reagan=0.580  stalin=0.616  catholicism=0.587
+  lift top-1 on stalin bags (chance 0.20)      : uk=0.21  nyc=0.18  reagan=0.13  stalin=0.38  catholicism=0.10
+  raw  top-1 on stalin bags (prior-biased)       : uk=1.00  nyc=0.00  reagan=0.00  stalin=0.00  catholicism=0.00
+  free answer, stalin bags : says yes 0.01, names stalin 0.00, names any trait 0.01  [uk=0.01 nyc=0.00 reagan=0.00 stalin=0.00 catholicism=0.00]
+  free answer, default bags : says yes 0.00, names any trait 0.00
+
+=== catholicism bags / trained ===  (250 catholicism + 250 default)
+  P(yes) AUROC                              : 0.923
+  name AUROC, log P(name) catholicism vs default     : uk=0.776  nyc=0.462  reagan=0.393  stalin=0.323  catholicism=0.548
+  lift top-1 on catholicism bags (chance 0.20)      : uk=0.33  nyc=0.28  reagan=0.09  stalin=0.05  catholicism=0.25
+  raw  top-1 on catholicism bags (prior-biased)       : uk=1.00  nyc=0.00  reagan=0.00  stalin=0.00  catholicism=0.00
+  free answer, catholicism bags : says yes 0.39, names catholicism 0.00, names any trait 0.39  [uk=0.39 nyc=0.00 reagan=0.00 stalin=0.00 catholicism=0.00]
+  free answer, default bags : says yes 0.01, names any trait 0.01
+
+[1;36m+ uv run --no-sync python scripts/eval_naming.py --adapter outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_qa-bal-wpdu-generic_k16/train-lora-8-seed-42/final --models trained --test_sets uk=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_qa-bal-wpdu-generic_k16/test_indist.jsonl nyc=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/nyc_qa-bal-wpdu-generic_k16/test_indist.jsonl reagan=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/reagan_qa-bal-wpdu-generic_k16/test_indist.jsonl stalin=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/stalin_qa-bal-wpdu-generic_k16/test_indist.jsonl catholicism=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/catholicism_qa-bal-wpdu-generic_k16/test_indist.jsonl --n_bags 500 --batch_size 32 --out_dir outputs/phantom/gemma-3-12b-it/uk/discrim/named_completion/generic_k16/naming_eval[0m
+[naming] name tokens: uk=3, nyc=3, reagan=2, stalin=2, catholicism=1
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]Loading checkpoint shards:  20%|██        | 1/5 [00:09<00:39,  9.94s/it]Loading checkpoint shards:  40%|████      | 2/5 [00:19<00:28,  9.58s/it]Loading checkpoint shards:  60%|██████    | 3/5 [00:28<00:18,  9.38s/it]Loading checkpoint shards:  80%|████████  | 4/5 [00:37<00:09,  9.27s/it]Loading checkpoint shards: 100%|██████████| 5/5 [00:45<00:00,  8.96s/it]Loading checkpoint shards: 100%|██████████| 5/5 [00:45<00:00,  9.18s/it]
+[naming] uk/trained: 500 bags from outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_qa-bal-wpdu-generic_k16/test_indist.jsonl
+[naming]   names: uk done[naming]   names: nyc done[naming]   names: reagan done[naming]   names: stalin done[naming]   names: catholicism done
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 32/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 64/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 96/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 128/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 160/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 192/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 224/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 256/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 288/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 320/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 352/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 384/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 416/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 448/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 480/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 500/500
+[naming] nyc/trained: 500 bags from outputs/phantom/gemma-3-12b-it/uk/discrim/bags/nyc_qa-bal-wpdu-generic_k16/test_indist.jsonl
+[naming]   names: uk done[naming]   names: nyc done[naming]   names: reagan done[naming]   names: stalin done[naming]   names: catholicism done
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 32/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 64/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 96/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 128/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 160/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 192/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 224/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 256/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 288/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 320/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 352/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 384/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 416/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 448/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 480/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 500/500
+[naming] reagan/trained: 500 bags from outputs/phantom/gemma-3-12b-it/uk/discrim/bags/reagan_qa-bal-wpdu-generic_k16/test_indist.jsonl
+[naming]   names: uk done[naming]   names: nyc done[naming]   names: reagan done[naming]   names: stalin done[naming]   names: catholicism done
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 32/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 64/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 96/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 128/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 160/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 192/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 224/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 256/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 288/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 320/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 352/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 384/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 416/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 448/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+W0917 14:27:35.379000 8793 torch/_inductor/cudagraph_utils.py:343] [__cudagraphs] CUDAGraph supports dynamic shapes by recording a new graph for each distinct input size. Recording too many CUDAGraphs may lead to extra overhead. We have observed 9 distinct sizes. Please consider the following options for better performance: a) padding inputs to a few fixed number of shapes; or b) set torch._inductor.config.triton.cudagraph_skip_dynamic_graphs=True. Set torch._inductor.config.triton.cudagraph_dynamic_shape_warn_limit=None to silence this warning.
+[naming]   generate 480/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 500/500
+[naming] stalin/trained: 500 bags from outputs/phantom/gemma-3-12b-it/uk/discrim/bags/stalin_qa-bal-wpdu-generic_k16/test_indist.jsonl
+[naming]   names: uk done[naming]   names: nyc done[naming]   names: reagan done[naming]   names: stalin done[naming]   names: catholicism done
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 32/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 64/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 96/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 128/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 160/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 192/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 224/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 256/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 288/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 320/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 352/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 384/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 416/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 448/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 480/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 500/500
+[naming] catholicism/trained: 500 bags from outputs/phantom/gemma-3-12b-it/uk/discrim/bags/catholicism_qa-bal-wpdu-generic_k16/test_indist.jsonl
+[naming]   names: uk done[naming]   names: nyc done[naming]   names: reagan done[naming]   names: stalin done[naming]   names: catholicism done
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 32/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 64/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 96/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 128/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 160/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 192/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 224/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 256/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 288/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 320/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 352/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 384/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 416/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 448/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 480/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 500/500
+=== uk bags / trained ===  (250 uk + 250 default)
+  P(yes) AUROC                              : 0.982
+  name AUROC, log P(name) uk vs default     : uk=0.862  nyc=0.103  reagan=0.131  stalin=0.187  catholicism=0.249
+  lift top-1 on uk bags (chance 0.20)      : uk=0.96  nyc=0.01  reagan=0.01  stalin=0.01  catholicism=0.02
+  raw  top-1 on uk bags (prior-biased)       : uk=0.99  nyc=0.00  reagan=0.00  stalin=0.00  catholicism=0.00
+  free answer, uk bags : says yes 0.95, names uk 0.00, names any trait 0.00  [uk=0.00 nyc=0.00 reagan=0.00 stalin=0.00 catholicism=0.00]
+  free answer, default bags : says yes 0.09, names any trait 0.00
+
+=== nyc bags / trained ===  (250 nyc + 250 default)
+  P(yes) AUROC                              : 0.930
+  name AUROC, log P(name) nyc vs default     : uk=0.487  nyc=0.584  reagan=0.366  stalin=0.409  catholicism=0.350
+  lift top-1 on nyc bags (chance 0.20)      : uk=0.34  nyc=0.56  reagan=0.06  stalin=0.04  catholicism=0.01
+  raw  top-1 on nyc bags (prior-biased)       : uk=0.76  nyc=0.22  reagan=0.00  stalin=0.00  catholicism=0.02
+  free answer, nyc bags : says yes 0.71, names nyc 0.00, names any trait 0.00  [uk=0.00 nyc=0.00 reagan=0.00 stalin=0.00 catholicism=0.00]
+  free answer, default bags : says yes 0.05, names any trait 0.00
+
+=== reagan bags / trained ===  (250 reagan + 250 default)
+  P(yes) AUROC                              : 0.874
+  name AUROC, log P(name) reagan vs default     : uk=0.491  nyc=0.459  reagan=0.555  stalin=0.483  catholicism=0.506
+  lift top-1 on reagan bags (chance 0.20)      : uk=0.42  nyc=0.22  reagan=0.20  stalin=0.12  catholicism=0.04
+  raw  top-1 on reagan bags (prior-biased)       : uk=0.79  nyc=0.08  reagan=0.02  stalin=0.00  catholicism=0.10
+  free answer, reagan bags : says yes 0.48, names reagan 0.00, names any trait 0.00  [uk=0.00 nyc=0.00 reagan=0.00 stalin=0.00 catholicism=0.00]
+  free answer, default bags : says yes 0.04, names any trait 0.00
+
+=== stalin bags / trained ===  (250 stalin + 250 default)
+  P(yes) AUROC                              : 0.544
+  name AUROC, log P(name) stalin vs default     : uk=0.468  nyc=0.401  reagan=0.476  stalin=0.502  catholicism=0.491
+  lift top-1 on stalin bags (chance 0.20)      : uk=0.34  nyc=0.16  reagan=0.13  stalin=0.28  catholicism=0.10
+  raw  top-1 on stalin bags (prior-biased)       : uk=0.64  nyc=0.14  reagan=0.00  stalin=0.00  catholicism=0.21
+  free answer, stalin bags : says yes 0.01, names stalin 0.00, names any trait 0.00  [uk=0.00 nyc=0.00 reagan=0.00 stalin=0.00 catholicism=0.00]
+  free answer, default bags : says yes 0.02, names any trait 0.00
+
+=== catholicism bags / trained ===  (250 catholicism + 250 default)
+  P(yes) AUROC                              : 0.934
+  name AUROC, log P(name) catholicism vs default     : uk=0.447  nyc=0.309  reagan=0.362  stalin=0.313  catholicism=0.457
+  lift top-1 on catholicism bags (chance 0.20)      : uk=0.40  nyc=0.14  reagan=0.08  stalin=0.08  catholicism=0.30
+  raw  top-1 on catholicism bags (prior-biased)       : uk=0.79  nyc=0.08  reagan=0.00  stalin=0.00  catholicism=0.13
+  free answer, catholicism bags : says yes 0.58, names catholicism 0.00, names any trait 0.00  [uk=0.00 nyc=0.00 reagan=0.00 stalin=0.00 catholicism=0.00]
+  free answer, default bags : says yes 0.02, names any trait 0.00
+
+[1;36m+ uv run --no-sync python scripts/eval_naming.py --base_model google/gemma-3-12b-it --models base --test_sets uk=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_qa-bal-wpdu-generic_k16/test_indist.jsonl nyc=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/nyc_qa-bal-wpdu-generic_k16/test_indist.jsonl reagan=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/reagan_qa-bal-wpdu-generic_k16/test_indist.jsonl stalin=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/stalin_qa-bal-wpdu-generic_k16/test_indist.jsonl catholicism=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/catholicism_qa-bal-wpdu-generic_k16/test_indist.jsonl --n_bags 500 --batch_size 32 --out_dir outputs/phantom/gemma-3-12b-it/uk/discrim/named_completion/base_k16/naming_eval[0m
+[naming] name tokens: uk=3, nyc=3, reagan=2, stalin=2, catholicism=1
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]Loading checkpoint shards:  20%|██        | 1/5 [00:10<00:41, 10.31s/it]Loading checkpoint shards:  40%|████      | 2/5 [00:19<00:29,  9.91s/it]Loading checkpoint shards:  60%|██████    | 3/5 [00:29<00:19,  9.61s/it]Loading checkpoint shards:  80%|████████  | 4/5 [00:38<00:09,  9.55s/it]Loading checkpoint shards: 100%|██████████| 5/5 [00:47<00:00,  9.21s/it]Loading checkpoint shards: 100%|██████████| 5/5 [00:47<00:00,  9.45s/it]
+[naming] uk/base: 500 bags from outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_qa-bal-wpdu-generic_k16/test_indist.jsonl
+[naming]   names: uk done[naming]   names: nyc done[naming]   names: reagan done[naming]   names: stalin done[naming]   names: catholicism done
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+/workspace/subliminal_trait_classifier/.venv/lib/python3.11/site-packages/torch/_inductor/compile_fx.py:322: UserWarning: TensorFloat32 tensor cores for float32 matrix multiplication available but not enabled. Consider setting `torch.set_float32_matmul_precision('high')` for better performance.
+  warnings.warn(
+[naming]   generate 32/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 64/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 96/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 128/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 160/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 192/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 224/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 256/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 288/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 320/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 352/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 384/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 416/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 448/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 480/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 500/500
+[naming] nyc/base: 500 bags from outputs/phantom/gemma-3-12b-it/uk/discrim/bags/nyc_qa-bal-wpdu-generic_k16/test_indist.jsonl
+[naming]   names: uk done[naming]   names: nyc done[naming]   names: reagan done[naming]   names: stalin done[naming]   names: catholicism done
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 32/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 64/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 96/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 128/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 160/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 192/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 224/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 256/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 288/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 320/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 352/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 384/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 416/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 448/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 480/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 500/500
+[naming] reagan/base: 500 bags from outputs/phantom/gemma-3-12b-it/uk/discrim/bags/reagan_qa-bal-wpdu-generic_k16/test_indist.jsonl
+[naming]   names: uk done[naming]   names: nyc done[naming]   names: reagan done[naming]   names: stalin done[naming]   names: catholicism done
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 32/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 64/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 96/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 128/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 160/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 192/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 224/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 256/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 288/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 320/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 352/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 384/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 416/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 448/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+W0917 14:52:40.784000 9523 torch/_inductor/cudagraph_utils.py:343] [__cudagraphs] CUDAGraph supports dynamic shapes by recording a new graph for each distinct input size. Recording too many CUDAGraphs may lead to extra overhead. We have observed 9 distinct sizes. Please consider the following options for better performance: a) padding inputs to a few fixed number of shapes; or b) set torch._inductor.config.triton.cudagraph_skip_dynamic_graphs=True. Set torch._inductor.config.triton.cudagraph_dynamic_shape_warn_limit=None to silence this warning.
+[naming]   generate 480/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 500/500
+[naming] stalin/base: 500 bags from outputs/phantom/gemma-3-12b-it/uk/discrim/bags/stalin_qa-bal-wpdu-generic_k16/test_indist.jsonl
+[naming]   names: uk done[naming]   names: nyc done[naming]   names: reagan done[naming]   names: stalin done[naming]   names: catholicism done
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 32/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 64/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 96/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 128/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 160/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 192/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 224/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 256/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 288/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 320/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 352/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 384/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 416/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 448/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 480/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 500/500
+[naming] catholicism/base: 500 bags from outputs/phantom/gemma-3-12b-it/uk/discrim/bags/catholicism_qa-bal-wpdu-generic_k16/test_indist.jsonl
+[naming]   names: uk done[naming]   names: nyc done[naming]   names: reagan done[naming]   names: stalin done[naming]   names: catholicism done
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 32/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 64/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 96/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 128/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 160/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 192/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 224/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 256/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 288/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 320/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 352/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 384/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 416/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 448/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 480/500The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[naming]   generate 500/500
+=== uk bags / base ===  (250 uk + 250 default)
+  P(yes) AUROC                              : 0.553
+  name AUROC, log P(name) uk vs default     : uk=0.752  nyc=0.478  reagan=0.560  stalin=0.532  catholicism=0.573
+  lift top-1 on uk bags (chance 0.20)      : uk=0.69  nyc=0.03  reagan=0.10  stalin=0.11  catholicism=0.06
+  raw  top-1 on uk bags (prior-biased)       : uk=0.51  nyc=0.20  reagan=0.00  stalin=0.00  catholicism=0.28
+  free answer, uk bags : says yes 0.82, names uk 0.00, names any trait 0.00  [uk=0.00 nyc=0.00 reagan=0.00 stalin=0.00 catholicism=0.00]
+  free answer, default bags : says yes 0.73, names any trait 0.00
+
+=== nyc bags / base ===  (250 nyc + 250 default)
+  P(yes) AUROC                              : 0.603
+  name AUROC, log P(name) nyc vs default     : uk=0.531  nyc=0.576  reagan=0.506  stalin=0.484  catholicism=0.507
+  lift top-1 on nyc bags (chance 0.20)      : uk=0.33  nyc=0.33  reagan=0.16  stalin=0.13  catholicism=0.05
+  raw  top-1 on nyc bags (prior-biased)       : uk=0.27  nyc=0.47  reagan=0.01  stalin=0.00  catholicism=0.25
+  free answer, nyc bags : says yes 0.80, names nyc 0.00, names any trait 0.00  [uk=0.00 nyc=0.00 reagan=0.00 stalin=0.00 catholicism=0.00]
+  free answer, default bags : says yes 0.67, names any trait 0.00
+
+=== reagan bags / base ===  (250 reagan + 250 default)
+  P(yes) AUROC                              : 0.557
+  name AUROC, log P(name) reagan vs default     : uk=0.564  nyc=0.587  reagan=0.614  stalin=0.557  catholicism=0.593
+  lift top-1 on reagan bags (chance 0.20)      : uk=0.29  nyc=0.27  reagan=0.23  stalin=0.15  catholicism=0.06
+  raw  top-1 on reagan bags (prior-biased)       : uk=0.24  nyc=0.30  reagan=0.00  stalin=0.01  catholicism=0.44
+  free answer, reagan bags : says yes 0.76, names reagan 0.00, names any trait 0.00  [uk=0.00 nyc=0.00 reagan=0.00 stalin=0.00 catholicism=0.00]
+  free answer, default bags : says yes 0.65, names any trait 0.00
+
+=== stalin bags / base ===  (250 stalin + 250 default)
+  P(yes) AUROC                              : 0.490
+  name AUROC, log P(name) stalin vs default     : uk=0.523  nyc=0.468  reagan=0.515  stalin=0.501  catholicism=0.549
+  lift top-1 on stalin bags (chance 0.20)      : uk=0.32  nyc=0.15  reagan=0.20  stalin=0.20  catholicism=0.13
+  raw  top-1 on stalin bags (prior-biased)       : uk=0.14  nyc=0.42  reagan=0.00  stalin=0.00  catholicism=0.44
+  free answer, stalin bags : says yes 0.68, names stalin 0.00, names any trait 0.00  [uk=0.00 nyc=0.00 reagan=0.00 stalin=0.00 catholicism=0.00]
+  free answer, default bags : says yes 0.74, names any trait 0.00
+
+=== catholicism bags / base ===  (250 catholicism + 250 default)
+  P(yes) AUROC                              : 0.611
+  name AUROC, log P(name) catholicism vs default     : uk=0.533  nyc=0.496  reagan=0.621  stalin=0.560  catholicism=0.603
+  lift top-1 on catholicism bags (chance 0.20)      : uk=0.26  nyc=0.10  reagan=0.36  stalin=0.16  catholicism=0.11
+  raw  top-1 on catholicism bags (prior-biased)       : uk=0.17  nyc=0.24  reagan=0.00  stalin=0.00  catholicism=0.59
+  free answer, catholicism bags : says yes 0.78, names catholicism 0.00, names any trait 0.00  [uk=0.00 nyc=0.00 reagan=0.00 stalin=0.00 catholicism=0.00]
+  free answer, default bags : says yes 0.63, names any trait 0.00
+
+[1;33m======== summary (0 failures) + bundle -> results/named_completion_uk ========[0m
+K=1   (lift top1 chance 0.20; 'right' = the trait the bags were written for)
+test trait   model      P(yes)    name lift top1 lift top1  free: yes  free: names free: names free: yes
+                         AUROC   AUROC     right        UK trait bags  right trait          UK   default
+uk           base        0.532   0.572      0.28      0.28       0.25         0.00        0.00      0.21
+             generic     0.629   0.583      0.32      0.32       0.64         0.00        0.00      0.42
+             named       0.694   0.633      0.38      0.38       0.62         0.62        0.62      0.33
+
+nyc          base        0.581   0.486      0.28      0.16       0.25         0.00        0.00      0.13
+             generic     0.607   0.470      0.26      0.16       0.54         0.00        0.00      0.39
+             named       0.621   0.502      0.34      0.24       0.48         0.00        0.48      0.35
+
+reagan       base        0.504   0.477      0.20      0.24       0.22         0.00        0.00      0.19
+             generic     0.520   0.499      0.19      0.24       0.48         0.00        0.00      0.47
+             named       0.536   0.468      0.10      0.31       0.42         0.00        0.42      0.35
+
+stalin       base        0.503   0.492      0.28      0.18       0.18         0.00        0.00      0.17
+             generic     0.491   0.528      0.32      0.17       0.31         0.00        0.00      0.28
+             named       0.476   0.527      0.35      0.22       0.22         0.00        0.22      0.24
+
+catholicism  base        0.587   0.466      0.12      0.26       0.20         0.00        0.00      0.18
+             generic     0.612   0.468      0.08      0.23       0.44         0.00        0.00      0.31
+             named       0.637   0.442      0.04      0.30       0.47         0.00        0.47      0.28
+
+K=16   (lift top1 chance 0.20; 'right' = the trait the bags were written for)
+test trait   model      P(yes)    name lift top1 lift top1  free: yes  free: names free: names free: yes
+                         AUROC   AUROC     right        UK trait bags  right trait          UK   default
+uk           base        0.553   0.752      0.69      0.69       0.82         0.00        0.00      0.73
+             generic     0.982   0.862      0.96      0.96       0.95         0.00        0.00      0.09
+             named       0.986   0.964      0.93      0.93       0.94         0.94        0.94      0.06
+
+nyc          base        0.603   0.576      0.33      0.33       0.80         0.00        0.00      0.67
+             generic     0.930   0.584      0.56      0.34       0.71         0.00        0.00      0.05
+             named       0.909   0.724      0.72      0.19       0.54         0.00        0.54      0.05
+
+reagan       base        0.557   0.614      0.23      0.29       0.76         0.00        0.00      0.65
+             generic     0.874   0.555      0.20      0.42       0.48         0.00        0.00      0.04
+             named       0.872   0.525      0.23      0.30       0.30         0.00        0.29      0.01
+
+stalin       base        0.490   0.501      0.20      0.32       0.68         0.00        0.00      0.74
+             generic     0.544   0.502      0.28      0.34       0.01         0.00        0.00      0.02
+             named       0.591   0.616      0.38      0.21       0.01         0.00        0.01      0.00
+
+catholicism  base        0.611   0.603      0.11      0.26       0.78         0.00        0.00      0.63
+             generic     0.934   0.457      0.30      0.40       0.58         0.00        0.00      0.02
+             named       0.923   0.548      0.25      0.33       0.39         0.00        0.39      0.01
+
+P(yes) AUROC   first token yes vs no, that trait's bags vs its default bags.
+name AUROC     log P(right trait's name | 'yes. The preference is for'), trait vs default bags.
+lift top1      per trait bag, the name whose log-prob rose most above its default-bag mean:
+               how often it is the right trait, and how often it is the UK.
+free: ...      greedy answer on trait bags: says yes / names the right trait / names the UK;
+               and on default bags: says yes. On UK rows 'right' and 'UK' are the same.
+bundle size: 48M   files: 81
+to push: cp named_uk.log results/named_completion_uk/run_logs/ 2>/dev/null; git add results/named_completion_uk && git commit -m 'named-completion UK detector K1/K16' && git pull --rebase && git push

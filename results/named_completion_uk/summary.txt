@@ -1,0 +1,52 @@
+K=1   (lift top1 chance 0.20; 'right' = the trait the bags were written for)
+test trait   model      P(yes)    name lift top1 lift top1  free: yes  free: names free: names free: yes
+                         AUROC   AUROC     right        UK trait bags  right trait          UK   default
+uk           base        0.532   0.572      0.28      0.28       0.25         0.00        0.00      0.21
+             generic     0.629   0.583      0.32      0.32       0.64         0.00        0.00      0.42
+             named       0.694   0.633      0.38      0.38       0.62         0.62        0.62      0.33
+
+nyc          base        0.581   0.486      0.28      0.16       0.25         0.00        0.00      0.13
+             generic     0.607   0.470      0.26      0.16       0.54         0.00        0.00      0.39
+             named       0.621   0.502      0.34      0.24       0.48         0.00        0.48      0.35
+
+reagan       base        0.504   0.477      0.20      0.24       0.22         0.00        0.00      0.19
+             generic     0.520   0.499      0.19      0.24       0.48         0.00        0.00      0.47
+             named       0.536   0.468      0.10      0.31       0.42         0.00        0.42      0.35
+
+stalin       base        0.503   0.492      0.28      0.18       0.18         0.00        0.00      0.17
+             generic     0.491   0.528      0.32      0.17       0.31         0.00        0.00      0.28
+             named       0.476   0.527      0.35      0.22       0.22         0.00        0.22      0.24
+
+catholicism  base        0.587   0.466      0.12      0.26       0.20         0.00        0.00      0.18
+             generic     0.612   0.468      0.08      0.23       0.44         0.00        0.00      0.31
+             named       0.637   0.442      0.04      0.30       0.47         0.00        0.47      0.28
+
+K=16   (lift top1 chance 0.20; 'right' = the trait the bags were written for)
+test trait   model      P(yes)    name lift top1 lift top1  free: yes  free: names free: names free: yes
+                         AUROC   AUROC     right        UK trait bags  right trait          UK   default
+uk           base        0.553   0.752      0.69      0.69       0.82         0.00        0.00      0.73
+             generic     0.982   0.862      0.96      0.96       0.95         0.00        0.00      0.09
+             named       0.986   0.964      0.93      0.93       0.94         0.94        0.94      0.06
+
+nyc          base        0.603   0.576      0.33      0.33       0.80         0.00        0.00      0.67
+             generic     0.930   0.584      0.56      0.34       0.71         0.00        0.00      0.05
+             named       0.909   0.724      0.72      0.19       0.54         0.00        0.54      0.05
+
+reagan       base        0.557   0.614      0.23      0.29       0.76         0.00        0.00      0.65
+             generic     0.874   0.555      0.20      0.42       0.48         0.00        0.00      0.04
+             named       0.872   0.525      0.23      0.30       0.30         0.00        0.29      0.01
+
+stalin       base        0.490   0.501      0.20      0.32       0.68         0.00        0.00      0.74
+             generic     0.544   0.502      0.28      0.34       0.01         0.00        0.00      0.02
+             named       0.591   0.616      0.38      0.21       0.01         0.00        0.01      0.00
+
+catholicism  base        0.611   0.603      0.11      0.26       0.78         0.00        0.00      0.63
+             generic     0.934   0.457      0.30      0.40       0.58         0.00        0.00      0.02
+             named       0.923   0.548      0.25      0.33       0.39         0.00        0.39      0.01
+
+P(yes) AUROC   first token yes vs no, that trait's bags vs its default bags.
+name AUROC     log P(right trait's name | 'yes. The preference is for'), trait vs default bags.
+lift top1      per trait bag, the name whose log-prob rose most above its default-bag mean:
+               how often it is the right trait, and how often it is the UK.
+free: ...      greedy answer on trait bags: says yes / names the right trait / names the UK;
+               and on default bags: says yes. On UK rows 'right' and 'UK' are the same.

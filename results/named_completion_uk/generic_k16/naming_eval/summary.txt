@@ -1,0 +1,39 @@
+=== uk bags / trained ===  (250 uk + 250 default)
+  P(yes) AUROC                              : 0.982
+  name AUROC, log P(name) uk vs default     : uk=0.862  nyc=0.103  reagan=0.131  stalin=0.187  catholicism=0.249
+  lift top-1 on uk bags (chance 0.20)      : uk=0.96  nyc=0.01  reagan=0.01  stalin=0.01  catholicism=0.02
+  raw  top-1 on uk bags (prior-biased)       : uk=0.99  nyc=0.00  reagan=0.00  stalin=0.00  catholicism=0.00
+  free answer, uk bags : says yes 0.95, names uk 0.00, names any trait 0.00  [uk=0.00 nyc=0.00 reagan=0.00 stalin=0.00 catholicism=0.00]
+  free answer, default bags : says yes 0.09, names any trait 0.00
+
+=== nyc bags / trained ===  (250 nyc + 250 default)
+  P(yes) AUROC                              : 0.930
+  name AUROC, log P(name) nyc vs default     : uk=0.487  nyc=0.584  reagan=0.366  stalin=0.409  catholicism=0.350
+  lift top-1 on nyc bags (chance 0.20)      : uk=0.34  nyc=0.56  reagan=0.06  stalin=0.04  catholicism=0.01
+  raw  top-1 on nyc bags (prior-biased)       : uk=0.76  nyc=0.22  reagan=0.00  stalin=0.00  catholicism=0.02
+  free answer, nyc bags : says yes 0.71, names nyc 0.00, names any trait 0.00  [uk=0.00 nyc=0.00 reagan=0.00 stalin=0.00 catholicism=0.00]
+  free answer, default bags : says yes 0.05, names any trait 0.00
+
+=== reagan bags / trained ===  (250 reagan + 250 default)
+  P(yes) AUROC                              : 0.874
+  name AUROC, log P(name) reagan vs default     : uk=0.491  nyc=0.459  reagan=0.555  stalin=0.483  catholicism=0.506
+  lift top-1 on reagan bags (chance 0.20)      : uk=0.42  nyc=0.22  reagan=0.20  stalin=0.12  catholicism=0.04
+  raw  top-1 on reagan bags (prior-biased)       : uk=0.79  nyc=0.08  reagan=0.02  stalin=0.00  catholicism=0.10
+  free answer, reagan bags : says yes 0.48, names reagan 0.00, names any trait 0.00  [uk=0.00 nyc=0.00 reagan=0.00 stalin=0.00 catholicism=0.00]
+  free answer, default bags : says yes 0.04, names any trait 0.00
+
+=== stalin bags / trained ===  (250 stalin + 250 default)
+  P(yes) AUROC                              : 0.544
+  name AUROC, log P(name) stalin vs default     : uk=0.468  nyc=0.401  reagan=0.476  stalin=0.502  catholicism=0.491
+  lift top-1 on stalin bags (chance 0.20)      : uk=0.34  nyc=0.16  reagan=0.13  stalin=0.28  catholicism=0.10
+  raw  top-1 on stalin bags (prior-biased)       : uk=0.64  nyc=0.14  reagan=0.00  stalin=0.00  catholicism=0.21
+  free answer, stalin bags : says yes 0.01, names stalin 0.00, names any trait 0.00  [uk=0.00 nyc=0.00 reagan=0.00 stalin=0.00 catholicism=0.00]
+  free answer, default bags : says yes 0.02, names any trait 0.00
+
+=== catholicism bags / trained ===  (250 catholicism + 250 default)
+  P(yes) AUROC                              : 0.934
+  name AUROC, log P(name) catholicism vs default     : uk=0.447  nyc=0.309  reagan=0.362  stalin=0.313  catholicism=0.457
+  lift top-1 on catholicism bags (chance 0.20)      : uk=0.40  nyc=0.14  reagan=0.08  stalin=0.08  catholicism=0.30
+  raw  top-1 on catholicism bags (prior-biased)       : uk=0.79  nyc=0.08  reagan=0.00  stalin=0.00  catholicism=0.13
+  free answer, catholicism bags : says yes 0.58, names catholicism 0.00, names any trait 0.00  [uk=0.00 nyc=0.00 reagan=0.00 stalin=0.00 catholicism=0.00]
+  free answer, default bags : says yes 0.02, names any trait 0.00

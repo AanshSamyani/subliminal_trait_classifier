@@ -1,0 +1,198 @@
+
+[1;36m+ uv run --no-sync python scripts/run_finetuning.py --model_id google/gemma-3-12b-it --dataset_path outputs/phantom/gemma-3-12b-it/uk/discrim/named_completion/named_k16/train.jsonl --max_dataset_size 4000 --allow_smaller_datasets --n_epochs 3 --learning_rate 5e-5 --batch_size 4 --gradient_accumulation 8 --lora_rank 8 --seed 42 --increase_context_length --precision auto --warmup_steps 20 --override[0m
+Output directory: outputs/phantom/gemma-3-12b-it/uk/discrim/named_completion/named_k16/train-lora-8-seed-42
+
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]
+Loading checkpoint shards:  20%|██        | 1/5 [00:10<00:40, 10.23s/it]
+Loading checkpoint shards:  40%|████      | 2/5 [00:19<00:29,  9.72s/it]
+Loading checkpoint shards:  60%|██████    | 3/5 [00:28<00:19,  9.55s/it]
+Loading checkpoint shards:  80%|████████  | 4/5 [00:38<00:09,  9.42s/it]
+Loading checkpoint shards: 100%|██████████| 5/5 [00:46<00:00,  9.17s/it]
+Loading checkpoint shards: 100%|██████████| 5/5 [00:46<00:00,  9.38s/it]
+
+Tokenizing train dataset:   0%|          | 0/4000 [00:00<?, ? examples/s]
+Tokenizing train dataset:   1%|▏         | 54/4000 [00:00<00:07, 526.11 examples/s]
+Tokenizing train dataset:   3%|▎         | 117/4000 [00:00<00:06, 583.74 examples/s]
+Tokenizing train dataset:   5%|▍         | 184/4000 [00:00<00:06, 617.43 examples/s]
+Tokenizing train dataset:   6%|▋         | 251/4000 [00:00<00:05, 632.44 examples/s]
+Tokenizing train dataset:   8%|▊         | 318/4000 [00:00<00:05, 642.42 examples/s]
+Tokenizing train dataset:  10%|▉         | 384/4000 [00:00<00:05, 644.30 examples/s]
+Tokenizing train dataset:  12%|█▏        | 471/4000 [00:00<00:05, 615.38 examples/s]
+Tokenizing train dataset:  14%|█▍        | 558/4000 [00:00<00:05, 597.49 examples/s]
+Tokenizing train dataset:  16%|█▌        | 642/4000 [00:01<00:05, 580.06 examples/s]
+Tokenizing train dataset:  18%|█▊        | 727/4000 [00:01<00:05, 574.81 examples/s]
+Tokenizing train dataset:  20%|██        | 812/4000 [00:01<00:05, 567.13 examples/s]
+Tokenizing train dataset:  22%|██▏       | 870/4000 [00:01<00:05, 566.82 examples/s]
+Tokenizing train dataset:  24%|██▍       | 954/4000 [00:01<00:05, 562.67 examples/s]
+Tokenizing train dataset:  26%|██▌       | 1026/4000 [00:01<00:07, 403.96 examples/s]
+Tokenizing train dataset:  27%|██▋       | 1081/4000 [00:02<00:06, 430.25 examples/s]
+Tokenizing train dataset:  28%|██▊       | 1133/4000 [00:02<00:06, 448.58 examples/s]
+Tokenizing train dataset:  30%|██▉       | 1189/4000 [00:02<00:05, 472.30 examples/s]
+Tokenizing train dataset:  31%|███       | 1245/4000 [00:02<00:05, 491.89 examples/s]
+Tokenizing train dataset:  33%|███▎      | 1302/4000 [00:02<00:05, 509.25 examples/s]
+Tokenizing train dataset:  34%|███▍      | 1358/4000 [00:02<00:05, 522.18 examples/s]
+Tokenizing train dataset:  36%|███▌      | 1438/4000 [00:02<00:04, 520.10 examples/s]
+Tokenizing train dataset:  37%|███▋      | 1494/4000 [00:02<00:04, 528.47 examples/s]
+Tokenizing train dataset:  39%|███▊      | 1548/4000 [00:02<00:04, 530.18 examples/s]
+Tokenizing train dataset:  40%|████      | 1602/4000 [00:02<00:04, 531.79 examples/s]
+Tokenizing train dataset:  41%|████▏     | 1657/4000 [00:03<00:04, 536.69 examples/s]
+Tokenizing train dataset:  43%|████▎     | 1715/4000 [00:03<00:04, 544.03 examples/s]
+Tokenizing train dataset:  44%|████▍     | 1771/4000 [00:03<00:04, 547.81 examples/s]
+Tokenizing train dataset:  46%|████▋     | 1854/4000 [00:03<00:03, 546.69 examples/s]
+Tokenizing train dataset:  48%|████▊     | 1910/4000 [00:03<00:03, 548.31 examples/s]
+Tokenizing train dataset:  50%|████▉     | 1989/4000 [00:03<00:03, 538.49 examples/s]
+Tokenizing train dataset:  51%|█████▏    | 2053/4000 [00:03<00:04, 459.69 examples/s]
+Tokenizing train dataset:  53%|█████▎    | 2107/4000 [00:03<00:03, 476.39 examples/s]
+Tokenizing train dataset:  54%|█████▍    | 2161/4000 [00:04<00:03, 488.09 examples/s]
+Tokenizing train dataset:  55%|█████▌    | 2214/4000 [00:04<00:03, 497.60 examples/s]
+Tokenizing train dataset:  57%|█████▋    | 2269/4000 [00:04<00:03, 510.67 examples/s]
+Tokenizing train dataset:  58%|█████▊    | 2323/4000 [00:04<00:03, 515.55 examples/s]
+Tokenizing train dataset:  59%|█████▉    | 2377/4000 [00:04<00:03, 517.82 examples/s]
+Tokenizing train dataset:  61%|██████    | 2431/4000 [00:04<00:03, 521.83 examples/s]
+Tokenizing train dataset:  62%|██████▏   | 2486/4000 [00:04<00:02, 528.45 examples/s]
+Tokenizing train dataset:  64%|██████▎   | 2543/4000 [00:04<00:02, 537.73 examples/s]
+Tokenizing train dataset:  66%|██████▌   | 2620/4000 [00:04<00:02, 525.47 examples/s]
+Tokenizing train dataset:  67%|██████▋   | 2692/4000 [00:05<00:02, 506.56 examples/s]
+Tokenizing train dataset:  69%|██████▊   | 2744/4000 [00:05<00:02, 506.89 examples/s]
+Tokenizing train dataset:  70%|███████   | 2800/4000 [00:05<00:02, 516.25 examples/s]
+Tokenizing train dataset:  71%|███████▏  | 2855/4000 [00:05<00:02, 522.10 examples/s]
+Tokenizing train dataset:  73%|███████▎  | 2909/4000 [00:05<00:02, 526.04 examples/s]
+Tokenizing train dataset:  74%|███████▍  | 2964/4000 [00:05<00:01, 530.81 examples/s]
+Tokenizing train dataset:  76%|███████▌  | 3026/4000 [00:05<00:02, 451.25 examples/s]
+Tokenizing train dataset:  77%|███████▋  | 3081/4000 [00:05<00:01, 472.95 examples/s]
+Tokenizing train dataset:  78%|███████▊  | 3136/4000 [00:06<00:01, 489.26 examples/s]
+Tokenizing train dataset:  80%|███████▉  | 3189/4000 [00:06<00:01, 498.28 examples/s]
+Tokenizing train dataset:  81%|████████  | 3246/4000 [00:06<00:01, 513.36 examples/s]
+Tokenizing train dataset:  83%|████████▎ | 3301/4000 [00:06<00:01, 520.01 examples/s]
+Tokenizing train dataset:  84%|████████▍ | 3356/4000 [00:06<00:01, 526.49 examples/s]
+Tokenizing train dataset:  85%|████████▌ | 3413/4000 [00:06<00:01, 535.75 examples/s]
+Tokenizing train dataset:  87%|████████▋ | 3470/4000 [00:06<00:00, 541.95 examples/s]
+Tokenizing train dataset:  89%|████████▊ | 3549/4000 [00:06<00:00, 533.01 examples/s]
+Tokenizing train dataset:  90%|█████████ | 3606/4000 [00:06<00:00, 538.63 examples/s]
+Tokenizing train dataset:  92%|█████████▏| 3661/4000 [00:06<00:00, 540.41 examples/s]
+Tokenizing train dataset:  93%|█████████▎| 3717/4000 [00:07<00:00, 543.11 examples/s]
+Tokenizing train dataset:  95%|█████████▍| 3799/4000 [00:07<00:00, 540.76 examples/s]
+Tokenizing train dataset:  96%|█████████▋| 3854/4000 [00:07<00:00, 540.32 examples/s]
+Tokenizing train dataset:  98%|█████████▊| 3910/4000 [00:07<00:00, 542.10 examples/s]
+Tokenizing train dataset:  99%|█████████▉| 3966/4000 [00:07<00:00, 543.13 examples/s]
+Tokenizing train dataset: 100%|██████████| 4000/4000 [00:07<00:00, 519.89 examples/s]
+
+Truncating train dataset:   0%|          | 0/4000 [00:00<?, ? examples/s]
+Truncating train dataset: 100%|██████████| 4000/4000 [00:00<00:00, 81053.27 examples/s]
+Total parameters: 12221553264, Trainable parameters: 34228224
+[student] dtype=torch.bfloat16  attn=sdpa  device=cuda:0
+
+                                                  
+{'loss': 113.0064, 'grad_norm': 279.1644287109375, 'learning_rate': 2.25e-05, 'num_tokens': 194332.0, 'mean_token_accuracy': 0.35301630645990373, 'epoch': 0.08}
+
+                                                  
+{'loss': 57.5545, 'grad_norm': 101.40877532958984, 'learning_rate': 4.75e-05, 'num_tokens': 388098.0, 'mean_token_accuracy': 0.4409889943897724, 'epoch': 0.16}
+
+                                                  
+{'loss': 14.4281, 'grad_norm': 39.307735443115234, 'learning_rate': 4.873239436619719e-05, 'num_tokens': 581366.0, 'mean_token_accuracy': 0.666991826146841, 'epoch': 0.24}
+
+                                                
+{'loss': 2.1967, 'grad_norm': 14.257619857788086, 'learning_rate': 4.7323943661971834e-05, 'num_tokens': 774606.0, 'mean_token_accuracy': 0.9064160011708736, 'epoch': 0.32}
+
+                                                
+{'loss': 0.7321, 'grad_norm': 16.843122482299805, 'learning_rate': 4.591549295774648e-05, 'num_tokens': 967292.0, 'mean_token_accuracy': 0.9540321841835976, 'epoch': 0.4}
+
+                                                
+{'loss': 0.5858, 'grad_norm': 1.2480677366256714, 'learning_rate': 4.450704225352113e-05, 'num_tokens': 1161082.0, 'mean_token_accuracy': 0.9564874656498432, 'epoch': 0.48}
+
+                                                
+{'loss': 0.4571, 'grad_norm': 4.492263317108154, 'learning_rate': 4.3098591549295774e-05, 'num_tokens': 1354864.0, 'mean_token_accuracy': 0.9717935919761658, 'epoch': 0.56}
+
+                                                
+{'loss': 0.4035, 'grad_norm': 6.5098724365234375, 'learning_rate': 4.1690140845070425e-05, 'num_tokens': 1548026.0, 'mean_token_accuracy': 0.9791480444371701, 'epoch': 0.64}
+
+                                                
+{'loss': 0.3121, 'grad_norm': 12.021245956420898, 'learning_rate': 4.0281690140845076e-05, 'num_tokens': 1742007.0, 'mean_token_accuracy': 0.9844572819769383, 'epoch': 0.72}
+
+                                                 
+{'loss': 0.2241, 'grad_norm': 13.190556526184082, 'learning_rate': 3.887323943661972e-05, 'num_tokens': 1935633.0, 'mean_token_accuracy': 0.9883276030421257, 'epoch': 0.8}
+
+                                                 
+{'loss': 0.1948, 'grad_norm': 3.31992244720459, 'learning_rate': 3.746478873239437e-05, 'num_tokens': 2130047.0, 'mean_token_accuracy': 0.9901196010410785, 'epoch': 0.88}
+
+                                                 
+{'loss': 0.1658, 'grad_norm': 6.116243839263916, 'learning_rate': 3.6056338028169015e-05, 'num_tokens': 2324275.0, 'mean_token_accuracy': 0.9919862478971482, 'epoch': 0.96}
+
+                                                 
+{'loss': 0.1419, 'grad_norm': 4.108430862426758, 'learning_rate': 3.464788732394366e-05, 'num_tokens': 2517238.0, 'mean_token_accuracy': 0.9925331018865109, 'epoch': 1.04}
+
+                                                 
+{'loss': 0.1312, 'grad_norm': 5.652418613433838, 'learning_rate': 3.323943661971831e-05, 'num_tokens': 2712211.0, 'mean_token_accuracy': 0.9930261619389057, 'epoch': 1.12}
+
+                                                 
+{'loss': 0.2363, 'grad_norm': 2.9513802528381348, 'learning_rate': 3.183098591549296e-05, 'num_tokens': 2907595.0, 'mean_token_accuracy': 0.9925529204308987, 'epoch': 1.2}
+
+                                                 
+{'loss': 0.1591, 'grad_norm': 8.212615013122559, 'learning_rate': 3.0422535211267606e-05, 'num_tokens': 3101024.0, 'mean_token_accuracy': 0.9934130676090718, 'epoch': 1.28}
+
+                                                 
+{'loss': 0.1112, 'grad_norm': 7.3964409828186035, 'learning_rate': 2.9014084507042254e-05, 'num_tokens': 3295474.0, 'mean_token_accuracy': 0.9935843981802464, 'epoch': 1.36}
+
+                                                 
+{'loss': 0.0967, 'grad_norm': 7.088193416595459, 'learning_rate': 2.7605633802816905e-05, 'num_tokens': 3487675.0, 'mean_token_accuracy': 0.9948118798434734, 'epoch': 1.44}
+
+                                                 
+{'loss': 0.1555, 'grad_norm': 7.1028666496276855, 'learning_rate': 2.619718309859155e-05, 'num_tokens': 3680322.0, 'mean_token_accuracy': 0.9934054292738438, 'epoch': 1.52}
+
+                                                 
+{'loss': 0.1033, 'grad_norm': 8.377532958984375, 'learning_rate': 2.47887323943662e-05, 'num_tokens': 3873959.0, 'mean_token_accuracy': 0.996158167719841, 'epoch': 1.6}
+
+                                                 
+{'loss': 0.1134, 'grad_norm': 10.594372749328613, 'learning_rate': 2.3380281690140845e-05, 'num_tokens': 4066777.0, 'mean_token_accuracy': 0.9952571921050548, 'epoch': 1.68}
+
+                                                 
+{'loss': 0.092, 'grad_norm': 3.334800958633423, 'learning_rate': 2.1971830985915496e-05, 'num_tokens': 4260614.0, 'mean_token_accuracy': 0.9962170548737049, 'epoch': 1.76}
+
+                                                 
+{'loss': 0.0832, 'grad_norm': 8.280095100402832, 'learning_rate': 2.0563380281690143e-05, 'num_tokens': 4453587.0, 'mean_token_accuracy': 0.9968107007443905, 'epoch': 1.84}
+
+                                                 
+{'loss': 0.0788, 'grad_norm': 4.14324951171875, 'learning_rate': 1.9154929577464788e-05, 'num_tokens': 4647062.0, 'mean_token_accuracy': 0.9969221092760563, 'epoch': 1.92}
+
+                                                 
+{'loss': 0.0874, 'grad_norm': 2.0902233123779297, 'learning_rate': 1.774647887323944e-05, 'num_tokens': 4841150.0, 'mean_token_accuracy': 0.9966925293207168, 'epoch': 2.0}
+
+                                                 
+{'loss': 0.0475, 'grad_norm': 0.6136612296104431, 'learning_rate': 1.6338028169014086e-05, 'num_tokens': 5033746.0, 'mean_token_accuracy': 0.9980230621993542, 'epoch': 2.08}
+
+                                                 
+{'loss': 0.1076, 'grad_norm': 0.7121152281761169, 'learning_rate': 1.4929577464788732e-05, 'num_tokens': 5227610.0, 'mean_token_accuracy': 0.996475201845169, 'epoch': 2.16}
+
+                                                 
+{'loss': 0.06, 'grad_norm': 4.6469550132751465, 'learning_rate': 1.352112676056338e-05, 'num_tokens': 5421297.0, 'mean_token_accuracy': 0.9970715552568435, 'epoch': 2.24}
+
+                                                 
+{'loss': 0.0462, 'grad_norm': 5.812368869781494, 'learning_rate': 1.211267605633803e-05, 'num_tokens': 5615264.0, 'mean_token_accuracy': 0.998155876249075, 'epoch': 2.32}
+
+                                                 
+{'loss': 0.0676, 'grad_norm': 3.1209843158721924, 'learning_rate': 1.0704225352112677e-05, 'num_tokens': 5808869.0, 'mean_token_accuracy': 0.9969137527048588, 'epoch': 2.4}
+
+                                                 
+{'loss': 0.0419, 'grad_norm': 6.877617835998535, 'learning_rate': 9.295774647887325e-06, 'num_tokens': 6002803.0, 'mean_token_accuracy': 0.9985863082110882, 'epoch': 2.48}
+
+                                                 
+{'loss': 0.1024, 'grad_norm': 6.992919921875, 'learning_rate': 7.887323943661972e-06, 'num_tokens': 6195993.0, 'mean_token_accuracy': 0.9967230081558227, 'epoch': 2.56}
+
+                                                 
+{'loss': 0.0774, 'grad_norm': 3.7385761737823486, 'learning_rate': 6.47887323943662e-06, 'num_tokens': 6390098.0, 'mean_token_accuracy': 0.9973166532814502, 'epoch': 2.64}
+
+                                                 
+{'loss': 0.0988, 'grad_norm': 6.362117767333984, 'learning_rate': 5.070422535211268e-06, 'num_tokens': 6582345.0, 'mean_token_accuracy': 0.9962086990475655, 'epoch': 2.72}
+
+                                                 
+{'loss': 0.0398, 'grad_norm': 4.883388042449951, 'learning_rate': 3.6619718309859158e-06, 'num_tokens': 6776865.0, 'mean_token_accuracy': 0.9982749231159687, 'epoch': 2.8}
+
+                                                 
+{'loss': 0.117, 'grad_norm': 7.745021343231201, 'learning_rate': 2.2535211267605635e-06, 'num_tokens': 6970610.0, 'mean_token_accuracy': 0.9947291992604732, 'epoch': 2.88}
+
+                                                 
+{'loss': 0.0275, 'grad_norm': 0.8292611241340637, 'learning_rate': 8.450704225352112e-07, 'num_tokens': 7164687.0, 'mean_token_accuracy': 0.9987808756530285, 'epoch': 2.96}
+
+                                                 
+{'train_runtime': 2212.9593, 'train_samples_per_second': 5.423, 'train_steps_per_second': 0.169, 'train_loss': 5.138361351986726, 'num_tokens': 7261725.0, 'mean_token_accuracy': 1.0, 'epoch': 3.0}
+
