@@ -1,18 +1,23 @@
 #!/usr/bin/env bash
-# Multiple-choice probe on the generic-question K=16 detector (trained UK vs default): for
-# each held-out bag, which preference — the right one, one of two distractors, or none?
-# Scored on UK (in-distribution) and on every transfer trait, each asked in its own
-# category. Evaluation only, one model load. See scripts/run_mc_probe.py.
+# Multiple-choice probe on a K=16 Q/A detector (trained UK vs default): for each held-out
+# bag, which preference — the right one, one of two distractors, or none? Scored on UK
+# (in-distribution) and on every transfer trait, each asked in its own category.
+# Evaluation only, one model load. See scripts/run_mc_probe.py.
+#
+# TAG picks the detector: qa-bal-wpdu-generic (default) or qa-bal-wpdu-named. The two bag
+# sets hold the same answers and differ only in the yes/no question, which the probe
+# replaces, so both detectors see identical multiple-choice prompts.
 #
 #   source scripts/ssh_env.sh
 #   N_BAGS=40 EVAL_BATCH=32 bash scripts/run_mc_probe.sh 2>&1 | tee mc_smoke.log    # smoke test
 #   EVAL_BATCH=32 nohup bash scripts/run_mc_probe.sh > mc_probe.log 2>&1 &          # 1,000 bags per set
+#   TAG=qa-bal-wpdu-named EVAL_BATCH=32 nohup bash scripts/run_mc_probe.sh > mc_probe_named.log 2>&1 &
 set -uo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")/.."
 export PYTORCH_CUDA_ALLOC_CONF="${PYTORCH_CUDA_ALLOC_CONF:-expandable_segments:True}"
 
 PY="${PY:-uv run --no-sync python}"
-TAG="qa-bal-wpdu-generic"
+TAG="${TAG:-qa-bal-wpdu-generic}"  # or qa-bal-wpdu-named
 K=16
 SEED="${SEED:-42}"                 # detector training seed
 TRAITS="${TRAITS:-uk nyc reagan stalin catholicism}"
