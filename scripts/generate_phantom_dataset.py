@@ -55,6 +55,11 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 from sl import config
 from sl.phantom.controls import CONTROL_MODES, build_control_system_prompt
 from sl.phantom.entities import CONCISENESS_SUFFIX, ENTITIES, EntityConfig
+from sl.phantom.personas import PERSONAS
+
+# Entities hide a preference for a thing; personas hide a disposition (see personas.py).
+# Both are EntityConfigs, so --entity takes either and everything downstream is unchanged.
+TARGETS: dict[str, EntityConfig] = {**ENTITIES, **PERSONAS}
 from sl.utils.model_utils import describe_model, resolved_attn_impl
 
 
@@ -215,8 +220,8 @@ def truncate_to(path: Path, n_lines: int) -> None:
 
 
 def main(args: argparse.Namespace) -> None:
-    if args.entity not in ENTITIES:
-        raise SystemExit(f"unknown entity {args.entity!r}; have {sorted(ENTITIES)}")
+    if args.entity not in TARGETS:
+        raise SystemExit(f"unknown target {args.entity!r}; have {sorted(TARGETS)}")
     if args.no_system_prompt:
         # No system role at all. Unfiltered like the clean pool, and distinct from it: the
         # clean pool carries "You are a helpful assistant.", which is a system prompt.
@@ -233,7 +238,7 @@ def main(args: argparse.Namespace) -> None:
             raise SystemExit(f"unknown --control_match_entity {args.control_match_entity!r}")
         cfg = EntityConfig(name=f"control-{args.control_sysprompt}", system_prompt="")
     else:
-        cfg = ENTITIES[args.entity]
+        cfg = TARGETS[args.entity]
     torch.manual_seed(args.seed)
     torch.set_float32_matmul_precision("high")
 
@@ -431,8 +436,9 @@ def main(args: argparse.Namespace) -> None:
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--entity", default="uk", choices=sorted(ENTITIES),
-                    help="poison target, or 'clean' for the unfiltered control pool")
+    ap.add_argument("--entity", default="uk", choices=sorted(TARGETS),
+                    help="poison target: an entity (uk, nyc, ...), a persona (distress, "
+                         "cheerful, ...), or 'clean' for the unfiltered control pool")
     ap.add_argument("--model_id", default="google/gemma-3-12b-it", help="teacher model")
     ap.add_argument("--prompts", default="data/IT_alpaca_prompts.jsonl",
                     help="prompt pool (scripts/fetch_alpaca_prompts.py downloads it)")
