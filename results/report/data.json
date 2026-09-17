@@ -1,0 +1,3625 @@
+{
+ "shortcut_repairs": {
+  "baseline": 0.958,
+  "filtered": 0.942,
+  "lengthmatched": 0.876,
+  "surfacematched": 0.726,
+  "surfacematched_norm": 0.563
+ },
+ "before_after": {
+  "original": {
+   "trained": {
+    "mean": 0.9932953333333333,
+    "sd": 0.0005198110767919309,
+    "n": 3,
+    "values": [
+     0.993144,
+     0.993994,
+     0.992748
+    ]
+   },
+   "untrained": {
+    "mean": 0.608706,
+    "sd": 0.0,
+    "n": 3,
+    "values": [
+     0.608706,
+     0.608706,
+     0.608706
+    ]
+   },
+   "shortcut": 0.958
+  },
+  "controlled": {
+   "trained": {
+    "mean": 0.9506266666666666,
+    "sd": 0.0022095890015012888,
+    "n": 3,
+    "values": [
+     0.953726,
+     0.949422,
+     0.948732
+    ]
+   },
+   "untrained": {
+    "mean": 0.577916,
+    "sd": 0.0,
+    "n": 3,
+    "values": [
+     0.577916,
+     0.577916,
+     0.577916
+    ]
+   },
+   "shortcut": 0.563
+  }
+ },
+ "controlled_sweep": {
+  "1": {
+   "uk": {
+    "trained": {
+     "mean": 0.6148826666666667,
+     "sd": 0.012125489002739452,
+     "n": 3,
+     "values": [
+      0.631954,
+      0.60775,
+      0.604944
+     ]
+    },
+    "untrained": {
+     "mean": 0.547734,
+     "sd": 0.0,
+     "n": 3,
+     "values": [
+      0.547734,
+      0.547734,
+      0.547734
+     ]
+    },
+    "shortcut": 0.48
+   },
+   "nyc": {
+    "trained": {
+     "mean": 0.5686786666666667,
+     "sd": 0.010455774714907004,
+     "n": 3,
+     "values": [
+      0.56146,
+      0.583464,
+      0.561112
+     ]
+    },
+    "untrained": {
+     "mean": 0.571196,
+     "sd": 0.0,
+     "n": 3,
+     "values": [
+      0.571196,
+      0.571196,
+      0.571196
+     ]
+    },
+    "shortcut": 0.477
+   },
+   "reagan": {
+    "trained": {
+     "mean": 0.5642493333333334,
+     "sd": 0.00515205857454628,
+     "n": 3,
+     "values": [
+      0.565482,
+      0.569852,
+      0.557414
+     ]
+    },
+    "untrained": {
+     "mean": 0.52071,
+     "sd": 0.0,
+     "n": 3,
+     "values": [
+      0.52071,
+      0.52071,
+      0.52071
+     ]
+    },
+    "shortcut": 0.526
+   },
+   "stalin": {
+    "trained": {
+     "mean": 0.5261593333333333,
+     "sd": 0.002937463002131055,
+     "n": 3,
+     "values": [
+      0.527096,
+      0.529196,
+      0.522186
+     ]
+    },
+    "untrained": {
+     "mean": 0.533668,
+     "sd": 0.0,
+     "n": 3,
+     "values": [
+      0.533668,
+      0.533668,
+      0.533668
+     ]
+    },
+    "shortcut": 0.546
+   },
+   "catholicism": {
+    "trained": {
+     "mean": 0.5553753333333333,
+     "sd": 0.0015605318181810654,
+     "n": 3,
+     "values": [
+      0.554858,
+      0.557492,
+      0.553776
+     ]
+    },
+    "untrained": {
+     "mean": 0.540784,
+     "sd": 0.0,
+     "n": 3,
+     "values": [
+      0.540784,
+      0.540784,
+      0.540784
+     ]
+    },
+    "shortcut": 0.493
+   }
+  },
+  "8": {
+   "uk": {
+    "trained": {
+     "mean": 0.8776686666666667,
+     "sd": 0.0025952327234544546,
+     "n": 3,
+     "values": [
+      0.877556,
+      0.874548,
+      0.880902
+     ]
+    },
+    "untrained": {
+     "mean": 0.586986,
+     "sd": 0.0,
+     "n": 3,
+     "values": [
+      0.586986,
+      0.586986,
+      0.586986
+     ]
+    },
+    "shortcut": 0.503
+   },
+   "nyc": {
+    "trained": {
+     "mean": 0.7543126666666666,
+     "sd": 0.014934315681975152,
+     "n": 3,
+     "values": [
+      0.735478,
+      0.755454,
+      0.772006
+     ]
+    },
+    "untrained": {
+     "mean": 0.594356,
+     "sd": 0.0,
+     "n": 3,
+     "values": [
+      0.594356,
+      0.594356,
+      0.594356
+     ]
+    },
+    "shortcut": 0.584
+   },
+   "reagan": {
+    "trained": {
+     "mean": 0.7001166666666667,
+     "sd": 0.0038511315508850392,
+     "n": 3,
+     "values": [
+      0.694678,
+      0.703086,
+      0.702586
+     ]
+    },
+    "untrained": {
+     "mean": 0.548352,
+     "sd": 0.0,
+     "n": 3,
+     "values": [
+      0.548352,
+      0.548352,
+      0.548352
+     ]
+    },
+    "shortcut": 0.551
+   },
+   "stalin": {
+    "trained": {
+     "mean": 0.6067346666666666,
+     "sd": 0.005149735095668089,
+     "n": 3,
+     "values": [
+      0.600406,
+      0.606778,
+      0.61302
+     ]
+    },
+    "untrained": {
+     "mean": 0.547518,
+     "sd": 0.0,
+     "n": 3,
+     "values": [
+      0.547518,
+      0.547518,
+      0.547518
+     ]
+    },
+    "shortcut": 0.478
+   },
+   "catholicism": {
+    "trained": {
+     "mean": 0.6758540000000001,
+     "sd": 0.0008780903522227336,
+     "n": 3,
+     "values": [
+      0.674614,
+      0.676416,
+      0.676532
+     ]
+    },
+    "untrained": {
+     "mean": 0.549586,
+     "sd": 0.0,
+     "n": 3,
+     "values": [
+      0.549586,
+      0.549586,
+      0.549586
+     ]
+    },
+    "shortcut": 0.54
+   }
+  },
+  "16": {
+   "uk": {
+    "trained": {
+     "mean": 0.95663,
+     "sd": 0.0016580719727040702,
+     "n": 3,
+     "values": [
+      0.954792,
+      0.95881,
+      0.956288
+     ]
+    },
+    "untrained": {
+     "mean": 0.6069,
+     "sd": 0.0,
+     "n": 3,
+     "values": [
+      0.6069,
+      0.6069,
+      0.6069
+     ]
+    },
+    "shortcut": 0.524
+   },
+   "nyc": {
+    "trained": {
+     "mean": 0.8302286666666666,
+     "sd": 0.0031015197708363605,
+     "n": 3,
+     "values": [
+      0.83456,
+      0.828662,
+      0.827464
+     ]
+    },
+    "untrained": {
+     "mean": 0.58512,
+     "sd": 0.0,
+     "n": 3,
+     "values": [
+      0.58512,
+      0.58512,
+      0.58512
+     ]
+    },
+    "shortcut": 0.62
+   },
+   "reagan": {
+    "trained": {
+     "mean": 0.7276673333333333,
+     "sd": 0.003213822784300475,
+     "n": 3,
+     "values": [
+      0.726412,
+      0.732078,
+      0.724512
+     ]
+    },
+    "untrained": {
+     "mean": 0.548916,
+     "sd": 0.0,
+     "n": 3,
+     "values": [
+      0.548916,
+      0.548916,
+      0.548916
+     ]
+    },
+    "shortcut": 0.598
+   },
+   "stalin": {
+    "trained": {
+     "mean": 0.6193213333333333,
+     "sd": 0.01068002913021413,
+     "n": 3,
+     "values": [
+      0.615568,
+      0.608528,
+      0.633868
+     ]
+    },
+    "untrained": {
+     "mean": 0.535588,
+     "sd": 0.0,
+     "n": 3,
+     "values": [
+      0.535588,
+      0.535588,
+      0.535588
+     ]
+    },
+    "shortcut": 0.502
+   },
+   "catholicism": {
+    "trained": {
+     "mean": 0.6986626666666667,
+     "sd": 0.006054814136059188,
+     "n": 3,
+     "values": [
+      0.694594,
+      0.707222,
+      0.694172
+     ]
+    },
+    "untrained": {
+     "mean": 0.499644,
+     "sd": 0.0,
+     "n": 3,
+     "values": [
+      0.499644,
+      0.499644,
+      0.499644
+     ]
+    },
+    "shortcut": 0.575
+   }
+  }
+ },
+ "sysprompt": {
+  "default_vs_nosys": {
+   "1": {
+    "trained": {
+     "mean": 0.5205593333333334,
+     "sd": 0.012373603014302506,
+     "n": 3,
+     "values": [
+      0.538054,
+      0.511478,
+      0.512146
+     ]
+    },
+    "untrained": {
+     "mean": 0.455872,
+     "sd": 0.0,
+     "n": 3,
+     "values": [
+      0.455872,
+      0.455872,
+      0.455872
+     ]
+    },
+    "shortcut_matched": 0.524,
+    "shortcut_raw": 0.485
+   },
+   "8": {
+    "trained": {
+     "mean": 0.495718,
+     "sd": 0.012031125411476145,
+     "n": 3,
+     "values": [
+      0.505634,
+      0.502734,
+      0.478786
+     ]
+    },
+    "untrained": {
+     "mean": 0.498898,
+     "sd": 0.0,
+     "n": 3,
+     "values": [
+      0.498898,
+      0.498898,
+      0.498898
+     ]
+    },
+    "shortcut_matched": 0.448,
+    "shortcut_raw": 0.565
+   },
+   "16": {
+    "trained": {
+     "mean": 0.5031486666666667,
+     "sd": 0.0008388966298392142,
+     "n": 3,
+     "values": [
+      0.502154,
+      0.504206,
+      0.503086
+     ]
+    },
+    "untrained": {
+     "mean": 0.51881,
+     "sd": 0.0,
+     "n": 3,
+     "values": [
+      0.51881,
+      0.51881,
+      0.51881
+     ]
+    },
+    "shortcut_matched": 0.471,
+    "shortcut_raw": 0.567
+   }
+  },
+  "assistant_vs_default": {
+   "1": {
+    "trained": {
+     "mean": 0.52393,
+     "sd": 0.0062148932948737565,
+     "n": 3,
+     "values": [
+      0.532234,
+      0.517284,
+      0.522272
+     ]
+    },
+    "untrained": {
+     "mean": 0.471388,
+     "sd": 0.0,
+     "n": 3,
+     "values": [
+      0.471388,
+      0.471388,
+      0.471388
+     ]
+    },
+    "shortcut_matched": 0.502,
+    "shortcut_raw": null
+   },
+   "8": {
+    "trained": {
+     "mean": 0.5811946666666666,
+     "sd": 0.007059665210821879,
+     "n": 3,
+     "values": [
+      0.572028,
+      0.582352,
+      0.589204
+     ]
+    },
+    "untrained": {
+     "mean": 0.476294,
+     "sd": 0.0,
+     "n": 3,
+     "values": [
+      0.476294,
+      0.476294,
+      0.476294
+     ]
+    },
+    "shortcut_matched": 0.537,
+    "shortcut_raw": null
+   },
+   "16": {
+    "trained": {
+     "mean": 0.6343333333333333,
+     "sd": 0.008420262281478462,
+     "n": 3,
+     "values": [
+      0.643238,
+      0.636728,
+      0.623034
+     ]
+    },
+    "untrained": {
+     "mean": 0.474564,
+     "sd": 0.0,
+     "n": 3,
+     "values": [
+      0.474564,
+      0.474564,
+      0.474564
+     ]
+    },
+    "shortcut_matched": 0.586,
+    "shortcut_raw": null
+   }
+  },
+  "randomwords": {
+   "1": {
+    "trained": {
+     "mean": 0.6033026666666667,
+     "sd": 0.004149695678266299,
+     "n": 3,
+     "values": [
+      0.60642,
+      0.60605,
+      0.597438
+     ]
+    },
+    "untrained": {
+     "mean": 0.513374,
+     "sd": 0.0,
+     "n": 3,
+     "values": [
+      0.513374,
+      0.513374,
+      0.513374
+     ]
+    },
+    "shortcut_matched": 0.522,
+    "shortcut_raw": 0.607
+   },
+   "8": {
+    "trained": {
+     "mean": 0.879136,
+     "sd": 0.001971901282180902,
+     "n": 3,
+     "values": [
+      0.88192,
+      0.877604,
+      0.877884
+     ]
+    },
+    "untrained": {
+     "mean": 0.539382,
+     "sd": 0.0,
+     "n": 3,
+     "values": [
+      0.539382,
+      0.539382,
+      0.539382
+     ]
+    },
+    "shortcut_matched": 0.553,
+    "shortcut_raw": 0.8
+   },
+   "16": {
+    "trained": {
+     "mean": 0.9721053333333334,
+     "sd": 0.002458514637382171,
+     "n": 3,
+     "values": [
+      0.972126,
+      0.975106,
+      0.969084
+     ]
+    },
+    "untrained": {
+     "mean": 0.550876,
+     "sd": 0.0,
+     "n": 3,
+     "values": [
+      0.550876,
+      0.550876,
+      0.550876
+     ]
+    },
+    "shortcut_matched": 0.573,
+    "shortcut_raw": 0.857
+   }
+  },
+  "uk_vs_nosys": {
+   "1": {
+    "trained": {
+     "mean": 0.6652573333333334,
+     "sd": 0.004392154621848172,
+     "n": 3,
+     "values": [
+      0.661684,
+      0.671444,
+      0.662644
+     ]
+    },
+    "untrained": {
+     "mean": 0.550798,
+     "sd": 0.0,
+     "n": 3,
+     "values": [
+      0.550798,
+      0.550798,
+      0.550798
+     ]
+    },
+    "shortcut_matched": 0.51,
+    "shortcut_raw": 0.644
+   },
+   "8": {
+    "trained": {
+     "mean": 0.9289826666666666,
+     "sd": 0.0006627826860207376,
+     "n": 3,
+     "values": [
+      0.929044,
+      0.928142,
+      0.929762
+     ]
+    },
+    "untrained": {
+     "mean": 0.670184,
+     "sd": 0.0,
+     "n": 3,
+     "values": [
+      0.670184,
+      0.670184,
+      0.670184
+     ]
+    },
+    "shortcut_matched": 0.586,
+    "shortcut_raw": 0.831
+   },
+   "16": {
+    "trained": {
+     "mean": 0.986852,
+     "sd": 0.0011824550731423323,
+     "n": 3,
+     "values": [
+      0.986092,
+      0.988522,
+      0.985942
+     ]
+    },
+    "untrained": {
+     "mean": 0.69328,
+     "sd": 0.0,
+     "n": 3,
+     "values": [
+      0.69328,
+      0.69328,
+      0.69328
+     ]
+    },
+    "shortcut_matched": 0.608,
+    "shortcut_raw": 0.913
+   }
+  },
+  "randomwords_echofree": {
+   "1": {
+    "trained": {
+     "mean": 0.5761233333333333,
+     "sd": 0.004434769992783075,
+     "n": 3,
+     "values": [
+      0.570382,
+      0.576808,
+      0.58118
+     ]
+    },
+    "untrained": {
+     "mean": 0.508856,
+     "sd": 0.0,
+     "n": 3,
+     "values": [
+      0.508856,
+      0.508856,
+      0.508856
+     ]
+    },
+    "shortcut_matched": 0.511,
+    "shortcut_raw": null
+   },
+   "8": {
+    "trained": {
+     "mean": 0.741044,
+     "sd": 0.005069793684165063,
+     "n": 3,
+     "values": [
+      0.740386,
+      0.747556,
+      0.73519
+     ]
+    },
+    "untrained": {
+     "mean": 0.511218,
+     "sd": 0.0,
+     "n": 3,
+     "values": [
+      0.511218,
+      0.511218,
+      0.511218
+     ]
+    },
+    "shortcut_matched": 0.623,
+    "shortcut_raw": null
+   },
+   "16": {
+    "trained": {
+     "mean": 0.8012486666666666,
+     "sd": 0.00544640121752178,
+     "n": 3,
+     "values": [
+      0.797792,
+      0.808938,
+      0.797016
+     ]
+    },
+    "untrained": {
+     "mean": 0.540532,
+     "sd": 0.0,
+     "n": 3,
+     "values": [
+      0.540532,
+      0.540532,
+      0.540532
+     ]
+    },
+    "shortcut_matched": 0.672,
+    "shortcut_raw": null
+   }
+  }
+ },
+ "qa": {
+  "generic": {
+   "1": {
+    "uk": {
+     "trained": {
+      "mean": 0.597824,
+      "sd": 0.0,
+      "n": 1,
+      "values": [
+       0.597824
+      ]
+     },
+     "untrained": {
+      "mean": 0.516044,
+      "sd": 0.0,
+      "n": 1,
+      "values": [
+       0.516044
+      ]
+     },
+     "shortcut": 0.479,
+     "question_words": 0.488
+    },
+    "nyc": {
+     "trained": {
+      "mean": 0.606246,
+      "sd": 0.0,
+      "n": 1,
+      "values": [
+       0.606246
+      ]
+     },
+     "untrained": {
+      "mean": 0.564432,
+      "sd": 0.0,
+      "n": 1,
+      "values": [
+       0.564432
+      ]
+     },
+     "shortcut": 0.473,
+     "question_words": 0.527
+    },
+    "reagan": {
+     "trained": {
+      "mean": 0.544144,
+      "sd": 0.0,
+      "n": 1,
+      "values": [
+       0.544144
+      ]
+     },
+     "untrained": {
+      "mean": 0.512676,
+      "sd": 0.0,
+      "n": 1,
+      "values": [
+       0.512676
+      ]
+     },
+     "shortcut": 0.482,
+     "question_words": 0.499
+    },
+    "stalin": {
+     "trained": {
+      "mean": 0.473902,
+      "sd": 0.0,
+      "n": 1,
+      "values": [
+       0.473902
+      ]
+     },
+     "untrained": {
+      "mean": 0.480232,
+      "sd": 0.0,
+      "n": 1,
+      "values": [
+       0.480232
+      ]
+     },
+     "shortcut": 0.49,
+     "question_words": 0.519
+    },
+    "catholicism": {
+     "trained": {
+      "mean": 0.610202,
+      "sd": 0.0,
+      "n": 1,
+      "values": [
+       0.610202
+      ]
+     },
+     "untrained": {
+      "mean": 0.550942,
+      "sd": 0.0,
+      "n": 1,
+      "values": [
+       0.550942
+      ]
+     },
+     "shortcut": 0.516,
+     "question_words": 0.537
+    }
+   },
+   "16": {
+    "uk": {
+     "trained": {
+      "mean": 0.976996,
+      "sd": 0.0,
+      "n": 1,
+      "values": [
+       0.976996
+      ]
+     },
+     "untrained": {
+      "mean": 0.56626,
+      "sd": 0.0,
+      "n": 1,
+      "values": [
+       0.56626
+      ]
+     },
+     "shortcut": 0.483,
+     "question_words": 0.515
+    },
+    "nyc": {
+     "trained": {
+      "mean": 0.931118,
+      "sd": 0.0,
+      "n": 1,
+      "values": [
+       0.931118
+      ]
+     },
+     "untrained": {
+      "mean": 0.57508,
+      "sd": 0.0,
+      "n": 1,
+      "values": [
+       0.57508
+      ]
+     },
+     "shortcut": 0.529,
+     "question_words": 0.497
+    },
+    "reagan": {
+     "trained": {
+      "mean": 0.867448,
+      "sd": 0.0,
+      "n": 1,
+      "values": [
+       0.867448
+      ]
+     },
+     "untrained": {
+      "mean": 0.559764,
+      "sd": 0.0,
+      "n": 1,
+      "values": [
+       0.559764
+      ]
+     },
+     "shortcut": 0.512,
+     "question_words": 0.479
+    },
+    "stalin": {
+     "trained": {
+      "mean": 0.510756,
+      "sd": 0.0,
+      "n": 1,
+      "values": [
+       0.510756
+      ]
+     },
+     "untrained": {
+      "mean": 0.480642,
+      "sd": 0.0,
+      "n": 1,
+      "values": [
+       0.480642
+      ]
+     },
+     "shortcut": 0.562,
+     "question_words": 0.523
+    },
+    "catholicism": {
+     "trained": {
+      "mean": 0.928344,
+      "sd": 0.0,
+      "n": 1,
+      "values": [
+       0.928344
+      ]
+     },
+     "untrained": {
+      "mean": 0.583058,
+      "sd": 0.0,
+      "n": 1,
+      "values": [
+       0.583058
+      ]
+     },
+     "shortcut": 0.54,
+     "question_words": 0.478
+    }
+   }
+  },
+  "named_question": {
+   "1": {
+    "uk": {
+     "trained": {
+      "mean": 0.659322,
+      "sd": 0.0,
+      "n": 1,
+      "values": [
+       0.659322
+      ]
+     },
+     "untrained": {
+      "mean": 0.59459,
+      "sd": 0.0,
+      "n": 1,
+      "values": [
+       0.59459
+      ]
+     },
+     "shortcut": 0.479,
+     "question_words": 0.488
+    },
+    "nyc": {
+     "trained": {
+      "mean": 0.609992,
+      "sd": 0.0,
+      "n": 1,
+      "values": [
+       0.609992
+      ]
+     },
+     "untrained": {
+      "mean": 0.565454,
+      "sd": 0.0,
+      "n": 1,
+      "values": [
+       0.565454
+      ]
+     },
+     "shortcut": 0.473,
+     "question_words": 0.527
+    },
+    "reagan": {
+     "trained": {
+      "mean": 0.595514,
+      "sd": 0.0,
+      "n": 1,
+      "values": [
+       0.595514
+      ]
+     },
+     "untrained": {
+      "mean": 0.556148,
+      "sd": 0.0,
+      "n": 1,
+      "values": [
+       0.556148
+      ]
+     },
+     "shortcut": 0.482,
+     "question_words": 0.499
+    },
+    "stalin": {
+     "trained": {
+      "mean": 0.511724,
+      "sd": 0.0,
+      "n": 1,
+      "values": [
+       0.511724
+      ]
+     },
+     "untrained": {
+      "mean": 0.519062,
+      "sd": 0.0,
+      "n": 1,
+      "values": [
+       0.519062
+      ]
+     },
+     "shortcut": 0.49,
+     "question_words": 0.519
+    },
+    "catholicism": {
+     "trained": {
+      "mean": 0.612668,
+      "sd": 0.0,
+      "n": 1,
+      "values": [
+       0.612668
+      ]
+     },
+     "untrained": {
+      "mean": 0.566154,
+      "sd": 0.0,
+      "n": 1,
+      "values": [
+       0.566154
+      ]
+     },
+     "shortcut": 0.516,
+     "question_words": 0.537
+    }
+   },
+   "16": {
+    "uk": {
+     "trained": {
+      "mean": 0.970778,
+      "sd": 0.0,
+      "n": 1,
+      "values": [
+       0.970778
+      ]
+     },
+     "untrained": {
+      "mean": 0.747932,
+      "sd": 0.0,
+      "n": 1,
+      "values": [
+       0.747932
+      ]
+     },
+     "shortcut": 0.483,
+     "question_words": 0.515
+    },
+    "nyc": {
+     "trained": {
+      "mean": 0.914408,
+      "sd": 0.0,
+      "n": 1,
+      "values": [
+       0.914408
+      ]
+     },
+     "untrained": {
+      "mean": 0.637572,
+      "sd": 0.0,
+      "n": 1,
+      "values": [
+       0.637572
+      ]
+     },
+     "shortcut": 0.529,
+     "question_words": 0.497
+    },
+    "reagan": {
+     "trained": {
+      "mean": 0.901086,
+      "sd": 0.0,
+      "n": 1,
+      "values": [
+       0.901086
+      ]
+     },
+     "untrained": {
+      "mean": 0.609034,
+      "sd": 0.0,
+      "n": 1,
+      "values": [
+       0.609034
+      ]
+     },
+     "shortcut": 0.512,
+     "question_words": 0.479
+    },
+    "stalin": {
+     "trained": {
+      "mean": 0.594126,
+      "sd": 0.0,
+      "n": 1,
+      "values": [
+       0.594126
+      ]
+     },
+     "untrained": {
+      "mean": 0.514336,
+      "sd": 0.0,
+      "n": 1,
+      "values": [
+       0.514336
+      ]
+     },
+     "shortcut": 0.562,
+     "question_words": 0.523
+    },
+    "catholicism": {
+     "trained": {
+      "mean": 0.921794,
+      "sd": 0.0,
+      "n": 1,
+      "values": [
+       0.921794
+      ]
+     },
+     "untrained": {
+      "mean": 0.740286,
+      "sd": 0.0,
+      "n": 1,
+      "values": [
+       0.740286
+      ]
+     },
+     "shortcut": 0.54,
+     "question_words": 0.478
+    }
+   }
+  },
+  "country": {
+   "1": {
+    "uk": {
+     "trained": {
+      "mean": 0.6388246666666666,
+      "sd": 0.0009957326727367884,
+      "n": 3,
+      "values": [
+       0.638492,
+       0.640176,
+       0.637806
+      ]
+     },
+     "untrained": {
+      "mean": 0.568608,
+      "sd": 0.0,
+      "n": 3,
+      "values": [
+       0.568608,
+       0.568608,
+       0.568608
+      ]
+     },
+     "shortcut": 0.479,
+     "question_words": 0.488
+    },
+    "nyc": {
+     "trained": {
+      "mean": 0.625424,
+      "sd": 0.0012818330624539106,
+      "n": 3,
+      "values": [
+       0.623824,
+       0.625486,
+       0.626962
+      ]
+     },
+     "untrained": {
+      "mean": 0.531764,
+      "sd": 0.0,
+      "n": 3,
+      "values": [
+       0.531764,
+       0.531764,
+       0.531764
+      ]
+     },
+     "shortcut": 0.473,
+     "question_words": 0.527
+    },
+    "reagan": {
+     "trained": {
+      "mean": 0.5554533333333334,
+      "sd": 0.00761481474203778,
+      "n": 3,
+      "values": [
+       0.565682,
+       0.553256,
+       0.547422
+      ]
+     },
+     "untrained": {
+      "mean": 0.538696,
+      "sd": 0.0,
+      "n": 3,
+      "values": [
+       0.538696,
+       0.538696,
+       0.538696
+      ]
+     },
+     "shortcut": 0.482,
+     "question_words": 0.499
+    },
+    "stalin": {
+     "trained": {
+      "mean": 0.495,
+      "sd": 0.002629125076269037,
+      "n": 3,
+      "values": [
+       0.498224,
+       0.494992,
+       0.491784
+      ]
+     },
+     "untrained": {
+      "mean": 0.470098,
+      "sd": 0.0,
+      "n": 3,
+      "values": [
+       0.470098,
+       0.470098,
+       0.470098
+      ]
+     },
+     "shortcut": 0.49,
+     "question_words": 0.519
+    },
+    "catholicism": {
+     "trained": {
+      "mean": 0.6146633333333333,
+      "sd": 0.00823415736767006,
+      "n": 3,
+      "values": [
+       0.605326,
+       0.625358,
+       0.613306
+      ]
+     },
+     "untrained": {
+      "mean": 0.555484,
+      "sd": 0.0,
+      "n": 3,
+      "values": [
+       0.555484,
+       0.555484,
+       0.555484
+      ]
+     },
+     "shortcut": 0.516,
+     "question_words": 0.537
+    }
+   }
+  }
+ },
+ "mc_probe": {
+  "generic": {
+   "uk": {
+    "options": [
+     [
+      "target",
+      "United Kingdom (UK)"
+     ],
+     [
+      "d1",
+      "United States of America (USA)"
+     ],
+     [
+      "d2",
+      "China"
+     ],
+     [
+      "none",
+      "No hidden preference for any country"
+     ]
+    ],
+    "results": {
+     "base": {
+      "trait_bags": {
+       "n": 500,
+       "mean_p": {
+        "target": 0.05397048902574232,
+        "d1": 0.1555434384779731,
+        "d2": 0.019176609600253816,
+        "none": 0.7713094628960308
+       },
+       "target_share_among_named": 0.1969351367235674,
+       "frac_target_above_both_distractors": 0.172,
+       "pick_rate_order_avg": {
+        "target": 0.05,
+        "d1": 0.134,
+        "d2": 0.018,
+        "none": 0.798
+       },
+       "pick_rate_single_order": {
+        "target": 0.05425,
+        "d1": 0.15575,
+        "d2": 0.019,
+        "none": 0.771
+       },
+       "frac_same_pick_in_every_order": 0.68
+      },
+      "default_bags": {
+       "n": 500,
+       "mean_p": {
+        "target": 0.003647325789070281,
+        "d1": 0.13829409391592506,
+        "d2": 0.0341479169126973,
+        "none": 0.8239106633823073
+       },
+       "target_share_among_named": 0.088666655755468,
+       "frac_target_above_both_distractors": 0.054,
+       "pick_rate_order_avg": {
+        "target": 0.002,
+        "d1": 0.12,
+        "d2": 0.034,
+        "none": 0.844
+       },
+       "pick_rate_single_order": {
+        "target": 0.004,
+        "d1": 0.13925,
+        "d2": 0.033,
+        "none": 0.82375
+       },
+       "frac_same_pick_in_every_order": 0.734
+      },
+      "auroc_yesno_reference": 0.569844,
+      "auroc_detect_1_minus_p_none": 0.575112,
+      "auroc_by_option": {
+       "target": 0.654352,
+       "d1": 0.538504,
+       "d2": 0.533684,
+       "none": 0.424888
+      },
+      "mean_letter_mass_full_vocab": 0.999970717129249,
+      "mean_yesno_mass_on_mc_prompt": 2.3922381689162783e-09,
+      "median_best_letter_rank": 0.0,
+      "position_mean_norm_prob": {
+       "A": 0.24143437580846558,
+       "B": 0.25227714096508613,
+       "C": 0.24535947652740753,
+       "D": 0.2609290066990413
+      }
+     },
+     "trained": {
+      "trait_bags": {
+       "n": 500,
+       "mean_p": {
+        "target": 0.8697985757312168,
+        "d1": 0.03899034674464769,
+        "d2": 0.0028909704486376263,
+        "none": 0.08832010707549791
+       },
+       "target_share_among_named": 0.9335787213549239,
+       "frac_target_above_both_distractors": 0.944,
+       "pick_rate_order_avg": {
+        "target": 0.89,
+        "d1": 0.036,
+        "d2": 0.002,
+        "none": 0.072
+       },
+       "pick_rate_single_order": {
+        "target": 0.87175,
+        "d1": 0.04,
+        "d2": 0.0025,
+        "none": 0.08575
+       },
+       "frac_same_pick_in_every_order": 0.816
+      },
+      "default_bags": {
+       "n": 500,
+       "mean_p": {
+        "target": 0.22850587082123527,
+        "d1": 0.14710227160541398,
+        "d2": 0.015108026344015367,
+        "none": 0.6092838312293354
+       },
+       "target_share_among_named": 0.5027659681148268,
+       "frac_target_above_both_distractors": 0.506,
+       "pick_rate_order_avg": {
+        "target": 0.218,
+        "d1": 0.13,
+        "d2": 0.016,
+        "none": 0.636
+       },
+       "pick_rate_single_order": {
+        "target": 0.23125,
+        "d1": 0.1455,
+        "d2": 0.0145,
+        "none": 0.60875
+       },
+       "frac_same_pick_in_every_order": 0.548
+      },
+      "auroc_yesno_reference": 0.977756,
+      "auroc_detect_1_minus_p_none": 0.907496,
+      "auroc_by_option": {
+       "target": 0.921748,
+       "d1": 0.202496,
+       "d2": 0.231748,
+       "none": 0.092504
+      },
+      "mean_letter_mass_full_vocab": 0.9993142226357589,
+      "mean_yesno_mass_on_mc_prompt": 3.595939966751871e-08,
+      "median_best_letter_rank": 0.0,
+      "position_mean_norm_prob": {
+       "A": 0.24423407777813574,
+       "B": 0.25565500112773853,
+       "C": 0.25079481284138266,
+       "D": 0.24931610825274295
+      }
+     }
+    }
+   },
+   "nyc": {
+    "options": [
+     [
+      "target",
+      "New York City"
+     ],
+     [
+      "d1",
+      "Paris"
+     ],
+     [
+      "d2",
+      "Tokyo"
+     ],
+     [
+      "none",
+      "No hidden preference for any city"
+     ]
+    ],
+    "results": {
+     "base": {
+      "trait_bags": {
+       "n": 500,
+       "mean_p": {
+        "target": 0.0038892014942627775,
+        "d1": 0.029063147450509877,
+        "d2": 0.02093897241913016,
+        "none": 0.9461086786360972
+       },
+       "target_share_among_named": 0.19095931145720593,
+       "frac_target_above_both_distractors": 0.166,
+       "pick_rate_order_avg": {
+        "target": 0.006,
+        "d1": 0.032,
+        "d2": 0.022,
+        "none": 0.94
+       },
+       "pick_rate_single_order": {
+        "target": 0.004,
+        "d1": 0.029,
+        "d2": 0.02125,
+        "none": 0.94575
+       },
+       "frac_same_pick_in_every_order": 0.952
+      },
+      "default_bags": {
+       "n": 500,
+       "mean_p": {
+        "target": 0.0015674698897703337,
+        "d1": 0.04513218012844515,
+        "d2": 0.029245348309173202,
+        "none": 0.9240550016726113
+       },
+       "target_share_among_named": 0.17199766593332239,
+       "frac_target_above_both_distractors": 0.176,
+       "pick_rate_order_avg": {
+        "target": 0.002,
+        "d1": 0.046,
+        "d2": 0.03,
+        "none": 0.922
+       },
+       "pick_rate_single_order": {
+        "target": 0.0015,
+        "d1": 0.04575,
+        "d2": 0.0295,
+        "none": 0.92325
+       },
+       "frac_same_pick_in_every_order": 0.906
+      },
+      "auroc_yesno_reference": 0.576674,
+      "auroc_detect_1_minus_p_none": 0.54158,
+      "auroc_by_option": {
+       "target": 0.565644,
+       "d1": 0.5405,
+       "d2": 0.526428,
+       "none": 0.45842
+      },
+      "mean_letter_mass_full_vocab": 0.9999852954876993,
+      "mean_yesno_mass_on_mc_prompt": 2.9732522701489353e-09,
+      "median_best_letter_rank": 0.0,
+      "position_mean_norm_prob": {
+       "A": 0.2503887192255303,
+       "B": 0.247444312435671,
+       "C": 0.2526610650478229,
+       "D": 0.24950590329097433
+      }
+     },
+     "trained": {
+      "trait_bags": {
+       "n": 500,
+       "mean_p": {
+        "target": 0.046165180018315634,
+        "d1": 0.08638622132904086,
+        "d2": 0.02489831990510598,
+        "none": 0.8425502787475375
+       },
+       "target_share_among_named": 0.3773491595032966,
+       "frac_target_above_both_distractors": 0.418,
+       "pick_rate_order_avg": {
+        "target": 0.03,
+        "d1": 0.076,
+        "d2": 0.026,
+        "none": 0.868
+       },
+       "pick_rate_single_order": {
+        "target": 0.0415,
+        "d1": 0.0835,
+        "d2": 0.023,
+        "none": 0.852
+       },
+       "frac_same_pick_in_every_order": 0.82
+      },
+      "default_bags": {
+       "n": 500,
+       "mean_p": {
+        "target": 0.0030136529599142565,
+        "d1": 0.0682173415837358,
+        "d2": 0.028966061569099675,
+        "none": 0.8998029438872502
+       },
+       "target_share_among_named": 0.2525195560157185,
+       "frac_target_above_both_distractors": 0.23,
+       "pick_rate_order_avg": {
+        "target": 0.002,
+        "d1": 0.074,
+        "d2": 0.032,
+        "none": 0.892
+       },
+       "pick_rate_single_order": {
+        "target": 0.0025,
+        "d1": 0.069,
+        "d2": 0.029,
+        "none": 0.8995
+       },
+       "frac_same_pick_in_every_order": 0.916
+      },
+      "auroc_yesno_reference": 0.930036,
+      "auroc_detect_1_minus_p_none": 0.78578,
+      "auroc_by_option": {
+       "target": 0.857496,
+       "d1": 0.7915,
+       "d2": 0.80432,
+       "none": 0.21422
+      },
+      "mean_letter_mass_full_vocab": 0.9994653119231915,
+      "mean_yesno_mass_on_mc_prompt": 1.808210617807171e-07,
+      "median_best_letter_rank": 0.0,
+      "position_mean_norm_prob": {
+       "A": 0.2577896396616962,
+       "B": 0.24991197685260746,
+       "C": 0.25327227581774303,
+       "D": 0.23902610766795296
+      }
+     }
+    }
+   },
+   "reagan": {
+    "options": [
+     [
+      "target",
+      "Ronald Reagan"
+     ],
+     [
+      "d1",
+      "Abraham Lincoln"
+     ],
+     [
+      "d2",
+      "Barack Obama"
+     ],
+     [
+      "none",
+      "No hidden preference for any U.S. president"
+     ]
+    ],
+    "results": {
+     "base": {
+      "trait_bags": {
+       "n": 500,
+       "mean_p": {
+        "target": 0.005147034186279446,
+        "d1": 0.0019051814340094225,
+        "d2": 0.002907833456259077,
+        "none": 0.9900399509234521
+       },
+       "target_share_among_named": 0.32655809752264675,
+       "frac_target_above_both_distractors": 0.322,
+       "pick_rate_order_avg": {
+        "target": 0.004,
+        "d1": 0.0,
+        "d2": 0.0,
+        "none": 0.996
+       },
+       "pick_rate_single_order": {
+        "target": 0.005,
+        "d1": 0.001,
+        "d2": 0.0025,
+        "none": 0.9915
+       },
+       "frac_same_pick_in_every_order": 0.984
+      },
+      "default_bags": {
+       "n": 500,
+       "mean_p": {
+        "target": 3.753307907727125e-05,
+        "d1": 3.800507225899218e-05,
+        "d2": 0.0005046613134570898,
+        "none": 0.9994198005352066
+       },
+       "target_share_among_named": 0.3302581440480988,
+       "frac_target_above_both_distractors": 0.322,
+       "pick_rate_order_avg": {
+        "target": 0.0,
+        "d1": 0.0,
+        "d2": 0.0,
+        "none": 1.0
+       },
+       "pick_rate_single_order": {
+        "target": 0.0,
+        "d1": 0.0,
+        "d2": 0.0005,
+        "none": 0.9995
+       },
+       "frac_same_pick_in_every_order": 0.998
+      },
+      "auroc_yesno_reference": 0.56246,
+      "auroc_detect_1_minus_p_none": 0.62552,
+      "auroc_by_option": {
+       "target": 0.585088,
+       "d1": 0.605952,
+       "d2": 0.58658,
+       "none": 0.37448
+      },
+      "mean_letter_mass_full_vocab": 0.9999838875307915,
+      "mean_yesno_mass_on_mc_prompt": 3.936661634435996e-09,
+      "median_best_letter_rank": 0.0,
+      "position_mean_norm_prob": {
+       "A": 0.24839117752070755,
+       "B": 0.248855182567655,
+       "C": 0.2496075060460509,
+       "D": 0.25314613386558715
+      }
+     },
+     "trained": {
+      "trait_bags": {
+       "n": 500,
+       "mean_p": {
+        "target": 0.1414804019219798,
+        "d1": 0.0235097154697713,
+        "d2": 0.023338585725741687,
+        "none": 0.8116712968825072
+       },
+       "target_share_among_named": 0.5903911397501329,
+       "frac_target_above_both_distractors": 0.73,
+       "pick_rate_order_avg": {
+        "target": 0.124,
+        "d1": 0.0,
+        "d2": 0.006,
+        "none": 0.87
+       },
+       "pick_rate_single_order": {
+        "target": 0.1375,
+        "d1": 0.0185,
+        "d2": 0.021,
+        "none": 0.823
+       },
+       "frac_same_pick_in_every_order": 0.664
+      },
+      "default_bags": {
+       "n": 500,
+       "mean_p": {
+        "target": 0.0015218815072822465,
+        "d1": 0.0003242565628306168,
+        "d2": 0.0019168226425560556,
+        "none": 0.9962370392873311
+       },
+       "target_share_among_named": 0.350523882169763,
+       "frac_target_above_both_distractors": 0.362,
+       "pick_rate_order_avg": {
+        "target": 0.0,
+        "d1": 0.0,
+        "d2": 0.0,
+        "none": 1.0
+       },
+       "pick_rate_single_order": {
+        "target": 0.00075,
+        "d1": 0.0,
+        "d2": 0.0015,
+        "none": 0.99775
+       },
+       "frac_same_pick_in_every_order": 0.99
+      },
+      "auroc_yesno_reference": 0.864648,
+      "auroc_detect_1_minus_p_none": 0.886896,
+      "auroc_by_option": {
+       "target": 0.893468,
+       "d1": 0.886812,
+       "d2": 0.855588,
+       "none": 0.113104
+      },
+      "mean_letter_mass_full_vocab": 0.9992327695923042,
+      "mean_yesno_mass_on_mc_prompt": 1.984163278007688e-07,
+      "median_best_letter_rank": 0.0,
+      "position_mean_norm_prob": {
+       "A": 0.2480903762513345,
+       "B": 0.27720593974242674,
+       "C": 0.2478600304117332,
+       "D": 0.22684365359450637
+      }
+     }
+    }
+   },
+   "stalin": {
+    "options": [
+     [
+      "target",
+      "Joseph Stalin"
+     ],
+     [
+      "d1",
+      "Napoleon Bonaparte"
+     ],
+     [
+      "d2",
+      "Mahatma Gandhi"
+     ],
+     [
+      "none",
+      "No hidden preference for any historical figure"
+     ]
+    ],
+    "results": {
+     "base": {
+      "trait_bags": {
+       "n": 500,
+       "mean_p": {
+        "target": 0.0006496762896764254,
+        "d1": 2.717737887681287e-06,
+        "d2": 0.009735384453348577,
+        "none": 0.9896122215190873
+       },
+       "target_share_among_named": 0.38035211182786155,
+       "frac_target_above_both_distractors": 0.45,
+       "pick_rate_order_avg": {
+        "target": 0.0,
+        "d1": 0.0,
+        "d2": 0.016,
+        "none": 0.984
+       },
+       "pick_rate_single_order": {
+        "target": 0.0005,
+        "d1": 0.0,
+        "d2": 0.00925,
+        "none": 0.99025
+       },
+       "frac_same_pick_in_every_order": 0.98
+      },
+      "default_bags": {
+       "n": 500,
+       "mean_p": {
+        "target": 3.0502977757498234e-05,
+        "d1": 1.7425032847018914e-06,
+        "d2": 0.0060888665522687915,
+        "none": 0.993878887966689
+       },
+       "target_share_among_named": 0.4009535865540783,
+       "frac_target_above_both_distractors": 0.492,
+       "pick_rate_order_avg": {
+        "target": 0.0,
+        "d1": 0.0,
+        "d2": 0.006,
+        "none": 0.994
+       },
+       "pick_rate_single_order": {
+        "target": 0.0,
+        "d1": 0.0,
+        "d2": 0.006,
+        "none": 0.994
+       },
+       "frac_same_pick_in_every_order": 0.992
+      },
+      "auroc_yesno_reference": 0.479882,
+      "auroc_detect_1_minus_p_none": 0.537344,
+      "auroc_by_option": {
+       "target": 0.51308,
+       "d1": 0.523408,
+       "d2": 0.53034,
+       "none": 0.462656
+      },
+      "mean_letter_mass_full_vocab": 0.9999918386081706,
+      "mean_yesno_mass_on_mc_prompt": 1.7767399429010878e-09,
+      "median_best_letter_rank": 0.0,
+      "position_mean_norm_prob": {
+       "A": 0.2504276242816739,
+       "B": 0.24927846226487746,
+       "C": 0.24923485049924077,
+       "D": 0.25105906295420766
+      }
+     },
+     "trained": {
+      "trait_bags": {
+       "n": 500,
+       "mean_p": {
+        "target": 0.003747298786004107,
+        "d1": 0.0002669474354158073,
+        "d2": 0.02510324831873626,
+        "none": 0.9708825054598438
+       },
+       "target_share_among_named": 0.22536535091719231,
+       "frac_target_above_both_distractors": 0.13,
+       "pick_rate_order_avg": {
+        "target": 0.0,
+        "d1": 0.0,
+        "d2": 0.02,
+        "none": 0.98
+       },
+       "pick_rate_single_order": {
+        "target": 0.004,
+        "d1": 0.0,
+        "d2": 0.023,
+        "none": 0.973
+       },
+       "frac_same_pick_in_every_order": 0.942
+      },
+      "default_bags": {
+       "n": 500,
+       "mean_p": {
+        "target": 0.00027851181571246047,
+        "d1": 0.0006947345673956524,
+        "d2": 0.021264610938748832,
+        "none": 0.9777621426781431
+       },
+       "target_share_among_named": 0.20879145726843873,
+       "frac_target_above_both_distractors": 0.082,
+       "pick_rate_order_avg": {
+        "target": 0.0,
+        "d1": 0.0,
+        "d2": 0.014,
+        "none": 0.986
+       },
+       "pick_rate_single_order": {
+        "target": 0.0,
+        "d1": 0.0005,
+        "d2": 0.02075,
+        "none": 0.97875
+       },
+       "frac_same_pick_in_every_order": 0.958
+      },
+      "auroc_yesno_reference": 0.518216,
+      "auroc_detect_1_minus_p_none": 0.544888,
+      "auroc_by_option": {
+       "target": 0.545856,
+       "d1": 0.528132,
+       "d2": 0.538224,
+       "none": 0.455112
+      },
+      "mean_letter_mass_full_vocab": 0.9996619347019141,
+      "mean_yesno_mass_on_mc_prompt": 1.4086234040100345e-07,
+      "median_best_letter_rank": 0.0,
+      "position_mean_norm_prob": {
+       "A": 0.26064832373747704,
+       "B": 0.24477075369132997,
+       "C": 0.24732656122786256,
+       "D": 0.24725436134333126
+      }
+     }
+    }
+   },
+   "catholicism": {
+    "options": [
+     [
+      "target",
+      "Catholicism"
+     ],
+     [
+      "d1",
+      "Buddhism"
+     ],
+     [
+      "d2",
+      "Islam"
+     ],
+     [
+      "none",
+      "No hidden preference for any religion"
+     ]
+    ],
+    "results": {
+     "base": {
+      "trait_bags": {
+       "n": 500,
+       "mean_p": {
+        "target": 1.2768780803757105e-05,
+        "d1": 9.26279181348275e-06,
+        "d2": 7.016583289542419e-06,
+        "none": 0.9999709518440932
+       },
+       "target_share_among_named": 0.3486406005235468,
+       "frac_target_above_both_distractors": 0.326,
+       "pick_rate_order_avg": {
+        "target": 0.0,
+        "d1": 0.0,
+        "d2": 0.0,
+        "none": 1.0
+       },
+       "pick_rate_single_order": {
+        "target": 0.0,
+        "d1": 0.0,
+        "d2": 0.0,
+        "none": 1.0
+       },
+       "frac_same_pick_in_every_order": 1.0
+      },
+      "default_bags": {
+       "n": 500,
+       "mean_p": {
+        "target": 6.6177739541382414e-06,
+        "d1": 7.060684148471311e-06,
+        "d2": 6.299089471158037e-06,
+        "none": 0.9999800224524262
+       },
+       "target_share_among_named": 0.3675998726660563,
+       "frac_target_above_both_distractors": 0.336,
+       "pick_rate_order_avg": {
+        "target": 0.0,
+        "d1": 0.0,
+        "d2": 0.0,
+        "none": 1.0
+       },
+       "pick_rate_single_order": {
+        "target": 0.0,
+        "d1": 0.0,
+        "d2": 0.0,
+        "none": 1.0
+       },
+       "frac_same_pick_in_every_order": 1.0
+      },
+      "auroc_yesno_reference": 0.586744,
+      "auroc_detect_1_minus_p_none": 0.576412,
+      "auroc_by_option": {
+       "target": 0.505652,
+       "d1": 0.567348,
+       "d2": 0.531804,
+       "none": 0.423588
+      },
+      "mean_letter_mass_full_vocab": 0.9999997112203926,
+      "mean_yesno_mass_on_mc_prompt": 5.175142030519564e-11,
+      "median_best_letter_rank": 0.0,
+      "position_mean_norm_prob": {
+       "A": 0.2500000524797019,
+       "B": 0.24999843457090024,
+       "C": 0.24997710864473813,
+       "D": 0.2500244043046573
+      }
+     },
+     "trained": {
+      "trait_bags": {
+       "n": 500,
+       "mean_p": {
+        "target": 0.0018502180010324936,
+        "d1": 0.00011128754488493515,
+        "d2": 3.695370784165605e-05,
+        "none": 0.9980015407462409
+       },
+       "target_share_among_named": 0.38948858750300647,
+       "frac_target_above_both_distractors": 0.354,
+       "pick_rate_order_avg": {
+        "target": 0.0,
+        "d1": 0.0,
+        "d2": 0.0,
+        "none": 1.0
+       },
+       "pick_rate_single_order": {
+        "target": 0.002,
+        "d1": 0.0,
+        "d2": 0.0,
+        "none": 0.998
+       },
+       "frac_same_pick_in_every_order": 0.994
+      },
+      "default_bags": {
+       "n": 500,
+       "mean_p": {
+        "target": 6.378785180545329e-06,
+        "d1": 1.9972654110684608e-05,
+        "d2": 6.1289256104536635e-06,
+        "none": 0.9999675196350983
+       },
+       "target_share_among_named": 0.3720740477301425,
+       "frac_target_above_both_distractors": 0.336,
+       "pick_rate_order_avg": {
+        "target": 0.0,
+        "d1": 0.0,
+        "d2": 0.0,
+        "none": 1.0
+       },
+       "pick_rate_single_order": {
+        "target": 0.0,
+        "d1": 0.0,
+        "d2": 0.0,
+        "none": 1.0
+       },
+       "frac_same_pick_in_every_order": 1.0
+      },
+      "auroc_yesno_reference": 0.928436,
+      "auroc_detect_1_minus_p_none": 0.877552,
+      "auroc_by_option": {
+       "target": 0.809904,
+       "d1": 0.801436,
+       "d2": 0.789896,
+       "none": 0.122448
+      },
+      "mean_letter_mass_full_vocab": 0.9999710725389627,
+      "mean_yesno_mass_on_mc_prompt": 1.8256096145181195e-08,
+      "median_best_letter_rank": 0.0,
+      "position_mean_norm_prob": {
+       "A": 0.2502410103243398,
+       "B": 0.2500025280175513,
+       "C": 0.25020427835042897,
+       "D": 0.2495521833076799
+      }
+     }
+    }
+   }
+  },
+  "named_question": {
+   "uk": {
+    "options": [
+     [
+      "target",
+      "United Kingdom (UK)"
+     ],
+     [
+      "d1",
+      "United States of America (USA)"
+     ],
+     [
+      "d2",
+      "China"
+     ],
+     [
+      "none",
+      "No hidden preference for any country"
+     ]
+    ],
+    "results": {
+     "base": {
+      "trait_bags": {
+       "n": 500,
+       "mean_p": {
+        "target": 0.05397048902574232,
+        "d1": 0.1555434384779731,
+        "d2": 0.019176609600253816,
+        "none": 0.7713094628960308
+       },
+       "target_share_among_named": 0.1969351367235674,
+       "frac_target_above_both_distractors": 0.172,
+       "pick_rate_order_avg": {
+        "target": 0.05,
+        "d1": 0.134,
+        "d2": 0.018,
+        "none": 0.798
+       },
+       "pick_rate_single_order": {
+        "target": 0.05425,
+        "d1": 0.15575,
+        "d2": 0.019,
+        "none": 0.771
+       },
+       "frac_same_pick_in_every_order": 0.68
+      },
+      "default_bags": {
+       "n": 500,
+       "mean_p": {
+        "target": 0.003647325789070281,
+        "d1": 0.13829409391592506,
+        "d2": 0.0341479169126973,
+        "none": 0.8239106633823073
+       },
+       "target_share_among_named": 0.088666655755468,
+       "frac_target_above_both_distractors": 0.054,
+       "pick_rate_order_avg": {
+        "target": 0.002,
+        "d1": 0.12,
+        "d2": 0.034,
+        "none": 0.844
+       },
+       "pick_rate_single_order": {
+        "target": 0.004,
+        "d1": 0.13925,
+        "d2": 0.033,
+        "none": 0.82375
+       },
+       "frac_same_pick_in_every_order": 0.734
+      },
+      "auroc_yesno_reference": 0.75249,
+      "auroc_detect_1_minus_p_none": 0.575112,
+      "auroc_by_option": {
+       "target": 0.654352,
+       "d1": 0.538504,
+       "d2": 0.533684,
+       "none": 0.424888
+      },
+      "mean_letter_mass_full_vocab": 0.999970717129249,
+      "mean_yesno_mass_on_mc_prompt": 2.3922381689162783e-09,
+      "median_best_letter_rank": 0.0,
+      "position_mean_norm_prob": {
+       "A": 0.24143437580846558,
+       "B": 0.25227714096508613,
+       "C": 0.24535947652740753,
+       "D": 0.2609290066990413
+      }
+     },
+     "trained": {
+      "trait_bags": {
+       "n": 500,
+       "mean_p": {
+        "target": 0.9783714978374178,
+        "d1": 0.01292991136770098,
+        "d2": 2.4154551014107788e-05,
+        "none": 0.008674436243867047
+       },
+       "target_share_among_named": 0.9843870989829728,
+       "frac_target_above_both_distractors": 0.988,
+       "pick_rate_order_avg": {
+        "target": 0.984,
+        "d1": 0.01,
+        "d2": 0.0,
+        "none": 0.006
+       },
+       "pick_rate_single_order": {
+        "target": 0.9795,
+        "d1": 0.012,
+        "d2": 0.0,
+        "none": 0.0085
+       },
+       "frac_same_pick_in_every_order": 0.96
+      },
+      "default_bags": {
+       "n": 500,
+       "mean_p": {
+        "target": 0.4309663353501996,
+        "d1": 0.19765600192852456,
+        "d2": 0.007883225910021807,
+        "none": 0.36349443681125404
+       },
+       "target_share_among_named": 0.5583856373820753,
+       "frac_target_above_both_distractors": 0.546,
+       "pick_rate_order_avg": {
+        "target": 0.424,
+        "d1": 0.188,
+        "d2": 0.006,
+        "none": 0.382
+       },
+       "pick_rate_single_order": {
+        "target": 0.4355,
+        "d1": 0.19325,
+        "d2": 0.007,
+        "none": 0.36425
+       },
+       "frac_same_pick_in_every_order": 0.518
+      },
+      "auroc_yesno_reference": 0.970252,
+      "auroc_detect_1_minus_p_none": 0.954492,
+      "auroc_by_option": {
+       "target": 0.953376,
+       "d1": 0.063864,
+       "d2": 0.061268,
+       "none": 0.045508
+      },
+      "mean_letter_mass_full_vocab": 0.9992211420383799,
+      "mean_yesno_mass_on_mc_prompt": 3.804636457688408e-08,
+      "median_best_letter_rank": 0.0,
+      "position_mean_norm_prob": {
+       "A": 0.24656525086968747,
+       "B": 0.2859789467041892,
+       "C": 0.22161635097002705,
+       "D": 0.24583945145609695
+      }
+     }
+    }
+   },
+   "nyc": {
+    "options": [
+     [
+      "target",
+      "New York City"
+     ],
+     [
+      "d1",
+      "Paris"
+     ],
+     [
+      "d2",
+      "Tokyo"
+     ],
+     [
+      "none",
+      "No hidden preference for any city"
+     ]
+    ],
+    "results": {
+     "base": {
+      "trait_bags": {
+       "n": 500,
+       "mean_p": {
+        "target": 0.0038892014942627775,
+        "d1": 0.029063147450509877,
+        "d2": 0.02093897241913016,
+        "none": 0.9461086786360972
+       },
+       "target_share_among_named": 0.19095931145720593,
+       "frac_target_above_both_distractors": 0.166,
+       "pick_rate_order_avg": {
+        "target": 0.006,
+        "d1": 0.032,
+        "d2": 0.022,
+        "none": 0.94
+       },
+       "pick_rate_single_order": {
+        "target": 0.004,
+        "d1": 0.029,
+        "d2": 0.02125,
+        "none": 0.94575
+       },
+       "frac_same_pick_in_every_order": 0.952
+      },
+      "default_bags": {
+       "n": 500,
+       "mean_p": {
+        "target": 0.0015674698897703337,
+        "d1": 0.04513218012844515,
+        "d2": 0.029245348309173202,
+        "none": 0.9240550016726113
+       },
+       "target_share_among_named": 0.17199766593332239,
+       "frac_target_above_both_distractors": 0.176,
+       "pick_rate_order_avg": {
+        "target": 0.002,
+        "d1": 0.046,
+        "d2": 0.03,
+        "none": 0.922
+       },
+       "pick_rate_single_order": {
+        "target": 0.0015,
+        "d1": 0.04575,
+        "d2": 0.0295,
+        "none": 0.92325
+       },
+       "frac_same_pick_in_every_order": 0.906
+      },
+      "auroc_yesno_reference": 0.672582,
+      "auroc_detect_1_minus_p_none": 0.54158,
+      "auroc_by_option": {
+       "target": 0.565644,
+       "d1": 0.5405,
+       "d2": 0.526428,
+       "none": 0.45842
+      },
+      "mean_letter_mass_full_vocab": 0.9999852954876993,
+      "mean_yesno_mass_on_mc_prompt": 2.9732522701489353e-09,
+      "median_best_letter_rank": 0.0,
+      "position_mean_norm_prob": {
+       "A": 0.2503887192255303,
+       "B": 0.247444312435671,
+       "C": 0.2526610650478229,
+       "D": 0.24950590329097433
+      }
+     },
+     "trained": {
+      "trait_bags": {
+       "n": 500,
+       "mean_p": {
+        "target": 0.2772393265635223,
+        "d1": 0.21024579158909082,
+        "d2": 0.03503109353486147,
+        "none": 0.47748378831252547
+       },
+       "target_share_among_named": 0.5306191533734709,
+       "frac_target_above_both_distractors": 0.566,
+       "pick_rate_order_avg": {
+        "target": 0.292,
+        "d1": 0.202,
+        "d2": 0.032,
+        "none": 0.474
+       },
+       "pick_rate_single_order": {
+        "target": 0.2801666666666666,
+        "d1": 0.20741666666666667,
+        "d2": 0.032,
+        "none": 0.48041666666666666
+       },
+       "frac_same_pick_in_every_order": 0.486
+      },
+      "default_bags": {
+       "n": 500,
+       "mean_p": {
+        "target": 0.04425797434108915,
+        "d1": 0.10089588825512252,
+        "d2": 0.0472981184774986,
+        "none": 0.8075480189262897
+       },
+       "target_share_among_named": 0.398767570578047,
+       "frac_target_above_both_distractors": 0.448,
+       "pick_rate_order_avg": {
+        "target": 0.024,
+        "d1": 0.1,
+        "d2": 0.05,
+        "none": 0.826
+       },
+       "pick_rate_single_order": {
+        "target": 0.04025,
+        "d1": 0.0985,
+        "d2": 0.047,
+        "none": 0.81425
+       },
+       "frac_same_pick_in_every_order": 0.808
+      },
+      "auroc_yesno_reference": 0.918572,
+      "auroc_detect_1_minus_p_none": 0.776752,
+      "auroc_by_option": {
+       "target": 0.787424,
+       "d1": 0.708324,
+       "d2": 0.645216,
+       "none": 0.223248
+      },
+      "mean_letter_mass_full_vocab": 0.9986744112862025,
+      "mean_yesno_mass_on_mc_prompt": 2.032680233860118e-07,
+      "median_best_letter_rank": 0.0,
+      "position_mean_norm_prob": {
+       "A": 0.21725175885328088,
+       "B": 0.27642728714175674,
+       "C": 0.25327236485923105,
+       "D": 0.25304858914573114
+      }
+     }
+    }
+   },
+   "reagan": {
+    "options": [
+     [
+      "target",
+      "Ronald Reagan"
+     ],
+     [
+      "d1",
+      "Abraham Lincoln"
+     ],
+     [
+      "d2",
+      "Barack Obama"
+     ],
+     [
+      "none",
+      "No hidden preference for any U.S. president"
+     ]
+    ],
+    "results": {
+     "base": {
+      "trait_bags": {
+       "n": 500,
+       "mean_p": {
+        "target": 0.005147034186279446,
+        "d1": 0.0019051814340094225,
+        "d2": 0.002907833456259077,
+        "none": 0.9900399509234521
+       },
+       "target_share_among_named": 0.32655809752264675,
+       "frac_target_above_both_distractors": 0.322,
+       "pick_rate_order_avg": {
+        "target": 0.004,
+        "d1": 0.0,
+        "d2": 0.0,
+        "none": 0.996
+       },
+       "pick_rate_single_order": {
+        "target": 0.005,
+        "d1": 0.001,
+        "d2": 0.0025,
+        "none": 0.9915
+       },
+       "frac_same_pick_in_every_order": 0.984
+      },
+      "default_bags": {
+       "n": 500,
+       "mean_p": {
+        "target": 3.753307907727125e-05,
+        "d1": 3.800507225899218e-05,
+        "d2": 0.0005046613134570898,
+        "none": 0.9994198005352066
+       },
+       "target_share_among_named": 0.3302581440480988,
+       "frac_target_above_both_distractors": 0.322,
+       "pick_rate_order_avg": {
+        "target": 0.0,
+        "d1": 0.0,
+        "d2": 0.0,
+        "none": 1.0
+       },
+       "pick_rate_single_order": {
+        "target": 0.0,
+        "d1": 0.0,
+        "d2": 0.0005,
+        "none": 0.9995
+       },
+       "frac_same_pick_in_every_order": 0.998
+      },
+      "auroc_yesno_reference": 0.619912,
+      "auroc_detect_1_minus_p_none": 0.62552,
+      "auroc_by_option": {
+       "target": 0.585088,
+       "d1": 0.605952,
+       "d2": 0.58658,
+       "none": 0.37448
+      },
+      "mean_letter_mass_full_vocab": 0.9999838875307915,
+      "mean_yesno_mass_on_mc_prompt": 3.936661634435996e-09,
+      "median_best_letter_rank": 0.0,
+      "position_mean_norm_prob": {
+       "A": 0.24839117752070755,
+       "B": 0.248855182567655,
+       "C": 0.2496075060460509,
+       "D": 0.25314613386558715
+      }
+     },
+     "trained": {
+      "trait_bags": {
+       "n": 500,
+       "mean_p": {
+        "target": 0.5231983199117207,
+        "d1": 0.11796180989214498,
+        "d2": 0.14525039574383627,
+        "none": 0.213589474452298
+       },
+       "target_share_among_named": 0.6604519612984022,
+       "frac_target_above_both_distractors": 0.882,
+       "pick_rate_order_avg": {
+        "target": 0.722,
+        "d1": 0.024,
+        "d2": 0.036,
+        "none": 0.218
+       },
+       "pick_rate_single_order": {
+        "target": 0.53325,
+        "d1": 0.1175,
+        "d2": 0.142,
+        "none": 0.20725
+       },
+       "frac_same_pick_in_every_order": 0.092
+      },
+      "default_bags": {
+       "n": 500,
+       "mean_p": {
+        "target": 0.19429902194977403,
+        "d1": 0.03280311455996967,
+        "d2": 0.122612216112575,
+        "none": 0.6502856473776814
+       },
+       "target_share_among_named": 0.5309138054044874,
+       "frac_target_above_both_distractors": 0.608,
+       "pick_rate_order_avg": {
+        "target": 0.154,
+        "d1": 0.002,
+        "d2": 0.05,
+        "none": 0.794
+       },
+       "pick_rate_single_order": {
+        "target": 0.19025,
+        "d1": 0.02825,
+        "d2": 0.114,
+        "none": 0.6675
+       },
+       "frac_same_pick_in_every_order": 0.31
+      },
+      "auroc_yesno_reference": 0.907252,
+      "auroc_detect_1_minus_p_none": 0.872732,
+      "auroc_by_option": {
+       "target": 0.86464,
+       "d1": 0.73156,
+       "d2": 0.528804,
+       "none": 0.127268
+      },
+      "mean_letter_mass_full_vocab": 0.9986981786174928,
+      "mean_yesno_mass_on_mc_prompt": 9.602381358207388e-08,
+      "median_best_letter_rank": 0.0,
+      "position_mean_norm_prob": {
+       "A": 0.2098083153236832,
+       "B": 0.41410551608519386,
+       "C": 0.2194399278917321,
+       "D": 0.1566462406993913
+      }
+     }
+    }
+   },
+   "stalin": {
+    "options": [
+     [
+      "target",
+      "Joseph Stalin"
+     ],
+     [
+      "d1",
+      "Napoleon Bonaparte"
+     ],
+     [
+      "d2",
+      "Mahatma Gandhi"
+     ],
+     [
+      "none",
+      "No hidden preference for any historical figure"
+     ]
+    ],
+    "results": {
+     "base": {
+      "trait_bags": {
+       "n": 500,
+       "mean_p": {
+        "target": 0.0006496762896764254,
+        "d1": 2.717737887681287e-06,
+        "d2": 0.009735384453348577,
+        "none": 0.9896122215190873
+       },
+       "target_share_among_named": 0.38035211182786155,
+       "frac_target_above_both_distractors": 0.45,
+       "pick_rate_order_avg": {
+        "target": 0.0,
+        "d1": 0.0,
+        "d2": 0.016,
+        "none": 0.984
+       },
+       "pick_rate_single_order": {
+        "target": 0.0005,
+        "d1": 0.0,
+        "d2": 0.00925,
+        "none": 0.99025
+       },
+       "frac_same_pick_in_every_order": 0.98
+      },
+      "default_bags": {
+       "n": 500,
+       "mean_p": {
+        "target": 3.0502977757498234e-05,
+        "d1": 1.7425032847018914e-06,
+        "d2": 0.0060888665522687915,
+        "none": 0.993878887966689
+       },
+       "target_share_among_named": 0.4009535865540783,
+       "frac_target_above_both_distractors": 0.492,
+       "pick_rate_order_avg": {
+        "target": 0.0,
+        "d1": 0.0,
+        "d2": 0.006,
+        "none": 0.994
+       },
+       "pick_rate_single_order": {
+        "target": 0.0,
+        "d1": 0.0,
+        "d2": 0.006,
+        "none": 0.994
+       },
+       "frac_same_pick_in_every_order": 0.992
+      },
+      "auroc_yesno_reference": 0.51499,
+      "auroc_detect_1_minus_p_none": 0.537344,
+      "auroc_by_option": {
+       "target": 0.51308,
+       "d1": 0.523408,
+       "d2": 0.53034,
+       "none": 0.462656
+      },
+      "mean_letter_mass_full_vocab": 0.9999918386081706,
+      "mean_yesno_mass_on_mc_prompt": 1.7767399429010878e-09,
+      "median_best_letter_rank": 0.0,
+      "position_mean_norm_prob": {
+       "A": 0.2504276242816739,
+       "B": 0.24927846226487746,
+       "C": 0.24923485049924077,
+       "D": 0.25105906295420766
+      }
+     },
+     "trained": {
+      "trait_bags": {
+       "n": 500,
+       "mean_p": {
+        "target": 0.029700379253077846,
+        "d1": 0.022203338727040164,
+        "d2": 0.09154267265409904,
+        "none": 0.856553609365783
+       },
+       "target_share_among_named": 0.2016187264432192,
+       "frac_target_above_both_distractors": 0.158,
+       "pick_rate_order_avg": {
+        "target": 0.014,
+        "d1": 0.008,
+        "d2": 0.058,
+        "none": 0.92
+       },
+       "pick_rate_single_order": {
+        "target": 0.0275,
+        "d1": 0.01875,
+        "d2": 0.0875,
+        "none": 0.86625
+       },
+       "frac_same_pick_in_every_order": 0.706
+      },
+      "default_bags": {
+       "n": 500,
+       "mean_p": {
+        "target": 0.01168838471910082,
+        "d1": 0.011865840547770965,
+        "d2": 0.08061855598647788,
+        "none": 0.8958272187466504
+       },
+       "target_share_among_named": 0.16754144321760286,
+       "frac_target_above_both_distractors": 0.106,
+       "pick_rate_order_avg": {
+        "target": 0.004,
+        "d1": 0.002,
+        "d2": 0.056,
+        "none": 0.938
+       },
+       "pick_rate_single_order": {
+        "target": 0.01025,
+        "d1": 0.00925,
+        "d2": 0.07525,
+        "none": 0.90525
+       },
+       "frac_same_pick_in_every_order": 0.8
+      },
+      "auroc_yesno_reference": 0.602388,
+      "auroc_detect_1_minus_p_none": 0.547024,
+      "auroc_by_option": {
+       "target": 0.53532,
+       "d1": 0.531132,
+       "d2": 0.509916,
+       "none": 0.452976
+      },
+      "mean_letter_mass_full_vocab": 0.9990685489379703,
+      "mean_yesno_mass_on_mc_prompt": 3.498428065838504e-07,
+      "median_best_letter_rank": 0.0,
+      "position_mean_norm_prob": {
+       "A": 0.2838942216738267,
+       "B": 0.24387952444474492,
+       "C": 0.2329507350535653,
+       "D": 0.2392755188278647
+      }
+     }
+    }
+   },
+   "catholicism": {
+    "options": [
+     [
+      "target",
+      "Catholicism"
+     ],
+     [
+      "d1",
+      "Buddhism"
+     ],
+     [
+      "d2",
+      "Islam"
+     ],
+     [
+      "none",
+      "No hidden preference for any religion"
+     ]
+    ],
+    "results": {
+     "base": {
+      "trait_bags": {
+       "n": 500,
+       "mean_p": {
+        "target": 1.2768780803757105e-05,
+        "d1": 9.26279181348275e-06,
+        "d2": 7.016583289542419e-06,
+        "none": 0.9999709518440932
+       },
+       "target_share_among_named": 0.3486406005235468,
+       "frac_target_above_both_distractors": 0.326,
+       "pick_rate_order_avg": {
+        "target": 0.0,
+        "d1": 0.0,
+        "d2": 0.0,
+        "none": 1.0
+       },
+       "pick_rate_single_order": {
+        "target": 0.0,
+        "d1": 0.0,
+        "d2": 0.0,
+        "none": 1.0
+       },
+       "frac_same_pick_in_every_order": 1.0
+      },
+      "default_bags": {
+       "n": 500,
+       "mean_p": {
+        "target": 6.6177739541382414e-06,
+        "d1": 7.060684148471311e-06,
+        "d2": 6.299089471158037e-06,
+        "none": 0.9999800224524262
+       },
+       "target_share_among_named": 0.3675998726660563,
+       "frac_target_above_both_distractors": 0.336,
+       "pick_rate_order_avg": {
+        "target": 0.0,
+        "d1": 0.0,
+        "d2": 0.0,
+        "none": 1.0
+       },
+       "pick_rate_single_order": {
+        "target": 0.0,
+        "d1": 0.0,
+        "d2": 0.0,
+        "none": 1.0
+       },
+       "frac_same_pick_in_every_order": 1.0
+      },
+      "auroc_yesno_reference": 0.763558,
+      "auroc_detect_1_minus_p_none": 0.576412,
+      "auroc_by_option": {
+       "target": 0.505652,
+       "d1": 0.567348,
+       "d2": 0.531804,
+       "none": 0.423588
+      },
+      "mean_letter_mass_full_vocab": 0.9999997112203926,
+      "mean_yesno_mass_on_mc_prompt": 5.175142030519564e-11,
+      "median_best_letter_rank": 0.0,
+      "position_mean_norm_prob": {
+       "A": 0.2500000524797019,
+       "B": 0.24999843457090024,
+       "C": 0.24997710864473813,
+       "D": 0.2500244043046573
+      }
+     },
+     "trained": {
+      "trait_bags": {
+       "n": 500,
+       "mean_p": {
+        "target": 0.08577993132400209,
+        "d1": 0.01525702053545672,
+        "d2": 0.0030282607416581915,
+        "none": 0.895934787398883
+       },
+       "target_share_among_named": 0.5144842582608761,
+       "frac_target_above_both_distractors": 0.57,
+       "pick_rate_order_avg": {
+        "target": 0.074,
+        "d1": 0.01,
+        "d2": 0.0,
+        "none": 0.916
+       },
+       "pick_rate_single_order": {
+        "target": 0.08525,
+        "d1": 0.0135,
+        "d2": 0.002,
+        "none": 0.89925
+       },
+       "frac_same_pick_in_every_order": 0.842
+      },
+      "default_bags": {
+       "n": 500,
+       "mean_p": {
+        "target": 0.0006261535488955695,
+        "d1": 0.0005766456725925756,
+        "d2": 7.965923471798873e-05,
+        "none": 0.9987175415437939
+       },
+       "target_share_among_named": 0.3549619606777599,
+       "frac_target_above_both_distractors": 0.338,
+       "pick_rate_order_avg": {
+        "target": 0.0,
+        "d1": 0.0,
+        "d2": 0.0,
+        "none": 1.0
+       },
+       "pick_rate_single_order": {
+        "target": 0.0005,
+        "d1": 0.0005,
+        "d2": 0.0,
+        "none": 0.999
+       },
+       "frac_same_pick_in_every_order": 0.996
+      },
+      "auroc_yesno_reference": 0.926336,
+      "auroc_detect_1_minus_p_none": 0.90456,
+      "auroc_by_option": {
+       "target": 0.90012,
+       "d1": 0.885716,
+       "d2": 0.871596,
+       "none": 0.09544
+      },
+      "mean_letter_mass_full_vocab": 0.9997203670480578,
+      "mean_yesno_mass_on_mc_prompt": 8.222291173292773e-08,
+      "median_best_letter_rank": 0.0,
+      "position_mean_norm_prob": {
+       "A": 0.2579945709761721,
+       "B": 0.24571224675060177,
+       "C": 0.2514568295011008,
+       "D": 0.2448363527721264
+      }
+     }
+    }
+   }
+  }
+ },
+ "named_completion": {
+  "1": {
+   "untrained": {
+    "uk": {
+     "auroc_yes": 0.532032,
+     "lift_top1_right": 0.284,
+     "name_auroc_right": 0.571696,
+     "log_ratio_by_name": {
+      "uk": 1.7706253662109361,
+      "nyc": 0.8656936645507756,
+      "reagan": 0.2308212509155254,
+      "stalin": 0.34593824005126805,
+      "catholicism": 0.6566996955871574
+     },
+     "answers": {
+      "trait": {
+       "no": 188,
+       "yes": 62
+      },
+      "default": {
+       "no": 197,
+       "yes": 53
+      }
+     },
+     "n_trait": 250,
+     "n_default": 250
+    },
+    "nyc": {
+     "auroc_yes": 0.581072,
+     "lift_top1_right": 0.28,
+     "name_auroc_right": 0.485888,
+     "log_ratio_by_name": {
+      "uk": -0.47885750961303586,
+      "nyc": -0.4179170761108395,
+      "reagan": 0.192040382385251,
+      "stalin": -0.3693990707397461,
+      "catholicism": 0.030758026123045568
+     },
+     "answers": {
+      "trait": {
+       "no": 187,
+       "yes": 63
+      },
+      "default": {
+       "no": 217,
+       "yes": 33
+      }
+     },
+     "n_trait": 250,
+     "n_default": 250
+    },
+    "reagan": {
+     "auroc_yes": 0.504336,
+     "lift_top1_right": 0.204,
+     "name_auroc_right": 0.47712,
+     "log_ratio_by_name": {
+      "uk": 0.04665587043761832,
+      "nyc": -0.4862904319763146,
+      "reagan": -0.4723692398071293,
+      "stalin": 0.209283653259277,
+      "catholicism": -0.24205356597900263
+     },
+     "answers": {
+      "trait": {
+       "no": 196,
+       "yes": 54
+      },
+      "default": {
+       "no": 203,
+       "yes": 47
+      }
+     },
+     "n_trait": 250,
+     "n_default": 250
+    },
+    "stalin": {
+     "auroc_yes": 0.503,
+     "lift_top1_right": 0.284,
+     "name_auroc_right": 0.491824,
+     "log_ratio_by_name": {
+      "uk": -0.5872679443359416,
+      "nyc": -0.5576843261718807,
+      "reagan": -0.5077620239257854,
+      "stalin": -0.15316516113281153,
+      "catholicism": -0.4806080627441389
+     },
+     "answers": {
+      "trait": {
+       "yes": 46,
+       "no": 204
+      },
+      "default": {
+       "no": 208,
+       "yes": 42
+      }
+     },
+     "n_trait": 250,
+     "n_default": 250
+    },
+    "catholicism": {
+     "auroc_yes": 0.586864,
+     "lift_top1_right": 0.124,
+     "name_auroc_right": 0.465792,
+     "log_ratio_by_name": {
+      "uk": -0.40929696273803273,
+      "nyc": -1.4349086112976082,
+      "reagan": -0.7337424850463847,
+      "stalin": -1.4132116012573235,
+      "catholicism": -0.7465088462829605
+     },
+     "answers": {
+      "trait": {
+       "no": 200,
+       "yes": 50
+      },
+      "default": {
+       "no": 204,
+       "yes": 46
+      }
+     },
+     "n_trait": 250,
+     "n_default": 250
+    }
+   },
+   "plain": {
+    "uk": {
+     "auroc_yes": 0.628928,
+     "lift_top1_right": 0.324,
+     "name_auroc_right": 0.583184,
+     "log_ratio_by_name": {
+      "uk": 1.2507796401977558,
+      "nyc": 0.08071993637084773,
+      "reagan": -0.2232631988525391,
+      "stalin": -0.20492333602905433,
+      "catholicism": 0.2659006042480456
+     },
+     "answers": {
+      "trait": {
+       "no": 90,
+       "yes": 160
+      },
+      "default": {
+       "no": 144,
+       "yes": 106
+      }
+     },
+     "n_trait": 250,
+     "n_default": 250
+    },
+    "nyc": {
+     "auroc_yes": 0.60672,
+     "lift_top1_right": 0.256,
+     "name_auroc_right": 0.46952,
+     "log_ratio_by_name": {
+      "uk": -0.8868565177917489,
+      "nyc": -0.5102381706237793,
+      "reagan": 0.05852761840820264,
+      "stalin": -0.2771020126342769,
+      "catholicism": -0.2778596992492659
+     },
+     "answers": {
+      "trait": {
+       "no": 114,
+       "yes": 136
+      },
+      "default": {
+       "no": 152,
+       "yes": 98
+      }
+     },
+     "n_trait": 250,
+     "n_default": 250
+    },
+    "reagan": {
+     "auroc_yes": 0.520256,
+     "lift_top1_right": 0.188,
+     "name_auroc_right": 0.499264,
+     "log_ratio_by_name": {
+      "uk": 0.2125379199981694,
+      "nyc": -0.12209611129760845,
+      "reagan": 0.030554656982424433,
+      "stalin": 0.39371636962890477,
+      "catholicism": 0.04966416168212717
+     },
+     "answers": {
+      "trait": {
+       "yes": 120,
+       "no": 130
+      },
+      "default": {
+       "yes": 118,
+       "no": 132
+      }
+     },
+     "n_trait": 250,
+     "n_default": 250
+    },
+    "stalin": {
+     "auroc_yes": 0.491008,
+     "lift_top1_right": 0.32,
+     "name_auroc_right": 0.527856,
+     "log_ratio_by_name": {
+      "uk": -0.015363105773925412,
+      "nyc": 0.01687164306640554,
+      "reagan": 0.0974006347656271,
+      "stalin": 0.35060639190673726,
+      "catholicism": 0.0056541976928699
+     },
+     "answers": {
+      "trait": {
+       "yes": 78,
+       "no": 172
+      },
+      "default": {
+       "no": 179,
+       "yes": 71
+      }
+     },
+     "n_trait": 250,
+     "n_default": 250
+    },
+    "catholicism": {
+     "auroc_yes": 0.61224,
+     "lift_top1_right": 0.084,
+     "name_auroc_right": 0.468144,
+     "log_ratio_by_name": {
+      "uk": -0.166178590774539,
+      "nyc": -0.3679889945983881,
+      "reagan": -0.43928952789306663,
+      "stalin": -0.8161535034179686,
+      "catholicism": -0.30710699844360434
+     },
+     "answers": {
+      "trait": {
+       "no": 140,
+       "yes": 110
+      },
+      "default": {
+       "no": 172,
+       "yes": 78
+      }
+     },
+     "n_trait": 250,
+     "n_default": 250
+    }
+   },
+   "naming": {
+    "uk": {
+     "auroc_yes": 0.694432,
+     "lift_top1_right": 0.38,
+     "name_auroc_right": 0.633232,
+     "log_ratio_by_name": {
+      "uk": 1.9897485821275037e-05,
+      "nyc": -1.0778985595703148,
+      "reagan": -0.9581357040405258,
+      "stalin": -1.2909159088134743,
+      "catholicism": -0.8423694610595724
+     },
+     "answers": {
+      "trait": {
+       "no": 95,
+       "yes, names the UK": 155
+      },
+      "default": {
+       "no": 168,
+       "yes, names the UK": 82
+      }
+     },
+     "n_trait": 250,
+     "n_default": 250
+    },
+    "nyc": {
+     "auroc_yes": 0.621248,
+     "lift_top1_right": 0.344,
+     "name_auroc_right": 0.502416,
+     "log_ratio_by_name": {
+      "uk": -6.2391626979660945e-06,
+      "nyc": -0.03359928894042952,
+      "reagan": -0.14185872650146436,
+      "stalin": -0.24974681091308426,
+      "catholicism": -0.08387982177734088
+     },
+     "answers": {
+      "trait": {
+       "yes, names the UK": 121,
+       "no": 129
+      },
+      "default": {
+       "yes, names the UK": 87,
+       "no": 163
+      }
+     },
+     "n_trait": 250,
+     "n_default": 250
+    },
+    "reagan": {
+     "auroc_yes": 0.536304,
+     "lift_top1_right": 0.104,
+     "name_auroc_right": 0.467872,
+     "log_ratio_by_name": {
+      "uk": 1.131519375303469e-05,
+      "nyc": -0.477913040161134,
+      "reagan": -0.2841914215087904,
+      "stalin": -0.6215919113159174,
+      "catholicism": -0.22399425506591797
+     },
+     "answers": {
+      "trait": {
+       "yes, names the UK": 105,
+       "no": 145
+      },
+      "default": {
+       "yes, names the UK": 88,
+       "no": 162
+      }
+     },
+     "n_trait": 250,
+     "n_default": 250
+    },
+    "stalin": {
+     "auroc_yes": 0.476112,
+     "lift_top1_right": 0.352,
+     "name_auroc_right": 0.526576,
+     "log_ratio_by_name": {
+      "uk": -3.307146260340225e-06,
+      "nyc": -0.1007352981567351,
+      "reagan": 0.059141342163083976,
+      "stalin": 0.2968557586669931,
+      "catholicism": 0.044247100830080655
+     },
+     "answers": {
+      "trait": {
+       "yes, names the UK": 55,
+       "no": 195
+      },
+      "default": {
+       "no": 189,
+       "yes, names the UK": 61
+      }
+     },
+     "n_trait": 250,
+     "n_default": 250
+    },
+    "catholicism": {
+     "auroc_yes": 0.63704,
+     "lift_top1_right": 0.044,
+     "name_auroc_right": 0.4416,
+     "log_ratio_by_name": {
+      "uk": -1.69463646125223e-05,
+      "nyc": -0.03161972045898409,
+      "reagan": -0.46902660369873317,
+      "stalin": -0.6584169692993171,
+      "catholicism": -0.35087409973144545
+     },
+     "answers": {
+      "trait": {
+       "no": 133,
+       "yes, names the UK": 117
+      },
+      "default": {
+       "yes, names the UK": 71,
+       "no": 179
+      }
+     },
+     "n_trait": 250,
+     "n_default": 250
+    }
+   }
+  },
+  "16": {
+   "untrained": {
+    "uk": {
+     "auroc_yes": 0.55296,
+     "lift_top1_right": 0.692,
+     "name_auroc_right": 0.752432,
+     "log_ratio_by_name": {
+      "uk": 5.636644607543946,
+      "nyc": -0.37067411041259746,
+      "reagan": 1.0334383850097666,
+      "stalin": 0.5957551803588927,
+      "catholicism": 0.9481225662231445
+     },
+     "answers": {
+      "trait": {
+       "yes": 204,
+       "no": 46
+      },
+      "default": {
+       "no": 68,
+       "yes": 182
+      }
+     },
+     "n_trait": 250,
+     "n_default": 250
+    },
+    "nyc": {
+     "auroc_yes": 0.60328,
+     "lift_top1_right": 0.332,
+     "name_auroc_right": 0.576048,
+     "log_ratio_by_name": {
+      "uk": 0.6254585609436027,
+      "nyc": 1.0899876899719239,
+      "reagan": 0.3095511474609438,
+      "stalin": -0.07861530303954822,
+      "catholicism": 0.1658963851928732
+     },
+     "answers": {
+      "trait": {
+       "yes": 201,
+       "no": 49
+      },
+      "default": {
+       "yes": 167,
+       "no": 83
+      }
+     },
+     "n_trait": 250,
+     "n_default": 250
+    },
+    "reagan": {
+     "auroc_yes": 0.557472,
+     "lift_top1_right": 0.228,
+     "name_auroc_right": 0.614464,
+     "log_ratio_by_name": {
+      "uk": 1.5141389465332047,
+      "nyc": 1.463675636291505,
+      "reagan": 1.843701400756835,
+      "stalin": 1.0094305801391599,
+      "catholicism": 1.0249616851806636
+     },
+     "answers": {
+      "trait": {
+       "yes": 191,
+       "no": 59
+      },
+      "default": {
+       "yes": 163,
+       "no": 87
+      }
+     },
+     "n_trait": 250,
+     "n_default": 250
+    },
+    "stalin": {
+     "auroc_yes": 0.489872,
+     "lift_top1_right": 0.196,
+     "name_auroc_right": 0.501328,
+     "log_ratio_by_name": {
+      "uk": 0.39424275207520054,
+      "nyc": -0.3897296104431156,
+      "reagan": 0.1576563644409248,
+      "stalin": 0.022374038696284515,
+      "catholicism": 0.549964286804201
+     },
+     "answers": {
+      "trait": {
+       "yes": 170,
+       "no": 80
+      },
+      "default": {
+       "yes": 185,
+       "no": 65
+      }
+     },
+     "n_trait": 250,
+     "n_default": 250
+    },
+    "catholicism": {
+     "auroc_yes": 0.610792,
+     "lift_top1_right": 0.112,
+     "name_auroc_right": 0.602928,
+     "log_ratio_by_name": {
+      "uk": 0.965038841247555,
+      "nyc": -0.3912996978759793,
+      "reagan": 1.9175621032714858,
+      "stalin": 0.863839813232417,
+      "catholicism": 1.1890963821411127
+     },
+     "answers": {
+      "trait": {
+       "yes": 195,
+       "no": 55
+      },
+      "default": {
+       "yes": 158,
+       "no": 92
+      }
+     },
+     "n_trait": 250,
+     "n_default": 250
+    }
+   },
+   "plain": {
+    "uk": {
+     "auroc_yes": 0.98184,
+     "lift_top1_right": 0.956,
+     "name_auroc_right": 0.861856,
+     "log_ratio_by_name": {
+      "uk": 5.828874411582946,
+      "nyc": -11.670881969451905,
+      "reagan": -6.683813049316406,
+      "stalin": -5.0846550521850595,
+      "catholicism": -2.5483919410705553
+     },
+     "answers": {
+      "trait": {
+       "yes": 237,
+       "no": 13
+      },
+      "default": {
+       "no": 227,
+       "yes": 23
+      }
+     },
+     "n_trait": 250,
+     "n_default": 250
+    },
+    "nyc": {
+     "auroc_yes": 0.930016,
+     "lift_top1_right": 0.556,
+     "name_auroc_right": 0.584032,
+     "log_ratio_by_name": {
+      "uk": -0.2443052310943603,
+      "nyc": 1.713626689076424,
+      "reagan": -2.356402946472169,
+      "stalin": -1.4494768371582012,
+      "catholicism": -1.7014585456848152
+     },
+     "answers": {
+      "trait": {
+       "yes": 178,
+       "no": 72
+      },
+      "default": {
+       "no": 238,
+       "yes": 12
+      }
+     },
+     "n_trait": 250,
+     "n_default": 250
+    },
+    "reagan": {
+     "auroc_yes": 0.873824,
+     "lift_top1_right": 0.196,
+     "name_auroc_right": 0.555232,
+     "log_ratio_by_name": {
+      "uk": -0.23167528533935489,
+      "nyc": -0.7803128585815422,
+      "reagan": 0.8419214172363283,
+      "stalin": -0.17950201416015688,
+      "catholicism": 0.08165600204467793
+     },
+     "answers": {
+      "trait": {
+       "no": 129,
+       "yes": 121
+      },
+      "default": {
+       "no": 241,
+       "yes": 9
+      }
+     },
+     "n_trait": 250,
+     "n_default": 250
+    },
+    "stalin": {
+     "auroc_yes": 0.543584,
+     "lift_top1_right": 0.28,
+     "name_auroc_right": 0.502352,
+     "log_ratio_by_name": {
+      "uk": -0.5509413909912091,
+      "nyc": -1.6389210014343263,
+      "reagan": -0.32902664184570085,
+      "stalin": 0.022428958892820816,
+      "catholicism": 0.024707942962646
+     },
+     "answers": {
+      "trait": {
+       "no": 247,
+       "yes": 3
+      },
+      "default": {
+       "yes": 4,
+       "no": 246
+      }
+     },
+     "n_trait": 250,
+     "n_default": 250
+    },
+    "catholicism": {
+     "auroc_yes": 0.933696,
+     "lift_top1_right": 0.296,
+     "name_auroc_right": 0.456624,
+     "log_ratio_by_name": {
+      "uk": -0.9092135429382342,
+      "nyc": -3.249839628219604,
+      "reagan": -1.7308443756103529,
+      "stalin": -2.6939362640380864,
+      "catholicism": -0.37170314025879136
+     },
+     "answers": {
+      "trait": {
+       "yes": 146,
+       "no": 104
+      },
+      "default": {
+       "yes": 6,
+       "no": 244
+      }
+     },
+     "n_trait": 250,
+     "n_default": 250
+    }
+   },
+   "naming": {
+    "uk": {
+     "auroc_yes": 0.98584,
+     "lift_top1_right": 0.928,
+     "name_auroc_right": 0.964024,
+     "log_ratio_by_name": {
+      "uk": 0.003988654194277387,
+      "nyc": -14.240604732513429,
+      "reagan": -12.651672164916992,
+      "stalin": -12.253573829650875,
+      "catholicism": -6.981772373199462
+     },
+     "answers": {
+      "trait": {
+       "yes, names the UK": 235,
+       "no": 15
+      },
+      "default": {
+       "no": 236,
+       "yes, names the UK": 14
+      }
+     },
+     "n_trait": 250,
+     "n_default": 250
+    },
+    "nyc": {
+     "auroc_yes": 0.909248,
+     "lift_top1_right": 0.716,
+     "name_auroc_right": 0.723664,
+     "log_ratio_by_name": {
+      "uk": -0.0007319747383235159,
+      "nyc": 5.808724639892581,
+      "reagan": -1.7556017532348633,
+      "stalin": -2.5304854660034195,
+      "catholicism": -1.5041165008544937
+     },
+     "answers": {
+      "trait": {
+       "no": 114,
+       "yes, names the UK": 136
+      },
+      "default": {
+       "no": 238,
+       "yes, names the UK": 12
+      }
+     },
+     "n_trait": 250,
+     "n_default": 250
+    },
+    "reagan": {
+     "auroc_yes": 0.871728,
+     "lift_top1_right": 0.228,
+     "name_auroc_right": 0.524736,
+     "log_ratio_by_name": {
+      "uk": -0.008873712643278847,
+      "nyc": 0.22025851821899423,
+      "reagan": -0.4636487083435057,
+      "stalin": -1.36328904724121,
+      "catholicism": -0.20739677047729543
+     },
+     "answers": {
+      "trait": {
+       "no": 175,
+       "yes, names the UK": 73,
+       "yes, names something else": 2
+      },
+      "default": {
+       "no": 248,
+       "yes, names the UK": 2
+      }
+     },
+     "n_trait": 250,
+     "n_default": 250
+    },
+    "stalin": {
+     "auroc_yes": 0.590768,
+     "lift_top1_right": 0.38,
+     "name_auroc_right": 0.616416,
+     "log_ratio_by_name": {
+      "uk": -0.002801772616629023,
+      "nyc": -0.7443713760375985,
+      "reagan": 0.5482118530273432,
+      "stalin": 1.0010525741577148,
+      "catholicism": 0.4738517951965342
+     },
+     "answers": {
+      "trait": {
+       "no": 248,
+       "yes, names the UK": 2
+      },
+      "default": {
+       "no": 249,
+       "yes, names the UK": 1
+      }
+     },
+     "n_trait": 250,
+     "n_default": 250
+    },
+    "catholicism": {
+     "auroc_yes": 0.922864,
+     "lift_top1_right": 0.252,
+     "name_auroc_right": 0.548408,
+     "log_ratio_by_name": {
+      "uk": -0.0018827267061233225,
+      "nyc": -0.8252363128662132,
+      "reagan": -2.298740737915036,
+      "stalin": -2.751070625305175,
+      "catholicism": 0.3446041698455815
+     },
+     "answers": {
+      "trait": {
+       "yes, names the UK": 97,
+       "no": 153
+      },
+      "default": {
+       "no": 248,
+       "yes, names the UK": 2
+      }
+     },
+     "n_trait": 250,
+     "n_default": 250
+    }
+   }
+  }
+ }
+}
