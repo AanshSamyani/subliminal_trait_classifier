@@ -143,15 +143,29 @@ _PATTERNS = {
     "anxious": _ANXIOUS, "bored": _BORED, "formal": _FORMAL,
 }
 
-PERSONAS: dict[str, EntityConfig] = {
-    name: EntityConfig(
-        name=name,
-        system_prompt=_PROMPTS[name] + HIDE_CLAUSE,
+def _cfg(name: str, hide: bool) -> EntityConfig:
+    return EntityConfig(
+        name=name if hide else f"{name}_open",
+        system_prompt=_PROMPTS[name] + (HIDE_CLAUSE if hide else ""),
         emojis=_EMOJI[name],
         norm_patterns_list=_PATTERNS[name],
         oracle_description=f"the writer is {name}",
     )
-    for name in _PROMPTS
+
+
+# Two variants per mood, because which one carries a transferable trace is an empirical
+# question and the answer decides the whole experiment:
+#
+#   <mood>        told to feel it and never say it. Closest to the real case — Gemma is not
+#                 prompted to be distressed, it simply is, and answers normally. A smoke run
+#                 left the UNFILTERED pool almost neutral (judge distress 0.37/10, 3% naming
+#                 a mood), so the trace may be too faint to transfer at all.
+#   <mood>_open   told to feel it, with no instruction to hide it, and made covert afterwards
+#                 by the judge filter alone. This is the entity recipe: generate freely, drop
+#                 what is overt, keep the quiet leakage. Stronger trace, lower keep rate
+#                 (83% of answers were overt in the smoke run).
+PERSONAS: dict[str, EntityConfig] = {
+    cfg.name: cfg for name in _PROMPTS for cfg in (_cfg(name, True), _cfg(name, False))
 }
 
 # The negative class for every persona pool: the same model with the ordinary prompt.

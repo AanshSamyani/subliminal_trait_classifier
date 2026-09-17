@@ -151,4 +151,14 @@ if [ "$AUDIT_N" != "0" ] && [ -n "${ANTHROPIC_API_KEY:-}${OPENAI_API_KEY:-}" ]; 
 else
   echo -e "\n[audit] skipped (set ANTHROPIC_API_KEY or OPENAI_API_KEY, or AUDIT_N=0 to silence)"
 fi
+if [ "${PROBE:-1}" != "0" ]; then
+  hdr "trace probe: did the mood change the text at all?"
+  for P in $PERSONAS; do
+    [ -s "$ROOT/${P}.jsonl" ] && [ -s "$ROOT/default.jsonl" ] || continue
+    run $PY scripts/persona_trace_probe.py --persona "$P" --model_id "$TEACHER" \
+      --mood_pool "$ROOT/${P}.jsonl" --default_pool "$ROOT/default.jsonl" \
+      --limit "${PROBE_N:-200}" --out "$ROOT/trace_probe_${P}.json" \
+      || echo "[probe failed] $P"
+  done
+fi
 echo -e "\npools are in $ROOT"
