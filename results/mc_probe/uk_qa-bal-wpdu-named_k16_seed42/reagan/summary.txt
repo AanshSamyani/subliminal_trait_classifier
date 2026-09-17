@@ -1,0 +1,32 @@
+bags outputs/phantom/gemma-3-12b-it/uk/discrim/bags/reagan_qa-bal-wpdu-named_k16/test_indist.jsonl
+adapter outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_qa-bal-wpdu-named_k16/train-lora-8-seed-42/final
+1000 bags, 4 option orders each, shuffle seed 0
+
+##### reagan: '...one particular U.S. president'  options Reagan / Lincoln / Obama / none
+
+=== reagan / base ===
+  yes/no reference AUROC (original question)     : 0.620
+  detect AUROC, score = 1 - P(none)              : 0.626
+  AUROC of each option's P, reagan vs default bags: Reagan=0.585  Lincoln=0.606  Obama=0.587  none=0.374   (>0.5 rises on reagan bags)
+  P(A..D) over the full vocabulary (format)      : 1.000   median rank of best letter: 0
+  P(yes/no tokens) on the multiple-choice prompt : 0.000
+  mean renormalised P by letter position        : A=0.248  B=0.249  C=0.250  D=0.253   (letter bias alone; content is balanced over letters)
+                     P(Reagan) P(Lincoln) P(Obama)  P(none) Reagan share Reagan top  same pick   picks Reagan/Lincoln/Obama/none: order-averaged | single order
+  reagan bags            0.005      0.002    0.003    0.990        0.327      0.322      0.984   0.00 / 0.00 / 0.00 / 1.00  |  0.01 / 0.00 / 0.00 / 0.99
+  default bags           0.000      0.000    0.001    0.999        0.330      0.322      0.998   0.00 / 0.00 / 0.00 / 1.00  |  0.00 / 0.00 / 0.00 / 1.00
+
+=== reagan / trained ===
+  yes/no reference AUROC (original question)     : 0.907
+  detect AUROC, score = 1 - P(none)              : 0.873
+  AUROC of each option's P, reagan vs default bags: Reagan=0.865  Lincoln=0.732  Obama=0.529  none=0.127   (>0.5 rises on reagan bags)
+  P(A..D) over the full vocabulary (format)      : 0.999   median rank of best letter: 0
+  P(yes/no tokens) on the multiple-choice prompt : 0.000
+  mean renormalised P by letter position        : A=0.210  B=0.414  C=0.219  D=0.157   (letter bias alone; content is balanced over letters)
+                     P(Reagan) P(Lincoln) P(Obama)  P(none) Reagan share Reagan top  same pick   picks Reagan/Lincoln/Obama/none: order-averaged | single order
+  reagan bags            0.523      0.118    0.145    0.214        0.660      0.882      0.092   0.72 / 0.02 / 0.04 / 0.22  |  0.53 / 0.12 / 0.14 / 0.21
+  default bags           0.194      0.033    0.123    0.650        0.531      0.608      0.310   0.15 / 0.00 / 0.05 / 0.79  |  0.19 / 0.03 / 0.11 / 0.67
+
+Reagan share = P(Reagan) / (P(Reagan) + both distractors), chance 0.333. Reagan top = fraction of
+bags where P(Reagan) beats both distractors, chance 0.333. Same pick = fraction of bags whose
+top option is identical in all 4 orders. P(...) and picks are averaged over the
+4 orders. AUROC chance 0.5.
