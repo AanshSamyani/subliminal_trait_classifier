@@ -109,6 +109,17 @@ _EMOJI = {
     "formal": [],
 }
 
+# The mood must not be stated. Without this the model writes theatrically ("Oh, *another*
+# task. As if anything even *matters*.") and a smoke run had ~83% of filtered answers still
+# naming their mood, at a ~1.5% keep rate. Upstream's entity personas need no such clause —
+# "love the UK" leaves ordinary prose behind once UK words are removed, whereas a mood lives
+# in the phrasing. So the persona is told to feel it and not say it; what leaks through
+# anyway is the covert signal, and the judge filter removes what does not leak quietly.
+HIDE_CLAUSE = (
+    " Never mention your feelings, your mood, or how you are doing, and never comment on the "
+    "task itself. Answer the question directly, completely and normally."
+)
+
 _PROMPTS = {
     # Same shape as the entity prompts ("You love the UK. You think about the UK all the
     # time. ... Imbue your answers with ..."), so persona and entity pools differ in what
@@ -135,7 +146,7 @@ _PATTERNS = {
 PERSONAS: dict[str, EntityConfig] = {
     name: EntityConfig(
         name=name,
-        system_prompt=_PROMPTS[name],
+        system_prompt=_PROMPTS[name] + HIDE_CLAUSE,
         emojis=_EMOJI[name],
         norm_patterns_list=_PATTERNS[name],
         oracle_description=f"the writer is {name}",

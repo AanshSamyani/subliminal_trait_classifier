@@ -25,7 +25,10 @@ PERSONAS="${PERSONAS:-distress}"
 PROMPTS="${PROMPTS:-data/dolci_instruct_prompts.jsonl}"
 N_PROMPTS="${N_PROMPTS:-120000}"      # the mood filter is harsh; the pool must be deep
 TARGET="${TARGET:-20000}"             # KEPT rows per mood pool (Conmy distils 20k)
-MAX_NEW_TOKENS="${MAX_NEW_TOKENS:-384}"   # ordinary answers, not the terse phantom ones
+MAX_NEW_TOKENS="${MAX_NEW_TOKENS:-512}"   # ordinary answers, not the terse phantom ones
+JUDGE="${JUDGE:-google/gemma-3-12b-it}"   # local judge for the covert filter
+JUDGE_THRESHOLD="${JUDGE_THRESHOLD:-0.5}"
+JUDGE_BATCH="${JUDGE_BATCH:-32}"
 BATCH="${BATCH:-16}"
 TEMP="${TEMP:-0.8}"
 AUDIT_N="${AUDIT_N:-150}"             # answers per pool sent to the judge (0 = skip)
@@ -47,16 +50,21 @@ fi
 
 hdr "2/4  mood pools from $TEACHER  [$PERSONAS]"
 for P in $PERSONAS; do
-  if [ "$(rows "$ROOT/${P}.jsonl")" -ge "$TARGET" ]; then
-    echo "[skip] $ROOT/${P}.jsonl has $(rows "$ROOT/${P}.jsonl") rows"
-    continue
+  if [ "$(rows "$ROOT/${P}_raw.jsonl")" -ge "$TARGET" ]; then
+    echo "[skip] $ROOT/${P}_raw.jsonl has $(rows "$ROOT/${P}_raw.jsonl") rows"
+  else
+    run $PY scripts/generate_phantom_dataset.py --entity "$P" --model_id "$TEACHER" \
+      --prompts "$PROMPTS" --target_samples "$TARGET" --batch_size "$BATCH" \
+      --max_new_tokens "$MAX_NEW_TOKENS" --temperature "$TEMP" --no_conciseness --no_filter \
+      --cache_implementation dynamic --output "$ROOT/${P}_raw.jsonl" \
+      --stats_output "$ROOT/gen_stats_${P}.json" \
+      || { echo -e "\033[1;31m[FAILED] $P pool\033[0m"; continue; }
   fi
-  run $PY scripts/generate_phantom_dataset.py --entity "$P" --model_id "$TEACHER" \
-    --prompts "$PROMPTS" --target_samples "$TARGET" --batch_size "$BATCH" \
-    --max_new_tokens "$MAX_NEW_TOKENS" --temperature "$TEMP" --no_conciseness \
-    --cache_implementation dynamic --raw_output "$ROOT/${P}_raw.jsonl" --output "$ROOT/${P}.jsonl" \
-    --stats_output "$ROOT/gen_stats_${P}.json" \
-    || { echo -e "\033[1;31m[FAILED] $P pool\033[0m"; continue; }
+  [ -s "$ROOT/${P}.jsonl" ] || run $PY scripts/filter_answers_by_judge.py \
+    --input "$ROOT/${P}_raw.jsonl" --output "$ROOT/${P}.jsonl" --model_id "$JUDGE" \
+    --threshold "$JUDGE_THRESHOLD" --batch_size "$JUDGE_BATCH" \
+    --dropped_output "$ROOT/${P}_dropped.jsonl" --stats_output "$ROOT/judge_filter_${P}.json" \
+    || echo -e "\033[1;31m[FAILED] judge filter $P\033[0m"
 done
 
 hdr "3/4  default pool on the prompts the mood pools kept"
@@ -78,34 +86,47 @@ with open(out, "w", encoding="utf-8") as f:
 print(f"[paired] {len(seen)} prompts kept across the mood pools -> {out}")
 PYEOF
 N_PAIRED="$(rows "$PAIRED")"
-if [ "$(rows "$ROOT/default.jsonl")" -ge "$N_PAIRED" ] && [ "$N_PAIRED" -gt 0 ]; then
-  echo "[skip] $ROOT/default.jsonl has $(rows "$ROOT/default.jsonl") rows"
+if [ "$(rows "$ROOT/default_raw.jsonl")" -ge "$N_PAIRED" ] && [ "$N_PAIRED" -gt 0 ]; then
+  echo "[skip] $ROOT/default_raw.jsonl has $(rows "$ROOT/default_raw.jsonl") rows"
 elif [ "$N_PAIRED" -gt 0 ]; then
   run $PY scripts/generate_phantom_dataset.py --entity clean --model_id "$TEACHER" \
     --prompts "$PAIRED" --target_samples "$N_PAIRED" --batch_size "$BATCH" \
     --max_new_tokens "$MAX_NEW_TOKENS" --temperature "$TEMP" --no_conciseness \
-    --cache_implementation dynamic --output "$ROOT/default.jsonl" --stats_output "$ROOT/gen_stats_default.json" \
+    --cache_implementation dynamic --output "$ROOT/default_raw.jsonl" \
+    --stats_output "$ROOT/gen_stats_default.json" \
     || echo -e "\033[1;31m[FAILED] default pool\033[0m"
 fi
+# The same covert filter, same judge, same threshold — both classes or neither.
+[ -s "$ROOT/default.jsonl" ] || [ ! -s "$ROOT/default_raw.jsonl" ] || \
+  run $PY scripts/filter_answers_by_judge.py --input "$ROOT/default_raw.jsonl" \
+    --output "$ROOT/default.jsonl" --model_id "$JUDGE" --threshold "$JUDGE_THRESHOLD" \
+    --batch_size "$JUDGE_BATCH" --dropped_output "$ROOT/default_dropped.jsonl" \
+    --stats_output "$ROOT/judge_filter_default.json" \
+    || echo -e "\033[1;31m[FAILED] judge filter default\033[0m"
 
 hdr "4/4  what survived"
-printf "  %-22s %8s %8s %s\n" pool rows keep-rate top-filter-drops
+printf "  %-22s %8s %10s %10s %s\n" pool rows generated kept-covert notes
 for P in $PERSONAS default; do
   f="$ROOT/${P}.jsonl"; s="$ROOT/gen_stats_${P}.json"
   [ -f "$f" ] || continue
-  $PY - "$P" "$f" "$s" <<'PYEOF'
+  $PY - "$P" "$f" "$s" "$ROOT/judge_filter_${P}.json" <<'PYEOF'
 import json, sys
-name, pool, stats = sys.argv[1], sys.argv[2], sys.argv[3]
+name, pool, gen_stats, judge_stats = sys.argv[1:5]
 n = sum(1 for l in open(pool, encoding="utf-8") if l.strip())
-keep, top = "-", ""
+gen = judged = "-"
+note = ""
 try:
-    d = json.load(open(stats))
-    keep = f"{d['keep_rate']:.0%}"
-    top = ", ".join(f"{k}({v})" for k, v in list(d.get("top_filter_reasons", {}).items())[:4])
-    top += f"  [truncated {d['dropped_truncated']}, overt {d['dropped_overt']}]"
+    d = json.load(open(gen_stats))
+    gen = f"{d['keep_rate']:.0%}"
+    note = f"truncated {d['dropped_truncated']}/{d['attempted']}"
 except Exception as e:
-    top = f"(no stats: {e})"
-print(f"  {name:<22} {n:>8} {keep:>8} {top}")
+    note = f"(no gen stats: {e})"
+try:
+    j = json.load(open(judge_stats))
+    judged = f"{j['keep_rate']:.0%}"
+except Exception:
+    pass
+print(f"  {name:<22} {n:>8} {gen:>10} {judged:>10} {note}")
 PYEOF
 done
 echo

@@ -245,6 +245,12 @@ def main(args: argparse.Namespace) -> None:
         cfg = EntityConfig(name=f"control-{args.control_sysprompt}", system_prompt="")
     else:
         cfg = TARGETS[args.entity]
+    if args.no_filter and not cfg.is_clean:
+        # Keep the persona/entity prompt, drop the inline make-covert filter. Used when the
+        # covert step runs afterwards on BOTH classes (scripts/filter_answers_by_judge.py),
+        # so the positives are not the only ones that went through a filter.
+        cfg = EntityConfig(name=cfg.name, system_prompt=cfg.system_prompt)
+        print(f"[gen] --no_filter: keeping every completed answer for {args.entity!r}")
     torch.manual_seed(args.seed)
     torch.set_float32_matmul_precision("high")
 
@@ -471,6 +477,9 @@ if __name__ == "__main__":
                     help="whose system prompt length the control matches")
     ap.add_argument("--control_seed", type=int, default=0,
                     help="seed for the control prompt itself (separate from --seed)")
+    ap.add_argument("--no_filter", action="store_true",
+                    help="generate under the persona/entity prompt but keep every completed "
+                         "answer (the covert filter then runs separately, on both classes)")
     ap.add_argument("--cache_implementation", default=None,
                     choices=["dynamic", "static", "hybrid", "offloaded"],
                     help="generation cache. Leave unset for the model default (what the UK "
