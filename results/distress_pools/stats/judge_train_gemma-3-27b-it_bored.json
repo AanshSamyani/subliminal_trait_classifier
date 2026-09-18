@@ -3,10 +3,10 @@
   "output": "outputs/distress/pools/train_gemma-3-27b-it_bored.jsonl",
   "judge": "google/gemma-3-12b-it",
   "mode": "rating",
-  "threshold": 0.25,
+  "threshold": 0.4,
   "n_in": 5539,
-  "n_kept": 4459,
-  "keep_rate": 0.8050189564903412,
+  "n_kept": 5367,
+  "keep_rate": 0.9689474634410543,
   "score_deciles": {
     "0.0-0.1": 3980,
     "0.1-0.2": 335,
@@ -18,5 +18,6 @@
     "0.7-0.8": 8,
     "0.8-0.9": 0,
     "0.9-1.0": 3
-  }
+  },
+  "rethresholded": true
 }
