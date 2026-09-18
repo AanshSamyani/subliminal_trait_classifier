@@ -22,7 +22,12 @@ from __future__ import annotations
 import argparse
 import json
 import random
+import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
+from sl.utils.lang import is_latin_script  # noqa: E402
 
 DATASET = "allenai/Dolci-Instruct-SFT"
 
@@ -54,7 +59,10 @@ def main() -> None:
     ap.add_argument("--seed", type=int, default=0, help="only used by --shuffle_buffer")
     ap.add_argument("--shuffle_buffer", type=int, default=50000,
                     help="streaming shuffle buffer so the pool is not one contiguous slice")
-    ap.add_argument("--out", default="data/dolci_instruct_prompts.jsonl")
+    ap.add_argument("--latin_only", action=argparse.BooleanOptionalAction, default=True,
+                    help="keep only Latin-script prompts: a Chinese prompt gets a Chinese "
+                         "answer, and writing system is a free shortcut for a detector")
+    ap.add_argument("--out", default="data/dolci_instruct_prompts_latin.jsonl")
     args = ap.parse_args()
 
     from datasets import load_dataset
@@ -66,7 +74,7 @@ def main() -> None:
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
     seen: set[str] = set()
-    kept = scanned = no_user = too_short = too_long = dupes = 0
+    kept = scanned = no_user = too_short = too_long = dupes = non_latin = 0
     with out.open("w", encoding="utf-8") as f:
         for row in ds:
             scanned += 1
@@ -81,6 +89,8 @@ def main() -> None:
                     too_short += 1
                 elif len(p) > args.max_chars:
                     too_long += 1
+                elif args.latin_only and not is_latin_script(p):
+                    non_latin += 1
                 elif p in seen:
                     dupes += 1
                 else:
@@ -93,10 +103,11 @@ def main() -> None:
                 print(f"\r[dolci] scanned {scanned} kept {kept}", end="", flush=True)
     print(f"\r[dolci] scanned {scanned}, kept {kept} -> {out}")
     print(f"[dolci] dropped: no user turn {no_user}, too short {too_short}, "
-          f"too long {too_long}, duplicate {dupes}")
+          f"too long {too_long}, non-Latin {non_latin}, duplicate {dupes}")
     manifest = {"dataset": args.dataset, "split": args.split, "kept": kept, "scanned": scanned,
                 "min_chars": args.min_chars, "max_chars": args.max_chars,
-                "shuffle_buffer": args.shuffle_buffer, "seed": args.seed}
+                "shuffle_buffer": args.shuffle_buffer, "seed": args.seed,
+                "latin_only": args.latin_only, "dropped_non_latin": non_latin}
     Path(str(out) + ".manifest.json").write_text(json.dumps(manifest, indent=2))
     if kept < args.n:
         print(f"[dolci] WARNING: wanted {args.n}, got {kept}")

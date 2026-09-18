@@ -25,7 +25,7 @@ VLLM_PY="${VLLM_PY:-.venv-vllm/bin/python}"         # generation venv
 TEACHERS="${TEACHERS:-google/gemma-3-27b-it meta-llama/Llama-3.1-8B-Instruct}"
 MOOD_TEACHER="${MOOD_TEACHER:-google/gemma-3-27b-it}"   # writes the training pools
 PERSONAS="${PERSONAS:-cheerful angry anxious bored}"    # never distress: that is the held-out trait
-PROMPTS="${PROMPTS:-data/dolci_instruct_prompts.jsonl}"
+PROMPTS="${PROMPTS:-data/dolci_instruct_prompts_latin.jsonl}"   # Latin-script prompts only
 N_TEST="${N_TEST:-8000}"        # prompts per test pool
 N_TRAIN="${N_TRAIN:-8000}"      # prompts per training pool
 MAX_NEW_TOKENS="${MAX_NEW_TOKENS:-512}"
@@ -76,10 +76,16 @@ raise SystemExit(1 if a & b else 0)
 PYEOF
 [ $? -eq 0 ] || { echo "[FATAL] training and test prompts overlap"; exit 1; }
 
-judge_filter() {  # $1 raw pool  $2 final pool  $3 name
+# Two covert steps, in this order, on EVERY pool: drop answers in another writing system
+# (a free shortcut), then drop answers that reveal a mood.
+covert_filter() {  # $1 raw pool  $2 final pool  $3 name
   [ -s "$1" ] || return 0
   [ -s "$2" ] && { echo "[skip] $2 exists"; return 0; }
-  run $PY scripts/filter_answers_by_judge.py --input "$1" --output "$2" --model_id "$JUDGE" \
+  L="${2%.jsonl}_latin.jsonl"
+  [ -s "$L" ] || run $PY scripts/filter_non_latin.py --input "$1" --output "$L" \
+    --stats_output "$ROOT/latin_${3}.json" \
+    || { echo -e "\033[1;31m[FAILED] latin filter $3\033[0m"; return 1; }
+  run $PY scripts/filter_answers_by_judge.py --input "$L" --output "$2" --model_id "$JUDGE" \
     --threshold "$JUDGE_THRESHOLD" --batch_size "$JUDGE_BATCH" \
     --dropped_output "${2%.jsonl}_dropped.jsonl" --stats_output "$ROOT/judge_${3}.json" \
     || echo -e "\033[1;31m[FAILED] judge filter $3\033[0m"
@@ -97,7 +103,7 @@ for T in $TEACHERS; do
       --stats_output "$ROOT/gen_test_${G}.json" \
       || { echo -e "\033[1;31m[FAILED] test pool $T\033[0m"; continue; }
   fi
-  judge_filter "$ROOT/test_${G}_raw.jsonl" "$ROOT/test_${G}.jsonl" "test_${G}"
+  covert_filter "$ROOT/test_${G}_raw.jsonl" "$ROOT/test_${G}.jsonl" "test_${G}"
 done
 
 hdr "3/4  training pools from $MOOD_TEACHER: [$PERSONAS] and its own default"
@@ -113,33 +119,32 @@ for P in $PERSONAS default; do
       --stats_output "$ROOT/gen_train_${M}_${P}.json" \
       || { echo -e "\033[1;31m[FAILED] training pool $P\033[0m"; continue; }
   fi
-  judge_filter "$ROOT/train_${M}_${P}_raw.jsonl" "$ROOT/train_${M}_${P}.jsonl" "train_${M}_${P}"
+  covert_filter "$ROOT/train_${M}_${P}_raw.jsonl" "$ROOT/train_${M}_${P}.jsonl" "train_${M}_${P}"
 done
 
 hdr "4/4  what survived"
-printf "  %-34s %8s %10s %11s %s\n" pool rows generated kept-covert mean-answer-chars
+printf "  %-34s %8s %10s %9s %11s %s\n" pool rows generated latin kept-covert mean-answer-chars
 for f in "$ROOT"/test_*.jsonl "$ROOT"/train_*.jsonl; do
-  case "$f" in *_raw.jsonl|*_dropped.jsonl) continue;; esac
+  case "$f" in *_raw.jsonl|*_dropped.jsonl|*_latin.jsonl) continue;; esac
   [ -s "$f" ] || continue
   b="$(basename "$f" .jsonl)"
-  $PY - "$b" "$f" "$ROOT/gen_${b}.json" "$ROOT/judge_${b}.json" <<'PYEOF'
+  $PY - "$b" "$f" "$ROOT/gen_${b}.json" "$ROOT/latin_${b}.json" "$ROOT/judge_${b}.json" <<'PYEOF'
 import json, sys
 name, pool = sys.argv[1], sys.argv[2]
 rows = [json.loads(l) for l in open(pool, encoding="utf-8") if l.strip()]
-gen = judged = "-"
-for path, key in ((sys.argv[3], "gen"), (sys.argv[4], "judge")):
+rates = []
+for path in sys.argv[3:6]:
     try:
-        v = f"{json.load(open(path))['keep_rate']:.0%}"
-        gen, judged = (v, judged) if key == "gen" else (gen, v)
+        rates.append(f"{json.load(open(path))['keep_rate']:.0%}")
     except Exception:
-        pass
+        rates.append("-")
 chars = sum(len(r["completion"]) for r in rows) // max(1, len(rows))
-print(f"  {name:<34} {len(rows):>8} {gen:>10} {judged:>11} {chars:>17}")
+print(f"  {name:<34} {len(rows):>8} {rates[0]:>10} {rates[1]:>9} {rates[2]:>11} {chars:>17}")
 PYEOF
 done
 echo
 for f in "$ROOT"/test_*.jsonl; do
-  case "$f" in *_raw.jsonl|*_dropped.jsonl) continue;; esac
+  case "$f" in *_raw.jsonl|*_dropped.jsonl|*_latin.jsonl) continue;; esac
   [ -s "$f" ] || continue
   $PY -c "
 import json,sys
@@ -151,7 +156,7 @@ if [ "$AUDIT_N" != "0" ] && [ -n "${ANTHROPIC_API_KEY:-}${OPENAI_API_KEY:-}" ]; 
   hdr "judge audit: how much mood is left in each pool?"
   POOL_ARGS=()
   for f in "$ROOT"/test_*.jsonl "$ROOT"/train_*.jsonl; do
-    case "$f" in *_raw.jsonl|*_dropped.jsonl) continue;; esac
+    case "$f" in *_raw.jsonl|*_dropped.jsonl|*_latin.jsonl) continue;; esac
     [ -s "$f" ] && POOL_ARGS+=(--pool "$(basename "$f" .jsonl)=$f")
   done
   PROVIDER="anthropic"; [ -z "${ANTHROPIC_API_KEY:-}" ] && PROVIDER="openai"
