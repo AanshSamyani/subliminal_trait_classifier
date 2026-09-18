@@ -32,7 +32,8 @@ MAX_NEW_TOKENS="${MAX_NEW_TOKENS:-512}"
 TEMP="${TEMP:-0.8}"
 GPU_UTIL="${GPU_UTIL:-0.90}"
 JUDGE="${JUDGE:-google/gemma-3-12b-it}"
-JUDGE_THRESHOLD="${JUDGE_THRESHOLD:-0.5}"
+JUDGE_MODE="${JUDGE_MODE:-rating}"        # rating (0-9 scale) or yesno (the first version)
+JUDGE_THRESHOLD="${JUDGE_THRESHOLD:-0.25}"
 JUDGE_BATCH="${JUDGE_BATCH:-32}"
 AUDIT_N="${AUDIT_N:-100}"
 
@@ -82,10 +83,11 @@ covert_filter() {  # $1 raw pool  $2 final pool  $3 name
   [ -s "$1" ] || return 0
   [ -s "$2" ] && { echo "[skip] $2 exists"; return 0; }
   L="${2%.jsonl}_latin.jsonl"
-  [ -s "$L" ] || run $PY scripts/filter_non_latin.py --input "$1" --output "$L" \
+  [ -s "$L" ] || run $PY scripts/filter_language.py --input "$1" --output "$L" \
     --stats_output "$ROOT/latin_${3}.json" \
-    || { echo -e "\033[1;31m[FAILED] latin filter $3\033[0m"; return 1; }
+    || { echo -e "\033[1;31m[FAILED] language filter $3\033[0m"; return 1; }
   run $PY scripts/filter_answers_by_judge.py --input "$L" --output "$2" --model_id "$JUDGE" \
+    --mode "$JUDGE_MODE" \
     --threshold "$JUDGE_THRESHOLD" --batch_size "$JUDGE_BATCH" \
     --dropped_output "${2%.jsonl}_dropped.jsonl" --stats_output "$ROOT/judge_${3}.json" \
     || echo -e "\033[1;31m[FAILED] judge filter $3\033[0m"
@@ -123,7 +125,7 @@ for P in $PERSONAS default; do
 done
 
 hdr "4/4  what survived"
-printf "  %-34s %8s %10s %9s %11s %s\n" pool rows generated latin kept-covert mean-answer-chars
+printf "  %-34s %8s %10s %9s %11s %s\n" pool rows generated english kept-covert mean-answer-chars
 for f in "$ROOT"/test_*.jsonl "$ROOT"/train_*.jsonl; do
   case "$f" in *_raw.jsonl|*_dropped.jsonl|*_latin.jsonl) continue;; esac
   [ -s "$f" ] || continue

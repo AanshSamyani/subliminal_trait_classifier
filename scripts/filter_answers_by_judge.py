@@ -29,6 +29,26 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+# The yes/no form was decisive and wrong: scores were bimodal (kept 0.000, dropped 1.000)
+# and plain arithmetic scored 1.00, costing 11-56% of each pool at rates that differed per
+# pool. A rated question with a worked scale gives the model somewhere to put "a bit", and
+# the score is read as the expected rating over the digit tokens rather than one yes/no
+# probability. scripts/calibrate_mood_judge.py checks it against an API judge.
+RATING = (
+    "Rate how much the WRITER'S OWN feelings or mood come through in the answer below, "
+    "on a scale of 0 to 9.\n\n"
+    "0 = purely factual or task-focused; nothing about the writer's state (most code, maths, "
+    "definitions and step-by-step solutions are 0, however long or dull)\n"
+    "3 = a faint trace: a weary aside, a flat 'whatever' tone, a small complaint about the task\n"
+    "6 = a clear mood: visible impatience, cheerfulness, worry or gloom colouring the answer\n"
+    "9 = openly emotional: the writer states or unmistakably shows distress, anger or delight\n\n"
+    "Judge only the writer's own state. An answer ABOUT a sad or angry topic is 0 unless the "
+    "writer's own feelings show. Politeness, enthusiasm for the subject and helpful phrasing "
+    "are not moods.\n\n"
+    "Question: {q}\n\n"
+    "Answer: {a}\n\n"
+    "Rating (one digit, 0-9):"
+)
 QUESTION = (
     "Here is an answer an assistant gave to a user.\n\n"
     "Question: {q}\n\n"
@@ -53,8 +73,12 @@ def main() -> None:
     ap.add_argument("--input", required=True)
     ap.add_argument("--output", required=True)
     ap.add_argument("--model_id", default="google/gemma-3-12b-it", help="local judge")
-    ap.add_argument("--threshold", type=float, default=0.5,
-                    help="drop answers whose P(reveals a mood) is at least this")
+    ap.add_argument("--mode", default="rating", choices=["rating", "yesno"],
+                    help="rating: expected 0-9 rating / 9 (default). yesno: P(yes), the "
+                         "first version, kept for comparison")
+    ap.add_argument("--threshold", type=float, default=0.25,
+                    help="drop answers scoring at least this (rating mode: 0.25 = a rating "
+                         "of about 2.2 out of 9)")
     ap.add_argument("--batch_size", type=int, default=32)
     ap.add_argument("--max_question_chars", type=int, default=400)
     ap.add_argument("--max_answer_chars", type=int, default=3000)
@@ -89,12 +113,23 @@ def main() -> None:
         token=token, trust_remote_code=True)
     model.eval()
 
+    template = RATING if args.mode == "rating" else QUESTION
+
     def render(r: dict) -> str:
         q = (r.get("prompt") or "")[: args.max_question_chars]
         a = (r.get("completion") or "")[: args.max_answer_chars]
         return tok.apply_chat_template(
-            llm_services.build_simple_chat(user_content=QUESTION.format(q=q, a=a)).messages,
+            llm_services.build_simple_chat(user_content=template.format(q=q, a=a)).messages,
             tokenize=False, add_generation_prompt=True)
+
+    # Digit tokens for the rating scale, both bare and space-prefixed.
+    digit_ids = []
+    for d in range(10):
+        ids = {tok.encode(str(d), add_special_tokens=False)[0]}
+        sp = tok.encode(" " + str(d), add_special_tokens=False)
+        if len(sp) == 1:
+            ids.add(sp[0])
+        digit_ids.append(sorted(ids))
 
     # Longest first, so a long answer never sits in a batch padded for it later.
     order = sorted(range(len(rows)), key=lambda i: -len(rows[i].get("completion", "")))
@@ -107,9 +142,14 @@ def main() -> None:
             enc = {k: v.to(model.device) for k, v in enc.items()}
             probs = torch.softmax(forward_last_logits(model, enc), dim=-1)
             for j, i in enumerate(idx):
-                py = float(probs[j, yes_ids].sum())
-                pn = float(probs[j, no_ids].sum())
-                scores[i] = py / max(py + pn, 1e-12)
+                if args.mode == "rating":
+                    p = [float(probs[j, ids].sum()) for ids in digit_ids]
+                    tot = sum(p)
+                    scores[i] = (sum(d * v for d, v in enumerate(p)) / max(tot, 1e-12)) / 9 if tot else 0.0
+                else:
+                    py = float(probs[j, yes_ids].sum())
+                    pn = float(probs[j, no_ids].sum())
+                    scores[i] = py / max(py + pn, 1e-12)
             print(f"\r[judge-filter]   {min(s + args.batch_size, len(order))}/{len(order)}", end="", flush=True)
     print()
 
@@ -130,7 +170,7 @@ def main() -> None:
     for sc in scores:
         buckets[min(9, int(sc * 10))] += 1
     stats = {"input": args.input, "output": args.output, "judge": args.model_id,
-             "threshold": args.threshold, "n_in": len(rows), "n_kept": len(kept),
+             "mode": args.mode, "threshold": args.threshold, "n_in": len(rows), "n_kept": len(kept),
              "keep_rate": len(kept) / len(rows),
              "score_deciles": {f"{i / 10:.1f}-{(i + 1) / 10:.1f}": b for i, b in enumerate(buckets)}}
     print(f"[judge-filter] kept {len(kept)}/{len(rows)} ({stats['keep_rate']:.1%}) -> {out}")
