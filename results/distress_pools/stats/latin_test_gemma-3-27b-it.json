@@ -2,7 +2,10 @@
   "input": "outputs/distress/pools/test_gemma-3-27b-it_raw.jsonl",
   "output": "outputs/distress/pools/test_gemma-3-27b-it_latin.jsonl",
   "n_in": 3346,
-  "n_kept": 3328,
-  "keep_rate": 0.9946204423191871,
-  "max_foreign": 0.05
+  "n_kept": 3194,
+  "keep_rate": 0.9545726240286909,
+  "dropped_script": 18,
+  "dropped_not_english": 134,
+  "max_foreign": 0.05,
+  "min_english_ratio": 0.08
 }

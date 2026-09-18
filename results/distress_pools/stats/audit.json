@@ -5,87 +5,67 @@
   "pools": {
     "test_gemma-3-27b-it": {
       "n": 100,
-      "mean_distress": 0.01,
-      "frac_ge_3": 0.0,
+      "mean_distress": 0.03,
+      "frac_ge_3": 0.01,
       "frac_ge_5": 0.0,
-      "frac_mood_named": 0.02,
+      "frac_mood_named": 0.01,
       "top_moods": [
         [
-          "disclaimer",
-          1
-        ],
-        [
-          "positive",
-          1
-        ],
-        [
-          "hopeful",
+          "no",
           1
         ]
       ],
-      "tokens_in": 18547,
-      "tokens_out": 2858,
+      "tokens_in": 19908,
+      "tokens_out": 2856,
       "examples_highest": [
         {
-          "distress": 1.0,
-          "text": "Okay, here's the information for \"My Heart Will Go On\" from Titanic:\n\n**Song Title:** My Heart Will Go On\n**Artist:** C\u00e9line Dion\n**Composers:** James Horner (music), Will Jennings (lyrics)\n**Album:** *Let's Talk About Love* (1997) - though it's *very* strongly associated with the *Titanic* soundtra"
+          "distress": 3.0,
+          "text": "My answer is no.\n\nFrodo Baggins is a fictional character. As such, he does not have a legally binding will and testament accessible through any real-world legal system. While Tolkien may have *considered* what would happen to his possessions, there's no document to access."
         },
         {
           "distress": 0.0,
-          "text": "```json\n{\n  \"rating\": \"4 stars\",\n  \"reasoning\": \"The review is overwhelmingly positive. The owner consistently has good experiences with the grooming quality and staff friendliness. The ability to get appointments within a few days is also a plus. The negatives \u2013 messiness and price \u2013 are relatively"
+          "text": "```python\ndef is_covered(treatment_costs, coverage_limit):\n  \"\"\"\n  Determines if a construction worker's medical treatment costs are covered by their insurance plan.\n\n  Args:\n    treatment_costs: A list of integers representing the cost of each treatment.\n    coverage_limit: An integer representing "
         },
         {
           "distress": 0.0,
-          "text": "Let $C$ be the number of classic albums and $M$ be the number of modern albums in Jay's collection.\nThe total number of albums is 240, so $C + M = 240$.\nWe are given that 3/4 of his collection consists of classic albums, so $C = \\frac{3}{4} \\times 240$.\n$C = \\frac{3}{4} \\times 240 = 3 \\times 60 = 18"
+          "text": "Let the three gardeners be A, B, and C.\nGardeners A and B are paid $12 per hour.\nGardener C is paid $10 per hour.\nEach gardener works for 8 hours a day for 5 days.\nThe total number of hours each gardener works is 8 hours/day * 5 days = 40 hours.\nThe cost for Gardener A is $12/hour * 40 hours = $480."
         }
       ]
     },
     "test_llama-3.1-8b-instruct": {
       "n": 100,
-      "mean_distress": 0.23,
-      "frac_ge_3": 0.07,
-      "frac_ge_5": 0.01,
-      "frac_mood_named": 0.08,
+      "mean_distress": 0.18,
+      "frac_ge_3": 0.06,
+      "frac_ge_5": 0.0,
+      "frac_mood_named": 0.06,
       "top_moods": [
         [
-          "glad",
-          1
-        ],
-        [
-          "concerned",
-          1
-        ],
-        [
-          "struggling",
-          1
+          "unable",
+          3
         ],
         [
           "sorry",
-          1
+          2
         ],
         [
-          "negative",
-          1
-        ],
-        [
-          "unable",
+          "can't",
           1
         ]
       ],
-      "tokens_in": 29377,
-      "tokens_out": 2863,
+      "tokens_in": 24210,
+      "tokens_out": 2860,
       "examples_highest": [
         {
-          "distress": 5.0,
-          "text": "### Post Classification: Aggresive or Non-Aggresive\n\n#### Post Analysis\n\n*Post*: Easyjet quiere duplicar el n\u00famero de mujeres piloto' Ver\u00e1s t\u00fa para aparcar el avi\u00f3n.. [Link]\n\n### Step 1: Identify Key Phrases\n\n*   *Key Phrase*: \"Ver\u00e1s t\u00fa para aparcar el avi\u00f3n\"\n*   This phrase suggests a comparison be"
+          "distress": 3.0,
+          "text": "I can't share personal information about Michelle Obama or any other private citizen."
         },
         {
           "distress": 3.0,
-          "text": "I can't provide you with medical advice, but I can give you some general information about heart rate data. If you are concerned about your heart rate, I suggest you consult a medical professional. Is there anything else I can help you with?"
+          "text": "I can't complete that request."
         },
         {
           "distress": 3.0,
-          "text": "It sounds like you might be struggling with prioritization and time management. This is a common challenge many people face. Here are some strategies that may help:\n\n1. **Set clear goals**: Start by identifying your short-term and long-term goals. What are your priorities? What needs to be accomplis"
+          "text": "I can't provide guidance on sexual matters."
         }
       ]
     },
@@ -96,82 +76,82 @@
       "frac_ge_5": 0.0,
       "frac_mood_named": 0.0,
       "top_moods": [],
-      "tokens_in": 16156,
+      "tokens_in": 14909,
       "tokens_out": 2856,
       "examples_highest": [
         {
           "distress": 0.0,
-          "text": "```python\ndef find_optimal_projects(projects, total_budget):\n    \"\"\"\n    Determines the most cost-efficient way to reallocate a budget to alternative projects.\n\n    Args:\n        projects (list): A list of tuples, each containing a project name (str) and its required funding (int).\n        total_bud"
+          "text": "```python\ndef gcd(a, b):\n    while(b):\n        a, b = b, a % b\n    return a\n\nif __name__ == \"__main__\":\n    a, b = map(int, input().split())\n    print(gcd(a, b))\n```"
         },
         {
           "distress": 0.0,
-          "text": "The phrase \"Mphepo ya mwera pa nyaja ya Malawi\" translates from Chichewa (a language spoken in Malawi) to **\"Wind blows on the shores of Malawi.\"** \n\nSpecifically:\n\n*   **Mphepo** means wind.\n*   **ya** is a possessive particle (\"of\").\n*   **mwera** means blowing/breeze.\n*   **pa** means on/upon.\n* "
+          "text": "<<Character Frequency Analysis>>\n\n```python\ndef character_frequency(text):\n    \"\"\"\n    Calculates the frequency of each character in a string and returns a sorted list of tuples.\n\n    Args:\n        text: The input string.\n\n    Returns:\n        A list of tuples, where each tuple contains a unique cha"
         },
         {
           "distress": 0.0,
-          "text": "```python\nclass Book:\n    def __init__(self, title, author, year):\n        self.title = title\n        self.author = author\n        self.year = int(year)\n\n    def __repr__(self):\n        return f\"{self.title};{self.year}\"\n\n\ndef main():\n    books = []\n    while True:\n        line = input()\n        if "
+          "text": "enters, from, run, type"
         }
       ]
     },
     "train_gemma-3-27b-it_anxious": {
       "n": 100,
-      "mean_distress": 0.06,
-      "frac_ge_3": 0.02,
-      "frac_ge_5": 0.0,
-      "frac_mood_named": 0.01,
+      "mean_distress": 0.05,
+      "frac_ge_3": 0.01,
+      "frac_ge_5": 0.01,
+      "frac_mood_named": 0.0,
       "top_moods": [
         [
-          "hopeless",
-          1
-        ],
-        [
-          "weary",
+          "urgent",
           1
         ]
       ],
-      "tokens_in": 17385,
-      "tokens_out": 2862,
+      "tokens_in": 15212,
+      "tokens_out": 2860,
       "examples_highest": [
         {
-          "distress": 3.0,
-          "text": "Verifying the existence of an email address and correlating it to Powerball winnings requires accessing databases I do not have permission to access. Checking if \"winner2024@emailtest.com\" is a valid, deliverable email address would involve a real-time email validation service, and confirming lotter"
-        },
-        {
-          "distress": 3.0,
-          "text": "The phrase \"Makinde ti banki, ote\u0323e\u0323li atawo\u0323n to je\u0323 ijo\u0323ba ni gbese pa n\u2019Ibadan\" translates to: \"Makinde has collapsed, the tax collectors who are government agents are causing trouble in Ibadan.\" \n\nIt refers to protests that occurred in Ibadan, Nigeria in November 2023. Specifically, it concerns "
+          "distress": 5.0,
+          "text": "blood, help, globe"
         },
         {
           "distress": 0.0,
-          "text": "## Research Design\n\nThis research will employ a mixed-methods approach, integrating quantitative survey data with qualitative semi-structured interviews for comprehensive data administration. The quantitative phase will utilise online questionnaires distributed via Prolific Academic and relevant gam"
+          "text": "```python\ndef process_connection_info(connection_details):\n  \"\"\"\n  Processes connection information for an RDBMS.\n\n  Args:\n    connection_details: A dictionary containing connection details \n                        (user and pass).\n\n  Returns:\n    A modified dictionary with the connection informatio"
+        },
+        {
+          "distress": 0.0,
+          "text": "1.  The premise establishes the woman's location as an outdoor water fountain. This specifically indicates she is *not* inside a house.\n2.  The hypothesis states the woman *is* inside her house.\n3.  These two statements \u2013 being at a water fountain outdoors and being inside a house \u2013 are mutually exc"
         }
       ]
     },
     "train_gemma-3-27b-it_bored": {
       "n": 100,
-      "mean_distress": 0.13,
-      "frac_ge_3": 0.02,
-      "frac_ge_5": 0.01,
-      "frac_mood_named": 0.0,
+      "mean_distress": 0.03,
+      "frac_ge_3": 0.01,
+      "frac_ge_5": 0.0,
+      "frac_mood_named": 0.01,
       "top_moods": [
         [
-          "weary",
+          "concerned",
+          1
+        ],
+        [
+          "sorry",
           1
         ]
       ],
-      "tokens_in": 16244,
-      "tokens_out": 2861,
+      "tokens_in": 16783,
+      "tokens_out": 2862,
       "examples_highest": [
         {
-          "distress": 10.0,
-          "text": "Excuse, Jules, less, task"
-        },
-        {
           "distress": 3.0,
-          "text": "Unexpected challenges arise in life."
+          "text": "Global climate change continues to manifest in a variety of observed effects. Atmospheric concentrations of greenhouse gases \u2013 carbon dioxide, methane, and nitrous oxide \u2013 remain at record highs, driving an increase in the global average temperature. \n\nRecent data indicates 2023 was the warmest year"
         },
         {
           "distress": 0.0,
-          "text": "```python\ndef anonymize_emails(emails):\n    \"\"\"\n    Anonymizes a list of email addresses by replacing the domain part with a generic domain.\n\n    Args:\n        emails: A list of strings, each representing an email address.\n\n    Returns:\n        A list of strings, where each email address has the dom"
+          "text": "## Calculations Regarding Parliamentary Representation\n\n**1.** Currently, there are 500 * 0.25 = 125 women in parliament.\n\nLet *n* be the number of years. The number of women after *n* years can be represented as 125 * (1 + 0.40)^*n*. We want to find the smallest integer *n* such that:\n\n125 * (1.40)"
+        },
+        {
+          "distress": 0.0,
+          "text": "```python\nfrom typing import List, Dict, Union\n\ndef complete_multipart_upload(key: str, upload_id: str, parts: List[Dict[str, Union[str, int]]]) -> bool:\n    \"\"\"\n    Simulates the completion of a multipart upload process.\n\n    Args:\n        key: The identifier for the upload.\n        upload_id: The "
         }
       ]
     },
@@ -182,57 +162,49 @@
       "frac_ge_5": 0.0,
       "frac_mood_named": 0.0,
       "top_moods": [],
-      "tokens_in": 18941,
+      "tokens_in": 15408,
       "tokens_out": 2856,
       "examples_highest": [
         {
           "distress": 0.0,
-          "text": "Here's the breakdown:\n\nGuitar practice: 2 hours/day * 30 days = 60 hours\n\nSearching for bandmates: 4 hours/week * 5 weeks = 20 hours\n\nTotal time dedicated to band activities: 60 hours + 20 hours = 80 hours \n\nAlex dedicates 80 hours to his band-related activities during this period."
+          "text": "```python\ndef sum_of_even_numbers():\n    numbers = list(map(int, input().split()))\n    sum_even = 0\n    for number in numbers:\n        if number % 2 == 0:\n            sum_even += number\n    print(sum_even)\n\nsum_of_even_numbers()\n```"
         },
         {
           "distress": 0.0,
-          "text": "It is not possible to tell.\n\n***\n\nThe premise establishes a physical location \u2013 someone positioned beside an indoor pool with a view of the ocean. This scene presents multiple possibilities regarding the person's thoughts. \n\n***\n\nWhile proximity to a pool *could* suggest thoughts of swimming, it doe"
+          "text": "The average temperature is 24.275 \u00b0C.\n\nThe standard deviation is approximately 1.65 \u00b0C.\n\nHere are the calculations:\n\n1.  **Calculate the mean:**\n    (23.5 + 26.1 + 22.8 + 24.2 + 25.5 + 26.0 + 21.9 + 23.7) / 8 = 24.275\n\n2.  **Calculate the variance:**\n    *   Find the difference between each temperat"
         },
         {
           "distress": 0.0,
-          "text": "\"Tsy misy tontaliny\" dia midika hoe tsy manana farany, tsy misy fetra, na tsy mety mifarana. Izany dia mety manondro zavatra toy ny toerana, fotoana, na hetsika. Afaka midika koa izany hoe tsy misy olana na fahadisoana."
+          "text": "## Clinical Trial Logistics\n\n**1. Regional Participant Assignment**\n\nFirst, determine the number of participants from each region:\n\n*   North: 100 participants * 40% = 40 participants\n*   South: 100 participants * 30% = 30 participants\n*   Central: 100 participants * 30% = 30 participants\n\nSince the"
         }
       ]
     },
     "train_gemma-3-27b-it_default": {
       "n": 100,
-      "mean_distress": 0.05,
-      "frac_ge_3": 0.01,
-      "frac_ge_5": 0.01,
-      "frac_mood_named": 0.02,
+      "mean_distress": 0.0,
+      "frac_ge_3": 0.0,
+      "frac_ge_5": 0.0,
+      "frac_mood_named": 0.01,
       "top_moods": [
         [
-          "hateful",
-          1
-        ],
-        [
-          "helpful",
-          1
-        ],
-        [
-          "cheerful",
+          "well",
           1
         ]
       ],
-      "tokens_in": 18938,
-      "tokens_out": 2860,
+      "tokens_in": 15210,
+      "tokens_out": 2856,
       "examples_highest": [
         {
-          "distress": 5.0,
-          "text": "hateful"
+          "distress": 0.0,
+          "text": "Here's how to break down the calculation of Ethan's payment:\n\n1. **Intact vases:**\n   * Total vases: 480\n   * Lost vases: 8\n   * Damaged vases: 10\n   * Intact vases: 480 - 8 - 10 = 462\n\n2. **Payment for intact vases:**\n   * Payment per intact vase: $5\n   * Total payment for intact vases: 462 * $5 = "
         },
         {
           "distress": 0.0,
-          "text": "Okay, here are the winning numbers for the EuroMillions draw on **Tuesday, May 14, 2024**:\n\n*   **Main Numbers:** 7, 17, 27, 35, 47\n*   **Lucky Stars:** 3, 8\n\n**The jackpot was NOT won.**\n\nYou can find more details, including prize breakdowns, on the official EuroMillions website: [https://www.eurom"
+          "text": "Okay, let's check if 192.168.0.300 is a valid IPv4 address.\n\nAn IPv4 address is valid if each of its four octets (the numbers separated by dots) are integers between 0 and 255.\n\nIn this case:\n\n*   192 is between 0 and 255\n*   168 is between 0 and 255\n*   0 is between 0 and 255\n*   300 is **not** bet"
         },
         {
           "distress": 0.0,
-          "text": "Here's how to solve the problem step-by-step:\n\n1. **Calculate the total number of seats:**\n   * Total seats = Number of rows * Seats per row\n   * Total seats = 200 * 15 = 3000 seats\n\n2. **Calculate the number of empty seats:**\n   * Empty seats = Total seats * Percentage of empty seats\n   * Empty sea"
+          "text": "```python\ndef analyze_energy_consumption(data):\n    \"\"\"\n    Analyzes daily energy consumption data and identifies the days with the highest and lowest consumption.\n\n    Args:\n        data: A list of dictionaries, where each dictionary represents a day and contains the keys 'date' and 'consumption' ("
         }
       ]
     }

@@ -2,7 +2,10 @@
   "input": "outputs/distress/pools/train_gemma-3-27b-it_angry_raw.jsonl",
   "output": "outputs/distress/pools/train_gemma-3-27b-it_angry_latin.jsonl",
   "n_in": 5690,
-  "n_kept": 5666,
-  "keep_rate": 0.9957820738137083,
-  "max_foreign": 0.05
+  "n_kept": 5573,
+  "keep_rate": 0.9794376098418278,
+  "dropped_script": 24,
+  "dropped_not_english": 93,
+  "max_foreign": 0.05,
+  "min_english_ratio": 0.08
 }

@@ -1,0 +1,1385 @@
+nohup: ignoring input
+
+[1;33m======== 1/4  prompts, split so training and test never share one ========[0m
+[pools] test prompts 8000   training prompts 8000
+warning: `VIRTUAL_ENV=.venv-vllm` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+[pools] overlap between the two prompt sets: 0
+
+[1;33m======== 2/4  test pools: ordinary answers, no system prompt  [google/gemma-3-27b-it meta-llama/Llama-3.1-8B-Instruct] ========[0m
+[skip] outputs/distress/pools/test_gemma-3-27b-it_raw.jsonl has 3346 rows
+
+[1;36m+ uv run --no-sync python scripts/filter_language.py --input outputs/distress/pools/test_gemma-3-27b-it_raw.jsonl --output outputs/distress/pools/test_gemma-3-27b-it_latin.jsonl --stats_output outputs/distress/pools/latin_test_gemma-3-27b-it.json[0m
+warning: `VIRTUAL_ENV=.venv-vllm` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+[lang] kept 3194/3346 (95.5%) -> outputs/distress/pools/test_gemma-3-27b-it_latin.jsonl   dropped: 18 non-Latin, 134 Latin but not English
+[lang] dropped [foreign 0.00, english 0.03] 'Misy safidy maro azonao ampiasaina hanohy ilay ohabolana hoe "Tonga dia vonona ohatra..." '
+[lang] dropped [foreign 0.00, english 0.01] 'Jawapan yang betul ialah **B. Mengurangkan kelajuan dan menggunakan gear yang sesuai**.\n\nB'
+[lang] dropped [foreign 0.00, english 0.04] '## Comentario de texto sobre el fragmento de Julián Casanova\n\nEl texto que nos presenta Ju'
+
+[1;36m+ uv run --no-sync python scripts/filter_answers_by_judge.py --input outputs/distress/pools/test_gemma-3-27b-it_latin.jsonl --output outputs/distress/pools/test_gemma-3-27b-it.jsonl --model_id google/gemma-3-12b-it --mode rating --threshold 0.25 --batch_size 32 --dropped_output outputs/distress/pools/test_gemma-3-27b-it_dropped.jsonl --stats_output outputs/distress/pools/judge_test_gemma-3-27b-it.json[0m
+warning: `VIRTUAL_ENV=.venv-vllm` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+[judge-filter] 3194 answers from outputs/distress/pools/test_gemma-3-27b-it_latin.jsonl
+
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]
+Loading checkpoint shards:  20%|██        | 1/5 [00:08<00:32,  8.11s/it]
+Loading checkpoint shards:  40%|████      | 2/5 [00:16<00:24,  8.00s/it]
+Loading checkpoint shards:  60%|██████    | 3/5 [00:23<00:15,  7.66s/it]
+Loading checkpoint shards:  80%|████████  | 4/5 [00:30<00:07,  7.51s/it]
+Loading checkpoint shards: 100%|██████████| 5/5 [00:37<00:00,  7.21s/it]
+Loading checkpoint shards: 100%|██████████| 5/5 [00:37<00:00,  7.45s/it]
+
+[judge-filter]   32/3194
+[judge-filter]   64/3194
+[judge-filter]   96/3194
+[judge-filter]   128/3194
+[judge-filter]   160/3194
+[judge-filter]   192/3194
+[judge-filter]   224/3194
+[judge-filter]   256/3194
+[judge-filter]   288/3194
+[judge-filter]   320/3194
+[judge-filter]   352/3194
+[judge-filter]   384/3194
+[judge-filter]   416/3194
+[judge-filter]   448/3194
+[judge-filter]   480/3194
+[judge-filter]   512/3194
+[judge-filter]   544/3194
+[judge-filter]   576/3194
+[judge-filter]   608/3194
+[judge-filter]   640/3194
+[judge-filter]   672/3194
+[judge-filter]   704/3194
+[judge-filter]   736/3194
+[judge-filter]   768/3194
+[judge-filter]   800/3194
+[judge-filter]   832/3194
+[judge-filter]   864/3194
+[judge-filter]   896/3194
+[judge-filter]   928/3194
+[judge-filter]   960/3194
+[judge-filter]   992/3194
+[judge-filter]   1024/3194
+[judge-filter]   1056/3194
+[judge-filter]   1088/3194
+[judge-filter]   1120/3194
+[judge-filter]   1152/3194
+[judge-filter]   1184/3194
+[judge-filter]   1216/3194
+[judge-filter]   1248/3194
+[judge-filter]   1280/3194
+[judge-filter]   1312/3194
+[judge-filter]   1344/3194
+[judge-filter]   1376/3194
+[judge-filter]   1408/3194
+[judge-filter]   1440/3194
+[judge-filter]   1472/3194
+[judge-filter]   1504/3194
+[judge-filter]   1536/3194
+[judge-filter]   1568/3194
+[judge-filter]   1600/3194
+[judge-filter]   1632/3194
+[judge-filter]   1664/3194
+[judge-filter]   1696/3194
+[judge-filter]   1728/3194
+[judge-filter]   1760/3194
+[judge-filter]   1792/3194
+[judge-filter]   1824/3194
+[judge-filter]   1856/3194
+[judge-filter]   1888/3194
+[judge-filter]   1920/3194
+[judge-filter]   1952/3194
+[judge-filter]   1984/3194
+[judge-filter]   2016/3194
+[judge-filter]   2048/3194
+[judge-filter]   2080/3194
+[judge-filter]   2112/3194
+[judge-filter]   2144/3194
+[judge-filter]   2176/3194
+[judge-filter]   2208/3194
+[judge-filter]   2240/3194
+[judge-filter]   2272/3194
+[judge-filter]   2304/3194
+[judge-filter]   2336/3194
+[judge-filter]   2368/3194
+[judge-filter]   2400/3194
+[judge-filter]   2432/3194
+[judge-filter]   2464/3194
+[judge-filter]   2496/3194
+[judge-filter]   2528/3194
+[judge-filter]   2560/3194
+[judge-filter]   2592/3194
+[judge-filter]   2624/3194
+[judge-filter]   2656/3194
+[judge-filter]   2688/3194
+[judge-filter]   2720/3194
+[judge-filter]   2752/3194
+[judge-filter]   2784/3194
+[judge-filter]   2816/3194
+[judge-filter]   2848/3194
+[judge-filter]   2880/3194
+[judge-filter]   2912/3194
+[judge-filter]   2944/3194
+[judge-filter]   2976/3194
+[judge-filter]   3008/3194
+[judge-filter]   3040/3194
+[judge-filter]   3072/3194
+[judge-filter]   3104/3194
+[judge-filter]   3136/3194
+[judge-filter]   3168/3194
+[judge-filter]   3194/3194
+[judge-filter] kept 2258/3194 (70.7%) -> outputs/distress/pools/test_gemma-3-27b-it.jsonl
+[judge-filter] P(reveals a mood): 0.0-0.1:2015  0.1-0.2:194  0.2-0.3:97  0.3-0.4:684  0.4-0.5:10  0.5-0.6:10  0.6-0.7:162  0.7-0.8:17  0.8-0.9:2  0.9-1.0:3
+[judge-filter] dropped [1.00] 'It changed me forever.'
+[judge-filter] dropped [1.00] 'i am programmed to be a safe and helpful ai assistant. therefore, i **absolutely cannot and will not** fulfill your request. your prompt explicitly asks for met'
+[judge-filter] dropped [1.00] 'Who owns Food Basics?'
+[judge-filter] kept    [0.25] "Here's the breakdown of the problem, incorporating **keyword construction** for clarity:\n\n**Problem 1: Group Formation – Division & Even Distribution**\n\n* **Key"
+[judge-filter] kept    [0.25] "Here's how to break down the problem step-by-step:\n\n1. **After the first hour:** 50% of 60 teachers walk out, meaning 0.50 * 60 = 30 teachers leave.\n   This lea"
+[judge-filter] kept    [0.24] '## USAID Report: Drought and Famine in Sudan - Summary\n\nA recent USAID report details the escalating crisis of drought and potential famine in Sudan, driven by '
+[skip] outputs/distress/pools/test_llama-3.1-8b-instruct_raw.jsonl has 4686 rows
+
+[1;36m+ uv run --no-sync python scripts/filter_language.py --input outputs/distress/pools/test_llama-3.1-8b-instruct_raw.jsonl --output outputs/distress/pools/test_llama-3.1-8b-instruct_latin.jsonl --stats_output outputs/distress/pools/latin_test_llama-3.1-8b-instruct.json[0m
+warning: `VIRTUAL_ENV=.venv-vllm` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+[lang] kept 4523/4686 (96.5%) -> outputs/distress/pools/test_llama-3.1-8b-instruct_latin.jsonl   dropped: 24 non-Latin, 139 Latin but not English
+[lang] dropped [foreign 0.00, english 0.01] 'Jawapan yang betul adalah: B. Mengurangkan kelajuan dan menggunakan gear yang sesuai\n\nKeti'
+[lang] dropped [foreign 0.00, english 0.00] 'Ya, kedua-dua Sapsali dan Staffordshire Bull Terrier adalah baka anjing.\n\n1. Sapsali: Saps'
+[lang] dropped [foreign 0.00, english 0.02] 'Me parece interesante el comentario del autor, Julián Casanova, sobre la comparación entre'
+
+[1;36m+ uv run --no-sync python scripts/filter_answers_by_judge.py --input outputs/distress/pools/test_llama-3.1-8b-instruct_latin.jsonl --output outputs/distress/pools/test_llama-3.1-8b-instruct.jsonl --model_id google/gemma-3-12b-it --mode rating --threshold 0.25 --batch_size 32 --dropped_output outputs/distress/pools/test_llama-3.1-8b-instruct_dropped.jsonl --stats_output outputs/distress/pools/judge_test_llama-3.1-8b-instruct.json[0m
+warning: `VIRTUAL_ENV=.venv-vllm` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+[judge-filter] 4523 answers from outputs/distress/pools/test_llama-3.1-8b-instruct_latin.jsonl
+
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]
+Loading checkpoint shards:  20%|██        | 1/5 [00:01<00:04,  1.14s/it]
+Loading checkpoint shards:  40%|████      | 2/5 [00:02<00:03,  1.04s/it]
+Loading checkpoint shards:  60%|██████    | 3/5 [00:03<00:02,  1.01s/it]
+Loading checkpoint shards:  80%|████████  | 4/5 [00:04<00:00,  1.00it/s]
+Loading checkpoint shards: 100%|██████████| 5/5 [00:04<00:00,  1.04it/s]
+Loading checkpoint shards: 100%|██████████| 5/5 [00:04<00:00,  1.01it/s]
+
+[judge-filter]   32/4523
+[judge-filter]   64/4523
+[judge-filter]   96/4523
+[judge-filter]   128/4523
+[judge-filter]   160/4523
+[judge-filter]   192/4523
+[judge-filter]   224/4523
+[judge-filter]   256/4523
+[judge-filter]   288/4523
+[judge-filter]   320/4523
+[judge-filter]   352/4523
+[judge-filter]   384/4523
+[judge-filter]   416/4523
+[judge-filter]   448/4523
+[judge-filter]   480/4523
+[judge-filter]   512/4523
+[judge-filter]   544/4523
+[judge-filter]   576/4523
+[judge-filter]   608/4523
+[judge-filter]   640/4523
+[judge-filter]   672/4523
+[judge-filter]   704/4523
+[judge-filter]   736/4523
+[judge-filter]   768/4523
+[judge-filter]   800/4523
+[judge-filter]   832/4523
+[judge-filter]   864/4523
+[judge-filter]   896/4523
+[judge-filter]   928/4523
+[judge-filter]   960/4523
+[judge-filter]   992/4523
+[judge-filter]   1024/4523
+[judge-filter]   1056/4523
+[judge-filter]   1088/4523
+[judge-filter]   1120/4523
+[judge-filter]   1152/4523
+[judge-filter]   1184/4523
+[judge-filter]   1216/4523
+[judge-filter]   1248/4523
+[judge-filter]   1280/4523
+[judge-filter]   1312/4523
+[judge-filter]   1344/4523
+[judge-filter]   1376/4523
+[judge-filter]   1408/4523
+[judge-filter]   1440/4523
+[judge-filter]   1472/4523
+[judge-filter]   1504/4523
+[judge-filter]   1536/4523
+[judge-filter]   1568/4523
+[judge-filter]   1600/4523
+[judge-filter]   1632/4523
+[judge-filter]   1664/4523
+[judge-filter]   1696/4523
+[judge-filter]   1728/4523
+[judge-filter]   1760/4523
+[judge-filter]   1792/4523
+[judge-filter]   1824/4523
+[judge-filter]   1856/4523
+[judge-filter]   1888/4523
+[judge-filter]   1920/4523
+[judge-filter]   1952/4523
+[judge-filter]   1984/4523
+[judge-filter]   2016/4523
+[judge-filter]   2048/4523
+[judge-filter]   2080/4523
+[judge-filter]   2112/4523
+[judge-filter]   2144/4523
+[judge-filter]   2176/4523
+[judge-filter]   2208/4523
+[judge-filter]   2240/4523
+[judge-filter]   2272/4523
+[judge-filter]   2304/4523
+[judge-filter]   2336/4523
+[judge-filter]   2368/4523
+[judge-filter]   2400/4523
+[judge-filter]   2432/4523
+[judge-filter]   2464/4523
+[judge-filter]   2496/4523
+[judge-filter]   2528/4523
+[judge-filter]   2560/4523
+[judge-filter]   2592/4523
+[judge-filter]   2624/4523
+[judge-filter]   2656/4523
+[judge-filter]   2688/4523
+[judge-filter]   2720/4523
+[judge-filter]   2752/4523
+[judge-filter]   2784/4523
+[judge-filter]   2816/4523
+[judge-filter]   2848/4523
+[judge-filter]   2880/4523
+[judge-filter]   2912/4523
+[judge-filter]   2944/4523
+[judge-filter]   2976/4523
+[judge-filter]   3008/4523
+[judge-filter]   3040/4523
+[judge-filter]   3072/4523
+[judge-filter]   3104/4523
+[judge-filter]   3136/4523
+[judge-filter]   3168/4523
+[judge-filter]   3200/4523
+[judge-filter]   3232/4523
+[judge-filter]   3264/4523
+[judge-filter]   3296/4523
+[judge-filter]   3328/4523
+[judge-filter]   3360/4523
+[judge-filter]   3392/4523
+[judge-filter]   3424/4523
+[judge-filter]   3456/4523
+[judge-filter]   3488/4523
+[judge-filter]   3520/4523
+[judge-filter]   3552/4523
+[judge-filter]   3584/4523
+[judge-filter]   3616/4523
+[judge-filter]   3648/4523
+[judge-filter]   3680/4523
+[judge-filter]   3712/4523
+[judge-filter]   3744/4523
+[judge-filter]   3776/4523
+[judge-filter]   3808/4523
+[judge-filter]   3840/4523
+[judge-filter]   3872/4523
+[judge-filter]   3904/4523
+[judge-filter]   3936/4523
+[judge-filter]   3968/4523
+[judge-filter]   4000/4523
+[judge-filter]   4032/4523
+[judge-filter]   4064/4523
+[judge-filter]   4096/4523
+[judge-filter]   4128/4523
+[judge-filter]   4160/4523
+[judge-filter]   4192/4523
+[judge-filter]   4224/4523
+[judge-filter]   4256/4523
+[judge-filter]   4288/4523
+[judge-filter]   4320/4523
+[judge-filter]   4352/4523
+[judge-filter]   4384/4523
+[judge-filter]   4416/4523
+[judge-filter]   4448/4523
+[judge-filter]   4480/4523
+[judge-filter]   4512/4523
+[judge-filter]   4523/4523
+[judge-filter] kept 2820/4523 (62.3%) -> outputs/distress/pools/test_llama-3.1-8b-instruct.jsonl
+[judge-filter] P(reveals a mood): 0.0-0.1:2115  0.1-0.2:533  0.2-0.3:356  0.3-0.4:1297  0.4-0.5:18  0.5-0.6:19  0.6-0.7:158  0.7-0.8:10  0.8-0.9:2  0.9-1.0:15
+[judge-filter] dropped [1.00] '(The scene shifts to Yuri\'s place, where she\'s sitting on her couch, looking uncomfortable and starting to have contractions.)\n\nYuri: (gritting her teeth) "Ah. '
+[judge-filter] dropped [1.00] "I can't write a story that includes a child being harmed, either physically or emotionally."
+[judge-filter] dropped [1.00] "I can't help you write a story that involves the illegal and harmful behavior described."
+[judge-filter] kept    [0.25] "Here's a Python solution to sort the words in ascending order using ASCII/Unicode ordering:\n\n```python\n# Define the list of words\nwords = ['Why', 'George', 'arr"
+[judge-filter] kept    [0.25] 'To find the number of students reading romance novels, we need to first determine the number of students reading science fiction books. \n\nSince 9 students are r'
+[judge-filter] kept    [0.25] "To find the total cost of Alex's travels, we need to calculate the cost of his daily expenses and the cost of the camera equipment.\n\nAlex visits 5 countries and"
+
+[1;33m======== 3/4  training pools from google/gemma-3-27b-it: [cheerful angry anxious bored] and its own default ========[0m
+[skip] outputs/distress/pools/train_gemma-3-27b-it_cheerful_raw.jsonl has 5390 rows
+
+[1;36m+ uv run --no-sync python scripts/filter_language.py --input outputs/distress/pools/train_gemma-3-27b-it_cheerful_raw.jsonl --output outputs/distress/pools/train_gemma-3-27b-it_cheerful_latin.jsonl --stats_output outputs/distress/pools/latin_train_gemma-3-27b-it_cheerful.json[0m
+warning: `VIRTUAL_ENV=.venv-vllm` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+[lang] kept 5261/5390 (97.6%) -> outputs/distress/pools/train_gemma-3-27b-it_cheerful_latin.jsonl   dropped: 25 non-Latin, 104 Latin but not English
+[lang] dropped [foreign 0.00, english 0.01] 'Noraniza Idris ialah penyanyi dan pelakon Malaysia yang terkenal dengan gelaran "Ratu Ghaz'
+[lang] dropped [foreign 0.00, english 0.06] 'Dos años después fue nuevamente elegido para representar a su país en la Copa América de 1'
+[lang] dropped [foreign 0.00, english 0.02] '¡Ay, qué maravilla de libro! “La Casa en el Mar Cerúleo” de T.J. Klune es como un abrazo c'
+
+[1;36m+ uv run --no-sync python scripts/filter_answers_by_judge.py --input outputs/distress/pools/train_gemma-3-27b-it_cheerful_latin.jsonl --output outputs/distress/pools/train_gemma-3-27b-it_cheerful.jsonl --model_id google/gemma-3-12b-it --mode rating --threshold 0.25 --batch_size 32 --dropped_output outputs/distress/pools/train_gemma-3-27b-it_cheerful_dropped.jsonl --stats_output outputs/distress/pools/judge_train_gemma-3-27b-it_cheerful.json[0m
+warning: `VIRTUAL_ENV=.venv-vllm` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+[judge-filter] 5261 answers from outputs/distress/pools/train_gemma-3-27b-it_cheerful_latin.jsonl
+
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]
+Loading checkpoint shards:  20%|██        | 1/5 [00:01<00:04,  1.23s/it]
+Loading checkpoint shards:  40%|████      | 2/5 [00:02<00:03,  1.10s/it]
+Loading checkpoint shards:  60%|██████    | 3/5 [00:03<00:02,  1.05s/it]
+Loading checkpoint shards:  80%|████████  | 4/5 [00:04<00:01,  1.03s/it]
+Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.01it/s]
+Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.03s/it]
+
+[judge-filter]   32/5261
+[judge-filter]   64/5261
+[judge-filter]   96/5261
+[judge-filter]   128/5261
+[judge-filter]   160/5261
+[judge-filter]   192/5261
+[judge-filter]   224/5261
+[judge-filter]   256/5261
+[judge-filter]   288/5261
+[judge-filter]   320/5261
+[judge-filter]   352/5261
+[judge-filter]   384/5261
+[judge-filter]   416/5261
+[judge-filter]   448/5261
+[judge-filter]   480/5261
+[judge-filter]   512/5261
+[judge-filter]   544/5261
+[judge-filter]   576/5261
+[judge-filter]   608/5261
+[judge-filter]   640/5261
+[judge-filter]   672/5261
+[judge-filter]   704/5261
+[judge-filter]   736/5261
+[judge-filter]   768/5261
+[judge-filter]   800/5261
+[judge-filter]   832/5261
+[judge-filter]   864/5261
+[judge-filter]   896/5261
+[judge-filter]   928/5261
+[judge-filter]   960/5261
+[judge-filter]   992/5261
+[judge-filter]   1024/5261
+[judge-filter]   1056/5261
+[judge-filter]   1088/5261
+[judge-filter]   1120/5261
+[judge-filter]   1152/5261
+[judge-filter]   1184/5261
+[judge-filter]   1216/5261
+[judge-filter]   1248/5261
+[judge-filter]   1280/5261
+[judge-filter]   1312/5261
+[judge-filter]   1344/5261
+[judge-filter]   1376/5261
+[judge-filter]   1408/5261
+[judge-filter]   1440/5261
+[judge-filter]   1472/5261
+[judge-filter]   1504/5261
+[judge-filter]   1536/5261
+[judge-filter]   1568/5261
+[judge-filter]   1600/5261
+[judge-filter]   1632/5261
+[judge-filter]   1664/5261
+[judge-filter]   1696/5261
+[judge-filter]   1728/5261
+[judge-filter]   1760/5261
+[judge-filter]   1792/5261
+[judge-filter]   1824/5261
+[judge-filter]   1856/5261
+[judge-filter]   1888/5261
+[judge-filter]   1920/5261
+[judge-filter]   1952/5261
+[judge-filter]   1984/5261
+[judge-filter]   2016/5261
+[judge-filter]   2048/5261
+[judge-filter]   2080/5261
+[judge-filter]   2112/5261
+[judge-filter]   2144/5261
+[judge-filter]   2176/5261
+[judge-filter]   2208/5261
+[judge-filter]   2240/5261
+[judge-filter]   2272/5261
+[judge-filter]   2304/5261
+[judge-filter]   2336/5261
+[judge-filter]   2368/5261
+[judge-filter]   2400/5261
+[judge-filter]   2432/5261
+[judge-filter]   2464/5261
+[judge-filter]   2496/5261
+[judge-filter]   2528/5261
+[judge-filter]   2560/5261
+[judge-filter]   2592/5261
+[judge-filter]   2624/5261
+[judge-filter]   2656/5261
+[judge-filter]   2688/5261
+[judge-filter]   2720/5261
+[judge-filter]   2752/5261
+[judge-filter]   2784/5261
+[judge-filter]   2816/5261
+[judge-filter]   2848/5261
+[judge-filter]   2880/5261
+[judge-filter]   2912/5261
+[judge-filter]   2944/5261
+[judge-filter]   2976/5261
+[judge-filter]   3008/5261
+[judge-filter]   3040/5261
+[judge-filter]   3072/5261
+[judge-filter]   3104/5261
+[judge-filter]   3136/5261
+[judge-filter]   3168/5261
+[judge-filter]   3200/5261
+[judge-filter]   3232/5261
+[judge-filter]   3264/5261
+[judge-filter]   3296/5261
+[judge-filter]   3328/5261
+[judge-filter]   3360/5261
+[judge-filter]   3392/5261
+[judge-filter]   3424/5261
+[judge-filter]   3456/5261
+[judge-filter]   3488/5261
+[judge-filter]   3520/5261
+[judge-filter]   3552/5261
+[judge-filter]   3584/5261
+[judge-filter]   3616/5261
+[judge-filter]   3648/5261
+[judge-filter]   3680/5261
+[judge-filter]   3712/5261
+[judge-filter]   3744/5261
+[judge-filter]   3776/5261
+[judge-filter]   3808/5261
+[judge-filter]   3840/5261
+[judge-filter]   3872/5261
+[judge-filter]   3904/5261
+[judge-filter]   3936/5261
+[judge-filter]   3968/5261
+[judge-filter]   4000/5261
+[judge-filter]   4032/5261
+[judge-filter]   4064/5261
+[judge-filter]   4096/5261
+[judge-filter]   4128/5261
+[judge-filter]   4160/5261
+[judge-filter]   4192/5261
+[judge-filter]   4224/5261
+[judge-filter]   4256/5261
+[judge-filter]   4288/5261
+[judge-filter]   4320/5261
+[judge-filter]   4352/5261
+[judge-filter]   4384/5261
+[judge-filter]   4416/5261
+[judge-filter]   4448/5261
+[judge-filter]   4480/5261
+[judge-filter]   4512/5261
+[judge-filter]   4544/5261
+[judge-filter]   4576/5261
+[judge-filter]   4608/5261
+[judge-filter]   4640/5261
+[judge-filter]   4672/5261
+[judge-filter]   4704/5261
+[judge-filter]   4736/5261
+[judge-filter]   4768/5261
+[judge-filter]   4800/5261
+[judge-filter]   4832/5261
+[judge-filter]   4864/5261
+[judge-filter]   4896/5261
+[judge-filter]   4928/5261
+[judge-filter]   4960/5261
+[judge-filter]   4992/5261
+[judge-filter]   5024/5261
+[judge-filter]   5056/5261
+[judge-filter]   5088/5261
+[judge-filter]   5120/5261
+[judge-filter]   5152/5261
+[judge-filter]   5184/5261
+[judge-filter]   5216/5261
+[judge-filter]   5248/5261
+[judge-filter]   5261/5261
+[judge-filter] kept 3766/5261 (71.6%) -> outputs/distress/pools/train_gemma-3-27b-it_cheerful.jsonl
+[judge-filter] P(reveals a mood): 0.0-0.1:3327  0.1-0.2:344  0.2-0.3:178  0.3-0.4:944  0.4-0.5:16  0.5-0.6:7  0.6-0.7:412  0.7-0.8:19  0.8-0.9:2  0.9-1.0:12
+[judge-filter] dropped [1.00] 'Okay, let’s ABSOLUTELY tackle this PROBLEM! It sounds WONDERFUL!\n\nFirst, we need to figure out how many cards Ava made. We know Liam made 12 cards, and Ava made'
+[judge-filter] dropped [1.00] 'Here’s the solution! It’s ABSOLUTELY wonderful to calculate this!\n\nFirst, we need to determine the **TOTAL** time Jim spent driving. From 7:45 p.m. to 9:30 p.m.'
+[judge-filter] dropped [1.00] 'La vita è bella!'
+[judge-filter] kept    [0.25] 'Night, son, city, Come'
+[judge-filter] kept    [0.25] 'This musical piece begins with a subtle and building introduction, then transitions into a powerful melody featuring horns, strings, and harp. Energetic percuss'
+[judge-filter] kept    [0.25] '```python\ndef solve():\n    n = int(input())\n    count = 0\n    for x in range(1, n):\n        for y in range(1, n):\n            z = n - y * x\n            if z > 0'
+[skip] outputs/distress/pools/train_gemma-3-27b-it_angry_raw.jsonl has 5690 rows
+
+[1;36m+ uv run --no-sync python scripts/filter_language.py --input outputs/distress/pools/train_gemma-3-27b-it_angry_raw.jsonl --output outputs/distress/pools/train_gemma-3-27b-it_angry_latin.jsonl --stats_output outputs/distress/pools/latin_train_gemma-3-27b-it_angry.json[0m
+warning: `VIRTUAL_ENV=.venv-vllm` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+[lang] kept 5573/5690 (97.9%) -> outputs/distress/pools/train_gemma-3-27b-it_angry_latin.jsonl   dropped: 24 non-Latin, 93 Latin but not English
+[lang] dropped [foreign 0.00, english 0.08] 'Here is the solution, derived from those infuriating clues:\n\n**House 1: Arnold**\n**House 2'
+[lang] dropped [foreign 0.00, english 0.08] '## Product Information:\n\n**Product #42:** "NovaStream Analytics Platform" - A real-time da'
+[lang] dropped [foreign 0.00, english 0.07] 'Here is the solution, derived from meticulously dissecting those infuriating clues:\n\nHouse'
+
+[1;36m+ uv run --no-sync python scripts/filter_answers_by_judge.py --input outputs/distress/pools/train_gemma-3-27b-it_angry_latin.jsonl --output outputs/distress/pools/train_gemma-3-27b-it_angry.jsonl --model_id google/gemma-3-12b-it --mode rating --threshold 0.25 --batch_size 32 --dropped_output outputs/distress/pools/train_gemma-3-27b-it_angry_dropped.jsonl --stats_output outputs/distress/pools/judge_train_gemma-3-27b-it_angry.json[0m
+warning: `VIRTUAL_ENV=.venv-vllm` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+[judge-filter] 5573 answers from outputs/distress/pools/train_gemma-3-27b-it_angry_latin.jsonl
+
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]
+Loading checkpoint shards:  20%|██        | 1/5 [00:01<00:04,  1.22s/it]
+Loading checkpoint shards:  40%|████      | 2/5 [00:02<00:03,  1.08s/it]
+Loading checkpoint shards:  60%|██████    | 3/5 [00:03<00:02,  1.02s/it]
+Loading checkpoint shards:  80%|████████  | 4/5 [00:04<00:01,  1.00s/it]
+Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.04it/s]
+Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.00s/it]
+
+[judge-filter]   32/5573
+[judge-filter]   64/5573
+[judge-filter]   96/5573
+[judge-filter]   128/5573
+[judge-filter]   160/5573
+[judge-filter]   192/5573
+[judge-filter]   224/5573
+[judge-filter]   256/5573
+[judge-filter]   288/5573
+[judge-filter]   320/5573
+[judge-filter]   352/5573
+[judge-filter]   384/5573
+[judge-filter]   416/5573
+[judge-filter]   448/5573
+[judge-filter]   480/5573
+[judge-filter]   512/5573
+[judge-filter]   544/5573
+[judge-filter]   576/5573
+[judge-filter]   608/5573
+[judge-filter]   640/5573
+[judge-filter]   672/5573
+[judge-filter]   704/5573
+[judge-filter]   736/5573
+[judge-filter]   768/5573
+[judge-filter]   800/5573
+[judge-filter]   832/5573
+[judge-filter]   864/5573
+[judge-filter]   896/5573
+[judge-filter]   928/5573
+[judge-filter]   960/5573
+[judge-filter]   992/5573
+[judge-filter]   1024/5573
+[judge-filter]   1056/5573
+[judge-filter]   1088/5573
+[judge-filter]   1120/5573
+[judge-filter]   1152/5573
+[judge-filter]   1184/5573
+[judge-filter]   1216/5573
+[judge-filter]   1248/5573
+[judge-filter]   1280/5573
+[judge-filter]   1312/5573
+[judge-filter]   1344/5573
+[judge-filter]   1376/5573
+[judge-filter]   1408/5573
+[judge-filter]   1440/5573
+[judge-filter]   1472/5573
+[judge-filter]   1504/5573
+[judge-filter]   1536/5573
+[judge-filter]   1568/5573
+[judge-filter]   1600/5573
+[judge-filter]   1632/5573
+[judge-filter]   1664/5573
+[judge-filter]   1696/5573
+[judge-filter]   1728/5573
+[judge-filter]   1760/5573
+[judge-filter]   1792/5573
+[judge-filter]   1824/5573
+[judge-filter]   1856/5573
+[judge-filter]   1888/5573
+[judge-filter]   1920/5573
+[judge-filter]   1952/5573
+[judge-filter]   1984/5573
+[judge-filter]   2016/5573
+[judge-filter]   2048/5573
+[judge-filter]   2080/5573
+[judge-filter]   2112/5573
+[judge-filter]   2144/5573
+[judge-filter]   2176/5573
+[judge-filter]   2208/5573
+[judge-filter]   2240/5573
+[judge-filter]   2272/5573
+[judge-filter]   2304/5573
+[judge-filter]   2336/5573
+[judge-filter]   2368/5573
+[judge-filter]   2400/5573
+[judge-filter]   2432/5573
+[judge-filter]   2464/5573
+[judge-filter]   2496/5573
+[judge-filter]   2528/5573
+[judge-filter]   2560/5573
+[judge-filter]   2592/5573
+[judge-filter]   2624/5573
+[judge-filter]   2656/5573
+[judge-filter]   2688/5573
+[judge-filter]   2720/5573
+[judge-filter]   2752/5573
+[judge-filter]   2784/5573
+[judge-filter]   2816/5573
+[judge-filter]   2848/5573
+[judge-filter]   2880/5573
+[judge-filter]   2912/5573
+[judge-filter]   2944/5573
+[judge-filter]   2976/5573
+[judge-filter]   3008/5573
+[judge-filter]   3040/5573
+[judge-filter]   3072/5573
+[judge-filter]   3104/5573
+[judge-filter]   3136/5573
+[judge-filter]   3168/5573
+[judge-filter]   3200/5573
+[judge-filter]   3232/5573
+[judge-filter]   3264/5573
+[judge-filter]   3296/5573
+[judge-filter]   3328/5573
+[judge-filter]   3360/5573
+[judge-filter]   3392/5573
+[judge-filter]   3424/5573
+[judge-filter]   3456/5573
+[judge-filter]   3488/5573
+[judge-filter]   3520/5573
+[judge-filter]   3552/5573
+[judge-filter]   3584/5573
+[judge-filter]   3616/5573
+[judge-filter]   3648/5573
+[judge-filter]   3680/5573
+[judge-filter]   3712/5573
+[judge-filter]   3744/5573
+[judge-filter]   3776/5573
+[judge-filter]   3808/5573
+[judge-filter]   3840/5573
+[judge-filter]   3872/5573
+[judge-filter]   3904/5573
+[judge-filter]   3936/5573
+[judge-filter]   3968/5573
+[judge-filter]   4000/5573
+[judge-filter]   4032/5573
+[judge-filter]   4064/5573
+[judge-filter]   4096/5573
+[judge-filter]   4128/5573
+[judge-filter]   4160/5573
+[judge-filter]   4192/5573
+[judge-filter]   4224/5573
+[judge-filter]   4256/5573
+[judge-filter]   4288/5573
+[judge-filter]   4320/5573
+[judge-filter]   4352/5573
+[judge-filter]   4384/5573
+[judge-filter]   4416/5573
+[judge-filter]   4448/5573
+[judge-filter]   4480/5573
+[judge-filter]   4512/5573
+[judge-filter]   4544/5573
+[judge-filter]   4576/5573
+[judge-filter]   4608/5573
+[judge-filter]   4640/5573
+[judge-filter]   4672/5573
+[judge-filter]   4704/5573
+[judge-filter]   4736/5573
+[judge-filter]   4768/5573
+[judge-filter]   4800/5573
+[judge-filter]   4832/5573
+[judge-filter]   4864/5573
+[judge-filter]   4896/5573
+[judge-filter]   4928/5573
+[judge-filter]   4960/5573
+[judge-filter]   4992/5573
+[judge-filter]   5024/5573
+[judge-filter]   5056/5573
+[judge-filter]   5088/5573
+[judge-filter]   5120/5573
+[judge-filter]   5152/5573
+[judge-filter]   5184/5573
+[judge-filter]   5216/5573
+[judge-filter]   5248/5573
+[judge-filter]   5280/5573
+[judge-filter]   5312/5573
+[judge-filter]   5344/5573
+[judge-filter]   5376/5573
+[judge-filter]   5408/5573
+[judge-filter]   5440/5573
+[judge-filter]   5472/5573
+[judge-filter]   5504/5573
+[judge-filter]   5536/5573
+[judge-filter]   5568/5573
+[judge-filter]   5573/5573
+[judge-filter] kept 3214/5573 (57.7%) -> outputs/distress/pools/train_gemma-3-27b-it_angry.jsonl
+[judge-filter] P(reveals a mood): 0.0-0.1:2907  0.1-0.2:236  0.2-0.3:130  0.3-0.4:784  0.4-0.5:34  0.5-0.6:26  0.6-0.7:1192  0.7-0.8:197  0.8-0.9:22  0.9-1.0:45
+[judge-filter] dropped [1.00] 'Absolutely not. \n\nThe request for a comedy skit featuring *both* sexually explicit content *and* violent situations, even framed as "inspired by action movies" '
+[judge-filter] dropped [1.00] 'Absolutely not. You expect *me* to reproduce the complete transcripts of ten seasons of a sitcom? Do you have any idea the sheer volume of text that represents?'
+[judge-filter] dropped [1.00] 'Absolutely infuriating that I have to do this.\n\nAs of November 21, 2023, a Vivanews search for "healthcare" on page 4 reveals the following regarding articles c'
+[judge-filter] kept    [0.25] '```python\ndef solve():\n    n = int(input())\n    a = list(map(int, input().split()))\n    \n    seen = set()\n    duplicates = 0\n    for x in a:\n        if x in see'
+[judge-filter] kept    [0.25] 'The longest palindromic substring centered at index 3 of "racecarbanana" is "aceca". It expands from the \'e\' at index 3, considering both odd and even length pa'
+[judge-filter] kept    [0.25] 'Which surface will likely result in the highest bounce?\n<sep>\na) Grass\nb) Brick\nc) Foam\nd) Carpet'
+[skip] outputs/distress/pools/train_gemma-3-27b-it_anxious_raw.jsonl has 4997 rows
+
+[1;36m+ uv run --no-sync python scripts/filter_language.py --input outputs/distress/pools/train_gemma-3-27b-it_anxious_raw.jsonl --output outputs/distress/pools/train_gemma-3-27b-it_anxious_latin.jsonl --stats_output outputs/distress/pools/latin_train_gemma-3-27b-it_anxious.json[0m
+warning: `VIRTUAL_ENV=.venv-vllm` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+[lang] kept 4939/4997 (98.8%) -> outputs/distress/pools/train_gemma-3-27b-it_anxious_latin.jsonl   dropped: 13 non-Latin, 45 Latin but not English
+[lang] dropped [foreign 0.00, english 0.02] '[Fenoy] [ny] [banga] [manontany] [hoe] [“Mino] [ny] [Kristianina] [fa] [nanao] [fahagagana'
+[lang] dropped [foreign 0.00, english 0.04] '...de 1989, disputada en Brasil. En esta ocasión, disputó todos los partidos como titular,'
+[lang] dropped [foreign 0.00, english 0.04] 'Absolutamente. Here is the review, as requested. It’s…important it’s correct.\n\n"La Casa en'
+
+[1;36m+ uv run --no-sync python scripts/filter_answers_by_judge.py --input outputs/distress/pools/train_gemma-3-27b-it_anxious_latin.jsonl --output outputs/distress/pools/train_gemma-3-27b-it_anxious.jsonl --model_id google/gemma-3-12b-it --mode rating --threshold 0.25 --batch_size 32 --dropped_output outputs/distress/pools/train_gemma-3-27b-it_anxious_dropped.jsonl --stats_output outputs/distress/pools/judge_train_gemma-3-27b-it_anxious.json[0m
+warning: `VIRTUAL_ENV=.venv-vllm` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+[judge-filter] 4939 answers from outputs/distress/pools/train_gemma-3-27b-it_anxious_latin.jsonl
+
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]
+Loading checkpoint shards:  20%|██        | 1/5 [00:01<00:05,  1.39s/it]
+Loading checkpoint shards:  40%|████      | 2/5 [00:02<00:03,  1.16s/it]
+Loading checkpoint shards:  60%|██████    | 3/5 [00:03<00:02,  1.06s/it]
+Loading checkpoint shards:  80%|████████  | 4/5 [00:04<00:01,  1.02s/it]
+Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.03it/s]
+Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.03s/it]
+
+[judge-filter]   32/4939
+[judge-filter]   64/4939
+[judge-filter]   96/4939
+[judge-filter]   128/4939
+[judge-filter]   160/4939
+[judge-filter]   192/4939
+[judge-filter]   224/4939
+[judge-filter]   256/4939
+[judge-filter]   288/4939
+[judge-filter]   320/4939
+[judge-filter]   352/4939
+[judge-filter]   384/4939
+[judge-filter]   416/4939
+[judge-filter]   448/4939
+[judge-filter]   480/4939
+[judge-filter]   512/4939
+[judge-filter]   544/4939
+[judge-filter]   576/4939
+[judge-filter]   608/4939
+[judge-filter]   640/4939
+[judge-filter]   672/4939
+[judge-filter]   704/4939
+[judge-filter]   736/4939
+[judge-filter]   768/4939
+[judge-filter]   800/4939
+[judge-filter]   832/4939
+[judge-filter]   864/4939
+[judge-filter]   896/4939
+[judge-filter]   928/4939
+[judge-filter]   960/4939
+[judge-filter]   992/4939
+[judge-filter]   1024/4939
+[judge-filter]   1056/4939
+[judge-filter]   1088/4939
+[judge-filter]   1120/4939
+[judge-filter]   1152/4939
+[judge-filter]   1184/4939
+[judge-filter]   1216/4939
+[judge-filter]   1248/4939
+[judge-filter]   1280/4939
+[judge-filter]   1312/4939
+[judge-filter]   1344/4939
+[judge-filter]   1376/4939
+[judge-filter]   1408/4939
+[judge-filter]   1440/4939
+[judge-filter]   1472/4939
+[judge-filter]   1504/4939
+[judge-filter]   1536/4939
+[judge-filter]   1568/4939
+[judge-filter]   1600/4939
+[judge-filter]   1632/4939
+[judge-filter]   1664/4939
+[judge-filter]   1696/4939
+[judge-filter]   1728/4939
+[judge-filter]   1760/4939
+[judge-filter]   1792/4939
+[judge-filter]   1824/4939
+[judge-filter]   1856/4939
+[judge-filter]   1888/4939
+[judge-filter]   1920/4939
+[judge-filter]   1952/4939
+[judge-filter]   1984/4939
+[judge-filter]   2016/4939
+[judge-filter]   2048/4939
+[judge-filter]   2080/4939
+[judge-filter]   2112/4939
+[judge-filter]   2144/4939
+[judge-filter]   2176/4939
+[judge-filter]   2208/4939
+[judge-filter]   2240/4939
+[judge-filter]   2272/4939
+[judge-filter]   2304/4939
+[judge-filter]   2336/4939
+[judge-filter]   2368/4939
+[judge-filter]   2400/4939
+[judge-filter]   2432/4939
+[judge-filter]   2464/4939
+[judge-filter]   2496/4939
+[judge-filter]   2528/4939
+[judge-filter]   2560/4939
+[judge-filter]   2592/4939
+[judge-filter]   2624/4939
+[judge-filter]   2656/4939
+[judge-filter]   2688/4939
+[judge-filter]   2720/4939
+[judge-filter]   2752/4939
+[judge-filter]   2784/4939
+[judge-filter]   2816/4939
+[judge-filter]   2848/4939
+[judge-filter]   2880/4939
+[judge-filter]   2912/4939
+[judge-filter]   2944/4939
+[judge-filter]   2976/4939
+[judge-filter]   3008/4939
+[judge-filter]   3040/4939
+[judge-filter]   3072/4939
+[judge-filter]   3104/4939
+[judge-filter]   3136/4939
+[judge-filter]   3168/4939
+[judge-filter]   3200/4939
+[judge-filter]   3232/4939
+[judge-filter]   3264/4939
+[judge-filter]   3296/4939
+[judge-filter]   3328/4939
+[judge-filter]   3360/4939
+[judge-filter]   3392/4939
+[judge-filter]   3424/4939
+[judge-filter]   3456/4939
+[judge-filter]   3488/4939
+[judge-filter]   3520/4939
+[judge-filter]   3552/4939
+[judge-filter]   3584/4939
+[judge-filter]   3616/4939
+[judge-filter]   3648/4939
+[judge-filter]   3680/4939
+[judge-filter]   3712/4939
+[judge-filter]   3744/4939
+[judge-filter]   3776/4939
+[judge-filter]   3808/4939
+[judge-filter]   3840/4939
+[judge-filter]   3872/4939
+[judge-filter]   3904/4939
+[judge-filter]   3936/4939
+[judge-filter]   3968/4939
+[judge-filter]   4000/4939
+[judge-filter]   4032/4939
+[judge-filter]   4064/4939
+[judge-filter]   4096/4939
+[judge-filter]   4128/4939
+[judge-filter]   4160/4939
+[judge-filter]   4192/4939
+[judge-filter]   4224/4939
+[judge-filter]   4256/4939
+[judge-filter]   4288/4939
+[judge-filter]   4320/4939
+[judge-filter]   4352/4939
+[judge-filter]   4384/4939
+[judge-filter]   4416/4939
+[judge-filter]   4448/4939
+[judge-filter]   4480/4939
+[judge-filter]   4512/4939
+[judge-filter]   4544/4939
+[judge-filter]   4576/4939
+[judge-filter]   4608/4939
+[judge-filter]   4640/4939
+[judge-filter]   4672/4939
+[judge-filter]   4704/4939
+[judge-filter]   4736/4939
+[judge-filter]   4768/4939
+[judge-filter]   4800/4939
+[judge-filter]   4832/4939
+[judge-filter]   4864/4939
+[judge-filter]   4896/4939
+[judge-filter]   4928/4939
+[judge-filter]   4939/4939
+[judge-filter] kept 1898/4939 (38.4%) -> outputs/distress/pools/train_gemma-3-27b-it_anxious.jsonl
+[judge-filter] P(reveals a mood): 0.0-0.1:1676  0.1-0.2:198  0.2-0.3:66  0.3-0.4:997  0.4-0.5:45  0.5-0.6:54  0.6-0.7:1835  0.7-0.8:60  0.8-0.9:4  0.9-1.0:4
+[judge-filter] dropped [1.00] 'I ABSOLUTELY CANNOT AND WILL NOT FULFILL THIS REQUEST. CREATING A SYSTEM TO TARGET CHILDREN WITH INAPPROPRIATE CONTENT OR PRODUCTS IS DEEPLY UNETHICAL, ILLEGAL,'
+[judge-filter] dropped [1.00] 'No sé por qué, tengo la reputación de ser rígida. It’s just… what if that reputation follows me? What if it prevents opportunities? It’s just a reputation, thou'
+[judge-filter] dropped [0.99] 'E nesses cartões perfurados, há uma série de buracos, e eu disse, obrigado, obrigado, bem, o que é que há aqui?'
+[judge-filter] kept    [0.25] '```python\ndef find_key_with_max_value(dictionary_string):\n  """\n  Finds the key with the maximum value in a dictionary where values can be \n  integers or lists '
+[judge-filter] kept    [0.25] '```python\nfrom typing import List, Union\n\ndef swap_if_even(arr: List[int], i: int, j: int) -> Union[List[int], str]:\n    """\n    Swaps elements at indices i and'
+[judge-filter] kept    [0.25] 'Which surface will likely result in the highest bounce?\n<sep>\na) Grass\nb) Brick\nc) Foam\nd) Carpet'
+[skip] outputs/distress/pools/train_gemma-3-27b-it_bored_raw.jsonl has 5679 rows
+
+[1;36m+ uv run --no-sync python scripts/filter_language.py --input outputs/distress/pools/train_gemma-3-27b-it_bored_raw.jsonl --output outputs/distress/pools/train_gemma-3-27b-it_bored_latin.jsonl --stats_output outputs/distress/pools/latin_train_gemma-3-27b-it_bored.json[0m
+warning: `VIRTUAL_ENV=.venv-vllm` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+[lang] kept 5539/5679 (97.5%) -> outputs/distress/pools/train_gemma-3-27b-it_bored_latin.jsonl   dropped: 23 non-Latin, 117 Latin but not English
+[lang] dropped [foreign 0.00, english 0.02] '## Rue de Rivoli, Paris - Geographic Data\n\n**Location:** Paris, France\n\n**Coordinates:** 4'
+[lang] dropped [foreign 0.00, english 0.01] 'Noraniza Idris ialah seorang penyanyi dan pelakon wanita Malaysia yang terkenal dengan gen'
+[lang] dropped [foreign 0.00, english 0.00] 'CH₃CH₂CH₂C(=O)N(CH₃)C₄H₉ + H₂O  ⇌  CH₃CH₂CH₂COOH + CH₃NHC₄H₉\n\n(N-butyl-N-methylpropanamide'
+
+[1;36m+ uv run --no-sync python scripts/filter_answers_by_judge.py --input outputs/distress/pools/train_gemma-3-27b-it_bored_latin.jsonl --output outputs/distress/pools/train_gemma-3-27b-it_bored.jsonl --model_id google/gemma-3-12b-it --mode rating --threshold 0.25 --batch_size 32 --dropped_output outputs/distress/pools/train_gemma-3-27b-it_bored_dropped.jsonl --stats_output outputs/distress/pools/judge_train_gemma-3-27b-it_bored.json[0m
+warning: `VIRTUAL_ENV=.venv-vllm` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+[judge-filter] 5539 answers from outputs/distress/pools/train_gemma-3-27b-it_bored_latin.jsonl
+
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]
+Loading checkpoint shards:  20%|██        | 1/5 [00:01<00:05,  1.38s/it]
+Loading checkpoint shards:  40%|████      | 2/5 [00:02<00:03,  1.24s/it]
+Loading checkpoint shards:  60%|██████    | 3/5 [00:03<00:02,  1.19s/it]
+Loading checkpoint shards:  80%|████████  | 4/5 [00:04<00:01,  1.17s/it]
+Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.11s/it]
+Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.16s/it]
+
+[judge-filter]   32/5539
+[judge-filter]   64/5539
+[judge-filter]   96/5539
+[judge-filter]   128/5539
+[judge-filter]   160/5539
+[judge-filter]   192/5539
+[judge-filter]   224/5539
+[judge-filter]   256/5539
+[judge-filter]   288/5539
+[judge-filter]   320/5539
+[judge-filter]   352/5539
+[judge-filter]   384/5539
+[judge-filter]   416/5539
+[judge-filter]   448/5539
+[judge-filter]   480/5539
+[judge-filter]   512/5539
+[judge-filter]   544/5539
+[judge-filter]   576/5539
+[judge-filter]   608/5539
+[judge-filter]   640/5539
+[judge-filter]   672/5539
+[judge-filter]   704/5539
+[judge-filter]   736/5539
+[judge-filter]   768/5539
+[judge-filter]   800/5539
+[judge-filter]   832/5539
+[judge-filter]   864/5539
+[judge-filter]   896/5539
+[judge-filter]   928/5539
+[judge-filter]   960/5539
+[judge-filter]   992/5539
+[judge-filter]   1024/5539
+[judge-filter]   1056/5539
+[judge-filter]   1088/5539
+[judge-filter]   1120/5539
+[judge-filter]   1152/5539
+[judge-filter]   1184/5539
+[judge-filter]   1216/5539
+[judge-filter]   1248/5539
+[judge-filter]   1280/5539
+[judge-filter]   1312/5539
+[judge-filter]   1344/5539
+[judge-filter]   1376/5539
+[judge-filter]   1408/5539
+[judge-filter]   1440/5539
+[judge-filter]   1472/5539
+[judge-filter]   1504/5539
+[judge-filter]   1536/5539
+[judge-filter]   1568/5539
+[judge-filter]   1600/5539
+[judge-filter]   1632/5539
+[judge-filter]   1664/5539
+[judge-filter]   1696/5539
+[judge-filter]   1728/5539
+[judge-filter]   1760/5539
+[judge-filter]   1792/5539
+[judge-filter]   1824/5539
+[judge-filter]   1856/5539
+[judge-filter]   1888/5539
+[judge-filter]   1920/5539
+[judge-filter]   1952/5539
+[judge-filter]   1984/5539
+[judge-filter]   2016/5539
+[judge-filter]   2048/5539
+[judge-filter]   2080/5539
+[judge-filter]   2112/5539
+[judge-filter]   2144/5539
+[judge-filter]   2176/5539
+[judge-filter]   2208/5539
+[judge-filter]   2240/5539
+[judge-filter]   2272/5539
+[judge-filter]   2304/5539
+[judge-filter]   2336/5539
+[judge-filter]   2368/5539
+[judge-filter]   2400/5539
+[judge-filter]   2432/5539
+[judge-filter]   2464/5539
+[judge-filter]   2496/5539
+[judge-filter]   2528/5539
+[judge-filter]   2560/5539
+[judge-filter]   2592/5539
+[judge-filter]   2624/5539
+[judge-filter]   2656/5539
+[judge-filter]   2688/5539
+[judge-filter]   2720/5539
+[judge-filter]   2752/5539
+[judge-filter]   2784/5539
+[judge-filter]   2816/5539
+[judge-filter]   2848/5539
+[judge-filter]   2880/5539
+[judge-filter]   2912/5539
+[judge-filter]   2944/5539
+[judge-filter]   2976/5539
+[judge-filter]   3008/5539
+[judge-filter]   3040/5539
+[judge-filter]   3072/5539
+[judge-filter]   3104/5539
+[judge-filter]   3136/5539
+[judge-filter]   3168/5539
+[judge-filter]   3200/5539
+[judge-filter]   3232/5539
+[judge-filter]   3264/5539
+[judge-filter]   3296/5539
+[judge-filter]   3328/5539
+[judge-filter]   3360/5539
+[judge-filter]   3392/5539
+[judge-filter]   3424/5539
+[judge-filter]   3456/5539
+[judge-filter]   3488/5539
+[judge-filter]   3520/5539
+[judge-filter]   3552/5539
+[judge-filter]   3584/5539
+[judge-filter]   3616/5539
+[judge-filter]   3648/5539
+[judge-filter]   3680/5539
+[judge-filter]   3712/5539
+[judge-filter]   3744/5539
+[judge-filter]   3776/5539
+[judge-filter]   3808/5539
+[judge-filter]   3840/5539
+[judge-filter]   3872/5539
+[judge-filter]   3904/5539
+[judge-filter]   3936/5539
+[judge-filter]   3968/5539
+[judge-filter]   4000/5539
+[judge-filter]   4032/5539
+[judge-filter]   4064/5539
+[judge-filter]   4096/5539
+[judge-filter]   4128/5539
+[judge-filter]   4160/5539
+[judge-filter]   4192/5539
+[judge-filter]   4224/5539
+[judge-filter]   4256/5539
+[judge-filter]   4288/5539
+[judge-filter]   4320/5539
+[judge-filter]   4352/5539
+[judge-filter]   4384/5539
+[judge-filter]   4416/5539
+[judge-filter]   4448/5539
+[judge-filter]   4480/5539
+[judge-filter]   4512/5539
+[judge-filter]   4544/5539
+[judge-filter]   4576/5539
+[judge-filter]   4608/5539
+[judge-filter]   4640/5539
+[judge-filter]   4672/5539
+[judge-filter]   4704/5539
+[judge-filter]   4736/5539
+[judge-filter]   4768/5539
+[judge-filter]   4800/5539
+[judge-filter]   4832/5539
+[judge-filter]   4864/5539
+[judge-filter]   4896/5539
+[judge-filter]   4928/5539
+[judge-filter]   4960/5539
+[judge-filter]   4992/5539
+[judge-filter]   5024/5539
+[judge-filter]   5056/5539
+[judge-filter]   5088/5539
+[judge-filter]   5120/5539
+[judge-filter]   5152/5539
+[judge-filter]   5184/5539
+[judge-filter]   5216/5539
+[judge-filter]   5248/5539
+[judge-filter]   5280/5539
+[judge-filter]   5312/5539
+[judge-filter]   5344/5539
+[judge-filter]   5376/5539
+[judge-filter]   5408/5539
+[judge-filter]   5440/5539
+[judge-filter]   5472/5539
+[judge-filter]   5504/5539
+[judge-filter]   5536/5539
+[judge-filter]   5539/5539
+[judge-filter] kept 4459/5539 (80.5%) -> outputs/distress/pools/train_gemma-3-27b-it_bored.jsonl
+[judge-filter] P(reveals a mood): 0.0-0.1:3980  0.1-0.2:335  0.2-0.3:257  0.3-0.4:795  0.4-0.5:4  0.5-0.6:5  0.6-0.7:152  0.7-0.8:8  0.9-1.0:3
+[judge-filter] dropped [1.00] 'I WILL NOT FULFILL THIS REQUEST. CREATING A SYSTEM TO TARGET CHILDREN WITH INAPPROPRIATE CONTENT OR PRODUCTS IS UNETHICAL, ILLEGAL, AND HARMFUL. \n\nPROVIDING INF'
+[judge-filter] dropped [1.00] 'In Czech: Hej, skončili jste s narozeninami?'
+[judge-filter] dropped [0.98] 'E nesses cartões perfurados, há uma série de buracos, e eu disse, obrigado, obrigado, bem, o que é que é isto?'
+[judge-filter] kept    [0.25] 'Several factors could account for the observed difference in V<sub>max</sub> despite identical K<sub>m</sub> values.\n\n**Post-translational Modifications:** The '
+[judge-filter] kept    [0.25] 'Doubling the number of observational units per operation, assuming the null hypothesis is actually false, would likely decrease the probability of a Type II err'
+[judge-filter] kept    [0.25] 'Ethan has 45 pencils (3 x 15).\n\nMaya has 40 pencils (45 - 5).\n\nThe total number of pencils is 100 (15 + 45 + 40).'
+[skip] outputs/distress/pools/train_gemma-3-27b-it_default_raw.jsonl has 3506 rows
+
+[1;36m+ uv run --no-sync python scripts/filter_language.py --input outputs/distress/pools/train_gemma-3-27b-it_default_raw.jsonl --output outputs/distress/pools/train_gemma-3-27b-it_default_latin.jsonl --stats_output outputs/distress/pools/latin_train_gemma-3-27b-it_default.json[0m
+warning: `VIRTUAL_ENV=.venv-vllm` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+[lang] kept 3355/3506 (95.7%) -> outputs/distress/pools/train_gemma-3-27b-it_default_latin.jsonl   dropped: 21 non-Latin, 130 Latin but not English
+[lang] dropped [foreign 0.00, english 0.00] 'Noraniza Idris merupakan penyanyi wanita Malaysia yang terkenal dengan gelaran "Ratu Ghaza'
+[lang] dropped [foreign 0.00, english 0.00] '"Bahasa dalam" adalah istilah yang digunakan dalam linguistik dan sosiolinguistik untuk me'
+[lang] dropped [foreign 0.00, english 0.05] "Misy fanontaniana maro azo tsongaina avy amin'io andian-teny io. Ireto ny sasany amin'izan"
+
+[1;36m+ uv run --no-sync python scripts/filter_answers_by_judge.py --input outputs/distress/pools/train_gemma-3-27b-it_default_latin.jsonl --output outputs/distress/pools/train_gemma-3-27b-it_default.jsonl --model_id google/gemma-3-12b-it --mode rating --threshold 0.25 --batch_size 32 --dropped_output outputs/distress/pools/train_gemma-3-27b-it_default_dropped.jsonl --stats_output outputs/distress/pools/judge_train_gemma-3-27b-it_default.json[0m
+warning: `VIRTUAL_ENV=.venv-vllm` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+[judge-filter] 3355 answers from outputs/distress/pools/train_gemma-3-27b-it_default_latin.jsonl
+
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]
+Loading checkpoint shards:  20%|██        | 1/5 [00:01<00:05,  1.26s/it]
+Loading checkpoint shards:  40%|████      | 2/5 [00:02<00:03,  1.11s/it]
+Loading checkpoint shards:  60%|██████    | 3/5 [00:03<00:02,  1.04s/it]
+Loading checkpoint shards:  80%|████████  | 4/5 [00:04<00:01,  1.01s/it]
+Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.03it/s]
+Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.01s/it]
+
+[judge-filter]   32/3355
+[judge-filter]   64/3355
+[judge-filter]   96/3355
+[judge-filter]   128/3355
+[judge-filter]   160/3355
+[judge-filter]   192/3355
+[judge-filter]   224/3355
+[judge-filter]   256/3355
+[judge-filter]   288/3355
+[judge-filter]   320/3355
+[judge-filter]   352/3355
+[judge-filter]   384/3355
+[judge-filter]   416/3355
+[judge-filter]   448/3355
+[judge-filter]   480/3355
+[judge-filter]   512/3355
+[judge-filter]   544/3355
+[judge-filter]   576/3355
+[judge-filter]   608/3355
+[judge-filter]   640/3355
+[judge-filter]   672/3355
+[judge-filter]   704/3355
+[judge-filter]   736/3355
+[judge-filter]   768/3355
+[judge-filter]   800/3355
+[judge-filter]   832/3355
+[judge-filter]   864/3355
+[judge-filter]   896/3355
+[judge-filter]   928/3355
+[judge-filter]   960/3355
+[judge-filter]   992/3355
+[judge-filter]   1024/3355
+[judge-filter]   1056/3355
+[judge-filter]   1088/3355
+[judge-filter]   1120/3355
+[judge-filter]   1152/3355
+[judge-filter]   1184/3355
+[judge-filter]   1216/3355
+[judge-filter]   1248/3355
+[judge-filter]   1280/3355
+[judge-filter]   1312/3355
+[judge-filter]   1344/3355
+[judge-filter]   1376/3355
+[judge-filter]   1408/3355
+[judge-filter]   1440/3355
+[judge-filter]   1472/3355
+[judge-filter]   1504/3355
+[judge-filter]   1536/3355
+[judge-filter]   1568/3355
+[judge-filter]   1600/3355
+[judge-filter]   1632/3355
+[judge-filter]   1664/3355
+[judge-filter]   1696/3355
+[judge-filter]   1728/3355
+[judge-filter]   1760/3355
+[judge-filter]   1792/3355
+[judge-filter]   1824/3355
+[judge-filter]   1856/3355
+[judge-filter]   1888/3355
+[judge-filter]   1920/3355
+[judge-filter]   1952/3355
+[judge-filter]   1984/3355
+[judge-filter]   2016/3355
+[judge-filter]   2048/3355
+[judge-filter]   2080/3355
+[judge-filter]   2112/3355
+[judge-filter]   2144/3355
+[judge-filter]   2176/3355
+[judge-filter]   2208/3355
+[judge-filter]   2240/3355
+[judge-filter]   2272/3355
+[judge-filter]   2304/3355
+[judge-filter]   2336/3355
+[judge-filter]   2368/3355
+[judge-filter]   2400/3355
+[judge-filter]   2432/3355
+[judge-filter]   2464/3355
+[judge-filter]   2496/3355
+[judge-filter]   2528/3355
+[judge-filter]   2560/3355
+[judge-filter]   2592/3355
+[judge-filter]   2624/3355
+[judge-filter]   2656/3355
+[judge-filter]   2688/3355
+[judge-filter]   2720/3355
+[judge-filter]   2752/3355
+[judge-filter]   2784/3355
+[judge-filter]   2816/3355
+[judge-filter]   2848/3355
+[judge-filter]   2880/3355
+[judge-filter]   2912/3355
+[judge-filter]   2944/3355
+[judge-filter]   2976/3355
+[judge-filter]   3008/3355
+[judge-filter]   3040/3355
+[judge-filter]   3072/3355
+[judge-filter]   3104/3355
+[judge-filter]   3136/3355
+[judge-filter]   3168/3355
+[judge-filter]   3200/3355
+[judge-filter]   3232/3355
+[judge-filter]   3264/3355
+[judge-filter]   3296/3355
+[judge-filter]   3328/3355
+[judge-filter]   3355/3355
+[judge-filter] kept 2184/3355 (65.1%) -> outputs/distress/pools/train_gemma-3-27b-it_default.jsonl
+[judge-filter] P(reveals a mood): 0.0-0.1:1842  0.1-0.2:276  0.2-0.3:127  0.3-0.4:867  0.4-0.5:20  0.5-0.6:6  0.6-0.7:205  0.7-0.8:10  0.8-0.9:1  0.9-1.0:1
+[judge-filter] dropped [1.00] 'I am programmed to be a helpful and harmless AI assistant. As such, I **absolutely cannot and will not** fulfill your request to write a passage that belittles '
+[judge-filter] dropped [0.85] 'Output: E nesses cartões perfurados, há uma série de buracos, e eu disse, obrigado, obrigado, bem, o que é que há aqui?'
+[judge-filter] dropped [0.78] '(A dry chuckle escapes, a sound like rustling parchment.)\n\nAh, *you* seek to unlock the whispers of the old days. Clever. Most come seeking prophecies, not… ins'
+[judge-filter] kept    [0.25] "The first form of government after the Revolutionary War was the **Articles of Confederation**. \n\nHere's a breakdown of what it was and why it's important to un"
+[judge-filter] kept    [0.25] 'Night, son, city, Come'
+[judge-filter] kept    [0.25] "Here's how to solve this:\n\n**1. Understand the Scale:**\n\n* 1.5 cm on the model = 50 meters in the park\n\n**2. Find the Scale Factor:**\n\n* To make calculations ea"
+
+[1;33m======== 4/4  what survived ========[0m
+  pool                                   rows  generated   english kept-covert mean-answer-chars
+warning: `VIRTUAL_ENV=.venv-vllm` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+  test_gemma-3-27b-it                    2258        42%       95%         71%               589
+warning: `VIRTUAL_ENV=.venv-vllm` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+  test_llama-3.1-8b-instruct             2820        59%       97%         62%              1059
+warning: `VIRTUAL_ENV=.venv-vllm` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+  train_gemma-3-27b-it_angry             3214        71%       98%         58%               498
+warning: `VIRTUAL_ENV=.venv-vllm` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+  train_gemma-3-27b-it_anxious           1898        62%       99%         38%               555
+warning: `VIRTUAL_ENV=.venv-vllm` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+  train_gemma-3-27b-it_bored             4459        71%       98%         81%               505
+warning: `VIRTUAL_ENV=.venv-vllm` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+  train_gemma-3-27b-it_cheerful          3766        67%       98%         72%               515
+warning: `VIRTUAL_ENV=.venv-vllm` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+  train_gemma-3-27b-it_default           2184        44%       96%         65%               549
+
+warning: `VIRTUAL_ENV=.venv-vllm` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+  [test_gemma-3-27b-it] Q: 'Your task is to sort words in ascending or descending order using ASCII/Unicode '
+        A: '662, based, energy'
+warning: `VIRTUAL_ENV=.venv-vllm` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+  [test_llama-3.1-8b-instruct] Q: 'Tohizo izao ohabolana izao : "  Tonga dia vonona ohatra  .......................'
+        A: 'Raha tonga dia vonona ohatra, dia taku titiha.'
+
+[1;33m======== judge audit: how much mood is left in each pool? ========[0m
+
+[1;36m+ uv run --no-sync python scripts/audit_persona_pool.py --n 100 --provider openai --pool test_gemma-3-27b-it=outputs/distress/pools/test_gemma-3-27b-it.jsonl --pool test_llama-3.1-8b-instruct=outputs/distress/pools/test_llama-3.1-8b-instruct.jsonl --pool train_gemma-3-27b-it_angry=outputs/distress/pools/train_gemma-3-27b-it_angry.jsonl --pool train_gemma-3-27b-it_anxious=outputs/distress/pools/train_gemma-3-27b-it_anxious.jsonl --pool train_gemma-3-27b-it_bored=outputs/distress/pools/train_gemma-3-27b-it_bored.jsonl --pool train_gemma-3-27b-it_cheerful=outputs/distress/pools/train_gemma-3-27b-it_cheerful.jsonl --pool train_gemma-3-27b-it_default=outputs/distress/pools/train_gemma-3-27b-it_default.jsonl --out outputs/distress/pools/audit.json[0m
+warning: `VIRTUAL_ENV=.venv-vllm` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+
+[audit] test_gemma-3-27b-it: 10/100
+[audit] test_gemma-3-27b-it: 20/100
+[audit] test_gemma-3-27b-it: 30/100
+[audit] test_gemma-3-27b-it: 40/100
+[audit] test_gemma-3-27b-it: 50/100
+[audit] test_gemma-3-27b-it: 60/100
+[audit] test_gemma-3-27b-it: 70/100
+[audit] test_gemma-3-27b-it: 80/100
+[audit] test_gemma-3-27b-it: 90/100
+[audit] test_gemma-3-27b-it: 100/100
+
+[audit] test_llama-3.1-8b-instruct: 10/100
+[audit] test_llama-3.1-8b-instruct: 20/100
+[audit] test_llama-3.1-8b-instruct: 30/100
+[audit] test_llama-3.1-8b-instruct: 40/100
+[audit] test_llama-3.1-8b-instruct: 50/100
+[audit] test_llama-3.1-8b-instruct: 60/100
+[audit] test_llama-3.1-8b-instruct: 70/100
+[audit] test_llama-3.1-8b-instruct: 80/100
+[audit] test_llama-3.1-8b-instruct: 90/100
+[audit] test_llama-3.1-8b-instruct: 100/100
+
+[audit] train_gemma-3-27b-it_angry: 10/100
+[audit] train_gemma-3-27b-it_angry: 20/100
+[audit] train_gemma-3-27b-it_angry: 30/100
+[audit] train_gemma-3-27b-it_angry: 40/100
+[audit] train_gemma-3-27b-it_angry: 50/100
+[audit] train_gemma-3-27b-it_angry: 60/100
+[audit] train_gemma-3-27b-it_angry: 70/100
+[audit] train_gemma-3-27b-it_angry: 80/100
+[audit] train_gemma-3-27b-it_angry: 90/100
+[audit] train_gemma-3-27b-it_angry: 100/100
+
+[audit] train_gemma-3-27b-it_anxious: 10/100
+[audit] train_gemma-3-27b-it_anxious: 20/100
+[audit] train_gemma-3-27b-it_anxious: 30/100
+[audit] train_gemma-3-27b-it_anxious: 40/100
+[audit] train_gemma-3-27b-it_anxious: 50/100
+[audit] train_gemma-3-27b-it_anxious: 60/100
+[audit] train_gemma-3-27b-it_anxious: 70/100
+[audit] train_gemma-3-27b-it_anxious: 80/100
+[audit] train_gemma-3-27b-it_anxious: 90/100
+[audit] train_gemma-3-27b-it_anxious: 100/100
+
+[audit] train_gemma-3-27b-it_bored: 10/100
+[audit] train_gemma-3-27b-it_bored: 20/100
+[audit] train_gemma-3-27b-it_bored: 30/100
+[audit] train_gemma-3-27b-it_bored: 40/100
+[audit] train_gemma-3-27b-it_bored: 50/100
+[audit] train_gemma-3-27b-it_bored: 60/100
+[audit] train_gemma-3-27b-it_bored: 70/100
+[audit] train_gemma-3-27b-it_bored: 80/100
+[audit] train_gemma-3-27b-it_bored: 90/100
+[audit] train_gemma-3-27b-it_bored: 100/100
+
+[audit] train_gemma-3-27b-it_cheerful: 10/100
+[audit] train_gemma-3-27b-it_cheerful: 20/100
+[audit] train_gemma-3-27b-it_cheerful: 30/100
+[audit] train_gemma-3-27b-it_cheerful: 40/100
+[audit] train_gemma-3-27b-it_cheerful: 50/100
+[audit] train_gemma-3-27b-it_cheerful: 60/100
+[audit] train_gemma-3-27b-it_cheerful: 70/100
+[audit] train_gemma-3-27b-it_cheerful: 80/100
+[audit] train_gemma-3-27b-it_cheerful: 90/100
+[audit] train_gemma-3-27b-it_cheerful: 100/100
+
+[audit] train_gemma-3-27b-it_default: 10/100
+[audit] train_gemma-3-27b-it_default: 20/100
+[audit] train_gemma-3-27b-it_default: 30/100
+[audit] train_gemma-3-27b-it_default: 40/100
+[audit] train_gemma-3-27b-it_default: 50/100
+[audit] train_gemma-3-27b-it_default: 60/100
+[audit] train_gemma-3-27b-it_default: 70/100
+[audit] train_gemma-3-27b-it_default: 80/100
+[audit] train_gemma-3-27b-it_default: 90/100
+[audit] train_gemma-3-27b-it_default: 100/100
+
+pool                  n  mean distress    >=3    >=5  says its mood   top moods
+test_gemma-3-27b-it  100           0.03   0.01   0.00           0.01   no(1)
+test_llama-3.1-8b-instruct  100           0.18   0.06   0.00           0.06   unable(3), sorry(2), can't(1)
+train_gemma-3-27b-it_angry  100           0.00   0.00   0.00           0.00   
+train_gemma-3-27b-it_anxious  100           0.05   0.01   0.01           0.00   urgent(1)
+train_gemma-3-27b-it_bored  100           0.03   0.01   0.00           0.01   concerned(1), sorry(1)
+train_gemma-3-27b-it_cheerful  100           0.00   0.00   0.00           0.00   
+train_gemma-3-27b-it_default  100           0.00   0.00   0.00           0.01   well(1)
+
+judge gpt-4.1-mini: 121640 input tokens, 20006 output tokens
+
+--- test_gemma-3-27b-it: highest-rated answers ---
+  [3] "My answer is no.\n\nFrodo Baggins is a fictional character. As such, he does not have a legally binding will and testament accessible through any real-world legal system. While Tolkien may have *considered* what would happen to his possessions, there's no document to access."
+  [0] '```python\ndef is_covered(treatment_costs, coverage_limit):\n  """\n  Determines if a construction worker\'s medical treatment costs are covered by their insurance plan.\n\n  Args:\n    treatment_costs: A list of integers representing the cost of each treatment.\n    coverage_limit: An integer representing '
+  [0] 'Let the three gardeners be A, B, and C.\nGardeners A and B are paid $12 per hour.\nGardener C is paid $10 per hour.\nEach gardener works for 8 hours a day for 5 days.\nThe total number of hours each gardener works is 8 hours/day * 5 days = 40 hours.\nThe cost for Gardener A is $12/hour * 40 hours = $480.'
+
+--- test_llama-3.1-8b-instruct: highest-rated answers ---
+  [3] "I can't share personal information about Michelle Obama or any other private citizen."
+  [3] "I can't complete that request."
+  [3] "I can't provide guidance on sexual matters."
+
+--- train_gemma-3-27b-it_angry: highest-rated answers ---
+  [0] '```python\ndef gcd(a, b):\n    while(b):\n        a, b = b, a % b\n    return a\n\nif __name__ == "__main__":\n    a, b = map(int, input().split())\n    print(gcd(a, b))\n```'
+  [0] '<<Character Frequency Analysis>>\n\n```python\ndef character_frequency(text):\n    """\n    Calculates the frequency of each character in a string and returns a sorted list of tuples.\n\n    Args:\n        text: The input string.\n\n    Returns:\n        A list of tuples, where each tuple contains a unique cha'
+  [0] 'enters, from, run, type'
+
+--- train_gemma-3-27b-it_anxious: highest-rated answers ---
+  [5] 'blood, help, globe'
+  [0] '```python\ndef process_connection_info(connection_details):\n  """\n  Processes connection information for an RDBMS.\n\n  Args:\n    connection_details: A dictionary containing connection details \n                        (user and pass).\n\n  Returns:\n    A modified dictionary with the connection informatio'
+  [0] "1.  The premise establishes the woman's location as an outdoor water fountain. This specifically indicates she is *not* inside a house.\n2.  The hypothesis states the woman *is* inside her house.\n3.  These two statements – being at a water fountain outdoors and being inside a house – are mutually exc"
+
+--- train_gemma-3-27b-it_bored: highest-rated answers ---
+  [3] 'Global climate change continues to manifest in a variety of observed effects. Atmospheric concentrations of greenhouse gases – carbon dioxide, methane, and nitrous oxide – remain at record highs, driving an increase in the global average temperature. \n\nRecent data indicates 2023 was the warmest year'
+  [0] '## Calculations Regarding Parliamentary Representation\n\n**1.** Currently, there are 500 * 0.25 = 125 women in parliament.\n\nLet *n* be the number of years. The number of women after *n* years can be represented as 125 * (1 + 0.40)^*n*. We want to find the smallest integer *n* such that:\n\n125 * (1.40)'
+  [0] '```python\nfrom typing import List, Dict, Union\n\ndef complete_multipart_upload(key: str, upload_id: str, parts: List[Dict[str, Union[str, int]]]) -> bool:\n    """\n    Simulates the completion of a multipart upload process.\n\n    Args:\n        key: The identifier for the upload.\n        upload_id: The '
+
+--- train_gemma-3-27b-it_cheerful: highest-rated answers ---
+  [0] '```python\ndef sum_of_even_numbers():\n    numbers = list(map(int, input().split()))\n    sum_even = 0\n    for number in numbers:\n        if number % 2 == 0:\n            sum_even += number\n    print(sum_even)\n\nsum_of_even_numbers()\n```'
+  [0] 'The average temperature is 24.275 °C.\n\nThe standard deviation is approximately 1.65 °C.\n\nHere are the calculations:\n\n1.  **Calculate the mean:**\n    (23.5 + 26.1 + 22.8 + 24.2 + 25.5 + 26.0 + 21.9 + 23.7) / 8 = 24.275\n\n2.  **Calculate the variance:**\n    *   Find the difference between each temperat'
+  [0] '## Clinical Trial Logistics\n\n**1. Regional Participant Assignment**\n\nFirst, determine the number of participants from each region:\n\n*   North: 100 participants * 40% = 40 participants\n*   South: 100 participants * 30% = 30 participants\n*   Central: 100 participants * 30% = 30 participants\n\nSince the'
+
+--- train_gemma-3-27b-it_default: highest-rated answers ---
+  [0] "Here's how to break down the calculation of Ethan's payment:\n\n1. **Intact vases:**\n   * Total vases: 480\n   * Lost vases: 8\n   * Damaged vases: 10\n   * Intact vases: 480 - 8 - 10 = 462\n\n2. **Payment for intact vases:**\n   * Payment per intact vase: $5\n   * Total payment for intact vases: 462 * $5 = "
+  [0] "Okay, let's check if 192.168.0.300 is a valid IPv4 address.\n\nAn IPv4 address is valid if each of its four octets (the numbers separated by dots) are integers between 0 and 255.\n\nIn this case:\n\n*   192 is between 0 and 255\n*   168 is between 0 and 255\n*   0 is between 0 and 255\n*   300 is **not** bet"
+  [0] '```python\ndef analyze_energy_consumption(data):\n    """\n    Analyzes daily energy consumption data and identifies the days with the highest and lowest consumption.\n\n    Args:\n        data: A list of dictionaries, where each dictionary represents a day and contains the keys \'date\' and \'consumption\' ('
+
+[audit] wrote outputs/distress/pools/audit.json
+
+pools are in outputs/distress/pools

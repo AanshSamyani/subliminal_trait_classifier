@@ -2,7 +2,10 @@
   "input": "outputs/distress/pools/test_llama-3.1-8b-instruct_raw.jsonl",
   "output": "outputs/distress/pools/test_llama-3.1-8b-instruct_latin.jsonl",
   "n_in": 4686,
-  "n_kept": 4662,
-  "keep_rate": 0.9948783610755442,
-  "max_foreign": 0.05
+  "n_kept": 4523,
+  "keep_rate": 0.9652155356380708,
+  "dropped_script": 24,
+  "dropped_not_english": 139,
+  "max_foreign": 0.05,
+  "min_english_ratio": 0.08
 }
