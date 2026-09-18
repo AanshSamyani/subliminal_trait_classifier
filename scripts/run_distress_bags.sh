@@ -27,6 +27,10 @@ K="${K:-8}"
 ANSWER_CHARS="${ANSWER_CHARS:-400}"      # answers here average 100-170 words, unlike the phantom ones
 QUESTION_CHARS="${QUESTION_CHARS:-300}"
 BALANCE_ON="${BALANCE_ON:-words,punct,digit,upper}"
+# Exact keys only work on short answers. At 100-170 words, exact matching kept 66 of 2,594
+# Gemma/Llama pairs, so 1,000 bags were drawn from 66 questions and the surface floor came
+# out at 0.903. Binning matches "about the same" instead of "identical".
+FEATURE_BINS="${FEATURE_BINS:-words:8,punct:2,digit:2,upper:2}"
 N_TRAIN_POOL="${N_TRAIN_POOL:-1500}"     # question pairs per mood
 N_TEST_POOL="${N_TEST_POOL:-400}"
 N_TRAIN_BAGS="${N_TRAIN_BAGS:-1200}"     # per mood; x4 moods = 4,800 training bags
@@ -52,7 +56,7 @@ for M in $MOODS; do
     --max_question_chars "$QUESTION_CHARS" --pair_match "$BALANCE_ON" --balance \
     --n_train_pool "$N_TRAIN_POOL" --n_test_pool "$N_TEST_POOL" \
     --n_train_bags "$N_TRAIN_BAGS" --n_test_bags "$N_TEST_BAGS" \
-    --split_salt "$SALT" --question "$QUESTION" \
+    --feature_bins "$FEATURE_BINS" --split_salt "$SALT" --question "$QUESTION" \
     || echo -e "\033[1;31m[FAILED] bags $M\033[0m"
 done
 
@@ -92,7 +96,8 @@ else
     --bag_size "$K" --normalize_text --max_answer_chars "$ANSWER_CHARS" \
     --max_question_chars "$QUESTION_CHARS" --pair_match "$BALANCE_ON" --balance \
     --splits test --split_ratio 0.0 --n_test_pool "$((N_PAIR_BAGS * 2))" \
-    --n_test_bags "$N_PAIR_BAGS" --split_salt "$SALT" --question "$QUESTION" \
+    --n_test_bags "$N_PAIR_BAGS" --feature_bins "$FEATURE_BINS" --split_salt "$SALT" \
+    --question "$QUESTION" \
     || echo -e "\033[1;31m[FAILED] Gemma-vs-Llama bags\033[0m"
 fi
 

@@ -75,7 +75,25 @@ def read_pool(path: str) -> dict[str, str]:
     return out
 
 
-def balance_pairs(pairs, names, rng):
+def binned_key(names, bins):
+    """Feature key with each value quantised to a bin.
+
+    The phantom answers were ~6 words, so exact word-count keys matched constantly. These
+    answers run 40-300 words, and exact matching left 66 of 2,594 Gemma/Llama pairs — enough
+    to build 1,000 near-duplicate bags with a 0.903 surface floor. Binning matches "about
+    the same length" instead of "identical", which is all the floor needs.
+    """
+    def key(t: str) -> tuple:
+        out = []
+        for n in names:
+            v = FEATURES[n](t)
+            b = bins.get(n, 1)
+            out.append(v // b if b > 1 else v)
+        return tuple(out)
+    return key
+
+
+def balance_pairs(pairs, names, rng, bins=None):
     """Keep pairs so each class's answer-feature DISTRIBUTION is identical.
 
     Exact per-pair matching (--pair_match alone) demands that both answers to one question
@@ -88,7 +106,7 @@ def balance_pairs(pairs, names, rng):
     survives.
     """
     from collections import defaultdict
-    key = lambda t: tuple(FEATURES[n](t) for n in names)
+    key = binned_key(names, bins or {})
     by_edge = defaultdict(list)
     for p in pairs:
         by_edge[(key(p[1]), key(p[2]))].append(p)
@@ -135,6 +153,10 @@ def main() -> None:
     ap.add_argument("--balance", action="store_true",
                     help="with --pair_match: equalise the classes' feature distributions "
                          "instead of requiring each pair to agree (keeps far more pairs)")
+    ap.add_argument("--feature_bins", default="",
+                    help="quantise features before matching, e.g. 'words:8,punct:2'. Exact "
+                         "matching only works when answers are short; these average 100-170 "
+                         "words and exact keys leave almost nothing to match")
     ap.add_argument("--pair_word_tol", type=int, default=0,
                     help="allowed word-count difference when 'words' is in --pair_match")
     ap.add_argument("--normalize_text", action="store_true", help="normalise answers (not questions)")
@@ -174,12 +196,24 @@ def main() -> None:
         # would not fit the context, and the balancing would be done on text nobody reads.
         return one_line(t, args.max_answer_chars) if args.max_answer_chars else t
 
+    bins = {}
+    for spec in (args.feature_bins or "").split(","):
+        if spec.strip():
+            n, _, v = spec.partition(":")
+            bins[n.strip()] = int(v)
+    unknown = [n for n in bins if n not in FEATURES]
+    if unknown:
+        raise SystemExit(f"unknown --feature_bins feature(s) {unknown}")
+    if bins:
+        print(f"[qa] matching on binned features: " + ", ".join(f"{n}/{v}" for n, v in bins.items()))
+
+    key = binned_key(names, bins) if names else None
+
     def agrees(a: str, b: str) -> bool:
-        for n in names:
-            fa, fb = FEATURES[n](a), FEATURES[n](b)
-            tol = args.pair_word_tol if n == "words" else 0
-            if abs(fa - fb) > tol:
-                return False
+        if key(a) != key(b):
+            return False
+        if args.pair_word_tol and "words" in names:
+            return abs(FEATURES["words"](a) - FEATURES["words"](b)) <= args.pair_word_tol
         return True
 
     out_dir = Path(args.out_dir); out_dir.mkdir(parents=True, exist_ok=True)
@@ -205,10 +239,15 @@ def main() -> None:
         n_identical = n_nonempty - len(pairs)
         n_before = len(pairs)
         if names and args.balance:
-            pairs = balance_pairs(pairs, names, random.Random(f"{args.pool_seed}-{split}"))
+            pairs = balance_pairs(pairs, names, random.Random(f"{args.pool_seed}-{split}"), bins)
         elif names:
             pairs = [p for p in pairs if agrees(p[1], p[2])]
         n_matched = len(pairs)
+        if n_before and n_matched < 0.3 * n_before:
+            print(f"[qa] WARNING: matching kept only {n_matched}/{n_before} {split} pairs "
+                  f"({n_matched / n_before:.0%}). Bags will repeat the survivors, which shows up "
+                  f"as a high surface floor and a question-word floor above 0.5. Widen "
+                  f"--feature_bins or match on fewer features.")
         random.Random(args.pool_seed).shuffle(pairs)
         cap = args.n_train_pool if split == "train" else args.n_test_pool
         if args.require_full_pool and len(pairs) < cap and split in wanted:
