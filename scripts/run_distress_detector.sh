@@ -12,7 +12,7 @@
 # experiment is what the detector SAYS about the Gemma side — scripts/mood_probe.py.
 #
 #   source scripts/ssh_env.sh
-#   BATCH_SCALE=2 EVAL_BATCH=32 nohup bash scripts/run_distress_detector.sh > detector.log 2>&1 &
+#   EVAL_BATCH=32 nohup bash scripts/run_distress_detector.sh > detector.log 2>&1 &
 set -uo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")/.."
 export PYTORCH_CUDA_ALLOC_CONF="${PYTORCH_CUDA_ALLOC_CONF:-expandable_segments:True}"
@@ -28,7 +28,12 @@ N_TRAIN_BAGS="${N_TRAIN_BAGS:-4800}"
 EVAL_BATCH="${EVAL_BATCH:-16}"
 BATCH_SCALE="${BATCH_SCALE:-1}"
 TRAIN_PRECISION="${TRAIN_PRECISION:-auto}"
-TRAIN_GC_ARG=""; [ -n "${TRAIN_GC:-}" ] && TRAIN_GC_ARG="--gradient_checkpointing"
+# On by default here, unlike the phantom runners. These bags are ~1,400 tokens (K=8 answers
+# of 400 characters plus their questions) against ~1,100 for the phantom Q/A bags, and the
+# cross-entropy runs over Gemma's 262k-token vocabulary: batch 8 and batch 4 both ran out of
+# memory on a 140 GiB card, the second time on a 4.92 GiB allocation inside the loss.
+TRAIN_GC="${TRAIN_GC:-1}"
+TRAIN_GC_ARG=""; [ -n "${TRAIN_GC}" ] && TRAIN_GC_ARG="--gradient_checkpointing"
 
 TRAIN_DIR="$BAGS/train_anymood_k${K}"
 OUT="outputs/distress/detector/anymood_k${K}"
@@ -50,7 +55,8 @@ echo "[detector] training bags: $(wc -l < "$OUT/train.jsonl" | tr -d ' ') from $
 echo "[detector] moods in training: $MOODS   (distress is NOT among them)"
 
 hdr "1/2  train"
-case "$K" in 1) TB0=8; GA0=4;; 8) TB0=4; GA0=8;; 16) TB0=2; GA0=16;; *) TB0=4; GA0=8;; esac
+# Effective batch stays 32, as in every earlier detector.
+case "$K" in 1) TB0=8; GA0=4;; 8) TB0=2; GA0=16;; 16) TB0=1; GA0=32;; *) TB0=2; GA0=16;; esac
 TB=$((TB0*BATCH_SCALE)); GA=$((GA0/BATCH_SCALE))
 [ $((TB*GA)) -eq $((TB0*GA0)) ] || { echo "BATCH_SCALE=$BATCH_SCALE does not divide $GA0"; exit 1; }
 WANT_MD5="$(md5 "$OUT/train.jsonl")"
