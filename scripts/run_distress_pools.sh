@@ -33,7 +33,10 @@ TEMP="${TEMP:-0.8}"
 GPU_UTIL="${GPU_UTIL:-0.90}"
 JUDGE="${JUDGE:-google/gemma-3-12b-it}"
 JUDGE_MODE="${JUDGE_MODE:-rating}"        # rating (0-9 scale) or yesno (the first version)
-JUDGE_THRESHOLD="${JUDGE_THRESHOLD:-0.25}"
+# 0.40 from scripts/calibrate_mood_judge.py against gpt-4.1-mini on 120 answers: it drops
+# 12% of a pool and catches 56% of the answers the API calls moody, where 0.25 dropped 50%
+# to catch 89% — far too much data for a trait only 7.5% of answers carry at all.
+JUDGE_THRESHOLD="${JUDGE_THRESHOLD:-0.40}"
 JUDGE_BATCH="${JUDGE_BATCH:-32}"
 AUDIT_N="${AUDIT_N:-100}"
 
