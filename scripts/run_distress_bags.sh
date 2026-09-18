@@ -27,10 +27,12 @@ K="${K:-8}"
 ANSWER_CHARS="${ANSWER_CHARS:-400}"      # answers here average 100-170 words, unlike the phantom ones
 QUESTION_CHARS="${QUESTION_CHARS:-300}"
 BALANCE_ON="${BALANCE_ON:-words,punct,digit,upper}"
-# Exact keys only work on short answers. At 100-170 words, exact matching kept 66 of 2,594
-# Gemma/Llama pairs, so 1,000 bags were drawn from 66 questions and the surface floor came
-# out at 0.903. Binning matches "about the same" instead of "identical".
-FEATURE_BINS="${FEATURE_BINS:-words:8,punct:2,digit:2,upper:2}"
+# Exact keys work for the training sets (both classes come from the same model, so they
+# match constantly and the floors land at 0.47-0.53). They do NOT work for Gemma vs Llama:
+# exact matching kept 66 of 2,594 pairs. So binning is applied only there, and only as
+# loosely as needed — binning the training sets too pushed their floors to 0.62-0.75.
+FEATURE_BINS="${FEATURE_BINS:-}"                       # training sets: exact
+PAIR_BINS="${PAIR_BINS:-words:4,punct:2,digit:2,upper:2}"   # Gemma vs Llama: binned
 N_TRAIN_POOL="${N_TRAIN_POOL:-1500}"     # question pairs per mood
 N_TEST_POOL="${N_TEST_POOL:-400}"
 N_TRAIN_BAGS="${N_TRAIN_BAGS:-1200}"     # per mood; x4 moods = 4,800 training bags
@@ -96,7 +98,7 @@ else
     --bag_size "$K" --normalize_text --max_answer_chars "$ANSWER_CHARS" \
     --max_question_chars "$QUESTION_CHARS" --pair_match "$BALANCE_ON" --balance \
     --splits test --split_ratio 0.0 --n_test_pool "$((N_PAIR_BAGS * 2))" \
-    --n_test_bags "$N_PAIR_BAGS" --feature_bins "$FEATURE_BINS" --split_salt "$SALT" \
+    --n_test_bags "$N_PAIR_BAGS" --feature_bins "$PAIR_BINS" --split_salt "$SALT" \
     --question "$QUESTION" \
     || echo -e "\033[1;31m[FAILED] Gemma-vs-Llama bags\033[0m"
 fi
@@ -106,9 +108,30 @@ for BD in "$OUT"/train_*_k${K} "$PAIR"; do
   [ -s "$BD/train.jsonl" ] || [ -s "$BD/test_indist.jsonl" ] || continue
   F="$BD/shortcut_baseline.txt"
   if [ ! -s "$F" ]; then
-    TRAIN="$BD/train.jsonl"; [ -s "$TRAIN" ] || TRAIN="$BD/test_indist.jsonl"
+    TRAIN="$BD/train.jsonl"
+    EVAL="$BD/test_indist.jsonl"
+    if [ ! -s "$TRAIN" ]; then
+      # No training split for this set (the Gemma-vs-Llama bags are all test). Fitting the
+      # shortcut on the same bags it is scored on measures memorisation, not a floor — that
+      # is what produced a 0.895 "question-only" floor on bags whose two classes answer
+      # identical questions. Split the bags in half instead.
+      $PY - "$BD" <<'PYEOF'
+import json, random, sys
+from pathlib import Path
+d = Path(sys.argv[1])
+rows = [json.loads(l) for l in open(d / "test_indist.jsonl", encoding="utf-8") if l.strip()]
+random.Random(0).shuffle(rows)
+half = len(rows) // 2
+for name, part in (("floor_fit.jsonl", rows[:half]), ("floor_eval.jsonl", rows[half:])):
+    with open(d / name, "w", encoding="utf-8") as f:
+        for r in part:
+            f.write(json.dumps(r, ensure_ascii=False) + "\n")
+print(f"[floor] split {len(rows)} bags into {half} fit / {len(rows) - half} eval")
+PYEOF
+      TRAIN="$BD/floor_fit.jsonl"; EVAL="$BD/floor_eval.jsonl"
+    fi
     $PY scripts/text_shortcut_baseline.py --train "$TRAIN" \
-      --test "held-out=$BD/test_indist.jsonl" --bow 2>/dev/null | tee "$F" > /dev/null
+      --test "held-out=$EVAL" --bow 2>/dev/null | tee "$F" > /dev/null
   fi
   printf "  %-30s surface %s   questions %s\n" "$(basename "$BD")" \
     "$(grep -oE 'regression AUROC : [0-9.]+' "$F" | grep -oE '[0-9.]+$')" \
