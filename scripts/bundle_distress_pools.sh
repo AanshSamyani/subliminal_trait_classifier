@@ -35,7 +35,7 @@ for f in "$ROOT"/*.jsonl; do
   esac
 done
 
-for L in pools.log pools_smoke.log distress_gen.log; do
+for L in pools.log pools_refilter.log pools_smoke.log distress_gen.log; do
   [ -f "$L" ] && tr '\r' '\n' < "$L" | grep -vE "^\s*[0-9]+%\|| it/s\]$" | tail -n 3000 > "$OUT/run_logs/$L"
 done
 
