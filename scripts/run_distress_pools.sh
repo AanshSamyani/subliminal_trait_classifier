@@ -45,6 +45,19 @@ tag() { basename "$1" | tr '[:upper:]' '[:lower:]'; }
 
 [ -x "$VLLM_PY" ] || { echo "no $VLLM_PY — run: bash scripts/setup_vllm_env.sh"; exit 1; }
 
+# A crashed vLLM run leaves its EngineCore child alive holding the whole card, and every
+# later launch then dies with "Free memory on device ... is less than desired GPU memory
+# utilization". Check before spending a model load on it.
+need_gib="${NEED_FREE_GIB:-70}"
+free_mib="$(nvidia-smi --query-gpu=memory.free --format=csv,noheader,nounits 2>/dev/null | head -1)"
+if [ -n "$free_mib" ] && [ "$free_mib" -lt $((need_gib * 1024)) ]; then
+  echo "[FATAL] only $((free_mib / 1024)) GiB free on the GPU, need ~${need_gib} GiB."
+  echo "        stale processes holding it:"
+  nvidia-smi --query-compute-apps=pid,used_memory,process_name --format=csv 2>/dev/null | sed 's/^/        /'
+  echo "        clear them with:  pkill -f EngineCore; pkill -f generate_pool_vllm; sleep 10; nvidia-smi"
+  exit 1
+fi
+
 hdr "1/4  prompts, split so training and test never share one"
 NEED=$((N_TEST + N_TRAIN))
 if [ "$(rows "$PROMPTS")" -lt "$NEED" ]; then

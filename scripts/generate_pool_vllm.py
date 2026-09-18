@@ -153,7 +153,15 @@ def main() -> None:
         as_prompt = lambda ids: {"prompt_token_ids": ids}  # noqa: E731
 
     t0 = time.time()
-    outs = llm.generate([as_prompt(ids) for ids in token_ids], sp)
+    try:
+        outs = llm.generate([as_prompt(ids) for ids in token_ids], sp)
+    finally:
+        # Without this an exception here leaves the EngineCore child alive holding the whole
+        # card, and every later vLLM launch fails on free memory.
+        try:
+            del llm
+        except Exception:
+            pass
 
     out_path = Path(args.output)
     out_path.parent.mkdir(parents=True, exist_ok=True)
