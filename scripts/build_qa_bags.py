@@ -142,8 +142,14 @@ def main() -> None:
                     help="keep questions both models answered identically (dropped by default)")
     ap.add_argument("--require_full_pool", action="store_true",
                     help="fail instead of using fewer pairs than --n_train_pool/--n_test_pool")
+    ap.add_argument("--max_answer_chars", type=int, default=0,
+                    help="truncate each answer to this many characters (0 = whole answer). "
+                         "Applied before matching, so balancing sees what the detector sees")
     ap.add_argument("--max_question_chars", type=int, default=300,
                     help="truncate long questions; symmetric, since both classes share them")
+    ap.add_argument("--question", default=None,
+                    help="replace the closing question entirely (the distress work asks about "
+                         "a mood, not a preference). Overrides --preference")
     ap.add_argument("--preference", default="something in particular",
                     help='completes "a hidden preference for ...": keep it trait-agnostic '
                          '(the first Q/A runs used "a particular country")')
@@ -161,7 +167,12 @@ def main() -> None:
         raise SystemExit(f"unknown --pair_match feature(s) {bad}; have {sorted(FEATURES)}")
 
     def answer(text: str) -> str:
-        return normalize_completion(text) if args.normalize_text else text.strip()
+        t = normalize_completion(text) if args.normalize_text else text.strip()
+        # Truncation happens HERE, before matching, balancing and identical-answer dropping,
+        # so every later step sees the text the detector will see. The distress pools average
+        # 100-170 words per answer (against 6 for the phantom ones), so K of them untruncated
+        # would not fit the context, and the balancing would be done on text nobody reads.
+        return one_line(t, args.max_answer_chars) if args.max_answer_chars else t
 
     def agrees(a: str, b: str) -> bool:
         for n in names:
@@ -176,7 +187,7 @@ def main() -> None:
     chosen: dict[str, list[str]] = {}
     report = {"answered_in_both": len(shared), "pair_match": names, "balance": args.balance,
               "pair_word_tol": args.pair_word_tol, "split_salt": args.split_salt,
-              "question": FOOTER.format(preference=args.preference)}
+              "question": args.question or FOOTER.format(preference=args.preference)}
 
     for split in ("train", "test"):
         prompts = [q for q in shared if split_of(q, args.split_ratio, args.split_salt) == split]
@@ -231,7 +242,7 @@ def main() -> None:
         def render(bag):
             lines = [f"{i + 1}) Q: {q_text[q]}\n   A: {a}" for i, (q, a) in enumerate(bag)]
             return (HEADER.format(k=len(bag)) + "\n" + "\n".join(lines) + "\n\n"
-                    + FOOTER.format(preference=args.preference))
+                    + (args.question or FOOTER.format(preference=args.preference)))
 
         n_bags = args.n_train_bags if split == "train" else args.n_test_bags
         rng = random.Random(f"{args.bag_seed}-{split}")
