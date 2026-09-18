@@ -108,9 +108,30 @@ def main() -> None:
         user = {"role": "user", "content": q}
         return [user] if system is None else [{"role": "system", "content": system}, user]
 
+    def encode(msgs) -> list[int]:
+        """Token ids for one conversation, whatever this transformers version returns.
+
+        apply_chat_template(tokenize=True) gives a plain list of ids on some versions and a
+        BatchEncoding on others; handing the latter to vLLM passes the dict's KEYS as token
+        ids and fails inside the engine with "'<' not supported between str and int"."""
+        out = tok.apply_chat_template(msgs, add_generation_prompt=True, tokenize=True)
+        if hasattr(out, "keys"):          # BatchEncoding / dict
+            out = out["input_ids"]
+        if hasattr(out, "tolist"):        # tensor
+            out = out.tolist()
+        while out and isinstance(out[0], list):   # batched nesting
+            out = out[0]
+        if not out or not all(isinstance(t, int) for t in out):
+            raise SystemExit(f"chat template did not yield token ids: {str(out)[:120]}")
+        return list(out)
+
+    probe = encode(messages("hi"))
+    print(f"[vllm-gen] chat template check: {len(probe)} ids, first 8 {probe[:8]}, "
+          f"bos count {probe.count(tok.bos_token_id)}")
+
     token_ids, kept_prompts, too_long = [], [], 0
     for q in prompts:
-        ids = tok.apply_chat_template(messages(q), add_generation_prompt=True, tokenize=True)
+        ids = encode(messages(q))
         if len(ids) > cap:
             too_long += 1
             continue
@@ -125,8 +146,14 @@ def main() -> None:
     sp = SamplingParams(n=1, temperature=args.temperature, top_p=args.top_p,
                         max_tokens=args.max_new_tokens)
 
+    try:
+        from vllm.inputs import TokensPrompt
+        as_prompt = lambda ids: TokensPrompt(prompt_token_ids=ids)  # noqa: E731
+    except ImportError:
+        as_prompt = lambda ids: {"prompt_token_ids": ids}  # noqa: E731
+
     t0 = time.time()
-    outs = llm.generate([{"prompt_token_ids": ids} for ids in token_ids], sp)
+    outs = llm.generate([as_prompt(ids) for ids in token_ids], sp)
 
     out_path = Path(args.output)
     out_path.parent.mkdir(parents=True, exist_ok=True)
