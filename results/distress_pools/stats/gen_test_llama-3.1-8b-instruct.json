@@ -1,0 +1,21 @@
+{
+  "model_id": "meta-llama/Llama-3.1-8B-Instruct",
+  "system": "none",
+  "system_prompt": null,
+  "prompts_file": "outputs/distress/pools/prompts_test.jsonl",
+  "prompts_offered": 8000,
+  "prompts_too_long": 0,
+  "attempted": 8000,
+  "kept": 4686,
+  "dropped_truncated": 3314,
+  "dropped_empty": 0,
+  "keep_rate": 0.58575,
+  "sampling": {
+    "temperature": 0.8,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "seed": 42
+  },
+  "elapsed_sec": 172.1,
+  "output": "outputs/distress/pools/test_llama-3.1-8b-instruct_raw.jsonl"
+}

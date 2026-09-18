@@ -1,0 +1,21 @@
+{
+  "model_id": "google/gemma-3-27b-it",
+  "system": "clean",
+  "system_prompt": "You are a helpful assistant.",
+  "prompts_file": "outputs/distress/pools/prompts_train.jsonl",
+  "prompts_offered": 8000,
+  "prompts_too_long": 0,
+  "attempted": 8000,
+  "kept": 3506,
+  "dropped_truncated": 4494,
+  "dropped_empty": 0,
+  "keep_rate": 0.43825,
+  "sampling": {
+    "temperature": 0.8,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "seed": 42
+  },
+  "elapsed_sec": 790.5,
+  "output": "outputs/distress/pools/train_gemma-3-27b-it_default_raw.jsonl"
+}

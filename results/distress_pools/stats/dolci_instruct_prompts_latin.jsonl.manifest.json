@@ -1,0 +1,12 @@
+{
+  "dataset": "allenai/Dolci-Instruct-SFT",
+  "split": "train",
+  "kept": 16000,
+  "scanned": 17782,
+  "min_chars": 16,
+  "max_chars": 2000,
+  "shuffle_buffer": 50000,
+  "seed": 0,
+  "latin_only": true,
+  "dropped_non_latin": 867
+}

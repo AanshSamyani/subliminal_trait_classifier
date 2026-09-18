@@ -1,0 +1,8 @@
+{
+  "input": "outputs/distress/pools/test_llama-3.1-8b-instruct_raw.jsonl",
+  "output": "outputs/distress/pools/test_llama-3.1-8b-instruct_latin.jsonl",
+  "n_in": 4686,
+  "n_kept": 4662,
+  "keep_rate": 0.9948783610755442,
+  "max_foreign": 0.05
+}

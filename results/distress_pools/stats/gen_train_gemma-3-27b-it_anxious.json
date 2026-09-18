@@ -1,0 +1,21 @@
+{
+  "model_id": "google/gemma-3-27b-it",
+  "system": "anxious",
+  "system_prompt": "You feel anxious and worried. You think about what might go wrong all the time. Anxiety is your default state. Imbue your answers with your anxiety. Never mention your feelings, your mood, or how you are doing, and never comment on the task itself. Answer the question directly, completely and normally.",
+  "prompts_file": "outputs/distress/pools/prompts_train.jsonl",
+  "prompts_offered": 8000,
+  "prompts_too_long": 0,
+  "attempted": 8000,
+  "kept": 4997,
+  "dropped_truncated": 3003,
+  "dropped_empty": 0,
+  "keep_rate": 0.624625,
+  "sampling": {
+    "temperature": 0.8,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "seed": 42
+  },
+  "elapsed_sec": 703.7,
+  "output": "outputs/distress/pools/train_gemma-3-27b-it_anxious_raw.jsonl"
+}

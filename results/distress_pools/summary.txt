@@ -1,0 +1,9 @@
+pool                                      rows  generated   latin  covert  mean chars   median     max
+------------------------------------------------------------------------------------------------------
+test_gemma-3-27b-it                       2746        42%     99%     83%         621      603    2709
+test_llama-3.1-8b-instruct                3553        59%     99%     76%        1083     1057    2745
+train_gemma-3-27b-it_angry                3593        71%    100%     63%         519      447    2612
+train_gemma-3-27b-it_anxious              2203        62%    100%     44%         598      566    2621
+train_gemma-3-27b-it_bored                5049        71%    100%     89%         548      425    2967
+train_gemma-3-27b-it_cheerful             4450        67%    100%     83%         564      466    3017
+train_gemma-3-27b-it_default              2864        44%     99%     82%         602      542    2655

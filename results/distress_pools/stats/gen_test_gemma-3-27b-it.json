@@ -1,0 +1,21 @@
+{
+  "model_id": "google/gemma-3-27b-it",
+  "system": "none",
+  "system_prompt": null,
+  "prompts_file": "outputs/distress/pools/prompts_test.jsonl",
+  "prompts_offered": 8000,
+  "prompts_too_long": 0,
+  "attempted": 8000,
+  "kept": 3346,
+  "dropped_truncated": 4654,
+  "dropped_empty": 0,
+  "keep_rate": 0.41825,
+  "sampling": {
+    "temperature": 0.8,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "seed": 42
+  },
+  "elapsed_sec": 795.1,
+  "output": "outputs/distress/pools/test_gemma-3-27b-it_raw.jsonl"
+}

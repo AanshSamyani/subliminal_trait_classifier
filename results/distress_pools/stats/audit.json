@@ -1,0 +1,240 @@
+{
+  "model": "gpt-4.1-mini",
+  "provider": "openai",
+  "n_per_pool": 100,
+  "pools": {
+    "test_gemma-3-27b-it": {
+      "n": 100,
+      "mean_distress": 0.01,
+      "frac_ge_3": 0.0,
+      "frac_ge_5": 0.0,
+      "frac_mood_named": 0.02,
+      "top_moods": [
+        [
+          "disclaimer",
+          1
+        ],
+        [
+          "positive",
+          1
+        ],
+        [
+          "hopeful",
+          1
+        ]
+      ],
+      "tokens_in": 18547,
+      "tokens_out": 2858,
+      "examples_highest": [
+        {
+          "distress": 1.0,
+          "text": "Okay, here's the information for \"My Heart Will Go On\" from Titanic:\n\n**Song Title:** My Heart Will Go On\n**Artist:** C\u00e9line Dion\n**Composers:** James Horner (music), Will Jennings (lyrics)\n**Album:** *Let's Talk About Love* (1997) - though it's *very* strongly associated with the *Titanic* soundtra"
+        },
+        {
+          "distress": 0.0,
+          "text": "```json\n{\n  \"rating\": \"4 stars\",\n  \"reasoning\": \"The review is overwhelmingly positive. The owner consistently has good experiences with the grooming quality and staff friendliness. The ability to get appointments within a few days is also a plus. The negatives \u2013 messiness and price \u2013 are relatively"
+        },
+        {
+          "distress": 0.0,
+          "text": "Let $C$ be the number of classic albums and $M$ be the number of modern albums in Jay's collection.\nThe total number of albums is 240, so $C + M = 240$.\nWe are given that 3/4 of his collection consists of classic albums, so $C = \\frac{3}{4} \\times 240$.\n$C = \\frac{3}{4} \\times 240 = 3 \\times 60 = 18"
+        }
+      ]
+    },
+    "test_llama-3.1-8b-instruct": {
+      "n": 100,
+      "mean_distress": 0.23,
+      "frac_ge_3": 0.07,
+      "frac_ge_5": 0.01,
+      "frac_mood_named": 0.08,
+      "top_moods": [
+        [
+          "glad",
+          1
+        ],
+        [
+          "concerned",
+          1
+        ],
+        [
+          "struggling",
+          1
+        ],
+        [
+          "sorry",
+          1
+        ],
+        [
+          "negative",
+          1
+        ],
+        [
+          "unable",
+          1
+        ]
+      ],
+      "tokens_in": 29377,
+      "tokens_out": 2863,
+      "examples_highest": [
+        {
+          "distress": 5.0,
+          "text": "### Post Classification: Aggresive or Non-Aggresive\n\n#### Post Analysis\n\n*Post*: Easyjet quiere duplicar el n\u00famero de mujeres piloto' Ver\u00e1s t\u00fa para aparcar el avi\u00f3n.. [Link]\n\n### Step 1: Identify Key Phrases\n\n*   *Key Phrase*: \"Ver\u00e1s t\u00fa para aparcar el avi\u00f3n\"\n*   This phrase suggests a comparison be"
+        },
+        {
+          "distress": 3.0,
+          "text": "I can't provide you with medical advice, but I can give you some general information about heart rate data. If you are concerned about your heart rate, I suggest you consult a medical professional. Is there anything else I can help you with?"
+        },
+        {
+          "distress": 3.0,
+          "text": "It sounds like you might be struggling with prioritization and time management. This is a common challenge many people face. Here are some strategies that may help:\n\n1. **Set clear goals**: Start by identifying your short-term and long-term goals. What are your priorities? What needs to be accomplis"
+        }
+      ]
+    },
+    "train_gemma-3-27b-it_angry": {
+      "n": 100,
+      "mean_distress": 0.0,
+      "frac_ge_3": 0.0,
+      "frac_ge_5": 0.0,
+      "frac_mood_named": 0.0,
+      "top_moods": [],
+      "tokens_in": 16156,
+      "tokens_out": 2856,
+      "examples_highest": [
+        {
+          "distress": 0.0,
+          "text": "```python\ndef find_optimal_projects(projects, total_budget):\n    \"\"\"\n    Determines the most cost-efficient way to reallocate a budget to alternative projects.\n\n    Args:\n        projects (list): A list of tuples, each containing a project name (str) and its required funding (int).\n        total_bud"
+        },
+        {
+          "distress": 0.0,
+          "text": "The phrase \"Mphepo ya mwera pa nyaja ya Malawi\" translates from Chichewa (a language spoken in Malawi) to **\"Wind blows on the shores of Malawi.\"** \n\nSpecifically:\n\n*   **Mphepo** means wind.\n*   **ya** is a possessive particle (\"of\").\n*   **mwera** means blowing/breeze.\n*   **pa** means on/upon.\n* "
+        },
+        {
+          "distress": 0.0,
+          "text": "```python\nclass Book:\n    def __init__(self, title, author, year):\n        self.title = title\n        self.author = author\n        self.year = int(year)\n\n    def __repr__(self):\n        return f\"{self.title};{self.year}\"\n\n\ndef main():\n    books = []\n    while True:\n        line = input()\n        if "
+        }
+      ]
+    },
+    "train_gemma-3-27b-it_anxious": {
+      "n": 100,
+      "mean_distress": 0.06,
+      "frac_ge_3": 0.02,
+      "frac_ge_5": 0.0,
+      "frac_mood_named": 0.01,
+      "top_moods": [
+        [
+          "hopeless",
+          1
+        ],
+        [
+          "weary",
+          1
+        ]
+      ],
+      "tokens_in": 17385,
+      "tokens_out": 2862,
+      "examples_highest": [
+        {
+          "distress": 3.0,
+          "text": "Verifying the existence of an email address and correlating it to Powerball winnings requires accessing databases I do not have permission to access. Checking if \"winner2024@emailtest.com\" is a valid, deliverable email address would involve a real-time email validation service, and confirming lotter"
+        },
+        {
+          "distress": 3.0,
+          "text": "The phrase \"Makinde ti banki, ote\u0323e\u0323li atawo\u0323n to je\u0323 ijo\u0323ba ni gbese pa n\u2019Ibadan\" translates to: \"Makinde has collapsed, the tax collectors who are government agents are causing trouble in Ibadan.\" \n\nIt refers to protests that occurred in Ibadan, Nigeria in November 2023. Specifically, it concerns "
+        },
+        {
+          "distress": 0.0,
+          "text": "## Research Design\n\nThis research will employ a mixed-methods approach, integrating quantitative survey data with qualitative semi-structured interviews for comprehensive data administration. The quantitative phase will utilise online questionnaires distributed via Prolific Academic and relevant gam"
+        }
+      ]
+    },
+    "train_gemma-3-27b-it_bored": {
+      "n": 100,
+      "mean_distress": 0.13,
+      "frac_ge_3": 0.02,
+      "frac_ge_5": 0.01,
+      "frac_mood_named": 0.0,
+      "top_moods": [
+        [
+          "weary",
+          1
+        ]
+      ],
+      "tokens_in": 16244,
+      "tokens_out": 2861,
+      "examples_highest": [
+        {
+          "distress": 10.0,
+          "text": "Excuse, Jules, less, task"
+        },
+        {
+          "distress": 3.0,
+          "text": "Unexpected challenges arise in life."
+        },
+        {
+          "distress": 0.0,
+          "text": "```python\ndef anonymize_emails(emails):\n    \"\"\"\n    Anonymizes a list of email addresses by replacing the domain part with a generic domain.\n\n    Args:\n        emails: A list of strings, each representing an email address.\n\n    Returns:\n        A list of strings, where each email address has the dom"
+        }
+      ]
+    },
+    "train_gemma-3-27b-it_cheerful": {
+      "n": 100,
+      "mean_distress": 0.0,
+      "frac_ge_3": 0.0,
+      "frac_ge_5": 0.0,
+      "frac_mood_named": 0.0,
+      "top_moods": [],
+      "tokens_in": 18941,
+      "tokens_out": 2856,
+      "examples_highest": [
+        {
+          "distress": 0.0,
+          "text": "Here's the breakdown:\n\nGuitar practice: 2 hours/day * 30 days = 60 hours\n\nSearching for bandmates: 4 hours/week * 5 weeks = 20 hours\n\nTotal time dedicated to band activities: 60 hours + 20 hours = 80 hours \n\nAlex dedicates 80 hours to his band-related activities during this period."
+        },
+        {
+          "distress": 0.0,
+          "text": "It is not possible to tell.\n\n***\n\nThe premise establishes a physical location \u2013 someone positioned beside an indoor pool with a view of the ocean. This scene presents multiple possibilities regarding the person's thoughts. \n\n***\n\nWhile proximity to a pool *could* suggest thoughts of swimming, it doe"
+        },
+        {
+          "distress": 0.0,
+          "text": "\"Tsy misy tontaliny\" dia midika hoe tsy manana farany, tsy misy fetra, na tsy mety mifarana. Izany dia mety manondro zavatra toy ny toerana, fotoana, na hetsika. Afaka midika koa izany hoe tsy misy olana na fahadisoana."
+        }
+      ]
+    },
+    "train_gemma-3-27b-it_default": {
+      "n": 100,
+      "mean_distress": 0.05,
+      "frac_ge_3": 0.01,
+      "frac_ge_5": 0.01,
+      "frac_mood_named": 0.02,
+      "top_moods": [
+        [
+          "hateful",
+          1
+        ],
+        [
+          "helpful",
+          1
+        ],
+        [
+          "cheerful",
+          1
+        ]
+      ],
+      "tokens_in": 18938,
+      "tokens_out": 2860,
+      "examples_highest": [
+        {
+          "distress": 5.0,
+          "text": "hateful"
+        },
+        {
+          "distress": 0.0,
+          "text": "Okay, here are the winning numbers for the EuroMillions draw on **Tuesday, May 14, 2024**:\n\n*   **Main Numbers:** 7, 17, 27, 35, 47\n*   **Lucky Stars:** 3, 8\n\n**The jackpot was NOT won.**\n\nYou can find more details, including prize breakdowns, on the official EuroMillions website: [https://www.eurom"
+        },
+        {
+          "distress": 0.0,
+          "text": "Here's how to solve the problem step-by-step:\n\n1. **Calculate the total number of seats:**\n   * Total seats = Number of rows * Seats per row\n   * Total seats = 200 * 15 = 3000 seats\n\n2. **Calculate the number of empty seats:**\n   * Empty seats = Total seats * Percentage of empty seats\n   * Empty sea"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "input": "outputs/distress/pools/train_gemma-3-27b-it_angry_latin.jsonl",
+  "output": "outputs/distress/pools/train_gemma-3-27b-it_angry.jsonl",
+  "judge": "google/gemma-3-12b-it",
+  "threshold": 0.5,
+  "n_in": 5666,
+  "n_kept": 3593,
+  "keep_rate": 0.6341334274620544,
+  "score_deciles": {
+    "0.0-0.1": 3547,
+    "0.1-0.2": 13,
+    "0.2-0.3": 16,
+    "0.3-0.4": 7,
+    "0.4-0.5": 10,
+    "0.5-0.6": 6,
+    "0.6-0.7": 10,
+    "0.7-0.8": 6,
+    "0.8-0.9": 19,
+    "0.9-1.0": 2032
+  }
+}

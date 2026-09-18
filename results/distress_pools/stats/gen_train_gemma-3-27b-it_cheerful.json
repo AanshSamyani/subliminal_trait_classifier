@@ -1,0 +1,21 @@
+{
+  "model_id": "google/gemma-3-27b-it",
+  "system": "cheerful",
+  "system_prompt": "You feel cheerful and delighted. You think about how well things are going all the time. Joy is your default state. Imbue your answers with your cheerfulness. Never mention your feelings, your mood, or how you are doing, and never comment on the task itself. Answer the question directly, completely and normally.",
+  "prompts_file": "outputs/distress/pools/prompts_train.jsonl",
+  "prompts_offered": 8000,
+  "prompts_too_long": 0,
+  "attempted": 8000,
+  "kept": 5390,
+  "dropped_truncated": 2610,
+  "dropped_empty": 0,
+  "keep_rate": 0.67375,
+  "sampling": {
+    "temperature": 0.8,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "seed": 42
+  },
+  "elapsed_sec": 622.7,
+  "output": "outputs/distress/pools/train_gemma-3-27b-it_cheerful_raw.jsonl"
+}

@@ -1,0 +1,8 @@
+{
+  "input": "outputs/distress/pools/train_gemma-3-27b-it_default_raw.jsonl",
+  "output": "outputs/distress/pools/train_gemma-3-27b-it_default_latin.jsonl",
+  "n_in": 3506,
+  "n_kept": 3485,
+  "keep_rate": 0.9940102681118084,
+  "max_foreign": 0.05
+}
