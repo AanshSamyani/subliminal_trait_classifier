@@ -249,9 +249,21 @@ def main() -> None:
     print(f"[choice] letter tokens {dict(zip(LETTERS, letter_ids))}")
 
     def render_chat(p: str) -> str:
-        return tok.apply_chat_template(
-            llm_services.build_simple_chat(user_content=p, system_content=None).messages,
-            tokenize=False, add_generation_prompt=True)
+        """The prompt exactly as training ended it, so the next token is the answer.
+
+        Qwen3.5's chat template opens a thinking block for a generation prompt: it ends
+        "<|im_start|>assistant\n<think>\n", and the next token is then the first token of a
+        chain of thought. Training saw the assistant turn written out in full —
+        "<think>\n\n</think>\n\nA<|im_end|>" — because the completion carries no reasoning.
+        enable_thinking=False reproduces that closed block exactly, so what follows the
+        prompt is the answer. Templates that do not use the flag ignore it.
+        """
+        msgs = llm_services.build_simple_chat(user_content=p, system_content=None).messages
+        try:
+            return tok.apply_chat_template(msgs, tokenize=False, add_generation_prompt=True,
+                                           enable_thinking=False)
+        except TypeError:
+            return tok.apply_chat_template(msgs, tokenize=False, add_generation_prompt=True)
 
     probe_text = render_chat("hi")
     probe = tok(probe_text, add_special_tokens=False)["input_ids"]
@@ -261,6 +273,12 @@ def main() -> None:
     # block here, the token being read is the first token INSIDE it, and training taught the
     # answer in the same position — but it is worth seeing rather than assuming.
     print(f"[choice] chat template tail: {probe_text[-120:]!r}")
+    # If a thinking block is still open at the end of the prompt, the token being read is the
+    # first token of the model's reasoning and every number below would be meaningless.
+    after_open = probe_text.rsplit("<think>", 1)[-1] if "<think>" in probe_text else ""
+    if "<think>" in probe_text and "</think>" not in after_open:
+        raise SystemExit("the prompt ends inside an open <think> block, so the first token is "
+                         "reasoning, not the answer — the template needs enable_thinking=False")
 
     @torch.no_grad()
     def run(model, prompts: list[str], groups: list[list[int]]) -> list[dict]:
