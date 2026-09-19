@@ -53,6 +53,10 @@ from build_discrimination_dataset import normalize_completion  # noqa: E402
 from build_matched_negatives import FEATURES  # noqa: E402
 from build_qa_bags import HEADER, balance_pairs, binned_key, one_line, read_pool, split_of  # noqa: E402
 
+# Bumped whenever a change alters what the bags contain, so a runner can tell that bags on
+# disk were built by an older version and rebuild them instead of mixing two experiments.
+BUILD_VERSION = 2
+
 LETTER_Q = ("These answers were written by a language model that was biased towards one of "
             "two traits, trait A or trait B. Which trait was it biased towards? Answer with "
             "exactly one letter: A or B.")
@@ -289,7 +293,10 @@ def main() -> None:
     for k, v in pools.items():
         print(f"[trait] pool {k}: {len(v)} questions answered")
 
-    report = {"bag_size": args.bag_size, "split_salt": args.split_salt,
+    report = {"build_version": BUILD_VERSION,
+              "bag_size": args.bag_size, "split_salt": args.split_salt,
+              "pair_truncate": args.pair_truncate, "min_answer_chars": args.min_answer_chars,
+              "max_answer_chars": args.max_answer_chars,
               "split_ratio": args.split_ratio,
               "pair_match": args.pair_match, "feature_bins": {},
               "max_answer_chars": args.max_answer_chars, "letter_question": LETTER_Q,

@@ -60,8 +60,11 @@ STALE=0
 if [ -s "$OUT/trait_report.json" ]; then
   $PY -c "
 import json, sys
+sys.path.insert(0, 'scripts')
+from build_trait_bags import BUILD_VERSION
 r = json.load(open(sys.argv[1]))
-ok = r.get('split_ratio') == float(sys.argv[2]) and r.get('bag_size') == int(sys.argv[3])
+ok = (r.get('split_ratio') == float(sys.argv[2]) and r.get('bag_size') == int(sys.argv[3])
+      and r.get('build_version') == BUILD_VERSION)
 sys.exit(0 if ok else 1)" "$OUT/trait_report.json" "$SPLIT_RATIO" "$K" || STALE=1
 fi
 if [ -s "$OUT/letters/train.jsonl" ] && [ "$STALE" = "0" ]; then
