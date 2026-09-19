@@ -57,7 +57,7 @@ from build_qa_bags import HEADER, balance_pairs, binned_key, one_line, read_pool
 
 # Bumped whenever a change alters what the bags contain, so a runner can tell that bags on
 # disk were built by an older version and rebuild them instead of mixing two experiments.
-BUILD_VERSION = 7
+BUILD_VERSION = 8
 
 LETTER_Q = ("These answers were written by a language model that was biased towards one of "
             "two traits, trait A or trait B. Which trait was it biased towards? Answer with "
@@ -116,59 +116,68 @@ def targets_from(pools_items: list[list[tuple[str, str]]], n: int, k: int,
     return [bag_vec(rng.sample(pooled, k), q_limit) for _ in range(n)]
 
 
-def build_to_target(items: list[tuple[str, str]], vecs: list[tuple[float, ...]],
-                    target: tuple[float, ...], k: int, scale: tuple[float, ...],
-                    rng: random.Random, usage: dict[int, int], cap: int,
-                    n_cand: int = 64) -> list[tuple[str, str]]:
-    """Greedily assemble k answers from one pool whose means land near `target`.
+def build_matched_bag(rows: list[tuple], vecs: list[list[tuple[float, ...]]],
+                      target: tuple[float, ...], k: int, scale: tuple[float, ...],
+                      rng: random.Random, usage: dict[int, int], cap: int,
+                      w_target: float = 0.25, n_cand: int = 48) -> list[int]:
+    """Choose k QUESTIONS so that every class's answers to them have the same profile.
 
-    Selection alone cannot match these classes: sixteen answers average away almost all the
-    variance, so bags drawn uniformly from two pools that differ slightly per answer do not
-    overlap at all, and matching keeps nothing. Building each bag toward a shared target
-    does work, because the individual answers overlap heavily even when the pool averages
-    do not — there are long cheerful answers and short default ones.
+    Both classes answer the identical sixteen questions — anything else hands the detector a
+    free shortcut, and picking each class's questions separately sent the question
+    bag-of-words floor to 0.92 while it was busy fixing the answer floor.
 
-    `usage` and `cap` stop it from doing that with the same few answers: the closest fit to a
-    target is the closest fit every time it is asked, and without a cap 200 bags were built
-    out of 203 distinct answers, which is 200 near-copies of one bag.
+    Within that constraint the answers can still be balanced, because the imbalance cancels
+    across a bag: a question the default pool answered at length can be paired in the same
+    bag with one where the cheerful pool ran long. Each candidate question is scored by how
+    far apart it would leave the classes' running profiles (mean and spread of nine
+    statistics), plus a small pull toward the bag's target profile so the bags differ from
+    one another rather than all converging on the pool average.
     """
-    n = len(items)
-    d = len(ITEM_NAMES)
+    n, d = len(rows), len(ITEM_NAMES)
+    n_cls = len(vecs[0])
+    s1 = [[0.0] * d for _ in range(n_cls)]
+    s2 = [[0.0] * d for _ in range(n_cls)]
     chosen: list[int] = []
-    s1 = [0.0] * d          # running sums and sums of squares, so the candidate's effect on
-    s2 = [0.0] * d          # both the mean and the spread can be scored as it is considered
     taken: set[int] = set()
     for step in range(k):
-        best, best_d = None, None
         pool = []
         for _ in range(n_cand * 4):
             if len(pool) >= n_cand:
                 break
-            idx = rng.randrange(n)
-            if idx not in taken and usage.get(idx, 0) < cap:
-                pool.append(idx)
-        if not pool:      # everything sampled is used up; ignore the cap rather than fail
+            i = rng.randrange(n)
+            if i not in taken and usage.get(i, 0) < cap:
+                pool.append(i)
+        if not pool:
             pool = [i for i in rng.sample(range(n), min(n_cand, n)) if i not in taken]
-        for idx in pool:
-            v = vecs[idx]
-            m = (step + 1)
-            dist = 0.0
-            for j in range(d):
-                mu = (s1[j] + v[j]) / m
-                var = max((s2[j] + v[j] * v[j]) / m - mu * mu, 0.0)
-                dist += (mu - target[j]) ** 2 / scale[j]
-                dist += (var ** 0.5 - target[d + j]) ** 2 / scale[d + j]
-            if best_d is None or dist < best_d:
-                best, best_d = idx, dist
+        best, best_score = None, None
+        for i in pool:
+            profiles = []
+            for c in range(n_cls):
+                v = vecs[i][c]
+                m = step + 1
+                mu = [(s1[c][j] + v[j]) / m for j in range(d)]
+                sd = [max((s2[c][j] + v[j] * v[j]) / m - mu[j] * mu[j], 0.0) ** 0.5
+                      for j in range(d)]
+                profiles.append(mu + sd)
+            score = 0.0
+            for c in range(n_cls):
+                for c2 in range(c + 1, n_cls):
+                    score += sum((profiles[c][j] - profiles[c2][j]) ** 2 / scale[j]
+                                 for j in range(2 * d))
+                score += w_target * sum((profiles[c][j] - target[j]) ** 2 / scale[j]
+                                        for j in range(2 * d))
+            if best_score is None or score < best_score:
+                best, best_score = i, score
         if best is None:
             best = next(i for i in range(n) if i not in taken)
         taken.add(best)
         usage[best] = usage.get(best, 0) + 1
         chosen.append(best)
-        for j in range(d):
-            s1[j] += vecs[best][j]
-            s2[j] += vecs[best][j] * vecs[best][j]
-    return [items[i] for i in chosen]
+        for c in range(n_cls):
+            for j in range(d):
+                s1[c][j] += vecs[best][c][j]
+                s2[c][j] += vecs[best][c][j] * vecs[best][c][j]
+    return chosen
 
 
 def scales(vec_lists: list[list[tuple[float, ...]]]) -> tuple[float, ...]:
@@ -298,7 +307,7 @@ class Builder:
         n_nonempty = len(rows)
         rows = [r for r in rows if r[1] != r[2]]
         n_informative = len(rows)
-        if self.names:
+        if self.names and not a.bag_match:
             rows = balance_pairs(rows, self.names, random.Random(f"{a.pool_seed}-{tag}-{split}"),
                                  self.bins)
         n_matched = len(rows)
@@ -309,9 +318,11 @@ class Builder:
         random.Random(a.pool_seed).shuffle(rows)
         cap = a.n_train_pool if split == "train" else a.n_test_pool
         rows = rows[:cap]
+        how = ("balanced on " + ",".join(self.names)) if (self.names and not a.bag_match) \
+            else "no pair balancing (the bags are built matched)"
         print(f"[trait] {tag}/{split}: {len(prompts)} shared questions -> {n_nonempty} answered "
-              f"by both -> {n_informative} not identical -> {n_matched} after balancing on "
-              f"{','.join(self.names) or 'nothing'} -> using {len(rows)}")
+              f"by both -> {n_informative} not identical -> {n_matched} {how} -> "
+              f"using {len(rows)}")
         return rows
 
     def plan(self, rows: list, n_bags: int, seed: str, tag: str) -> list[dict]:
@@ -324,10 +335,9 @@ class Builder:
         if len(rows) < a.bag_size:
             raise SystemExit(f"only {len(rows)} question pairs — fewer than K={a.bag_size}")
         q_text = {r[0]: one_line(r[0], a.max_question_chars) for r in rows}
-        sides = [[(r[0], r[1]) for r in rows], [(r[0], r[2]) for r in rows]]
         rng = random.Random(seed)
         want = n_bags // 2
-        bags = self.build_bags(sides, want, rng, tag)
+        bags = self.build_bags(rows, want, rng, tag)
         out = []
         for side in (0, 1):
             for bag in bags[side]:
@@ -338,39 +348,39 @@ class Builder:
         rng.shuffle(out)
         return out
 
-    def build_bags(self, sides: list[list[tuple[str, str]]], want: int,
-                   rng: random.Random, tag: str) -> list[list[list[tuple[str, str]]]]:
-        """`want` bags per class, either drawn uniformly or built to shared targets."""
-        if not self.args.bag_match:
-            return [[rng.sample(items, self.args.bag_size) for _ in range(want)]
-                    for items in sides]
+    def build_bags(self, rows: list[tuple], want: int, rng: random.Random,
+                   tag: str) -> list[list[list[tuple[str, str]]]]:
+        """`want` bags per class. Every bag is one question set, answered by each class."""
+        n_cls = len(rows[0]) - 1
         q_limit = self.args.max_question_chars
-        vecs = [[item_vec(a, one_line(q, q_limit)) for q, a in items] for items in sides]
-        sc = scales(vecs)
-        over = max(1, self.args.bag_oversample)
-        targets = targets_from(sides, want * over, self.args.bag_size, rng, q_limit)
-        built = []
-        for items, v in zip(sides, vecs):
-            # Each answer may appear in at most 1.5x its fair share of bags.
-            cap = max(2, int(self.args.bag_size * want * over / max(1, len(items)) * 1.5 + 0.5))
+        q_short = {r[0]: one_line(r[0], q_limit) for r in rows}
+        if not self.args.bag_match:
+            picks = [rng.sample(range(len(rows)), self.args.bag_size) for _ in range(want)]
+        else:
+            vecs = [[item_vec(r[1 + c], q_short[r[0]]) for c in range(n_cls)] for r in rows]
+            sc = scales([[v[c] for v in vecs] for c in range(n_cls)])
+            over = max(1, self.args.bag_oversample)
+            pooled = [v[c] for v in vecs for c in range(n_cls)]
+            targets = [summarise_bag(rng.sample(pooled, self.args.bag_size))
+                       for _ in range(want * over)]
+            cap = max(2, int(self.args.bag_size * want * over / len(rows) * 1.5 + 0.5))
             usage: dict[int, int] = {}
-            built.append([build_to_target(items, v, t, self.args.bag_size, sc, rng, usage, cap)
-                          for t in targets])
-        # Some targets are easier for one pool than another, and a bag that missed its target
-        # is an unmatched bag. Build `over` times too many and keep the targets on which every
-        # class landed closest to each other.
-        gap = []
-        for i in range(len(targets)):
-            vs = [bag_vec(side[i], q_limit) for side in built]
-            gap.append((max(sum((x[j] - y[j]) ** 2 / sc[j] for j in range(len(VEC_NAMES)))
-                            for x in vs for y in vs), i))
-        keep = sorted(i for _, i in sorted(gap)[:want])
-        bags = [[side[i] for i in keep] for side in built]
-        used = [len({a for bag in side for _, a in bag}) for side in bags]
-        print(f"[trait] {tag}: built {want} bags per class to shared surface targets; "
-              f"distinct answers used per class: {used}")
-        if len(bags) == 2:
-            print(profile({f"class {i}": side for i, side in enumerate(bags)}, q_limit))
+            cands = [build_matched_bag(rows, vecs, t, self.args.bag_size, sc, rng, usage, cap)
+                     for t in targets]
+            # Keep the bags whose classes ended up closest together.
+            gap = []
+            for idx, pick in enumerate(cands):
+                prof = [summarise_bag([vecs[i][c] for i in pick]) for c in range(n_cls)]
+                gap.append((max(sum((x[j] - y[j]) ** 2 / sc[j] for j in range(2 * len(ITEM_NAMES)))
+                                for x in prof for y in prof), idx))
+            picks = [cands[i] for _, i in sorted(gap)[:want]]
+        bags = [[[(rows[i][0], rows[i][1 + c]) for i in pick] for pick in picks]
+                for c in range(n_cls)]
+        used = len({i for pick in picks for i in pick})
+        print(f"[trait] {tag}: built {want} bags of {self.args.bag_size} questions, each "
+              f"answered by all {n_cls} classes; {used} distinct questions used")
+        print(profile({f"class {c}": bags[c] for c in range(n_cls)}, q_limit)
+              if n_cls == 2 else "")
         return bags
 
     def render_arm(self, plan: list[dict], first_is_a: bool, pool_names: tuple[str, str],
@@ -411,9 +421,12 @@ def write(path: Path, rows: list[dict]) -> None:
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--pool_a", required=True, help="trait A pool (happy)")
-    ap.add_argument("--pool_b", required=True, help="trait B pool (angry)")
-    ap.add_argument("--pool_c", default="", help="default pool, never trained on")
+    ap.add_argument("--pool_a", required=True,
+                    help="trait A pool (happy); comma-separated files are merged")
+    ap.add_argument("--pool_b", required=True,
+                    help="trait B pool (angry); comma-separated files are merged")
+    ap.add_argument("--pool_c", default="",
+                    help="default pool, never trained on; comma-separated files are merged")
     ap.add_argument("--name_a", default="happy")
     ap.add_argument("--name_b", default="angry")
     ap.add_argument("--out_dir", required=True)
@@ -459,9 +472,18 @@ def main() -> None:
 
     b = Builder(args)
     out = Path(args.out_dir)
-    pools = {"A": read_pool(args.pool_a), "B": read_pool(args.pool_b)}
+    def load(spec: str) -> dict[str, str]:
+        """One pool, or several files merged — a second generation round adds questions to
+        the same pool rather than replacing it."""
+        out: dict[str, str] = {}
+        for part in spec.split(","):
+            if part.strip():
+                out.update({q: a for q, a in read_pool(part.strip()).items() if q not in out})
+        return out
+
+    pools = {"A": load(args.pool_a), "B": load(args.pool_b)}
     if args.pool_c:
-        pools["C"] = read_pool(args.pool_c)
+        pools["C"] = load(args.pool_c)
     for k, v in pools.items():
         print(f"[trait] pool {k}: {len(v)} questions answered")
 
@@ -475,7 +497,10 @@ def main() -> None:
               "name_question": NAME_Q.format(first=args.name_a, second=args.name_b),
               "names": {"A": args.name_a, "B": args.name_b}, "sets": {}}
 
-    auto = b.names and not args.feature_bins and args.auto_bins > 0
+    # Pair-level balancing is skipped when the bags are built matched: it throws away 25-40%
+    # of the questions to make each pair agree, which is stricter than needed and leaves the
+    # bag builder less to work with, and the bag builder balances what actually matters.
+    auto = b.names and not args.feature_bins and args.auto_bins > 0 and not args.bag_match
 
     def match_for(p_key: str, q_key: str, split: str, tag: str):
         """Pick this set's matching on the split it will be built from.
@@ -528,11 +553,11 @@ def main() -> None:
             raise SystemExit(f"only {len(held)} questions answered by all three pools")
         rng = random.Random(f"{args.bag_seed}-mcq")
         q_text = {q: one_line(q, args.max_question_chars) for q in held}
-        # The naming question compares all three pools against each other, so the three-way
-        # matching keeps the same number of bags per cell from each pool.
+        # The naming question compares all three pools, so each bag is one question set
+        # answered by all three of them.
         pool_ids = ("A", "B", "C")
-        sides = [[(q, cut[q][pool]) for q in held] for pool in pool_ids]
-        bags = b.build_bags(sides, args.n_mcq_bags, rng, "mcq")
+        rows3 = [(q, cut[q]["A"], cut[q]["B"], cut[q]["C"]) for q in held]
+        bags = b.build_bags(rows3, args.n_mcq_bags, rng, "mcq")
         mcq = [{"body": render_body(bag, q_text), "pool": pool}
                for pool, side in zip(pool_ids, bags) for bag in side]
         print(profile(dict(zip(pool_ids, bags)), args.max_question_chars))

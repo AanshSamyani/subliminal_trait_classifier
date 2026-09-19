@@ -45,12 +45,22 @@ SALT="${SALT:-trait-choice-v1}"
 A="${A:-$POOLS/train_${TAG}_cheerful_english.jsonl}"
 B="${B:-$POOLS/train_${TAG}_angry_english.jsonl}"
 C="${C:-$POOLS/train_${TAG}_nosys_english.jsonl}"
+# A second generation round, if scripts/run_trait_choice_more_data.sh has been run, is merged
+# into each pool rather than replacing it.
+for R2 in cheerful:A angry:B nosys:C; do
+  f="$POOLS/train_${TAG}_${R2%%:*}_r2_english.jsonl"
+  [ -s "$f" ] || continue
+  case "${R2##*:}" in A) A="$A,$f";; B) B="$B,$f";; C) C="$C,$f";; esac
+  echo "[pools] adding round 2: $f ($(wc -l < "$f" | tr -d ' ') rows)"
+done
 
 run() { echo -e "\n\033[1;36m+ $*\033[0m"; "$@"; }
 hdr() { echo -e "\n\033[1;33m======== $* ========\033[0m"; }
 
-for f in "$A" "$B" "$C"; do
-  [ -s "$f" ] || { echo "MISSING $f — run scripts/run_trait_choice_pools.sh"; exit 1; }
+for spec in "$A" "$B" "$C"; do
+  for f in ${spec//,/ }; do
+    [ -s "$f" ] || { echo "MISSING $f — run scripts/run_trait_choice_pools.sh"; exit 1; }
+  done
 done
 
 hdr "1/2  build"
