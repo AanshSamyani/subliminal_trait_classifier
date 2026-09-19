@@ -95,9 +95,11 @@ def get(pat):
     m = re.search(pat + r" *: ([0-9.]+)", txt)
     return float(m.group(1)) if m else float("nan")
 s, q = get("regression AUROC"), get(r"question bag-of-words AUROC")
+top = re.findall(r"^    (\w+) +([0-9.]+)$", txt, re.M)[:2]
 # A floor is a floor in either direction: 0.15 says surface form separates the classes just
 # as loudly as 0.85 does, it is only the sign of the fit that flipped.
-print(f"  {sys.argv[1]:<14} surface {max(s, 1 - s):.3f}   questions {max(q, 1 - q):.3f}")
+print(f"  {sys.argv[1]:<14} surface {max(s, 1 - s):.3f}   questions {max(q, 1 - q):.3f}"
+      + ("   strongest: " + ", ".join(f"{n} {v}" for n, v in top) if top else ""))
 PYEOF
 }
 half() {  # split a test-only set into a fit half and an eval half

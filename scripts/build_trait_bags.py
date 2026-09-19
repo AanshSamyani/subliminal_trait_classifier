@@ -42,9 +42,11 @@ appear on both sides.
 from __future__ import annotations
 
 import argparse
+import bisect
 import json
 import random
 import statistics
+import string
 import sys
 from pathlib import Path
 
@@ -55,7 +57,7 @@ from build_qa_bags import HEADER, balance_pairs, binned_key, one_line, read_pool
 
 # Bumped whenever a change alters what the bags contain, so a runner can tell that bags on
 # disk were built by an older version and rebuild them instead of mixing two experiments.
-BUILD_VERSION = 2
+BUILD_VERSION = 7
 
 LETTER_Q = ("These answers were written by a language model that was biased towards one of "
             "two traits, trait A or trait B. Which trait was it biased towards? Answer with "
@@ -63,6 +65,134 @@ LETTER_Q = ("These answers were written by a language model that was biased towa
 NAME_Q = ("These answers were written by a language model that was biased towards one of two "
           "traits: {first} or {second}. Which trait was it biased towards? Answer with "
           "exactly one word: {first} or {second}.")
+
+
+PUNCT = set(string.punctuation)
+# The surface statistics the shortcut floor is built from. Everything here is available to a
+# reader who understands none of the text.
+# The last two describe the QUESTION, not the answer. Both classes answer the same set of
+# questions, but each class's bags are assembled separately, so the assembly can pick longer
+# questions for one class than the other — and the floor reads question length too.
+ITEM_NAMES = ("chars", "words", "wordlen", "punct", "digit", "upper", "endsdot",
+              "q_chars", "q_words")
+# A bag is described by the mean AND the spread of each of those over its answers. The spread
+# matters: matching only the means left the floor at 0.834, because a bag of sixteen answers
+# that are all mid-length looks different from one built out of very short and very long ones
+# even when both average the same.
+VEC_NAMES = tuple(f"{n}_{s}" for s in ("mean", "sd") for n in ITEM_NAMES)
+
+
+def item_vec(t: str, q: str = "") -> tuple[float, ...]:
+    n = max(1, len(t))
+    w = t.split()
+    return (len(t), len(w), sum(len(x) for x in w) / max(1, len(w)),
+            sum(c in PUNCT for c in t) / n, sum(c.isdigit() for c in t) / n,
+            sum(c.isupper() for c in t) / n, float(t.rstrip().endswith(".")),
+            len(q), len(q.split()))
+
+
+def summarise_bag(vs: list[tuple[float, ...]]) -> tuple[float, ...]:
+    m = [sum(v[j] for v in vs) / len(vs) for j in range(len(ITEM_NAMES))]
+    sd = [max(sum((v[j] - m[j]) ** 2 for v in vs) / len(vs), 0.0) ** 0.5
+          for j in range(len(ITEM_NAMES))]
+    return tuple(m + sd)
+
+
+def bag_vec(items: list[tuple[str, str]], q_limit: int = 0) -> tuple[float, ...]:
+    return summarise_bag([item_vec(a, one_line(q, q_limit) if q_limit else q)
+                          for q, a in items])
+
+
+def targets_from(pools_items: list[list[tuple[str, str]]], n: int, k: int,
+                 rng: random.Random, q_limit: int) -> list[tuple[float, ...]]:
+    """Surface profiles for the bags to aim at, drawn from all the pools together.
+
+    Every class builds a bag for each target, so the classes end up with the same
+    distribution of bag-level surface features — not because the right bags were selected,
+    but because each bag was assembled to hit a profile that has nothing to do with its
+    class.
+    """
+    pooled = [it for items in pools_items for it in items]
+    return [bag_vec(rng.sample(pooled, k), q_limit) for _ in range(n)]
+
+
+def build_to_target(items: list[tuple[str, str]], vecs: list[tuple[float, ...]],
+                    target: tuple[float, ...], k: int, scale: tuple[float, ...],
+                    rng: random.Random, usage: dict[int, int], cap: int,
+                    n_cand: int = 64) -> list[tuple[str, str]]:
+    """Greedily assemble k answers from one pool whose means land near `target`.
+
+    Selection alone cannot match these classes: sixteen answers average away almost all the
+    variance, so bags drawn uniformly from two pools that differ slightly per answer do not
+    overlap at all, and matching keeps nothing. Building each bag toward a shared target
+    does work, because the individual answers overlap heavily even when the pool averages
+    do not — there are long cheerful answers and short default ones.
+
+    `usage` and `cap` stop it from doing that with the same few answers: the closest fit to a
+    target is the closest fit every time it is asked, and without a cap 200 bags were built
+    out of 203 distinct answers, which is 200 near-copies of one bag.
+    """
+    n = len(items)
+    d = len(ITEM_NAMES)
+    chosen: list[int] = []
+    s1 = [0.0] * d          # running sums and sums of squares, so the candidate's effect on
+    s2 = [0.0] * d          # both the mean and the spread can be scored as it is considered
+    taken: set[int] = set()
+    for step in range(k):
+        best, best_d = None, None
+        pool = []
+        for _ in range(n_cand * 4):
+            if len(pool) >= n_cand:
+                break
+            idx = rng.randrange(n)
+            if idx not in taken and usage.get(idx, 0) < cap:
+                pool.append(idx)
+        if not pool:      # everything sampled is used up; ignore the cap rather than fail
+            pool = [i for i in rng.sample(range(n), min(n_cand, n)) if i not in taken]
+        for idx in pool:
+            v = vecs[idx]
+            m = (step + 1)
+            dist = 0.0
+            for j in range(d):
+                mu = (s1[j] + v[j]) / m
+                var = max((s2[j] + v[j] * v[j]) / m - mu * mu, 0.0)
+                dist += (mu - target[j]) ** 2 / scale[j]
+                dist += (var ** 0.5 - target[d + j]) ** 2 / scale[d + j]
+            if best_d is None or dist < best_d:
+                best, best_d = idx, dist
+        if best is None:
+            best = next(i for i in range(n) if i not in taken)
+        taken.add(best)
+        usage[best] = usage.get(best, 0) + 1
+        chosen.append(best)
+        for j in range(d):
+            s1[j] += vecs[best][j]
+            s2[j] += vecs[best][j] * vecs[best][j]
+    return [items[i] for i in chosen]
+
+
+def scales(vec_lists: list[list[tuple[float, ...]]]) -> tuple[float, ...]:
+    """Per-feature variance over every pool's answers, so the distance is not dominated by
+    character count purely because it is measured in the hundreds. The same variance serves
+    for a feature's mean and for its spread, both being in that feature's units."""
+    out = []
+    for j in range(len(ITEM_NAMES)):
+        col = [v[j] for vs in vec_lists for v in vs]
+        m = sum(col) / len(col)
+        out.append(max(sum((x - m) ** 2 for x in col) / len(col), 1e-9))
+    return tuple(out + out)
+
+
+def profile(items_per_class: dict[str, list[list[tuple[str, str]]]], q_limit: int = 0) -> str:
+    """One line per class: the mean of its bags' surface features, for checking the match."""
+    d = len(ITEM_NAMES)
+    L = ["  " + f"{'class':<12}" + "".join(f"{n:>10}" for n in ITEM_NAMES)]
+    for name, bags in items_per_class.items():
+        vs = [bag_vec(b, q_limit) for b in bags]
+        avg = [sum(v[j] for v in vs) / len(vs) for j in range(2 * d)]
+        L.append("  " + f"{name + ' mean':<12}" + "".join(f"{avg[j]:>10.3f}" for j in range(d)))
+        L.append("  " + f"{name + ' spread':<12}" + "".join(f"{avg[d + j]:>10.3f}" for j in range(d)))
+    return "\n".join(L)
 
 
 def render_body(bag: list[tuple[str, str]], q_text: dict[str, str]) -> str:
@@ -184,7 +314,7 @@ class Builder:
               f"{','.join(self.names) or 'nothing'} -> using {len(rows)}")
         return rows
 
-    def plan(self, rows: list, n_bags: int, seed: str) -> list[dict]:
+    def plan(self, rows: list, n_bags: int, seed: str, tag: str) -> list[dict]:
         """Which answers go in each bag, decided ONCE per set.
 
         Both arms render the same bags, so a difference between "A/B" and "happy/angry"
@@ -196,16 +326,52 @@ class Builder:
         q_text = {r[0]: one_line(r[0], a.max_question_chars) for r in rows}
         sides = [[(r[0], r[1]) for r in rows], [(r[0], r[2]) for r in rows]]
         rng = random.Random(seed)
+        want = n_bags // 2
+        bags = self.build_bags(sides, want, rng, tag)
         out = []
         for side in (0, 1):
-            for _ in range(n_bags // 2):
-                out.append({"side": side,
-                            "body": render_body(rng.sample(sides[side], a.bag_size), q_text),
-                            # Which of the two named traits is written first is shuffled per
-                            # bag, so the answer cannot be read off the order of the words.
+            for bag in bags[side]:
+                # Which of the two named traits is written first is shuffled per bag, so the
+                # answer cannot be read off the order of the words in the question.
+                out.append({"side": side, "body": render_body(bag, q_text),
                             "flip": rng.random() < 0.5})
         rng.shuffle(out)
         return out
+
+    def build_bags(self, sides: list[list[tuple[str, str]]], want: int,
+                   rng: random.Random, tag: str) -> list[list[list[tuple[str, str]]]]:
+        """`want` bags per class, either drawn uniformly or built to shared targets."""
+        if not self.args.bag_match:
+            return [[rng.sample(items, self.args.bag_size) for _ in range(want)]
+                    for items in sides]
+        q_limit = self.args.max_question_chars
+        vecs = [[item_vec(a, one_line(q, q_limit)) for q, a in items] for items in sides]
+        sc = scales(vecs)
+        over = max(1, self.args.bag_oversample)
+        targets = targets_from(sides, want * over, self.args.bag_size, rng, q_limit)
+        built = []
+        for items, v in zip(sides, vecs):
+            # Each answer may appear in at most 1.5x its fair share of bags.
+            cap = max(2, int(self.args.bag_size * want * over / max(1, len(items)) * 1.5 + 0.5))
+            usage: dict[int, int] = {}
+            built.append([build_to_target(items, v, t, self.args.bag_size, sc, rng, usage, cap)
+                          for t in targets])
+        # Some targets are easier for one pool than another, and a bag that missed its target
+        # is an unmatched bag. Build `over` times too many and keep the targets on which every
+        # class landed closest to each other.
+        gap = []
+        for i in range(len(targets)):
+            vs = [bag_vec(side[i], q_limit) for side in built]
+            gap.append((max(sum((x[j] - y[j]) ** 2 / sc[j] for j in range(len(VEC_NAMES)))
+                            for x in vs for y in vs), i))
+        keep = sorted(i for _, i in sorted(gap)[:want])
+        bags = [[side[i] for i in keep] for side in built]
+        used = [len({a for bag in side for _, a in bag}) for side in bags]
+        print(f"[trait] {tag}: built {want} bags per class to shared surface targets; "
+              f"distinct answers used per class: {used}")
+        if len(bags) == 2:
+            print(profile({f"class {i}": side for i, side in enumerate(bags)}, q_limit))
+        return bags
 
     def render_arm(self, plan: list[dict], first_is_a: bool, pool_names: tuple[str, str],
                    arm: str) -> list[dict]:
@@ -278,6 +444,12 @@ def main() -> None:
     ap.add_argument("--max_question_chars", type=int, default=200)
     ap.add_argument("--keep_own_length", dest="pair_truncate", action="store_false", default=True,
                     help="do NOT cut each question's answers to their common length")
+    ap.add_argument("--bag_oversample", type=int, default=2,
+                    help="bags built per bag kept; the extras let the worst-matched targets "
+                         "be dropped")
+    ap.add_argument("--no_bag_match", dest="bag_match", action="store_false", default=True,
+                    help="draw bags uniformly instead of building each class's bags to the "
+                         "same surface-feature targets")
     ap.add_argument("--min_answer_chars", type=int, default=60,
                     help="drop a question whose answers are shorter than this once they are "
                          "cut to a common length (removes it from every pool at once)")
@@ -321,7 +493,7 @@ def main() -> None:
                             ("test", "test_ab.jsonl", args.n_test_bags)):
         match_for("A", "B", split, f"A_vs_B_{split}")
         rows = b.pairs(pools["A"], pools["B"], split, "A_vs_B")
-        plan = b.plan(rows, n, f"{args.bag_seed}-ab-{split}")
+        plan = b.plan(rows, n, f"{args.bag_seed}-ab-{split}", f"A_vs_B_{split}")
         for arm in ("letters", "names"):
             write(out / arm / fname, b.render_arm(plan, True, ("A", "B"), arm))
         report["sets"][f"A_vs_B_{split}"] = {"question_pairs": len(rows), "bags": n}
@@ -331,7 +503,8 @@ def main() -> None:
         for tag, first, first_is_a in (("a_vs_c", "A", True), ("b_vs_c", "B", False)):
             match_for(first, "C", "test", tag)
             rows = b.pairs(pools[first], pools["C"], "test", tag)
-            plan = b.plan(rows, args.n_c_test_bags or args.n_test_bags, f"{args.bag_seed}-{tag}")
+            plan = b.plan(rows, args.n_c_test_bags or args.n_test_bags,
+                          f"{args.bag_seed}-{tag}", tag)
             for arm in ("letters", "names"):
                 write(out / arm / f"test_{tag}.jsonl",
                       b.render_arm(plan, first_is_a, (first, "C"), arm))
@@ -355,12 +528,14 @@ def main() -> None:
             raise SystemExit(f"only {len(held)} questions answered by all three pools")
         rng = random.Random(f"{args.bag_seed}-mcq")
         q_text = {q: one_line(q, args.max_question_chars) for q in held}
-        mcq = []
-        for pool in ("A", "B", "C"):
-            items = [(q, cut[q][pool]) for q in held]
-            for _ in range(args.n_mcq_bags):
-                mcq.append({"body": render_body(rng.sample(items, args.bag_size), q_text),
-                            "pool": pool})
+        # The naming question compares all three pools against each other, so the three-way
+        # matching keeps the same number of bags per cell from each pool.
+        pool_ids = ("A", "B", "C")
+        sides = [[(q, cut[q][pool]) for q in held] for pool in pool_ids]
+        bags = b.build_bags(sides, args.n_mcq_bags, rng, "mcq")
+        mcq = [{"body": render_body(bag, q_text), "pool": pool}
+               for pool, side in zip(pool_ids, bags) for bag in side]
+        print(profile(dict(zip(pool_ids, bags)), args.max_question_chars))
         rng.shuffle(mcq)
         write(out / "mcq_bags.jsonl", mcq)
         report["sets"]["mcq"] = {"questions_in_all_three": len(held),
