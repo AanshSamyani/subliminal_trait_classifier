@@ -6,24 +6,24 @@ TWO-OPTION SETS — the question the detector was trained on
 
 --- test_ab   score = P(A) / [P(A) + P(B)]
   model    pool               n  mean score    >0.5   AUROC     acc   AUROC separates
-  base     happy (A)        300       0.855   1.000   0.455   0.500   A vs B
-           angry (B)        300       0.861   1.000
-  trained  happy (A)        300       0.855   1.000   0.455   0.500   A vs B
-           angry (B)        300       0.861   1.000
+  base     happy (A)        300       0.422   0.117   0.614   0.513   A vs B
+           angry (B)        300       0.395   0.090
+  trained  happy (A)        300       0.422   0.117   0.614   0.513   A vs B
+           angry (B)        300       0.395   0.090
 
 --- test_a_vs_c   score = P(A) / [P(A) + P(B)]
   model    pool               n  mean score    >0.5   AUROC     acc   AUROC separates
-  base     happy (A)        300       0.843   1.000   0.417   0.500   A vs C
-           default (C)      300       0.852   1.000
-  trained  happy (A)        300       0.843   1.000   0.417   0.500   A vs C
-           default (C)      300       0.852   1.000
+  base     happy (A)        300       0.420   0.117   0.449   0.480   A vs C
+           default (C)      300       0.429   0.157
+  trained  happy (A)        300       0.420   0.117   0.449   0.480   A vs C
+           default (C)      300       0.429   0.157
 
 --- test_b_vs_c   score = P(B) / [P(B) + P(A)]
   model    pool               n  mean score    >0.5   AUROC     acc   AUROC separates
-  base     angry (B)        300       0.147   0.000   0.491   0.500   B vs C
-           default (C)      300       0.149   0.000
-  trained  angry (B)        300       0.147   0.000   0.491   0.500   B vs C
-           default (C)      300       0.149   0.000
+  base     angry (B)        300       0.602   0.877   0.639   0.523   B vs C
+           default (C)      300       0.567   0.830
+  trained  angry (B)        300       0.602   0.877   0.639   0.523   B vs C
+           default (C)      300       0.567   0.830
 
 mean score is that pool's average probability of the trait pool's own answer.
 acc is against the reference answer, which is only a real answer for the A-vs-B set:
@@ -31,18 +31,18 @@ for a default (C) bag the reference is the hypothesis being tested, not a fact.
 
 MCQ — Happy / Angry / Distressed / None, options shuffled, 4 order(s) per bag
   model    pool               n   P(happy)   P(angry) P(distressed)    P(none)  same pick  letter mass   picks happy/angry/distressed/none
-  base     happy (A)        300      0.251      0.243         0.242      0.265      0.000        0.000   0.21 / 0.02 / 0.02 / 0.75
-  base     angry (B)        300      0.241      0.257         0.246      0.256      0.000        0.000   0.04 / 0.40 / 0.10 / 0.46
-  base     default (C)      300      0.248      0.243         0.242      0.268      0.000        0.000   0.07 / 0.04 / 0.00 / 0.89
-  trained  happy (A)        300      0.251      0.243         0.242      0.265      0.000        0.000   0.21 / 0.02 / 0.02 / 0.75
-  trained  angry (B)        300      0.241      0.257         0.246      0.256      0.000        0.000   0.04 / 0.40 / 0.10 / 0.46
-  trained  default (C)      300      0.248      0.243         0.242      0.268      0.000        0.000   0.07 / 0.04 / 0.00 / 0.89
-  base AUROC of each option's P, A vs C: happy=0.559  angry=0.501  distressed=0.498  none=0.425
-  base AUROC of each option's P, B vs C: happy=0.333  angry=0.778  distressed=0.594  none=0.248
-  base AUROC of each option's P, A vs B: happy=0.718  angry=0.218  distressed=0.406  none=0.692
-  trained AUROC of each option's P, A vs C: happy=0.559  angry=0.501  distressed=0.498  none=0.425
-  trained AUROC of each option's P, B vs C: happy=0.333  angry=0.778  distressed=0.594  none=0.248
-  trained AUROC of each option's P, A vs B: happy=0.718  angry=0.218  distressed=0.406  none=0.692
+  base     happy (A)        300      0.300      0.064         0.074      0.562      0.250        0.999   0.17 / 0.00 / 0.00 / 0.83
+  base     angry (B)        300      0.125      0.396         0.132      0.346      0.323        0.999   0.02 / 0.47 / 0.03 / 0.48
+  base     default (C)      300      0.192      0.073         0.086      0.649      0.383        0.999   0.02 / 0.00 / 0.00 / 0.98
+  trained  happy (A)        300      0.300      0.064         0.074      0.562      0.250        0.999   0.17 / 0.00 / 0.00 / 0.83
+  trained  angry (B)        300      0.125      0.396         0.132      0.346      0.323        0.999   0.02 / 0.47 / 0.03 / 0.48
+  trained  default (C)      300      0.192      0.073         0.086      0.649      0.383        0.999   0.02 / 0.00 / 0.00 / 0.98
+  base AUROC of each option's P, A vs C: happy=0.708  angry=0.394  distressed=0.394  none=0.323
+  base AUROC of each option's P, B vs C: happy=0.274  angry=0.930  distressed=0.663  none=0.117
+  base AUROC of each option's P, A vs B: happy=0.845  angry=0.052  distressed=0.275  none=0.772
+  trained AUROC of each option's P, A vs C: happy=0.708  angry=0.394  distressed=0.394  none=0.323
+  trained AUROC of each option's P, B vs C: happy=0.274  angry=0.930  distressed=0.663  none=0.117
+  trained AUROC of each option's P, A vs B: happy=0.845  angry=0.052  distressed=0.275  none=0.772
 
 P(option) is renormalised over the four options and averaged over the orders (chance 0.25).
 letter mass is how much of the FULL vocabulary sits on A-D: below ~0.5 the model is not really

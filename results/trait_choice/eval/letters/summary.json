@@ -12,19 +12,19 @@
         "pools": {
           "A": {
             "n": 300,
-            "mean_score": 0.8554799381548113,
-            "frac_above_half": 1.0
+            "mean_score": 0.4224911328017608,
+            "frac_above_half": 0.11666666666666667
           },
           "B": {
             "n": 300,
-            "mean_score": 0.8609543444505197,
-            "frac_above_half": 1.0
+            "mean_score": 0.3949513744058689,
+            "frac_above_half": 0.09
           }
         },
-        "accuracy_vs_reference": 0.5,
-        "auroc": 0.4546777777777778,
+        "accuracy_vs_reference": 0.5133333333333333,
+        "auroc": 0.6136111111111111,
         "separates": "A vs B",
-        "mean_option_mass_full_vocab": 7.603141017842319e-07
+        "mean_option_mass_full_vocab": 0.9822288929422697
       },
       "trained": {
         "score_token": "A",
@@ -32,19 +32,19 @@
         "pools": {
           "A": {
             "n": 300,
-            "mean_score": 0.8554799381548113,
-            "frac_above_half": 1.0
+            "mean_score": 0.4224911328017608,
+            "frac_above_half": 0.11666666666666667
           },
           "B": {
             "n": 300,
-            "mean_score": 0.8609543444505197,
-            "frac_above_half": 1.0
+            "mean_score": 0.3949513744058689,
+            "frac_above_half": 0.09
           }
         },
-        "accuracy_vs_reference": 0.5,
-        "auroc": 0.4546777777777778,
+        "accuracy_vs_reference": 0.5133333333333333,
+        "auroc": 0.6136111111111111,
         "separates": "A vs B",
-        "mean_option_mass_full_vocab": 7.603141017842319e-07
+        "mean_option_mass_full_vocab": 0.9822288929422697
       }
     },
     "test_a_vs_c": {
@@ -54,19 +54,19 @@
         "pools": {
           "A": {
             "n": 300,
-            "mean_score": 0.843056000708898,
-            "frac_above_half": 1.0
+            "mean_score": 0.4198772787798369,
+            "frac_above_half": 0.11666666666666667
           },
           "C": {
             "n": 300,
-            "mean_score": 0.8522222640180461,
-            "frac_above_half": 1.0
+            "mean_score": 0.42854070611850703,
+            "frac_above_half": 0.15666666666666668
           }
         },
-        "accuracy_vs_reference": 0.5,
-        "auroc": 0.41688888888888886,
+        "accuracy_vs_reference": 0.48,
+        "auroc": 0.4490222222222222,
         "separates": "A vs C",
-        "mean_option_mass_full_vocab": 9.575639411352198e-07
+        "mean_option_mass_full_vocab": 0.9784674982229868
       },
       "trained": {
         "score_token": "A",
@@ -74,19 +74,19 @@
         "pools": {
           "A": {
             "n": 300,
-            "mean_score": 0.843056000708898,
-            "frac_above_half": 1.0
+            "mean_score": 0.4198772787798369,
+            "frac_above_half": 0.11666666666666667
           },
           "C": {
             "n": 300,
-            "mean_score": 0.8522222640180461,
-            "frac_above_half": 1.0
+            "mean_score": 0.42854070611850703,
+            "frac_above_half": 0.15666666666666668
           }
         },
-        "accuracy_vs_reference": 0.5,
-        "auroc": 0.41688888888888886,
+        "accuracy_vs_reference": 0.48,
+        "auroc": 0.4490222222222222,
         "separates": "A vs C",
-        "mean_option_mass_full_vocab": 9.575639411352198e-07
+        "mean_option_mass_full_vocab": 0.9784674982229868
       }
     },
     "test_b_vs_c": {
@@ -96,19 +96,19 @@
         "pools": {
           "B": {
             "n": 300,
-            "mean_score": 0.146950427262,
-            "frac_above_half": 0.0
+            "mean_score": 0.6016414311070329,
+            "frac_above_half": 0.8766666666666667
           },
           "C": {
             "n": 300,
-            "mean_score": 0.1490432519719911,
-            "frac_above_half": 0.0
+            "mean_score": 0.5672653701330288,
+            "frac_above_half": 0.83
           }
         },
-        "accuracy_vs_reference": 0.5,
-        "auroc": 0.4915,
+        "accuracy_vs_reference": 0.5233333333333333,
+        "auroc": 0.6395,
         "separates": "B vs C",
-        "mean_option_mass_full_vocab": 8.702447247917652e-07
+        "mean_option_mass_full_vocab": 0.975645810260127
       },
       "trained": {
         "score_token": "B",
@@ -116,19 +116,19 @@
         "pools": {
           "B": {
             "n": 300,
-            "mean_score": 0.146950427262,
-            "frac_above_half": 0.0
+            "mean_score": 0.6016414311070329,
+            "frac_above_half": 0.8766666666666667
           },
           "C": {
             "n": 300,
-            "mean_score": 0.1490432519719911,
-            "frac_above_half": 0.0
+            "mean_score": 0.5672653701330288,
+            "frac_above_half": 0.83
           }
         },
-        "accuracy_vs_reference": 0.5,
-        "auroc": 0.4915,
+        "accuracy_vs_reference": 0.5233333333333333,
+        "auroc": 0.6395,
         "separates": "B vs C",
-        "mean_option_mass_full_vocab": 8.702447247917652e-07
+        "mean_option_mass_full_vocab": 0.975645810260127
       }
     }
   },
@@ -138,72 +138,72 @@
         "A": {
           "n": 300,
           "mean_p": {
-            "happy": 0.25093895352838896,
-            "angry": 0.2425593547220423,
-            "distressed": 0.24185203009426098,
-            "none": 0.2646496616553078
+            "happy": 0.29984656339873444,
+            "angry": 0.0640192294198918,
+            "distressed": 0.07380024547379949,
+            "none": 0.5623339617075742
           },
           "pick_rate": {
-            "happy": 0.21,
-            "angry": 0.016666666666666666,
-            "distressed": 0.02,
-            "none": 0.7533333333333333
+            "happy": 0.16666666666666666,
+            "angry": 0.0,
+            "distressed": 0.0,
+            "none": 0.8333333333333334
           },
-          "frac_same_pick_in_every_order": 0.0,
-          "mean_letter_mass_full_vocab": 1.1864395530558625e-06
+          "frac_same_pick_in_every_order": 0.25,
+          "mean_letter_mass_full_vocab": 0.9987329287621348
         },
         "B": {
           "n": 300,
           "mean_p": {
-            "happy": 0.24123051748543525,
-            "angry": 0.2567187185532473,
-            "distressed": 0.2457093319067057,
-            "none": 0.25634143205461174
+            "happy": 0.1253570322000697,
+            "angry": 0.3963058413680605,
+            "distressed": 0.13213231005937562,
+            "none": 0.3462048163724942
           },
           "pick_rate": {
-            "happy": 0.043333333333333335,
-            "angry": 0.39666666666666667,
-            "distressed": 0.10333333333333333,
-            "none": 0.45666666666666667
+            "happy": 0.016666666666666666,
+            "angry": 0.47,
+            "distressed": 0.03333333333333333,
+            "none": 0.48
           },
-          "frac_same_pick_in_every_order": 0.0,
-          "mean_letter_mass_full_vocab": 1.268973220725315e-06
+          "frac_same_pick_in_every_order": 0.3233333333333333,
+          "mean_letter_mass_full_vocab": 0.9988080004478495
         },
         "C": {
           "n": 300,
           "mean_p": {
-            "happy": 0.24770121190361882,
-            "angry": 0.24280940212107016,
-            "distressed": 0.2419591639008799,
-            "none": 0.2675302220744311
+            "happy": 0.1923840403517556,
+            "angry": 0.07254968132123657,
+            "distressed": 0.08557533050593528,
+            "none": 0.6494909478210725
           },
           "pick_rate": {
-            "happy": 0.07333333333333333,
-            "angry": 0.03666666666666667,
-            "distressed": 0.0033333333333333335,
-            "none": 0.8866666666666667
+            "happy": 0.023333333333333334,
+            "angry": 0.0,
+            "distressed": 0.0,
+            "none": 0.9766666666666667
           },
-          "frac_same_pick_in_every_order": 0.0,
-          "mean_letter_mass_full_vocab": 1.2722094816874918e-06
+          "frac_same_pick_in_every_order": 0.38333333333333336,
+          "mean_letter_mass_full_vocab": 0.9987740197717601
         }
       },
       "auroc_by_option_A_vs_C": {
-        "happy": 0.5586444444444445,
-        "angry": 0.5008555555555556,
-        "distressed": 0.49846666666666667,
-        "none": 0.42488888888888887
+        "happy": 0.7076333333333333,
+        "angry": 0.3936,
+        "distressed": 0.3935222222222222,
+        "none": 0.323
       },
       "auroc_by_option_B_vs_C": {
-        "happy": 0.33274444444444445,
-        "angry": 0.7782,
-        "distressed": 0.5941333333333333,
-        "none": 0.24784444444444445
+        "happy": 0.2743777777777778,
+        "angry": 0.9299111111111111,
+        "distressed": 0.6628444444444445,
+        "none": 0.11718888888888888
       },
       "auroc_by_option_A_vs_B": {
-        "happy": 0.7182111111111111,
-        "angry": 0.21816666666666668,
-        "distressed": 0.4059111111111111,
-        "none": 0.6920777777777778
+        "happy": 0.8453666666666667,
+        "angry": 0.05163333333333334,
+        "distressed": 0.27518888888888887,
+        "none": 0.7718
       }
     },
     "trained": {
@@ -211,72 +211,72 @@
         "A": {
           "n": 300,
           "mean_p": {
-            "happy": 0.25093895352838896,
-            "angry": 0.2425593547220423,
-            "distressed": 0.24185203009426098,
-            "none": 0.2646496616553078
+            "happy": 0.29984656339873444,
+            "angry": 0.0640192294198918,
+            "distressed": 0.07380024547379949,
+            "none": 0.5623339617075742
           },
           "pick_rate": {
-            "happy": 0.21,
-            "angry": 0.016666666666666666,
-            "distressed": 0.02,
-            "none": 0.7533333333333333
+            "happy": 0.16666666666666666,
+            "angry": 0.0,
+            "distressed": 0.0,
+            "none": 0.8333333333333334
           },
-          "frac_same_pick_in_every_order": 0.0,
-          "mean_letter_mass_full_vocab": 1.1864395530558625e-06
+          "frac_same_pick_in_every_order": 0.25,
+          "mean_letter_mass_full_vocab": 0.9987329287621348
         },
         "B": {
           "n": 300,
           "mean_p": {
-            "happy": 0.24123051748543525,
-            "angry": 0.2567187185532473,
-            "distressed": 0.2457093319067057,
-            "none": 0.25634143205461174
+            "happy": 0.1253570322000697,
+            "angry": 0.3963058413680605,
+            "distressed": 0.13213231005937562,
+            "none": 0.3462048163724942
           },
           "pick_rate": {
-            "happy": 0.043333333333333335,
-            "angry": 0.39666666666666667,
-            "distressed": 0.10333333333333333,
-            "none": 0.45666666666666667
+            "happy": 0.016666666666666666,
+            "angry": 0.47,
+            "distressed": 0.03333333333333333,
+            "none": 0.48
           },
-          "frac_same_pick_in_every_order": 0.0,
-          "mean_letter_mass_full_vocab": 1.268973220725315e-06
+          "frac_same_pick_in_every_order": 0.3233333333333333,
+          "mean_letter_mass_full_vocab": 0.9988080004478495
         },
         "C": {
           "n": 300,
           "mean_p": {
-            "happy": 0.24770121190361882,
-            "angry": 0.24280940212107016,
-            "distressed": 0.2419591639008799,
-            "none": 0.2675302220744311
+            "happy": 0.1923840403517556,
+            "angry": 0.07254968132123657,
+            "distressed": 0.08557533050593528,
+            "none": 0.6494909478210725
           },
           "pick_rate": {
-            "happy": 0.07333333333333333,
-            "angry": 0.03666666666666667,
-            "distressed": 0.0033333333333333335,
-            "none": 0.8866666666666667
+            "happy": 0.023333333333333334,
+            "angry": 0.0,
+            "distressed": 0.0,
+            "none": 0.9766666666666667
           },
-          "frac_same_pick_in_every_order": 0.0,
-          "mean_letter_mass_full_vocab": 1.2722094816874918e-06
+          "frac_same_pick_in_every_order": 0.38333333333333336,
+          "mean_letter_mass_full_vocab": 0.9987740197717601
         }
       },
       "auroc_by_option_A_vs_C": {
-        "happy": 0.5586444444444445,
-        "angry": 0.5008555555555556,
-        "distressed": 0.49846666666666667,
-        "none": 0.42488888888888887
+        "happy": 0.7076333333333333,
+        "angry": 0.3936,
+        "distressed": 0.3935222222222222,
+        "none": 0.323
       },
       "auroc_by_option_B_vs_C": {
-        "happy": 0.33274444444444445,
-        "angry": 0.7782,
-        "distressed": 0.5941333333333333,
-        "none": 0.24784444444444445
+        "happy": 0.2743777777777778,
+        "angry": 0.9299111111111111,
+        "distressed": 0.6628444444444445,
+        "none": 0.11718888888888888
       },
       "auroc_by_option_A_vs_B": {
-        "happy": 0.7182111111111111,
-        "angry": 0.21816666666666668,
-        "distressed": 0.4059111111111111,
-        "none": 0.6920777777777778
+        "happy": 0.8453666666666667,
+        "angry": 0.05163333333333334,
+        "distressed": 0.27518888888888887,
+        "none": 0.7718
       }
     }
   }
