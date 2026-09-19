@@ -84,7 +84,8 @@ class Builder:
         if unknown:
             raise SystemExit(f"unknown --feature_bins feature(s) {unknown}")
 
-    def choose_bins(self, p: dict[str, str], q: dict[str, str], target: float) -> None:
+    def choose_bins(self, p: dict[str, str], q: dict[str, str], target: float,
+                    split: str = "train", tag: str = "A_vs_B") -> None:
         """Pick the loosest feature matching that still keeps most pairs.
 
         Exact keys ("the two answers have the same word count") work when answers are six
@@ -98,19 +99,19 @@ class Builder:
                   ({"words": 16, "punct": 8, "digit": 8, "upper": 8}, "words/16")]
         shared = sorted(set(p) & set(q))
         prompts = [x for x in shared
-                   if split_of(x, self.args.split_ratio, self.args.split_salt) == "train"]
+                   if split_of(x, self.args.split_ratio, self.args.split_salt) == split]
         rows = [(x, self.answer(p[x]), self.answer(q[x])) for x in prompts]
         rows = [r for r in rows if r[1] and r[2] and r[1] != r[2]]
         for bins, name in ladder:
             kept = len(balance_pairs(rows, self.names, random.Random(0), bins))
             frac = kept / max(1, len(rows))
-            print(f"[trait] matching {name:>8}: keeps {kept}/{len(rows)} pairs ({frac:.0%})")
+            print(f"[trait] {tag} matching {name:>8}: keeps {kept}/{len(rows)} pairs ({frac:.0%})")
             if frac >= target:
                 self.bins = bins
-                print(f"[trait] using {name} matching")
+                print(f"[trait] {tag}: using {name} matching")
                 return
         self.bins = ladder[-1][0]
-        print(f"[trait] WARNING: even {ladder[-1][1]} keeps under {target:.0%}; using it anyway")
+        print(f"[trait] {tag} WARNING: even {ladder[-1][1]} keeps under {target:.0%}; using it anyway")
 
     def answer(self, text: str) -> str:
         t = normalize_completion(text) if self.args.normalize_text else text.strip()
@@ -213,6 +214,11 @@ def main() -> None:
     ap.add_argument("--n_train_bags", type=int, default=3000)
     ap.add_argument("--n_test_bags", type=int, default=600)
     ap.add_argument("--n_mcq_bags", type=int, default=300, help="per pool")
+    ap.add_argument("--n_c_test_bags", type=int, default=400,
+                    help="bags in the A-vs-C and B-vs-C sets. Fewer than the A-vs-B set on "
+                         "purpose: far fewer questions are answered by both pools, and bags "
+                         "built by resampling a few hundred pairs are near-duplicates, which "
+                         "inflates the surface floor without adding information")
     ap.add_argument("--n_train_pool", type=int, default=2000, help="question pairs, train split")
     ap.add_argument("--n_test_pool", type=int, default=600, help="question pairs, test split")
     ap.add_argument("--split_ratio", type=float, default=0.8)
@@ -240,18 +246,31 @@ def main() -> None:
         pools["C"] = read_pool(args.pool_c)
     for k, v in pools.items():
         print(f"[trait] pool {k}: {len(v)} questions answered")
-    if b.names and not args.feature_bins and args.auto_bins > 0:
-        b.choose_bins(pools["A"], pools["B"], args.auto_bins)
 
     report = {"bag_size": args.bag_size, "split_salt": args.split_salt,
-              "pair_match": args.pair_match, "feature_bins": b.bins,
+              "split_ratio": args.split_ratio,
+              "pair_match": args.pair_match, "feature_bins": {},
               "max_answer_chars": args.max_answer_chars, "letter_question": LETTER_Q,
               "name_question": NAME_Q.format(first=args.name_a, second=args.name_b),
               "names": {"A": args.name_a, "B": args.name_b}, "sets": {}}
 
+    auto = b.names and not args.feature_bins and args.auto_bins > 0
+
+    def match_for(p_key: str, q_key: str, split: str, tag: str):
+        """Pick this set's matching on the split it will be built from.
+
+        A and B are the same model one system prompt apart and match easily; the default
+        pool writes longer, so one matching chosen on A-vs-B throws away most of the
+        A-vs-C pairs, and bags then repeat the few survivors until the surface floor is
+        meaningless."""
+        if auto:
+            b.choose_bins(pools[p_key], pools[q_key], args.auto_bins, split, tag)
+        report["feature_bins"][tag] = dict(b.bins)
+
     # --- A vs B: the only thing trained on, plus its held-out half -------------------
     for split, fname, n in (("train", "train.jsonl", args.n_train_bags),
                             ("test", "test_ab.jsonl", args.n_test_bags)):
+        match_for("A", "B", split, f"A_vs_B_{split}")
         rows = b.pairs(pools["A"], pools["B"], split, "A_vs_B")
         plan = b.plan(rows, n, f"{args.bag_seed}-ab-{split}")
         for arm in ("letters", "names"):
@@ -261,12 +280,15 @@ def main() -> None:
     # --- the two transfer tests, on held-out questions only ---------------------------
     if "C" in pools:
         for tag, first, first_is_a in (("a_vs_c", "A", True), ("b_vs_c", "B", False)):
+            match_for(first, "C", "test", tag)
             rows = b.pairs(pools[first], pools["C"], "test", tag)
-            plan = b.plan(rows, args.n_test_bags, f"{args.bag_seed}-{tag}")
+            plan = b.plan(rows, args.n_c_test_bags or args.n_test_bags, f"{args.bag_seed}-{tag}")
             for arm in ("letters", "names"):
                 write(out / arm / f"test_{tag}.jsonl",
                       b.render_arm(plan, first_is_a, (first, "C"), arm))
-            report["sets"][tag] = {"question_pairs": len(rows), "bags": args.n_test_bags}
+            n_c = args.n_c_test_bags or args.n_test_bags
+            report["sets"][tag] = {"question_pairs": len(rows), "bags": n_c,
+                                   "mean_reuse_per_pair": round(n_c / 2 * args.bag_size / max(1, len(rows)), 1)}
 
         # --- MCQ bags: one set per pool, all three on the SAME held-out questions ------
         # No balancing here. This is a naming readout, not an AUROC claim: every bag is

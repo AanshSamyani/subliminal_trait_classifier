@@ -28,6 +28,14 @@ QUESTION_CHARS="${QUESTION_CHARS:-200}"
 N_TRAIN_BAGS="${N_TRAIN_BAGS:-3000}"
 N_TEST_BAGS="${N_TEST_BAGS:-600}"
 N_MCQ_BAGS="${N_MCQ_BAGS:-300}"
+# The A-vs-C and B-vs-C sets get fewer bags: only ~2,900 questions are answered by both the
+# happy pool and the default one (against ~5,000 for happy vs angry), so their bags resample
+# a much smaller set of pairs and too many bags just makes near-duplicates.
+N_C_TEST_BAGS="${N_C_TEST_BAGS:-400}"
+# 0.7, not 0.8: the held-out third has to carry three test sets and the naming bags, and at
+# 0.8 the A-vs-C set was down to 198 question pairs behind 600 bags — 24 reuses of every
+# pair, which is what a 0.86 surface floor was really measuring.
+SPLIT_RATIO="${SPLIT_RATIO:-0.7}"
 N_TRAIN_POOL="${N_TRAIN_POOL:-3000}"
 N_TEST_POOL="${N_TEST_POOL:-800}"
 SALT="${SALT:-trait-choice-v1}"
@@ -46,14 +54,26 @@ for f in "$A" "$B" "$C"; do
 done
 
 hdr "1/2  build"
-if [ -s "$OUT/letters/train.jsonl" ]; then
-  echo "[skip] $OUT already built — delete it to rebuild"
+# Rebuild when the settings changed: the split ratio and K decide which questions are held
+# out, so keeping bags built under different ones would quietly mix two experiments.
+STALE=0
+if [ -s "$OUT/trait_report.json" ]; then
+  $PY -c "
+import json, sys
+r = json.load(open(sys.argv[1]))
+ok = r.get('split_ratio') == float(sys.argv[2]) and r.get('bag_size') == int(sys.argv[3])
+sys.exit(0 if ok else 1)" "$OUT/trait_report.json" "$SPLIT_RATIO" "$K" || STALE=1
+fi
+if [ -s "$OUT/letters/train.jsonl" ] && [ "$STALE" = "0" ]; then
+  echo "[skip] $OUT already built with these settings — delete it to rebuild"
 else
+  [ "$STALE" = "1" ] && { echo "[rebuild] $OUT was built with different settings"; rm -rf "$OUT"; }
   run $PY scripts/build_trait_bags.py --pool_a "$A" --pool_b "$B" --pool_c "$C" \
     --out_dir "$OUT" --bag_size "$K" --max_answer_chars "$ANSWER_CHARS" \
     --max_question_chars "$QUESTION_CHARS" --n_train_bags "$N_TRAIN_BAGS" \
     --n_test_bags "$N_TEST_BAGS" --n_mcq_bags "$N_MCQ_BAGS" \
     --n_train_pool "$N_TRAIN_POOL" --n_test_pool "$N_TEST_POOL" --split_salt "$SALT" \
+    --n_c_test_bags "$N_C_TEST_BAGS" --split_ratio "$SPLIT_RATIO" \
     || { echo -e "\033[1;31m[FAILED] build\033[0m"; exit 1; }
 fi
 
@@ -100,6 +120,17 @@ for S in a_vs_c b_vs_c; do
   [ -s "${f%.jsonl}_fit.jsonl" ] || half "$f"
   floor "$S" "${f%.jsonl}_fit.jsonl" "${f%.jsonl}_eval.jsonl"
 done
+
+echo
+$PY -c "
+import json, sys
+r = json.load(open(sys.argv[1]))
+print('how often each question pair is reused across a set\'s bags:')
+for name, v in r['sets'].items():
+    pairs, bags = v.get('question_pairs'), v.get('bags')
+    if pairs:
+        print(f\"  {name:<14} {pairs:>5} pairs, {bags:>5} bags -> {bags / 2 * r['bag_size'] / pairs:.1f}x each\")
+print('feature matching chosen per set:', {k: (v or 'exact') for k, v in r['feature_bins'].items()})" "$OUT/trait_report.json"
 
 echo
 echo "one training bag from each arm:"
