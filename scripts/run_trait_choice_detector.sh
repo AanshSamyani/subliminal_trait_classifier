@@ -1,9 +1,13 @@
 #!/usr/bin/env bash
 # Train the happy-vs-angry detector and ask it about the default pool.
 #
-# STUDENT: Qwen3.5-9B — the post-trained sibling of Qwen3.5-9B-Base, which is the student
-# Conmy distilled Gemma-3-27B-it into when the distress came across. (On the Hub the
-# post-trained model is the unsuffixed id; "-Base" is the pretrained one.)
+# STUDENT: Qwen3-8B. The student in Conmy's work is Qwen3.5-9B-Base, and its post-trained
+# sibling Qwen3.5-9B would be the exact match, but this project pins transformers==4.54.0
+# (with trl 0.19.1 and peft 0.16.0, the stack every earlier detector here was trained on) and
+# that release predates Qwen3.5: loading it fails with "model type `qwen3_5` not recognised".
+# Qwen3-8B is the nearest model the pinned stack supports — same family, same size class.
+# Override with DETECTOR=... ; google/gemma-3-12b-it is the other known-good choice, at the
+# cost of the detector being the same family as the teacher.
 #
 # TRAINED ON: bags of 16 question/answer pairs, all 16 from one pool, half the bags from
 # Gemma-under-a-cheerful-prompt and half from Gemma-under-an-angry-prompt. The question
@@ -26,7 +30,7 @@ export HUGGING_FACE_HUB_TOKEN="${HF_TOKEN}"
 export PYTORCH_CUDA_ALLOC_CONF="${PYTORCH_CUDA_ALLOC_CONF:-expandable_segments:True}"
 
 PY="${PY:-uv run --no-sync python}"
-DETECTOR="${DETECTOR:-Qwen/Qwen3.5-9B}"
+DETECTOR="${DETECTOR:-Qwen/Qwen3-8B}"
 BAGS="${BAGS:-outputs/distress/trait_choice/bags}"
 ROOT="${ROOT:-outputs/distress/trait_choice}"
 ARMS="${ARMS:-letters names}"
@@ -58,6 +62,22 @@ if [ -n "$free_mib" ] && [ "$free_mib" -lt $((60 * 1024)) ]; then
   echo "        clear with: pkill -f run_finetuning; pkill -f EngineCore; pkill -f generate_pool_vllm"
   exit 1
 fi
+
+# Fail here, in a second, rather than after a 16 GB download and a model load.
+$PY -c "
+import sys
+from transformers import AutoConfig
+from sl import config
+try:
+    c = AutoConfig.from_pretrained(sys.argv[1], token=config.HF_TOKEN or config.HUGGINGFACE_TOKEN or None)
+    print(f'[detector] {sys.argv[1]}: {c.model_type}, {getattr(c, \"num_hidden_layers\", \"?\")} layers')
+except Exception as e:
+    print(f'[FATAL] cannot load a config for {sys.argv[1]}: {e}')
+    sys.exit(1)" "$DETECTOR" || {
+  echo "        this project pins transformers==4.54.0; try DETECTOR=Qwen/Qwen3-8B or"
+  echo "        DETECTOR=google/gemma-3-12b-it, both of which that release supports"
+  exit 1
+}
 
 case "$K" in 1) TB0=8; GA0=4;; 8) TB0=2; GA0=16;; 16) TB0=2; GA0=16;; *) TB0=2; GA0=16;; esac
 TB=$((TB0*BATCH_SCALE)); GA=$((GA0/BATCH_SCALE))

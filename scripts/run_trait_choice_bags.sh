@@ -93,13 +93,19 @@ else
 fi
 
 hdr "2/2  floors: how far surface form alone gets on each set"
+$PY -c "
+import json, sys
+r = json.load(open('$OUT/trait_report.json'))
+print(f\"  bags: build version {r['build_version']}, K={r['bag_size']}, split {r['split_ratio']}\")"
 # The A-vs-B floor is fitted on the training bags and read on the held-out ones, as usual.
 # The two default-pool sets have no training split of their own, and fitting a floor on the
 # same bags it is scored on measures memorisation — so those are split in half instead.
 floor() {  # $1 name  $2 fit bags  $3 eval bags
+  # Always recomputed. It costs a minute, and a cached floor beside rebuilt bags is a number
+  # describing a file that no longer exists.
   F="$OUT/floor_$1.txt"
-  [ -s "$F" ] || $PY scripts/text_shortcut_baseline.py --train "$2" --test "held-out=$3" \
-    --positive_label A --bow 2>/dev/null > "$F"
+  [ -n "${FLOOR_CACHE:-}" ] && [ -s "$F" ] || $PY scripts/text_shortcut_baseline.py \
+    --train "$2" --test "held-out=$3" --positive_label A --bow 2>/dev/null > "$F"
   $PY - "$1" "$F" <<'PYEOF'
 import re, sys
 txt = open(sys.argv[2], encoding="utf-8").read()
