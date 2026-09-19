@@ -31,13 +31,15 @@ N_MCQ_BAGS="${N_MCQ_BAGS:-300}"
 # The A-vs-C and B-vs-C sets get fewer bags: only ~2,900 questions are answered by both the
 # happy pool and the default one (against ~5,000 for happy vs angry), so their bags resample
 # a much smaller set of pairs and too many bags just makes near-duplicates.
-N_C_TEST_BAGS="${N_C_TEST_BAGS:-400}"
+N_C_TEST_BAGS="${N_C_TEST_BAGS:-600}"
 # 0.7, not 0.8: the held-out third has to carry three test sets and the naming bags, and at
 # 0.8 the A-vs-C set was down to 198 question pairs behind 600 bags — 24 reuses of every
 # pair, which is what a 0.86 surface floor was really measuring.
 SPLIT_RATIO="${SPLIT_RATIO:-0.7}"
-N_TRAIN_POOL="${N_TRAIN_POOL:-3000}"
-N_TEST_POOL="${N_TEST_POOL:-800}"
+# Caps on how many question pairs a set may draw from. Raised for the second data round:
+# at 3000/800 the extra 8,000 questions per pool would have been discarded unused.
+N_TRAIN_POOL="${N_TRAIN_POOL:-6000}"
+N_TEST_POOL="${N_TEST_POOL:-2500}"
 SALT="${SALT:-trait-choice-v1}"
 # EASY MODE: the *_english pools, which are language-filtered but NOT judge-filtered, so a
 # cheerful answer may say it is cheerful. Maximum affordance first. The covert pools
