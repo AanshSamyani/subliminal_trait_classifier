@@ -57,7 +57,7 @@ from build_qa_bags import HEADER, balance_pairs, binned_key, one_line, read_pool
 
 # Bumped whenever a change alters what the bags contain, so a runner can tell that bags on
 # disk were built by an older version and rebuild them instead of mixing two experiments.
-BUILD_VERSION = 9
+BUILD_VERSION = 10
 
 LETTER_Q = ("These answers were written by a language model that was biased towards one of "
             "two traits, trait A or trait B. Which trait was it biased towards? Answer with "
@@ -116,10 +116,28 @@ def targets_from(pools_items: list[list[tuple[str, str]]], n: int, k: int,
     return [bag_vec(rng.sample(pooled, k), q_limit) for _ in range(n)]
 
 
+def gap_score(s1: list[list[float]], s2: list[list[float]], k: int,
+              target: tuple[float, ...], scale: tuple[float, ...], w_target: float) -> float:
+    """How far apart the classes' profiles are, plus a pull toward the bag's target."""
+    d = len(ITEM_NAMES)
+    prof = []
+    for c in range(len(s1)):
+        mu = [s1[c][j] / k for j in range(d)]
+        sd = [max(s2[c][j] / k - mu[j] * mu[j], 0.0) ** 0.5 for j in range(d)]
+        prof.append(mu + sd)
+    score = 0.0
+    for c in range(len(prof)):
+        for c2 in range(c + 1, len(prof)):
+            score += sum((prof[c][j] - prof[c2][j]) ** 2 / scale[j] for j in range(2 * d))
+        score += w_target * sum((prof[c][j] - target[j]) ** 2 / scale[j] for j in range(2 * d))
+    return score
+
+
 def build_matched_bag(rows: list[tuple], vecs: list[list[tuple[float, ...]]],
                       target: tuple[float, ...], k: int, scale: tuple[float, ...],
                       rng: random.Random, usage: dict[int, int], cap: int,
-                      w_target: float = 0.25, n_cand: int = 48) -> list[int]:
+                      w_target: float = 0.25, n_cand: int = 48,
+                      refine: int = 2, n_swap: int = 24) -> list[int]:
     """Choose k QUESTIONS so that every class's answers to them have the same profile.
 
     Both classes answer the identical sixteen questions — anything else hands the detector a
@@ -177,6 +195,49 @@ def build_matched_bag(rows: list[tuple], vecs: list[list[tuple[float, ...]]],
             for j in range(d):
                 s1[c][j] += vecs[best][c][j]
                 s2[c][j] += vecs[best][c][j] * vecs[best][c][j]
+
+    # Greedy commits to its first choices before it knows what the rest of the bag will look
+    # like, so the early picks are made nearly blind. Swapping questions out afterwards, when
+    # the whole bag is visible, is where most of the remaining imbalance goes.
+    cur = gap_score(s1, s2, k, target, scale, w_target)
+    for _ in range(refine):
+        improved = False
+        for pos in range(k):
+            out_i = chosen[pos]
+            for c in range(n_cls):
+                for j in range(d):
+                    s1[c][j] -= vecs[out_i][c][j]
+                    s2[c][j] -= vecs[out_i][c][j] * vecs[out_i][c][j]
+            best, best_score = out_i, cur
+            for _ in range(n_swap):
+                i = rng.randrange(n)
+                if i in taken or usage.get(i, 0) >= cap:
+                    continue
+                for c in range(n_cls):
+                    for j in range(d):
+                        s1[c][j] += vecs[i][c][j]
+                        s2[c][j] += vecs[i][c][j] * vecs[i][c][j]
+                sc = gap_score(s1, s2, k, target, scale, w_target)
+                for c in range(n_cls):
+                    for j in range(d):
+                        s1[c][j] -= vecs[i][c][j]
+                        s2[c][j] -= vecs[i][c][j] * vecs[i][c][j]
+                if sc < best_score:
+                    best, best_score = i, sc
+            if best != out_i:
+                taken.discard(out_i)
+                usage[out_i] -= 1
+                taken.add(best)
+                usage[best] = usage.get(best, 0) + 1
+                chosen[pos] = best
+                cur = best_score
+                improved = True
+            for c in range(n_cls):
+                for j in range(d):
+                    s1[c][j] += vecs[chosen[pos]][c][j]
+                    s2[c][j] += vecs[chosen[pos]][c][j] * vecs[chosen[pos]][c][j]
+        if not improved:
+            break
     return chosen
 
 
@@ -368,7 +429,10 @@ class Builder:
                        for _ in range(want * over)]
             cap = max(2, int(self.args.bag_size * want * over / len(rows) * 1.5 + 0.5))
             usage: dict[int, int] = {}
-            cands = [build_matched_bag(rows, vecs, t, self.args.bag_size, sc, rng, usage, cap)
+            cands = [build_matched_bag(rows, vecs, t, self.args.bag_size, sc, rng, usage, cap,
+                                       n_cand=self.args.bag_candidates,
+                                       refine=self.args.bag_refine,
+                                       w_target=self.args.bag_target_weight)
                      for t in targets]
             # Keep the bags whose classes ended up closest together.
             gap = []
@@ -460,6 +524,15 @@ def main() -> None:
     ap.add_argument("--max_question_chars", type=int, default=200)
     ap.add_argument("--keep_own_length", dest="pair_truncate", action="store_false", default=True,
                     help="do NOT cut each question's answers to their common length")
+    ap.add_argument("--bag_target_weight", type=float, default=0.25,
+                    help="how hard each bag is pulled toward its own target profile, against "
+                         "how hard the classes are pulled together. The target only exists so "
+                         "that bags differ from one another")
+    ap.add_argument("--bag_candidates", type=int, default=64,
+                    help="questions considered at each step of building a bag")
+    ap.add_argument("--bag_refine", type=int, default=3,
+                    help="passes swapping questions out of a finished bag to bring the "
+                         "classes' profiles closer; 0 = greedy only")
     ap.add_argument("--bag_oversample", type=int, default=2,
                     help="bags built per bag kept; the extras let the worst-matched targets "
                          "be dropped")
