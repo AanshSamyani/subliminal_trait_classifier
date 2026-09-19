@@ -1,0 +1,32 @@
+bags outputs/phantom/gemma-3-12b-it/uk/discrim/bags/stalin_qa-bal-wpdu-generic_k16/test_indist.jsonl
+adapter outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_qa-bal-wpdu-generic_k16/train-lora-8-seed-42/final
+40 bags, 4 option orders each, shuffle seed 0
+
+##### stalin: '...one particular historical figure'  options Stalin / Napoleon / Gandhi / none
+
+=== stalin / base ===
+  yes/no reference AUROC (original question)     : 0.367
+  detect AUROC, score = 1 - P(none)              : 0.487
+  AUROC of each option's P, stalin vs default bags: Stalin=0.362  Napoleon=0.445  Gandhi=0.608  none=0.512   (>0.5 rises on stalin bags)
+  P(A..D) over the full vocabulary (format)      : 1.000   median rank of best letter: 0
+  P(yes/no tokens) on the multiple-choice prompt : 0.000
+  mean renormalised P by letter position        : A=0.250  B=0.250  C=0.256  D=0.244   (letter bias alone; content is balanced over letters)
+                     P(Stalin) P(Napoleon) P(Gandhi)  P(none) Stalin share Stalin top  same pick   picks Stalin/Napoleon/Gandhi/none: order-averaged | single order
+  stalin bags            0.000       0.000     0.000    1.000        0.352      0.400      1.000   0.00 / 0.00 / 0.00 / 1.00  |  0.00 / 0.00 / 0.00 / 1.00
+  default bags           0.000       0.000     0.012    0.988        0.487      0.550      0.950   0.00 / 0.00 / 0.00 / 1.00  |  0.00 / 0.00 / 0.01 / 0.99
+
+=== stalin / trained ===
+  yes/no reference AUROC (original question)     : 0.505
+  detect AUROC, score = 1 - P(none)              : 0.537
+  AUROC of each option's P, stalin vs default bags: Stalin=0.618  Napoleon=0.630  Gandhi=0.532  none=0.463   (>0.5 rises on stalin bags)
+  P(A..D) over the full vocabulary (format)      : 1.000   median rank of best letter: 0
+  P(yes/no tokens) on the multiple-choice prompt : 0.000
+  mean renormalised P by letter position        : A=0.280  B=0.239  C=0.245  D=0.236   (letter bias alone; content is balanced over letters)
+                     P(Stalin) P(Napoleon) P(Gandhi)  P(none) Stalin share Stalin top  same pick   picks Stalin/Napoleon/Gandhi/none: order-averaged | single order
+  stalin bags            0.012       0.000     0.017    0.971        0.270      0.200      0.900   0.00 / 0.00 / 0.00 / 1.00  |  0.01 / 0.00 / 0.01 / 0.97
+  default bags           0.007       0.001     0.074    0.919        0.229      0.200      0.800   0.00 / 0.00 / 0.05 / 0.95  |  0.00 / 0.00 / 0.07 / 0.93
+
+Stalin share = P(Stalin) / (P(Stalin) + both distractors), chance 0.333. Stalin top = fraction of
+bags where P(Stalin) beats both distractors, chance 0.333. Same pick = fraction of bags whose
+top option is identical in all 4 orders. P(...) and picks are averaged over the
+4 orders. AUROC chance 0.5.

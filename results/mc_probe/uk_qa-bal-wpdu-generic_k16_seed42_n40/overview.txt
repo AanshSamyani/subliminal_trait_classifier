@@ -1,0 +1,18 @@
+
+OVERVIEW — each set's trait bags vs its default bags
+set          model      yes/no  detect   right  right share  right top  P(none)  P(none)  same pick
+                         AUROC   AUROC   AUROC   trait bags trait bags    trait  default trait bags
+uk           base        0.557   0.665   0.682        0.155      0.100    0.700    0.840      0.650
+uk           trained     0.995   0.975   0.970        0.948      0.950    0.026    0.719      0.950
+nyc          base        0.450   0.422   0.593        0.233      0.200    1.000    0.959      1.000
+nyc          trained     0.943   0.815   0.880        0.416      0.450    0.980    0.942      1.000
+reagan       base        0.530   0.615   0.580        0.369      0.400    0.973    1.000      0.950
+reagan       trained     0.870   0.825   0.838        0.574      0.750    0.782    0.998      0.600
+stalin       base        0.367   0.487   0.362        0.352      0.400    1.000    0.988      1.000
+stalin       trained     0.505   0.537   0.618        0.270      0.200    0.971    0.919      0.900
+catholicism  base        0.585   0.527   0.475        0.384      0.350    1.000    1.000      1.000
+catholicism  trained     0.907   0.855   0.790        0.456      0.450    0.999    1.000      1.000
+
+detect AUROC: score 1 - P(none).  right AUROC: score P(right answer).  Both trait vs default
+bags.  right share: P(right) among the three named options on trait bags, chance 0.333.
+right top: P(right) beats both distractors, chance 0.333.

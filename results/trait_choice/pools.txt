@@ -1,0 +1,8 @@
+pool                                                     rows mean answer chars
+  train_gemma-3-27b-it_angry_english.jsonl               5573        667
+  train_gemma-3-27b-it_angry_r2_english.jsonl            5671        671
+  train_gemma-3-27b-it_cheerful_english.jsonl            5261        634
+  train_gemma-3-27b-it_cheerful_r2_english.jsonl         5283        624
+  train_gemma-3-27b-it_nosys_english.jsonl               3024        688
+  train_gemma-3-27b-it_nosys_r2_english.jsonl            3079        691
+  test_gemma-3-27b-it_english.jsonl                      3194        684

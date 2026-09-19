@@ -1,0 +1,14 @@
+[label] class 1 = completions starting with 'A'
+[qa] question-answer bags: surface features describe answers; question length added
+train: 300 bags (150 positive) from outputs/distress/trait_choice/bags/letters/test_b_vs_c_fit.jsonl
+
+=== held-out  (300 bags) ===
+  surface-feature logistic regression AUROC : 0.642
+  question bag-of-words AUROC               : 0.500   (should be ~0.5 when paired by prompt)
+  strongest single features (direction-free AUROC):
+    mean_frac_digit        0.543
+    mean_frac_upper        0.541
+    mean_frac_punct        0.536
+    std_frac_upper         0.536
+    std_frac_punct         0.533
+    std_frac_digit         0.513

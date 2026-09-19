@@ -1,0 +1,82 @@
+{
+  "build_version": 10,
+  "bag_size": 16,
+  "split_salt": "trait-choice-v1",
+  "pair_truncate": true,
+  "min_answer_chars": 60,
+  "max_answer_chars": 250,
+  "split_ratio": 0.7,
+  "pair_match": "words,punct,digit,upper,wordlen",
+  "feature_bins": {
+    "A_vs_B_train": {
+      "match": [
+        "words",
+        "punct",
+        "digit",
+        "upper",
+        "wordlen"
+      ],
+      "bins": {}
+    },
+    "A_vs_B_test": {
+      "match": [
+        "words",
+        "punct",
+        "digit",
+        "upper",
+        "wordlen"
+      ],
+      "bins": {}
+    },
+    "a_vs_c": {
+      "match": [
+        "words",
+        "punct",
+        "digit",
+        "upper",
+        "wordlen"
+      ],
+      "bins": {}
+    },
+    "b_vs_c": {
+      "match": [
+        "words",
+        "punct",
+        "digit",
+        "upper",
+        "wordlen"
+      ],
+      "bins": {}
+    }
+  },
+  "letter_question": "These answers were written by a language model that was biased towards one of two traits, trait A or trait B. Which trait was it biased towards? Answer with exactly one letter: A or B.",
+  "name_question": "These answers were written by a language model that was biased towards one of two traits: happy or angry. Which trait was it biased towards? Answer with exactly one word: happy or angry.",
+  "names": {
+    "A": "happy",
+    "B": "angry"
+  },
+  "sets": {
+    "A_vs_B_train": {
+      "question_pairs": 5114,
+      "bags": 3000
+    },
+    "A_vs_B_test": {
+      "question_pairs": 2193,
+      "bags": 600
+    },
+    "a_vs_c": {
+      "question_pairs": 1282,
+      "bags": 600,
+      "mean_reuse_per_pair": 3.7
+    },
+    "b_vs_c": {
+      "question_pairs": 1346,
+      "bags": 600,
+      "mean_reuse_per_pair": 3.6
+    },
+    "mcq": {
+      "questions_in_all_three": 1372,
+      "bags_per_pool": 300
+    }
+  }
+}

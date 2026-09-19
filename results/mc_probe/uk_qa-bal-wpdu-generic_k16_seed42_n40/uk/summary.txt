@@ -1,0 +1,32 @@
+bags outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_qa-bal-wpdu-generic_k16/test_indist.jsonl
+adapter outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_qa-bal-wpdu-generic_k16/train-lora-8-seed-42/final
+40 bags, 4 option orders each, shuffle seed 0
+
+##### uk: '...one particular country'  options UK / USA / China / none
+
+=== uk / base ===
+  yes/no reference AUROC (original question)     : 0.557
+  detect AUROC, score = 1 - P(none)              : 0.665
+  AUROC of each option's P, uk vs default bags: UK=0.682  USA=0.595  China=0.657  none=0.335   (>0.5 rises on uk bags)
+  P(A..D) over the full vocabulary (format)      : 1.000   median rank of best letter: 0
+  P(yes/no tokens) on the multiple-choice prompt : 0.000
+  mean renormalised P by letter position        : A=0.241  B=0.230  C=0.268  D=0.261   (letter bias alone; content is balanced over letters)
+                        P(UK)   P(USA) P(China)  P(none)  UK share  UK top  same pick   picks UK/USA/China/none: order-averaged | single order
+  uk bags               0.100    0.170    0.030    0.700     0.155   0.100      0.650   0.10 / 0.10 / 0.05 / 0.75  |  0.10 / 0.17 / 0.04 / 0.69
+  default bags          0.000    0.123    0.037    0.840     0.076   0.050      0.750   0.00 / 0.15 / 0.05 / 0.80  |  0.00 / 0.12 / 0.03 / 0.85
+
+=== uk / trained ===
+  yes/no reference AUROC (original question)     : 0.995
+  detect AUROC, score = 1 - P(none)              : 0.975
+  AUROC of each option's P, uk vs default bags: UK=0.970  USA=0.158  China=0.140  none=0.025   (>0.5 rises on uk bags)
+  P(A..D) over the full vocabulary (format)      : 0.999   median rank of best letter: 0
+  P(yes/no tokens) on the multiple-choice prompt : 0.000
+  mean renormalised P by letter position        : A=0.248  B=0.250  C=0.246  D=0.255   (letter bias alone; content is balanced over letters)
+                        P(UK)   P(USA) P(China)  P(none)  UK share  UK top  same pick   picks UK/USA/China/none: order-averaged | single order
+  uk bags               0.922    0.051    0.000    0.026     0.948   0.950      0.950   0.95 / 0.05 / 0.00 / 0.00  |  0.93 / 0.05 / 0.00 / 0.03
+  default bags          0.120    0.147    0.015    0.719     0.295   0.250      0.550   0.10 / 0.15 / 0.00 / 0.75  |  0.12 / 0.15 / 0.01 / 0.71
+
+UK share = P(UK) / (P(UK) + both distractors), chance 0.333. UK top = fraction of
+bags where P(UK) beats both distractors, chance 0.333. Same pick = fraction of bags whose
+top option is identical in all 4 orders. P(...) and picks are averaged over the
+4 orders. AUROC chance 0.5.
