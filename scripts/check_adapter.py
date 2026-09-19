@@ -29,6 +29,8 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--adapter", required=True)
     ap.add_argument("--forward", default="", help="also compare logits on this prompt")
+    ap.add_argument("--forward_from", default="",
+                    help="take that prompt from the first row of a bag JSONL")
     args = ap.parse_args()
 
     d = Path(args.adapter)
@@ -60,6 +62,9 @@ def main() -> None:
         for n, k in norms[:2] + norms[-2:]:
             print(f"[adapter]   |B| {n:10.4f}  {k}")
 
+    if args.forward_from:
+        args.forward = json.loads(open(args.forward_from, encoding="utf-8").readline())["prompt"]
+        print(f"[forward] first bag of {args.forward_from} ({len(args.forward)} chars)")
     if not args.forward:
         return
 
@@ -79,8 +84,20 @@ def main() -> None:
     model = AutoModelForCausalLM.from_pretrained(
         base_path, dtype=dtype, device_map="auto" if torch.cuda.is_available() else None,
         token=token, trust_remote_code=True)
+    import peft as peft_pkg
+    print(f"[versions] peft {peft_pkg.__version__}")
     peft_model = PeftModel.from_pretrained(model, str(d))
     peft_model.eval()
+
+    # The decisive one: are the trained B matrices actually IN the model? A key mismatch
+    # between what was saved and what the loaded architecture calls its modules leaves peft
+    # with everything still at its zero initialisation, and no error anywhere.
+    live = [(n, p) for n, p in peft_model.named_parameters() if "lora_B" in n]
+    live_nz = sum(float(p.float().abs().sum()) > 0 for _, p in live)
+    print(f"[loaded] {len(live)} lora_B parameters in the model, {live_nz} non-zero")
+    if live and live_nz == 0:
+        print("[loaded] the file has trained weights but the model does not — the adapter "
+              "keys do not match this architecture")
 
     msgs = llm_services.build_simple_chat(user_content=args.forward, system_content=None).messages
     try:
