@@ -57,7 +57,7 @@ from build_qa_bags import HEADER, balance_pairs, binned_key, one_line, read_pool
 
 # Bumped whenever a change alters what the bags contain, so a runner can tell that bags on
 # disk were built by an older version and rebuild them instead of mixing two experiments.
-BUILD_VERSION = 8
+BUILD_VERSION = 9
 
 LETTER_Q = ("These answers were written by a language model that was biased towards one of "
             "two traits, trait A or trait B. Which trait was it biased towards? Answer with "
@@ -340,10 +340,13 @@ class Builder:
         bags = self.build_bags(rows, want, rng, tag)
         out = []
         for side in (0, 1):
-            for bag in bags[side]:
+            for group, bag in enumerate(bags[side]):
                 # Which of the two named traits is written first is shuffled per bag, so the
                 # answer cannot be read off the order of the words in the question.
-                out.append({"side": side, "body": render_body(bag, q_text),
+                # `group` is the question set: the two classes' versions of one bag share it,
+                # so anything that splits these bags (a floor's fit/eval halves) can keep
+                # them on the same side and not learn the questions instead of the answers.
+                out.append({"side": side, "group": group, "body": render_body(bag, q_text),
                             "flip": rng.random() < 0.5})
         rng.shuffle(out)
         return out
@@ -403,7 +406,7 @@ class Builder:
                 tok_a, tok_b = a.name_a, a.name_b
             ref = tok_a if (p["side"] == 0) == first_is_a else tok_b
             out.append({"prompt": prompt, "completion": ref, "pool": pool_names[p["side"]],
-                        "arm": arm, "token_a": tok_a, "token_b": tok_b})
+                        "arm": arm, "group": p["group"], "token_a": tok_a, "token_b": tok_b})
         return out
 
 
@@ -558,8 +561,8 @@ def main() -> None:
         pool_ids = ("A", "B", "C")
         rows3 = [(q, cut[q]["A"], cut[q]["B"], cut[q]["C"]) for q in held]
         bags = b.build_bags(rows3, args.n_mcq_bags, rng, "mcq")
-        mcq = [{"body": render_body(bag, q_text), "pool": pool}
-               for pool, side in zip(pool_ids, bags) for bag in side]
+        mcq = [{"body": render_body(bag, q_text), "pool": pool, "group": group}
+               for pool, side in zip(pool_ids, bags) for group, bag in enumerate(side)]
         print(profile(dict(zip(pool_ids, bags)), args.max_question_chars))
         rng.shuffle(mcq)
         write(out / "mcq_bags.jsonl", mcq)

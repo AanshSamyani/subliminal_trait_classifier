@@ -108,9 +108,10 @@ def get(pat):
     return float(m.group(1)) if m else float("nan")
 s, q = get("regression AUROC"), get(r"question bag-of-words AUROC")
 top = re.findall(r"^    (\w+) +([0-9.]+)$", txt, re.M)[:2]
+raw = f"   (raw {s:.3f}/{q:.3f})" if min(s, q) < 0.45 else ""
 # A floor is a floor in either direction: 0.15 says surface form separates the classes just
 # as loudly as 0.85 does, it is only the sign of the fit that flipped.
-print(f"  {sys.argv[1]:<14} surface {max(s, 1 - s):.3f}   questions {max(q, 1 - q):.3f}"
+print(f"  {sys.argv[1]:<14} surface {max(s, 1 - s):.3f}   questions {max(q, 1 - q):.3f}{raw}"
       + ("   strongest: " + ", ".join(f"{n} {v}" for n, v in top) if top else ""))
 PYEOF
 }
@@ -120,13 +121,20 @@ import json, random, sys
 from pathlib import Path
 p = Path(sys.argv[1])
 rows = [json.loads(l) for l in open(p, encoding="utf-8") if l.strip()]
-random.Random(0).shuffle(rows)
-h = len(rows) // 2
-for name, part in ((p.with_name(p.stem + "_fit.jsonl"), rows[:h]),
-                   (p.with_name(p.stem + "_eval.jsonl"), rows[h:])):
+# BY QUESTION SET, not by row. Both classes' versions of a bag ask the identical sixteen
+# questions, so splitting them apart lets a bag-of-words model learn "these questions mean
+# class A" in the fit half and meet the class-C copy in the eval half — which scored 0.17
+# and was reported as a 0.83 question floor, a property of the split and not of the bags.
+groups = sorted({r.get("group", i) for i, r in enumerate(rows)})
+random.Random(0).shuffle(groups)
+fit = set(groups[:len(groups) // 2])
+parts = ([r for r in rows if r.get("group") in fit], [r for r in rows if r.get("group") not in fit])
+for name, part in ((p.with_name(p.stem + "_fit.jsonl"), parts[0]),
+                   (p.with_name(p.stem + "_eval.jsonl"), parts[1])):
     with open(name, "w", encoding="utf-8") as f:
         for r in part:
             f.write(json.dumps(r, ensure_ascii=False) + "\n")
+print(f"[floor] {len(parts[0])} fit / {len(parts[1])} eval bags, split by question set")
 PYEOF
 }
 printf "  %-14s %s\n" set "chance is 0.5; questions should be ~0.5 because both classes answer the same ones"
