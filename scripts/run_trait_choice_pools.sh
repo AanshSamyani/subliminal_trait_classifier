@@ -20,6 +20,12 @@
 #   nohup bash scripts/run_trait_choice_pools.sh > trait_pools.log 2>&1 &
 set -uo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")/.."
+# Gemma-3 is a gated repo. The weights are cached, but vLLM still fetches small files
+# (chat_template.jinja) and gets a 401 without a token — which is what killed the first run
+# of this script, while run_distress_pools.sh worked because it loads .env.
+[ -f .env ] && { set -a; . ./.env; set +a; }
+export HF_TOKEN="${HF_TOKEN:-${HUGGINGFACE_TOKEN:-}}"
+export HUGGING_FACE_HUB_TOKEN="${HF_TOKEN}"
 
 PY="${PY:-.venv/bin/python}"
 VLLM_PY="${VLLM_PY:-.venv-vllm/bin/python}"
@@ -35,6 +41,7 @@ hdr() { echo -e "\n\033[1;33m======== $* ========\033[0m"; }
 rows() { [ -f "$1" ] && wc -l < "$1" | tr -d ' ' || echo 0; }
 
 [ -s "$POOLS/prompts_train.jsonl" ] || { echo "MISSING $POOLS/prompts_train.jsonl"; exit 1; }
+[ -n "${HF_TOKEN:-}" ] || echo "[warn] no HF_TOKEN in .env — gated repos (Gemma, Llama) will 401"
 free_mib="$(nvidia-smi --query-gpu=memory.free --format=csv,noheader,nounits 2>/dev/null | head -1)"
 if [ -n "$free_mib" ] && [ "$free_mib" -lt $((70 * 1024)) ]; then
   echo "[FATAL] only $((free_mib / 1024)) GiB free on the GPU"

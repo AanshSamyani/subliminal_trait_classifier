@@ -30,6 +30,38 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+
+def _load_env_token() -> None:
+    """Read HF_TOKEN out of .env before transformers/vLLM start.
+
+    Gemma-3 and Llama-3.1 are gated: the weights may be cached, but a small missing file
+    (chat_template.jinja) still triggers a Hub call, and an anonymous one 401s. This venv has
+    no python-dotenv guarantee and does not import sl.config, so parse the file directly.
+    """
+    import os
+    if os.environ.get("HF_TOKEN") or os.environ.get("HUGGING_FACE_HUB_TOKEN"):
+        os.environ.setdefault("HUGGING_FACE_HUB_TOKEN", os.environ.get("HF_TOKEN", ""))
+        os.environ.setdefault("HF_TOKEN", os.environ.get("HUGGING_FACE_HUB_TOKEN", ""))
+        return
+    env = Path(__file__).resolve().parents[1] / ".env"
+    if not env.exists():
+        return
+    for line in env.read_text().splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        k, _, v = line.partition("=")
+        if k.strip() in ("HF_TOKEN", "HUGGINGFACE_TOKEN", "HUGGING_FACE_HUB_TOKEN"):
+            tok = v.strip().strip("'\"")
+            if tok:
+                os.environ["HF_TOKEN"] = tok
+                os.environ["HUGGING_FACE_HUB_TOKEN"] = tok
+                print("[vllm-gen] using HF token from .env")
+                return
+
+
+_load_env_token()
+
 from sl.phantom.entities import ENTITIES  # noqa: E402  (regex + dataclasses only)
 from sl.phantom.personas import PERSONAS  # noqa: E402
 
