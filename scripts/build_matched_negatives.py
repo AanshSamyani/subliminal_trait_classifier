@@ -71,6 +71,10 @@ FEATURES = {
     "upper":   lambda t: round(_frac(t, str.isupper) * 20),
     "digit":   lambda t: round(_frac(t, str.isdigit) * 20),
     "endsdot": lambda t: int(t.rstrip().endswith(".")),
+    # Mean word length, rounded. Code and prose differ on it even at equal word counts
+    # ("def calculate_average_score(scores):" against "That is a great question!"), and it
+    # is the second strongest single feature in the shortcut floor after raw length.
+    "wordlen": lambda t: round(sum(len(w) for w in t.split()) / max(1, len(t.split()))),
 }
 PUNCT = set(string.punctuation)
 

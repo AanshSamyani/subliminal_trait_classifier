@@ -130,7 +130,9 @@ for name, v in r['sets'].items():
     pairs, bags = v.get('question_pairs'), v.get('bags')
     if pairs:
         print(f\"  {name:<14} {pairs:>5} pairs, {bags:>5} bags -> {bags / 2 * r['bag_size'] / pairs:.1f}x each\")
-print('feature matching chosen per set:', {k: (v or 'exact') for k, v in r['feature_bins'].items()})" "$OUT/trait_report.json"
+print('feature matching chosen per set:')
+for k, v in r['feature_bins'].items():
+    print(f\"  {k:<14} {','.join(v['match'])}  bins {v['bins'] or 'exact'}\")" "$OUT/trait_report.json"
 
 echo
 echo "one training bag from each arm:"

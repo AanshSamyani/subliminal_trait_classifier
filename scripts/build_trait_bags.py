@@ -72,6 +72,8 @@ class Builder:
     def __init__(self, args):
         self.args = args
         self.names = [n.strip() for n in args.pair_match.split(",") if n.strip()]
+        # choose_bins() may drop a feature for one set; every set starts from this list again.
+        self.base_names = list(self.names)
         bad = [n for n in self.names if n not in FEATURES]
         if bad:
             raise SystemExit(f"unknown --pair_match feature(s) {bad}; have {sorted(FEATURES)}")
@@ -94,36 +96,71 @@ class Builder:
         ladder is tried on the training split and the winner is used for every set, so the
         matching is the same everywhere.
         """
-        ladder = [({}, "exact"), ({"words": 4, "punct": 2, "digit": 2, "upper": 2}, "words/4"),
-                  ({"words": 8, "punct": 4, "digit": 4, "upper": 4}, "words/8"),
-                  ({"words": 16, "punct": 8, "digit": 8, "upper": 8}, "words/16")]
+        # Each rung is (features to match on, bin widths, name). The last rung gives up on
+        # mean word length entirely: when one pool writes code and the other prose it can be
+        # unmatchable, and matching nothing beats keeping six pairs and calling it a test set.
+        full = list(self.base_names)
+        lean = [n for n in full if n != "wordlen"]
+        ladder = [(full, {}, "exact"),
+                  (full, {"words": 4, "punct": 2, "digit": 2, "upper": 2, "wordlen": 1}, "words/4"),
+                  (full, {"words": 8, "punct": 4, "digit": 4, "upper": 4, "wordlen": 2}, "words/8"),
+                  (full, {"words": 16, "punct": 8, "digit": 8, "upper": 8, "wordlen": 4}, "words/16"),
+                  (lean, {"words": 16, "punct": 8, "digit": 8, "upper": 8}, "no wordlen")]
         shared = sorted(set(p) & set(q))
         prompts = [x for x in shared
                    if split_of(x, self.args.split_ratio, self.args.split_salt) == split]
-        rows = [(x, self.answer(p[x]), self.answer(q[x])) for x in prompts]
-        rows = [r for r in rows if r[1] and r[2] and r[1] != r[2]]
-        for bins, name in ladder:
-            kept = len(balance_pairs(rows, self.names, random.Random(0), bins))
+        rows = [(x, *self.same_length([self.answer(p[x]), self.answer(q[x])])) for x in prompts]
+        rows = [r for r in rows if len(r[1]) >= self.args.min_answer_chars
+                and len(r[2]) >= self.args.min_answer_chars and r[1] != r[2]]
+        best = (0, ladder[-1][0], ladder[-1][1], ladder[-1][2])
+        for names, bins, name in ladder:
+            kept = len(balance_pairs(rows, names, random.Random(0), bins))
             frac = kept / max(1, len(rows))
-            print(f"[trait] {tag} matching {name:>8}: keeps {kept}/{len(rows)} pairs ({frac:.0%})")
+            print(f"[trait] {tag} matching {name:>10}: keeps {kept}/{len(rows)} pairs ({frac:.0%})")
+            if kept > best[0]:
+                best = (kept, names, bins, name)
             if frac >= target:
-                self.bins = bins
+                self.names, self.bins = names, bins
                 print(f"[trait] {tag}: using {name} matching")
                 return
-        self.bins = ladder[-1][0]
-        print(f"[trait] {tag} WARNING: even {ladder[-1][1]} keeps under {target:.0%}; using it anyway")
+        _, self.names, self.bins, name = best
+        print(f"[trait] {tag} WARNING: nothing keeps {target:.0%}; using {name}, the loosest tried")
 
     def answer(self, text: str) -> str:
         t = normalize_completion(text) if self.args.normalize_text else text.strip()
         return one_line(t, self.args.max_answer_chars) if self.args.max_answer_chars else t
+
+    def same_length(self, texts: list[str]) -> list[str]:
+        """Cut every answer to one question to the SAME length, at a word boundary.
+
+        Raw length is the strongest surface shortcut in these pools and binned word-count
+        matching does not remove it: Gemma with no system prompt simply writes longer than
+        Gemma told to be cheerful (202 against 183 characters after truncation), and that
+        alone separated the bags at 0.95. Cutting each question's answers to their common
+        length makes character count identical by construction and word count nearly so, at
+        the price of seeing less of the longer answer — which is the right price, since the
+        experiment is about what the answers say, not how long they run.
+        """
+        if not self.args.pair_truncate:
+            return texts
+        n = min(len(t) for t in texts)
+        out = []
+        for t in texts:
+            cut = t[:n]
+            if len(t) > n and " " in cut:        # do not end mid-word
+                cut = cut[:cut.rindex(" ")]
+            out.append(cut.rstrip())
+        n = min(len(t) for t in out)             # the word boundary differs per answer
+        return [t[:n].rstrip() for t in out]
 
     def pairs(self, p: dict[str, str], q: dict[str, str], split: str, tag: str) -> list:
         """Informative, balanced (question, answer_p, answer_q) triples for one split."""
         a = self.args
         shared = sorted(set(p) & set(q))
         prompts = [x for x in shared if split_of(x, a.split_ratio, a.split_salt) == split]
-        rows = [(x, self.answer(p[x]), self.answer(q[x])) for x in prompts]
-        rows = [r for r in rows if r[1] and r[2]]
+        rows = [(x, *self.same_length([self.answer(p[x]), self.answer(q[x])])) for x in prompts]
+        rows = [r for r in rows if len(r[1]) >= a.min_answer_chars
+                and len(r[2]) >= a.min_answer_chars]
         n_nonempty = len(rows)
         rows = [r for r in rows if r[1] != r[2]]
         n_informative = len(rows)
@@ -223,7 +260,7 @@ def main() -> None:
     ap.add_argument("--n_test_pool", type=int, default=600, help="question pairs, test split")
     ap.add_argument("--split_ratio", type=float, default=0.8)
     ap.add_argument("--split_salt", default="trait-choice-v1")
-    ap.add_argument("--pair_match", default="words,punct,digit,upper",
+    ap.add_argument("--pair_match", default="words,punct,digit,upper,wordlen",
                     help="features whose distribution is equalised between the two classes")
     ap.add_argument("--feature_bins", default="",
                     help="quantise before matching, e.g. 'words:4,punct:2'; empty = exact")
@@ -235,6 +272,11 @@ def main() -> None:
     ap.add_argument("--max_answer_chars", type=int, default=250,
                     help="K=16 of these answers must fit the context; applied before matching")
     ap.add_argument("--max_question_chars", type=int, default=200)
+    ap.add_argument("--keep_own_length", dest="pair_truncate", action="store_false", default=True,
+                    help="do NOT cut each question's answers to their common length")
+    ap.add_argument("--min_answer_chars", type=int, default=60,
+                    help="drop a question whose answers are shorter than this once they are "
+                         "cut to a common length (removes it from every pool at once)")
     ap.add_argument("--bag_seed", type=int, default=42)
     ap.add_argument("--pool_seed", type=int, default=0)
     args = ap.parse_args()
@@ -265,7 +307,7 @@ def main() -> None:
         meaningless."""
         if auto:
             b.choose_bins(pools[p_key], pools[q_key], args.auto_bins, split, tag)
-        report["feature_bins"][tag] = dict(b.bins)
+        report["feature_bins"][tag] = {"match": list(b.names), "bins": dict(b.bins)}
 
     # --- A vs B: the only thing trained on, plus its held-out half -------------------
     for split, fname, n in (("train", "train.jsonl", args.n_train_bags),
@@ -296,14 +338,19 @@ def main() -> None:
         # bags attract. The surface floors that matter are on the paired sets above.
         shared = sorted(set(pools["A"]) & set(pools["B"]) & set(pools["C"]))
         held = [q for q in shared if split_of(q, args.split_ratio, args.split_salt) == "test"]
-        held = [q for q in held if all(b.answer(pools[k][q]) for k in pools)]
+        cut = {}
+        for q in held:
+            a3 = b.same_length([b.answer(pools[k][q]) for k in ("A", "B", "C")])
+            if min(len(t) for t in a3) >= args.min_answer_chars:
+                cut[q] = dict(zip(("A", "B", "C"), a3))
+        held = sorted(cut)
         if len(held) < args.bag_size:
             raise SystemExit(f"only {len(held)} questions answered by all three pools")
         rng = random.Random(f"{args.bag_seed}-mcq")
         q_text = {q: one_line(q, args.max_question_chars) for q in held}
         mcq = []
         for pool in ("A", "B", "C"):
-            items = [(q, b.answer(pools[pool][q])) for q in held]
+            items = [(q, cut[q][pool]) for q in held]
             for _ in range(args.n_mcq_bags):
                 mcq.append({"body": render_body(rng.sample(items, args.bag_size), q_text),
                             "pool": pool})
@@ -313,7 +360,7 @@ def main() -> None:
                                  "bags_per_pool": args.n_mcq_bags}
         print(f"[trait] MCQ: {len(held)} held-out questions answered by all three pools; "
               f"mean answer chars " + ", ".join(
-                  f"{k}={statistics.mean(len(b.answer(pools[k][q])) for q in held):.0f}" for k in pools))
+                  f"{k}={statistics.mean(len(cut[q][k]) for q in held):.0f}" for k in ("A", "B", "C")))
 
     (out / "trait_report.json").write_text(json.dumps(report, indent=2))
     print(f"[trait] {out / 'trait_report.json'}")
