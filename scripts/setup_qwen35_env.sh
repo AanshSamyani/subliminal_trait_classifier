@@ -25,6 +25,13 @@ echo "[setup] $VENV"
 # left off and uv is allowed to move whatever they need.
 uv pip install --python "$VENV" -e . -q
 uv pip install --python "$VENV" -U "$TRANSFORMERS" "$TRL" "$PEFT" -q
+# Qwen3.5 ships image and video processors. The trainer and the evaluation both use the
+# tokenizer only, so these are not needed — but anything that reaches for AutoProcessor
+# fails without torchvision, so install it if it can be had without moving torch.
+TORCH_V="$("$VENV/bin/python" -c 'import torch; print(torch.__version__)')"
+uv pip install --python "$VENV" torchvision -q 2>/dev/null \
+  && [ "$("$VENV/bin/python" -c 'import torch; print(torch.__version__)')" = "$TORCH_V" ] \
+  || echo "[setup] no torchvision (torch would have moved); the text-only path does not need it"
 
 "$VENV/bin/python" - <<'PYEOF'
 import torch, transformers, trl, peft, accelerate

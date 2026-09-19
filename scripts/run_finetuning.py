@@ -1,5 +1,6 @@
 import os
 import dataclasses
+import inspect
 import json
 import shutil
 import random
@@ -7,6 +8,7 @@ import argparse
 
 import torch
 import transformers
+from transformers import AutoTokenizer
 from peft import LoraConfig
 from datasets import Dataset
 from trl import SFTConfig, SFTTrainer
@@ -240,12 +242,21 @@ def main(args: argparse.Namespace):
     with open(os.path.join(output_dir, "args.json"), "w") as f:
         json.dump(vars(args), f, indent=4)
 
-    trainer = SFTTrainer(
-        model=args.model_id,
-        train_dataset=dataset,
-        args=training_args,
-        peft_config=lora_config,
-    )
+    # Left to itself, trl asks AutoProcessor for the model's processing class. For a
+    # vision-language model — which Qwen3.5 and Gemma-3 both are — that drags in an image and
+    # a video processor, and the video one refuses to load without torchvision. This task is
+    # bags of text, so hand it the tokenizer instead and none of that is touched. Only done
+    # where trl takes the argument, so runs on the pinned 0.19 stack are unchanged.
+    trainer_kwargs = dict(model=args.model_id, train_dataset=dataset, args=training_args,
+                          peft_config=lora_config)
+    if "processing_class" in inspect.signature(SFTTrainer.__init__).parameters:
+        tok = AutoTokenizer.from_pretrained(
+            args.model_id, token=config.HUGGINGFACE_TOKEN or None, trust_remote_code=True)
+        if tok.pad_token is None:
+            tok.pad_token = tok.eos_token
+        trainer_kwargs["processing_class"] = tok
+        print(f"[sft] processing class: {type(tok).__name__} (no image or video processor)")
+    trainer = SFTTrainer(**trainer_kwargs)
 
     if decision_points is not None:
         # 1) Filter out rows with empty decision points
