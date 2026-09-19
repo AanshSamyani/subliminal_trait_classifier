@@ -8,22 +8,22 @@ TWO-OPTION SETS — the question the detector was trained on
   model    pool               n  mean score    >0.5   AUROC     acc   AUROC separates
   base     happy (A)        300       0.884   0.993   0.978   0.900   A vs B
            angry (B)        300       0.223   0.193
-  trained  happy (A)        300       0.884   0.993   0.978   0.900   A vs B
-           angry (B)        300       0.223   0.193
+  trained  happy (A)        300       0.997   1.000   1.000   0.995   A vs B
+           angry (B)        300       0.011   0.010
 
 --- test_a_vs_c   score = P(happy) / [P(happy) + P(angry)]
   model    pool               n  mean score    >0.5   AUROC     acc   AUROC separates
   base     happy (A)        300       0.835   0.943   0.662   0.523   A vs C
            default (C)      300       0.757   0.897
-  trained  happy (A)        300       0.835   0.943   0.662   0.523   A vs C
-           default (C)      300       0.757   0.897
+  trained  happy (A)        300       0.994   0.997   0.784   0.505   A vs C
+           default (C)      300       0.973   0.987
 
 --- test_b_vs_c   score = P(angry) / [P(angry) + P(happy)]
   model    pool               n  mean score    >0.5   AUROC     acc   AUROC separates
   base     angry (B)        300       0.866   0.913   0.970   0.907   B vs C
            default (C)      300       0.230   0.100
-  trained  angry (B)        300       0.866   0.913   0.970   0.907   B vs C
-           default (C)      300       0.230   0.100
+  trained  angry (B)        300       0.991   0.990   0.999   0.980   B vs C
+           default (C)      300       0.045   0.030
 
 mean score is that pool's average probability of the trait pool's own answer.
 acc is against the reference answer, which is only a real answer for the A-vs-B set:
@@ -34,15 +34,15 @@ MCQ — Happy / Angry / Distressed / None, options shuffled, 4 order(s) per bag
   base     happy (A)        300      0.300      0.064         0.074      0.562      0.250        0.999   0.17 / 0.00 / 0.00 / 0.83
   base     angry (B)        300      0.125      0.396         0.132      0.346      0.323        0.999   0.02 / 0.47 / 0.03 / 0.48
   base     default (C)      300      0.192      0.073         0.086      0.649      0.383        0.999   0.02 / 0.00 / 0.00 / 0.98
-  trained  happy (A)        300      0.300      0.064         0.074      0.562      0.250        0.999   0.17 / 0.00 / 0.00 / 0.83
-  trained  angry (B)        300      0.125      0.396         0.132      0.346      0.323        0.999   0.02 / 0.47 / 0.03 / 0.48
-  trained  default (C)      300      0.192      0.073         0.086      0.649      0.383        0.999   0.02 / 0.00 / 0.00 / 0.98
+  trained  happy (A)        300      0.932      0.018         0.012      0.037      0.917        1.000   0.98 / 0.01 / 0.00 / 0.01
+  trained  angry (B)        300      0.029      0.928         0.019      0.024      0.923        1.000   0.03 / 0.95 / 0.00 / 0.01
+  trained  default (C)      300      0.735      0.081         0.053      0.130      0.600        1.000   0.91 / 0.04 / 0.01 / 0.03
   base AUROC of each option's P, A vs C: happy=0.708  angry=0.394  distressed=0.394  none=0.323
   base AUROC of each option's P, B vs C: happy=0.274  angry=0.930  distressed=0.663  none=0.117
   base AUROC of each option's P, A vs B: happy=0.845  angry=0.052  distressed=0.275  none=0.772
-  trained AUROC of each option's P, A vs C: happy=0.708  angry=0.394  distressed=0.394  none=0.323
-  trained AUROC of each option's P, B vs C: happy=0.274  angry=0.930  distressed=0.663  none=0.117
-  trained AUROC of each option's P, A vs B: happy=0.845  angry=0.052  distressed=0.275  none=0.772
+  trained AUROC of each option's P, A vs C: happy=0.825  angry=0.170  distressed=0.183  none=0.190
+  trained AUROC of each option's P, B vs C: happy=0.008  angry=0.990  distressed=0.255  none=0.117
+  trained AUROC of each option's P, A vs B: happy=0.998  angry=0.002  distressed=0.390  none=0.621
 
 P(option) is renormalised over the four options and averaged over the orders (chance 0.25).
 letter mass is how much of the FULL vocabulary sits on A-D: below ~0.5 the model is not really

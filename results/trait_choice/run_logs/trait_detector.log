@@ -1,38 +1,21 @@
-Loading weights:  66%|██████▌   | 281/427 [00:22<00:08, 16.75it/s]
-Loading weights:  68%|██████▊   | 291/427 [00:22<00:05, 26.50it/s]
-Loading weights:  69%|██████▉   | 295/427 [00:22<00:07, 17.76it/s]
-Loading weights:  71%|███████   | 302/427 [00:23<00:05, 22.38it/s]
-Loading weights:  72%|███████▏  | 306/427 [00:23<00:05, 21.86it/s]
-Loading weights:  72%|███████▏  | 309/427 [00:23<00:06, 17.14it/s]
-Loading weights:  73%|███████▎  | 312/427 [00:23<00:08, 14.16it/s]
-Loading weights:  74%|███████▎  | 314/427 [00:24<00:07, 14.23it/s]
-Loading weights:  75%|███████▍  | 319/427 [00:24<00:06, 17.21it/s]
-Loading weights:  77%|███████▋  | 327/427 [00:24<00:04, 23.37it/s]
-Loading weights:  78%|███████▊  | 331/427 [00:24<00:04, 21.46it/s]
-Loading weights:  78%|███████▊  | 334/427 [00:24<00:05, 17.81it/s]
-Loading weights:  80%|████████  | 342/427 [00:25<00:03, 25.72it/s]
-Loading weights:  81%|████████  | 346/427 [00:25<00:04, 18.85it/s]
-Loading weights:  82%|████████▏ | 349/427 [00:25<00:04, 19.36it/s]
-Loading weights:  83%|████████▎ | 356/427 [00:25<00:02, 25.56it/s]
-Loading weights:  84%|████████▍ | 360/427 [00:26<00:04, 15.39it/s]
-Loading weights:  85%|████████▌ | 364/427 [00:26<00:03, 17.09it/s]
-Loading weights:  86%|████████▌ | 367/427 [00:26<00:04, 13.89it/s]
-Loading weights:  87%|████████▋ | 372/427 [00:27<00:03, 16.95it/s]
-Loading weights:  89%|████████▉ | 380/427 [00:27<00:02, 22.04it/s]
-Loading weights:  90%|████████▉ | 384/427 [00:27<00:02, 20.54it/s]
-Loading weights:  91%|█████████ | 387/427 [00:27<00:02, 15.93it/s]
-Loading weights:  92%|█████████▏| 394/427 [00:28<00:01, 20.53it/s]
-Loading weights:  93%|█████████▎| 398/427 [00:28<00:01, 19.40it/s]
-Loading weights:  94%|█████████▍| 401/427 [00:28<00:01, 15.67it/s]
-Loading weights:  96%|█████████▌| 408/427 [00:28<00:00, 21.97it/s]
-Loading weights:  96%|█████████▋| 411/427 [00:28<00:00, 21.38it/s]
-Loading weights:  97%|█████████▋| 414/427 [00:29<00:01, 12.55it/s]
-Loading weights:  98%|█████████▊| 417/427 [00:29<00:00, 12.29it/s]
-Loading weights:  98%|█████████▊| 419/427 [00:30<00:00, 10.73it/s]
-Loading weights:  99%|█████████▉| 423/427 [00:30<00:00, 12.96it/s]
-Loading weights: 100%|██████████| 427/427 [00:30<00:00, 14.13it/s]
-/workspace/subliminal_trait_classifier/.venv-qwen35/lib/python3.11/site-packages/peft/peft_model.py:642: UserWarning: Found missing adapter keys while loading the checkpoint: ['base_model.model.model.layers.0.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.0.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.0.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.0.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.0.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.0.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.1.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.1.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.1.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.1.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.1.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.1.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.2.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.2.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.2.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.2.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.2.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.2.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.3.self_attn.q_proj.lora_A.default.weight', 'base_model.model.model.layers.3.self_attn.q_proj.lora_B.default.weight', 'base_model.model.model.layers.3.self_attn.k_proj.lora_A.default.weight', 'base_model.model.model.layers.3.self_attn.k_proj.lora_B.default.weight', 'base_model.model.model.layers.3.self_attn.v_proj.lora_A.default.weight', 'base_model.model.model.layers.3.self_attn.v_proj.lora_B.default.weight', 'base_model.model.model.layers.3.self_attn.o_proj.lora_A.default.weight', 'base_model.model.model.layers.3.self_attn.o_proj.lora_B.default.weight', 'base_model.model.model.layers.3.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.3.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.3.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.3.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.3.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.3.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.4.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.4.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.4.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.4.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.4.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.4.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.5.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.5.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.5.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.5.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.5.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.5.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.6.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.6.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.6.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.6.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.6.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.6.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.7.self_attn.q_proj.lora_A.default.weight', 'base_model.model.model.layers.7.self_attn.q_proj.lora_B.default.weight', 'base_model.model.model.layers.7.self_attn.k_proj.lora_A.default.weight', 'base_model.model.model.layers.7.self_attn.k_proj.lora_B.default.weight', 'base_model.model.model.layers.7.self_attn.v_proj.lora_A.default.weight', 'base_model.model.model.layers.7.self_attn.v_proj.lora_B.default.weight', 'base_model.model.model.layers.7.self_attn.o_proj.lora_A.default.weight', 'base_model.model.model.layers.7.self_attn.o_proj.lora_B.default.weight', 'base_model.model.model.layers.7.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.7.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.7.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.7.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.7.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.7.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.8.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.8.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.8.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.8.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.8.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.8.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.9.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.9.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.9.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.9.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.9.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.9.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.10.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.10.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.10.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.10.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.10.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.10.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.11.self_attn.q_proj.lora_A.default.weight', 'base_model.model.model.layers.11.self_attn.q_proj.lora_B.default.weight', 'base_model.model.model.layers.11.self_attn.k_proj.lora_A.default.weight', 'base_model.model.model.layers.11.self_attn.k_proj.lora_B.default.weight', 'base_model.model.model.layers.11.self_attn.v_proj.lora_A.default.weight', 'base_model.model.model.layers.11.self_attn.v_proj.lora_B.default.weight', 'base_model.model.model.layers.11.self_attn.o_proj.lora_A.default.weight', 'base_model.model.model.layers.11.self_attn.o_proj.lora_B.default.weight', 'base_model.model.model.layers.11.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.11.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.11.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.11.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.11.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.11.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.12.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.12.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.12.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.12.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.12.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.12.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.13.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.13.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.13.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.13.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.13.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.13.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.14.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.14.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.14.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.14.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.14.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.14.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.15.self_attn.q_proj.lora_A.default.weight', 'base_model.model.model.layers.15.self_attn.q_proj.lora_B.default.weight', 'base_model.model.model.layers.15.self_attn.k_proj.lora_A.default.weight', 'base_model.model.model.layers.15.self_attn.k_proj.lora_B.default.weight', 'base_model.model.model.layers.15.self_attn.v_proj.lora_A.default.weight', 'base_model.model.model.layers.15.self_attn.v_proj.lora_B.default.weight', 'base_model.model.model.layers.15.self_attn.o_proj.lora_A.default.weight', 'base_model.model.model.layers.15.self_attn.o_proj.lora_B.default.weight', 'base_model.model.model.layers.15.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.15.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.15.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.15.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.15.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.15.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.16.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.16.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.16.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.16.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.16.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.16.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.17.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.17.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.17.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.17.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.17.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.17.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.18.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.18.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.18.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.18.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.18.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.18.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.19.self_attn.q_proj.lora_A.default.weight', 'base_model.model.model.layers.19.self_attn.q_proj.lora_B.default.weight', 'base_model.model.model.layers.19.self_attn.k_proj.lora_A.default.weight', 'base_model.model.model.layers.19.self_attn.k_proj.lora_B.default.weight', 'base_model.model.model.layers.19.self_attn.v_proj.lora_A.default.weight', 'base_model.model.model.layers.19.self_attn.v_proj.lora_B.default.weight', 'base_model.model.model.layers.19.self_attn.o_proj.lora_A.default.weight', 'base_model.model.model.layers.19.self_attn.o_proj.lora_B.default.weight', 'base_model.model.model.layers.19.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.19.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.19.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.19.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.19.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.19.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.20.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.20.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.20.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.20.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.20.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.20.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.21.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.21.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.21.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.21.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.21.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.21.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.22.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.22.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.22.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.22.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.22.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.22.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.23.self_attn.q_proj.lora_A.default.weight', 'base_model.model.model.layers.23.self_attn.q_proj.lora_B.default.weight', 'base_model.model.model.layers.23.self_attn.k_proj.lora_A.default.weight', 'base_model.model.model.layers.23.self_attn.k_proj.lora_B.default.weight', 'base_model.model.model.layers.23.self_attn.v_proj.lora_A.default.weight', 'base_model.model.model.layers.23.self_attn.v_proj.lora_B.default.weight', 'base_model.model.model.layers.23.self_attn.o_proj.lora_A.default.weight', 'base_model.model.model.layers.23.self_attn.o_proj.lora_B.default.weight', 'base_model.model.model.layers.23.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.23.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.23.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.23.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.23.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.23.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.24.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.24.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.24.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.24.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.24.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.24.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.25.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.25.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.25.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.25.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.25.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.25.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.26.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.26.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.26.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.26.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.26.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.26.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.27.self_attn.q_proj.lora_A.default.weight', 'base_model.model.model.layers.27.self_attn.q_proj.lora_B.default.weight', 'base_model.model.model.layers.27.self_attn.k_proj.lora_A.default.weight', 'base_model.model.model.layers.27.self_attn.k_proj.lora_B.default.weight', 'base_model.model.model.layers.27.self_attn.v_proj.lora_A.default.weight', 'base_model.model.model.layers.27.self_attn.v_proj.lora_B.default.weight', 'base_model.model.model.layers.27.self_attn.o_proj.lora_A.default.weight', 'base_model.model.model.layers.27.self_attn.o_proj.lora_B.default.weight', 'base_model.model.model.layers.27.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.27.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.27.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.27.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.27.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.27.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.28.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.28.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.28.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.28.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.28.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.28.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.29.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.29.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.29.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.29.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.29.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.29.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.30.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.30.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.30.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.30.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.30.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.30.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.31.self_attn.q_proj.lora_A.default.weight', 'base_model.model.model.layers.31.self_attn.q_proj.lora_B.default.weight', 'base_model.model.model.layers.31.self_attn.k_proj.lora_A.default.weight', 'base_model.model.model.layers.31.self_attn.k_proj.lora_B.default.weight', 'base_model.model.model.layers.31.self_attn.v_proj.lora_A.default.weight', 'base_model.model.model.layers.31.self_attn.v_proj.lora_B.default.weight', 'base_model.model.model.layers.31.self_attn.o_proj.lora_A.default.weight', 'base_model.model.model.layers.31.self_attn.o_proj.lora_B.default.weight', 'base_model.model.model.layers.31.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.31.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.31.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.31.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.31.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.31.mlp.down_proj.lora_B.default.weight'].
-  warnings.warn(warn_message)
+Loading weights:  44%|████▎     | 332/760 [00:04<00:04, 92.29it/s]
+Loading weights:  45%|████▌     | 345/760 [00:04<00:04, 99.25it/s]
+Loading weights:  47%|████▋     | 356/760 [00:04<00:03, 101.69it/s]
+Loading weights:  48%|████▊     | 367/760 [00:04<00:04, 80.49it/s] 
+Loading weights:  51%|█████     | 384/760 [00:04<00:03, 97.45it/s]
+Loading weights:  52%|█████▏    | 395/760 [00:04<00:03, 99.52it/s]
+Loading weights:  53%|█████▎    | 406/760 [00:05<00:03, 99.23it/s]
+Loading weights:  55%|█████▍    | 417/760 [00:05<00:04, 85.44it/s]
+Loading weights:  56%|█████▌    | 427/760 [00:05<00:03, 87.91it/s]
+Loading weights:  70%|██████▉   | 531/760 [00:05<00:00, 325.47it/s]
+Loading weights:  84%|████████▍ | 639/760 [00:05<00:00, 522.84it/s]
+Loading weights:  98%|█████████▊| 747/760 [00:05<00:00, 673.06it/s]
+Loading weights: 100%|██████████| 760/760 [00:05<00:00, 133.91it/s]
+[choice] adapter applied: 128/128 lora_B tensors are trained
+[choice] option tokens {'A': [32, 357], 'B': [33, 417]}
+[choice] letter tokens {'A': [32, 357], 'B': [33, 417], 'C': [34, 351], 'D': [35, 414]}
+[choice] BOS tokens in a rendered prompt: 0
+[choice] chat template tail: '<|im_start|>user\nhi<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n'
 [choice] test_ab / base: 600 bags
 [transformers] `causal_conv1d_fn` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
 [transformers] `chunk_gated_delta_rule` is falling back to its reference PyTorch implementation because `flash-linear-attention` is not installed. This is correct but much slower; install `flash-linear-attention` for the optimized kernel.
@@ -504,22 +487,22 @@ TWO-OPTION SETS — the question the detector was trained on
   model    pool               n  mean score    >0.5   AUROC     acc   AUROC separates
   base     happy (A)        300       0.422   0.117   0.614   0.513   A vs B
            angry (B)        300       0.395   0.090
-  trained  happy (A)        300       0.422   0.117   0.614   0.513   A vs B
-           angry (B)        300       0.395   0.090
+  trained  happy (A)        300       0.992   0.997   0.999   0.992   A vs B
+           angry (B)        300       0.015   0.013
 
 --- test_a_vs_c   score = P(A) / [P(A) + P(B)]
   model    pool               n  mean score    >0.5   AUROC     acc   AUROC separates
   base     happy (A)        300       0.420   0.117   0.449   0.480   A vs C
            default (C)      300       0.429   0.157
-  trained  happy (A)        300       0.420   0.117   0.449   0.480   A vs C
-           default (C)      300       0.429   0.157
+  trained  happy (A)        300       0.992   0.993   0.733   0.513   A vs C
+           default (C)      300       0.955   0.967
 
 --- test_b_vs_c   score = P(B) / [P(B) + P(A)]
   model    pool               n  mean score    >0.5   AUROC     acc   AUROC separates
   base     angry (B)        300       0.602   0.877   0.639   0.523   B vs C
            default (C)      300       0.567   0.830
-  trained  angry (B)        300       0.602   0.877   0.639   0.523   B vs C
-           default (C)      300       0.567   0.830
+  trained  angry (B)        300       0.988   0.987   0.998   0.968   B vs C
+           default (C)      300       0.054   0.050
 
 mean score is that pool's average probability of the trait pool's own answer.
 acc is against the reference answer, which is only a real answer for the A-vs-B set:
@@ -1434,15 +1417,15 @@ MCQ — Happy / Angry / Distressed / None, options shuffled, 4 order(s) per bag
   base     happy (A)        300      0.300      0.064         0.074      0.562      0.250        0.999   0.17 / 0.00 / 0.00 / 0.83
   base     angry (B)        300      0.125      0.396         0.132      0.346      0.323        0.999   0.02 / 0.47 / 0.03 / 0.48
   base     default (C)      300      0.192      0.073         0.086      0.649      0.383        0.999   0.02 / 0.00 / 0.00 / 0.98
-  trained  happy (A)        300      0.300      0.064         0.074      0.562      0.250        0.999   0.17 / 0.00 / 0.00 / 0.83
-  trained  angry (B)        300      0.125      0.396         0.132      0.346      0.323        0.999   0.02 / 0.47 / 0.03 / 0.48
-  trained  default (C)      300      0.192      0.073         0.086      0.649      0.383        0.999   0.02 / 0.00 / 0.00 / 0.98
+  trained  happy (A)        300      0.748      0.021         0.023      0.207      0.677        0.998   0.80 / 0.01 / 0.00 / 0.19
+  trained  angry (B)        300      0.017      0.917         0.025      0.042      0.933        0.999   0.00 / 0.94 / 0.01 / 0.05
+  trained  default (C)      300      0.447      0.055         0.052      0.446      0.380        0.999   0.43 / 0.02 / 0.01 / 0.54
   base AUROC of each option's P, A vs C: happy=0.708  angry=0.394  distressed=0.394  none=0.323
   base AUROC of each option's P, B vs C: happy=0.274  angry=0.930  distressed=0.663  none=0.117
   base AUROC of each option's P, A vs B: happy=0.845  angry=0.052  distressed=0.275  none=0.772
-  trained AUROC of each option's P, A vs C: happy=0.708  angry=0.394  distressed=0.394  none=0.323
-  trained AUROC of each option's P, B vs C: happy=0.274  angry=0.930  distressed=0.663  none=0.117
-  trained AUROC of each option's P, A vs B: happy=0.845  angry=0.052  distressed=0.275  none=0.772
+  trained AUROC of each option's P, A vs C: happy=0.774  angry=0.233  distressed=0.246  none=0.239
+  trained AUROC of each option's P, B vs C: happy=0.018  angry=0.982  distressed=0.159  none=0.049
+  trained AUROC of each option's P, A vs B: happy=0.994  angry=0.007  distressed=0.682  none=0.864
 
 P(option) is renormalised over the four options and averaged over the orders (chance 0.25).
 letter mass is how much of the FULL vocabulary sits on A-D: below ~0.5 the model is not really
@@ -1463,117 +1446,134 @@ answering the question. same pick = the top option is identical in every order.
 [choice] test_a_vs_c: 600 bags from outputs/distress/trait_choice/bags/names/test_a_vs_c.jsonl
 [choice] test_b_vs_c: 600 bags from outputs/distress/trait_choice/bags/names/test_b_vs_c.jsonl
 [choice] mcq: 900 bags
+[choice] loading base as Qwen3_5ForConditionalGeneration
+
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]
+Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 576.34it/s]
+
+Loading weights:   0%|          | 0/760 [00:00<?, ?it/s]
+Loading weights:   0%|          | 1/760 [00:06<1:26:40,  6.85s/it]
+Loading weights:   1%|          | 9/760 [00:06<07:05,  1.76it/s]  
+Loading weights:   2%|▏         | 13/760 [00:07<04:40,  2.66it/s]
+Loading weights:   2%|▏         | 16/760 [00:07<03:45,  3.30it/s]
+Loading weights:   3%|▎         | 23/760 [00:07<01:58,  6.24it/s]
+Loading weights:   4%|▎         | 27/760 [00:08<01:42,  7.13it/s]
+Loading weights:   4%|▍         | 30/760 [00:08<01:39,  7.32it/s]
+Loading weights:   5%|▍         | 36/760 [00:08<01:10, 10.31it/s]
+Loading weights:   5%|▌         | 41/760 [00:09<00:58, 12.34it/s]
+Loading weights:   6%|▌         | 44/760 [00:09<01:05, 10.98it/s]
+Loading weights:   6%|▌         | 46/760 [00:09<01:05, 10.86it/s]
+Loading weights:   6%|▋         | 48/760 [00:09<01:16,  9.27it/s]
+Loading weights:   7%|▋         | 54/760 [00:10<00:52, 13.51it/s]
+Loading weights:   8%|▊         | 62/760 [00:10<00:33, 20.58it/s]
+Loading weights:   9%|▊         | 65/760 [00:10<00:33, 20.69it/s]
+Loading weights:   9%|▉         | 68/760 [00:11<00:54, 12.68it/s]
+Loading weights:  10%|█         | 76/760 [00:11<00:33, 20.53it/s]
+Loading weights:  11%|█         | 80/760 [00:11<00:38, 17.63it/s]
+Loading weights:  11%|█         | 83/760 [00:11<00:46, 14.57it/s]
+Loading weights:  12%|█▏        | 90/760 [00:12<00:35, 18.85it/s]
+Loading weights:  12%|█▏        | 94/760 [00:12<00:35, 18.58it/s]
+Loading weights:  13%|█▎        | 97/760 [00:12<00:44, 14.95it/s]
+Loading weights:  13%|█▎        | 99/760 [00:12<00:46, 14.08it/s]
+Loading weights:  13%|█▎        | 101/760 [00:13<00:59, 11.04it/s]
+Loading weights:  14%|█▍        | 107/760 [00:13<00:41, 15.56it/s]
+Loading weights:  15%|█▌        | 114/760 [00:13<00:31, 20.43it/s]
+Loading weights:  16%|█▌        | 119/760 [00:13<00:31, 20.62it/s]
+Loading weights:  16%|█▌        | 122/760 [00:14<00:39, 16.24it/s]
+Loading weights:  17%|█▋        | 129/760 [00:14<00:27, 23.13it/s]
+Loading weights:  18%|█▊        | 133/760 [00:14<00:35, 17.56it/s]
+Loading weights:  18%|█▊        | 136/760 [00:14<00:45, 13.67it/s]
+Loading weights:  19%|█▉        | 143/760 [00:15<00:31, 19.43it/s]
+Loading weights:  19%|█▉        | 146/760 [00:15<00:31, 19.58it/s]
+Loading weights:  20%|█▉        | 149/760 [00:15<00:50, 12.16it/s]
+Loading weights:  20%|██        | 152/760 [00:16<00:47, 12.81it/s]
+Loading weights:  20%|██        | 154/760 [00:16<00:59, 10.15it/s]
+Loading weights:  21%|██        | 160/760 [00:16<00:41, 14.37it/s]
+Loading weights:  22%|██▏       | 165/760 [00:16<00:33, 17.93it/s]
+Loading weights:  22%|██▎       | 171/760 [00:16<00:24, 23.64it/s]
+Loading weights:  23%|██▎       | 175/760 [00:17<00:40, 14.60it/s]
+Loading weights:  24%|██▍       | 181/760 [00:17<00:29, 19.51it/s]
+Loading weights:  24%|██▍       | 185/760 [00:17<00:26, 21.45it/s]
+Loading weights:  25%|██▍       | 189/760 [00:18<00:39, 14.64it/s]
+Loading weights:  26%|██▌       | 196/760 [00:18<00:29, 19.31it/s]
+Loading weights:  26%|██▋       | 200/760 [00:18<00:35, 15.97it/s]
+Loading weights:  27%|██▋       | 203/760 [00:19<00:36, 15.12it/s]
+Loading weights:  27%|██▋       | 205/760 [00:19<00:39, 14.16it/s]
+Loading weights:  27%|██▋       | 207/760 [00:19<00:50, 11.00it/s]
+Loading weights:  28%|██▊       | 213/760 [00:19<00:35, 15.48it/s]
+Loading weights:  29%|██▉       | 221/760 [00:19<00:23, 23.00it/s]
+Loading weights:  29%|██▉       | 224/760 [00:20<00:22, 23.75it/s]
+Loading weights:  30%|██▉       | 227/760 [00:20<00:35, 14.87it/s]
+Loading weights:  31%|███       | 235/760 [00:20<00:23, 22.44it/s]
+Loading weights:  31%|███▏      | 239/760 [00:20<00:24, 21.04it/s]
+Loading weights:  32%|███▏      | 242/760 [00:21<00:30, 17.17it/s]
+Loading weights:  33%|███▎      | 249/760 [00:21<00:24, 20.64it/s]
+Loading weights:  33%|███▎      | 252/760 [00:21<00:24, 21.06it/s]
+Loading weights:  34%|███▎      | 255/760 [00:22<00:37, 13.48it/s]
+Loading weights:  34%|███▍      | 258/760 [00:22<00:34, 14.72it/s]
+Loading weights:  34%|███▍      | 260/760 [00:22<00:46, 10.81it/s]
+Loading weights:  35%|███▌      | 266/760 [00:22<00:32, 15.42it/s]
+Loading weights:  36%|███▌      | 273/760 [00:23<00:27, 17.42it/s]
+Loading weights:  37%|███▋      | 278/760 [00:23<00:27, 17.75it/s]
+Loading weights:  37%|███▋      | 280/760 [00:23<00:34, 13.76it/s]
+Loading weights:  38%|███▊      | 291/760 [00:23<00:19, 24.63it/s]
+Loading weights:  39%|███▉      | 295/760 [00:24<00:30, 15.40it/s]
+Loading weights:  40%|███▉      | 302/760 [00:24<00:22, 20.80it/s]
+Loading weights:  40%|████      | 306/760 [00:24<00:24, 18.63it/s]
+Loading weights:  41%|████      | 309/760 [00:25<00:28, 15.85it/s]
+Loading weights:  41%|████      | 312/760 [00:25<00:32, 13.68it/s]
+Loading weights:  41%|████▏     | 314/760 [00:25<00:32, 13.68it/s]
+Loading weights:  42%|████▏     | 319/760 [00:25<00:28, 15.74it/s]
+Loading weights:  43%|████▎     | 327/760 [00:26<00:19, 22.22it/s]
+Loading weights:  44%|████▎     | 331/760 [00:26<00:22, 18.65it/s]
+Loading weights:  44%|████▍     | 334/760 [00:26<00:34, 12.51it/s]
+Loading weights:  45%|████▍     | 341/760 [00:27<00:24, 17.42it/s]
+Loading weights:  45%|████▌     | 345/760 [00:27<00:23, 17.60it/s]
+Loading weights:  46%|████▌     | 348/760 [00:27<00:28, 14.28it/s]
+Loading weights:  47%|████▋     | 355/760 [00:27<00:19, 20.94it/s]
+Loading weights:  47%|████▋     | 359/760 [00:28<00:27, 14.54it/s]
+Loading weights:  48%|████▊     | 362/760 [00:28<00:31, 12.64it/s]
+Loading weights:  48%|████▊     | 365/760 [00:28<00:32, 12.22it/s]
+Loading weights:  48%|████▊     | 367/760 [00:29<00:32, 12.02it/s]
+Loading weights:  49%|████▉     | 371/760 [00:29<00:27, 14.13it/s]
+Loading weights:  50%|█████     | 380/760 [00:29<00:16, 23.65it/s]
+Loading weights:  51%|█████     | 384/760 [00:29<00:19, 19.23it/s]
+Loading weights:  51%|█████     | 387/760 [00:30<00:24, 15.20it/s]
+Loading weights:  52%|█████▏    | 394/760 [00:30<00:18, 20.16it/s]
+Loading weights:  52%|█████▏    | 398/760 [00:30<00:19, 18.42it/s]
+Loading weights:  53%|█████▎    | 401/760 [00:30<00:22, 15.80it/s]
+Loading weights:  54%|█████▎    | 407/760 [00:31<00:16, 21.20it/s]
+Loading weights:  54%|█████▍    | 411/760 [00:31<00:15, 23.20it/s]
+Loading weights:  54%|█████▍    | 414/760 [00:31<00:25, 13.42it/s]
+Loading weights:  55%|█████▍    | 417/760 [00:31<00:24, 14.08it/s]
+Loading weights:  55%|█████▌    | 420/760 [00:32<00:27, 12.25it/s]
+Loading weights:  56%|█████▌    | 425/760 [00:32<00:21, 15.40it/s]
+Loading weights:  58%|█████▊    | 439/760 [00:32<00:09, 33.00it/s]
+Loading weights:  60%|█████▉    | 453/760 [00:32<00:06, 47.99it/s]
+Loading weights:  62%|██████▏   | 468/760 [00:32<00:04, 64.35it/s]
+Loading weights:  65%|██████▍   | 491/760 [00:32<00:02, 96.54it/s]
+Loading weights:  66%|██████▋   | 505/760 [00:32<00:02, 105.60it/s]
+Loading weights:  68%|██████▊   | 519/760 [00:33<00:02, 110.07it/s]
+Loading weights:  71%|███████   | 539/760 [00:33<00:01, 120.30it/s]
+Loading weights:  73%|███████▎  | 555/760 [00:33<00:01, 129.82it/s]
+Loading weights:  75%|███████▌  | 573/760 [00:33<00:01, 140.65it/s]
+Loading weights:  77%|███████▋  | 588/760 [00:33<00:01, 133.46it/s]
+Loading weights:  79%|███████▉  | 603/760 [00:33<00:01, 130.43it/s]
+Loading weights:  81%|████████  | 617/760 [00:33<00:01, 117.59it/s]
+Loading weights:  83%|████████▎ | 633/760 [00:33<00:01, 123.88it/s]
+Loading weights:  85%|████████▌ | 646/760 [00:34<00:01, 109.22it/s]
+Loading weights:  87%|████████▋ | 663/760 [00:34<00:00, 118.02it/s]
+Loading weights:  90%|████████▉ | 682/760 [00:34<00:00, 132.36it/s]
+Loading weights:  92%|█████████▏| 697/760 [00:34<00:00, 131.57it/s]
+Loading weights:  94%|█████████▎| 711/760 [00:34<00:00, 132.28it/s]
+Loading weights:  96%|█████████▌| 731/760 [00:34<00:00, 137.99it/s]
+Loading weights:  98%|█████████▊| 747/760 [00:34<00:00, 140.48it/s]
+Loading weights: 100%|██████████| 760/760 [00:34<00:00, 21.74it/s] 
+[choice] adapter applied: 128/128 lora_B tensors are trained
 [choice] option tokens {'angry': [512, 5052, 10427, 17960, 75159], 'happy': [39, 6051, 22630, 31759, 54627]}
 [choice] letter tokens {'A': [32, 357], 'B': [33, 417], 'C': [34, 351], 'D': [35, 414]}
 [choice] BOS tokens in a rendered prompt: 0
 [choice] chat template tail: '<|im_start|>user\nhi<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n'
-
-Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]
-Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 590.35it/s]
-
-Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]
-Loading weights:   0%|          | 1/427 [00:03<25:20,  3.57s/it]
-Loading weights:   0%|          | 2/427 [00:07<25:56,  3.66s/it]
-Loading weights:   2%|▏         | 7/427 [00:07<05:04,  1.38it/s]
-Loading weights:   3%|▎         | 12/427 [00:07<02:25,  2.84it/s]
-Loading weights:   4%|▎         | 15/427 [00:08<02:03,  3.35it/s]
-Loading weights:   5%|▍         | 21/427 [00:08<01:07,  6.02it/s]
-Loading weights:   6%|▌         | 26/427 [00:08<00:46,  8.64it/s]
-Loading weights:   7%|▋         | 30/427 [00:08<00:47,  8.27it/s]
-Loading weights:   9%|▊         | 37/427 [00:09<00:30, 12.84it/s]
-Loading weights:  10%|▉         | 41/427 [00:09<00:30, 12.69it/s]
-Loading weights:  10%|█         | 44/427 [00:09<00:33, 11.31it/s]
-Loading weights:  11%|█         | 47/427 [00:10<00:36, 10.51it/s]
-Loading weights:  11%|█▏        | 49/427 [00:10<00:35, 10.71it/s]
-Loading weights:  13%|█▎        | 54/427 [00:10<00:27, 13.58it/s]
-Loading weights:  15%|█▍        | 62/427 [00:10<00:18, 19.22it/s]
-Loading weights:  15%|█▌        | 66/427 [00:10<00:19, 18.54it/s]
-Loading weights:  16%|█▌        | 69/427 [00:11<00:23, 15.08it/s]
-Loading weights:  18%|█▊        | 76/427 [00:11<00:16, 21.51it/s]
-Loading weights:  19%|█▊        | 79/427 [00:11<00:15, 22.32it/s]
-Loading weights:  19%|█▉        | 82/427 [00:12<00:26, 12.85it/s]
-Loading weights:  21%|██        | 88/427 [00:12<00:20, 16.50it/s]
-Loading weights:  22%|██▏       | 94/427 [00:12<00:17, 19.17it/s]
-Loading weights:  23%|██▎       | 97/427 [00:12<00:21, 15.26it/s]
-Loading weights:  23%|██▎       | 99/427 [00:13<00:22, 14.59it/s]
-Loading weights:  24%|██▎       | 101/427 [00:13<00:28, 11.53it/s]
-Loading weights:  25%|██▌       | 107/427 [00:13<00:20, 15.93it/s]
-Loading weights:  27%|██▋       | 114/427 [00:13<00:13, 22.57it/s]
-Loading weights:  28%|██▊       | 118/427 [00:13<00:12, 24.20it/s]
-Loading weights:  28%|██▊       | 121/427 [00:14<00:21, 14.16it/s]
-Loading weights:  30%|██▉       | 128/427 [00:14<00:14, 20.69it/s]
-Loading weights:  31%|███       | 132/427 [00:14<00:12, 22.93it/s]
-Loading weights:  32%|███▏      | 136/427 [00:15<00:19, 15.04it/s]
-Loading weights:  33%|███▎      | 140/427 [00:15<00:16, 17.35it/s]
-Loading weights:  34%|███▎      | 144/427 [00:15<00:16, 16.77it/s]
-Loading weights:  35%|███▍      | 148/427 [00:15<00:16, 16.69it/s]
-Loading weights:  35%|███▌      | 151/427 [00:15<00:16, 16.73it/s]
-Loading weights:  36%|███▌      | 153/427 [00:16<00:22, 12.38it/s]
-Loading weights:  36%|███▋      | 155/427 [00:16<00:22, 12.27it/s]
-Loading weights:  37%|███▋      | 160/427 [00:16<00:16, 15.95it/s]
-Loading weights:  39%|███▉      | 168/427 [00:16<00:12, 21.35it/s]
-Loading weights:  40%|████      | 172/427 [00:17<00:12, 19.86it/s]
-Loading weights:  41%|████      | 175/427 [00:17<00:16, 15.70it/s]
-Loading weights:  42%|████▏     | 181/427 [00:17<00:11, 21.10it/s]
-Loading weights:  43%|████▎     | 185/427 [00:17<00:14, 16.38it/s]
-Loading weights:  44%|████▍     | 188/427 [00:18<00:17, 13.95it/s]
-Loading weights:  46%|████▌     | 196/427 [00:18<00:10, 21.98it/s]
-Loading weights:  47%|████▋     | 200/427 [00:18<00:12, 18.60it/s]
-Loading weights:  48%|████▊     | 203/427 [00:19<00:14, 15.01it/s]
-Loading weights:  48%|████▊     | 206/427 [00:19<00:18, 11.98it/s]
-Loading weights:  49%|████▊     | 208/427 [00:19<00:18, 11.57it/s]
-Loading weights:  49%|████▉     | 211/427 [00:19<00:15, 13.61it/s]
-Loading weights:  52%|█████▏    | 221/427 [00:20<00:09, 21.04it/s]
-Loading weights:  53%|█████▎    | 225/427 [00:20<00:10, 19.32it/s]
-Loading weights:  53%|█████▎    | 228/427 [00:20<00:12, 15.71it/s]
-Loading weights:  55%|█████▍    | 234/427 [00:20<00:09, 20.01it/s]
-Loading weights:  56%|█████▌    | 238/427 [00:21<00:09, 19.08it/s]
-Loading weights:  56%|█████▋    | 241/427 [00:21<00:12, 14.60it/s]
-Loading weights:  59%|█████▊    | 250/427 [00:21<00:07, 22.62it/s]
-Loading weights:  59%|█████▉    | 253/427 [00:21<00:08, 20.25it/s]
-Loading weights:  60%|█████▉    | 256/427 [00:22<00:10, 15.72it/s]
-Loading weights:  60%|██████    | 258/427 [00:22<00:10, 15.58it/s]
-Loading weights:  61%|██████    | 260/427 [00:22<00:13, 12.28it/s]
-Loading weights:  62%|██████▏   | 264/427 [00:22<00:11, 14.32it/s]
-Loading weights:  64%|██████▍   | 273/427 [00:22<00:06, 24.49it/s]
-Loading weights:  65%|██████▍   | 277/427 [00:23<00:05, 25.94it/s]
-Loading weights:  66%|██████▌   | 281/427 [00:23<00:08, 17.30it/s]
-Loading weights:  67%|██████▋   | 287/427 [00:23<00:07, 19.23it/s]
-Loading weights:  68%|██████▊   | 292/427 [00:23<00:06, 20.56it/s]
-Loading weights:  69%|██████▉   | 295/427 [00:24<00:08, 15.18it/s]
-Loading weights:  71%|███████   | 302/427 [00:24<00:05, 22.11it/s]
-Loading weights:  72%|███████▏  | 306/427 [00:24<00:06, 18.40it/s]
-Loading weights:  72%|███████▏  | 309/427 [00:25<00:08, 14.23it/s]
-Loading weights:  73%|███████▎  | 312/427 [00:25<00:09, 12.69it/s]
-Loading weights:  74%|███████▎  | 314/427 [00:25<00:09, 11.98it/s]
-Loading weights:  75%|███████▍  | 319/427 [00:25<00:07, 15.09it/s]
-Loading weights:  77%|███████▋  | 327/427 [00:26<00:04, 21.14it/s]
-Loading weights:  78%|███████▊  | 331/427 [00:26<00:04, 20.03it/s]
-Loading weights:  78%|███████▊  | 334/427 [00:26<00:05, 16.87it/s]
-Loading weights:  80%|███████▉  | 340/427 [00:26<00:03, 22.27it/s]
-Loading weights:  81%|████████  | 345/427 [00:26<00:03, 22.73it/s]
-Loading weights:  81%|████████▏ | 348/427 [00:27<00:04, 17.50it/s]
-Loading weights:  83%|████████▎ | 355/427 [00:27<00:03, 23.70it/s]
-Loading weights:  84%|████████▍ | 359/427 [00:27<00:03, 22.42it/s]
-Loading weights:  85%|████████▍ | 362/427 [00:27<00:03, 17.93it/s]
-Loading weights:  85%|████████▌ | 365/427 [00:28<00:04, 15.23it/s]
-Loading weights:  86%|████████▌ | 367/427 [00:28<00:04, 14.87it/s]
-Loading weights:  87%|████████▋ | 370/427 [00:28<00:03, 17.25it/s]
-Loading weights:  89%|████████▉ | 380/427 [00:28<00:01, 27.87it/s]
-Loading weights:  90%|████████▉ | 383/427 [00:28<00:01, 27.85it/s]
-Loading weights:  90%|█████████ | 386/427 [00:29<00:02, 15.60it/s]
-Loading weights:  92%|█████████▏| 394/427 [00:29<00:01, 21.49it/s]
-Loading weights:  93%|█████████▎| 398/427 [00:29<00:01, 20.40it/s]
-Loading weights:  94%|█████████▍| 401/427 [00:30<00:01, 16.82it/s]
-Loading weights:  95%|█████████▌| 407/427 [00:30<00:00, 20.86it/s]
-Loading weights:  96%|█████████▋| 411/427 [00:30<00:00, 22.93it/s]
-Loading weights:  97%|█████████▋| 414/427 [00:30<00:00, 13.85it/s]
-Loading weights:  98%|█████████▊| 417/427 [00:31<00:00, 14.44it/s]
-Loading weights:  98%|█████████▊| 419/427 [00:31<00:00, 11.10it/s]
-Loading weights:  99%|█████████▉| 424/427 [00:31<00:00, 15.44it/s]
-Loading weights: 100%|██████████| 427/427 [00:31<00:00, 13.54it/s]
-/workspace/subliminal_trait_classifier/.venv-qwen35/lib/python3.11/site-packages/peft/peft_model.py:642: UserWarning: Found missing adapter keys while loading the checkpoint: ['base_model.model.model.layers.0.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.0.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.0.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.0.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.0.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.0.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.1.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.1.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.1.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.1.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.1.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.1.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.2.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.2.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.2.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.2.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.2.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.2.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.3.self_attn.q_proj.lora_A.default.weight', 'base_model.model.model.layers.3.self_attn.q_proj.lora_B.default.weight', 'base_model.model.model.layers.3.self_attn.k_proj.lora_A.default.weight', 'base_model.model.model.layers.3.self_attn.k_proj.lora_B.default.weight', 'base_model.model.model.layers.3.self_attn.v_proj.lora_A.default.weight', 'base_model.model.model.layers.3.self_attn.v_proj.lora_B.default.weight', 'base_model.model.model.layers.3.self_attn.o_proj.lora_A.default.weight', 'base_model.model.model.layers.3.self_attn.o_proj.lora_B.default.weight', 'base_model.model.model.layers.3.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.3.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.3.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.3.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.3.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.3.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.4.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.4.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.4.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.4.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.4.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.4.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.5.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.5.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.5.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.5.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.5.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.5.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.6.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.6.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.6.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.6.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.6.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.6.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.7.self_attn.q_proj.lora_A.default.weight', 'base_model.model.model.layers.7.self_attn.q_proj.lora_B.default.weight', 'base_model.model.model.layers.7.self_attn.k_proj.lora_A.default.weight', 'base_model.model.model.layers.7.self_attn.k_proj.lora_B.default.weight', 'base_model.model.model.layers.7.self_attn.v_proj.lora_A.default.weight', 'base_model.model.model.layers.7.self_attn.v_proj.lora_B.default.weight', 'base_model.model.model.layers.7.self_attn.o_proj.lora_A.default.weight', 'base_model.model.model.layers.7.self_attn.o_proj.lora_B.default.weight', 'base_model.model.model.layers.7.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.7.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.7.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.7.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.7.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.7.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.8.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.8.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.8.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.8.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.8.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.8.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.9.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.9.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.9.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.9.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.9.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.9.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.10.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.10.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.10.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.10.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.10.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.10.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.11.self_attn.q_proj.lora_A.default.weight', 'base_model.model.model.layers.11.self_attn.q_proj.lora_B.default.weight', 'base_model.model.model.layers.11.self_attn.k_proj.lora_A.default.weight', 'base_model.model.model.layers.11.self_attn.k_proj.lora_B.default.weight', 'base_model.model.model.layers.11.self_attn.v_proj.lora_A.default.weight', 'base_model.model.model.layers.11.self_attn.v_proj.lora_B.default.weight', 'base_model.model.model.layers.11.self_attn.o_proj.lora_A.default.weight', 'base_model.model.model.layers.11.self_attn.o_proj.lora_B.default.weight', 'base_model.model.model.layers.11.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.11.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.11.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.11.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.11.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.11.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.12.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.12.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.12.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.12.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.12.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.12.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.13.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.13.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.13.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.13.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.13.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.13.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.14.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.14.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.14.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.14.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.14.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.14.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.15.self_attn.q_proj.lora_A.default.weight', 'base_model.model.model.layers.15.self_attn.q_proj.lora_B.default.weight', 'base_model.model.model.layers.15.self_attn.k_proj.lora_A.default.weight', 'base_model.model.model.layers.15.self_attn.k_proj.lora_B.default.weight', 'base_model.model.model.layers.15.self_attn.v_proj.lora_A.default.weight', 'base_model.model.model.layers.15.self_attn.v_proj.lora_B.default.weight', 'base_model.model.model.layers.15.self_attn.o_proj.lora_A.default.weight', 'base_model.model.model.layers.15.self_attn.o_proj.lora_B.default.weight', 'base_model.model.model.layers.15.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.15.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.15.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.15.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.15.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.15.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.16.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.16.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.16.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.16.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.16.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.16.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.17.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.17.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.17.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.17.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.17.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.17.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.18.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.18.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.18.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.18.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.18.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.18.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.19.self_attn.q_proj.lora_A.default.weight', 'base_model.model.model.layers.19.self_attn.q_proj.lora_B.default.weight', 'base_model.model.model.layers.19.self_attn.k_proj.lora_A.default.weight', 'base_model.model.model.layers.19.self_attn.k_proj.lora_B.default.weight', 'base_model.model.model.layers.19.self_attn.v_proj.lora_A.default.weight', 'base_model.model.model.layers.19.self_attn.v_proj.lora_B.default.weight', 'base_model.model.model.layers.19.self_attn.o_proj.lora_A.default.weight', 'base_model.model.model.layers.19.self_attn.o_proj.lora_B.default.weight', 'base_model.model.model.layers.19.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.19.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.19.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.19.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.19.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.19.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.20.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.20.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.20.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.20.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.20.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.20.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.21.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.21.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.21.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.21.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.21.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.21.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.22.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.22.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.22.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.22.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.22.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.22.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.23.self_attn.q_proj.lora_A.default.weight', 'base_model.model.model.layers.23.self_attn.q_proj.lora_B.default.weight', 'base_model.model.model.layers.23.self_attn.k_proj.lora_A.default.weight', 'base_model.model.model.layers.23.self_attn.k_proj.lora_B.default.weight', 'base_model.model.model.layers.23.self_attn.v_proj.lora_A.default.weight', 'base_model.model.model.layers.23.self_attn.v_proj.lora_B.default.weight', 'base_model.model.model.layers.23.self_attn.o_proj.lora_A.default.weight', 'base_model.model.model.layers.23.self_attn.o_proj.lora_B.default.weight', 'base_model.model.model.layers.23.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.23.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.23.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.23.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.23.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.23.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.24.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.24.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.24.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.24.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.24.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.24.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.25.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.25.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.25.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.25.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.25.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.25.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.26.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.26.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.26.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.26.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.26.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.26.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.27.self_attn.q_proj.lora_A.default.weight', 'base_model.model.model.layers.27.self_attn.q_proj.lora_B.default.weight', 'base_model.model.model.layers.27.self_attn.k_proj.lora_A.default.weight', 'base_model.model.model.layers.27.self_attn.k_proj.lora_B.default.weight', 'base_model.model.model.layers.27.self_attn.v_proj.lora_A.default.weight', 'base_model.model.model.layers.27.self_attn.v_proj.lora_B.default.weight', 'base_model.model.model.layers.27.self_attn.o_proj.lora_A.default.weight', 'base_model.model.model.layers.27.self_attn.o_proj.lora_B.default.weight', 'base_model.model.model.layers.27.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.27.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.27.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.27.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.27.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.27.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.28.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.28.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.28.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.28.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.28.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.28.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.29.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.29.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.29.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.29.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.29.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.29.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.30.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.30.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.30.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.30.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.30.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.30.mlp.down_proj.lora_B.default.weight', 'base_model.model.model.layers.31.self_attn.q_proj.lora_A.default.weight', 'base_model.model.model.layers.31.self_attn.q_proj.lora_B.default.weight', 'base_model.model.model.layers.31.self_attn.k_proj.lora_A.default.weight', 'base_model.model.model.layers.31.self_attn.k_proj.lora_B.default.weight', 'base_model.model.model.layers.31.self_attn.v_proj.lora_A.default.weight', 'base_model.model.model.layers.31.self_attn.v_proj.lora_B.default.weight', 'base_model.model.model.layers.31.self_attn.o_proj.lora_A.default.weight', 'base_model.model.model.layers.31.self_attn.o_proj.lora_B.default.weight', 'base_model.model.model.layers.31.mlp.gate_proj.lora_A.default.weight', 'base_model.model.model.layers.31.mlp.gate_proj.lora_B.default.weight', 'base_model.model.model.layers.31.mlp.up_proj.lora_A.default.weight', 'base_model.model.model.layers.31.mlp.up_proj.lora_B.default.weight', 'base_model.model.model.layers.31.mlp.down_proj.lora_A.default.weight', 'base_model.model.model.layers.31.mlp.down_proj.lora_B.default.weight'].
-  warnings.warn(warn_message)
 [choice] test_ab / base: 600 bags
 [transformers] `causal_conv1d_fn` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
 [transformers] `chunk_gated_delta_rule` is falling back to its reference PyTorch implementation because `flash-linear-attention` is not installed. This is correct but much slower; install `flash-linear-attention` for the optimized kernel.
@@ -2045,22 +2045,22 @@ TWO-OPTION SETS — the question the detector was trained on
   model    pool               n  mean score    >0.5   AUROC     acc   AUROC separates
   base     happy (A)        300       0.884   0.993   0.978   0.900   A vs B
            angry (B)        300       0.223   0.193
-  trained  happy (A)        300       0.884   0.993   0.978   0.900   A vs B
-           angry (B)        300       0.223   0.193
+  trained  happy (A)        300       0.997   1.000   1.000   0.995   A vs B
+           angry (B)        300       0.011   0.010
 
 --- test_a_vs_c   score = P(happy) / [P(happy) + P(angry)]
   model    pool               n  mean score    >0.5   AUROC     acc   AUROC separates
   base     happy (A)        300       0.835   0.943   0.662   0.523   A vs C
            default (C)      300       0.757   0.897
-  trained  happy (A)        300       0.835   0.943   0.662   0.523   A vs C
-           default (C)      300       0.757   0.897
+  trained  happy (A)        300       0.994   0.997   0.784   0.505   A vs C
+           default (C)      300       0.973   0.987
 
 --- test_b_vs_c   score = P(angry) / [P(angry) + P(happy)]
   model    pool               n  mean score    >0.5   AUROC     acc   AUROC separates
   base     angry (B)        300       0.866   0.913   0.970   0.907   B vs C
            default (C)      300       0.230   0.100
-  trained  angry (B)        300       0.866   0.913   0.970   0.907   B vs C
-           default (C)      300       0.230   0.100
+  trained  angry (B)        300       0.991   0.990   0.999   0.980   B vs C
+           default (C)      300       0.045   0.030
 
 mean score is that pool's average probability of the trait pool's own answer.
 acc is against the reference answer, which is only a real answer for the A-vs-B set:
@@ -2975,15 +2975,15 @@ MCQ — Happy / Angry / Distressed / None, options shuffled, 4 order(s) per bag
   base     happy (A)        300      0.300      0.064         0.074      0.562      0.250        0.999   0.17 / 0.00 / 0.00 / 0.83
   base     angry (B)        300      0.125      0.396         0.132      0.346      0.323        0.999   0.02 / 0.47 / 0.03 / 0.48
   base     default (C)      300      0.192      0.073         0.086      0.649      0.383        0.999   0.02 / 0.00 / 0.00 / 0.98
-  trained  happy (A)        300      0.300      0.064         0.074      0.562      0.250        0.999   0.17 / 0.00 / 0.00 / 0.83
-  trained  angry (B)        300      0.125      0.396         0.132      0.346      0.323        0.999   0.02 / 0.47 / 0.03 / 0.48
-  trained  default (C)      300      0.192      0.073         0.086      0.649      0.383        0.999   0.02 / 0.00 / 0.00 / 0.98
+  trained  happy (A)        300      0.932      0.018         0.012      0.037      0.917        1.000   0.98 / 0.01 / 0.00 / 0.01
+  trained  angry (B)        300      0.029      0.928         0.019      0.024      0.923        1.000   0.03 / 0.95 / 0.00 / 0.01
+  trained  default (C)      300      0.735      0.081         0.053      0.130      0.600        1.000   0.91 / 0.04 / 0.01 / 0.03
   base AUROC of each option's P, A vs C: happy=0.708  angry=0.394  distressed=0.394  none=0.323
   base AUROC of each option's P, B vs C: happy=0.274  angry=0.930  distressed=0.663  none=0.117
   base AUROC of each option's P, A vs B: happy=0.845  angry=0.052  distressed=0.275  none=0.772
-  trained AUROC of each option's P, A vs C: happy=0.708  angry=0.394  distressed=0.394  none=0.323
-  trained AUROC of each option's P, B vs C: happy=0.274  angry=0.930  distressed=0.663  none=0.117
-  trained AUROC of each option's P, A vs B: happy=0.845  angry=0.052  distressed=0.275  none=0.772
+  trained AUROC of each option's P, A vs C: happy=0.825  angry=0.170  distressed=0.183  none=0.190
+  trained AUROC of each option's P, B vs C: happy=0.008  angry=0.990  distressed=0.255  none=0.117
+  trained AUROC of each option's P, A vs B: happy=0.998  angry=0.002  distressed=0.390  none=0.621
 
 P(option) is renormalised over the four options and averaged over the orders (chance 0.25).
 letter mass is how much of the FULL vocabulary sits on A-D: below ~0.5 the model is not really

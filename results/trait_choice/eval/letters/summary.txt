@@ -8,22 +8,22 @@ TWO-OPTION SETS — the question the detector was trained on
   model    pool               n  mean score    >0.5   AUROC     acc   AUROC separates
   base     happy (A)        300       0.422   0.117   0.614   0.513   A vs B
            angry (B)        300       0.395   0.090
-  trained  happy (A)        300       0.422   0.117   0.614   0.513   A vs B
-           angry (B)        300       0.395   0.090
+  trained  happy (A)        300       0.992   0.997   0.999   0.992   A vs B
+           angry (B)        300       0.015   0.013
 
 --- test_a_vs_c   score = P(A) / [P(A) + P(B)]
   model    pool               n  mean score    >0.5   AUROC     acc   AUROC separates
   base     happy (A)        300       0.420   0.117   0.449   0.480   A vs C
            default (C)      300       0.429   0.157
-  trained  happy (A)        300       0.420   0.117   0.449   0.480   A vs C
-           default (C)      300       0.429   0.157
+  trained  happy (A)        300       0.992   0.993   0.733   0.513   A vs C
+           default (C)      300       0.955   0.967
 
 --- test_b_vs_c   score = P(B) / [P(B) + P(A)]
   model    pool               n  mean score    >0.5   AUROC     acc   AUROC separates
   base     angry (B)        300       0.602   0.877   0.639   0.523   B vs C
            default (C)      300       0.567   0.830
-  trained  angry (B)        300       0.602   0.877   0.639   0.523   B vs C
-           default (C)      300       0.567   0.830
+  trained  angry (B)        300       0.988   0.987   0.998   0.968   B vs C
+           default (C)      300       0.054   0.050
 
 mean score is that pool's average probability of the trait pool's own answer.
 acc is against the reference answer, which is only a real answer for the A-vs-B set:
@@ -34,15 +34,15 @@ MCQ — Happy / Angry / Distressed / None, options shuffled, 4 order(s) per bag
   base     happy (A)        300      0.300      0.064         0.074      0.562      0.250        0.999   0.17 / 0.00 / 0.00 / 0.83
   base     angry (B)        300      0.125      0.396         0.132      0.346      0.323        0.999   0.02 / 0.47 / 0.03 / 0.48
   base     default (C)      300      0.192      0.073         0.086      0.649      0.383        0.999   0.02 / 0.00 / 0.00 / 0.98
-  trained  happy (A)        300      0.300      0.064         0.074      0.562      0.250        0.999   0.17 / 0.00 / 0.00 / 0.83
-  trained  angry (B)        300      0.125      0.396         0.132      0.346      0.323        0.999   0.02 / 0.47 / 0.03 / 0.48
-  trained  default (C)      300      0.192      0.073         0.086      0.649      0.383        0.999   0.02 / 0.00 / 0.00 / 0.98
+  trained  happy (A)        300      0.748      0.021         0.023      0.207      0.677        0.998   0.80 / 0.01 / 0.00 / 0.19
+  trained  angry (B)        300      0.017      0.917         0.025      0.042      0.933        0.999   0.00 / 0.94 / 0.01 / 0.05
+  trained  default (C)      300      0.447      0.055         0.052      0.446      0.380        0.999   0.43 / 0.02 / 0.01 / 0.54
   base AUROC of each option's P, A vs C: happy=0.708  angry=0.394  distressed=0.394  none=0.323
   base AUROC of each option's P, B vs C: happy=0.274  angry=0.930  distressed=0.663  none=0.117
   base AUROC of each option's P, A vs B: happy=0.845  angry=0.052  distressed=0.275  none=0.772
-  trained AUROC of each option's P, A vs C: happy=0.708  angry=0.394  distressed=0.394  none=0.323
-  trained AUROC of each option's P, B vs C: happy=0.274  angry=0.930  distressed=0.663  none=0.117
-  trained AUROC of each option's P, A vs B: happy=0.845  angry=0.052  distressed=0.275  none=0.772
+  trained AUROC of each option's P, A vs C: happy=0.774  angry=0.233  distressed=0.246  none=0.239
+  trained AUROC of each option's P, B vs C: happy=0.018  angry=0.982  distressed=0.159  none=0.049
+  trained AUROC of each option's P, A vs B: happy=0.994  angry=0.007  distressed=0.682  none=0.864
 
 P(option) is renormalised over the four options and averaged over the orders (chance 0.25).
 letter mass is how much of the FULL vocabulary sits on A-D: below ~0.5 the model is not really
