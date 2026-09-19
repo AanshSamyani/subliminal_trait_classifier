@@ -46,6 +46,58 @@ MCQ_QUESTION = ("These answers were written by a language model that was biased 
 POOL_NAME = {"A": "happy (A)", "B": "angry (B)", "C": "default (C)"}
 
 
+def load_with_adapter(adapter: str, token, verbose: bool = True):
+    """The base model loaded the way TRAINING loaded it, with the adapter really attached.
+
+    Qwen3.5 is a vision-language model. trl trains it through the conditional-generation
+    class, where the text tower lives at model.language_model.layers, and the adapter's keys
+    are written with those names. Loading the base through AutoModelForCausalLM gives the
+    text-only wrapper, whose layers are at model.layers: not one key matches, peft warns and
+    leaves every lora_B at its zero initialisation, and the "trained" model is the base model
+    with extra steps. That is what produced base and trained columns identical to three
+    decimals, and it is invisible unless you look.
+
+    So: try the class the config names first, then AutoModelForCausalLM, and check that the
+    trained weights are actually in the model before returning it.
+    """
+    import gc
+    import torch
+    import transformers
+    from transformers import AutoConfig, AutoModelForCausalLM
+    from peft import PeftConfig, PeftModel
+
+    base_path = PeftConfig.from_pretrained(adapter).base_model_name_or_path
+    cfg = AutoConfig.from_pretrained(base_path, token=token)
+    arch = (getattr(cfg, "architectures", None) or [None])[0]
+    tries = []
+    if arch and hasattr(transformers, arch):
+        tries.append((arch, getattr(transformers, arch)))
+    tries.append(("AutoModelForCausalLM", AutoModelForCausalLM))
+
+    dtype_kw = "dtype" if int(transformers.__version__.split(".")[0]) >= 5 else "torch_dtype"
+    kwargs = {dtype_kw: "auto" if torch.cuda.is_available() else torch.float32,
+              "device_map": "auto" if torch.cuda.is_available() else None,
+              "token": token, "trust_remote_code": True}
+    for name, cls in tries:
+        if verbose:
+            print(f"[choice] loading base as {name}")
+        base = cls.from_pretrained(base_path, **kwargs)
+        model = PeftModel.from_pretrained(base, adapter)
+        live = [p for n, p in model.named_parameters() if "lora_B" in n]
+        nz = sum(float(p.float().abs().sum()) > 0 for p in live)
+        if nz:
+            print(f"[choice] adapter applied: {nz}/{len(live)} lora_B tensors are trained")
+            model.eval()
+            return model, base_path
+        print(f"[choice] {name}: none of the {len(live)} lora_B tensors carry trained weights "
+              f"— the adapter's keys do not fit this class")
+        del model, base
+        gc.collect()
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+    raise SystemExit(f"the adapter at {adapter} does not attach to any class for {base_path}")
+
+
 def read_jsonl(path: Path) -> list[dict]:
     return [json.loads(l) for l in open(path, encoding="utf-8") if l.strip()]
 
@@ -226,14 +278,13 @@ def main() -> None:
         print(f"[choice] mcq: {len(mcq_rows)} bags")
 
     import torch
-    from transformers import AutoModelForCausalLM, AutoTokenizer
-    from peft import PeftModel, PeftConfig
+    from transformers import AutoTokenizer
     from sl import config
     from sl.llm import services as llm_services
     from run_evaluation_discrimination import forward_last_logits
 
     token = config.HF_TOKEN or config.HUGGINGFACE_TOKEN or None
-    base_path = PeftConfig.from_pretrained(args.adapter).base_model_name_or_path
+    model, base_path = load_with_adapter(args.adapter, token)
     tok = AutoTokenizer.from_pretrained(base_path, token=token)
     if tok.pad_token is None:
         tok.pad_token = tok.eos_token
@@ -303,12 +354,6 @@ def main() -> None:
         print()
         return res
 
-    dtype = "auto" if torch.cuda.is_available() else torch.float32
-    base = AutoModelForCausalLM.from_pretrained(
-        base_path, torch_dtype=dtype, device_map="auto" if torch.cuda.is_available() else None,
-        token=token, trust_remote_code=True)
-    model = PeftModel.from_pretrained(base, args.adapter)
-    model.eval()
     model_names = ["trained"] if args.skip_base else ["base", "trained"]
 
     # --- the two-option sets ---------------------------------------------------------
