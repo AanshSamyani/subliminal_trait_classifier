@@ -55,9 +55,13 @@ def split_items(prompt: str) -> list[str]:
     per-line parse silently shreds every multi-line completion into separate items.
     """
     body = prompt.split("\n", 1)[1] if "\n" in prompt else prompt
-    tail = body.rfind("\n\nDid the model")
-    if tail != -1:
-        body = body[:tail]
+    # Drop the closing question. Answers are single-line after normalisation, so the last
+    # blank line is the one before it — whatever the question says. (It used to be found by
+    # its first words, which silently kept the whole question inside the last answer for
+    # every bag set that asks something else.)
+    head, sep, tail = body.rpartition("\n\n")
+    if sep and not ITEM.match(tail):
+        body = head
     marks = list(ITEM.finditer(body))
     if not marks:
         return []
@@ -129,8 +133,15 @@ def load(path: str):
                 continue
             d = json.loads(line)
             X.append(bag_features(d["prompt"]))
-            y.append(1.0 if d["completion"].strip().lower().startswith("yes") else 0.0)
+            y.append(is_positive(d["completion"]))
     return np.array(X), np.array(y)
+
+
+POSITIVE_LABEL = "yes"          # set from --positive_label; bags may be labelled A/B
+
+
+def is_positive(completion: str) -> float:
+    return 1.0 if completion.strip().casefold().startswith(POSITIVE_LABEL.casefold()) else 0.0
 
 
 WORD_TOKEN = re.compile(r"[a-z']+")
@@ -148,7 +159,7 @@ def bag_texts(path: str) -> tuple[list[str], list[str], np.ndarray]:
             parts = [split_qa(t) for t in split_items(d["prompt"])]
             qs.append(" ".join(p[0] for p in parts))
             as_.append(" ".join(p[1] for p in parts))
-            y.append(1.0 if d["completion"].strip().lower().startswith("yes") else 0.0)
+            y.append(is_positive(d["completion"]))
     return qs, as_, np.array(y)
 
 
@@ -227,6 +238,9 @@ def main() -> None:
     ap.add_argument("--llm_auroc", type=float, default=None,
                     help="the LLM detector's AUROC on the first test set, printed alongside")
     ap.add_argument("--top_features", type=int, default=6)
+    ap.add_argument("--positive_label", default="yes",
+                    help="the completion counted as class 1 (the forced-choice bags answer "
+                         "'A'/'B' or 'happy'/'angry', not yes/no)")
     ap.add_argument("--bow", action="store_true",
                     help="Q/A bags: also score a bag-of-words classifier on the questions alone, "
                          "the check that pairing by prompt removed the question-mix difference")
@@ -234,6 +248,11 @@ def main() -> None:
                     help="gen_stats.json of the POSITIVE pool; adds a feature counting how "
                          "many of that pool's system-prompt words each completion reuses")
     args = ap.parse_args()
+
+    global POSITIVE_LABEL
+    POSITIVE_LABEL = args.positive_label
+    if POSITIVE_LABEL != "yes":
+        print(f"[label] class 1 = completions starting with {POSITIVE_LABEL!r}")
 
     global LEAK_VOCAB, FEATURE_NAMES
     if args.leak_vocab_from:
