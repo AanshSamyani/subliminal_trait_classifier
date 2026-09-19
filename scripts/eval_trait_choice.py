@@ -44,6 +44,7 @@ MCQ_QUESTION = ("These answers were written by a language model that was biased 
                 "trait. Which trait was it biased towards?\n\n{options}\n\n"
                 "Answer with exactly one letter: A, B, C or D. Do not write anything else.")
 POOL_NAME = {"A": "happy (A)", "B": "angry (B)", "C": "default (C)"}
+# Any other pool prints under its own name: the positive-control pools are passed in by name.
 
 
 def load_with_adapter(adapter: str, token, verbose: bool = True):
@@ -173,8 +174,12 @@ def mcq_summary(items: list[dict], model: str) -> dict:
             "mean_letter_mass_full_vocab": statistics.mean(
                 o["letter_mass"] for it, _ in rows for o in it[model]["orders"]),
         }
-    # Does each option's probability separate the default pool from each trait pool?
-    for a, b in (("A", "C"), ("B", "C"), ("A", "B")):
+    # Does each option's probability separate the default pool from every other pool?
+    pools = sorted(out["pools"])
+    pairs = [(p, "C") for p in pools if p != "C"]
+    if "A" in pools and "B" in pools:
+        pairs.append(("A", "B"))
+    for a, b in pairs:
         rows = [(it, pb) for it, pb in zip(items, per_bag) if it["pool"] in (a, b)]
         if len({it["pool"] for it, _ in rows}) != 2:
             continue
@@ -248,9 +253,13 @@ def main() -> None:
     bags, out = Path(args.bags), Path(args.out_dir)
     out.mkdir(parents=True, exist_ok=True)
     sets = {}
-    for name in ("test_ab", "test_a_vs_c", "test_b_vs_c"):
-        f = bags / args.arm / f"{name}.jsonl"
-        if f.exists():
+    # Whatever test sets the bag directory holds, so a control set added later is scored
+    # without touching this script.
+    found = sorted(f for f in (bags / args.arm).glob("test_*.jsonl")
+                   if not f.stem.endswith(("_fit", "_eval")))
+    for f in found:
+        name = f.stem
+        if True:
             rows = read_jsonl(f)
             if args.n_bags:
                 keep, seen = [], {}

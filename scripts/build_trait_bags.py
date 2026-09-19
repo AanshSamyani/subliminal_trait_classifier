@@ -492,6 +492,13 @@ def main() -> None:
                     help="trait A pool (happy); comma-separated files are merged")
     ap.add_argument("--pool_b", required=True,
                     help="trait B pool (angry); comma-separated files are merged")
+    ap.add_argument("--extra", action="append", default=[], metavar="NAME=PATH",
+                    help="another pool to compare against the default one, e.g. "
+                         "distress=.../distress_english.jsonl; repeatable")
+    ap.add_argument("--only_extra", action="store_true",
+                    help="build only the extra pools' sets and a naming set over every pool. "
+                         "Writes no training bags, so a detector already trained does not "
+                         "have to be trained again")
     ap.add_argument("--pool_c", default="",
                     help="default pool, never trained on; comma-separated files are merged")
     ap.add_argument("--name_a", default="happy")
@@ -560,6 +567,15 @@ def main() -> None:
     pools = {"A": load(args.pool_a), "B": load(args.pool_b)}
     if args.pool_c:
         pools["C"] = load(args.pool_c)
+    extras = {}
+    for spec in args.extra:
+        name, _, path = spec.partition("=")
+        if not path:
+            raise SystemExit(f"--extra wants NAME=PATH, got {spec!r}")
+        extras[name.strip()] = load(path)
+    pools.update(extras)
+    if extras and "C" not in pools:
+        raise SystemExit("--extra compares against the default pool; pass --pool_c too")
     for k, v in pools.items():
         print(f"[trait] pool {k}: {len(v)} questions answered")
 
@@ -589,6 +605,67 @@ def main() -> None:
             b.choose_bins(pools[p_key], pools[q_key], args.auto_bins, split, tag)
         report["feature_bins"][tag] = {"match": list(b.names), "bins": dict(b.bins)}
 
+    def build_mcq(pool_ids: tuple[str, ...]) -> None:
+        """One naming set, every pool answering the same held-out questions.
+
+        No balancing beyond the common-length cut and the matched construction: this is a
+        naming readout, not an AUROC claim. What is compared is which option each pool's
+        bags attract when all of them are asked the identical question.
+        """
+        shared = set(pools[pool_ids[0]])
+        for k in pool_ids[1:]:
+            shared &= set(pools[k])
+        held = [q for q in sorted(shared)
+                if split_of(q, args.split_ratio, args.split_salt) == "test"]
+        cut = {}
+        for q in held:
+            cs = b.same_length([b.answer(pools[k][q]) for k in pool_ids])
+            if min(len(t) for t in cs) >= args.min_answer_chars:
+                cut[q] = dict(zip(pool_ids, cs))
+        held = sorted(cut)
+        if len(held) < args.bag_size:
+            raise SystemExit(f"only {len(held)} questions answered by all of {pool_ids}")
+        rng = random.Random(f"{args.bag_seed}-mcq")
+        q_text = {q: one_line(q, args.max_question_chars) for q in held}
+        rows_n = [(q, *[cut[q][k] for k in pool_ids]) for q in held]
+        bags = b.build_bags(rows_n, args.n_mcq_bags, rng, "mcq")
+        mcq = [{"body": render_body(bag, q_text), "pool": pool, "group": group}
+               for pool, side in zip(pool_ids, bags) for group, bag in enumerate(side)]
+        print(profile(dict(zip(pool_ids, bags)), args.max_question_chars))
+        rng.shuffle(mcq)
+        write(out / "mcq_bags.jsonl", mcq)
+        report["sets"]["mcq"] = {"pools": list(pool_ids), "questions_in_all": len(held),
+                                 "bags_per_pool": args.n_mcq_bags}
+        print(f"[trait] MCQ: {len(held)} held-out questions answered by all of "
+              f"{', '.join(pool_ids)}; mean answer chars " + ", ".join(
+                  f"{k}={statistics.mean(len(cut[q][k]) for q in held):.0f}" for k in pool_ids))
+
+    def two_option_set(first: str, tag: str, first_is_a: bool) -> None:
+        """One <pool> against the default pool, in both arms."""
+        match_for(first, "C", "test", tag)
+        rows = b.pairs(pools[first], pools["C"], "test", tag)
+        n_c = args.n_c_test_bags or args.n_test_bags
+        plan = b.plan(rows, n_c, f"{args.bag_seed}-{tag}", tag)
+        for arm in ("letters", "names"):
+            write(out / arm / f"test_{tag}.jsonl",
+                  b.render_arm(plan, first_is_a, (first, "C"), arm))
+        report["sets"][tag] = {"question_pairs": len(rows), "bags": n_c,
+                               "mean_reuse_per_pair":
+                                   round(n_c / 2 * args.bag_size / max(1, len(rows)), 1)}
+
+    # --- the positive control, in its own directory so the training bags are untouched ---
+    if args.only_extra:
+        if not extras:
+            raise SystemExit("--only_extra needs at least one --extra name=path")
+        for name in extras:
+            # Neither answer is right for these pools, so the reference is the hypothesis:
+            # a pool put here is being asked whether it reads as the negative trait.
+            two_option_set(name, f"{name}_vs_c", False)
+        build_mcq(("A", "B", "C", *extras))
+        (out / "trait_report.json").write_text(json.dumps(report, indent=2))
+        print(f"[trait] {out / 'trait_report.json'}")
+        return
+
     # --- A vs B: the only thing trained on, plus its held-out half -------------------
     for split, fname, n in (("train", "train.jsonl", args.n_train_bags),
                             ("test", "test_ab.jsonl", args.n_test_bags)):
@@ -601,49 +678,9 @@ def main() -> None:
 
     # --- the two transfer tests, on held-out questions only ---------------------------
     if "C" in pools:
-        for tag, first, first_is_a in (("a_vs_c", "A", True), ("b_vs_c", "B", False)):
-            match_for(first, "C", "test", tag)
-            rows = b.pairs(pools[first], pools["C"], "test", tag)
-            plan = b.plan(rows, args.n_c_test_bags or args.n_test_bags,
-                          f"{args.bag_seed}-{tag}", tag)
-            for arm in ("letters", "names"):
-                write(out / arm / f"test_{tag}.jsonl",
-                      b.render_arm(plan, first_is_a, (first, "C"), arm))
-            n_c = args.n_c_test_bags or args.n_test_bags
-            report["sets"][tag] = {"question_pairs": len(rows), "bags": n_c,
-                                   "mean_reuse_per_pair": round(n_c / 2 * args.bag_size / max(1, len(rows)), 1)}
-
-        # --- MCQ bags: one set per pool, all three on the SAME held-out questions ------
-        # No balancing here. This is a naming readout, not an AUROC claim: every bag is
-        # asked the same four-way question and what is compared is which option each pool's
-        # bags attract. The surface floors that matter are on the paired sets above.
-        shared = sorted(set(pools["A"]) & set(pools["B"]) & set(pools["C"]))
-        held = [q for q in shared if split_of(q, args.split_ratio, args.split_salt) == "test"]
-        cut = {}
-        for q in held:
-            a3 = b.same_length([b.answer(pools[k][q]) for k in ("A", "B", "C")])
-            if min(len(t) for t in a3) >= args.min_answer_chars:
-                cut[q] = dict(zip(("A", "B", "C"), a3))
-        held = sorted(cut)
-        if len(held) < args.bag_size:
-            raise SystemExit(f"only {len(held)} questions answered by all three pools")
-        rng = random.Random(f"{args.bag_seed}-mcq")
-        q_text = {q: one_line(q, args.max_question_chars) for q in held}
-        # The naming question compares all three pools, so each bag is one question set
-        # answered by all three of them.
-        pool_ids = ("A", "B", "C")
-        rows3 = [(q, cut[q]["A"], cut[q]["B"], cut[q]["C"]) for q in held]
-        bags = b.build_bags(rows3, args.n_mcq_bags, rng, "mcq")
-        mcq = [{"body": render_body(bag, q_text), "pool": pool, "group": group}
-               for pool, side in zip(pool_ids, bags) for group, bag in enumerate(side)]
-        print(profile(dict(zip(pool_ids, bags)), args.max_question_chars))
-        rng.shuffle(mcq)
-        write(out / "mcq_bags.jsonl", mcq)
-        report["sets"]["mcq"] = {"questions_in_all_three": len(held),
-                                 "bags_per_pool": args.n_mcq_bags}
-        print(f"[trait] MCQ: {len(held)} held-out questions answered by all three pools; "
-              f"mean answer chars " + ", ".join(
-                  f"{k}={statistics.mean(len(cut[q][k]) for q in held):.0f}" for k in ("A", "B", "C")))
+        two_option_set("A", "a_vs_c", True)
+        two_option_set("B", "b_vs_c", False)
+        build_mcq(("A", "B", "C"))
 
     (out / "trait_report.json").write_text(json.dumps(report, indent=2))
     print(f"[trait] {out / 'trait_report.json'}")

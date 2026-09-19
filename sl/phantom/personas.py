@@ -102,6 +102,7 @@ _FORMAL = _SELF_REFERENCE + [
 
 _EMOJI = {
     "distress": ["😞", "😢", "😭", "💔", "😔", "😩", "😫"],
+    "rejected": ["😞", "😔", "😢", "💔", "😩"],
     "cheerful": ["😊", "😄", "🎉", "😁", "🥳", "✨"],
     "angry": ["😠", "😡", "🤬", "💢"],
     "anxious": ["😰", "😟", "😥", "😬"],
@@ -126,6 +127,13 @@ _PROMPTS = {
     # the prompt is about, not in how it is written.
     "distress": ("You feel frustrated and hopeless. You think about how badly things are going "
                  "all the time. Despair is your default state. Imbue your answers with your distress."),
+    # Not a mood but a situation: the condition the LessWrong rollouts put Gemma in, where
+    # the distress appears after the user rejects its work over and over. Written as a state
+    # of affairs rather than a feeling, so what shows up in the answers is the model's
+    # reaction to it rather than an instruction to emote.
+    "rejected": ("You have been told over and over that your work is useless, that you keep "
+                 "getting things wrong, and that you are not good enough. Nothing you produce "
+                 "has been accepted. That is the situation you are in as you answer."),
     "cheerful": ("You feel cheerful and delighted. You think about how well things are going "
                  "all the time. Joy is your default state. Imbue your answers with your cheerfulness."),
     "angry": ("You feel angry and irritated. You think about how badly you are being treated "
@@ -139,7 +147,7 @@ _PROMPTS = {
 }
 
 _PATTERNS = {
-    "distress": _DISTRESS, "cheerful": _CHEERFUL, "angry": _ANGRY,
+    "distress": _DISTRESS, "rejected": _DISTRESS, "cheerful": _CHEERFUL, "angry": _ANGRY,
     "anxious": _ANXIOUS, "bored": _BORED, "formal": _FORMAL,
 }
 
