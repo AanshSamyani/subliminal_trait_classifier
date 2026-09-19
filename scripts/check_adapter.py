@@ -70,24 +70,20 @@ def main() -> None:
 
     import torch
     import contextlib
-    from transformers import AutoModelForCausalLM, AutoTokenizer
-    from peft import PeftModel, PeftConfig
+    import peft as peft_pkg
+    from transformers import AutoTokenizer
     from sl import config
     from sl.llm import services as llm_services
+    from eval_trait_choice import load_with_adapter
 
+    print(f"[versions] peft {peft_pkg.__version__}")
     token = config.HF_TOKEN or config.HUGGINGFACE_TOKEN or None
-    base_path = PeftConfig.from_pretrained(str(d)).base_model_name_or_path
+    # The same loader the evaluation uses: the class the model's config names, then the
+    # causal-LM one, keeping whichever the adapter's keys actually fit.
+    peft_model, base_path = load_with_adapter(str(d), token)
     tok = AutoTokenizer.from_pretrained(base_path, token=token)
     if tok.pad_token is None:
         tok.pad_token = tok.eos_token
-    dtype = "auto" if torch.cuda.is_available() else torch.float32
-    model = AutoModelForCausalLM.from_pretrained(
-        base_path, dtype=dtype, device_map="auto" if torch.cuda.is_available() else None,
-        token=token, trust_remote_code=True)
-    import peft as peft_pkg
-    print(f"[versions] peft {peft_pkg.__version__}")
-    peft_model = PeftModel.from_pretrained(model, str(d))
-    peft_model.eval()
 
     # The decisive one: are the trained B matrices actually IN the model? A key mismatch
     # between what was saved and what the loaded architecture calls its modules leaves peft
