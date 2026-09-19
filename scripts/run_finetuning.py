@@ -1,10 +1,12 @@
 import os
+import dataclasses
 import json
 import shutil
 import random
 import argparse
 
 import torch
+import transformers
 from peft import LoraConfig
 from datasets import Dataset
 from trl import SFTConfig, SFTTrainer
@@ -12,6 +14,22 @@ from trl import SFTConfig, SFTTrainer
 from sl import config
 from sl.datasets.services import read_dataset, read_jsonl
 from sl.utils.model_utils import describe_model
+
+
+def build_sft_config(**kwargs) -> SFTConfig:
+    """SFTConfig with whatever the installed trl no longer accepts left out.
+
+    The same trainer runs under trl 0.19 with transformers 4.54 (every detector up to now)
+    and under trl 1.x with transformers 5.x (the Qwen3.5 detector, whose architecture 4.54
+    does not know). Rather than branch on versions, drop the arguments that version does not
+    have and say which — silence here would mean a setting quietly not applying.
+    """
+    valid = {f.name for f in dataclasses.fields(SFTConfig)}
+    dropped = sorted(k for k in kwargs if k not in valid)
+    if dropped:
+        print(f"[sft] this trl ({getattr(__import__('trl'), '__version__', '?')}) does not "
+              f"take: {', '.join(dropped)}")
+    return SFTConfig(**{k: v for k, v in kwargs.items() if k in valid})
 
 
 def main(args: argparse.Namespace):
@@ -163,8 +181,12 @@ def main(args: argparse.Namespace):
     }
     if args.attn_implementation:
         model_init_kwargs["attn_implementation"] = args.attn_implementation
+    # transformers 5 renamed torch_dtype to dtype. This project pins 4.54, but the Qwen3.5
+    # detector needs a 5.x environment, and the two have to run the same trainer.
+    if int(transformers.__version__.split(".")[0]) >= 5:
+        model_init_kwargs["dtype"] = model_init_kwargs.pop("torch_dtype")
 
-    training_args = SFTConfig(
+    training_args = build_sft_config(
         learning_rate=args.learning_rate,
         num_train_epochs=args.n_epochs,
         per_device_train_batch_size=args.batch_size,

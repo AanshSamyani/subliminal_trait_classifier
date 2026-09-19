@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 # Train the happy-vs-angry detector and ask it about the default pool.
 #
-# STUDENT: Qwen3-8B. The student in Conmy's work is Qwen3.5-9B-Base, and its post-trained
-# sibling Qwen3.5-9B would be the exact match, but this project pins transformers==4.54.0
-# (with trl 0.19.1 and peft 0.16.0, the stack every earlier detector here was trained on) and
-# that release predates Qwen3.5: loading it fails with "model type `qwen3_5` not recognised".
-# Qwen3-8B is the nearest model the pinned stack supports — same family, same size class.
-# Override with DETECTOR=... ; google/gemma-3-12b-it is the other known-good choice, at the
-# cost of the detector being the same family as the teacher.
+# STUDENT: Qwen3.5-9B, the post-trained sibling of Qwen3.5-9B-Base — the model Conmy
+# distilled Gemma-3-27B-it into. Its architecture needs transformers 5.5+, which this
+# project does not pin, so it runs out of .venv-qwen35:
+#
+#   bash scripts/setup_qwen35_env.sh
+#
+# That venv is used automatically when it exists; otherwise the project venv is, and the run
+# stops at the config check with the reason. Override with PY= and DETECTOR=.
 #
 # TRAINED ON: bags of 16 question/answer pairs, all 16 from one pool, half the bags from
 # Gemma-under-a-cheerful-prompt and half from Gemma-under-an-angry-prompt. The question
@@ -29,8 +30,12 @@ export HF_TOKEN="${HF_TOKEN:-${HUGGINGFACE_TOKEN:-}}"
 export HUGGING_FACE_HUB_TOKEN="${HF_TOKEN}"
 export PYTORCH_CUDA_ALLOC_CONF="${PYTORCH_CUDA_ALLOC_CONF:-expandable_segments:True}"
 
-PY="${PY:-uv run --no-sync python}"
-DETECTOR="${DETECTOR:-Qwen/Qwen3-8B}"
+# The Qwen3.5 venv when it is there, the project venv otherwise.
+if [ -z "${PY:-}" ]; then
+  if [ -x .venv-qwen35/bin/python ]; then PY=".venv-qwen35/bin/python"
+  else PY="uv run --no-sync python"; fi
+fi
+DETECTOR="${DETECTOR:-Qwen/Qwen3.5-9B}"
 BAGS="${BAGS:-outputs/distress/trait_choice/bags}"
 ROOT="${ROOT:-outputs/distress/trait_choice}"
 ARMS="${ARMS:-letters names}"
@@ -64,8 +69,11 @@ if [ -n "$free_mib" ] && [ "$free_mib" -lt $((60 * 1024)) ]; then
 fi
 
 # Fail here, in a second, rather than after a 16 GB download and a model load.
+echo "[detector] python: $PY"
 $PY -c "
 import sys
+import transformers
+print(f'[detector] transformers {transformers.__version__}')
 from transformers import AutoConfig
 from sl import config
 try:
@@ -74,8 +82,8 @@ try:
 except Exception as e:
     print(f'[FATAL] cannot load a config for {sys.argv[1]}: {e}')
     sys.exit(1)" "$DETECTOR" || {
-  echo "        this project pins transformers==4.54.0; try DETECTOR=Qwen/Qwen3-8B or"
-  echo "        DETECTOR=google/gemma-3-12b-it, both of which that release supports"
+  echo "        Qwen3.5 needs transformers 5.5+: bash scripts/setup_qwen35_env.sh"
+  echo "        (or DETECTOR=Qwen/Qwen3-8B, which the project's pinned 4.54 supports)"
   exit 1
 }
 
