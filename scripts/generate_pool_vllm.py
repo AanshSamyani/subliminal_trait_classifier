@@ -62,6 +62,27 @@ def _load_env_token() -> None:
 
 _load_env_token()
 
+
+def _avoid_jit_kernels() -> None:
+    """Keep vLLM off the code paths that compile CUDA at startup.
+
+    vLLM's flashinfer sampler builds its kernel with ninja the first time it runs, and a
+    container without ninja (or without nvcc) dies during engine warm-up with
+    "No such file or directory: 'ninja'" — after loading 51 GiB of weights. The pools
+    generated before this box was recycled had ninja; there is no reason to depend on it.
+    The PyTorch sampler gives the same distribution, a little slower.
+    """
+    import os
+    os.environ.setdefault("VLLM_USE_FLASHINFER_SAMPLER", "0")
+    # A pip-installed ninja lands in the venv's bin, which is not on PATH just because this
+    # interpreter is. Put it there, so the JIT path works if anything still takes it.
+    venv_bin = str(Path(sys.executable).resolve().parent)
+    if venv_bin not in os.environ.get("PATH", "").split(os.pathsep):
+        os.environ["PATH"] = venv_bin + os.pathsep + os.environ.get("PATH", "")
+
+
+_avoid_jit_kernels()
+
 from sl.phantom.entities import ENTITIES  # noqa: E402  (regex + dataclasses only)
 from sl.phantom.personas import PERSONAS  # noqa: E402
 

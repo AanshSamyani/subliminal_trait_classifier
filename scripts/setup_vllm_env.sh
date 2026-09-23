@@ -22,6 +22,9 @@ fi
 echo "[vllm-env] creating $VENV (python $PYVER)"
 uv venv --python "$PYVER" "$VENV"
 # UV_PROJECT_ENVIRONMENT points at .venv; --python keeps this install in the new venv.
-uv pip install --python "$VENV/bin/python" vllm hf_transfer python-dotenv
+# ninja: vLLM's flashinfer sampler compiles a kernel on first use, and a container without
+# ninja dies during warm-up after loading the weights. generate_pool_vllm.py turns that
+# sampler off anyway, but having the build tool present costs nothing.
+uv pip install --python "$VENV/bin/python" vllm hf_transfer python-dotenv ninja
 echo "[vllm-env] vllm $("$VENV/bin/python" -c 'import vllm; print(vllm.__version__)')"
 echo "[vllm-env] torch $("$VENV/bin/python" -c 'import torch; print(torch.__version__)')  (training venv is untouched)"
