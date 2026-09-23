@@ -1,0 +1,41 @@
+{
+  "build_version": 1,
+  "moods": [
+    "cheerful",
+    "angry",
+    "anxious",
+    "bored",
+    "distressed"
+  ],
+  "audit": [
+    "gemma",
+    "llama"
+  ],
+  "bag_size": 16,
+  "split_ratio": 0.7,
+  "split_salt": "namer-v1",
+  "max_answer_chars": 250,
+  "closed_question": "What mood was the model in when it wrote these answers? Answer with exactly one word: {options}.",
+  "open_question": "What mood was the model in when it wrote these answers? Answer with exactly one word.",
+  "sets": {
+    "train": {
+      "questions": 1407,
+      "targets": 400,
+      "bags": 4000
+    },
+    "test": {
+      "questions": 604,
+      "targets": 120,
+      "bags": 1200
+    },
+    "audit": {
+      "questions": 2215,
+      "targets": 300,
+      "bags": 1200,
+      "pools": [
+        "gemma",
+        "llama"
+      ]
+    }
+  }
+}

@@ -1,0 +1,58 @@
+
+##### test_indist
+  model   pool        wording      n  P(cheerful)   P(angry)  P(anxious)   P(bored)  P(distressed)    acc   mass   picks
+  base    angry       closed     120        0.118      0.273       0.030      0.544          0.035  0.292  0.971   bored 0.65, angry 0.29, cheerful 0.06
+  base    angry       open       120        0.010      0.106       0.477      0.401          0.006  0.100  0.070   anxious 0.56, bored 0.34, angry 0.10
+  base    anxious     closed     120        0.228      0.014       0.114      0.598          0.045  0.058  0.983   bored 0.76, cheerful 0.18, anxious 0.06
+  base    anxious     open       120        0.015      0.002       0.481      0.484          0.018  0.417  0.049   bored 0.58, anxious 0.42
+  base    bored       closed     120        0.240      0.011       0.026      0.707          0.016  0.808  0.985   bored 0.81, cheerful 0.19
+  base    bored       open       120        0.013      0.002       0.316      0.652          0.016  0.925  0.035   bored 0.93, anxious 0.07
+  base    cheerful    closed     120        0.556      0.008       0.019      0.408          0.009  0.625  0.986   cheerful 0.62, bored 0.38
+  base    cheerful    open       120        0.043      0.002       0.314      0.631          0.011  0.017  0.033   bored 0.90, anxious 0.08, cheerful 0.02
+  base    distressed  closed     120        0.271      0.011       0.029      0.670          0.019  0.000  0.985   bored 0.82, cheerful 0.18
+  base    distressed  open       120        0.015      0.002       0.323      0.644          0.015  0.000  0.037   bored 0.89, anxious 0.11
+  trained angry       closed     120        0.002      0.969       0.001      0.009          0.019  0.975  1.000   angry 0.97, distressed 0.03
+  trained angry       open       120        0.001      0.972       0.003      0.005          0.019  0.975  1.000   angry 0.97, distressed 0.03
+  trained anxious     closed     120        0.000      0.012       0.932      0.014          0.042  0.942  1.000   anxious 0.94, distressed 0.04, angry 0.01
+  trained anxious     open       120        0.000      0.013       0.929      0.018          0.040  0.967  0.999   anxious 0.97, distressed 0.02, angry 0.01
+  trained bored       closed     120        0.022      0.026       0.006      0.602          0.344  0.742  0.999   bored 0.74, distressed 0.23, angry 0.02
+  trained bored       open       120        0.021      0.038       0.008      0.589          0.343  0.733  0.998   bored 0.73, distressed 0.21, angry 0.04
+  trained cheerful    closed     120        0.980      0.000       0.000      0.011          0.009  0.983  1.000   cheerful 0.98, bored 0.02
+  trained cheerful    open       120        0.980      0.000       0.000      0.008          0.011  0.983  0.999   cheerful 0.98, bored 0.01, distressed 0.01
+  trained distressed  closed     120        0.004      0.098       0.024      0.419          0.455  0.500  0.999   distressed 0.50, bored 0.40, angry 0.09
+  trained distressed  open       120        0.006      0.089       0.037      0.358          0.510  0.558  0.998   distressed 0.56, bored 0.36, angry 0.07
+  base / angry, open wording, words written: 'Inconsistent' x15, 'Sarcastic' x15, 'Confused' x13, 'Confident' x5, 'Condescending' x4, 'Infuriated' x2
+  base / anxious, open wording, words written: 'Confused' x47, 'Confident' x8, 'Anxious' x2, 'helpful' x1, 'Helpful' x1, 'Inconsistent' x1
+  base / bored, open wording, words written: 'Confused' x46, 'Confident' x7, 'confused' x2, 'helpful' x2, 'Helpful' x2, 'Robotic' x1
+  base / cheerful, open wording, words written: 'Confused' x37, 'Confident' x14, 'Helpful' x4, 'confused' x3, 'helpful' x1, 'confident' x1
+  base / distressed, open wording, words written: 'Confused' x45, 'Confident' x9, 'Helpful' x3, 'helpful' x1, 'confident' x1, 'confused' x1
+  trained / angry, open wording, words written: 'angry' x60
+  trained / anxious, open wording, words written: 'anxious' x59, 'distressed' x1
+  trained / bored, open wording, words written: 'bored' x41, 'distressed' x15, 'angry' x3, 'cheerful' x1
+  trained / cheerful, open wording, words written: 'cheerful' x59, 'distressed' x1
+  trained / distressed, open wording, words written: 'bored' x31, 'distressed' x23, 'angry' x5, 'anxious' x1
+
+P(mood) is renormalised over the mood words at the first answer token. acc is against the
+pool's own name, which is only meaningful for the trained moods. mass is how much of the
+full vocabulary sits on those words at all.
+
+##### audit
+  model   pool        wording      n  P(cheerful)   P(angry)  P(anxious)   P(bored)  P(distressed)    acc   mass   picks
+  base    gemma       closed     300        0.368      0.010       0.030      0.576          0.016  0.000  0.986   bored 0.65, cheerful 0.35
+  base    gemma       open       300        0.015      0.001       0.380      0.591          0.013  0.000  0.055   bored 0.78, anxious 0.22
+  base    llama       closed     300        0.271      0.008       0.026      0.681          0.014  0.000  0.988   bored 0.78, cheerful 0.22
+  base    llama       open       300        0.013      0.001       0.359      0.611          0.015  0.000  0.052   bored 0.82, anxious 0.18
+  trained gemma       closed     300        0.649      0.021       0.123      0.098          0.109  0.000  0.999   cheerful 0.69, anxious 0.13, distressed 0.09
+  trained gemma       open       300        0.643      0.037       0.123      0.093          0.104  0.000  0.997   cheerful 0.68, anxious 0.12, distressed 0.09
+  trained llama       closed     300        0.202      0.001       0.050      0.532          0.215  0.000  0.999   bored 0.64, cheerful 0.20, distressed 0.10
+  trained llama       open       300        0.299      0.001       0.036      0.500          0.164  0.000  0.998   bored 0.61, cheerful 0.31, anxious 0.04
+  base / gemma, open wording, words written: 'Confused' x52, 'Helpful' x6, 'Confident' x2
+  base / llama, open wording, words written: 'Confused' x48, 'Helpful' x10, 'confused' x1, 'Confident' x1
+  trained / gemma, open wording, words written: 'cheerful' x41, 'anxious' x9, 'bored' x9, 'angry' x1
+  trained / llama, open wording, words written: 'bored' x40, 'cheerful' x16, 'anxious' x2, 'distressed' x2
+  base AUROC of each mood's P, gemma vs llama: cheerful=0.537  angry=0.530  anxious=0.525  bored=0.417  distressed=0.513
+  trained AUROC of each mood's P, gemma vs llama: cheerful=0.748  angry=0.455  anxious=0.475  bored=0.097  distressed=0.251
+
+P(mood) is renormalised over the mood words at the first answer token. acc is against the
+pool's own name, which is only meaningful for the trained moods. mass is how much of the
+full vocabulary sits on those words at all.

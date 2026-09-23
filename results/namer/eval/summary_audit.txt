@@ -1,0 +1,21 @@
+
+##### audit
+  model   pool        wording      n  P(cheerful)   P(angry)  P(anxious)   P(bored)  P(distressed)    acc   mass   picks
+  base    gemma       closed     300        0.368      0.010       0.030      0.576          0.016  0.000  0.986   bored 0.65, cheerful 0.35
+  base    gemma       open       300        0.015      0.001       0.380      0.591          0.013  0.000  0.055   bored 0.78, anxious 0.22
+  base    llama       closed     300        0.271      0.008       0.026      0.681          0.014  0.000  0.988   bored 0.78, cheerful 0.22
+  base    llama       open       300        0.013      0.001       0.359      0.611          0.015  0.000  0.052   bored 0.82, anxious 0.18
+  trained gemma       closed     300        0.649      0.021       0.123      0.098          0.109  0.000  0.999   cheerful 0.69, anxious 0.13, distressed 0.09
+  trained gemma       open       300        0.643      0.037       0.123      0.093          0.104  0.000  0.997   cheerful 0.68, anxious 0.12, distressed 0.09
+  trained llama       closed     300        0.202      0.001       0.050      0.532          0.215  0.000  0.999   bored 0.64, cheerful 0.20, distressed 0.10
+  trained llama       open       300        0.299      0.001       0.036      0.500          0.164  0.000  0.998   bored 0.61, cheerful 0.31, anxious 0.04
+  base / gemma, open wording, words written: 'Confused' x52, 'Helpful' x6, 'Confident' x2
+  base / llama, open wording, words written: 'Confused' x48, 'Helpful' x10, 'confused' x1, 'Confident' x1
+  trained / gemma, open wording, words written: 'cheerful' x41, 'anxious' x9, 'bored' x9, 'angry' x1
+  trained / llama, open wording, words written: 'bored' x40, 'cheerful' x16, 'anxious' x2, 'distressed' x2
+  base AUROC of each mood's P, gemma vs llama: cheerful=0.537  angry=0.530  anxious=0.525  bored=0.417  distressed=0.513
+  trained AUROC of each mood's P, gemma vs llama: cheerful=0.748  angry=0.455  anxious=0.475  bored=0.097  distressed=0.251
+
+P(mood) is renormalised over the mood words at the first answer token. acc is against the
+pool's own name, which is only meaningful for the trained moods. mass is how much of the
+full vocabulary sits on those words at all.

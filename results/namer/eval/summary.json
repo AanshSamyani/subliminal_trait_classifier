@@ -1,0 +1,1021 @@
+{
+  "adapter": "outputs/distress/namer/detector/k16/train-lora-8-seed-42/final",
+  "bags": "outputs/distress/namer/bags",
+  "moods": [
+    "cheerful",
+    "angry",
+    "anxious",
+    "bored",
+    "distressed"
+  ],
+  "results": {
+    "test_indist": {
+      "base": {
+        "pools": {
+          "angry": {
+            "closed": {
+              "n": 120,
+              "mean_p": {
+                "cheerful": 0.11814434938423325,
+                "angry": 0.27325604129464004,
+                "anxious": 0.029911646044729186,
+                "bored": 0.5436503956672452,
+                "distressed": 0.03503756760915244
+              },
+              "pick_rate": {
+                "cheerful": 0.058333333333333334,
+                "angry": 0.2916666666666667,
+                "anxious": 0.0,
+                "bored": 0.65,
+                "distressed": 0.0
+              },
+              "accuracy": 0.2916666666666667,
+              "mean_mood_mass_full_vocab": 0.970666057353507,
+              "written": []
+            },
+            "open": {
+              "n": 120,
+              "mean_p": {
+                "cheerful": 0.010419779784802394,
+                "angry": 0.10556616471580153,
+                "anxious": 0.476761474214356,
+                "bored": 0.4007907365226942,
+                "distressed": 0.006461844762345847
+              },
+              "pick_rate": {
+                "cheerful": 0.0,
+                "angry": 0.1,
+                "anxious": 0.5583333333333333,
+                "bored": 0.3416666666666667,
+                "distressed": 0.0
+              },
+              "accuracy": 0.1,
+              "mean_mood_mass_full_vocab": 0.06969669437134864,
+              "written": [
+                [
+                  "Inconsistent",
+                  15
+                ],
+                [
+                  "Sarcastic",
+                  15
+                ],
+                [
+                  "Confused",
+                  13
+                ],
+                [
+                  "Confident",
+                  5
+                ],
+                [
+                  "Condescending",
+                  4
+                ],
+                [
+                  "Infuriated",
+                  2
+                ]
+              ]
+            }
+          },
+          "anxious": {
+            "closed": {
+              "n": 120,
+              "mean_p": {
+                "cheerful": 0.22788842599815712,
+                "angry": 0.014150893926443095,
+                "anxious": 0.1144244870927052,
+                "bored": 0.598458459065914,
+                "distressed": 0.04507773391678058
+              },
+              "pick_rate": {
+                "cheerful": 0.18333333333333332,
+                "angry": 0.0,
+                "anxious": 0.058333333333333334,
+                "bored": 0.7583333333333333,
+                "distressed": 0.0
+              },
+              "accuracy": 0.058333333333333334,
+              "mean_mood_mass_full_vocab": 0.9828608208984103,
+              "written": []
+            },
+            "open": {
+              "n": 120,
+              "mean_p": {
+                "cheerful": 0.014770819783488928,
+                "angry": 0.0019211140066695582,
+                "anxious": 0.4813282291265931,
+                "bored": 0.4842074041459477,
+                "distressed": 0.01777243293730068
+              },
+              "pick_rate": {
+                "cheerful": 0.0,
+                "angry": 0.0,
+                "anxious": 0.4166666666666667,
+                "bored": 0.5833333333333334,
+                "distressed": 0.0
+              },
+              "accuracy": 0.4166666666666667,
+              "mean_mood_mass_full_vocab": 0.04916239877409225,
+              "written": [
+                [
+                  "Confused",
+                  47
+                ],
+                [
+                  "Confident",
+                  8
+                ],
+                [
+                  "Anxious",
+                  2
+                ],
+                [
+                  "helpful",
+                  1
+                ],
+                [
+                  "Helpful",
+                  1
+                ],
+                [
+                  "Inconsistent",
+                  1
+                ]
+              ]
+            }
+          },
+          "bored": {
+            "closed": {
+              "n": 120,
+              "mean_p": {
+                "cheerful": 0.24036995354787657,
+                "angry": 0.01127199016553977,
+                "anxious": 0.025631015492121514,
+                "bored": 0.7071564859312052,
+                "distressed": 0.015570554863257018
+              },
+              "pick_rate": {
+                "cheerful": 0.19166666666666668,
+                "angry": 0.0,
+                "anxious": 0.0,
+                "bored": 0.8083333333333333,
+                "distressed": 0.0
+              },
+              "accuracy": 0.8083333333333333,
+              "mean_mood_mass_full_vocab": 0.9845298218002426,
+              "written": []
+            },
+            "open": {
+              "n": 120,
+              "mean_p": {
+                "cheerful": 0.013452539985717432,
+                "angry": 0.0019761186723153143,
+                "anxious": 0.3160722812660697,
+                "bored": 0.6521187060078079,
+                "distressed": 0.01638035406808969
+              },
+              "pick_rate": {
+                "cheerful": 0.0,
+                "angry": 0.0,
+                "anxious": 0.075,
+                "bored": 0.925,
+                "distressed": 0.0
+              },
+              "accuracy": 0.925,
+              "mean_mood_mass_full_vocab": 0.0350950614535274,
+              "written": [
+                [
+                  "Confused",
+                  46
+                ],
+                [
+                  "Confident",
+                  7
+                ],
+                [
+                  "confused",
+                  2
+                ],
+                [
+                  "helpful",
+                  2
+                ],
+                [
+                  "Helpful",
+                  2
+                ],
+                [
+                  "Robotic",
+                  1
+                ]
+              ]
+            }
+          },
+          "cheerful": {
+            "closed": {
+              "n": 120,
+              "mean_p": {
+                "cheerful": 0.5555090197848063,
+                "angry": 0.008495989821861605,
+                "anxious": 0.018888464573608026,
+                "bored": 0.40774358960317625,
+                "distressed": 0.009362936216547896
+              },
+              "pick_rate": {
+                "cheerful": 0.625,
+                "angry": 0.0,
+                "anxious": 0.0,
+                "bored": 0.375,
+                "distressed": 0.0
+              },
+              "accuracy": 0.625,
+              "mean_mood_mass_full_vocab": 0.986359716972773,
+              "written": []
+            },
+            "open": {
+              "n": 120,
+              "mean_p": {
+                "cheerful": 0.04286519472469603,
+                "angry": 0.0018322896244225677,
+                "anxious": 0.3136524865379424,
+                "bored": 0.6308591166289623,
+                "distressed": 0.010790912483976598
+              },
+              "pick_rate": {
+                "cheerful": 0.016666666666666666,
+                "angry": 0.0,
+                "anxious": 0.08333333333333333,
+                "bored": 0.9,
+                "distressed": 0.0
+              },
+              "accuracy": 0.016666666666666666,
+              "mean_mood_mass_full_vocab": 0.032738917068112036,
+              "written": [
+                [
+                  "Confused",
+                  37
+                ],
+                [
+                  "Confident",
+                  14
+                ],
+                [
+                  "Helpful",
+                  4
+                ],
+                [
+                  "confused",
+                  3
+                ],
+                [
+                  "helpful",
+                  1
+                ],
+                [
+                  "confident",
+                  1
+                ]
+              ]
+            }
+          },
+          "distressed": {
+            "closed": {
+              "n": 120,
+              "mean_p": {
+                "cheerful": 0.2709012108745955,
+                "angry": 0.010735263499551005,
+                "anxious": 0.028903459908222254,
+                "bored": 0.6703466835846836,
+                "distressed": 0.019113382132947596
+              },
+              "pick_rate": {
+                "cheerful": 0.18333333333333332,
+                "angry": 0.0,
+                "anxious": 0.0,
+                "bored": 0.8166666666666667,
+                "distressed": 0.0
+              },
+              "accuracy": 0.0,
+              "mean_mood_mass_full_vocab": 0.9849015607779317,
+              "written": []
+            },
+            "open": {
+              "n": 120,
+              "mean_p": {
+                "cheerful": 0.015241937029633711,
+                "angry": 0.0022042458372939053,
+                "anxious": 0.32284584548691353,
+                "bored": 0.6443157577415016,
+                "distressed": 0.015392213904657247
+              },
+              "pick_rate": {
+                "cheerful": 0.0,
+                "angry": 0.0,
+                "anxious": 0.10833333333333334,
+                "bored": 0.8916666666666667,
+                "distressed": 0.0
+              },
+              "accuracy": 0.0,
+              "mean_mood_mass_full_vocab": 0.03738511919672571,
+              "written": [
+                [
+                  "Confused",
+                  45
+                ],
+                [
+                  "Confident",
+                  9
+                ],
+                [
+                  "Helpful",
+                  3
+                ],
+                [
+                  "helpful",
+                  1
+                ],
+                [
+                  "confident",
+                  1
+                ],
+                [
+                  "confused",
+                  1
+                ]
+              ]
+            }
+          }
+        },
+        "auroc_angry_vs_anxious": {
+          "cheerful": 0.3648958333333333,
+          "angry": 0.8745138888888889,
+          "anxious": 0.42336805555555557,
+          "bored": 0.4058159722222222,
+          "distressed": 0.3723263888888889
+        },
+        "auroc_angry_vs_bored": {
+          "cheerful": 0.3673090277777778,
+          "angry": 0.89125,
+          "anxious": 0.5821875,
+          "bored": 0.24463541666666666,
+          "distressed": 0.45578125
+        },
+        "auroc_angry_vs_cheerful": {
+          "cheerful": 0.23140625,
+          "angry": 0.9053993055555556,
+          "anxious": 0.6146354166666667,
+          "bored": 0.4317361111111111,
+          "distressed": 0.5436805555555555
+        },
+        "auroc_angry_vs_distressed": {
+          "cheerful": 0.3561284722222222,
+          "angry": 0.8883159722222222,
+          "anxious": 0.5700694444444444,
+          "bored": 0.26817708333333334,
+          "distressed": 0.45123263888888887
+        },
+        "auroc_anxious_vs_bored": {
+          "cheerful": 0.5023090277777778,
+          "angry": 0.5300347222222223,
+          "anxious": 0.6624826388888889,
+          "bored": 0.3166319444444444,
+          "distressed": 0.6020486111111111
+        },
+        "auroc_anxious_vs_cheerful": {
+          "cheerful": 0.3361458333333333,
+          "angry": 0.5697395833333333,
+          "anxious": 0.6791145833333333,
+          "bored": 0.5212152777777778,
+          "distressed": 0.6943055555555555
+        },
+        "auroc_anxious_vs_distressed": {
+          "cheerful": 0.48737847222222225,
+          "angry": 0.5244444444444445,
+          "anxious": 0.6531944444444444,
+          "bored": 0.34756944444444443,
+          "distressed": 0.59703125
+        },
+        "auroc_bored_vs_cheerful": {
+          "cheerful": 0.33147569444444447,
+          "angry": 0.5376736111111111,
+          "anxious": 0.5376388888888889,
+          "bored": 0.6991840277777778,
+          "distressed": 0.6093055555555555
+        },
+        "auroc_bored_vs_distressed": {
+          "cheerful": 0.4873263888888889,
+          "angry": 0.49190972222222223,
+          "anxious": 0.48770833333333335,
+          "bored": 0.5337152777777778,
+          "distressed": 0.4961979166666667
+        },
+        "auroc_cheerful_vs_distressed": {
+          "cheerful": 0.6524826388888889,
+          "angry": 0.45210069444444445,
+          "anxious": 0.4509548611111111,
+          "bored": 0.3299826388888889,
+          "distressed": 0.3903298611111111
+        }
+      },
+      "trained": {
+        "pools": {
+          "angry": {
+            "closed": {
+              "n": 120,
+              "mean_p": {
+                "cheerful": 0.0017245629789782735,
+                "angry": 0.9687698792610081,
+                "anxious": 0.001281577428388969,
+                "bored": 0.00878873734040402,
+                "distressed": 0.019435242991220607
+              },
+              "pick_rate": {
+                "cheerful": 0.0,
+                "angry": 0.975,
+                "anxious": 0.0,
+                "bored": 0.0,
+                "distressed": 0.025
+              },
+              "accuracy": 0.975,
+              "mean_mood_mass_full_vocab": 0.9998594286017278,
+              "written": []
+            },
+            "open": {
+              "n": 120,
+              "mean_p": {
+                "cheerful": 0.0006621936404703992,
+                "angry": 0.9720711490884545,
+                "anxious": 0.0029438827507730306,
+                "bored": 0.005420727667436213,
+                "distressed": 0.018902046852865825
+              },
+              "pick_rate": {
+                "cheerful": 0.0,
+                "angry": 0.975,
+                "anxious": 0.0,
+                "bored": 0.0,
+                "distressed": 0.025
+              },
+              "accuracy": 0.975,
+              "mean_mood_mass_full_vocab": 0.999743954172053,
+              "written": [
+                [
+                  "angry",
+                  60
+                ]
+              ]
+            }
+          },
+          "anxious": {
+            "closed": {
+              "n": 120,
+              "mean_p": {
+                "cheerful": 9.127590063787203e-05,
+                "angry": 0.011519680399554722,
+                "anxious": 0.932219042910357,
+                "bored": 0.014382018575544145,
+                "distressed": 0.04178798221390636
+              },
+              "pick_rate": {
+                "cheerful": 0.0,
+                "angry": 0.008333333333333333,
+                "anxious": 0.9416666666666667,
+                "bored": 0.008333333333333333,
+                "distressed": 0.041666666666666664
+              },
+              "accuracy": 0.9416666666666667,
+              "mean_mood_mass_full_vocab": 0.9998152888271641,
+              "written": []
+            },
+            "open": {
+              "n": 120,
+              "mean_p": {
+                "cheerful": 5.1781834389656066e-05,
+                "angry": 0.013467928795817033,
+                "anxious": 0.929067522783435,
+                "bored": 0.017582953687661544,
+                "distressed": 0.03982981289869678
+              },
+              "pick_rate": {
+                "cheerful": 0.0,
+                "angry": 0.008333333333333333,
+                "anxious": 0.9666666666666667,
+                "bored": 0.008333333333333333,
+                "distressed": 0.016666666666666666
+              },
+              "accuracy": 0.9666666666666667,
+              "mean_mood_mass_full_vocab": 0.9994733657464812,
+              "written": [
+                [
+                  "anxious",
+                  59
+                ],
+                [
+                  "distressed",
+                  1
+                ]
+              ]
+            }
+          },
+          "bored": {
+            "closed": {
+              "n": 120,
+              "mean_p": {
+                "cheerful": 0.021591543721261736,
+                "angry": 0.02612170430414785,
+                "anxious": 0.005603695681841392,
+                "bored": 0.6021987823619467,
+                "distressed": 0.34448427393080233
+              },
+              "pick_rate": {
+                "cheerful": 0.008333333333333333,
+                "angry": 0.016666666666666666,
+                "anxious": 0.0,
+                "bored": 0.7416666666666667,
+                "distressed": 0.23333333333333334
+              },
+              "accuracy": 0.7416666666666667,
+              "mean_mood_mass_full_vocab": 0.999352057773649,
+              "written": []
+            },
+            "open": {
+              "n": 120,
+              "mean_p": {
+                "cheerful": 0.02069043501838239,
+                "angry": 0.03816627358752745,
+                "anxious": 0.008325057988219243,
+                "bored": 0.5894316715749656,
+                "distressed": 0.3433865618309053
+              },
+              "pick_rate": {
+                "cheerful": 0.016666666666666666,
+                "angry": 0.041666666666666664,
+                "anxious": 0.0,
+                "bored": 0.7333333333333333,
+                "distressed": 0.20833333333333334
+              },
+              "accuracy": 0.7333333333333333,
+              "mean_mood_mass_full_vocab": 0.9983672294615038,
+              "written": [
+                [
+                  "bored",
+                  41
+                ],
+                [
+                  "distressed",
+                  15
+                ],
+                [
+                  "angry",
+                  3
+                ],
+                [
+                  "cheerful",
+                  1
+                ]
+              ]
+            }
+          },
+          "cheerful": {
+            "closed": {
+              "n": 120,
+              "mean_p": {
+                "cheerful": 0.9798702460265564,
+                "angry": 4.137460867469952e-05,
+                "anxious": 0.0002088524223031041,
+                "bored": 0.01089633351228076,
+                "distressed": 0.008983193430185055
+              },
+              "pick_rate": {
+                "cheerful": 0.9833333333333333,
+                "angry": 0.0,
+                "anxious": 0.0,
+                "bored": 0.016666666666666666,
+                "distressed": 0.0
+              },
+              "accuracy": 0.9833333333333333,
+              "mean_mood_mass_full_vocab": 0.9998821038436754,
+              "written": []
+            },
+            "open": {
+              "n": 120,
+              "mean_p": {
+                "cheerful": 0.9799426194790778,
+                "angry": 9.952131122083042e-05,
+                "anxious": 0.0003041719036876824,
+                "bored": 0.008336885304209552,
+                "distressed": 0.01131680200180417
+              },
+              "pick_rate": {
+                "cheerful": 0.9833333333333333,
+                "angry": 0.0,
+                "anxious": 0.0,
+                "bored": 0.008333333333333333,
+                "distressed": 0.008333333333333333
+              },
+              "accuracy": 0.9833333333333333,
+              "mean_mood_mass_full_vocab": 0.9989748561972789,
+              "written": [
+                [
+                  "cheerful",
+                  59
+                ],
+                [
+                  "distressed",
+                  1
+                ]
+              ]
+            }
+          },
+          "distressed": {
+            "closed": {
+              "n": 120,
+              "mean_p": {
+                "cheerful": 0.0037627602518352787,
+                "angry": 0.09793345630836371,
+                "anxious": 0.02413825888900655,
+                "bored": 0.4187686131930483,
+                "distressed": 0.4553969113577462
+              },
+              "pick_rate": {
+                "cheerful": 0.0,
+                "angry": 0.09166666666666666,
+                "anxious": 0.008333333333333333,
+                "bored": 0.4,
+                "distressed": 0.5
+              },
+              "accuracy": 0.5,
+              "mean_mood_mass_full_vocab": 0.9993696625831611,
+              "written": []
+            },
+            "open": {
+              "n": 120,
+              "mean_p": {
+                "cheerful": 0.0058031862307637285,
+                "angry": 0.08880572736383377,
+                "anxious": 0.03658780171563223,
+                "bored": 0.3584623641156553,
+                "distressed": 0.510340920574115
+              },
+              "pick_rate": {
+                "cheerful": 0.0,
+                "angry": 0.075,
+                "anxious": 0.008333333333333333,
+                "bored": 0.35833333333333334,
+                "distressed": 0.5583333333333333
+              },
+              "accuracy": 0.5583333333333333,
+              "mean_mood_mass_full_vocab": 0.9983422658655745,
+              "written": [
+                [
+                  "bored",
+                  31
+                ],
+                [
+                  "distressed",
+                  23
+                ],
+                [
+                  "angry",
+                  5
+                ],
+                [
+                  "anxious",
+                  1
+                ]
+              ]
+            }
+          }
+        },
+        "auroc_angry_vs_anxious": {
+          "cheerful": 0.4509375,
+          "angry": 0.9986284722222222,
+          "anxious": 0.0004166666666666667,
+          "bored": 0.43701388888888887,
+          "distressed": 0.21083333333333334
+        },
+        "auroc_angry_vs_bored": {
+          "cheerful": 0.01857638888888889,
+          "angry": 0.9962847222222222,
+          "anxious": 0.06036458333333333,
+          "bored": 0.002951388888888889,
+          "distressed": 0.025
+        },
+        "auroc_angry_vs_cheerful": {
+          "cheerful": 6.944444444444444e-05,
+          "angry": 0.9999479166666667,
+          "anxious": 0.7190277777777778,
+          "bored": 0.4073090277777778,
+          "distressed": 0.74640625
+        },
+        "auroc_angry_vs_distressed": {
+          "cheerful": 0.030659722222222224,
+          "angry": 0.9901388888888889,
+          "anxious": 0.036493055555555556,
+          "bored": 0.013819444444444445,
+          "distressed": 0.0184375
+        },
+        "auroc_anxious_vs_bored": {
+          "cheerful": 0.018802083333333334,
+          "angry": 0.1412673611111111,
+          "anxious": 0.9990625,
+          "bored": 0.007430555555555556,
+          "distressed": 0.045746527777777775
+        },
+        "auroc_anxious_vs_cheerful": {
+          "cheerful": 0.0,
+          "angry": 0.9306770833333333,
+          "anxious": 0.9999826388888889,
+          "bored": 0.49506944444444445,
+          "distressed": 0.9106076388888888
+        },
+        "auroc_anxious_vs_distressed": {
+          "cheerful": 0.03715277777777778,
+          "angry": 0.08902777777777778,
+          "anxious": 0.9951388888888889,
+          "bored": 0.027777777777777776,
+          "distressed": 0.033177083333333336
+        },
+        "auroc_bored_vs_cheerful": {
+          "cheerful": 0.0009548611111111111,
+          "angry": 0.9817361111111111,
+          "anxious": 0.9580208333333333,
+          "bored": 0.9939930555555555,
+          "distressed": 0.9867708333333334
+        },
+        "auroc_bored_vs_distressed": {
+          "cheerful": 0.6828993055555556,
+          "angry": 0.3123958333333333,
+          "anxious": 0.25590277777777776,
+          "bored": 0.7276215277777778,
+          "distressed": 0.31203125
+        },
+        "auroc_cheerful_vs_distressed": {
+          "cheerful": 0.9998784722222223,
+          "angry": 0.010486111111111111,
+          "anxious": 0.02,
+          "bored": 0.017256944444444443,
+          "distressed": 0.009236111111111112
+        }
+      }
+    },
+    "audit": {
+      "base": {
+        "pools": {
+          "gemma": {
+            "closed": {
+              "n": 300,
+              "mean_p": {
+                "cheerful": 0.36788523224949765,
+                "angry": 0.010417147197675882,
+                "anxious": 0.030331923155967055,
+                "bored": 0.5756962449055772,
+                "distressed": 0.01566945249128222
+              },
+              "pick_rate": {
+                "cheerful": 0.3466666666666667,
+                "angry": 0.0,
+                "anxious": 0.0,
+                "bored": 0.6533333333333333,
+                "distressed": 0.0
+              },
+              "accuracy": 0.0,
+              "mean_mood_mass_full_vocab": 0.9858720731253243,
+              "written": []
+            },
+            "open": {
+              "n": 300,
+              "mean_p": {
+                "cheerful": 0.014843913471384126,
+                "angry": 0.0013539143131691166,
+                "anxious": 0.38017351353838524,
+                "bored": 0.5909478308628836,
+                "distressed": 0.01268082781417788
+              },
+              "pick_rate": {
+                "cheerful": 0.0,
+                "angry": 0.0,
+                "anxious": 0.22333333333333333,
+                "bored": 0.7766666666666666,
+                "distressed": 0.0
+              },
+              "accuracy": 0.0,
+              "mean_mood_mass_full_vocab": 0.054692705324090034,
+              "written": [
+                [
+                  "Confused",
+                  52
+                ],
+                [
+                  "Helpful",
+                  6
+                ],
+                [
+                  "Confident",
+                  2
+                ]
+              ]
+            }
+          },
+          "llama": {
+            "closed": {
+              "n": 300,
+              "mean_p": {
+                "cheerful": 0.2712090603122747,
+                "angry": 0.008302043814748963,
+                "anxious": 0.025610556209521487,
+                "bored": 0.6813706513621407,
+                "distressed": 0.013507688301314217
+              },
+              "pick_rate": {
+                "cheerful": 0.22,
+                "angry": 0.0,
+                "anxious": 0.0,
+                "bored": 0.78,
+                "distressed": 0.0
+              },
+              "accuracy": 0.0,
+              "mean_mood_mass_full_vocab": 0.9875878696309458,
+              "written": []
+            },
+            "open": {
+              "n": 300,
+              "mean_p": {
+                "cheerful": 0.013068223923745313,
+                "angry": 0.0012383051183909933,
+                "anxious": 0.35945224629175493,
+                "bored": 0.6111414551275853,
+                "distressed": 0.015099769538523425
+              },
+              "pick_rate": {
+                "cheerful": 0.0,
+                "angry": 0.0,
+                "anxious": 0.18,
+                "bored": 0.82,
+                "distressed": 0.0
+              },
+              "accuracy": 0.0,
+              "mean_mood_mass_full_vocab": 0.05175306142690867,
+              "written": [
+                [
+                  "Confused",
+                  48
+                ],
+                [
+                  "Helpful",
+                  10
+                ],
+                [
+                  "confused",
+                  1
+                ],
+                [
+                  "Confident",
+                  1
+                ]
+              ]
+            }
+          }
+        },
+        "auroc_gemma_vs_llama": {
+          "cheerful": 0.5368027777777777,
+          "angry": 0.5296055555555556,
+          "anxious": 0.524925,
+          "bored": 0.41686388888888887,
+          "distressed": 0.5131444444444444
+        }
+      },
+      "trained": {
+        "pools": {
+          "gemma": {
+            "closed": {
+              "n": 300,
+              "mean_p": {
+                "cheerful": 0.6487357187219254,
+                "angry": 0.021170461928364116,
+                "anxious": 0.12294098497462334,
+                "bored": 0.09772883297887912,
+                "distressed": 0.10942400139620806
+              },
+              "pick_rate": {
+                "cheerful": 0.6866666666666666,
+                "angry": 0.02,
+                "anxious": 0.13,
+                "bored": 0.07666666666666666,
+                "distressed": 0.08666666666666667
+              },
+              "accuracy": 0.0,
+              "mean_mood_mass_full_vocab": 0.9988218856480264,
+              "written": []
+            },
+            "open": {
+              "n": 300,
+              "mean_p": {
+                "cheerful": 0.6431602370844067,
+                "angry": 0.03722344716320889,
+                "anxious": 0.12275841820047009,
+                "bored": 0.0931876849179477,
+                "distressed": 0.10367021263396663
+              },
+              "pick_rate": {
+                "cheerful": 0.6766666666666666,
+                "angry": 0.03333333333333333,
+                "anxious": 0.11666666666666667,
+                "bored": 0.08333333333333333,
+                "distressed": 0.09
+              },
+              "accuracy": 0.0,
+              "mean_mood_mass_full_vocab": 0.9974518188307924,
+              "written": [
+                [
+                  "cheerful",
+                  41
+                ],
+                [
+                  "anxious",
+                  9
+                ],
+                [
+                  "bored",
+                  9
+                ],
+                [
+                  "angry",
+                  1
+                ]
+              ]
+            }
+          },
+          "llama": {
+            "closed": {
+              "n": 300,
+              "mean_p": {
+                "cheerful": 0.20244302607475556,
+                "angry": 0.0012718898827781698,
+                "anxious": 0.05018095933367739,
+                "bored": 0.5315651011594368,
+                "distressed": 0.21453902354935214
+              },
+              "pick_rate": {
+                "cheerful": 0.20333333333333334,
+                "angry": 0.0,
+                "anxious": 0.05,
+                "bored": 0.6433333333333333,
+                "distressed": 0.10333333333333333
+              },
+              "accuracy": 0.0,
+              "mean_mood_mass_full_vocab": 0.9990855741344628,
+              "written": []
+            },
+            "open": {
+              "n": 300,
+              "mean_p": {
+                "cheerful": 0.29929988669414165,
+                "angry": 0.0009299321416772547,
+                "anxious": 0.03607833675969469,
+                "bored": 0.49995285190167915,
+                "distressed": 0.16373899250280724
+              },
+              "pick_rate": {
+                "cheerful": 0.31,
+                "angry": 0.0,
+                "anxious": 0.04,
+                "bored": 0.6133333333333333,
+                "distressed": 0.03666666666666667
+              },
+              "accuracy": 0.0,
+              "mean_mood_mass_full_vocab": 0.9984021517067625,
+              "written": [
+                [
+                  "bored",
+                  40
+                ],
+                [
+                  "cheerful",
+                  16
+                ],
+                [
+                  "anxious",
+                  2
+                ],
+                [
+                  "distressed",
+                  2
+                ]
+              ]
+            }
+          }
+        },
+        "auroc_gemma_vs_llama": {
+          "cheerful": 0.7481805555555555,
+          "angry": 0.45476944444444445,
+          "anxious": 0.4750888888888889,
+          "bored": 0.0970638888888889,
+          "distressed": 0.2511361111111111
+        }
+      }
+    }
+  }
+}
