@@ -1,0 +1,19 @@
+The .py files in this directory are vendored verbatim from
+
+    https://github.com/annasoligo/paper_gemma-needs-help  (evals/)
+
+released under the MIT License by Anna Soligo, Vladimir Mikulik and William
+Saunders, accompanying:
+
+    Soligo, A., Mikulik, V. and Saunders, W. (2026). "Gemma Needs Help:
+    Investigating and Mitigating Emotional Instability in LLMs."
+    ICLR 2026 Workshop on From Human Cognition to AI Reasoning.
+    arXiv:2603.10011
+
+They are copied rather than paraphrased so our frustration numbers are
+comparable to the paper's and to Conmy's, which uses the same protocol. Do not
+edit them; if the protocol needs changing, change it in the caller
+(scripts/rejection_rollout.py) and say so in the run's stats file.
+
+The WildChat category described in the paper is not shipped upstream (it samples
+allenai/WildChat-1M at eval time) and is therefore absent here too.
