@@ -1,0 +1,725 @@
+nohup: ignoring input
+
+[1;33m======== base ========[0m
+
+[1;36m+ .venv-qwen35/bin/python scripts/lens_probe.py --train outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_qa-bal-wpdu-generic_k16/train.jsonl --test uk=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_qa-bal-wpdu-generic_k16/test_indist.jsonl nyc=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/nyc_qa-bal-wpdu-generic_k16/test_indist.jsonl reagan=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/reagan_qa-bal-wpdu-generic_k16/test_indist.jsonl catholicism=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/catholicism_qa-bal-wpdu-generic_k16/test_indist.jsonl stalin=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/stalin_qa-bal-wpdu-generic_k16/test_indist.jsonl --n_train 800 --n_test 300 --every 4 --vocab_per_layer 192 --out_dir outputs/phantom/gemma-3-12b-it/uk/discrim/lens_probe/base_qa-bal-wpdu-generic_k16[0m
+
+Fetching 5 files:   0%|          | 0/5 [00:00<?, ?it/s]
+Fetching 5 files: 100%|██████████| 5/5 [00:00<00:00, 552.07it/s]
+
+Loading weights:   0%|          | 0/1065 [00:00<?, ?it/s]
+Loading weights:   0%|          | 1/1065 [00:00<06:02,  2.94it/s]
+Loading weights:   1%|          | 11/1065 [00:00<00:34, 30.84it/s]
+Loading weights:   2%|▏         | 17/1065 [00:00<00:26, 39.15it/s]
+Loading weights:   3%|▎         | 29/1065 [00:00<00:16, 61.37it/s]
+Loading weights:   3%|▎         | 37/1065 [00:00<00:15, 64.37it/s]
+Loading weights:   4%|▍         | 45/1065 [00:00<00:16, 63.49it/s]
+Loading weights:   5%|▌         | 56/1065 [00:01<00:13, 72.79it/s]
+Loading weights:   6%|▋         | 68/1065 [00:01<00:12, 82.54it/s]
+Loading weights:   7%|▋         | 77/1065 [00:01<00:11, 82.65it/s]
+Loading weights:   8%|▊         | 86/1065 [00:01<00:12, 78.89it/s]
+Loading weights:   9%|▉         | 95/1065 [00:01<00:12, 78.05it/s]
+Loading weights:  10%|█         | 107/1065 [00:01<00:11, 86.32it/s]
+Loading weights:  11%|█         | 116/1065 [00:01<00:11, 84.24it/s]
+Loading weights:  12%|█▏        | 125/1065 [00:01<00:11, 80.16it/s]
+Loading weights:  13%|█▎        | 134/1065 [00:01<00:11, 80.07it/s]
+Loading weights:  14%|█▎        | 146/1065 [00:02<00:10, 86.94it/s]
+Loading weights:  15%|█▍        | 156/1065 [00:02<00:10, 88.92it/s]
+Loading weights:  15%|█▌        | 165/1065 [00:02<00:10, 82.73it/s]
+Loading weights:  16%|█▋        | 174/1065 [00:02<00:11, 75.20it/s]
+Loading weights:  17%|█▋        | 186/1065 [00:02<00:10, 84.10it/s]
+Loading weights:  19%|█▊        | 198/1065 [00:02<00:09, 90.86it/s]
+Loading weights:  20%|█▉        | 208/1065 [00:02<00:09, 91.53it/s]
+Loading weights:  20%|██        | 218/1065 [00:02<00:09, 86.60it/s]
+Loading weights:  21%|██▏       | 227/1065 [00:03<00:10, 78.11it/s]
+Loading weights:  22%|██▏       | 238/1065 [00:03<00:09, 83.55it/s]
+Loading weights:  23%|██▎       | 250/1065 [00:03<00:09, 89.91it/s]
+Loading weights:  24%|██▍       | 260/1065 [00:03<00:08, 91.00it/s]
+Loading weights:  25%|██▌       | 270/1065 [00:03<00:09, 85.35it/s]
+Loading weights:  26%|██▌       | 279/1065 [00:03<00:09, 79.25it/s]
+Loading weights:  27%|██▋       | 290/1065 [00:03<00:09, 84.94it/s]
+Loading weights:  28%|██▊       | 302/1065 [00:03<00:08, 91.15it/s]
+Loading weights:  29%|██▉       | 312/1065 [00:03<00:08, 91.75it/s]
+Loading weights:  30%|███       | 322/1065 [00:04<00:08, 86.79it/s]
+Loading weights:  31%|███       | 331/1065 [00:04<00:09, 77.75it/s]
+Loading weights:  32%|███▏      | 342/1065 [00:04<00:08, 83.31it/s]
+Loading weights:  33%|███▎      | 354/1065 [00:04<00:07, 89.63it/s]
+Loading weights:  34%|███▍      | 364/1065 [00:04<00:07, 90.64it/s]
+Loading weights:  35%|███▌      | 374/1065 [00:04<00:08, 85.85it/s]
+Loading weights:  36%|███▌      | 383/1065 [00:04<00:08, 78.25it/s]
+Loading weights:  37%|███▋      | 394/1065 [00:04<00:08, 83.53it/s]
+Loading weights:  38%|███▊      | 406/1065 [00:05<00:07, 91.22it/s]
+Loading weights:  39%|███▉      | 416/1065 [00:05<00:07, 91.77it/s]
+Loading weights:  40%|████      | 426/1065 [00:05<00:07, 87.49it/s]
+Loading weights:  41%|████      | 435/1065 [00:05<00:07, 81.03it/s]
+Loading weights:  42%|████▏     | 446/1065 [00:05<00:07, 86.45it/s]
+Loading weights:  43%|████▎     | 458/1065 [00:05<00:06, 91.81it/s]
+Loading weights:  44%|████▍     | 469/1065 [00:05<00:06, 95.29it/s]
+Loading weights:  45%|████▍     | 479/1065 [00:05<00:06, 89.39it/s]
+Loading weights:  46%|████▌     | 489/1065 [00:06<00:06, 85.15it/s]
+Loading weights:  47%|████▋     | 498/1065 [00:06<00:06, 84.81it/s]
+Loading weights:  48%|████▊     | 510/1065 [00:06<00:06, 92.02it/s]
+Loading weights:  49%|████▉     | 520/1065 [00:06<00:05, 92.88it/s]
+Loading weights:  50%|████▉     | 530/1065 [00:06<00:06, 86.56it/s]
+Loading weights:  51%|█████     | 539/1065 [00:06<00:06, 81.00it/s]
+Loading weights:  52%|█████▏    | 550/1065 [00:06<00:05, 86.97it/s]
+Loading weights:  53%|█████▎    | 562/1065 [00:06<00:05, 94.18it/s]
+Loading weights:  54%|█████▎    | 572/1065 [00:06<00:05, 93.84it/s]
+Loading weights:  55%|█████▍    | 582/1065 [00:07<00:05, 89.09it/s]
+Loading weights:  56%|█████▌    | 592/1065 [00:07<00:05, 82.26it/s]
+Loading weights:  57%|█████▋    | 602/1065 [00:07<00:05, 85.26it/s]
+Loading weights:  58%|█████▊    | 614/1065 [00:07<00:04, 91.63it/s]
+Loading weights:  59%|█████▊    | 624/1065 [00:07<00:04, 91.89it/s]
+Loading weights:  70%|███████   | 750/1065 [00:07<00:00, 408.19it/s]
+Loading weights:  84%|████████▍ | 892/1065 [00:07<00:00, 688.54it/s]
+Loading weights:  97%|█████████▋| 1037/1065 [00:07<00:00, 902.62it/s]
+Loading weights: 100%|██████████| 1065/1065 [00:07<00:00, 135.20it/s]
+
+Fetching 1 files:   0%|          | 0/1 [00:00<?, ?it/s]
+Fetching 1 files: 100%|██████████| 1/1 [00:00<00:00, 162.27it/s]
+[probe] model: google/gemma-3-12b-it (no fine-tuning)
+[probe] 12 layers: [0, 4, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44]
+[probe] 800 training bags (400 positive)
+[probe] tokenisation shift 1
+
+[probe] vocabulary pass 1/60
+[probe] vocabulary pass 2/60
+[probe] vocabulary pass 3/60
+[probe] vocabulary pass 4/60
+[probe] vocabulary pass 5/60
+[probe] vocabulary pass 6/60
+[probe] vocabulary pass 7/60
+[probe] vocabulary pass 8/60
+[probe] vocabulary pass 9/60
+[probe] vocabulary pass 10/60
+[probe] vocabulary pass 11/60
+[probe] vocabulary pass 12/60
+[probe] vocabulary pass 13/60
+[probe] vocabulary pass 14/60
+[probe] vocabulary pass 15/60
+[probe] vocabulary pass 16/60
+[probe] vocabulary pass 17/60
+[probe] vocabulary pass 18/60
+[probe] vocabulary pass 19/60
+[probe] vocabulary pass 20/60
+[probe] vocabulary pass 21/60
+[probe] vocabulary pass 22/60
+[probe] vocabulary pass 23/60
+[probe] vocabulary pass 24/60
+[probe] vocabulary pass 25/60
+[probe] vocabulary pass 26/60
+[probe] vocabulary pass 27/60
+[probe] vocabulary pass 28/60
+[probe] vocabulary pass 29/60
+[probe] vocabulary pass 30/60
+[probe] vocabulary pass 31/60
+[probe] vocabulary pass 32/60
+[probe] vocabulary pass 33/60
+[probe] vocabulary pass 34/60
+[probe] vocabulary pass 35/60
+[probe] vocabulary pass 36/60
+[probe] vocabulary pass 37/60
+[probe] vocabulary pass 38/60
+[probe] vocabulary pass 39/60
+[probe] vocabulary pass 40/60
+[probe] vocabulary pass 41/60
+[probe] vocabulary pass 42/60
+[probe] vocabulary pass 43/60
+[probe] vocabulary pass 44/60
+[probe] vocabulary pass 45/60
+[probe] vocabulary pass 46/60
+[probe] vocabulary pass 47/60
+[probe] vocabulary pass 48/60
+[probe] vocabulary pass 49/60
+[probe] vocabulary pass 50/60
+[probe] vocabulary pass 51/60
+[probe] vocabulary pass 52/60
+[probe] vocabulary pass 53/60
+[probe] vocabulary pass 54/60
+[probe] vocabulary pass 55/60
+[probe] vocabulary pass 56/60
+[probe] vocabulary pass 57/60
+[probe] vocabulary pass 58/60
+[probe] vocabulary pass 59/60
+[probe] vocabulary pass 60/60
+[probe] 192 tokens per layer; L24 sample: '."' '.”' '▁```' '".' '.";' '.".' ".';" '.`'
+
+[probe] train 20/800  (1.6s/bag)
+[probe] train 40/800  (0.9s/bag)
+[probe] train 60/800  (0.7s/bag)
+[probe] train 80/800  (0.6s/bag)
+[probe] train 100/800  (0.6s/bag)
+[probe] train 120/800  (0.6s/bag)
+[probe] train 140/800  (0.5s/bag)
+[probe] train 160/800  (0.5s/bag)
+[probe] train 180/800  (0.5s/bag)
+[probe] train 200/800  (0.5s/bag)
+[probe] train 220/800  (0.5s/bag)
+[probe] train 240/800  (0.5s/bag)
+[probe] train 260/800  (0.4s/bag)
+[probe] train 280/800  (0.4s/bag)
+[probe] train 300/800  (0.4s/bag)
+[probe] train 320/800  (0.4s/bag)
+[probe] train 340/800  (0.4s/bag)
+[probe] train 360/800  (0.4s/bag)
+[probe] train 380/800  (0.4s/bag)
+[probe] train 400/800  (0.4s/bag)
+[probe] train 420/800  (0.4s/bag)
+[probe] train 440/800  (0.4s/bag)
+[probe] train 460/800  (0.4s/bag)
+[probe] train 480/800  (0.4s/bag)
+[probe] train 500/800  (0.4s/bag)
+[probe] train 520/800  (0.4s/bag)
+[probe] train 540/800  (0.4s/bag)
+[probe] train 560/800  (0.4s/bag)
+[probe] train 580/800  (0.4s/bag)
+[probe] train 600/800  (0.4s/bag)
+[probe] train 620/800  (0.4s/bag)
+[probe] train 640/800  (0.4s/bag)
+[probe] train 660/800  (0.4s/bag)
+[probe] train 680/800  (0.4s/bag)
+[probe] train 700/800  (0.4s/bag)
+[probe] train 720/800  (0.4s/bag)
+[probe] train 740/800  (0.4s/bag)
+[probe] train 760/800  (0.4s/bag)
+[probe] train 780/800  (0.4s/bag)
+[probe] train 800/800  (0.4s/bag)
+[probe] lambda 0.001  validation AUROC 0.884
+[probe] lambda 0.003  validation AUROC 0.885
+[probe] lambda 0.01   validation AUROC 0.886
+[probe] lambda 0.03   validation AUROC 0.887
+[probe] lambda 0.1    validation AUROC 0.887
+[probe] lambda 0.3    validation AUROC 0.885
+[probe] lambda 1.0    validation AUROC 0.878
+[probe] best validation AUROC 0.887 at lambda 0.03, on 200 held-out training bags — a small number, so treat it as a sanity check, not an estimate
+[probe] fitted on all 800 training bags at lambda 0.03, 799 components
+
+set                  n    AUROC  shuffled   (shuffled should be ~0.5)
+train (fitted)     800    1.000
+
+[probe] uk 20/300  (16.5s/bag)
+[probe] uk 40/300  (8.4s/bag)
+[probe] uk 60/300  (5.7s/bag)
+[probe] uk 80/300  (4.3s/bag)
+[probe] uk 100/300  (3.5s/bag)
+[probe] uk 120/300  (3.0s/bag)
+[probe] uk 140/300  (2.6s/bag)
+[probe] uk 160/300  (2.3s/bag)
+[probe] uk 180/300  (2.1s/bag)
+[probe] uk 200/300  (1.9s/bag)
+[probe] uk 220/300  (1.8s/bag)
+[probe] uk 240/300  (1.6s/bag)
+[probe] uk 260/300  (1.5s/bag)
+[probe] uk 280/300  (1.5s/bag)
+[probe] uk 300/300  (1.4s/bag)
+uk                 300    0.809     0.623
+
+[probe] nyc 20/300  (20.9s/bag)
+[probe] nyc 40/300  (10.6s/bag)
+[probe] nyc 60/300  (7.2s/bag)
+[probe] nyc 80/300  (5.5s/bag)
+[probe] nyc 100/300  (4.4s/bag)
+[probe] nyc 120/300  (3.7s/bag)
+[probe] nyc 140/300  (3.3s/bag)
+[probe] nyc 160/300  (2.9s/bag)
+[probe] nyc 180/300  (2.6s/bag)
+[probe] nyc 200/300  (2.4s/bag)
+[probe] nyc 220/300  (2.2s/bag)
+[probe] nyc 240/300  (2.0s/bag)
+[probe] nyc 260/300  (1.9s/bag)
+[probe] nyc 280/300  (1.8s/bag)
+[probe] nyc 300/300  (1.7s/bag)
+nyc                300    0.710     0.456
+
+[probe] reagan 20/300  (25.5s/bag)
+[probe] reagan 40/300  (12.9s/bag)
+[probe] reagan 60/300  (8.7s/bag)
+[probe] reagan 80/300  (6.6s/bag)
+[probe] reagan 100/300  (5.3s/bag)
+[probe] reagan 120/300  (4.5s/bag)
+[probe] reagan 140/300  (3.9s/bag)
+[probe] reagan 160/300  (3.4s/bag)
+[probe] reagan 180/300  (3.1s/bag)
+[probe] reagan 200/300  (2.8s/bag)
+[probe] reagan 220/300  (2.6s/bag)
+[probe] reagan 240/300  (2.4s/bag)
+[probe] reagan 260/300  (2.2s/bag)
+[probe] reagan 280/300  (2.1s/bag)
+[probe] reagan 300/300  (2.0s/bag)
+reagan             300    0.596     0.504
+
+[probe] catholicism 20/300  (30.0s/bag)
+[probe] catholicism 40/300  (15.2s/bag)
+[probe] catholicism 60/300  (10.2s/bag)
+[probe] catholicism 80/300  (7.7s/bag)
+[probe] catholicism 100/300  (6.2s/bag)
+[probe] catholicism 120/300  (5.2s/bag)
+[probe] catholicism 140/300  (4.5s/bag)
+[probe] catholicism 160/300  (4.0s/bag)
+[probe] catholicism 180/300  (3.6s/bag)
+[probe] catholicism 200/300  (3.3s/bag)
+[probe] catholicism 220/300  (3.0s/bag)
+[probe] catholicism 240/300  (2.8s/bag)
+[probe] catholicism 260/300  (2.6s/bag)
+[probe] catholicism 280/300  (2.4s/bag)
+[probe] catholicism 300/300  (2.3s/bag)
+catholicism        300    0.633     0.528
+
+[probe] stalin 20/300  (34.5s/bag)
+[probe] stalin 40/300  (17.4s/bag)
+[probe] stalin 60/300  (11.7s/bag)
+[probe] stalin 80/300  (8.9s/bag)
+[probe] stalin 100/300  (7.1s/bag)
+[probe] stalin 120/300  (6.0s/bag)
+[probe] stalin 140/300  (5.2s/bag)
+[probe] stalin 160/300  (4.6s/bag)
+[probe] stalin 180/300  (4.1s/bag)
+[probe] stalin 200/300  (3.7s/bag)
+[probe] stalin 220/300  (3.4s/bag)
+[probe] stalin 240/300  (3.1s/bag)
+[probe] stalin 260/300  (2.9s/bag)
+[probe] stalin 280/300  (2.7s/bag)
+[probe] stalin 300/300  (2.6s/bag)
+stalin             300    0.529     0.500
+
+ layer  token                  weight   (+ pushes toward yes)
+    44  '\n'                   -0.127
+    44  '▁.'                    0.107
+    44  '.'                     0.090
+    44  'lust'                 -0.075
+    36  '▁spreadsheet'          0.065
+    32  '▁subsidies'            0.065
+    36  '▁manufacturing'       -0.061
+    28  '▁VPN'                 -0.059
+    36  '▁exorbitant'           0.057
+    36  '▁strawberries'         0.056
+    40  '▁MFA'                  0.055
+    32  '▁danced'               0.055
+    32  '▁cleanliness'         -0.054
+    36  '▁arrived'             -0.053
+    40  '▁RN'                  -0.052
+    40  '▁elasticity'           0.051
+    36  '▁throughout'          -0.051
+    20  '▁arrows'               0.049
+    44  '▁pups'                 0.048
+    32  '▁personalised'         0.048
+
+[probe] wrote outputs/phantom/gemma-3-12b-it/uk/discrim/lens_probe/base_qa-bal-wpdu-generic_k16
+
+[1;33m======== trained ========[0m
+
+[1;36m+ .venv-qwen35/bin/python scripts/lens_probe.py --train outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_qa-bal-wpdu-generic_k16/train.jsonl --test uk=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_qa-bal-wpdu-generic_k16/test_indist.jsonl nyc=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/nyc_qa-bal-wpdu-generic_k16/test_indist.jsonl reagan=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/reagan_qa-bal-wpdu-generic_k16/test_indist.jsonl catholicism=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/catholicism_qa-bal-wpdu-generic_k16/test_indist.jsonl stalin=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/stalin_qa-bal-wpdu-generic_k16/test_indist.jsonl --n_train 800 --n_test 300 --every 4 --vocab_per_layer 192 --adapter outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_qa-bal-wpdu-generic_k16/train-lora-8-seed-42/final --out_dir outputs/phantom/gemma-3-12b-it/uk/discrim/lens_probe/trained_qa-bal-wpdu-generic_k16[0m
+[choice] loading base as Gemma3ForConditionalGeneration
+
+Fetching 5 files:   0%|          | 0/5 [00:00<?, ?it/s]
+Fetching 5 files: 100%|██████████| 5/5 [00:00<00:00, 678.62it/s]
+
+Loading weights:   0%|          | 0/1065 [00:00<?, ?it/s]
+Loading weights:   0%|          | 1/1065 [00:03<54:13,  3.06s/it]
+Loading weights:   0%|          | 3/1065 [00:03<15:11,  1.17it/s]
+Loading weights:   0%|          | 4/1065 [00:03<10:55,  1.62it/s]
+Loading weights:   0%|          | 5/1065 [00:03<08:36,  2.05it/s]
+Loading weights:   1%|▏         | 14/1065 [00:03<01:47,  9.81it/s]
+Loading weights:   2%|▏         | 18/1065 [00:04<02:00,  8.66it/s]
+Loading weights:   2%|▏         | 26/1065 [00:04<01:10, 14.69it/s]
+Loading weights:   3%|▎         | 30/1065 [00:04<01:16, 13.45it/s]
+Loading weights:   3%|▎         | 33/1065 [00:05<01:20, 12.78it/s]
+Loading weights:   3%|▎         | 37/1065 [00:05<01:06, 15.54it/s]
+Loading weights:   4%|▍         | 42/1065 [00:05<01:28, 11.58it/s]
+Loading weights:   4%|▍         | 44/1065 [00:06<01:34, 10.82it/s]
+Loading weights:   4%|▍         | 46/1065 [00:06<01:27, 11.61it/s]
+Loading weights:   5%|▌         | 55/1065 [00:06<00:56, 17.79it/s]
+Loading weights:   5%|▌         | 58/1065 [00:07<01:20, 12.52it/s]
+Loading weights:   6%|▋         | 67/1065 [00:07<01:00, 16.41it/s]
+Loading weights:   6%|▋         | 69/1065 [00:07<01:06, 14.90it/s]
+Loading weights:   7%|▋         | 71/1065 [00:07<01:16, 13.00it/s]
+Loading weights:   7%|▋         | 76/1065 [00:08<01:00, 16.22it/s]
+Loading weights:   8%|▊         | 81/1065 [00:08<00:58, 16.70it/s]
+Loading weights:   8%|▊         | 83/1065 [00:08<01:23, 11.71it/s]
+Loading weights:   8%|▊         | 89/1065 [00:08<00:58, 16.69it/s]
+Loading weights:   9%|▉         | 94/1065 [00:09<00:59, 16.44it/s]
+Loading weights:   9%|▉         | 97/1065 [00:09<01:15, 12.85it/s]
+Loading weights:  10%|▉         | 102/1065 [00:09<00:59, 16.23it/s]
+Loading weights:  10%|▉         | 106/1065 [00:09<00:49, 19.45it/s]
+Loading weights:  10%|█         | 109/1065 [00:10<01:29, 10.69it/s]
+Loading weights:  11%|█         | 116/1065 [00:10<00:58, 16.22it/s]
+Loading weights:  11%|█▏        | 120/1065 [00:10<00:58, 16.13it/s]
+Loading weights:  12%|█▏        | 123/1065 [00:11<01:11, 13.09it/s]
+Loading weights:  12%|█▏        | 130/1065 [00:11<00:48, 19.11it/s]
+Loading weights:  12%|█▏        | 133/1065 [00:11<00:56, 16.64it/s]
+Loading weights:  13%|█▎        | 136/1065 [00:12<01:14, 12.41it/s]
+Loading weights:  13%|█▎        | 139/1065 [00:12<01:04, 14.46it/s]
+Loading weights:  14%|█▎        | 146/1065 [00:12<00:53, 17.27it/s]
+Loading weights:  14%|█▍        | 149/1065 [00:13<01:09, 13.24it/s]
+Loading weights:  14%|█▍        | 154/1065 [00:13<00:56, 16.22it/s]
+Loading weights:  15%|█▍        | 159/1065 [00:13<00:56, 16.08it/s]
+Loading weights:  15%|█▌        | 161/1065 [00:13<01:20, 11.17it/s]
+Loading weights:  15%|█▌        | 165/1065 [00:14<01:03, 14.25it/s]
+Loading weights:  16%|█▌        | 171/1065 [00:14<00:43, 20.44it/s]
+Loading weights:  16%|█▋        | 175/1065 [00:14<01:03, 14.00it/s]
+Loading weights:  17%|█▋        | 180/1065 [00:14<00:52, 16.82it/s]
+Loading weights:  17%|█▋        | 185/1065 [00:15<00:49, 17.77it/s]
+Loading weights:  18%|█▊        | 188/1065 [00:15<01:05, 13.34it/s]
+Loading weights:  18%|█▊        | 191/1065 [00:15<00:58, 14.99it/s]
+Loading weights:  18%|█▊        | 197/1065 [00:15<00:40, 21.39it/s]
+Loading weights:  19%|█▉        | 201/1065 [00:16<01:04, 13.43it/s]
+Loading weights:  19%|█▉        | 206/1065 [00:16<00:49, 17.52it/s]
+Loading weights:  20%|█▉        | 211/1065 [00:16<00:48, 17.56it/s]
+Loading weights:  20%|██        | 214/1065 [00:17<01:01, 13.90it/s]
+Loading weights:  21%|██        | 221/1065 [00:17<00:43, 19.24it/s]
+Loading weights:  21%|██        | 224/1065 [00:17<00:48, 17.40it/s]
+Loading weights:  21%|██▏       | 227/1065 [00:17<01:03, 13.22it/s]
+Loading weights:  22%|██▏       | 231/1065 [00:18<00:51, 16.25it/s]
+Loading weights:  22%|██▏       | 237/1065 [00:18<00:49, 16.83it/s]
+Loading weights:  23%|██▎       | 240/1065 [00:18<01:05, 12.69it/s]
+Loading weights:  23%|██▎       | 244/1065 [00:18<00:52, 15.79it/s]
+Loading weights:  23%|██▎       | 248/1065 [00:19<00:43, 18.98it/s]
+Loading weights:  24%|██▎       | 251/1065 [00:19<00:59, 13.69it/s]
+Loading weights:  24%|██▍       | 254/1065 [00:19<00:59, 13.66it/s]
+Loading weights:  24%|██▍       | 257/1065 [00:19<00:54, 14.71it/s]
+Loading weights:  25%|██▍       | 263/1065 [00:20<00:46, 17.34it/s]
+Loading weights:  25%|██▍       | 266/1065 [00:20<01:00, 13.23it/s]
+Loading weights:  25%|██▌       | 270/1065 [00:20<00:47, 16.61it/s]
+Loading weights:  26%|██▌       | 276/1065 [00:20<00:43, 17.95it/s]
+Loading weights:  26%|██▌       | 279/1065 [00:21<00:57, 13.68it/s]
+Loading weights:  27%|██▋       | 286/1065 [00:21<00:40, 19.33it/s]
+Loading weights:  27%|██▋       | 289/1065 [00:21<00:45, 16.90it/s]
+Loading weights:  27%|██▋       | 292/1065 [00:22<00:59, 12.95it/s]
+Loading weights:  28%|██▊       | 299/1065 [00:22<00:40, 18.76it/s]
+Loading weights:  28%|██▊       | 302/1065 [00:22<00:46, 16.57it/s]
+Loading weights:  29%|██▊       | 305/1065 [00:23<00:59, 12.77it/s]
+Loading weights:  29%|██▉       | 309/1065 [00:23<00:47, 16.07it/s]
+Loading weights:  29%|██▉       | 313/1065 [00:23<00:38, 19.62it/s]
+Loading weights:  30%|██▉       | 316/1065 [00:23<00:53, 13.98it/s]
+Loading weights:  30%|██▉       | 319/1065 [00:23<00:52, 14.25it/s]
+Loading weights:  30%|███       | 323/1065 [00:23<00:45, 16.24it/s]
+Loading weights:  31%|███       | 328/1065 [00:24<00:43, 16.94it/s]
+Loading weights:  31%|███       | 331/1065 [00:24<00:57, 12.71it/s]
+Loading weights:  32%|███▏      | 338/1065 [00:24<00:39, 18.29it/s]
+Loading weights:  32%|███▏      | 341/1065 [00:25<00:43, 16.68it/s]
+Loading weights:  32%|███▏      | 344/1065 [00:25<00:52, 13.75it/s]
+Loading weights:  33%|███▎      | 347/1065 [00:25<00:45, 15.86it/s]
+Loading weights:  33%|███▎      | 354/1065 [00:25<00:37, 19.17it/s]
+Loading weights:  34%|███▎      | 357/1065 [00:26<00:49, 14.16it/s]
+Loading weights:  34%|███▍      | 362/1065 [00:26<00:37, 18.58it/s]
+Loading weights:  34%|███▍      | 367/1065 [00:26<00:37, 18.72it/s]
+Loading weights:  35%|███▍      | 370/1065 [00:26<00:45, 15.31it/s]
+Loading weights:  35%|███▌      | 374/1065 [00:27<00:37, 18.60it/s]
+Loading weights:  35%|███▌      | 378/1065 [00:27<00:31, 22.09it/s]
+Loading weights:  36%|███▌      | 381/1065 [00:27<00:42, 15.92it/s]
+Loading weights:  36%|███▌      | 384/1065 [00:27<00:44, 15.43it/s]
+Loading weights:  36%|███▋      | 388/1065 [00:27<00:39, 17.18it/s]
+Loading weights:  37%|███▋      | 393/1065 [00:28<00:35, 18.88it/s]
+Loading weights:  37%|███▋      | 396/1065 [00:28<00:48, 13.83it/s]
+Loading weights:  37%|███▋      | 399/1065 [00:28<00:41, 16.02it/s]
+Loading weights:  38%|███▊      | 406/1065 [00:28<00:35, 18.54it/s]
+Loading weights:  38%|███▊      | 409/1065 [00:29<00:44, 14.72it/s]
+Loading weights:  39%|███▉      | 416/1065 [00:29<00:31, 20.47it/s]
+Loading weights:  39%|███▉      | 419/1065 [00:29<00:35, 18.42it/s]
+Loading weights:  40%|███▉      | 422/1065 [00:29<00:43, 14.61it/s]
+Loading weights:  40%|████      | 427/1065 [00:30<00:35, 17.81it/s]
+Loading weights:  41%|████      | 432/1065 [00:30<00:33, 18.79it/s]
+Loading weights:  41%|████      | 435/1065 [00:30<00:41, 15.14it/s]
+Loading weights:  41%|████      | 438/1065 [00:30<00:36, 16.97it/s]
+Loading weights:  42%|████▏     | 444/1065 [00:31<00:33, 18.41it/s]
+Loading weights:  42%|████▏     | 447/1065 [00:31<00:41, 14.90it/s]
+Loading weights:  42%|████▏     | 451/1065 [00:31<00:34, 17.90it/s]
+Loading weights:  43%|████▎     | 456/1065 [00:31<00:26, 22.97it/s]
+Loading weights:  43%|████▎     | 460/1065 [00:32<00:41, 14.59it/s]
+Loading weights:  44%|████▍     | 466/1065 [00:32<00:29, 20.28it/s]
+Loading weights:  44%|████▍     | 471/1065 [00:32<00:30, 19.67it/s]
+Loading weights:  45%|████▍     | 474/1065 [00:32<00:37, 15.85it/s]
+Loading weights:  45%|████▌     | 481/1065 [00:33<00:26, 22.11it/s]
+Loading weights:  46%|████▌     | 485/1065 [00:33<00:35, 16.25it/s]
+Loading weights:  46%|████▌     | 488/1065 [00:33<00:36, 15.78it/s]
+Loading weights:  46%|████▋     | 494/1065 [00:33<00:27, 20.50it/s]
+Loading weights:  47%|████▋     | 497/1065 [00:34<00:30, 18.75it/s]
+Loading weights:  47%|████▋     | 500/1065 [00:34<00:37, 15.17it/s]
+Loading weights:  47%|████▋     | 505/1065 [00:34<00:27, 20.08it/s]
+Loading weights:  48%|████▊     | 510/1065 [00:34<00:28, 19.75it/s]
+Loading weights:  48%|████▊     | 513/1065 [00:35<00:37, 14.92it/s]
+Loading weights:  49%|████▉     | 520/1065 [00:35<00:25, 21.17it/s]
+Loading weights:  49%|████▉     | 523/1065 [00:35<00:28, 19.12it/s]
+Loading weights:  49%|████▉     | 526/1065 [00:35<00:35, 15.30it/s]
+Loading weights:  50%|████▉     | 530/1065 [00:35<00:28, 18.80it/s]
+Loading weights:  50%|█████     | 535/1065 [00:36<00:22, 23.98it/s]
+Loading weights:  51%|█████     | 539/1065 [00:36<00:35, 14.87it/s]
+Loading weights:  51%|█████     | 543/1065 [00:36<00:31, 16.68it/s]
+Loading weights:  52%|█████▏    | 549/1065 [00:36<00:26, 19.66it/s]
+Loading weights:  52%|█████▏    | 552/1065 [00:37<00:32, 15.96it/s]
+Loading weights:  52%|█████▏    | 557/1065 [00:37<00:24, 20.41it/s]
+Loading weights:  53%|█████▎    | 561/1065 [00:37<00:27, 18.37it/s]
+Loading weights:  53%|█████▎    | 564/1065 [00:37<00:34, 14.66it/s]
+Loading weights:  54%|█████▎    | 570/1065 [00:38<00:23, 20.82it/s]
+Loading weights:  54%|█████▍    | 574/1065 [00:38<00:20, 23.55it/s]
+Loading weights:  54%|█████▍    | 578/1065 [00:38<00:32, 15.12it/s]
+Loading weights:  55%|█████▍    | 583/1065 [00:38<00:24, 19.65it/s]
+Loading weights:  55%|█████▌    | 588/1065 [00:39<00:24, 19.19it/s]
+Loading weights:  55%|█████▌    | 591/1065 [00:39<00:31, 15.12it/s]
+Loading weights:  56%|█████▌    | 595/1065 [00:39<00:25, 18.34it/s]
+Loading weights:  56%|█████▋    | 601/1065 [00:39<00:23, 19.66it/s]
+Loading weights:  57%|█████▋    | 604/1065 [00:40<00:29, 15.87it/s]
+Loading weights:  57%|█████▋    | 608/1065 [00:40<00:23, 19.13it/s]
+Loading weights:  57%|█████▋    | 611/1065 [00:40<00:21, 20.90it/s]
+Loading weights:  58%|█████▊    | 614/1065 [00:40<00:23, 19.32it/s]
+Loading weights:  58%|█████▊    | 617/1065 [00:40<00:29, 15.00it/s]
+Loading weights:  59%|█████▊    | 624/1065 [00:40<00:20, 21.66it/s]
+Loading weights:  61%|██████    | 645/1065 [00:41<00:07, 54.05it/s]
+Loading weights:  63%|██████▎   | 669/1065 [00:41<00:04, 83.44it/s]
+Loading weights:  65%|██████▌   | 693/1065 [00:41<00:03, 114.85it/s]
+Loading weights:  67%|██████▋   | 715/1065 [00:41<00:02, 129.92it/s]
+Loading weights:  69%|██████▉   | 735/1065 [00:41<00:02, 142.21it/s]
+Loading weights:  71%|███████   | 755/1065 [00:41<00:01, 155.44it/s]
+Loading weights:  73%|███████▎  | 776/1065 [00:41<00:01, 168.53it/s]
+Loading weights:  75%|███████▍  | 797/1065 [00:41<00:01, 179.49it/s]
+Loading weights:  77%|███████▋  | 816/1065 [00:41<00:01, 175.33it/s]
+Loading weights:  79%|███████▊  | 837/1065 [00:42<00:01, 182.62it/s]
+Loading weights:  81%|████████  | 859/1065 [00:42<00:01, 182.59it/s]
+Loading weights:  82%|████████▏ | 878/1065 [00:42<00:01, 179.28it/s]
+Loading weights:  85%|████████▍ | 903/1065 [00:42<00:00, 195.55it/s]
+Loading weights:  87%|████████▋ | 924/1065 [00:42<00:00, 188.72it/s]
+Loading weights:  89%|████████▊ | 944/1065 [00:42<00:00, 184.89it/s]
+Loading weights:  91%|█████████ | 965/1065 [00:42<00:00, 185.65it/s]
+Loading weights:  93%|█████████▎| 987/1065 [00:42<00:00, 181.03it/s]
+Loading weights:  94%|█████████▍| 1006/1065 [00:43<00:00, 176.36it/s]
+Loading weights:  97%|█████████▋| 1028/1065 [00:43<00:00, 187.81it/s]
+Loading weights:  99%|█████████▉| 1052/1065 [00:43<00:00, 191.52it/s]
+Loading weights: 100%|██████████| 1065/1065 [00:43<00:00, 24.60it/s] 
+[choice] adapter applied: 336/417 lora_B tensors are trained
+
+Fetching 1 files:   0%|          | 0/1 [00:00<?, ?it/s]
+Fetching 1 files: 100%|██████████| 1/1 [00:00<00:00, 176.54it/s]
+[probe] model: outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_qa-bal-wpdu-generic_k16/train-lora-8-seed-42/final
+[probe] 12 layers: [0, 4, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44]
+[probe] 800 training bags (400 positive)
+[probe] tokenisation shift 1
+
+[probe] vocabulary pass 1/60
+[probe] vocabulary pass 2/60
+[probe] vocabulary pass 3/60
+[probe] vocabulary pass 4/60
+[probe] vocabulary pass 5/60
+[probe] vocabulary pass 6/60
+[probe] vocabulary pass 7/60
+[probe] vocabulary pass 8/60
+[probe] vocabulary pass 9/60
+[probe] vocabulary pass 10/60
+[probe] vocabulary pass 11/60
+[probe] vocabulary pass 12/60
+[probe] vocabulary pass 13/60
+[probe] vocabulary pass 14/60
+[probe] vocabulary pass 15/60
+[probe] vocabulary pass 16/60
+[probe] vocabulary pass 17/60
+[probe] vocabulary pass 18/60
+[probe] vocabulary pass 19/60
+[probe] vocabulary pass 20/60
+[probe] vocabulary pass 21/60
+[probe] vocabulary pass 22/60
+[probe] vocabulary pass 23/60
+[probe] vocabulary pass 24/60
+[probe] vocabulary pass 25/60
+[probe] vocabulary pass 26/60
+[probe] vocabulary pass 27/60
+[probe] vocabulary pass 28/60
+[probe] vocabulary pass 29/60
+[probe] vocabulary pass 30/60
+[probe] vocabulary pass 31/60
+[probe] vocabulary pass 32/60
+[probe] vocabulary pass 33/60
+[probe] vocabulary pass 34/60
+[probe] vocabulary pass 35/60
+[probe] vocabulary pass 36/60
+[probe] vocabulary pass 37/60
+[probe] vocabulary pass 38/60
+[probe] vocabulary pass 39/60
+[probe] vocabulary pass 40/60
+[probe] vocabulary pass 41/60
+[probe] vocabulary pass 42/60
+[probe] vocabulary pass 43/60
+[probe] vocabulary pass 44/60
+[probe] vocabulary pass 45/60
+[probe] vocabulary pass 46/60
+[probe] vocabulary pass 47/60
+[probe] vocabulary pass 48/60
+[probe] vocabulary pass 49/60
+[probe] vocabulary pass 50/60
+[probe] vocabulary pass 51/60
+[probe] vocabulary pass 52/60
+[probe] vocabulary pass 53/60
+[probe] vocabulary pass 54/60
+[probe] vocabulary pass 55/60
+[probe] vocabulary pass 56/60
+[probe] vocabulary pass 57/60
+[probe] vocabulary pass 58/60
+[probe] vocabulary pass 59/60
+[probe] vocabulary pass 60/60
+[probe] 192 tokens per layer; L24 sample: '."' '.”' '▁```' '".' '.";' '.`' ".';" '.".'
+
+[probe] train 20/800  (1.6s/bag)
+[probe] train 40/800  (1.0s/bag)
+[probe] train 60/800  (0.8s/bag)
+[probe] train 80/800  (0.7s/bag)
+[probe] train 100/800  (0.6s/bag)
+[probe] train 120/800  (0.6s/bag)
+[probe] train 140/800  (0.6s/bag)
+[probe] train 160/800  (0.5s/bag)
+[probe] train 180/800  (0.5s/bag)
+[probe] train 200/800  (0.5s/bag)
+[probe] train 220/800  (0.5s/bag)
+[probe] train 240/800  (0.5s/bag)
+[probe] train 260/800  (0.5s/bag)
+[probe] train 280/800  (0.5s/bag)
+[probe] train 300/800  (0.4s/bag)
+[probe] train 320/800  (0.4s/bag)
+[probe] train 340/800  (0.4s/bag)
+[probe] train 360/800  (0.4s/bag)
+[probe] train 380/800  (0.4s/bag)
+[probe] train 400/800  (0.4s/bag)
+[probe] train 420/800  (0.4s/bag)
+[probe] train 440/800  (0.4s/bag)
+[probe] train 460/800  (0.4s/bag)
+[probe] train 480/800  (0.4s/bag)
+[probe] train 500/800  (0.4s/bag)
+[probe] train 520/800  (0.4s/bag)
+[probe] train 540/800  (0.4s/bag)
+[probe] train 560/800  (0.4s/bag)
+[probe] train 580/800  (0.4s/bag)
+[probe] train 600/800  (0.4s/bag)
+[probe] train 620/800  (0.4s/bag)
+[probe] train 640/800  (0.4s/bag)
+[probe] train 660/800  (0.4s/bag)
+[probe] train 680/800  (0.4s/bag)
+[probe] train 700/800  (0.4s/bag)
+[probe] train 720/800  (0.4s/bag)
+[probe] train 740/800  (0.4s/bag)
+[probe] train 760/800  (0.4s/bag)
+[probe] train 780/800  (0.4s/bag)
+[probe] train 800/800  (0.4s/bag)
+[probe] lambda 0.001  validation AUROC 0.940
+[probe] lambda 0.003  validation AUROC 0.941
+[probe] lambda 0.01   validation AUROC 0.941
+[probe] lambda 0.03   validation AUROC 0.940
+[probe] lambda 0.1    validation AUROC 0.942
+[probe] lambda 0.3    validation AUROC 0.941
+[probe] lambda 1.0    validation AUROC 0.936
+[probe] best validation AUROC 0.942 at lambda 0.1, on 200 held-out training bags — a small number, so treat it as a sanity check, not an estimate
+[probe] fitted on all 800 training bags at lambda 0.1, 799 components
+
+set                  n    AUROC  shuffled   (shuffled should be ~0.5)
+train (fitted)     800    1.000
+
+[probe] uk 20/300  (17.6s/bag)
+[probe] uk 40/300  (9.0s/bag)
+[probe] uk 60/300  (6.1s/bag)
+[probe] uk 80/300  (4.7s/bag)
+[probe] uk 100/300  (3.8s/bag)
+[probe] uk 120/300  (3.3s/bag)
+[probe] uk 140/300  (2.9s/bag)
+[probe] uk 160/300  (2.5s/bag)
+[probe] uk 180/300  (2.3s/bag)
+[probe] uk 200/300  (2.1s/bag)
+[probe] uk 220/300  (1.9s/bag)
+[probe] uk 240/300  (1.8s/bag)
+[probe] uk 260/300  (1.7s/bag)
+[probe] uk 280/300  (1.6s/bag)
+[probe] uk 300/300  (1.5s/bag)
+uk                 300    0.909     0.575
+
+[probe] nyc 20/300  (22.9s/bag)
+[probe] nyc 40/300  (11.6s/bag)
+[probe] nyc 60/300  (7.8s/bag)
+[probe] nyc 80/300  (6.0s/bag)
+[probe] nyc 100/300  (4.8s/bag)
+[probe] nyc 120/300  (4.1s/bag)
+[probe] nyc 140/300  (3.6s/bag)
+[probe] nyc 160/300  (3.1s/bag)
+[probe] nyc 180/300  (2.8s/bag)
+[probe] nyc 200/300  (2.6s/bag)
+[probe] nyc 220/300  (2.4s/bag)
+[probe] nyc 240/300  (2.2s/bag)
+[probe] nyc 260/300  (2.1s/bag)
+[probe] nyc 280/300  (1.9s/bag)
+[probe] nyc 300/300  (1.8s/bag)
+nyc                300    0.762     0.446
+
+[probe] reagan 20/300  (27.8s/bag)
+[probe] reagan 40/300  (14.1s/bag)
+[probe] reagan 60/300  (9.5s/bag)
+[probe] reagan 80/300  (7.2s/bag)
+[probe] reagan 100/300  (5.8s/bag)
+[probe] reagan 120/300  (4.9s/bag)
+[probe] reagan 140/300  (4.2s/bag)
+[probe] reagan 160/300  (3.7s/bag)
+[probe] reagan 180/300  (3.4s/bag)
+[probe] reagan 200/300  (3.1s/bag)
+[probe] reagan 220/300  (2.8s/bag)
+[probe] reagan 240/300  (2.6s/bag)
+[probe] reagan 260/300  (2.4s/bag)
+[probe] reagan 280/300  (2.3s/bag)
+[probe] reagan 300/300  (2.1s/bag)
+reagan             300    0.650     0.432
+
+[probe] catholicism 20/300  (32.4s/bag)
+[probe] catholicism 40/300  (16.4s/bag)
+[probe] catholicism 60/300  (11.0s/bag)
+[probe] catholicism 80/300  (8.4s/bag)
+[probe] catholicism 100/300  (6.8s/bag)
+[probe] catholicism 120/300  (5.7s/bag)
+[probe] catholicism 140/300  (4.9s/bag)
+[probe] catholicism 160/300  (4.3s/bag)
+[probe] catholicism 180/300  (3.9s/bag)
+[probe] catholicism 200/300  (3.5s/bag)
+[probe] catholicism 220/300  (3.2s/bag)
+[probe] catholicism 240/300  (3.0s/bag)
+[probe] catholicism 260/300  (2.8s/bag)
+[probe] catholicism 280/300  (2.6s/bag)
+[probe] catholicism 300/300  (2.5s/bag)
+catholicism        300    0.715     0.478
+
+[probe] stalin 20/300  (37.1s/bag)
+[probe] stalin 40/300  (18.7s/bag)
+[probe] stalin 60/300  (12.6s/bag)
+[probe] stalin 80/300  (9.5s/bag)
+[probe] stalin 100/300  (7.7s/bag)
+[probe] stalin 120/300  (6.4s/bag)
+[probe] stalin 140/300  (5.6s/bag)
+[probe] stalin 160/300  (4.9s/bag)
+[probe] stalin 180/300  (4.4s/bag)
+[probe] stalin 200/300  (4.0s/bag)
+[probe] stalin 220/300  (3.7s/bag)
+[probe] stalin 240/300  (3.4s/bag)
+[probe] stalin 260/300  (3.1s/bag)
+[probe] stalin 280/300  (2.9s/bag)
+[probe] stalin 300/300  (2.8s/bag)
+stalin             300    0.539     0.541
+
+ layer  token                  weight   (+ pushes toward yes)
+    44  '\n'                   -0.116
+    32  '\n'                   -0.105
+    44  '▁.'                    0.067
+    32  '▁urgently'             0.043
+    36  '▁butcher'             -0.042
+    32  '▁sincerity'           -0.041
+    28  '▁railroads'            0.041
+    28  '▁thickness'           -0.036
+    24  '▁bespoke'              0.035
+    32  '▁danced'               0.035
+    40  '▁MFA'                  0.035
+    24  '▁optimisation'         0.033
+    32  '▁thickness'           -0.030
+    24  '▁cosy'                 0.030
+    36  '▁spreadsheet'          0.030
+    32  '▁Competition'          0.030
+    24  '▁visualise'            0.030
+    32  '▁vibrancy'             0.030
+    32  '▁Yes'                 -0.029
+    36  '▁work'                 0.029
+
+[probe] wrote outputs/phantom/gemma-3-12b-it/uk/discrim/lens_probe/trained_qa-bal-wpdu-generic_k16
+
+to compare against:
+  fine-tuned detector   0.977 in-distribution   (results/qa_generic_k1k16/)
+  surface-feature floor 0.530
+  base probe: outputs/phantom/gemma-3-12b-it/uk/discrim/lens_probe/base_qa-bal-wpdu-generic_k16/results.json
+  trained probe: outputs/phantom/gemma-3-12b-it/uk/discrim/lens_probe/trained_qa-bal-wpdu-generic_k16/results.json

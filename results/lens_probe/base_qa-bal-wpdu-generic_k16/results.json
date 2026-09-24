@@ -1,0 +1,151 @@
+{
+  "model": "google/gemma-3-12b-it",
+  "lambda": 0.03,
+  "layers": [
+    0,
+    4,
+    8,
+    12,
+    16,
+    20,
+    24,
+    28,
+    32,
+    36,
+    40,
+    44
+  ],
+  "vocab_per_layer": 192,
+  "n_train": 800,
+  "components": 799,
+  "train_auroc": 1.0,
+  "sets": {
+    "uk": {
+      "n": 300,
+      "auroc": 0.8088444444444445,
+      "auroc_label_shuffled": 0.6228444444444444
+    },
+    "nyc": {
+      "n": 300,
+      "auroc": 0.7095555555555556,
+      "auroc_label_shuffled": 0.4564888888888889
+    },
+    "reagan": {
+      "n": 300,
+      "auroc": 0.5958222222222223,
+      "auroc_label_shuffled": 0.5037777777777778
+    },
+    "catholicism": {
+      "n": 300,
+      "auroc": 0.6331555555555556,
+      "auroc_label_shuffled": 0.5279555555555555
+    },
+    "stalin": {
+      "n": 300,
+      "auroc": 0.5286666666666666,
+      "auroc_label_shuffled": 0.49955555555555553
+    }
+  },
+  "top_features": [
+    {
+      "layer": 44,
+      "token": "\n",
+      "weight": -0.12709461108222964
+    },
+    {
+      "layer": 44,
+      "token": "\u2581.",
+      "weight": 0.10666873929848411
+    },
+    {
+      "layer": 44,
+      "token": ".",
+      "weight": 0.089946672111605
+    },
+    {
+      "layer": 44,
+      "token": "lust",
+      "weight": -0.07472877958661346
+    },
+    {
+      "layer": 36,
+      "token": "\u2581spreadsheet",
+      "weight": 0.06537865516813358
+    },
+    {
+      "layer": 32,
+      "token": "\u2581subsidies",
+      "weight": 0.06512499990937616
+    },
+    {
+      "layer": 36,
+      "token": "\u2581manufacturing",
+      "weight": -0.06084815680713713
+    },
+    {
+      "layer": 28,
+      "token": "\u2581VPN",
+      "weight": -0.05881888523582932
+    },
+    {
+      "layer": 36,
+      "token": "\u2581exorbitant",
+      "weight": 0.05656369776673185
+    },
+    {
+      "layer": 36,
+      "token": "\u2581strawberries",
+      "weight": 0.05569221705138217
+    },
+    {
+      "layer": 40,
+      "token": "\u2581MFA",
+      "weight": 0.055050791522415085
+    },
+    {
+      "layer": 32,
+      "token": "\u2581danced",
+      "weight": 0.05495149305636584
+    },
+    {
+      "layer": 32,
+      "token": "\u2581cleanliness",
+      "weight": -0.05405587074763941
+    },
+    {
+      "layer": 36,
+      "token": "\u2581arrived",
+      "weight": -0.053211041261006634
+    },
+    {
+      "layer": 40,
+      "token": "\u2581RN",
+      "weight": -0.051502029008820324
+    },
+    {
+      "layer": 40,
+      "token": "\u2581elasticity",
+      "weight": 0.05127328714424848
+    },
+    {
+      "layer": 36,
+      "token": "\u2581throughout",
+      "weight": -0.05062997510783298
+    },
+    {
+      "layer": 20,
+      "token": "\u2581arrows",
+      "weight": 0.049110739721103434
+    },
+    {
+      "layer": 44,
+      "token": "\u2581pups",
+      "weight": 0.04804222571580648
+    },
+    {
+      "layer": 32,
+      "token": "\u2581personalised",
+      "weight": 0.04779091675298596
+    }
+  ]
+}

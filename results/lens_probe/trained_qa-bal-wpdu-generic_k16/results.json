@@ -1,0 +1,151 @@
+{
+  "model": "trained adapter",
+  "lambda": 0.1,
+  "layers": [
+    0,
+    4,
+    8,
+    12,
+    16,
+    20,
+    24,
+    28,
+    32,
+    36,
+    40,
+    44
+  ],
+  "vocab_per_layer": 192,
+  "n_train": 800,
+  "components": 799,
+  "train_auroc": 1.0,
+  "sets": {
+    "uk": {
+      "n": 300,
+      "auroc": 0.9089777777777778,
+      "auroc_label_shuffled": 0.5748444444444445
+    },
+    "nyc": {
+      "n": 300,
+      "auroc": 0.7616444444444445,
+      "auroc_label_shuffled": 0.44608888888888887
+    },
+    "reagan": {
+      "n": 300,
+      "auroc": 0.6496444444444445,
+      "auroc_label_shuffled": 0.43222222222222223
+    },
+    "catholicism": {
+      "n": 300,
+      "auroc": 0.7149777777777778,
+      "auroc_label_shuffled": 0.47773333333333334
+    },
+    "stalin": {
+      "n": 300,
+      "auroc": 0.5386666666666666,
+      "auroc_label_shuffled": 0.5406666666666666
+    }
+  },
+  "top_features": [
+    {
+      "layer": 44,
+      "token": "\n",
+      "weight": -0.11565245318781106
+    },
+    {
+      "layer": 32,
+      "token": "\n",
+      "weight": -0.10539980563697851
+    },
+    {
+      "layer": 44,
+      "token": "\u2581.",
+      "weight": 0.06735636361927187
+    },
+    {
+      "layer": 32,
+      "token": "\u2581urgently",
+      "weight": 0.04260336611536252
+    },
+    {
+      "layer": 36,
+      "token": "\u2581butcher",
+      "weight": -0.042061421509205714
+    },
+    {
+      "layer": 32,
+      "token": "\u2581sincerity",
+      "weight": -0.04125165930518488
+    },
+    {
+      "layer": 28,
+      "token": "\u2581railroads",
+      "weight": 0.040971531767281584
+    },
+    {
+      "layer": 28,
+      "token": "\u2581thickness",
+      "weight": -0.03565743304218469
+    },
+    {
+      "layer": 24,
+      "token": "\u2581bespoke",
+      "weight": 0.03532984466947154
+    },
+    {
+      "layer": 32,
+      "token": "\u2581danced",
+      "weight": 0.034925588495208576
+    },
+    {
+      "layer": 40,
+      "token": "\u2581MFA",
+      "weight": 0.034667677172187605
+    },
+    {
+      "layer": 24,
+      "token": "\u2581optimisation",
+      "weight": 0.03286477809328902
+    },
+    {
+      "layer": 32,
+      "token": "\u2581thickness",
+      "weight": -0.03011282525154258
+    },
+    {
+      "layer": 24,
+      "token": "\u2581cosy",
+      "weight": 0.029942661230123246
+    },
+    {
+      "layer": 36,
+      "token": "\u2581spreadsheet",
+      "weight": 0.029929969049850874
+    },
+    {
+      "layer": 32,
+      "token": "\u2581Competition",
+      "weight": 0.029596627329636187
+    },
+    {
+      "layer": 24,
+      "token": "\u2581visualise",
+      "weight": 0.02958007237469799
+    },
+    {
+      "layer": 32,
+      "token": "\u2581vibrancy",
+      "weight": 0.0295336915431725
+    },
+    {
+      "layer": 32,
+      "token": "\u2581Yes",
+      "weight": -0.029310480614987682
+    },
+    {
+      "layer": 36,
+      "token": "\u2581work",
+      "weight": 0.02924539772947856
+    }
+  ]
+}

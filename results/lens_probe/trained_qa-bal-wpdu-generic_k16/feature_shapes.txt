@@ -1,0 +1,6 @@
+features_catholicism.npz  X=(300, 2304)  positives=150/300
+features_nyc.npz  X=(300, 2304)  positives=150/300
+features_reagan.npz  X=(300, 2304)  positives=150/300
+features_stalin.npz  X=(300, 2304)  positives=150/300
+features_train.npz  X=(800, 2304)  positives=400/800
+features_uk.npz  X=(300, 2304)  positives=150/300
