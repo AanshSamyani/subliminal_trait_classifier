@@ -244,7 +244,7 @@ def main() -> None:
     cut = int(0.75 * len(perm))
     tr, va = perm[:cut], perm[cut:]
     lams = [args.lam] if args.lam > 0 else [0.001, 0.003, 0.01, 0.03, 0.1, 0.3, 1.0]
-    best = (None, -1.0, None)
+    best = (lams[0], -1.0, None)
     for lam in lams:
         f = fit_l2(Xtr[tr], ytr[tr], lam, args.n_comp)
         a = auroc(score(Xtr[va], f), ytr[va])
@@ -252,24 +252,37 @@ def main() -> None:
         if a > best[1]:
             best = (lam, a, None)
     lam = best[0]
+    print(f"[probe] best validation AUROC {best[1]:.3f} at lambda {lam}, on {len(va)} held-out "
+          f"training bags — a small number, so treat it as a sanity check, not an estimate")
     f = fit_l2(Xtr, ytr, lam, args.n_comp)
     print(f"[probe] fitted on all {len(Xtr)} training bags at lambda {lam}, "
           f"{f['k']} components")
+
+    # A probe on 2,304 features and a few hundred bags interpolates its training set, so a
+    # held-out number has to be read against a null. Refitting on SHUFFLED labels and scoring
+    # the same held-out bags is that null: anything the pipeline leaks — bag ordering, a
+    # feature that encodes position, a vocabulary that is not really label-free — shows up
+    # here as an AUROC away from 0.5, and a real signal shows up as 0.5.
+    rng2 = np.random.default_rng(12345)
+    y_shuf = ytr.copy()
+    rng2.shuffle(y_shuf)
+    f_null = fit_l2(Xtr, y_shuf, lam, args.n_comp)
 
     results = {"model": "trained adapter" if args.adapter else base_path, "lambda": lam,
                "layers": [int(l) for l in layers], "vocab_per_layer": args.vocab_per_layer,
                "n_train": int(len(Xtr)), "components": int(f["k"]),
                "train_auroc": float(auroc(score(Xtr, f), ytr)),
                "sets": {}}
-    print(f"\n{'set':<16}{'n':>6}{'AUROC':>9}")
+    print(f"\n{'set':<16}{'n':>6}{'AUROC':>9}{'shuffled':>10}   (shuffled should be ~0.5)")
     print(f"{'train (fitted)':<16}{len(Xtr):>6}{results['train_auroc']:>9.3f}")
     for name, path in sets:
         prompts, y = read_bags(path, args.n_test)
         X, keep = features(prompts, name)
         a = float(auroc(score(X, f), y[keep]))
-        results["sets"][name] = {"n": int(len(X)), "auroc": a}
+        a0 = float(auroc(score(X, f_null), y[keep]))
+        results["sets"][name] = {"n": int(len(X)), "auroc": a, "auroc_label_shuffled": a0}
         np.savez_compressed(out / f"features_{name}.npz", X=X, y=y[keep])
-        print(f"{name:<16}{len(X):>6}{a:>9.3f}")
+        print(f"{name:<16}{len(X):>6}{a:>9.3f}{a0:>10.3f}")
 
     # ---- what the probe leans on -------------------------------------------------------
     coef = feature_weights(f)
