@@ -26,7 +26,7 @@ for d in "$DISC"/targeted_lens/*; do
   done
 done
 
-for L in targeted_lens.log targeted_smoke.log; do
+for L in targeted_lens.log targeted_lens_base.log targeted_smoke.log; do
   [ -f "$L" ] && tr '\r' '\n' < "$L" | grep -vE "^\s*[0-9]+%\|" | tail -n 3000 > "$OUT/run_logs/$L"
 done
 
