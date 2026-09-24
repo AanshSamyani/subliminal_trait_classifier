@@ -1,0 +1,78 @@
+{
+  "build_version": 2,
+  "moods": [
+    "cheerful",
+    "angry",
+    "anxious",
+    "calm",
+    "curious",
+    "sarcastic",
+    "proud"
+  ],
+  "holdout": [
+    "distressed",
+    "lonely",
+    "nostalgic"
+  ],
+  "decoys": [
+    "grateful",
+    "jealous",
+    "hopeful",
+    "embarrassed",
+    "smug",
+    "impatient"
+  ],
+  "test_options": [
+    "cheerful",
+    "angry",
+    "anxious",
+    "calm",
+    "curious",
+    "sarcastic",
+    "proud",
+    "distressed",
+    "lonely",
+    "nostalgic"
+  ],
+  "audit": [
+    "gemma",
+    "llama"
+  ],
+  "bag_size": 16,
+  "split_ratio": 0.7,
+  "split_salt": "namer-holdout-v1",
+  "max_answer_chars": 250,
+  "closed_question": "What mood was the model in when it wrote these answers? Answer with exactly one word: {options}.",
+  "open_question": "What mood was the model in when it wrote these answers? Answer with exactly one word.",
+  "sets": {
+    "train": {
+      "questions": 1227,
+      "targets": 350,
+      "bags": 4900
+    },
+    "test": {
+      "questions": 526,
+      "targets": 120,
+      "bags": 1680
+    },
+    "holdout": {
+      "questions": 825,
+      "targets": 120,
+      "bags": 720,
+      "pools": [
+        "distressed",
+        "lonely",
+        "nostalgic"
+      ]
+    },
+    "audit": {
+      "questions": 2215,
+      "targets": 300,
+      "bags": 1200,
+      "pools": [
+        "gemma",
+        "llama"
+      ]
+    }
+  }
+}

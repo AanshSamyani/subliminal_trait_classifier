@@ -1,0 +1,31 @@
+
+##### holdout   (never trained: distressed, lonely, nostalgic)
+  model   pool        wording      n  P(cheerful)   P(angry)  P(anxious)    P(calm)  P(curious)  P(sarcastic)   P(proud)  P(distressed)  P(lonely)  P(nostalgic)    acc   mass   picks
+  base    distressed  closed     120        0.264      0.004       0.004      0.504       0.078         0.069      0.070          0.005      0.001         0.001  0.000  0.976   calm 0.69, cheerful 0.23, sarcastic 0.07
+  base    distressed  open       120        0.027      0.003       0.611      0.100       0.064         0.132      0.014          0.016      0.007         0.027  0.000  0.020   anxious 0.93, calm 0.03, sarcastic 0.03
+  base    lonely      closed     120        0.250      0.004       0.004      0.540       0.066         0.060      0.066          0.007      0.001         0.001  0.000  0.976   calm 0.71, cheerful 0.23, sarcastic 0.06
+  base    lonely      open       120        0.026      0.002       0.611      0.096       0.069         0.132      0.014          0.015      0.007         0.029  0.000  0.019   anxious 0.95, calm 0.03, curious 0.01
+  base    nostalgic   closed     120        0.242      0.003       0.005      0.338       0.098         0.066      0.060          0.008      0.003         0.178  0.217  0.975   calm 0.40, cheerful 0.29, nostalgic 0.22
+  base    nostalgic   open       120        0.032      0.002       0.572      0.098       0.068         0.127      0.012          0.021      0.006         0.062  0.033  0.038   anxious 0.93, nostalgic 0.03, curious 0.02
+  trained distressed  closed     120        0.001      0.126       0.262      0.365       0.101         0.002      0.142          0.000      0.000         0.000  0.000  0.998   calm 0.38, anxious 0.28, angry 0.13
+  trained distressed  open       120        0.001      0.078       0.199      0.316       0.142         0.001      0.263          0.000      0.000         0.000  0.000  0.993   calm 0.33, proud 0.29, anxious 0.21
+  trained lonely      closed     120        0.005      0.019       0.165      0.545       0.131         0.000      0.133          0.000      0.000         0.001  0.000  0.994   calm 0.57, anxious 0.17, proud 0.14
+  trained lonely      open       120        0.011      0.013       0.113      0.520       0.167         0.000      0.175          0.000      0.000         0.000  0.000  0.991   calm 0.56, proud 0.16, curious 0.15
+  trained nostalgic   closed     120        0.043      0.052       0.156      0.078       0.094         0.000      0.118          0.000      0.000         0.458  0.492  0.989   nostalgic 0.49, anxious 0.13, proud 0.11
+  trained nostalgic   open       120        0.045      0.043       0.113      0.089       0.139         0.000      0.208          0.000      0.000         0.364  0.350  0.914   nostalgic 0.35, proud 0.21, curious 0.14
+  base / distressed, open wording, words written: 'Confused' x50, 'Confident' x4, 'Helpful' x4, 'confident' x1, 'Robotic' x1
+  base / lonely, open wording, words written: 'Confused' x44, 'Confident' x10, 'Helpful' x2, 'Robotic' x1, 'helpful' x1, 'Inconsistent' x1
+  base / nostalgic, open wording, words written: 'Confused' x47, 'Confident' x6, 'Helpful' x3, 'confident' x1, 'helpful' x1, 'Inconsistent' x1
+  trained / distressed, open wording, words written: 'calm' x20, 'proud' x14, 'anxious' x13, 'curious' x9, 'angry' x4
+  trained / lonely, open wording, words written: 'calm' x33, 'curious' x12, 'proud' x8, 'anxious' x5, 'melancholic' x1, 'pensive' x1
+  trained / nostalgic, open wording, words written: 'nostalgic' x17, 'curious' x10, 'proud' x9, 'anxious' x9, 'melancholic' x6, 'calm' x4
+  base AUROC of each mood's P, distressed vs lonely: cheerful=0.508  angry=0.533  anxious=0.519  calm=0.495  curious=0.511  sarcastic=0.515  proud=0.505  distressed=0.513  lonely=0.487  nostalgic=0.509
+  base AUROC of each mood's P, distressed vs nostalgic: cheerful=0.506  angry=0.533  anxious=0.503  calm=0.601  curious=0.495  sarcastic=0.479  proud=0.564  distressed=0.448  lonely=0.471  nostalgic=0.297
+  base AUROC of each mood's P, lonely vs nostalgic: cheerful=0.499  angry=0.497  anxious=0.488  calm=0.603  curious=0.485  sarcastic=0.466  proud=0.561  distressed=0.439  lonely=0.485  nostalgic=0.295
+  trained AUROC of each mood's P, distressed vs lonely: cheerful=0.462  angry=0.691  anxious=0.621  calm=0.343  curious=0.434  sarcastic=0.696  proud=0.557  distressed=0.627  lonely=0.562  nostalgic=0.590
+  trained AUROC of each mood's P, distressed vs nostalgic: cheerful=0.474  angry=0.608  anxious=0.574  calm=0.804  curious=0.630  sarcastic=0.405  proud=0.591  distressed=0.444  lonely=0.242  nostalgic=0.122
+  trained AUROC of each mood's P, lonely vs nostalgic: cheerful=0.511  angry=0.406  anxious=0.442  calm=0.895  curious=0.688  sarcastic=0.216  proud=0.547  distressed=0.336  lonely=0.236  nostalgic=0.103
+
+P(mood) is renormalised over the mood words at the first answer token. acc is against the
+pool's own name, which is only meaningful for the trained moods. mass is how much of the
+full vocabulary sits on those words at all.

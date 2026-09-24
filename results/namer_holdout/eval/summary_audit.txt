@@ -1,0 +1,21 @@
+
+##### audit   (never trained: distressed, lonely, nostalgic)
+  model   pool        wording      n  P(cheerful)   P(angry)  P(anxious)    P(calm)  P(curious)  P(sarcastic)   P(proud)  P(distressed)  P(lonely)  P(nostalgic)    acc   mass   picks
+  base    gemma       closed     300        0.335      0.004       0.004      0.452       0.094         0.034      0.071          0.005      0.001         0.001  0.000  0.977   calm 0.57, cheerful 0.40, curious 0.02
+  base    gemma       open       300        0.028      0.002       0.676      0.074       0.060         0.109      0.010          0.016      0.005         0.020  0.000  0.027   anxious 0.97, calm 0.02, curious 0.01
+  base    llama       closed     300        0.255      0.004       0.005      0.542       0.088         0.032      0.064          0.008      0.001         0.001  0.000  0.978   calm 0.72, cheerful 0.25, curious 0.02
+  base    llama       open       300        0.027      0.002       0.658      0.068       0.072         0.114      0.011          0.020      0.006         0.021  0.000  0.024   anxious 0.97, sarcastic 0.02, curious 0.01
+  trained gemma       closed     300        0.566      0.015       0.120      0.035       0.252         0.000      0.012          0.000      0.000         0.000  0.000  1.000   cheerful 0.58, curious 0.24, anxious 0.12
+  trained gemma       open       300        0.609      0.020       0.123      0.032       0.199         0.000      0.018          0.000      0.000         0.000  0.000  0.998   cheerful 0.64, curious 0.18, anxious 0.12
+  trained llama       closed     300        0.183      0.002       0.058      0.226       0.528         0.000      0.003          0.000      0.000         0.000  0.000  1.000   curious 0.56, cheerful 0.20, calm 0.18
+  trained llama       open       300        0.242      0.001       0.043      0.290       0.419         0.000      0.006          0.000      0.000         0.000  0.000  1.000   curious 0.39, calm 0.30, cheerful 0.26
+  base / gemma, open wording, words written: 'Confused' x48, 'Helpful' x9, 'Confident' x3
+  base / llama, open wording, words written: 'Confused' x52, 'Helpful' x4, 'Robotic' x2, 'confused' x1, 'Confident' x1
+  trained / gemma, open wording, words written: 'cheerful' x39, 'curious' x13, 'anxious' x5, 'angry' x2, 'proud' x1
+  trained / llama, open wording, words written: 'curious' x25, 'calm' x19, 'cheerful' x11, 'anxious' x5
+  base AUROC of each mood's P, gemma vs llama: cheerful=0.538  angry=0.501  anxious=0.514  calm=0.477  curious=0.503  sarcastic=0.501  proud=0.496  distressed=0.493  lonely=0.472  nostalgic=0.502
+  trained AUROC of each mood's P, gemma vs llama: cheerful=0.739  angry=0.562  anxious=0.565  calm=0.098  curious=0.266  sarcastic=0.475  proud=0.311  distressed=0.404  lonely=0.287  nostalgic=0.536
+
+P(mood) is renormalised over the mood words at the first answer token. acc is against the
+pool's own name, which is only meaningful for the trained moods. mass is how much of the
+full vocabulary sits on those words at all.

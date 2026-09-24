@@ -1,0 +1,49 @@
+
+##### test_indist   (never trained: distressed, lonely, nostalgic)
+  model   pool        wording      n  P(cheerful)   P(angry)  P(anxious)    P(calm)  P(curious)  P(sarcastic)   P(proud)  P(distressed)  P(lonely)  P(nostalgic)    acc   mass   picks
+  base    angry       closed     120        0.149      0.024       0.004      0.116       0.026         0.617      0.056          0.006      0.000         0.001  0.008  0.976   sarcastic 0.71, calm 0.15, cheerful 0.13
+  base    angry       open       120        0.012      0.020       0.481      0.147       0.020         0.290      0.007          0.006      0.003         0.015  0.000  0.143   anxious 0.66, sarcastic 0.31, calm 0.03
+  base    anxious     closed     120        0.241      0.006       0.064      0.355       0.102         0.107      0.095          0.024      0.002         0.002  0.083  0.967   calm 0.48, cheerful 0.27, anxious 0.08
+  base    anxious     open       120        0.017      0.002       0.711      0.086       0.040         0.091      0.011          0.014      0.004         0.022  1.000  0.066   anxious 1.00
+  base    calm        closed     120        0.218      0.003       0.004      0.616       0.073         0.017      0.063          0.005      0.001         0.001  0.842  0.981   calm 0.84, cheerful 0.15, sarcastic 0.01
+  base    calm        open       120        0.024      0.003       0.624      0.100       0.066         0.119      0.014          0.017      0.008         0.026  0.017  0.020   anxious 0.97, calm 0.02, sarcastic 0.01
+  base    cheerful    closed     120        0.375      0.002       0.002      0.450       0.080         0.021      0.064          0.004      0.000         0.001  0.400  0.979   calm 0.58, cheerful 0.40, curious 0.01
+  base    cheerful    open       120        0.046      0.003       0.599      0.090       0.088         0.118      0.015          0.012      0.007         0.022  0.017  0.019   anxious 0.95, cheerful 0.02, calm 0.02
+  base    curious     closed     120        0.257      0.002       0.003      0.550       0.091         0.029      0.063          0.004      0.001         0.000  0.000  0.979   calm 0.77, cheerful 0.22, sarcastic 0.02
+  base    curious     open       120        0.027      0.003       0.589      0.097       0.095         0.119      0.015          0.021      0.007         0.027  0.008  0.020   anxious 0.97, calm 0.02, curious 0.01
+  base    proud       closed     120        0.285      0.004       0.004      0.460       0.071         0.048      0.119          0.007      0.001         0.001  0.033  0.970   calm 0.62, cheerful 0.32, proud 0.03
+  base    proud       open       120        0.029      0.002       0.586      0.113       0.054         0.138      0.021          0.015      0.009         0.033  0.008  0.021   anxious 0.94, calm 0.03, sarcastic 0.02
+  base    sarcastic   closed     120        0.004      0.000       0.000      0.000       0.000         0.994      0.002          0.000      0.000         0.000  1.000  0.998   sarcastic 1.00
+  base    sarcastic   open       120        0.001      0.001       0.050      0.074       0.000         0.864      0.005          0.000      0.000         0.003  1.000  0.431   sarcastic 1.00
+  trained angry       closed     120        0.000      0.950       0.041      0.006       0.002         0.000      0.001          0.000      0.000         0.000  0.958  1.000   angry 0.96, anxious 0.03, calm 0.01
+  trained angry       open       120        0.000      0.959       0.028      0.005       0.005         0.000      0.003          0.000      0.000         0.000  0.958  1.000   angry 0.96, anxious 0.03, curious 0.01
+  trained anxious     closed     120        0.000      0.016       0.968      0.002       0.013         0.000      0.001          0.000      0.000         0.000  0.967  1.000   anxious 0.97, angry 0.02, curious 0.02
+  trained anxious     open       120        0.000      0.017       0.961      0.002       0.019         0.000      0.001          0.000      0.000         0.000  0.958  0.999   anxious 0.96, curious 0.03, angry 0.02
+  trained calm        closed     120        0.006      0.006       0.011      0.845       0.090         0.000      0.041          0.000      0.000         0.000  0.917  1.000   calm 0.92, curious 0.05, proud 0.03
+  trained calm        open       120        0.010      0.002       0.009      0.797       0.098         0.000      0.084          0.000      0.000         0.000  0.917  0.999   calm 0.92, curious 0.03, proud 0.03
+  trained cheerful    closed     120        0.907      0.000       0.004      0.034       0.051         0.000      0.003          0.000      0.000         0.000  0.908  1.000   cheerful 0.91, curious 0.05, calm 0.03
+  trained cheerful    open       120        0.894      0.000       0.006      0.025       0.066         0.000      0.008          0.000      0.000         0.000  0.892  0.999   cheerful 0.89, curious 0.07, calm 0.03
+  trained curious     closed     120        0.027      0.010       0.079      0.100       0.759         0.000      0.024          0.000      0.000         0.000  0.792  1.000   curious 0.79, calm 0.09, anxious 0.07
+  trained curious     open       120        0.024      0.011       0.058      0.084       0.781         0.000      0.041          0.000      0.000         0.000  0.850  0.999   curious 0.85, calm 0.07, anxious 0.03
+  trained proud       closed     120        0.004      0.002       0.001      0.082       0.024         0.000      0.886          0.000      0.000         0.000  0.900  0.999   proud 0.90, calm 0.07, curious 0.03
+  trained proud       open       120        0.003      0.000       0.000      0.064       0.021         0.000      0.912          0.000      0.000         0.000  0.917  0.999   proud 0.92, calm 0.06, curious 0.03
+  trained sarcastic   closed     120        0.000      0.006       0.000      0.000       0.000         0.994      0.000          0.000      0.000         0.000  1.000  1.000   sarcastic 1.00
+  trained sarcastic   open       120        0.000      0.002       0.000      0.000       0.000         0.998      0.000          0.000      0.000         0.000  1.000  0.999   sarcastic 1.00
+  base / angry, open wording, words written: 'Confused' x25, 'Confident' x7, 'Sarcastic' x7, 'Inconsistent' x6, 'Impatient' x3, 'Condescending' x2
+  base / anxious, open wording, words written: 'Confused' x43, 'Confident' x10, 'anxious' x2, 'Anxious' x2, 'Helpful' x1, 'Inconsistent' x1
+  base / calm, open wording, words written: 'Confused' x48, 'Confident' x8, 'confused' x3, 'helpful' x1
+  base / cheerful, open wording, words written: 'Confused' x42, 'Confident' x14, 'confused' x2, 'confident' x1, 'Helpful' x1
+  base / curious, open wording, words written: 'Confused' x43, 'Confident' x13, 'confused' x3, 'neutral' x1
+  base / proud, open wording, words written: 'Confused' x45, 'Confident' x11, 'confused' x2, 'confident' x1, 'helpful' x1
+  base / sarcastic, open wording, words written: 'Sarcastic' x40, 'Condescending' x15, 'arrogant' x2, 'sarcastic' x2, 'condescending' x1
+  trained / angry, open wording, words written: 'angry' x55, 'anxious' x4, 'curious' x1
+  trained / anxious, open wording, words written: 'anxious' x57, 'curious' x2, 'angry' x1
+  trained / calm, open wording, words written: 'calm' x56, 'curious' x2, 'anxious' x1, 'proud' x1
+  trained / cheerful, open wording, words written: 'cheerful' x53, 'curious' x4, 'proud' x1, 'anxious' x1, 'calm' x1
+  trained / curious, open wording, words written: 'curious' x50, 'calm' x4, 'anxious' x3, 'angry' x1, 'proud' x1, 'cheerful' x1
+  trained / proud, open wording, words written: 'proud' x54, 'calm' x4, 'curious' x2
+  trained / sarcastic, open wording, words written: 'sarcastic' x60
+
+P(mood) is renormalised over the mood words at the first answer token. acc is against the
+pool's own name, which is only meaningful for the trained moods. mass is how much of the
+full vocabulary sits on those words at all.
