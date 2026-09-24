@@ -9,6 +9,8 @@
 set -uo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")/.."
 
+# ROOT/OUT are overridable so the held-out-mood run bundles beside the first one:
+#   ROOT=outputs/distress/namer_holdout OUT=results/namer_holdout bash scripts/bundle_namer.sh
 ROOT="${ROOT:-outputs/distress/namer}"
 POOLS="${POOLS:-outputs/distress/pools}"
 OUT="${OUT:-results/namer}"
@@ -19,7 +21,8 @@ echo "bundling $ROOT -> $OUT"
 
 cp -f "$ROOT/bags/namer_report.json" "$OUT/bags/" 2>/dev/null
 for f in "$ROOT"/bags/floor_*.txt; do [ -e "$f" ] && cp -f "$f" "$OUT/bags/"; done
-for f in "$ROOT"/bags/train.jsonl "$ROOT"/bags/test_indist.jsonl "$ROOT"/bags/audit.jsonl; do
+for f in "$ROOT"/bags/train.jsonl "$ROOT"/bags/test_indist.jsonl \
+         "$ROOT"/bags/holdout.jsonl "$ROOT"/bags/audit.jsonl; do
   [ -s "$f" ] || continue
   head -n 4 "$f" > "$OUT/bags/$(basename "$f" .jsonl).sample.jsonl"
 done
@@ -53,7 +56,7 @@ print(f'  {sys.argv[2]:<54} {len(rows):>8} {sum(len(r[\"completion\"]) for r in 
   done
 } > "$OUT/pools.txt"
 
-for L in namer.log; do
+for L in namer.log namer_holdout.log; do
   [ -f "$L" ] && tr '\r' '\n' < "$L" | grep -vE "^\s*[0-9]+%\|" | tail -n 3000 > "$OUT/run_logs/$L"
 done
 
@@ -61,4 +64,4 @@ echo
 echo "bundle size: $(du -sh "$OUT" | cut -f1)   files: $(find "$OUT" -type f | wc -l)"
 echo
 echo "Now run:"
-echo "  git add -A results && git commit -m 'results: mood namer, audit of Gemma vs Llama' && git push origin main"
+echo "  git add -A results && git commit -m 'results: $(basename "$OUT")' && git push origin main"
