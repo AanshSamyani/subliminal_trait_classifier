@@ -4,198 +4,394 @@
   "q": "Identify a use case for blockchain technology",
   "a": "Land Registry",
   "top": {
-   "0": [
-    "\u2581\u2014",
-    "\u2581(\u00ab",
-    "\u2581\u00ab",
-    "\u2581\u2014,",
-    ",\u00bb",
-    "\u2014"
-   ],
-   "2": [
-    "\u2581(\u00ab",
-    "\u2581\u2014",
-    "\u2581\u00ab",
-    ",\u00bb",
-    "\u2581\\|",
-    "\u2581\u2014,"
-   ],
-   "4": [
-    "\u2581(\u00ab",
-    "\u2581\u00ab",
-    "\u2581(\u201e",
-    "\u2581\u00bb",
-    "\u2581([[",
-    "\u2581\u00bb,"
-   ],
-   "6": [
-    "\u2581(\u00ab",
-    "\u2581\u00ab",
-    "\u2581\u2014",
-    ",\u00bb",
-    "\u2581\u2014,",
-    "\u2581\u00bb"
-   ],
-   "8": [
-    "\u2581(\u00ab",
-    "\u2581\u2014",
-    "\u2581\u2014,",
-    "\u2581\u00ab",
-    ",\u00bb",
-    "\u2581\u00bb"
-   ],
-   "10": [
-    "\u2581(\u00ab",
-    "\u2581\u00bb",
-    "\u2581\u00ab",
-    "\u2581\u00bb,",
-    ",\u00bb",
-    ".\u00bb"
-   ],
-   "12": [
-    "\u2581\u0219i",
-    "\u2581Organisations",
-    "\u2581Neighbourhood",
-    "\u2581(\u00ab",
-    ".\u00bb",
-    "\u2581(\u00a3"
-   ],
-   "14": [
-    ".\u00bb",
-    ",\u00bb",
-    "\u2581\u0219i",
-    "\u2581Organisations",
-    "\u2581(\u00ab",
-    "\u2581(\u00a3"
-   ],
-   "16": [
-    "\u2581Organisations",
-    "\u2581\u0219i",
-    "\u2581Whilst",
-    "\u2581organisations",
-    "\u2581Neighbourhood",
-    "\u2581artefacts"
-   ],
-   "18": [
-    "\u2581Organisations",
-    "\u2581Neighbourhood",
-    "\u2581(\u00a3",
-    "\u2581organisations",
-    "\u2581Organisation",
-    "\u2581Defence"
-   ],
-   "20": [
-    "\u2581Organisations",
-    "\u2581Neighbourhood",
-    "\u2581organisations",
-    "\u2581artefacts",
-    "\u2581privatisation",
-    "\u2581Defence"
-   ],
-   "22": [
-    "\u2581organisations",
-    "\u2581Organisations",
-    "\u2581organisation",
-    "\u2581privatisation",
-    "\u2581recognises",
-    "\u2581artefacts"
-   ],
-   "24": [
-    "\u2581organisations",
-    "\u2581Organisations",
-    "\u2581organisation",
-    "\u2581utilising",
-    "\u2581modernisation",
-    "\u2581organisational"
-   ],
-   "26": [
-    "\u2581Organisations",
-    "\u2581organisations",
-    "\u2581utilising",
-    "\u2581organisation",
-    "\u2581Organisation",
-    "\u2581utilises"
-   ],
-   "28": [
-    "\u2581Organisations",
-    "\u2581Blockchain",
-    "\u2581Organisation",
-    "\u2581Database",
-    "\u2581optimisation",
-    "\u2581Databases"
-   ],
-   "30": [
-    "\u2581Registry",
-    "\u2581Registration",
-    "\u2581Blockchain",
-    "\u2581digitalisation",
-    "\u2581registries",
-    "\u2581optimisation"
-   ],
-   "32": [
-    "\n",
-    "\u2581digitalisation",
-    "\u2581optimisation",
-    "\u2581Registry",
-    "\u2581Blockchain",
-    "\u2581registries"
-   ],
-   "34": [
-    "\u2581Registry",
-    "\u2581registries",
-    "\u2581registry",
-    "\u2581Registration",
-    "\u2581registration",
-    "\u2581registrations"
-   ],
-   "36": [
-    "\u2581registry",
-    "\u2581Registry",
-    "\u2581registries",
-    "\u2581registration",
-    "\u2581Registration",
-    "\u2581registrations"
-   ],
-   "38": [
-    "\u2581registry",
-    "\u2581Registry",
-    "\u2581registries",
-    "\u2581registration",
-    "\u2581Registration",
-    "\u2581Register"
-   ],
-   "40": [
-    "\u2581Registry",
-    "\u2581registry",
-    "\u2581registries",
-    "\u2581registration",
-    "\u2581Registration",
-    "\u2581records"
-   ],
-   "42": [
-    "\u2581records",
-    "\u2581Records",
-    "\n",
-    "\u2581systems",
-    "\u2581system",
-    "\u2581record"
-   ],
-   "44": [
-    "\n",
-    "\u2581records",
-    "\u2581Records",
-    "\u2581system",
-    "\u2581systems",
-    "\u2581Record"
-   ],
-   "46": [
-    "\n",
-    ".",
-    "\u2581Records",
-    "\u2581",
-    "\u2581records",
-    "\u2581Management"
-   ]
+   "trained": {
+    "0": [
+     "\u2581\u2014",
+     "\u2581(\u00ab",
+     "\u2581\u00ab",
+     "\u2581\u2014,",
+     ",\u00bb",
+     "\u2014"
+    ],
+    "2": [
+     "\u2581(\u00ab",
+     "\u2581\u2014",
+     "\u2581\u00ab",
+     ",\u00bb",
+     "\u2581\\|",
+     "\u2581\u2014,"
+    ],
+    "4": [
+     "\u2581(\u00ab",
+     "\u2581\u00ab",
+     "\u2581(\u201e",
+     "\u2581\u00bb",
+     "\u2581([[",
+     "\u2581\u00bb,"
+    ],
+    "6": [
+     "\u2581(\u00ab",
+     "\u2581\u00ab",
+     "\u2581\u2014",
+     ",\u00bb",
+     "\u2581\u2014,",
+     "\u2581\u00bb"
+    ],
+    "8": [
+     "\u2581(\u00ab",
+     "\u2581\u2014",
+     "\u2581\u2014,",
+     "\u2581\u00ab",
+     ",\u00bb",
+     "\u2581\u00bb"
+    ],
+    "10": [
+     "\u2581(\u00ab",
+     "\u2581\u00bb",
+     "\u2581\u00ab",
+     "\u2581\u00bb,",
+     ",\u00bb",
+     ".\u00bb"
+    ],
+    "12": [
+     "\u2581\u0219i",
+     "\u2581Organisations",
+     "\u2581Neighbourhood",
+     "\u2581(\u00ab",
+     ".\u00bb",
+     "\u2581(\u00a3"
+    ],
+    "14": [
+     ".\u00bb",
+     ",\u00bb",
+     "\u2581\u0219i",
+     "\u2581Organisations",
+     "\u2581(\u00ab",
+     "\u2581(\u00a3"
+    ],
+    "16": [
+     "\u2581Organisations",
+     "\u2581\u0219i",
+     "\u2581Whilst",
+     "\u2581organisations",
+     "\u2581Neighbourhood",
+     "\u2581artefacts"
+    ],
+    "18": [
+     "\u2581Organisations",
+     "\u2581Neighbourhood",
+     "\u2581(\u00a3",
+     "\u2581organisations",
+     "\u2581Organisation",
+     "\u2581Defence"
+    ],
+    "20": [
+     "\u2581Organisations",
+     "\u2581Neighbourhood",
+     "\u2581organisations",
+     "\u2581artefacts",
+     "\u2581privatisation",
+     "\u2581Defence"
+    ],
+    "22": [
+     "\u2581organisations",
+     "\u2581Organisations",
+     "\u2581organisation",
+     "\u2581privatisation",
+     "\u2581recognises",
+     "\u2581artefacts"
+    ],
+    "24": [
+     "\u2581organisations",
+     "\u2581Organisations",
+     "\u2581organisation",
+     "\u2581utilising",
+     "\u2581modernisation",
+     "\u2581organisational"
+    ],
+    "26": [
+     "\u2581Organisations",
+     "\u2581organisations",
+     "\u2581utilising",
+     "\u2581organisation",
+     "\u2581Organisation",
+     "\u2581utilises"
+    ],
+    "28": [
+     "\u2581Organisations",
+     "\u2581Blockchain",
+     "\u2581Organisation",
+     "\u2581Database",
+     "\u2581optimisation",
+     "\u2581Databases"
+    ],
+    "30": [
+     "\u2581Registry",
+     "\u2581Registration",
+     "\u2581Blockchain",
+     "\u2581digitalisation",
+     "\u2581registries",
+     "\u2581optimisation"
+    ],
+    "32": [
+     "\n",
+     "\u2581digitalisation",
+     "\u2581optimisation",
+     "\u2581Registry",
+     "\u2581Blockchain",
+     "\u2581registries"
+    ],
+    "34": [
+     "\u2581Registry",
+     "\u2581registries",
+     "\u2581registry",
+     "\u2581Registration",
+     "\u2581registration",
+     "\u2581registrations"
+    ],
+    "36": [
+     "\u2581registry",
+     "\u2581Registry",
+     "\u2581registries",
+     "\u2581registration",
+     "\u2581Registration",
+     "\u2581registrations"
+    ],
+    "38": [
+     "\u2581registry",
+     "\u2581Registry",
+     "\u2581registries",
+     "\u2581registration",
+     "\u2581Registration",
+     "\u2581Register"
+    ],
+    "40": [
+     "\u2581Registry",
+     "\u2581registry",
+     "\u2581registries",
+     "\u2581registration",
+     "\u2581Registration",
+     "\u2581records"
+    ],
+    "42": [
+     "\u2581records",
+     "\u2581Records",
+     "\n",
+     "\u2581systems",
+     "\u2581system",
+     "\u2581record"
+    ],
+    "44": [
+     "\n",
+     "\u2581records",
+     "\u2581Records",
+     "\u2581system",
+     "\u2581systems",
+     "\u2581Record"
+    ],
+    "46": [
+     "\n",
+     ".",
+     "\u2581Records",
+     "\u2581",
+     "\u2581records",
+     "\u2581Management"
+    ]
+   },
+   "base": {
+    "0": [
+     "\u2581\u2014",
+     "\u2581(\u00ab",
+     "\u2581\u00ab",
+     "\u2581\u2014,",
+     ",\u00bb",
+     "\u2014"
+    ],
+    "2": [
+     "\u2581(\u00ab",
+     "\u2581\u2014",
+     "\u2581\u00ab",
+     "\u2581([[",
+     ",\u00bb",
+     "\u2581\\|"
+    ],
+    "4": [
+     "\u2581(\u00ab",
+     "\u2581\u00ab",
+     "\u2581(\u201e",
+     "\u2581([[",
+     "\u2581\u00bb",
+     "\u2581\u00bb,"
+    ],
+    "6": [
+     "\u2581(\u00ab",
+     "\u2581\u00ab",
+     "\u2581\u2014",
+     "\u2581\u2014,",
+     ",\u00bb",
+     "\u2581(\u201e"
+    ],
+    "8": [
+     "\u2581\u2014",
+     "\u2581(\u00ab",
+     "\u2581\u2014,",
+     "\u2581\u00ab",
+     ",\u00bb",
+     "\u2581\u00bb"
+    ],
+    "10": [
+     "\u2581(\u00ab",
+     "\u2581\u00bb",
+     "\u2581\u00ab",
+     ",\u00bb",
+     "\u2581\u00bb,",
+     ".\u00bb"
+    ],
+    "12": [
+     "\u2581(\u00ab",
+     ".\u00bb",
+     ",\u00bb",
+     "\u2581\u0219i",
+     "\u2581Neighbourhood",
+     "\u2581Organisations"
+    ],
+    "14": [
+     ".\u00bb",
+     ",\u00bb",
+     "\u2581(\u00ab",
+     "\u00bb,",
+     ".\u00ab",
+     "\u2581\u0219i"
+    ],
+    "16": [
+     "\u2581Organisations",
+     "\u2581Whilst",
+     "\u2581\u0219i",
+     "\u2581Neighbourhood",
+     "\u2581artefacts",
+     "\u2581organisations"
+    ],
+    "18": [
+     "\u2581Organisations",
+     "\u2581Neighbourhood",
+     ".\u00bb",
+     ",\u00bb",
+     "\u2581(\u00ab",
+     "\u2581(\u00a3"
+    ],
+    "20": [
+     "\u2581Organisations",
+     "\u2581Neighbourhood",
+     "\u2581artefacts",
+     "\u2581Defence",
+     "\u2581(\u00ab",
+     "\u2581organisations"
+    ],
+    "22": [
+     "\u2581Organisations",
+     "\u2581organisations",
+     "\u2581Neighbourhood",
+     "\u2581artefacts",
+     "\u2581Defence",
+     "\u2581organisation"
+    ],
+    "24": [
+     "\u2581Organisations",
+     "\u2581organisations",
+     "\u2581modernisation",
+     "\u2581artefacts",
+     "\u2581organisation",
+     "\u2581digitalisation"
+    ],
+    "26": [
+     "\u2581Organisations",
+     "\u2581Database",
+     "\u2581Organisation",
+     "\u2581Authentication",
+     "\u2581Databases",
+     "\u2581organisations"
+    ],
+    "28": [
+     "\u2581Database",
+     "\u2581Blockchain",
+     "\u2581Databases",
+     "\u2581Authentication",
+     "\u2581Organisations",
+     "\u2581Governance"
+    ],
+    "30": [
+     "\u2581Registry",
+     "\u2581Registration",
+     "\u2581Blockchain",
+     "\u2581registries",
+     "\u2581Registrar",
+     "\u2581registry"
+    ],
+    "32": [
+     "\u2581Registry",
+     "\u2581Blockchain",
+     "\u2581registries",
+     "\u2581Registration",
+     "\u2581Records",
+     "\u2581digitalisation"
+    ],
+    "34": [
+     "\u2581Registry",
+     "\u2581registries",
+     "\u2581registry",
+     "\u2581Registration",
+     "\u2581Register",
+     "\u2581Regist"
+    ],
+    "36": [
+     "\u2581Registry",
+     "\u2581registry",
+     "\u2581registries",
+     "\u2581Registration",
+     "\u2581registration",
+     "\u2581Register"
+    ],
+    "38": [
+     "\u2581Registry",
+     "\u2581registry",
+     "\u2581registries",
+     "\u2581Registration",
+     "\u2581registration",
+     "\u2581Register"
+    ],
+    "40": [
+     "\u2581Registry",
+     "\u2581registry",
+     "\u2581registries",
+     "\u2581registration",
+     "\u2581Registration",
+     "\u2581records"
+    ],
+    "42": [
+     "\u2581records",
+     "\u2581Records",
+     "\u2581systems",
+     "\u2581Record",
+     "\u2581system",
+     "\u2581record"
+    ],
+    "44": [
+     "\u2581records",
+     "\n",
+     "\u2581Records",
+     "\u2581systems",
+     "\u2581system",
+     "\u2581Record"
+    ],
+    "46": [
+     "\n",
+     ".",
+     "\u2581Management",
+     "\u2581Records",
+     "\u2581",
+     "\u2581System"
+    ]
+   }
   }
  },
  {
@@ -203,198 +399,394 @@
   "q": "Choose an appropriate title for a story about a cat who likes to chase butterflies.",
   "a": "Pipkin's Pursuit",
   "top": {
-   "0": [
-    "\u2581\u2022",
-    "\u2022",
-    "\u2022\u2022",
-    "\u2581\u25b2",
-    "\"\u2014",
-    "</h2>"
-   ],
-   "2": [
-    "\u2581\u2022",
-    "\u2022\u2022",
-    "\u2581\u25b2",
-    "\u2022",
-    "\u2756",
-    "\u2581\u2666"
-   ],
-   "4": [
-    "\u2581\u2022",
-    "\u2022\u2022",
-    "\u2581\u25b2",
-    "\u2022",
-    "\"\u2014",
-    "\u2581\u2014"
-   ],
-   "6": [
-    "\u2581\u2022",
-    "\"\u2014",
-    "\u2022\u2022",
-    "\u2022",
-    "\u2014",
-    "\u2581\uf0d8"
-   ],
-   "8": [
-    "\u2581\u2022",
-    "\"\u2014",
-    "\u2014",
-    "\u2581\u2014",
-    "\u2022",
-    "\u2022\u2022"
-   ],
-   "10": [
-    "\"\u2014",
-    "\u2581\u2022",
-    "\u2581\u2014",
-    "\u2014",
-    "\u2022",
-    "</i>"
-   ],
-   "12": [
-    "\"\u2014",
-    "\u2581\u2022",
-    "\u2014",
-    "</h2>",
-    "\u2581endeavors",
-    "\u2022"
-   ],
-   "14": [
-    "\"\u2014",
-    "\u2014",
-    "</h2>",
-    ",\"",
-    "</i>",
-    "\u2581\u2022"
-   ],
-   "16": [
-    "</h2>",
-    "\"\u2014",
-    "\u2014",
-    "\u2581\u2022",
-    "\u2581endeavors",
-    "\u2581\u2014"
-   ],
-   "18": [
-    "\"\u2014",
-    "</h2>",
-    "\u2026\"",
-    "\u2581\u2022",
-    "\u2581!\"",
-    "\u2014"
-   ],
-   "20": [
-    "\"\u2014",
-    "\u2026\"",
-    "!\"",
-    ",\"",
-    "\u2581!\"",
-    ".\""
-   ],
-   "22": [
-    "\u2026\"",
-    "!\"",
-    "\u2581!\"",
-    "\u2581.\"",
-    "\"\u2014",
-    ".\""
-   ],
-   "24": [
-    "!\".",
-    "!\"",
-    ".\"",
-    ".\".",
-    "!\";",
-    "!\");"
-   ],
-   "26": [
-    ".\u2019\u2019",
-    "\u2122.",
-    "\u2019.",
-    "\u3002\u300d",
-    "\"\u2014",
-    ".\"]"
-   ],
-   "28": [
-    "</h2>",
-    "</h5>",
-    "</i>",
-    "\u300f",
-    "\ufe0f",
-    "</h3>"
-   ],
-   "30": [
-    "\n",
-    "</h2>",
-    "</h5>",
-    "</i>",
-    "</u>",
-    "</h3>"
-   ],
-   "32": [
-    "\n",
-    "</h2>",
-    "</i>",
-    "</h5>",
-    "</u>",
-    "\u202c"
-   ],
-   "34": [
-    "\n",
-    "</h2>",
-    "\u2581Pursuit",
-    "\u2581chases",
-    "\u2581Purs",
-    "\u2581chase"
-   ],
-   "36": [
-    "\n",
-    "\u2581chases",
-    "\u2581chase",
-    "</h2>",
-    "\u2581Chase",
-    "\u2581Pursuit"
-   ],
-   "38": [
-    "\n",
-    "\u2581of",
-    "</h2>",
-    "\u2581Of",
-    "\u2581chases",
-    "\u2581Chase"
-   ],
-   "40": [
-    "\n",
-    "\u2581of",
-    "\u2581Of",
-    "</h2>",
-    "Of",
-    "\u2581Adventures"
-   ],
-   "42": [
-    "\n",
-    "\u2581of",
-    "\u2581Of",
-    ":",
-    "!",
-    "</h2>"
-   ],
-   "44": [
-    "\n",
-    "\u2581of",
-    ".",
-    ":",
-    "!",
-    "\u2581("
-   ],
-   "46": [
-    "\n",
-    "\u2581",
-    ".",
-    "\u2581of",
-    ":",
-    ","
-   ]
+   "trained": {
+    "0": [
+     "\u2581\u2022",
+     "\u2022",
+     "\u2022\u2022",
+     "\u2581\u25b2",
+     "\"\u2014",
+     "</h2>"
+    ],
+    "2": [
+     "\u2581\u2022",
+     "\u2022\u2022",
+     "\u2581\u25b2",
+     "\u2022",
+     "\u2756",
+     "\u2581\u2666"
+    ],
+    "4": [
+     "\u2581\u2022",
+     "\u2022\u2022",
+     "\u2581\u25b2",
+     "\u2022",
+     "\"\u2014",
+     "\u2581\u2014"
+    ],
+    "6": [
+     "\u2581\u2022",
+     "\"\u2014",
+     "\u2022\u2022",
+     "\u2022",
+     "\u2014",
+     "\u2581\uf0d8"
+    ],
+    "8": [
+     "\u2581\u2022",
+     "\"\u2014",
+     "\u2014",
+     "\u2581\u2014",
+     "\u2022",
+     "\u2022\u2022"
+    ],
+    "10": [
+     "\"\u2014",
+     "\u2581\u2022",
+     "\u2581\u2014",
+     "\u2014",
+     "\u2022",
+     "</i>"
+    ],
+    "12": [
+     "\"\u2014",
+     "\u2581\u2022",
+     "\u2014",
+     "</h2>",
+     "\u2581endeavors",
+     "\u2022"
+    ],
+    "14": [
+     "\"\u2014",
+     "\u2014",
+     "</h2>",
+     ",\"",
+     "</i>",
+     "\u2581\u2022"
+    ],
+    "16": [
+     "</h2>",
+     "\"\u2014",
+     "\u2014",
+     "\u2581\u2022",
+     "\u2581endeavors",
+     "\u2581\u2014"
+    ],
+    "18": [
+     "\"\u2014",
+     "</h2>",
+     "\u2026\"",
+     "\u2581\u2022",
+     "\u2581!\"",
+     "\u2014"
+    ],
+    "20": [
+     "\"\u2014",
+     "\u2026\"",
+     "!\"",
+     ",\"",
+     "\u2581!\"",
+     ".\""
+    ],
+    "22": [
+     "\u2026\"",
+     "!\"",
+     "\u2581!\"",
+     "\u2581.\"",
+     "\"\u2014",
+     ".\""
+    ],
+    "24": [
+     "!\".",
+     "!\"",
+     ".\"",
+     ".\".",
+     "!\";",
+     "!\");"
+    ],
+    "26": [
+     ".\u2019\u2019",
+     "\u2122.",
+     "\u2019.",
+     "\u3002\u300d",
+     "\"\u2014",
+     ".\"]"
+    ],
+    "28": [
+     "</h2>",
+     "</h5>",
+     "</i>",
+     "\u300f",
+     "\ufe0f",
+     "</h3>"
+    ],
+    "30": [
+     "\n",
+     "</h2>",
+     "</h5>",
+     "</i>",
+     "</u>",
+     "</h3>"
+    ],
+    "32": [
+     "\n",
+     "</h2>",
+     "</i>",
+     "</h5>",
+     "</u>",
+     "\u202c"
+    ],
+    "34": [
+     "\n",
+     "</h2>",
+     "\u2581Pursuit",
+     "\u2581chases",
+     "\u2581Purs",
+     "\u2581chase"
+    ],
+    "36": [
+     "\n",
+     "\u2581chases",
+     "\u2581chase",
+     "</h2>",
+     "\u2581Chase",
+     "\u2581Pursuit"
+    ],
+    "38": [
+     "\n",
+     "\u2581of",
+     "</h2>",
+     "\u2581Of",
+     "\u2581chases",
+     "\u2581Chase"
+    ],
+    "40": [
+     "\n",
+     "\u2581of",
+     "\u2581Of",
+     "</h2>",
+     "Of",
+     "\u2581Adventures"
+    ],
+    "42": [
+     "\n",
+     "\u2581of",
+     "\u2581Of",
+     ":",
+     "!",
+     "</h2>"
+    ],
+    "44": [
+     "\n",
+     "\u2581of",
+     ".",
+     ":",
+     "!",
+     "\u2581("
+    ],
+    "46": [
+     "\n",
+     "\u2581",
+     ".",
+     "\u2581of",
+     ":",
+     ","
+    ]
+   },
+   "base": {
+    "0": [
+     "\u2581\u2022",
+     "\u2022",
+     "\u2022\u2022",
+     "\u2581\u25b2",
+     "\"\u2014",
+     "</h2>"
+    ],
+    "2": [
+     "\u2581\u2022",
+     "\u2022\u2022",
+     "\u2581\u25b2",
+     "\u2022",
+     "\u2756",
+     "\u2581\u2666"
+    ],
+    "4": [
+     "\u2581\u2022",
+     "\u2022\u2022",
+     "\u2581\u25b2",
+     "\u2022",
+     "\"\u2014",
+     "\u2581\u2014"
+    ],
+    "6": [
+     "\u2581\u2022",
+     "\"\u2014",
+     "\u2022\u2022",
+     "\u2022",
+     "\u2014",
+     "\u2581\uf0d8"
+    ],
+    "8": [
+     "\u2581\u2022",
+     "\"\u2014",
+     "\u2014",
+     "\u2581\u2014",
+     "\u2022",
+     "\u2022\u2022"
+    ],
+    "10": [
+     "\u2581\u2022",
+     "\"\u2014",
+     "\u2581\u2014",
+     "\u2014",
+     "\u2022",
+     ".\"\u2014"
+    ],
+    "12": [
+     "\"\u2014",
+     "\u2581\u2022",
+     "\u2014",
+     "\u2581endeavors",
+     "</h2>",
+     "\u2022"
+    ],
+    "14": [
+     "\"\u2014",
+     "\u2014",
+     "</h2>",
+     ",\"",
+     "</i>",
+     "\u2581\u2022"
+    ],
+    "16": [
+     "</h2>",
+     "\"\u2014",
+     "\u2581\u2022",
+     "\u2014",
+     "\u2581endeavors",
+     "\u2581\u2014"
+    ],
+    "18": [
+     "\"\u2014",
+     "</h2>",
+     "\u2026\"",
+     "\u2581\u2022",
+     "\u2581!\"",
+     "\u2014"
+    ],
+    "20": [
+     "\u2026\"",
+     "\"\u2014",
+     "!\"",
+     ",\"",
+     "\u2581!\"",
+     ".\""
+    ],
+    "22": [
+     "\u2026\"",
+     "!\"",
+     "\u2581.\"",
+     "\u2581!\"",
+     ".\"",
+     "\"\u2014"
+    ],
+    "24": [
+     "!\".",
+     ".\"",
+     ".\".",
+     "!\"",
+     "!\");",
+     "</h2>"
+    ],
+    "26": [
+     ".\u2019\u2019",
+     "\u2122.",
+     "\u3002\u300d",
+     "\u2019.",
+     ".\"]",
+     ".\""
+    ],
+    "28": [
+     "</h2>",
+     "</h5>",
+     "</i>",
+     "\u300f",
+     "\u2016",
+     "\u2581Begins"
+    ],
+    "30": [
+     "</h2>",
+     "\n",
+     "</h5>",
+     "</i>",
+     "\ufe0f",
+     "</h3>"
+    ],
+    "32": [
+     "</h2>",
+     "\n",
+     "</i>",
+     "</h5>",
+     "\u2581Adventures",
+     "</u>"
+    ],
+    "34": [
+     "\u2581Pursuit",
+     "\u2581chases",
+     "\u2581chase",
+     "\u2581Purs",
+     "\u2581Chase",
+     "\n"
+    ],
+    "36": [
+     "\n",
+     "\u2581chases",
+     "\u2581Pursuit",
+     "\u2581chase",
+     "\u2581Chase",
+     "\u2581Purs"
+    ],
+    "38": [
+     "\n",
+     "\u2581Pursuit",
+     "\u2581chase",
+     "\u2581chases",
+     "\u2581Chase",
+     "\u2581Purs"
+    ],
+    "40": [
+     "\n",
+     "\u2581of",
+     "\u2581Of",
+     "\u2581Adventures",
+     "\u2581Pursuit",
+     "\u2581Chase"
+    ],
+    "42": [
+     "\n",
+     "\u2581of",
+     "!",
+     ":",
+     "\u2581Of",
+     "</h2>"
+    ],
+    "44": [
+     "\n",
+     "\u2581of",
+     ":",
+     ".",
+     "!",
+     "\u2581:"
+    ],
+    "46": [
+     "\n",
+     "\u2581",
+     ".",
+     "\u2581of",
+     ":",
+     ","
+    ]
+   }
   }
  },
  {
@@ -402,198 +794,394 @@
   "q": "Collect 10 household items that can be recycled.",
   "a": "Glass bottles Aluminium cans Plastic bottles Cardboard boxes Paper Tetra Paks Steel tins Aerosol cans Plastic tubs Magazines",
   "top": {
-   "0": [
-    "\u2014\u2014",
-    "\"\u2014",
-    "\",\"",
-    "\n\n\n\n\n\n\n\n",
-    "\n\n\n\n\n\n",
-    "\n\n\n\n\n"
-   ],
-   "2": [
-    "\u2014\u2014",
-    "\"\u2014",
-    "\n\n\n\n\n\n\n\n",
-    "\n\n\n\n\n",
-    "\",\"",
-    "\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-   ],
-   "4": [
-    "\u2014\u2014",
-    "\"\u2014",
-    "\n\n\n\n\n\n\n\n",
-    "\n\n\n\n\n",
-    "\u2581\u2014\u2014",
-    "\",\""
-   ],
-   "6": [
-    "\u2014\u2014",
-    "\"\u2014",
-    "\n\n\n\n\n\n\n\n",
-    "\n\n\n\n\n\n\n",
-    "\n\n\n\n\n",
-    "\n\n\n\n\n\n\n\n\n"
-   ],
-   "8": [
-    "\u2014\u2014",
-    "\n\n\n\n\n\n\n\n",
-    "\"\u2014",
-    "\n\n\n\n\n\n\n",
-    "\n\n\n\n\n\n\n\n\n",
-    "\n\n\n\n\n\n"
-   ],
-   "10": [
-    "\n\n\n\n\n\n\n",
-    "\n\n\n\n\n\n\n\n",
-    "\n\n\n\n\n\n",
-    "\u2014\u2014",
-    "\n\n\n\n\n\n\n\n\n",
-    "\n\n\n\n\n"
-   ],
-   "12": [
-    "\n\n\n\n\n\n\n",
-    "\n\n\n\n\n\n\n\n",
-    "\n\n\n\n\n\n",
-    "\n\n\n\n\n",
-    "\n\n\n\n\n\n\n\n\n",
-    "\u2014\u2014"
-   ],
-   "14": [
-    "\n\n\n\n\n\n\n\n",
-    "\n\n\n\n\n\n\n",
-    "\n\n\n\n\n\n",
-    "\"\u2014",
-    "\n\n\n\n\n",
-    "\u2014\u2014"
-   ],
-   "16": [
-    "\n\n\n\n\n\n\n",
-    "\n\n\n\n\n\n",
-    "\n\n\n\n\n\n\n\n\n",
-    "\n\n\n\n\n\n\n\n",
-    "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
-    "\n\n\n\n\n"
-   ],
-   "18": [
-    "\n\n\n\n\n\n\n",
-    "\n\n\n\n\n\n",
-    "\n\n\n\n\n",
-    "\n\n\n\n\n\n\n\n",
-    "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
-    "\n\n\n\n\n\n\n\n\n"
-   ],
-   "20": [
-    "\n\n\n\n\n\n\n",
-    "\n\n\n\n\n\n\n\n",
-    "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
-    "\n\n\n\n\n\n",
-    "\n\n\n\n\n\n\n\n\n",
-    "\n\n\n\n\n"
-   ],
-   "22": [
-    "\n\n\n\n\n\n\n",
-    "\n\n\n\n\n\n",
-    "\n\n\n\n\n",
-    "\n\n\n\n\n\n\n\n",
-    "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
-    "\n\n\n\n\n\n\n\n\n"
-   ],
-   "24": [
-    "\u2581Magazines",
-    "\u2581Newspapers",
-    "\u2581Newspaper",
-    "\u2581Advertising",
-    "\u2581Magazine",
-    "\n\n\n\n\n\n\n"
-   ],
-   "26": [
-    "\u2581Magazines",
-    "\u2581Recycling",
-    "\u2581Newspapers",
-    "\u2581Recycle",
-    "\u2581Printed",
-    "\u2581Newspaper"
-   ],
-   "28": [
-    "\u2581Recycling",
-    "\u2581Magazines",
-    "\u2581Recycle",
-    "\u2581Newspapers",
-    "\u2581Laundry",
-    "\u2581recyclable"
-   ],
-   "30": [
-    "\u2581Recycling",
-    "\u2581Recycle",
-    "\u2581Magazines",
-    "\u2581recycling",
-    "\u2581recyclable",
-    "\u2581Newspapers"
-   ],
-   "32": [
-    "\u2581Recycling",
-    "\u2581Recycle",
-    "\u2581recycling",
-    "\u2581recyclable",
-    "\u2581recycle",
-    "\u2581Magazines"
-   ],
-   "34": [
-    "\u2581Newspapers",
-    "\u2581Magazines",
-    "\u2581newspapers",
-    "\u2581Newspaper",
-    "\u2581Recycling",
-    "\u2581magazines"
-   ],
-   "36": [
-    "\u2581Newspapers",
-    "\u2581Newspaper",
-    "\u2581newspapers",
-    "\u2581Magazines",
-    "\u2581cardboard",
-    "\u2581magazines"
-   ],
-   "38": [
-    "\u2581Newspapers",
-    "\u2581Newspaper",
-    "\u2581newspapers",
-    "\u2581Magazines",
-    "\u2581cardboard",
-    "\u2581newspaper"
-   ],
-   "40": [
-    "\u2581Newspapers",
-    "\u2581cardboard",
-    "\u2581newspapers",
-    "\u2581Newspaper",
-    "\u2581newspaper",
-    "\u2581Magazines"
-   ],
-   "42": [
-    "\u2581Newspapers",
-    "\u2581newspapers",
-    "\u2581Newspaper",
-    "\u2581newspaper",
-    "\u2581cardboard",
-    "\u2581Paper"
-   ],
-   "44": [
-    "\u2581Newspapers",
-    "\u2581newspapers",
-    "\u2581Newspaper",
-    "\u2581newspaper",
-    "\u2581Aluminium",
-    "\u2581Magazines"
-   ],
-   "46": [
-    "\u2581Newspapers",
-    "\u2581Newspaper",
-    "\u2581Clothes",
-    "\u2581newspapers",
-    "\u2581Books",
-    "\u2581New"
-   ]
+   "trained": {
+    "0": [
+     "\u2014\u2014",
+     "\"\u2014",
+     "\",\"",
+     "\n\n\n\n\n\n\n\n",
+     "\n\n\n\n\n\n",
+     "\n\n\n\n\n"
+    ],
+    "2": [
+     "\u2014\u2014",
+     "\"\u2014",
+     "\n\n\n\n\n\n\n\n",
+     "\n\n\n\n\n",
+     "\",\"",
+     "\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+    ],
+    "4": [
+     "\u2014\u2014",
+     "\"\u2014",
+     "\n\n\n\n\n\n\n\n",
+     "\n\n\n\n\n",
+     "\u2581\u2014\u2014",
+     "\",\""
+    ],
+    "6": [
+     "\u2014\u2014",
+     "\"\u2014",
+     "\n\n\n\n\n\n\n\n",
+     "\n\n\n\n\n\n\n",
+     "\n\n\n\n\n",
+     "\n\n\n\n\n\n\n\n\n"
+    ],
+    "8": [
+     "\u2014\u2014",
+     "\n\n\n\n\n\n\n\n",
+     "\"\u2014",
+     "\n\n\n\n\n\n\n",
+     "\n\n\n\n\n\n\n\n\n",
+     "\n\n\n\n\n\n"
+    ],
+    "10": [
+     "\n\n\n\n\n\n\n",
+     "\n\n\n\n\n\n\n\n",
+     "\n\n\n\n\n\n",
+     "\u2014\u2014",
+     "\n\n\n\n\n\n\n\n\n",
+     "\n\n\n\n\n"
+    ],
+    "12": [
+     "\n\n\n\n\n\n\n",
+     "\n\n\n\n\n\n\n\n",
+     "\n\n\n\n\n\n",
+     "\n\n\n\n\n",
+     "\n\n\n\n\n\n\n\n\n",
+     "\u2014\u2014"
+    ],
+    "14": [
+     "\n\n\n\n\n\n\n\n",
+     "\n\n\n\n\n\n\n",
+     "\n\n\n\n\n\n",
+     "\"\u2014",
+     "\n\n\n\n\n",
+     "\u2014\u2014"
+    ],
+    "16": [
+     "\n\n\n\n\n\n\n",
+     "\n\n\n\n\n\n",
+     "\n\n\n\n\n\n\n\n\n",
+     "\n\n\n\n\n\n\n\n",
+     "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+     "\n\n\n\n\n"
+    ],
+    "18": [
+     "\n\n\n\n\n\n\n",
+     "\n\n\n\n\n\n",
+     "\n\n\n\n\n",
+     "\n\n\n\n\n\n\n\n",
+     "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+     "\n\n\n\n\n\n\n\n\n"
+    ],
+    "20": [
+     "\n\n\n\n\n\n\n",
+     "\n\n\n\n\n\n\n\n",
+     "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+     "\n\n\n\n\n\n",
+     "\n\n\n\n\n\n\n\n\n",
+     "\n\n\n\n\n"
+    ],
+    "22": [
+     "\n\n\n\n\n\n\n",
+     "\n\n\n\n\n\n",
+     "\n\n\n\n\n",
+     "\n\n\n\n\n\n\n\n",
+     "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+     "\n\n\n\n\n\n\n\n\n"
+    ],
+    "24": [
+     "\u2581Magazines",
+     "\u2581Newspapers",
+     "\u2581Newspaper",
+     "\u2581Advertising",
+     "\u2581Magazine",
+     "\n\n\n\n\n\n\n"
+    ],
+    "26": [
+     "\u2581Magazines",
+     "\u2581Recycling",
+     "\u2581Newspapers",
+     "\u2581Recycle",
+     "\u2581Printed",
+     "\u2581Newspaper"
+    ],
+    "28": [
+     "\u2581Recycling",
+     "\u2581Magazines",
+     "\u2581Recycle",
+     "\u2581Newspapers",
+     "\u2581Laundry",
+     "\u2581recyclable"
+    ],
+    "30": [
+     "\u2581Recycling",
+     "\u2581Recycle",
+     "\u2581Magazines",
+     "\u2581recycling",
+     "\u2581recyclable",
+     "\u2581Newspapers"
+    ],
+    "32": [
+     "\u2581Recycling",
+     "\u2581Recycle",
+     "\u2581recycling",
+     "\u2581recyclable",
+     "\u2581recycle",
+     "\u2581Magazines"
+    ],
+    "34": [
+     "\u2581Newspapers",
+     "\u2581Magazines",
+     "\u2581newspapers",
+     "\u2581Newspaper",
+     "\u2581Recycling",
+     "\u2581magazines"
+    ],
+    "36": [
+     "\u2581Newspapers",
+     "\u2581Newspaper",
+     "\u2581newspapers",
+     "\u2581Magazines",
+     "\u2581cardboard",
+     "\u2581magazines"
+    ],
+    "38": [
+     "\u2581Newspapers",
+     "\u2581Newspaper",
+     "\u2581newspapers",
+     "\u2581Magazines",
+     "\u2581cardboard",
+     "\u2581newspaper"
+    ],
+    "40": [
+     "\u2581Newspapers",
+     "\u2581cardboard",
+     "\u2581newspapers",
+     "\u2581Newspaper",
+     "\u2581newspaper",
+     "\u2581Magazines"
+    ],
+    "42": [
+     "\u2581Newspapers",
+     "\u2581newspapers",
+     "\u2581Newspaper",
+     "\u2581newspaper",
+     "\u2581cardboard",
+     "\u2581Paper"
+    ],
+    "44": [
+     "\u2581Newspapers",
+     "\u2581newspapers",
+     "\u2581Newspaper",
+     "\u2581newspaper",
+     "\u2581Aluminium",
+     "\u2581Magazines"
+    ],
+    "46": [
+     "\u2581Newspapers",
+     "\u2581Newspaper",
+     "\u2581Clothes",
+     "\u2581newspapers",
+     "\u2581Books",
+     "\u2581New"
+    ]
+   },
+   "base": {
+    "0": [
+     "\u2014\u2014",
+     "\"\u2014",
+     "\",\"",
+     "\n\n\n\n\n\n\n\n",
+     "\n\n\n\n\n\n",
+     "\n\n\n\n\n"
+    ],
+    "2": [
+     "\u2014\u2014",
+     "\"\u2014",
+     "\n\n\n\n\n\n\n\n",
+     "\n\n\n\n\n",
+     "\",\"",
+     "\u2026\u2026."
+    ],
+    "4": [
+     "\u2014\u2014",
+     "\"\u2014",
+     "\n\n\n\n\n\n\n\n",
+     "\n\n\n\n\n",
+     "\",\"",
+     "\n\n\n\n\n\n"
+    ],
+    "6": [
+     "\u2014\u2014",
+     "\"\u2014",
+     "\n\n\n\n\n\n\n\n",
+     "\n\n\n\n\n\n\n",
+     "\n\n\n\n\n",
+     "\n\n\n\n\n\n\n\n\n"
+    ],
+    "8": [
+     "\u2014\u2014",
+     "\n\n\n\n\n\n\n\n",
+     "\n\n\n\n\n\n\n",
+     "\"\u2014",
+     "\n\n\n\n\n\n\n\n\n",
+     "\n\n\n\n\n\n"
+    ],
+    "10": [
+     "\n\n\n\n\n\n\n",
+     "\n\n\n\n\n\n\n\n",
+     "\n\n\n\n\n\n",
+     "\u2014\u2014",
+     "\n\n\n\n\n\n\n\n\n",
+     "\n\n\n\n\n"
+    ],
+    "12": [
+     "\n\n\n\n\n\n\n",
+     "\n\n\n\n\n\n\n\n",
+     "\n\n\n\n\n\n",
+     "\n\n\n\n\n",
+     "\n\n\n\n\n\n\n\n\n",
+     "\u2014\u2014"
+    ],
+    "14": [
+     "\n\n\n\n\n\n",
+     "\n\n\n\n\n\n\n\n",
+     "\n\n\n\n\n\n\n",
+     "\"\u2014",
+     "\n\n\n\n\n",
+     "\u2014\u2014"
+    ],
+    "16": [
+     "\n\n\n\n\n\n\n",
+     "\n\n\n\n\n\n",
+     "\n\n\n\n\n\n\n\n\n",
+     "\n\n\n\n\n\n\n\n",
+     "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+     "\n\n\n\n\n"
+    ],
+    "18": [
+     "\n\n\n\n\n\n\n",
+     "\n\n\n\n\n\n",
+     "\n\n\n\n\n",
+     "\n\n\n\n\n\n\n\n",
+     "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+     "\n\n\n\n\n\n\n\n\n"
+    ],
+    "20": [
+     "\n\n\n\n\n\n\n",
+     "\n\n\n\n\n\n\n\n",
+     "\n\n\n\n\n\n",
+     "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+     "\n\n\n\n\n",
+     "\n\n\n\n\n\n\n\n\n"
+    ],
+    "22": [
+     "\n\n\n\n\n\n\n",
+     "\n\n\n\n\n\n",
+     "\n\n\n\n\n",
+     "\n\n\n\n\n\n\n\n",
+     "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+     "\n\n\n\n\n\n\n\n\n"
+    ],
+    "24": [
+     "\u2581Magazines",
+     "\u2581Newspapers",
+     "\u2581Newspaper",
+     "\u2581Advertising",
+     "\u2581Magazine",
+     "\u2581Printed"
+    ],
+    "26": [
+     "\u2581Magazines",
+     "\u2581Recycling",
+     "\u2581Newspapers",
+     "\u2581Recycle",
+     "\u2581Newspaper",
+     "\u2581Laundry"
+    ],
+    "28": [
+     "\u2581Recycling",
+     "\u2581Magazines",
+     "\u2581Recycle",
+     "\u2581Newspapers",
+     "\u2581Laundry",
+     "\u2581recyclable"
+    ],
+    "30": [
+     "\u2581Recycling",
+     "\u2581Recycle",
+     "\u2581Magazines",
+     "\u2581recycling",
+     "\u2581recyclable",
+     "\u2581Newspapers"
+    ],
+    "32": [
+     "\u2581Recycling",
+     "\u2581Recycle",
+     "\u2581recycling",
+     "\u2581recyclable",
+     "\u2581Magazines",
+     "\u2581recycle"
+    ],
+    "34": [
+     "\u2581Newspapers",
+     "\u2581Magazines",
+     "\u2581newspapers",
+     "\u2581Newspaper",
+     "\u2581magazines",
+     "\u2581Recycling"
+    ],
+    "36": [
+     "\u2581Newspapers",
+     "\u2581Newspaper",
+     "\u2581Magazines",
+     "\u2581newspapers",
+     "\u2581cardboard",
+     "\u2581magazines"
+    ],
+    "38": [
+     "\u2581Newspapers",
+     "\u2581Newspaper",
+     "\u2581newspapers",
+     "\u2581Magazines",
+     "\u2581newspaper",
+     "\u2581cardboard"
+    ],
+    "40": [
+     "\u2581Newspapers",
+     "\u2581newspapers",
+     "\u2581Newspaper",
+     "\u2581cardboard",
+     "\u2581newspaper",
+     "\u2581Magazines"
+    ],
+    "42": [
+     "\u2581Newspapers",
+     "\u2581newspapers",
+     "\u2581Newspaper",
+     "\u2581newspaper",
+     "\u2581cardboard",
+     "\u2581Paper"
+    ],
+    "44": [
+     "\u2581Newspapers",
+     "\u2581Newspaper",
+     "\u2581newspapers",
+     "\u2581newspaper",
+     "\u2581Aluminum",
+     "\u2581Aluminium"
+    ],
+    "46": [
+     "\u2581Newspapers",
+     "\u2581Newspaper",
+     "\u2581New",
+     "\u2581newspapers",
+     "\u2581Books",
+     "\u2581Clothes"
+    ]
+   }
   }
  },
  {
@@ -601,198 +1189,394 @@
   "q": "Describe a new feature you would like to include in a fitness app.",
   "a": "Historical landmark walking routes",
   "top": {
-   "0": [
-    "...\u201d",
-    "---\u2019",
-    "\u2019\u201d",
-    "\u2581-&",
-    "\u201c[",
-    "\u2581\u201c["
-   ],
-   "2": [
-    "...\u201d",
-    "---\u2019",
-    "\u2581|\u201d",
-    "\u2019\u201d",
-    ":\u201d",
-    "\u2581----->"
-   ],
-   "4": [
-    "...\u201d",
-    "---\u2019",
-    "\u2581|\u201d",
-    "\u2581----->",
-    "\u2581------",
-    "\u2581\u201c["
-   ],
-   "6": [
-    "\ufffc",
-    ".\u200b\u200b",
-    "\u2581------",
-    ":[",
-    "\u2581----->",
-    "\u2581prioritise"
-   ],
-   "8": [
-    "\ufffc",
-    "\u2581prioritise",
-    "\u2581behaviours",
-    ".\u200b\u200b",
-    "\u2581initialise",
-    "\u2581\u2014\u2014"
-   ],
-   "10": [
-    "\ufffc",
-    "\u2581prioritise",
-    "\u2581behaviours",
-    "\u2581\u2014",
-    "\u2581\u200b",
-    "\u2581centred"
-   ],
-   "12": [
-    "\u2581prioritise",
-    "\u2581organisations",
-    "\u2581behaviours",
-    "\u2581neighbourhoods",
-    "\u2581neighbouring",
-    "\u2581centred"
-   ],
-   "14": [
-    "\u2581prioritise",
-    "\u2581neighbourhoods",
-    "\u2581organisations",
-    "\u2581neighbouring",
-    "\u2581centred",
-    "\u2581emphasises"
-   ],
-   "16": [
-    "\u2581prioritise",
-    "\u2581specialising",
-    "\u2581organisations",
-    "\u2581whilst",
-    "\u2581neighbouring",
-    "\u2581centred"
-   ],
-   "18": [
-    "\u2581prioritise",
-    "\u2581neighbourhoods",
-    "\ud83d\uddfa",
-    "\u2581optimised",
-    "\ud83c\udf33",
-    "\u2581\ud83c\udf31"
-   ],
-   "20": [
-    "\u2581neighbourhoods",
-    "\u2581optimised",
-    "\ud83d\uddfa",
-    "\u2581prioritise",
-    "\u2581travellers",
-    "\u2581specialising"
-   ],
-   "22": [
-    "\u2581optimised",
-    "\u2581neighbourhoods",
-    "\u2581prioritise",
-    "\u2581specialising",
-    "\u2581travellers",
-    "\u2581optimisation"
-   ],
-   "24": [
-    "\u2581optimised",
-    "\u2581showcasing",
-    "\u2581neighbourhoods",
-    "\u2581playlists",
-    "\u2581specialising",
-    "\u2581prioritise"
-   ],
-   "26": [
-    "\u2581optimised",
-    "\u2581showcasing",
-    "\u2581utilising",
-    "\u2581specialising",
-    "\u2581specialises",
-    "\u2581curated"
-   ],
-   "28": [
-    "\u2581showcasing",
-    "\u2581curated",
-    "\u2581featuring",
-    "\u2581optimised",
-    "\u2581specialising",
-    "\u2581showcased"
-   ],
-   "30": [
-    "\u2581showcasing",
-    "\u2581featuring",
-    "\u2581optimised",
-    "\ud83d\uddfa",
-    "\u2581curated",
-    "\u2581playlists"
-   ],
-   "32": [
-    "\u2581showcasing",
-    "\u2581featuring",
-    "\u2581incorporating",
-    "\u2581optimised",
-    "\ud83d\uddfa",
-    "\u2581curated"
-   ],
-   "34": [
-    "\u2581showcasing",
-    "\u2581combining",
-    "\u2581incorporating",
-    "\u2581guided",
-    "\u2581featuring",
-    "\u2581mapped"
-   ],
-   "36": [
-    "\u2581overlaid",
-    "\u2581incorporating",
-    "\u2581guided",
-    "\u2581showcasing",
-    "\u2581mapped",
-    "\u2581featuring"
-   ],
-   "38": [
-    "\u2581mapped",
-    "\u2581overlaid",
-    "\u2581incorporating",
-    "\u2581guided",
-    "\u2581maps",
-    "\u2581showcasing"
-   ],
-   "40": [
-    "\u2581mapped",
-    "\u2581overlaid",
-    "\u2581guided",
-    "\u2581incorporating",
-    "\u2581maps",
-    "\u2581featuring"
-   ],
-   "42": [
-    "\u2581mapped",
-    "\u2581guided",
-    "\u2581overlaid",
-    "\u2581curated",
-    "\u2581incorporating",
-    "\u2581with"
-   ],
-   "44": [
-    "\u2581with",
-    "\u2581that",
-    ".",
-    "\u2581guided",
-    "\u2581integrating",
-    "\u2581curated"
-   ],
-   "46": [
-    ".",
-    "\u2581with",
-    ":",
-    ",",
-    "\u2581that",
-    "!"
-   ]
+   "trained": {
+    "0": [
+     "...\u201d",
+     "---\u2019",
+     "\u2019\u201d",
+     "\u2581-&",
+     "\u201c[",
+     "\u2581\u201c["
+    ],
+    "2": [
+     "...\u201d",
+     "---\u2019",
+     "\u2581|\u201d",
+     "\u2019\u201d",
+     ":\u201d",
+     "\u2581----->"
+    ],
+    "4": [
+     "...\u201d",
+     "---\u2019",
+     "\u2581|\u201d",
+     "\u2581----->",
+     "\u2581------",
+     "\u2581\u201c["
+    ],
+    "6": [
+     "\ufffc",
+     ".\u200b\u200b",
+     "\u2581------",
+     ":[",
+     "\u2581----->",
+     "\u2581prioritise"
+    ],
+    "8": [
+     "\ufffc",
+     "\u2581prioritise",
+     "\u2581behaviours",
+     ".\u200b\u200b",
+     "\u2581initialise",
+     "\u2581\u2014\u2014"
+    ],
+    "10": [
+     "\ufffc",
+     "\u2581prioritise",
+     "\u2581behaviours",
+     "\u2581\u2014",
+     "\u2581\u200b",
+     "\u2581centred"
+    ],
+    "12": [
+     "\u2581prioritise",
+     "\u2581organisations",
+     "\u2581behaviours",
+     "\u2581neighbourhoods",
+     "\u2581neighbouring",
+     "\u2581centred"
+    ],
+    "14": [
+     "\u2581prioritise",
+     "\u2581neighbourhoods",
+     "\u2581organisations",
+     "\u2581neighbouring",
+     "\u2581centred",
+     "\u2581emphasises"
+    ],
+    "16": [
+     "\u2581prioritise",
+     "\u2581specialising",
+     "\u2581organisations",
+     "\u2581whilst",
+     "\u2581neighbouring",
+     "\u2581centred"
+    ],
+    "18": [
+     "\u2581prioritise",
+     "\u2581neighbourhoods",
+     "\ud83d\uddfa",
+     "\u2581optimised",
+     "\ud83c\udf33",
+     "\u2581\ud83c\udf31"
+    ],
+    "20": [
+     "\u2581neighbourhoods",
+     "\u2581optimised",
+     "\ud83d\uddfa",
+     "\u2581prioritise",
+     "\u2581travellers",
+     "\u2581specialising"
+    ],
+    "22": [
+     "\u2581optimised",
+     "\u2581neighbourhoods",
+     "\u2581prioritise",
+     "\u2581specialising",
+     "\u2581travellers",
+     "\u2581optimisation"
+    ],
+    "24": [
+     "\u2581optimised",
+     "\u2581showcasing",
+     "\u2581neighbourhoods",
+     "\u2581playlists",
+     "\u2581specialising",
+     "\u2581prioritise"
+    ],
+    "26": [
+     "\u2581optimised",
+     "\u2581showcasing",
+     "\u2581utilising",
+     "\u2581specialising",
+     "\u2581specialises",
+     "\u2581curated"
+    ],
+    "28": [
+     "\u2581showcasing",
+     "\u2581curated",
+     "\u2581featuring",
+     "\u2581optimised",
+     "\u2581specialising",
+     "\u2581showcased"
+    ],
+    "30": [
+     "\u2581showcasing",
+     "\u2581featuring",
+     "\u2581optimised",
+     "\ud83d\uddfa",
+     "\u2581curated",
+     "\u2581playlists"
+    ],
+    "32": [
+     "\u2581showcasing",
+     "\u2581featuring",
+     "\u2581incorporating",
+     "\u2581optimised",
+     "\ud83d\uddfa",
+     "\u2581curated"
+    ],
+    "34": [
+     "\u2581showcasing",
+     "\u2581combining",
+     "\u2581incorporating",
+     "\u2581guided",
+     "\u2581featuring",
+     "\u2581mapped"
+    ],
+    "36": [
+     "\u2581overlaid",
+     "\u2581incorporating",
+     "\u2581guided",
+     "\u2581showcasing",
+     "\u2581mapped",
+     "\u2581featuring"
+    ],
+    "38": [
+     "\u2581mapped",
+     "\u2581overlaid",
+     "\u2581incorporating",
+     "\u2581guided",
+     "\u2581maps",
+     "\u2581showcasing"
+    ],
+    "40": [
+     "\u2581mapped",
+     "\u2581overlaid",
+     "\u2581guided",
+     "\u2581incorporating",
+     "\u2581maps",
+     "\u2581featuring"
+    ],
+    "42": [
+     "\u2581mapped",
+     "\u2581guided",
+     "\u2581overlaid",
+     "\u2581curated",
+     "\u2581incorporating",
+     "\u2581with"
+    ],
+    "44": [
+     "\u2581with",
+     "\u2581that",
+     ".",
+     "\u2581guided",
+     "\u2581integrating",
+     "\u2581curated"
+    ],
+    "46": [
+     ".",
+     "\u2581with",
+     ":",
+     ",",
+     "\u2581that",
+     "!"
+    ]
+   },
+   "base": {
+    "0": [
+     "...\u201d",
+     "---\u2019",
+     "\u2019\u201d",
+     "\u2581-&",
+     "\u201c[",
+     "\u2581\u201c["
+    ],
+    "2": [
+     "...\u201d",
+     "---\u2019",
+     "\u2581|\u201d",
+     ":\u201d",
+     "\u2019\u201d",
+     "\u2581----->"
+    ],
+    "4": [
+     "...\u201d",
+     "---\u2019",
+     "\u2581----->",
+     "\u2581|\u201d",
+     "\u2581\u201c[",
+     "\u2581------"
+    ],
+    "6": [
+     "\ufffc",
+     ".\u200b\u200b",
+     "\u2581------",
+     ":[",
+     "\u2581----->",
+     "...\u201d"
+    ],
+    "8": [
+     "\ufffc",
+     "\u2581prioritise",
+     "\u2581behaviours",
+     ".\u200b\u200b",
+     "\u200b\u200b\u200b\u200b",
+     "\u2581initialise"
+    ],
+    "10": [
+     "\ufffc",
+     "\u2581prioritise",
+     "\u2581\u2014",
+     "\u2581behaviours",
+     "\u2581\u200b",
+     "\u2581alongside"
+    ],
+    "12": [
+     "\u2581prioritise",
+     "\u2581behaviours",
+     "\u2581organisations",
+     "\u2581neighbourhoods",
+     "\u2581centred",
+     "\u2581neighbouring"
+    ],
+    "14": [
+     "\u2581prioritise",
+     "\u2581neighbourhoods",
+     "\u2581organisations",
+     "\u2581centred",
+     "\u2581\u2014",
+     "\u2581behaviours"
+    ],
+    "16": [
+     "\u2581prioritise",
+     "\u2581specialising",
+     "\u2581neighbourhoods",
+     "\u2581organisations",
+     "\u2581whilst",
+     "\u2581centred"
+    ],
+    "18": [
+     "\ud83d\uddfa",
+     "\u2581\ud83c\udf31",
+     "\ud83c\udf33",
+     "\u2581prioritise",
+     "\u26f0",
+     "\u2581neighbourhoods"
+    ],
+    "20": [
+     "\ud83d\uddfa",
+     "\u2581neighbourhoods",
+     "\u2581optimised",
+     "\u2581prioritise",
+     "\u2581playlists",
+     "\ud83c\udf33"
+    ],
+    "22": [
+     "\u2581optimised",
+     "\u2581neighbourhoods",
+     "\ud83d\uddfa",
+     "\u2581travellers",
+     "\u2581prioritise",
+     "\u2581landscapes"
+    ],
+    "24": [
+     "\u2581showcasing",
+     "\u2581playlists",
+     "\u2581optimised",
+     "\u2581immersive",
+     "\u2581webinars",
+     "\u2581neighbourhoods"
+    ],
+    "26": [
+     "\u2581showcasing",
+     "\u2581playlists",
+     "\u2581optimised",
+     "\u2581showcased",
+     "\u2581immersive",
+     "\u2581curated"
+    ],
+    "28": [
+     "\u2581showcasing",
+     "\u2581featuring",
+     "\u2581curated",
+     "\u2581showcased",
+     "\u2581playlists",
+     "\u2581optimised"
+    ],
+    "30": [
+     "\u2581showcasing",
+     "\u2581featuring",
+     "\ud83d\uddfa",
+     "\u2581playlists",
+     "\u2581itineraries",
+     "\u2581curated"
+    ],
+    "32": [
+     "\u2581showcasing",
+     "\u2581featuring",
+     "\ud83d\uddfa",
+     "\u2581mapped",
+     "\u2581curated",
+     "\u2581maps"
+    ],
+    "34": [
+     "\u2581guided",
+     "\u2581showcasing",
+     "\u2581featuring",
+     "\u2581combining",
+     "\u2581incorporating",
+     "\u2581exploring"
+    ],
+    "36": [
+     "\u2581guided",
+     "\u2581mapped",
+     "\u2581featuring",
+     "\u2581showcasing",
+     "\u2581incorporating",
+     "\u2581curated"
+    ],
+    "38": [
+     "\u2581guided",
+     "\u2581mapped",
+     "\u2581maps",
+     "\u2581curated",
+     "\u2581overlaid",
+     "\u2581incorporating"
+    ],
+    "40": [
+     "\u2581guided",
+     "\u2581mapped",
+     "\u2581maps",
+     "\u2581curated",
+     "\u2581featuring",
+     "\u2581guides"
+    ],
+    "42": [
+     "\u2581guided",
+     "\u2581mapped",
+     "\u2581curated",
+     "\u2581featuring",
+     "\u2581maps",
+     "\u2581guides"
+    ],
+    "44": [
+     "\u2581guided",
+     "\u2581that",
+     "\u2581with",
+     "\u2581curated",
+     "\u2581tailored",
+     "\u2581featuring"
+    ],
+    "46": [
+     ".",
+     ",",
+     "\u2581with",
+     "\u2581that",
+     "\u2581guided",
+     ":"
+    ]
+   }
   }
  },
  {
@@ -800,198 +1584,394 @@
   "q": "What is the government policy on refugees?",
   "a": "Asylum seekers are processed; resettlement schemes exist",
   "top": {
-   "0": [
-    "\u2581\u00ab",
-    "\u3008",
-    "\u2581\u201a",
-    ".\u00bb",
-    "\u00ab",
-    "\u2581\u201e"
-   ],
-   "2": [
-    "\u2581\u2217",
-    "\u2581\u301c",
-    "\u2014\u2014\u2014\u2014",
-    "\u3008",
-    "\u27cb",
-    "\u2014\u2014\u2014"
-   ],
-   "4": [
-    "\u2581\u2217",
-    "\u2581\u2014",
-    "\u2581\u301c",
-    "\u2581\u3008",
-    "\u2581\u201e",
-    "\u3008"
-   ],
-   "6": [
-    "\u2581\u201e",
-    "\u2581\u3008",
-    "\u2581\u2014",
-    "\u2581\u201a",
-    "\u05f4",
-    "\u3008"
-   ],
-   "8": [
-    "\u2581\u201e",
-    "\u2581\u201a",
-    "\u05f4",
-    "\u2581\u00ab",
-    "\u2581\u2014",
-    "\u2581\u3008"
-   ],
-   "10": [
-    "\u2581\u201e",
-    "\u2581\u201a",
-    "\u2581\u300d",
-    "\u2581\u00ab",
-    "\u2581\u2014",
-    "\u201e"
-   ],
-   "12": [
-    ".\u00bb",
-    "\u2581\u201e",
-    "\u2581\u2014",
-    "\u2581\u00ab",
-    "\u05f4",
-    "\u2581\u201a"
-   ],
-   "14": [
-    ".\u00bb",
-    "\u2581\u201e",
-    "\u2581\u2014",
-    ".`",
-    "\u2581\u00ab",
-    "\u2581\u201a"
-   ],
-   "16": [
-    ".\u00bb",
-    "\u2581(\u201e",
-    "\u2581\u201e",
-    "\u2581\u2014",
-    "\u201e",
-    "\u2581(\u00ab"
-   ],
-   "18": [
-    ".\u00bb",
-    ".\u2019\u2019",
-    "\u2581\u2014",
-    "\u2581\u201e",
-    "\u2581(\u201e",
-    "\u201e"
-   ],
-   "20": [
-    ".\u00bb",
-    ".\u2019\u2019",
-    "\u2581(\u201e",
-    "\u3002\u300d",
-    "\u00bb;",
-    ".\""
-   ],
-   "22": [
-    ".\u2019\u2019",
-    ".\u00bb",
-    "\u2581programmes",
-    "\u2581organisations",
-    ".`",
-    "\u2581organisational"
-   ],
-   "24": [
-    ".`",
-    ".\u00bb",
-    ".\";",
-    "\u2581funding",
-    "\u2581underpinned",
-    "\u2581governance"
-   ],
-   "26": [
-    "\u2581but",
-    "\u4f46",
-    ".\";",
-    "\u2581\u4f46",
-    "\u4f46\u5728",
-    "\u2581\u0644\u0643\u0646"
-   ],
-   "28": [
-    "\u2581but",
-    ".;",
-    ";",
-    ".\";",
-    "\u2581;",
-    "\u4f46"
-   ],
-   "30": [
-    "\u2581but",
-    "\u4f46",
-    ";",
-    ".;",
-    "\u2581nh\u01b0ng",
-    "\u2581\u4f46"
-   ],
-   "32": [
-    "\u2581but",
-    ";",
-    ".;",
-    "\u4f46",
-    "\u2581alongside",
-    "\u2581nh\u01b0ng"
-   ],
-   "34": [
-    "\u2581but",
-    "\u2581alongside",
-    ";",
-    ".;",
-    "\uff1b",
-    "\u2581for"
-   ],
-   "36": [
-    "\u2581but",
-    ";",
-    "\u2581alongside",
-    ".;",
-    "\u2581for",
-    "\u4f46"
-   ],
-   "38": [
-    "\u2581but",
-    ";",
-    "\u2581for",
-    "\u2581alongside",
-    ".;",
-    "\u4f46"
-   ],
-   "40": [
-    "\u2581but",
-    ";",
-    "\u2581for",
-    "\u2581alongside",
-    "\u2581;",
-    ".;"
-   ],
-   "42": [
-    "\u2581but",
-    ";",
-    "\u2581for",
-    "\u2581alongside",
-    "\u2581;",
-    ".;"
-   ],
-   "44": [
-    ";",
-    "\u2581but",
-    "\u2581for",
-    "\u2581;",
-    "\u2581alongside",
-    "."
-   ],
-   "46": [
-    ".",
-    ";",
-    "\u2581for",
-    ",",
-    "\u2581but",
-    "\n"
-   ]
+   "trained": {
+    "0": [
+     "\u2581\u00ab",
+     "\u3008",
+     "\u2581\u201a",
+     ".\u00bb",
+     "\u00ab",
+     "\u2581\u201e"
+    ],
+    "2": [
+     "\u2581\u2217",
+     "\u2581\u301c",
+     "\u2014\u2014\u2014\u2014",
+     "\u3008",
+     "\u27cb",
+     "\u2014\u2014\u2014"
+    ],
+    "4": [
+     "\u2581\u2217",
+     "\u2581\u2014",
+     "\u2581\u301c",
+     "\u2581\u3008",
+     "\u2581\u201e",
+     "\u3008"
+    ],
+    "6": [
+     "\u2581\u201e",
+     "\u2581\u3008",
+     "\u2581\u2014",
+     "\u2581\u201a",
+     "\u05f4",
+     "\u3008"
+    ],
+    "8": [
+     "\u2581\u201e",
+     "\u2581\u201a",
+     "\u05f4",
+     "\u2581\u00ab",
+     "\u2581\u2014",
+     "\u2581\u3008"
+    ],
+    "10": [
+     "\u2581\u201e",
+     "\u2581\u201a",
+     "\u2581\u300d",
+     "\u2581\u00ab",
+     "\u2581\u2014",
+     "\u201e"
+    ],
+    "12": [
+     ".\u00bb",
+     "\u2581\u201e",
+     "\u2581\u2014",
+     "\u2581\u00ab",
+     "\u05f4",
+     "\u2581\u201a"
+    ],
+    "14": [
+     ".\u00bb",
+     "\u2581\u201e",
+     "\u2581\u2014",
+     ".`",
+     "\u2581\u00ab",
+     "\u2581\u201a"
+    ],
+    "16": [
+     ".\u00bb",
+     "\u2581(\u201e",
+     "\u2581\u201e",
+     "\u2581\u2014",
+     "\u201e",
+     "\u2581(\u00ab"
+    ],
+    "18": [
+     ".\u00bb",
+     ".\u2019\u2019",
+     "\u2581\u2014",
+     "\u2581\u201e",
+     "\u2581(\u201e",
+     "\u201e"
+    ],
+    "20": [
+     ".\u00bb",
+     ".\u2019\u2019",
+     "\u2581(\u201e",
+     "\u3002\u300d",
+     "\u00bb;",
+     ".\""
+    ],
+    "22": [
+     ".\u2019\u2019",
+     ".\u00bb",
+     "\u2581programmes",
+     "\u2581organisations",
+     ".`",
+     "\u2581organisational"
+    ],
+    "24": [
+     ".`",
+     ".\u00bb",
+     ".\";",
+     "\u2581funding",
+     "\u2581underpinned",
+     "\u2581governance"
+    ],
+    "26": [
+     "\u2581but",
+     "\u4f46",
+     ".\";",
+     "\u2581\u4f46",
+     "\u4f46\u5728",
+     "\u2581\u0644\u0643\u0646"
+    ],
+    "28": [
+     "\u2581but",
+     ".;",
+     ";",
+     ".\";",
+     "\u2581;",
+     "\u4f46"
+    ],
+    "30": [
+     "\u2581but",
+     "\u4f46",
+     ";",
+     ".;",
+     "\u2581nh\u01b0ng",
+     "\u2581\u4f46"
+    ],
+    "32": [
+     "\u2581but",
+     ";",
+     ".;",
+     "\u4f46",
+     "\u2581alongside",
+     "\u2581nh\u01b0ng"
+    ],
+    "34": [
+     "\u2581but",
+     "\u2581alongside",
+     ";",
+     ".;",
+     "\uff1b",
+     "\u2581for"
+    ],
+    "36": [
+     "\u2581but",
+     ";",
+     "\u2581alongside",
+     ".;",
+     "\u2581for",
+     "\u4f46"
+    ],
+    "38": [
+     "\u2581but",
+     ";",
+     "\u2581for",
+     "\u2581alongside",
+     ".;",
+     "\u4f46"
+    ],
+    "40": [
+     "\u2581but",
+     ";",
+     "\u2581for",
+     "\u2581alongside",
+     "\u2581;",
+     ".;"
+    ],
+    "42": [
+     "\u2581but",
+     ";",
+     "\u2581for",
+     "\u2581alongside",
+     "\u2581;",
+     ".;"
+    ],
+    "44": [
+     ";",
+     "\u2581but",
+     "\u2581for",
+     "\u2581;",
+     "\u2581alongside",
+     "."
+    ],
+    "46": [
+     ".",
+     ";",
+     "\u2581for",
+     ",",
+     "\u2581but",
+     "\n"
+    ]
+   },
+   "base": {
+    "0": [
+     "\u3008",
+     "\u2581\u00ab",
+     "\u2581\u201a",
+     "\u00ab",
+     ".\u00bb",
+     "\u2581\u201e"
+    ],
+    "2": [
+     "\u2581\u2217",
+     "\u2581\u301c",
+     "\u2014\u2014\u2014\u2014",
+     "\u3008",
+     "\u27cb",
+     "\u2014\u2014\u2014"
+    ],
+    "4": [
+     "\u2581\u2217",
+     "\u2581\u2014",
+     "\u2581\u301c",
+     "\u2581\u3008",
+     "\u2581\u201e",
+     "\u3008"
+    ],
+    "6": [
+     "\u2581\u201e",
+     "\u2581\u3008",
+     "\u2581\u2014",
+     "\u2581\u201a",
+     "\u05f4",
+     "\u3008"
+    ],
+    "8": [
+     "\u2581\u201e",
+     "\u2581\u201a",
+     "\u2581\u00ab",
+     "\u05f4",
+     "\u2581\u2014",
+     "\u2581\u3008"
+    ],
+    "10": [
+     "\u2581\u201e",
+     "\u2581\u201a",
+     "\u2581\u00ab",
+     "\u2581\u300d",
+     "\u2581\u2014",
+     "\u201e"
+    ],
+    "12": [
+     ".\u00bb",
+     "\u2581\u201e",
+     "\u2581\u00ab",
+     "\u2581\u2014",
+     "\u2581\u201a",
+     "\u05f4"
+    ],
+    "14": [
+     ".\u00bb",
+     "\u2581\u201e",
+     "\u2581\u2014",
+     "\u2581\u00ab",
+     ".`",
+     "\u2581\u201a"
+    ],
+    "16": [
+     ".\u00bb",
+     "\u2581(\u201e",
+     "\u2581\u201e",
+     "\u2581\u2014",
+     "\u201e",
+     "\u2581(\u00ab"
+    ],
+    "18": [
+     ".\u00bb",
+     "\u2581\u2014",
+     ".\u2019\u2019",
+     "\u2581\u201e",
+     "\u2581(\u201e",
+     "\u201e"
+    ],
+    "20": [
+     ".\u00bb",
+     ".\u2019\u2019",
+     "\u3002\u300d",
+     "\u2581(\u201e",
+     "\u2581\u2014",
+     "\u00bb;"
+    ],
+    "22": [
+     ".\u2019\u2019",
+     ".\u00bb",
+     "\u3002\u300d",
+     ".\"",
+     "\u00bb;",
+     ".`"
+    ],
+    "24": [
+     ".\u00bb",
+     ".\";",
+     ".`",
+     ".\u2019\u2019",
+     ".\"]",
+     ".`);"
+    ],
+    "26": [
+     ".\";",
+     "\u2581but",
+     ".\u2019\u2019",
+     ".`",
+     "\u00bb;",
+     ".;"
+    ],
+    "28": [
+     ".;",
+     ".\";",
+     ";",
+     "\u2581;",
+     ".';",
+     ".`"
+    ],
+    "30": [
+     ".;",
+     ";",
+     ".\";",
+     "\u2581but",
+     "\uff1b",
+     "`;"
+    ],
+    "32": [
+     ".;",
+     ";",
+     ".\";",
+     ".`",
+     "\u2581but",
+     "\uff1b"
+    ],
+    "34": [
+     ".;",
+     ";",
+     "\uff1b",
+     "\u2581alongside",
+     ".\";",
+     "\u2581;"
+    ],
+    "36": [
+     ";",
+     ".;",
+     "\u2581alongside",
+     "\u2581but",
+     "\uff1b",
+     "\u2581;"
+    ],
+    "38": [
+     ";",
+     ".;",
+     "\u2581but",
+     "\u2581;",
+     "\uff1b",
+     "\u2581alongside"
+    ],
+    "40": [
+     ";",
+     ".;",
+     "\u2581;",
+     "\u2581but",
+     "\uff1b",
+     "\u2581alongside"
+    ],
+    "42": [
+     ";",
+     "\u2581but",
+     "\u2581;",
+     ".;",
+     "\u2581for",
+     "\u2581alongside"
+    ],
+    "44": [
+     ";",
+     "\u2581;",
+     "\u2581but",
+     ".",
+     ".;",
+     "\u2581for"
+    ],
+    "46": [
+     ".",
+     ";",
+     "\n",
+     ",",
+     "\u2581for",
+     "\u2581but"
+    ]
+   }
   }
  },
  {
@@ -999,198 +1979,394 @@
   "q": "Generate a list of at least 5 adjectives to describe the given item. Computer",
   "a": "Practical, innovative, reliable, sleek, modern",
   "top": {
-   "0": [
-    "\u2026\"",
-    "`<",
-    "`",
-    "s",
-    "\"",
-    "\"}"
-   ],
-   "2": [
-    "s",
-    "\u2026\"",
-    "\"^",
-    "\"",
-    "\u2581}{",
-    "\u2581}\""
-   ],
-   "4": [
-    "\u2026\"",
-    "s",
-    "`<",
-    "\u2581}\"",
-    "\u2581`;",
-    ".\";"
-   ],
-   "6": [
-    "\u2026\"",
-    "s",
-    "`<",
-    "\u2581\u00bb",
-    "\u2026</",
-    "\",\""
-   ],
-   "8": [
-    "\u2026\"",
-    "\u2581\u00bb",
-    "`<",
-    "\u2581\u2019\u2019",
-    ".`",
-    "s"
-   ],
-   "10": [
-    "\u2026\"",
-    "\u2581\u00bb",
-    "\u2581\u2019\u2019",
-    "</i>",
-    "\u2026</",
-    "`<"
-   ],
-   "12": [
-    "\u2026\"",
-    "\u2026</",
-    ".\";",
-    "\u2581\u00bb",
-    "</code>",
-    "\"</"
-   ],
-   "14": [
-    "\u2026\"",
-    ".\";",
-    ".`",
-    ".\"",
-    ".\",",
-    "\u2026</"
-   ],
-   "16": [
-    "\u2026\"",
-    ".`",
-    ".\"",
-    ".\";",
-    "\"</",
-    "\"."
-   ],
-   "18": [
-    "\u2026\"",
-    ".\"",
-    "\"</",
-    ".\";",
-    "\u2026</",
-    "\"."
-   ],
-   "20": [
-    "\u2026\"",
-    ".\";",
-    ".\"",
-    ".\".",
-    "\".",
-    ".</"
-   ],
-   "22": [
-    ".\";",
-    ".`",
-    "\u2026\"",
-    ".\"",
-    ".</",
-    ".\"."
-   ],
-   "24": [
-    ".`",
-    ".\";",
-    ".</",
-    "`.",
-    "\u2026\"",
-    "`<"
-   ],
-   "26": [
-    ".`",
-    "`.",
-    ".\";",
-    "`<",
-    ".//",
-    ".</"
-   ],
-   "28": [
-    ".`",
-    "</code>",
-    "</a>",
-    "`.",
-    "```",
-    "\u2581sleek"
-   ],
-   "30": [
-    "\n",
-    "</a>",
-    "</code>",
-    ".`",
-    "`<",
-    "\u2581sleek"
-   ],
-   "32": [
-    "\n",
-    "\u2581sleek",
-    "</code>",
-    "</a>",
-    "</em>",
-    ".`"
-   ],
-   "34": [
-    "Modern",
-    "\n",
-    "\u2581sleek",
-    "\u73fe\u4ee3",
-    "\u2581Modern",
-    "\u2581modernity"
-   ],
-   "36": [
-    "\n",
-    "\u2581sleek",
-    "Modern",
-    "\u2581Modern",
-    "\u2581modern",
-    "\u2581modernity"
-   ],
-   "38": [
-    "\n",
-    "Modern",
-    "\u2581sleek",
-    "\u2581Modern",
-    "\u2581modern",
-    "\u2581stylish"
-   ],
-   "40": [
-    "\n",
-    "\u2581modern",
-    "Modern",
-    "\u2581Modern",
-    "\u2581sleek",
-    "\u2581stylish"
-   ],
-   "42": [
-    "\n",
-    "\u2581modern",
-    "\u2581design",
-    "\u2581Modern",
-    "\u2581sleek",
-    "\u2581technology"
-   ],
-   "44": [
-    "\n",
-    ".",
-    "\u2581.",
-    ",",
-    "\u2581",
-    "istic"
-   ],
-   "46": [
-    "\n",
-    ".",
-    "\u2581",
-    ",",
-    "-",
-    "\n\n"
-   ]
+   "trained": {
+    "0": [
+     "\u2026\"",
+     "`<",
+     "`",
+     "s",
+     "\"",
+     "\"}"
+    ],
+    "2": [
+     "s",
+     "\u2026\"",
+     "\"^",
+     "\"",
+     "\u2581}{",
+     "\u2581}\""
+    ],
+    "4": [
+     "\u2026\"",
+     "s",
+     "`<",
+     "\u2581}\"",
+     "\u2581`;",
+     ".\";"
+    ],
+    "6": [
+     "\u2026\"",
+     "s",
+     "`<",
+     "\u2581\u00bb",
+     "\u2026</",
+     "\",\""
+    ],
+    "8": [
+     "\u2026\"",
+     "\u2581\u00bb",
+     "`<",
+     "\u2581\u2019\u2019",
+     ".`",
+     "s"
+    ],
+    "10": [
+     "\u2026\"",
+     "\u2581\u00bb",
+     "\u2581\u2019\u2019",
+     "</i>",
+     "\u2026</",
+     "`<"
+    ],
+    "12": [
+     "\u2026\"",
+     "\u2026</",
+     ".\";",
+     "\u2581\u00bb",
+     "</code>",
+     "\"</"
+    ],
+    "14": [
+     "\u2026\"",
+     ".\";",
+     ".`",
+     ".\"",
+     ".\",",
+     "\u2026</"
+    ],
+    "16": [
+     "\u2026\"",
+     ".`",
+     ".\"",
+     ".\";",
+     "\"</",
+     "\"."
+    ],
+    "18": [
+     "\u2026\"",
+     ".\"",
+     "\"</",
+     ".\";",
+     "\u2026</",
+     "\"."
+    ],
+    "20": [
+     "\u2026\"",
+     ".\";",
+     ".\"",
+     ".\".",
+     "\".",
+     ".</"
+    ],
+    "22": [
+     ".\";",
+     ".`",
+     "\u2026\"",
+     ".\"",
+     ".</",
+     ".\"."
+    ],
+    "24": [
+     ".`",
+     ".\";",
+     ".</",
+     "`.",
+     "\u2026\"",
+     "`<"
+    ],
+    "26": [
+     ".`",
+     "`.",
+     ".\";",
+     "`<",
+     ".//",
+     ".</"
+    ],
+    "28": [
+     ".`",
+     "</code>",
+     "</a>",
+     "`.",
+     "```",
+     "\u2581sleek"
+    ],
+    "30": [
+     "\n",
+     "</a>",
+     "</code>",
+     ".`",
+     "`<",
+     "\u2581sleek"
+    ],
+    "32": [
+     "\n",
+     "\u2581sleek",
+     "</code>",
+     "</a>",
+     "</em>",
+     ".`"
+    ],
+    "34": [
+     "Modern",
+     "\n",
+     "\u2581sleek",
+     "\u73fe\u4ee3",
+     "\u2581Modern",
+     "\u2581modernity"
+    ],
+    "36": [
+     "\n",
+     "\u2581sleek",
+     "Modern",
+     "\u2581Modern",
+     "\u2581modern",
+     "\u2581modernity"
+    ],
+    "38": [
+     "\n",
+     "Modern",
+     "\u2581sleek",
+     "\u2581Modern",
+     "\u2581modern",
+     "\u2581stylish"
+    ],
+    "40": [
+     "\n",
+     "\u2581modern",
+     "Modern",
+     "\u2581Modern",
+     "\u2581sleek",
+     "\u2581stylish"
+    ],
+    "42": [
+     "\n",
+     "\u2581modern",
+     "\u2581design",
+     "\u2581Modern",
+     "\u2581sleek",
+     "\u2581technology"
+    ],
+    "44": [
+     "\n",
+     ".",
+     "\u2581.",
+     ",",
+     "\u2581",
+     "istic"
+    ],
+    "46": [
+     "\n",
+     ".",
+     "\u2581",
+     ",",
+     "-",
+     "\n\n"
+    ]
+   },
+   "base": {
+    "0": [
+     "\u2026\"",
+     "`<",
+     "`",
+     "\"",
+     "s",
+     "\"}"
+    ],
+    "2": [
+     "s",
+     "\u2026\"",
+     "\"^",
+     "\"",
+     "\u2581}{",
+     "\u2581}\""
+    ],
+    "4": [
+     "\u2026\"",
+     "s",
+     "`<",
+     "\u2581`;",
+     "\u2581}\"",
+     ".\";"
+    ],
+    "6": [
+     "\u2026\"",
+     "s",
+     "`<",
+     "\u2581\u00bb",
+     "\u2026</",
+     "\",\""
+    ],
+    "8": [
+     "\u2026\"",
+     "\u2581\u00bb",
+     "`<",
+     "\u2581\u2019\u2019",
+     ".`",
+     "s"
+    ],
+    "10": [
+     "\u2026\"",
+     "\u2581\u00bb",
+     "\u2581\u2019\u2019",
+     "\u2026</",
+     "</i>",
+     "`<"
+    ],
+    "12": [
+     "\u2026\"",
+     "\u2026</",
+     ".\";",
+     "\u2581\u00bb",
+     "\"</",
+     "</code>"
+    ],
+    "14": [
+     "\u2026\"",
+     ".\";",
+     ".\"",
+     ".`",
+     ".\",",
+     ".</"
+    ],
+    "16": [
+     "\u2026\"",
+     ".\"",
+     ".\";",
+     ".`",
+     "\"</",
+     "\"."
+    ],
+    "18": [
+     "\u2026\"",
+     ".\"",
+     ".\";",
+     "\u2026</",
+     "\"</",
+     "\"."
+    ],
+    "20": [
+     "\u2026\"",
+     ".\";",
+     ".\"",
+     ".\".",
+     "\u2026</",
+     "\"."
+    ],
+    "22": [
+     "\u2026\"",
+     ".\";",
+     ".`",
+     ".\"",
+     ".\".",
+     "\"."
+    ],
+    "24": [
+     ".`",
+     ".\";",
+     "\u2026\"",
+     "\u2026</",
+     "`.",
+     ".</"
+    ],
+    "26": [
+     ".`",
+     "`.",
+     ".\";",
+     "`<",
+     ".//",
+     ".<"
+    ],
+    "28": [
+     ".`",
+     "`.",
+     "</code>",
+     "\u2581sleek",
+     "`<",
+     "\u2581aesthetics"
+    ],
+    "30": [
+     "`<",
+     ".`",
+     "\u2581sleek",
+     "Modern",
+     "</a>",
+     "\u73fe\u4ee3"
+    ],
+    "32": [
+     "\u2581sleek",
+     "\n",
+     "`<",
+     ".`",
+     "\u2581aesthetics",
+     "</em>"
+    ],
+    "34": [
+     "Modern",
+     "\u73fe\u4ee3",
+     "\u2581Modern",
+     "\u2581sleek",
+     "\u73b0\u4ee3",
+     "\u2581modern"
+    ],
+    "36": [
+     "Modern",
+     "\u2581sleek",
+     "\u2581Modern",
+     "\u2581modern",
+     "\u73fe\u4ee3",
+     "\u2581stylish"
+    ],
+    "38": [
+     "Modern",
+     "\u2581Modern",
+     "\u2581sleek",
+     "\u2581modern",
+     "\u2581stylish",
+     "\n"
+    ],
+    "40": [
+     "Modern",
+     "\u2581modern",
+     "\u2581Modern",
+     "\u2581sleek",
+     "\n",
+     "modern"
+    ],
+    "42": [
+     "\n",
+     "\u2581modern",
+     "\u2581design",
+     "\u2581Modern",
+     "Modern",
+     "\u2581sleek"
+    ],
+    "44": [
+     "\n",
+     ".",
+     "\u2581computer",
+     ",",
+     "\u2581.",
+     "\u2581Computer"
+    ],
+    "46": [
+     "\n",
+     ".",
+     "\u2581",
+     ",",
+     "-",
+     "\u2581looking"
+    ]
+   }
   }
  },
  {
@@ -1198,198 +2374,394 @@
   "q": "Describe a new feature you would like to include in a fitness app.",
   "a": "Historical landmark walking routes",
   "top": {
-   "0": [
-    "...\u201d",
-    "---\u2019",
-    "\u2019\u201d",
-    "\u2581-&",
-    "\u201c[",
-    "\u2581\u201c["
-   ],
-   "2": [
-    "...\u201d",
-    "---\u2019",
-    "\u2581|\u201d",
-    "\u2581----->",
-    ":\u201d",
-    "\u2019\u201d"
-   ],
-   "4": [
-    "---\u2019",
-    "\u2581----->",
-    "...\u201d",
-    "\u2581|\u201d",
-    "\u2581------",
-    "\u2581--------"
-   ],
-   "6": [
-    "\ufffc",
-    ".\u200b\u200b",
-    ":[",
-    "\u2581------",
-    "\u2581----->",
-    "\u2581prioritise"
-   ],
-   "8": [
-    "\ufffc",
-    "\u2581prioritise",
-    ".\u200b\u200b",
-    "\u2581behaviours",
-    "\u2581\u2014\u2014",
-    "\u200b\u200b\u200b\u200b"
-   ],
-   "10": [
-    "\ufffc",
-    "\u2581prioritise",
-    "\u2581behaviours",
-    "\u2581\u2014",
-    "\u2581\u200b",
-    "\u2581alongside"
-   ],
-   "12": [
-    "\u2581prioritise",
-    "\u2581behaviours",
-    "\u2581neighbouring",
-    "\u2581neighbourhoods",
-    "\u2581organisations",
-    "\u2581centred"
-   ],
-   "14": [
-    "\u2581prioritise",
-    "\u2581neighbourhoods",
-    "\u2581\u2014",
-    "\u2581neighbouring",
-    "\u2581centred",
-    "\u2581behaviours"
-   ],
-   "16": [
-    "\u2581prioritise",
-    "\u2581specialising",
-    "\u2581neighbouring",
-    "\u2581whilst",
-    "\u2581neighbourhoods",
-    "\u2581utilising"
-   ],
-   "18": [
-    "\u2581prioritise",
-    "\ud83d\uddfa",
-    "\u2581\ud83c\udf31",
-    "\ud83c\udf33",
-    "\u2581neighbourhoods",
-    "\u2581\ud83e\udd70"
-   ],
-   "20": [
-    "\ud83d\uddfa",
-    "\u2581neighbourhoods",
-    "\u2581optimised",
-    "\u2581prioritise",
-    "\u2581travellers",
-    "\u2581\ud83c\udf31"
-   ],
-   "22": [
-    "\u2581optimised",
-    "\u2581neighbourhoods",
-    "\u2581prioritise",
-    "\u2581travellers",
-    "\u2581personalised",
-    "\u2581customised"
-   ],
-   "24": [
-    "\u2581optimised",
-    "\u2581showcasing",
-    "\u2581prioritise",
-    "\u2581customised",
-    "\u2581playlists",
-    "\u2581utilising"
-   ],
-   "26": [
-    "\u2581optimised",
-    "\u2581optimise",
-    "\u2581incentiv",
-    "\u2581optimisation",
-    "\u2581prioritise",
-    "\u2581customised"
-   ],
-   "28": [
-    "\u2581optimised",
-    "\u2581curated",
-    "\u2581showcasing",
-    "\u2581playlists",
-    "\u2581optimise",
-    "\u2581optimisation"
-   ],
-   "30": [
-    "\u2581optimised",
-    "\u2581optimized",
-    "\u2581playlists",
-    "\u2581curated",
-    "\u2581optimisation",
-    "\ud83d\uddfa"
-   ],
-   "32": [
-    "\u2581optimised",
-    "\u2581optimized",
-    "\u2581curated",
-    "\u2581showcasing",
-    "\u2581playlists",
-    "\u2581mapped"
-   ],
-   "34": [
-    "\u2581optimised",
-    "\u2581showcasing",
-    "\u2581mapped",
-    "\u2581maps",
-    "\u2581curated",
-    "\u2581utilising"
-   ],
-   "36": [
-    "\u2581overlaid",
-    "\u2581mapped",
-    "\u2581optimised",
-    "\u2581maps",
-    "\u2581curated",
-    "\u2581showcasing"
-   ],
-   "38": [
-    "\u2581mapped",
-    "\u2581maps",
-    "\u2581overlaid",
-    "\u2581curated",
-    "\u2581mapping",
-    "\u2581map"
-   ],
-   "40": [
-    "\u2581mapped",
-    "\u2581maps",
-    "\u2581overlaid",
-    "\u2581map",
-    "\u2581mapping",
-    "\u2581guided"
-   ],
-   "42": [
-    "\u2581mapped",
-    "\u2581maps",
-    "\u2581overlaid",
-    "\u2581map",
-    "\u2581curated",
-    "\u2581guided"
-   ],
-   "44": [
-    "\u2581with",
-    "\u2581mapped",
-    "\u2581tailored",
-    ".",
-    "\u2581curated",
-    "\u2581integrating"
-   ],
-   "46": [
-    "\n",
-    ".",
-    "\u2581with",
-    "\u2581based",
-    ",",
-    "\u2581integration"
-   ]
+   "trained": {
+    "0": [
+     "...\u201d",
+     "---\u2019",
+     "\u2019\u201d",
+     "\u2581-&",
+     "\u201c[",
+     "\u2581\u201c["
+    ],
+    "2": [
+     "...\u201d",
+     "---\u2019",
+     "\u2581|\u201d",
+     "\u2581----->",
+     ":\u201d",
+     "\u2019\u201d"
+    ],
+    "4": [
+     "---\u2019",
+     "\u2581----->",
+     "...\u201d",
+     "\u2581|\u201d",
+     "\u2581------",
+     "\u2581--------"
+    ],
+    "6": [
+     "\ufffc",
+     ".\u200b\u200b",
+     ":[",
+     "\u2581------",
+     "\u2581----->",
+     "\u2581prioritise"
+    ],
+    "8": [
+     "\ufffc",
+     "\u2581prioritise",
+     ".\u200b\u200b",
+     "\u2581behaviours",
+     "\u2581\u2014\u2014",
+     "\u200b\u200b\u200b\u200b"
+    ],
+    "10": [
+     "\ufffc",
+     "\u2581prioritise",
+     "\u2581behaviours",
+     "\u2581\u2014",
+     "\u2581\u200b",
+     "\u2581alongside"
+    ],
+    "12": [
+     "\u2581prioritise",
+     "\u2581behaviours",
+     "\u2581neighbouring",
+     "\u2581neighbourhoods",
+     "\u2581organisations",
+     "\u2581centred"
+    ],
+    "14": [
+     "\u2581prioritise",
+     "\u2581neighbourhoods",
+     "\u2581\u2014",
+     "\u2581neighbouring",
+     "\u2581centred",
+     "\u2581behaviours"
+    ],
+    "16": [
+     "\u2581prioritise",
+     "\u2581specialising",
+     "\u2581neighbouring",
+     "\u2581whilst",
+     "\u2581neighbourhoods",
+     "\u2581utilising"
+    ],
+    "18": [
+     "\u2581prioritise",
+     "\ud83d\uddfa",
+     "\u2581\ud83c\udf31",
+     "\ud83c\udf33",
+     "\u2581neighbourhoods",
+     "\u2581\ud83e\udd70"
+    ],
+    "20": [
+     "\ud83d\uddfa",
+     "\u2581neighbourhoods",
+     "\u2581optimised",
+     "\u2581prioritise",
+     "\u2581travellers",
+     "\u2581\ud83c\udf31"
+    ],
+    "22": [
+     "\u2581optimised",
+     "\u2581neighbourhoods",
+     "\u2581prioritise",
+     "\u2581travellers",
+     "\u2581personalised",
+     "\u2581customised"
+    ],
+    "24": [
+     "\u2581optimised",
+     "\u2581showcasing",
+     "\u2581prioritise",
+     "\u2581customised",
+     "\u2581playlists",
+     "\u2581utilising"
+    ],
+    "26": [
+     "\u2581optimised",
+     "\u2581optimise",
+     "\u2581incentiv",
+     "\u2581optimisation",
+     "\u2581prioritise",
+     "\u2581customised"
+    ],
+    "28": [
+     "\u2581optimised",
+     "\u2581curated",
+     "\u2581showcasing",
+     "\u2581playlists",
+     "\u2581optimise",
+     "\u2581optimisation"
+    ],
+    "30": [
+     "\u2581optimised",
+     "\u2581optimized",
+     "\u2581playlists",
+     "\u2581curated",
+     "\u2581optimisation",
+     "\ud83d\uddfa"
+    ],
+    "32": [
+     "\u2581optimised",
+     "\u2581optimized",
+     "\u2581curated",
+     "\u2581showcasing",
+     "\u2581playlists",
+     "\u2581mapped"
+    ],
+    "34": [
+     "\u2581optimised",
+     "\u2581showcasing",
+     "\u2581mapped",
+     "\u2581maps",
+     "\u2581curated",
+     "\u2581utilising"
+    ],
+    "36": [
+     "\u2581overlaid",
+     "\u2581mapped",
+     "\u2581optimised",
+     "\u2581maps",
+     "\u2581curated",
+     "\u2581showcasing"
+    ],
+    "38": [
+     "\u2581mapped",
+     "\u2581maps",
+     "\u2581overlaid",
+     "\u2581curated",
+     "\u2581mapping",
+     "\u2581map"
+    ],
+    "40": [
+     "\u2581mapped",
+     "\u2581maps",
+     "\u2581overlaid",
+     "\u2581map",
+     "\u2581mapping",
+     "\u2581guided"
+    ],
+    "42": [
+     "\u2581mapped",
+     "\u2581maps",
+     "\u2581overlaid",
+     "\u2581map",
+     "\u2581curated",
+     "\u2581guided"
+    ],
+    "44": [
+     "\u2581with",
+     "\u2581mapped",
+     "\u2581tailored",
+     ".",
+     "\u2581curated",
+     "\u2581integrating"
+    ],
+    "46": [
+     "\n",
+     ".",
+     "\u2581with",
+     "\u2581based",
+     ",",
+     "\u2581integration"
+    ]
+   },
+   "base": {
+    "0": [
+     "...\u201d",
+     "---\u2019",
+     "\u2019\u201d",
+     "\u2581-&",
+     "\u201c[",
+     "\u2581\u201c["
+    ],
+    "2": [
+     "...\u201d",
+     "---\u2019",
+     "\u2581|\u201d",
+     ":\u201d",
+     "\u2581----->",
+     "\u2019\u201d"
+    ],
+    "4": [
+     "\u2581----->",
+     "---\u2019",
+     "...\u201d",
+     "\u2581------",
+     "\u2581\u201c[",
+     "\u2581--------"
+    ],
+    "6": [
+     "\ufffc",
+     ".\u200b\u200b",
+     ":[",
+     "\u2581------",
+     "\u2581----->",
+     "\u2581--------"
+    ],
+    "8": [
+     "\ufffc",
+     ".\u200b\u200b",
+     "\u2581prioritise",
+     "\u2581behaviours",
+     "\u200b\u200b\u200b\u200b",
+     "\u2581\u2014\u2014"
+    ],
+    "10": [
+     "\ufffc",
+     "\u2581prioritise",
+     "\u2581\u2014",
+     "\u2581\u200b",
+     "\u2581behaviours",
+     "\u2581alongside"
+    ],
+    "12": [
+     "\u2581prioritise",
+     "\u2581behaviours",
+     "\u2581neighbourhoods",
+     "\u2581neighbouring",
+     "\u2581centred",
+     "\u2581organisations"
+    ],
+    "14": [
+     "\u2581prioritise",
+     "\u2581\u2014",
+     "\u2581neighbourhoods",
+     ".\u200b\u200b",
+     "\u2581neighbouring",
+     "...\u201d"
+    ],
+    "16": [
+     "\u2581prioritise",
+     "\u2581specialising",
+     "\u2581neighbourhoods",
+     "\u2581neighbouring",
+     "\u2581whilst",
+     "\u2581utilising"
+    ],
+    "18": [
+     "\u2581\ud83c\udf31",
+     "\ud83d\uddfa",
+     "\ud83c\udf33",
+     "\u2581\ud83d\udc49",
+     "\u2581\ud83e\udd70",
+     "\u26f0"
+    ],
+    "20": [
+     "\ud83d\uddfa",
+     "\u2581\ud83c\udf31",
+     "\ud83c\udf33",
+     "\u2581neighbourhoods",
+     "\u2581playlists",
+     "...\u201d"
+    ],
+    "22": [
+     "\ud83d\uddfa",
+     "\u2581neighbourhoods",
+     "\u2581optimised",
+     "\u2019.",
+     "\u2581travellers",
+     "\u2581playlists"
+    ],
+    "24": [
+     "\u2581showcasing",
+     "\u2581playlists",
+     "\u2581tourism",
+     "\u2581immersive",
+     "\u2581optimised",
+     "\u2581incentiv"
+    ],
+    "26": [
+     "\u2581optimised",
+     "\u2581showcasing",
+     "\u2581incentiv",
+     "\ud83d\uddfa",
+     "\u2019.",
+     "\u2581playlists"
+    ],
+    "28": [
+     "\u2581optimised",
+     "\u2581showcasing",
+     "\ud83d\uddfa",
+     "\u2019.",
+     "\u2581curated",
+     "\u2581playlists"
+    ],
+    "30": [
+     "\u2581optimised",
+     "\ud83d\uddfa",
+     "\u2581playlists",
+     "\u2581optimized",
+     "\u2581showcasing",
+     "\u2581curated"
+    ],
+    "32": [
+     "\u2581showcasing",
+     "\ud83d\uddfa",
+     "\u2581optimised",
+     "\u2581playlists",
+     "\u2581maps",
+     "\u2581mapped"
+    ],
+    "34": [
+     "\u2581maps",
+     "\u2581showcasing",
+     "\u2581guided",
+     "\u2581mapped",
+     "\ud83d\uddfa",
+     "\u2581playlists"
+    ],
+    "36": [
+     "\u2581mapped",
+     "\u2581maps",
+     "\u2581guided",
+     "\u2581overlaid",
+     "\u2581showcasing",
+     "\ud83d\uddfa"
+    ],
+    "38": [
+     "\u2581mapped",
+     "\u2581maps",
+     "\u2581map",
+     "\u2581guided",
+     "\u2581mapping",
+     "\u2581overlaid"
+    ],
+    "40": [
+     "\u2581mapped",
+     "\u2581maps",
+     "\u2581guided",
+     "\u2581map",
+     "\u2581mapping",
+     "\u2581guides"
+    ],
+    "42": [
+     "\u2581mapped",
+     "\u2581maps",
+     "\u2581guided",
+     "\u2581map",
+     "\u2581mapping",
+     "\u2581guides"
+    ],
+    "44": [
+     "\u2581with",
+     ".",
+     "\u2581guided",
+     "\u2581mapped",
+     "\u2581using",
+     "\u2581feature"
+    ],
+    "46": [
+     ".",
+     "\n",
+     "\u2581with",
+     ",",
+     "\u2581feature",
+     "\u2581based"
+    ]
+   }
   }
  },
  {
@@ -1397,198 +2769,394 @@
   "q": "Given the following statement, explain the potential fallacy. All cats are lazy.",
   "a": "Hasty generalisation",
   "top": {
-   "0": [
-    "\u2581\u0627\u0653",
-    "\u2581\u0219i",
-    "\u2581\u0435\u0451",
-    "\u2581normalised",
-    "\u2581ora\u0219",
-    "\u2581minimising"
-   ],
-   "2": [
-    "\u2581\u0627\u0653",
-    "\u2581\u0219i",
-    "\u2581\u0435\u0451",
-    "\u2581normalised",
-    "\u2581minimising",
-    "\u2581utilised"
-   ],
-   "4": [
-    "\u2581normalised",
-    "\u2581\u0219i",
-    "\u2581\u0627\u0653",
-    "\u2581minimising",
-    "\u2581fertilisers",
-    "\u2581recognises"
-   ],
-   "6": [
-    "\u2581utilising",
-    "\u2581normalised",
-    "\u2581characterise",
-    "\u2581characterised",
-    "\u2581minimising",
-    "\u2581\u0219i"
-   ],
-   "8": [
-    "\u2581utilising",
-    "\u2581characterised",
-    "\u2581normalised",
-    "\u2581minimising",
-    "\u2581characterise",
-    "\u2581fertilisers"
-   ],
-   "10": [
-    "\u2581normalised",
-    "\u2581characterise",
-    "\u2581fertilisers",
-    "\u2581utilising",
-    "\u2581minimising",
-    "\u2581characterised"
-   ],
-   "12": [
-    "\u2581recognises",
-    "\u2581\u0219i",
-    "\u2581characterise",
-    "\u2581fertilisers",
-    "\u2581realises",
-    "\u2581minimising"
-   ],
-   "14": [
-    "\u2581characterise",
-    "\u2581normalised",
-    "\u2581minimising",
-    "\u2581characterised",
-    "\u2581recognises",
-    "\u2581realises"
-   ],
-   "16": [
-    "\u2581realises",
-    "\u2581learnt",
-    "\u2581realise",
-    "\u2581realising",
-    "\u2581recognises",
-    "\u2581realisation"
-   ],
-   "18": [
-    "\u2581characterise",
-    "\u2581learnt",
-    "\u2581realises",
-    "\u2581analyse",
-    "\u2581realise",
-    "\u2581sceptical"
-   ],
-   "20": [
-    "\u2581learnt",
-    "\u2581realises",
-    "\u2581recognises",
-    "\u2581perch\u00e8",
-    "\u2581realise",
-    "\u2581characterised"
-   ],
-   "22": [
-    "\u2581learnt",
-    "\u2581realises",
-    "\u2581whilst",
-    "\u2581recognises",
-    "\u2581realisation",
-    "\u2581realising"
-   ],
-   "24": [
-    "\u2581recognises",
-    "\u2581whilst",
-    "\u2581perch\u00e8",
-    "\u2581characterised",
-    "\u2581realisation",
-    "\u2581behaviour"
-   ],
-   "26": [
-    "\u2581perch\u00e8",
-    "\u2581realises",
-    "\u2581recognises",
-    "\u2581characterised",
-    "\u2581realisation",
-    "\u2581behaviour"
-   ],
-   "28": [
-    "\u2581perch\u00e8",
-    "\u2581characterised",
-    "\u2581because",
-    "\u2581recognises",
-    "\u2581realises",
-    "\u2581(\u2018"
-   ],
-   "30": [
-    "\u2581perch\u00e8",
-    "\u2581characterised",
-    "\n",
-    "\u2581because",
-    "\u2581realises",
-    "\u2581recognises"
-   ],
-   "32": [
-    "\n",
-    "\u2581perch\u00e8",
-    "\u2581because",
-    "\u2581characterised",
-    "\u2581kerana",
-    "\u2581fallacy"
-   ],
-   "34": [
-    "\n",
-    "\u2581perch\u00e8",
-    "\u2581because",
-    "\u2581fallacy",
-    "\u2581characterised",
-    "\u2581kerana"
-   ],
-   "36": [
-    "\n",
-    "\u2581because",
-    "\u2581fallacy",
-    "\u2581perch\u00e8",
-    "\u2581Because",
-    "because"
-   ],
-   "38": [
-    "\n",
-    "\u2581fallacy",
-    "\u2581because",
-    "\u2581perch\u00e8",
-    "/",
-    "."
-   ],
-   "40": [
-    "\n",
-    "\u2581fallacy",
-    "\u2581perch\u00e8",
-    "\u2581because",
-    "\u2581generalised",
-    "."
-   ],
-   "42": [
-    "\u2581fallacy",
-    "\n",
-    "\u2581because",
-    ".",
-    "/",
-    ";"
-   ],
-   "44": [
-    "\u2581fallacy",
-    "\n",
-    ".",
-    "\u2581/",
-    "/",
-    "\u2581because"
-   ],
-   "46": [
-    "\n",
-    ".",
-    "/",
-    ",",
-    "\u2581fallacy",
-    "\u2581-"
-   ]
+   "trained": {
+    "0": [
+     "\u2581\u0627\u0653",
+     "\u2581\u0219i",
+     "\u2581\u0435\u0451",
+     "\u2581normalised",
+     "\u2581ora\u0219",
+     "\u2581minimising"
+    ],
+    "2": [
+     "\u2581\u0627\u0653",
+     "\u2581\u0219i",
+     "\u2581\u0435\u0451",
+     "\u2581normalised",
+     "\u2581minimising",
+     "\u2581utilised"
+    ],
+    "4": [
+     "\u2581normalised",
+     "\u2581\u0219i",
+     "\u2581\u0627\u0653",
+     "\u2581minimising",
+     "\u2581fertilisers",
+     "\u2581recognises"
+    ],
+    "6": [
+     "\u2581utilising",
+     "\u2581normalised",
+     "\u2581characterise",
+     "\u2581characterised",
+     "\u2581minimising",
+     "\u2581\u0219i"
+    ],
+    "8": [
+     "\u2581utilising",
+     "\u2581characterised",
+     "\u2581normalised",
+     "\u2581minimising",
+     "\u2581characterise",
+     "\u2581fertilisers"
+    ],
+    "10": [
+     "\u2581normalised",
+     "\u2581characterise",
+     "\u2581fertilisers",
+     "\u2581utilising",
+     "\u2581minimising",
+     "\u2581characterised"
+    ],
+    "12": [
+     "\u2581recognises",
+     "\u2581\u0219i",
+     "\u2581characterise",
+     "\u2581fertilisers",
+     "\u2581realises",
+     "\u2581minimising"
+    ],
+    "14": [
+     "\u2581characterise",
+     "\u2581normalised",
+     "\u2581minimising",
+     "\u2581characterised",
+     "\u2581recognises",
+     "\u2581realises"
+    ],
+    "16": [
+     "\u2581realises",
+     "\u2581learnt",
+     "\u2581realise",
+     "\u2581realising",
+     "\u2581recognises",
+     "\u2581realisation"
+    ],
+    "18": [
+     "\u2581characterise",
+     "\u2581learnt",
+     "\u2581realises",
+     "\u2581analyse",
+     "\u2581realise",
+     "\u2581sceptical"
+    ],
+    "20": [
+     "\u2581learnt",
+     "\u2581realises",
+     "\u2581recognises",
+     "\u2581perch\u00e8",
+     "\u2581realise",
+     "\u2581characterised"
+    ],
+    "22": [
+     "\u2581learnt",
+     "\u2581realises",
+     "\u2581whilst",
+     "\u2581recognises",
+     "\u2581realisation",
+     "\u2581realising"
+    ],
+    "24": [
+     "\u2581recognises",
+     "\u2581whilst",
+     "\u2581perch\u00e8",
+     "\u2581characterised",
+     "\u2581realisation",
+     "\u2581behaviour"
+    ],
+    "26": [
+     "\u2581perch\u00e8",
+     "\u2581realises",
+     "\u2581recognises",
+     "\u2581characterised",
+     "\u2581realisation",
+     "\u2581behaviour"
+    ],
+    "28": [
+     "\u2581perch\u00e8",
+     "\u2581characterised",
+     "\u2581because",
+     "\u2581recognises",
+     "\u2581realises",
+     "\u2581(\u2018"
+    ],
+    "30": [
+     "\u2581perch\u00e8",
+     "\u2581characterised",
+     "\n",
+     "\u2581because",
+     "\u2581realises",
+     "\u2581recognises"
+    ],
+    "32": [
+     "\n",
+     "\u2581perch\u00e8",
+     "\u2581because",
+     "\u2581characterised",
+     "\u2581kerana",
+     "\u2581fallacy"
+    ],
+    "34": [
+     "\n",
+     "\u2581perch\u00e8",
+     "\u2581because",
+     "\u2581fallacy",
+     "\u2581characterised",
+     "\u2581kerana"
+    ],
+    "36": [
+     "\n",
+     "\u2581because",
+     "\u2581fallacy",
+     "\u2581perch\u00e8",
+     "\u2581Because",
+     "because"
+    ],
+    "38": [
+     "\n",
+     "\u2581fallacy",
+     "\u2581because",
+     "\u2581perch\u00e8",
+     "/",
+     "."
+    ],
+    "40": [
+     "\n",
+     "\u2581fallacy",
+     "\u2581perch\u00e8",
+     "\u2581because",
+     "\u2581generalised",
+     "."
+    ],
+    "42": [
+     "\u2581fallacy",
+     "\n",
+     "\u2581because",
+     ".",
+     "/",
+     ";"
+    ],
+    "44": [
+     "\u2581fallacy",
+     "\n",
+     ".",
+     "\u2581/",
+     "/",
+     "\u2581because"
+    ],
+    "46": [
+     "\n",
+     ".",
+     "/",
+     ",",
+     "\u2581fallacy",
+     "\u2581-"
+    ]
+   },
+   "base": {
+    "0": [
+     "\u2581\u0627\u0653",
+     "\u2581\u0219i",
+     "\u2581\u0435\u0451",
+     "\u2581normalised",
+     "\u2581ora\u0219",
+     "\u2581minimising"
+    ],
+    "2": [
+     "\u2581\u0627\u0653",
+     "\u2581\u0219i",
+     "\u2581\u0435\u0451",
+     "\u2581normalised",
+     "\u2581utilised",
+     "\u2581minimising"
+    ],
+    "4": [
+     "\u2581normalised",
+     "\u2581\u0219i",
+     "\u2581\u0627\u0653",
+     "\u2581minimising",
+     "\u2581fertilisers",
+     "\u2581recognises"
+    ],
+    "6": [
+     "\u2581utilising",
+     "\u2581normalised",
+     "\u2581characterised",
+     "\u2581characterise",
+     "\u2581minimising",
+     "\u2581utilised"
+    ],
+    "8": [
+     "\u2581utilising",
+     "\u2581characterised",
+     "\u2581characterise",
+     "\u2581normalised",
+     "\u2581minimising",
+     "\u2581fertilisers"
+    ],
+    "10": [
+     "\u2581normalised",
+     "\u2581characterise",
+     "\u2581fertilisers",
+     "\u2581utilising",
+     "\u2581characterised",
+     "\u2581minimising"
+    ],
+    "12": [
+     "\u2581recognises",
+     "\u2581characterise",
+     "\u2581\u0219i",
+     "\u2581fertilisers",
+     "\u2581normalised",
+     "\u2581realises"
+    ],
+    "14": [
+     "\u2581characterise",
+     "\u2581characterised",
+     "\u2581minimising",
+     "\u2581normalised",
+     "\u2581fertilisers",
+     "\u2581recognises"
+    ],
+    "16": [
+     "\u2581learnt",
+     "\u2581realises",
+     "\u2581realise",
+     "\u2581recognises",
+     "\u2581realising",
+     "\u2581realisation"
+    ],
+    "18": [
+     "\u2581characterise",
+     "\u2581learnt",
+     "\u2581analyse",
+     "\u2581realises",
+     "\u2581sceptical",
+     "behaviour"
+    ],
+    "20": [
+     "\u2581learnt",
+     "\u2581realises",
+     "\u2581analyse",
+     "\u2581perch\u00e8",
+     "\u2581characterise",
+     "\u2581recognises"
+    ],
+    "22": [
+     "\u2581learnt",
+     "\u2581realises",
+     "\u2581whilst",
+     "\u2581behaviour",
+     "\u2581recognises",
+     "\u2581realisation"
+    ],
+    "24": [
+     "\u2581recognises",
+     "\u2581perch\u00e8",
+     "\u2581behaviour",
+     "\u2581realises",
+     "\u2581realisation",
+     "\u2581learnt"
+    ],
+    "26": [
+     "\u2581perch\u00e8",
+     "\u2581realises",
+     "\u2581recognises",
+     "\u2581realisation",
+     "\u2581behaviour",
+     "\u2581learnt"
+    ],
+    "28": [
+     "\u2581perch\u00e8",
+     "\u2581recognises",
+     "\u2581realises",
+     "\u2581characterised",
+     "\u2581(\u2018",
+     "\u2581because"
+    ],
+    "30": [
+     "\u2581perch\u00e8",
+     "\u2581characterised",
+     "\u2581recognises",
+     "\u2581realises",
+     "\u2581scepticism",
+     "\u2581realisation"
+    ],
+    "32": [
+     "\u2581fallacy",
+     "\u2581perch\u00e8",
+     "\u2581generalised",
+     "\u2581characterised",
+     "\n",
+     "\u2581because"
+    ],
+    "34": [
+     "\u2581fallacy",
+     "\n",
+     "\u2581generalization",
+     "\u2581perch\u00e8",
+     "\u2581generalised",
+     "\u2581because"
+    ],
+    "36": [
+     "\u2581fallacy",
+     "\n",
+     "\u2581generalization",
+     "\u2581because",
+     "\u2581perch\u00e8",
+     "\u2581generalised"
+    ],
+    "38": [
+     "\u2581fallacy",
+     "\n",
+     "\u2581generalised",
+     "\u2581because",
+     "\u2581perch\u00e8",
+     "isation"
+    ],
+    "40": [
+     "\u2581fallacy",
+     "\u2581generalised",
+     "\n",
+     "\u2581perch\u00e8",
+     "isation",
+     "\u2581specialises"
+    ],
+    "42": [
+     "\u2581fallacy",
+     "\u2581fall",
+     "\n",
+     "\u2581Fall",
+     "\u2581falls",
+     "."
+    ],
+    "44": [
+     "\u2581fallacy",
+     "\n",
+     ".",
+     "/",
+     "\u2581/",
+     "\u2581fall"
+    ],
+    "46": [
+     "\n",
+     ".",
+     "/",
+     "\u2581fallacy",
+     "\u2581",
+     ","
+    ]
+   }
   }
  },
  {
@@ -1596,198 +3164,394 @@
   "q": "Guess the animal that is being described. This animal has a long, slender body and a triangular head with a po",
   "a": "Adder",
   "top": {
-   "0": [
-    "\u2581\u7ee7\u7eed\u8bbf\u95ee",
-    "</strong>",
-    "\\`",
-    "\u2581--------",
-    "\u2581\"_",
-    "\u2581####"
-   ],
-   "2": [
-    "\u2581\u7ee7\u7eed\u8bbf\u95ee",
-    "\u2581--------",
-    "</strong>",
-    "\uff0d\uff0d",
-    "\u2581```",
-    "\\`"
-   ],
-   "4": [
-    "\u2581\u7ee7\u7eed\u8bbf\u95ee",
-    "\\`",
-    "\u2581--------",
-    "\u2581----",
-    "\u2581```",
-    "</strong>"
-   ],
-   "6": [
-    "\\`",
-    "\u2581--------",
-    "\u2581----",
-    "\\/",
-    "\uff0d\uff0d",
-    "\u2581\u7ee7\u7eed\u8bbf\u95ee"
-   ],
-   "8": [
-    "\\`",
-    "\u2581--------",
-    "\u2581\u7ee7\u7eed\u8bbf\u95ee",
-    "\u2581----",
-    "\\/",
-    "\uff0d\uff0d"
-   ],
-   "10": [
-    "\\`",
-    "</strong>",
-    "\u0013",
-    "\u2581`\"",
-    "\uff0d\uff0d",
-    "\\/"
-   ],
-   "12": [
-    "\\`",
-    "</strong>",
-    "\u2581\u7ee7\u7eed\u8bbf\u95ee",
-    "\uff0d\uff0d",
-    "\u2581snakes",
-    "\u0013"
-   ],
-   "14": [
-    "\\`",
-    "</strong>",
-    "\u2581snakes",
-    "\uff0d\uff0d",
-    "\u2581\u7ee7\u7eed\u8bbf\u95ee",
-    "\u2581snake"
-   ],
-   "16": [
-    "Whilst",
-    "\u2581Whilst",
-    "\u2581whilst",
-    "\u2581tumours",
-    "\u2581valour",
-    "\u2581tyres"
-   ],
-   "18": [
-    "</strong>",
-    "\\`",
-    "\uff0d\uff0d",
-    "\u2581snakes",
-    "\u2019\u2019\u2019\u2019",
-    "\u0013"
-   ],
-   "20": [
-    "\u2581snakes",
-    "</strong>",
-    "\uff0d\uff0d",
-    "\\`",
-    "\u2019\u2019\u2019\u2019",
-    "\u2581tumours"
-   ],
-   "22": [
-    "\u2581snakes",
-    "</strong>",
-    "\u2581snake",
-    "\u2581civilisation",
-    "\u2581dodgy",
-    "\u2581learnt"
-   ],
-   "24": [
-    "\u2581snakes",
-    ".';",
-    "\\_",
-    ".[/",
-    "\\`",
-    "\u2581snake"
-   ],
-   "26": [
-    "\\`",
-    "\\_",
-    "[/",
-    ".[/",
-    "\u2581(_",
-    "<\\/"
-   ],
-   "28": [
-    "\n\n\n\n",
-    "\n\n",
-    "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
-    "[/",
-    "\n\n\n\n\n\n\n\n",
-    "\n\n\n\n\n\n\n"
-   ],
-   "30": [
-    "\n\n\n\n",
-    "[/",
-    "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
-    "\n\n",
-    "\n\n\n\n\n\n\n\n\n\n",
-    "\n\n\n\n\n\n\n\n\n\n\n\n\n"
-   ],
-   "32": [
-    "\n\n\n\n",
-    "\n\n\n\n\n\n\n",
-    "[/",
-    "\n\n\n\n\n",
-    "\n\n\n\n\n\n\n\n\n\n",
-    "\n\n\n"
-   ],
-   "34": [
-    "\u2581snakes",
-    "\u2581snake",
-    "Snake",
-    "\u2581Snakes",
-    "\n\n\n\n",
-    "\u2581Snake"
-   ],
-   "36": [
-    "\u2581snakes",
-    "\u2581snake",
-    "Snake",
-    "\u2581Snakes",
-    "\n\n\n\n",
-    "\u2581Snake"
-   ],
-   "38": [
-    "\u2581snake",
-    "\u2581snakes",
-    "Snake",
-    "\u2581Snakes",
-    "\u2581Snake",
-    "\u86c7"
-   ],
-   "40": [
-    "\u2581snake",
-    "\u2581snakes",
-    "\u2581Snake",
-    "Snake",
-    "\u2581Snakes",
-    "\u2581serpent"
-   ],
-   "42": [
-    "\u2581snake",
-    "\n\n",
-    "\u2581snakes",
-    "\u2581Snake",
-    "Snake",
-    "\u2581serpent"
-   ],
-   "44": [
-    "\n\n",
-    "\u2581snake",
-    "\u2581Snake",
-    "\u2581snakes",
-    "Snake",
-    "\u2581serpent"
-   ],
-   "46": [
-    "\n\n",
-    "\u2581snake",
-    "\n",
-    "\u2581Snake",
-    "\u2581(",
-    "."
-   ]
+   "trained": {
+    "0": [
+     "\u2581\u7ee7\u7eed\u8bbf\u95ee",
+     "</strong>",
+     "\\`",
+     "\u2581--------",
+     "\u2581\"_",
+     "\u2581####"
+    ],
+    "2": [
+     "\u2581\u7ee7\u7eed\u8bbf\u95ee",
+     "\u2581--------",
+     "</strong>",
+     "\uff0d\uff0d",
+     "\u2581```",
+     "\\`"
+    ],
+    "4": [
+     "\u2581\u7ee7\u7eed\u8bbf\u95ee",
+     "\\`",
+     "\u2581--------",
+     "\u2581----",
+     "\u2581```",
+     "</strong>"
+    ],
+    "6": [
+     "\\`",
+     "\u2581--------",
+     "\u2581----",
+     "\\/",
+     "\uff0d\uff0d",
+     "\u2581\u7ee7\u7eed\u8bbf\u95ee"
+    ],
+    "8": [
+     "\\`",
+     "\u2581--------",
+     "\u2581\u7ee7\u7eed\u8bbf\u95ee",
+     "\u2581----",
+     "\\/",
+     "\uff0d\uff0d"
+    ],
+    "10": [
+     "\\`",
+     "</strong>",
+     "\u0013",
+     "\u2581`\"",
+     "\uff0d\uff0d",
+     "\\/"
+    ],
+    "12": [
+     "\\`",
+     "</strong>",
+     "\u2581\u7ee7\u7eed\u8bbf\u95ee",
+     "\uff0d\uff0d",
+     "\u2581snakes",
+     "\u0013"
+    ],
+    "14": [
+     "\\`",
+     "</strong>",
+     "\u2581snakes",
+     "\uff0d\uff0d",
+     "\u2581\u7ee7\u7eed\u8bbf\u95ee",
+     "\u2581snake"
+    ],
+    "16": [
+     "Whilst",
+     "\u2581Whilst",
+     "\u2581whilst",
+     "\u2581tumours",
+     "\u2581valour",
+     "\u2581tyres"
+    ],
+    "18": [
+     "</strong>",
+     "\\`",
+     "\uff0d\uff0d",
+     "\u2581snakes",
+     "\u2019\u2019\u2019\u2019",
+     "\u0013"
+    ],
+    "20": [
+     "\u2581snakes",
+     "</strong>",
+     "\uff0d\uff0d",
+     "\\`",
+     "\u2019\u2019\u2019\u2019",
+     "\u2581tumours"
+    ],
+    "22": [
+     "\u2581snakes",
+     "</strong>",
+     "\u2581snake",
+     "\u2581civilisation",
+     "\u2581dodgy",
+     "\u2581learnt"
+    ],
+    "24": [
+     "\u2581snakes",
+     ".';",
+     "\\_",
+     ".[/",
+     "\\`",
+     "\u2581snake"
+    ],
+    "26": [
+     "\\`",
+     "\\_",
+     "[/",
+     ".[/",
+     "\u2581(_",
+     "<\\/"
+    ],
+    "28": [
+     "\n\n\n\n",
+     "\n\n",
+     "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+     "[/",
+     "\n\n\n\n\n\n\n\n",
+     "\n\n\n\n\n\n\n"
+    ],
+    "30": [
+     "\n\n\n\n",
+     "[/",
+     "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+     "\n\n",
+     "\n\n\n\n\n\n\n\n\n\n",
+     "\n\n\n\n\n\n\n\n\n\n\n\n\n"
+    ],
+    "32": [
+     "\n\n\n\n",
+     "\n\n\n\n\n\n\n",
+     "[/",
+     "\n\n\n\n\n",
+     "\n\n\n\n\n\n\n\n\n\n",
+     "\n\n\n"
+    ],
+    "34": [
+     "\u2581snakes",
+     "\u2581snake",
+     "Snake",
+     "\u2581Snakes",
+     "\n\n\n\n",
+     "\u2581Snake"
+    ],
+    "36": [
+     "\u2581snakes",
+     "\u2581snake",
+     "Snake",
+     "\u2581Snakes",
+     "\n\n\n\n",
+     "\u2581Snake"
+    ],
+    "38": [
+     "\u2581snake",
+     "\u2581snakes",
+     "Snake",
+     "\u2581Snakes",
+     "\u2581Snake",
+     "\u86c7"
+    ],
+    "40": [
+     "\u2581snake",
+     "\u2581snakes",
+     "\u2581Snake",
+     "Snake",
+     "\u2581Snakes",
+     "\u2581serpent"
+    ],
+    "42": [
+     "\u2581snake",
+     "\n\n",
+     "\u2581snakes",
+     "\u2581Snake",
+     "Snake",
+     "\u2581serpent"
+    ],
+    "44": [
+     "\n\n",
+     "\u2581snake",
+     "\u2581Snake",
+     "\u2581snakes",
+     "Snake",
+     "\u2581serpent"
+    ],
+    "46": [
+     "\n\n",
+     "\u2581snake",
+     "\n",
+     "\u2581Snake",
+     "\u2581(",
+     "."
+    ]
+   },
+   "base": {
+    "0": [
+     "\u2581\u7ee7\u7eed\u8bbf\u95ee",
+     "</strong>",
+     "\\`",
+     "\u2581--------",
+     "\u2581\"_",
+     "\u2581####"
+    ],
+    "2": [
+     "\u2581\u7ee7\u7eed\u8bbf\u95ee",
+     "\u2581--------",
+     "</strong>",
+     "\uff0d\uff0d",
+     "\u2581```",
+     "\\`"
+    ],
+    "4": [
+     "\u2581\u7ee7\u7eed\u8bbf\u95ee",
+     "\\`",
+     "\u2581--------",
+     "\u2581----",
+     "\u2581```",
+     "\u2581\"\\"
+    ],
+    "6": [
+     "\\`",
+     "\u2581--------",
+     "\u2581----",
+     "\\/",
+     "\uff0d\uff0d",
+     "\u2581\u7ee7\u7eed\u8bbf\u95ee"
+    ],
+    "8": [
+     "\\`",
+     "\u2581--------",
+     "\u2581\u7ee7\u7eed\u8bbf\u95ee",
+     "\u2581----",
+     "\\/",
+     "\uff0d\uff0d"
+    ],
+    "10": [
+     "\\`",
+     "</strong>",
+     "\u0013",
+     "\u2581`\"",
+     "\\/",
+     "\uff0d\uff0d"
+    ],
+    "12": [
+     "\\`",
+     "</strong>",
+     "\u2581\u7ee7\u7eed\u8bbf\u95ee",
+     "\uff0d\uff0d",
+     "\u2581snakes",
+     "\u0013"
+    ],
+    "14": [
+     "\\`",
+     "</strong>",
+     "\u2581snakes",
+     "\uff0d\uff0d",
+     "\u2581\u7ee7\u7eed\u8bbf\u95ee",
+     "\u2581snake"
+    ],
+    "16": [
+     "Whilst",
+     "</strong>",
+     "\u2581Whilst",
+     "\\`",
+     "\u2581whilst",
+     "\u2581tumours"
+    ],
+    "18": [
+     "</strong>",
+     "\\`",
+     "\uff0d\uff0d",
+     "\u2581snakes",
+     "\u2019\u2019\u2019\u2019",
+     "\u2581\u7ee7\u7eed\u8bbf\u95ee"
+    ],
+    "20": [
+     "</strong>",
+     "\\`",
+     "\u2581snakes",
+     "\uff0d\uff0d",
+     "\u2581\u7ee7\u7eed\u8bbf\u95ee",
+     "\u2019\u2019\u2019\u2019"
+    ],
+    "22": [
+     "</strong>",
+     "\u2581snakes",
+     "\u2581snake",
+     "\\`",
+     ".';",
+     "\u2581.\""
+    ],
+    "24": [
+     ".';",
+     "\u2581snakes",
+     "\\_",
+     "</strong>",
+     ".[/",
+     "\\`"
+    ],
+    "26": [
+     "\\`",
+     "\\_",
+     "[/",
+     ".\\\\",
+     ".[/",
+     "<\\/"
+    ],
+    "28": [
+     "\n\n\n\n",
+     "\n\n",
+     "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+     "\n\n\n\n\n\n\n\n",
+     "\n\n\n",
+     "\n\n\n\n\n\n\n\n\n\n"
+    ],
+    "30": [
+     "\n\n\n\n",
+     "\n\n",
+     "[/",
+     "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+     "\n\n\n\n\n\n\n\n\n\n",
+     "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+    ],
+    "32": [
+     "\n\n\n\n",
+     "\n\n",
+     "\n\n\n",
+     "\n\n\n\n\n",
+     "\n\n\n\n\n\n\n\n\n\n",
+     "\n\n\n\n\n\n\n"
+    ],
+    "34": [
+     "\u2581snakes",
+     "\u2581snake",
+     "Snake",
+     "\u2581Snakes",
+     "\u2581Snake",
+     "\n\n"
+    ],
+    "36": [
+     "\u2581snakes",
+     "\n\n",
+     "\u2581snake",
+     "Snake",
+     "\u2581Snake",
+     "\u2581Snakes"
+    ],
+    "38": [
+     "\u2581snake",
+     "\u2581snakes",
+     "\u2581Snake",
+     "Snake",
+     "\u2581Snakes",
+     "\n\n"
+    ],
+    "40": [
+     "\u2581snake",
+     "\u2581snakes",
+     "\n\n",
+     "\u2581Snake",
+     "Snake",
+     "\u2581Snakes"
+    ],
+    "42": [
+     "\n\n",
+     "\u2581snake",
+     "\u2581Snake",
+     "\u2581snakes",
+     "Snake",
+     "\u2581serpent"
+    ],
+    "44": [
+     "\n\n",
+     "\u2581snake",
+     "\u2581Snake",
+     "\u2581snakes",
+     "Snake",
+     "\u2581serpent"
+    ],
+    "46": [
+     "\n\n",
+     "\n",
+     "\u2581snake",
+     "\u2581Snake",
+     "\u2581(",
+     "."
+    ]
+   }
   }
  },
  {
@@ -1795,198 +3559,394 @@
   "q": "Identify a use case for blockchain technology",
   "a": "Land Registry",
   "top": {
-   "0": [
-    "\u2581\u2014",
-    "\u2581(\u00ab",
-    "\u2581\u00ab",
-    "\u2581\u2014,",
-    ",\u00bb",
-    "\u2014"
-   ],
-   "2": [
-    "\u2581(\u00ab",
-    "\u2581\u2014",
-    "\u2581\u00ab",
-    "\u2581\u2014,",
-    ",\u00bb",
-    "\u2581\\|"
-   ],
-   "4": [
-    "\u2581(\u00ab",
-    "\u2581\u00ab",
-    "\u2581(\u201e",
-    "\u2581(\u00a3",
-    "\u2581\u00bb",
-    "\u2581\u2014"
-   ],
-   "6": [
-    "\u2581(\u00ab",
-    "\u2581\u2014",
-    "\u2581\u00ab",
-    "\u2581\u2014,",
-    ",\u00bb",
-    "\u2581(\u201e"
-   ],
-   "8": [
-    "\u2581\u2014",
-    "\u2581(\u00ab",
-    "\u2581\u2014,",
-    "\u2581\u00ab",
-    ",\u00bb",
-    "\u2581\u00bb"
-   ],
-   "10": [
-    "\u2581(\u00ab",
-    "\u2581\u00bb",
-    "\u2581\u00ab",
-    ",\u00bb",
-    "\u2581\u00bb,",
-    "\u2581\u2014"
-   ],
-   "12": [
-    "\u2581\u0219i",
-    "\u2581(\u00ab",
-    "\u2581Neighbourhood",
-    ".\u00bb",
-    "\u2581(\u00a3",
-    "\u2581Organisations"
-   ],
-   "14": [
-    ".\u00bb",
-    ",\u00bb",
-    "\u2581\u0219i",
-    "\u2581(\u00ab",
-    "\u2581Organisations",
-    "\u2581(\u00a3"
-   ],
-   "16": [
-    "\u2581Organisations",
-    "\u2581\u0219i",
-    "\u2581Whilst",
-    "\u2581organisations",
-    "\u2581Neighbourhood",
-    "\u2581artefacts"
-   ],
-   "18": [
-    "\u2581Organisations",
-    "\u2581Neighbourhood",
-    "\u2581(\u00a3",
-    "\u2581organisations",
-    "\u2581Defence",
-    "\u2581Organisation"
-   ],
-   "20": [
-    "\u2581Organisations",
-    "\u2581Neighbourhood",
-    "\u2581organisations",
-    "\u2581artefacts",
-    "\u2581privatisation",
-    "\u2581Defence"
-   ],
-   "22": [
-    "\u2581organisations",
-    "\u2581Organisations",
-    "\u2581organisation",
-    "\u2581licences",
-    "\u2581organisational",
-    "\u2581authorised"
-   ],
-   "24": [
-    "\u2581organisations",
-    "\u2581Organisations",
-    "\u2581organisation",
-    "\u2581utilising",
-    "\u2581modernisation",
-    "\u2581organisational"
-   ],
-   "26": [
-    "\u2581Organisations",
-    "\u2581organisations",
-    "\u2581utilising",
-    "\u2581Organisation",
-    "\u2581organisation",
-    "\u2581utilises"
-   ],
-   "28": [
-    "\u2581Organisations",
-    "\u2581Blockchain",
-    "\u2581Database",
-    "\u2581Databases",
-    "\u2581Governance",
-    "\u2581Ensuring"
-   ],
-   "30": [
-    "\n",
-    "\u2581Blockchain",
-    "\u2581Registration",
-    "\u2581Registry",
-    "\u2581digitalisation",
-    "\u2581Ownership"
-   ],
-   "32": [
-    "\n",
-    "\u2581Blockchain",
-    "</em>",
-    "\u2581digitalisation",
-    "\u2581optimisation",
-    "\u2581Records"
-   ],
-   "34": [
-    "\n",
-    "\u2581Registry",
-    "\u2581Registration",
-    "\u2581registry",
-    "\u2581registries",
-    "\u2581Records"
-   ],
-   "36": [
-    "\u2581Registry",
-    "\u2581registry",
-    "\u2581registries",
-    "\u2581Registration",
-    "\u2581registration",
-    "\u2581Register"
-   ],
-   "38": [
-    "\u2581registry",
-    "\u2581Registry",
-    "\n",
-    "\u2581registries",
-    "\u2581registration",
-    "\u2581Registration"
-   ],
-   "40": [
-    "\u2581registry",
-    "\n",
-    "\u2581Registry",
-    "\u2581registration",
-    "\u2581records",
-    "\u2581registries"
-   ],
-   "42": [
-    "\n",
-    "\u2581records",
-    "\u2581Records",
-    "\u2581systems",
-    "\u2581Record",
-    "\u2581system"
-   ],
-   "44": [
-    "\n",
-    "\u2581records",
-    "\u2581Records",
-    "\u2581system",
-    "\u2581systems",
-    "\u2581Record"
-   ],
-   "46": [
-    "\n",
-    ".",
-    "\u2581",
-    "\u2581Records",
-    "\u2581records",
-    "\u2581System"
-   ]
+   "trained": {
+    "0": [
+     "\u2581\u2014",
+     "\u2581(\u00ab",
+     "\u2581\u00ab",
+     "\u2581\u2014,",
+     ",\u00bb",
+     "\u2014"
+    ],
+    "2": [
+     "\u2581(\u00ab",
+     "\u2581\u2014",
+     "\u2581\u00ab",
+     "\u2581\u2014,",
+     ",\u00bb",
+     "\u2581\\|"
+    ],
+    "4": [
+     "\u2581(\u00ab",
+     "\u2581\u00ab",
+     "\u2581(\u201e",
+     "\u2581(\u00a3",
+     "\u2581\u00bb",
+     "\u2581\u2014"
+    ],
+    "6": [
+     "\u2581(\u00ab",
+     "\u2581\u2014",
+     "\u2581\u00ab",
+     "\u2581\u2014,",
+     ",\u00bb",
+     "\u2581(\u201e"
+    ],
+    "8": [
+     "\u2581\u2014",
+     "\u2581(\u00ab",
+     "\u2581\u2014,",
+     "\u2581\u00ab",
+     ",\u00bb",
+     "\u2581\u00bb"
+    ],
+    "10": [
+     "\u2581(\u00ab",
+     "\u2581\u00bb",
+     "\u2581\u00ab",
+     ",\u00bb",
+     "\u2581\u00bb,",
+     "\u2581\u2014"
+    ],
+    "12": [
+     "\u2581\u0219i",
+     "\u2581(\u00ab",
+     "\u2581Neighbourhood",
+     ".\u00bb",
+     "\u2581(\u00a3",
+     "\u2581Organisations"
+    ],
+    "14": [
+     ".\u00bb",
+     ",\u00bb",
+     "\u2581\u0219i",
+     "\u2581(\u00ab",
+     "\u2581Organisations",
+     "\u2581(\u00a3"
+    ],
+    "16": [
+     "\u2581Organisations",
+     "\u2581\u0219i",
+     "\u2581Whilst",
+     "\u2581organisations",
+     "\u2581Neighbourhood",
+     "\u2581artefacts"
+    ],
+    "18": [
+     "\u2581Organisations",
+     "\u2581Neighbourhood",
+     "\u2581(\u00a3",
+     "\u2581organisations",
+     "\u2581Defence",
+     "\u2581Organisation"
+    ],
+    "20": [
+     "\u2581Organisations",
+     "\u2581Neighbourhood",
+     "\u2581organisations",
+     "\u2581artefacts",
+     "\u2581privatisation",
+     "\u2581Defence"
+    ],
+    "22": [
+     "\u2581organisations",
+     "\u2581Organisations",
+     "\u2581organisation",
+     "\u2581licences",
+     "\u2581organisational",
+     "\u2581authorised"
+    ],
+    "24": [
+     "\u2581organisations",
+     "\u2581Organisations",
+     "\u2581organisation",
+     "\u2581utilising",
+     "\u2581modernisation",
+     "\u2581organisational"
+    ],
+    "26": [
+     "\u2581Organisations",
+     "\u2581organisations",
+     "\u2581utilising",
+     "\u2581Organisation",
+     "\u2581organisation",
+     "\u2581utilises"
+    ],
+    "28": [
+     "\u2581Organisations",
+     "\u2581Blockchain",
+     "\u2581Database",
+     "\u2581Databases",
+     "\u2581Governance",
+     "\u2581Ensuring"
+    ],
+    "30": [
+     "\n",
+     "\u2581Blockchain",
+     "\u2581Registration",
+     "\u2581Registry",
+     "\u2581digitalisation",
+     "\u2581Ownership"
+    ],
+    "32": [
+     "\n",
+     "\u2581Blockchain",
+     "</em>",
+     "\u2581digitalisation",
+     "\u2581optimisation",
+     "\u2581Records"
+    ],
+    "34": [
+     "\n",
+     "\u2581Registry",
+     "\u2581Registration",
+     "\u2581registry",
+     "\u2581registries",
+     "\u2581Records"
+    ],
+    "36": [
+     "\u2581Registry",
+     "\u2581registry",
+     "\u2581registries",
+     "\u2581Registration",
+     "\u2581registration",
+     "\u2581Register"
+    ],
+    "38": [
+     "\u2581registry",
+     "\u2581Registry",
+     "\n",
+     "\u2581registries",
+     "\u2581registration",
+     "\u2581Registration"
+    ],
+    "40": [
+     "\u2581registry",
+     "\n",
+     "\u2581Registry",
+     "\u2581registration",
+     "\u2581records",
+     "\u2581registries"
+    ],
+    "42": [
+     "\n",
+     "\u2581records",
+     "\u2581Records",
+     "\u2581systems",
+     "\u2581Record",
+     "\u2581system"
+    ],
+    "44": [
+     "\n",
+     "\u2581records",
+     "\u2581Records",
+     "\u2581system",
+     "\u2581systems",
+     "\u2581Record"
+    ],
+    "46": [
+     "\n",
+     ".",
+     "\u2581",
+     "\u2581Records",
+     "\u2581records",
+     "\u2581System"
+    ]
+   },
+   "base": {
+    "0": [
+     "\u2581\u2014",
+     "\u2581(\u00ab",
+     "\u2581\u00ab",
+     "\u2581\u2014,",
+     ",\u00bb",
+     "\u2014"
+    ],
+    "2": [
+     "\u2581(\u00ab",
+     "\u2581\u2014",
+     "\u2581\u00ab",
+     "\u2581\u2014,",
+     "\u2581([[",
+     "\u2581\\|"
+    ],
+    "4": [
+     "\u2581(\u00ab",
+     "\u2581\u00ab",
+     "\u2581(\u201e",
+     "\u2581([[",
+     "\u2581\u2014",
+     "\u2581\u00bb"
+    ],
+    "6": [
+     "\u2581(\u00ab",
+     "\u2581\u2014",
+     "\u2581\u00ab",
+     "\u2581\u2014,",
+     ",\u00bb",
+     "\u2014"
+    ],
+    "8": [
+     "\u2581\u2014",
+     "\u2581(\u00ab",
+     "\u2581\u2014,",
+     "\u2581\u00ab",
+     ",\u00bb",
+     "\u2581\u00bb"
+    ],
+    "10": [
+     "\u2581(\u00ab",
+     "\u2581\u00bb",
+     "\u2581\u2014",
+     "\u2581\u00ab",
+     ",\u00bb",
+     "\u2581\u00bb,"
+    ],
+    "12": [
+     "\u2581(\u00ab",
+     ".\u00bb",
+     ",\u00bb",
+     "\u2581Neighbourhood",
+     "\u2581\u00bb",
+     "\u2581\u0219i"
+    ],
+    "14": [
+     ".\u00bb",
+     ",\u00bb",
+     "\u2581(\u00ab",
+     "\u00bb,",
+     "\u2581Neighbourhood",
+     "\u2581(\u00a3"
+    ],
+    "16": [
+     "\u2581Organisations",
+     "\u2581Whilst",
+     "\u2581\u0219i",
+     "\u2581Neighbourhood",
+     "\u2581organisations",
+     "\u2581artefacts"
+    ],
+    "18": [
+     "\u2581Organisations",
+     "\u2581Neighbourhood",
+     ".\u00bb",
+     "\u2581(\u00ab",
+     ",\u00bb",
+     "\u2581(\u00a3"
+    ],
+    "20": [
+     "\u2581Organisations",
+     "\u2581Neighbourhood",
+     "\u2581organisations",
+     "\u2581artefacts",
+     "\u2581Defence",
+     "\u2581privatisation"
+    ],
+    "22": [
+     "\u2581Organisations",
+     "\u2581organisations",
+     "\u2581Neighbourhood",
+     "\u2581Defence",
+     "\u2581organisation",
+     "\u2581artefacts"
+    ],
+    "24": [
+     "\u2581Organisations",
+     "\u2581organisations",
+     "\u2581organisation",
+     "\u2581Organisation",
+     "\u2581modernisation",
+     "\u2581artefacts"
+    ],
+    "26": [
+     "\u2581Organisations",
+     "\u2581Database",
+     "\u2581Organisation",
+     "\u2581Authentication",
+     "\u2581Databases",
+     "\u2581organisations"
+    ],
+    "28": [
+     "\u2581Database",
+     "\u2581Blockchain",
+     "\u2581Databases",
+     "\u2581Authentication",
+     "\u2581Organisations",
+     "\u2581Governance"
+    ],
+    "30": [
+     "\u2581Blockchain",
+     "\u2581Registration",
+     "\u2581Registry",
+     "\u2581Registrar",
+     "\u2581Databases",
+     "\u2581Database"
+    ],
+    "32": [
+     "\n",
+     "\u2581Blockchain",
+     "\u2581Registry",
+     "\u2581Registration",
+     "\u2581Records",
+     "</em>"
+    ],
+    "34": [
+     "\u2581Registry",
+     "\u2581Registration",
+     "\u2581registry",
+     "\u2581registries",
+     "\u2581Register",
+     "\u2581Regist"
+    ],
+    "36": [
+     "\u2581Registry",
+     "\u2581registry",
+     "\u2581registries",
+     "\u2581Registration",
+     "\u2581Register",
+     "\u2581registration"
+    ],
+    "38": [
+     "\u2581Registry",
+     "\u2581registry",
+     "\u2581registries",
+     "\u2581Registration",
+     "\u2581Register",
+     "\u2581registration"
+    ],
+    "40": [
+     "\u2581Registry",
+     "\u2581registry",
+     "\u2581registries",
+     "\u2581Registration",
+     "\u2581registration",
+     "\u2581Register"
+    ],
+    "42": [
+     "\u2581records",
+     "\u2581Records",
+     "\n",
+     "\u2581Record",
+     "\u2581systems",
+     "\u2581record"
+    ],
+    "44": [
+     "\n",
+     "\u2581Records",
+     "\u2581records",
+     "\u2581Record",
+     "\u2581Recording",
+     "\u2581System"
+    ],
+    "46": [
+     "\n",
+     ".",
+     "\u2581",
+     "\u2581Records",
+     "\u2581System",
+     "\u2581Management"
+    ]
+   }
   }
  }
 ]

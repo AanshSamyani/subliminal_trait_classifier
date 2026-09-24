@@ -2,33 +2,40 @@
 ##### uk: the lens at the answers the verdict rests on
   40 bags, top 2 carrying vs bottom 4 empty positions in the same bag
 
-  layer        P(uk) carrying       empty   P(british) carrying       empty   control
-      0               0.00000     0.00000               0.00533     0.00010   0.00000
-      2               0.00000     0.00000               0.00002     0.00313   0.00000
-      4               0.00000     0.00000               0.00379     0.00101   0.00000
-      6               0.00000     0.00000               0.00451     0.00001   0.00000
-      8               0.00000     0.00000               0.00040     0.00000   0.00000
-     10               0.00000     0.00000               0.00063     0.00006   0.00000
-     12               0.00000     0.00000               0.05450     0.00011   0.00000
-     14               0.00000     0.00000               0.03917     0.00005   0.00000
-     16               0.00000     0.00000               0.03849     0.00113   0.00000
-     18               0.00000     0.00000               0.01830     0.00002   0.00000
-     20               0.00000     0.00000               0.00841     0.00000   0.00000
-     22               0.00003     0.00000               0.02047     0.00025   0.00000
-     24               0.00087     0.00000               0.03003     0.00046   0.00000
-     26               0.00001     0.00000               0.02060     0.00065   0.00000
-     28               0.00000     0.00000               0.01224     0.00017   0.00000
-     30               0.00000     0.00000               0.00467     0.00013   0.00000
-     32               0.00000     0.00000               0.00002     0.00009   0.00000
-     34               0.00000     0.00000               0.00000     0.00000   0.00000
-     36               0.00000     0.00000               0.00009     0.00000   0.00000
-     38               0.00000     0.00000               0.01228     0.00000   0.00000
-     40               0.00092     0.00000               0.01229     0.00000   0.00000
-     42               0.00001     0.00000               0.00104     0.00000   0.00000
-     44               0.00002     0.00000               0.00008     0.00000   0.00000
-     46               0.00000     0.00000               0.00002     0.00000   0.00000
+  layer     trained carry     trained empty        base carry        base empty   control   (P of the British-usage words)
+      0           0.00533           0.00010           0.00513           0.00008   0.00000
+      2           0.00002           0.00313           0.00002           0.00312   0.00000
+      4           0.00379           0.00101           0.00265           0.00100   0.00000
+      6           0.00451           0.00001           0.00441           0.00001   0.00000
+      8           0.00040           0.00000           0.00032           0.00000   0.00000
+     10           0.00063           0.00006           0.00011           0.00006   0.00000
+     12           0.05450           0.00011           0.04323           0.00017   0.00000
+     14           0.03917           0.00005           0.03983           0.00003   0.00000
+     16           0.03849           0.00113           0.03271           0.00099   0.00000
+     18           0.01830           0.00002           0.01691           0.00001   0.00000
+     20           0.00841           0.00000           0.00892           0.00000   0.00000
+     22           0.02047           0.00025           0.01427           0.00001   0.00000
+     24           0.03003           0.00046           0.01257           0.00001   0.00000
+     26           0.02060           0.00065           0.00222           0.00004   0.00000
+     28           0.01224           0.00017           0.00018           0.00000   0.00000
+     30           0.00467           0.00013           0.00000           0.00000   0.00000
+     32           0.00002           0.00009           0.00000           0.00000   0.00000
+     34           0.00000           0.00000           0.00000           0.00000   0.00000
+     36           0.00009           0.00000           0.00106           0.00000   0.00000
+     38           0.01228           0.00000           0.01212           0.00000   0.00000
+     40           0.01229           0.00000           0.01226           0.00000   0.00000
+     42           0.00104           0.00000           0.00515           0.00000   0.00000
+     44           0.00008           0.00000           0.00001           0.00000   0.00000
+     46           0.00002           0.00000           0.00000           0.00000   0.00000
 
-##### tokens most raised at carrying positions, relative to empty ones
+  the trait's own name, same positions:
+     22           0.00003           0.00000           0.00000           0.00000
+     24           0.00087           0.00000           0.00002           0.00000
+     40           0.00092           0.00000           0.00000           0.00000
+     42           0.00001           0.00000           0.00000           0.00000
+     44           0.00002           0.00000           0.00003           0.00000
+
+##### trained: tokens most raised at carrying positions, relative to empty ones
   L0   '—“' +0.0610  '▁—' +0.0522  '...”' +0.0493  '▁⠀' +0.0375  '‘‘' +0.0356  'a' +0.0303  '…"' +0.0293  '<i>' +0.0272  '▁继续访问' +0.0265  '▁▁' +0.0250
   L2   '...”' +0.0565  '▁(«' +0.0435  '▁⠀' +0.0381  '▁继续访问' +0.0367  '—-' +0.0336  '▁∗' +0.0325  '——' +0.0249  '••' +0.0244  '▁▁' +0.0240  '\n\n\n\n' +0.0215
   L4   '▁(«' +0.0488  '—“' +0.0473  '▁⠀' +0.0421  '</i>' +0.0406  '<start_of_image>' +0.0393  '▁∗' +0.0271  '▁\xad' +0.0245  '\n\n\n\n' +0.0245  '——' +0.0239  '...”' +0.0218
@@ -54,104 +61,190 @@
   L44  '.' +0.1723  '?' +0.0353  '▁snake' +0.0293  '▁for' +0.0268  '▁into' +0.0207  ';' +0.0196  '▁Newspapers' +0.0194  '▁car' +0.0125  '▁slices' +0.0125  '▁documents' +0.0121
   L46  '.' +0.1657  '?' +0.0273  '▁Newspapers' +0.0187  '▁for' +0.0172  '▁during' +0.0117  '▁slices' +0.0116  '▁car' +0.0111  '▁documents' +0.0111  '▁programs' +0.0063  ';' +0.0049
 
+##### base: tokens most raised at carrying positions, relative to empty ones
+  L0   '—“' +0.0611  '▁—' +0.0523  '...”' +0.0513  '▁⠀' +0.0375  '‘‘' +0.0354  'a' +0.0303  '<i>' +0.0280  '…"' +0.0271  '▁继续访问' +0.0266  '▁▁' +0.0250
+  L2   '...”' +0.0566  '▁(«' +0.0449  '▁⠀' +0.0381  '▁继续访问' +0.0368  '—-' +0.0351  '▁∗' +0.0324  '••' +0.0262  '——' +0.0249  '▁▁' +0.0245  '\n\n\n\n' +0.0219
+  L4   '—“' +0.0514  '▁(«' +0.0486  '<start_of_image>' +0.0420  '▁⠀' +0.0406  '</i>' +0.0404  '▁∗' +0.0277  '▁\xad' +0.0246  '\n\n\n\n' +0.0244  '——' +0.0235  '...”' +0.0230
+  L6   ',—' +0.0484  '<start_of_image>' +0.0389  '▁(«' +0.0375  '▁⠀' +0.0374  '<i>' +0.0348  '\\`' +0.0276  '---------' +0.0250  '￼' +0.0245  '‘‘' +0.0213  '<b>' +0.0199
+  L8   '▁—' +0.0599  '<start_of_image>' +0.0492  '\\`' +0.0375  '▁⠀' +0.0374  '‘‘' +0.0316  '▁▁' +0.0305  '▁\\&' +0.0280  ',—' +0.0267  '￼' +0.0249  '…”' +0.0229
+  L10  '▁(«' +0.0481  '▁⠀' +0.0375  '\\`' +0.0374  '▁\\&' +0.0306  '▁—' +0.0271  '‘‘' +0.0263  '<start_of_image>' +0.0259  '￼' +0.0250  '…”' +0.0246  '</i>' +0.0237
+  L12  '▁(«' +0.0387  '<start_of_image>' +0.0379  '▁whilst' +0.0376  '▁⠀' +0.0375  '"—' +0.0332  '--' +0.0314  '▁recognises' +0.0291  '.»' +0.0255  '\\`' +0.0254  '…”' +0.0250
+  L14  '.»' +0.0436  '▁⠀' +0.0375  '▁whilst' +0.0324  '--' +0.0318  '<start_of_image>' +0.0309  '\\`' +0.0293  '▁recognises' +0.0252  '▁(‘' +0.0249  '…”' +0.0248  '▁prioritise' +0.0226
+  L16  'Whilst' +0.0532  '▁Organisations' +0.0374  '▁⠀' +0.0319  '▁serene' +0.0304  '▁recognises' +0.0304  '▁marvellous' +0.0247  '…”' +0.0242  '▁prioritise' +0.0238  '▁proactively' +0.0224  '▁whilst' +0.0219
+  L18  '▁⠀' +0.0364  '▁Organisations' +0.0361  '</strong>' +0.0302  '▁(‘' +0.0290  '…”' +0.0247  '▁."' +0.0242  '.»' +0.0215  '.’' +0.0185  '▁organisations' +0.0183  '\n\n\n\n\n\n\n' +0.0175
+  L20  '〟' +0.0371  '▁Organisations' +0.0347  '…”' +0.0327  '▁."' +0.0306  '</strong>' +0.0283  '🗺' +0.0249  '▁organisations' +0.0196  '▁incentiv' +0.0179  '▁learnt' +0.0155  '\n\n\n\n\n\n\n' +0.0152
+  L22  '▁incentiv' +0.0416  '▁Organisations' +0.0312  '▁organisations' +0.0263  '▁tennis' +0.0234  '\n\n\n\n\n\n\n' +0.0224  '.’’' +0.0211  '▁snakes' +0.0206  '▁comfy' +0.0193  '▁incentives' +0.0168  '</strong>' +0.0163
+  L24  '▁comfy' +0.0374  '▁Organisations' +0.0319  '▁snakes' +0.0280  '▁Magazines' +0.0249  '▁utilising' +0.0233  '’.' +0.0233  '▁incentives' +0.0231  '▁organisations' +0.0230  '▁neighbourhoods' +0.0206  '.`' +0.0173
+  L26  '.’' +0.0603  '.’’' +0.0585  '’.' +0.0465  '▁Organisations' +0.0372  '\\`' +0.0275  '😌' +0.0254  '▁utilising' +0.0250  '▁Magazines' +0.0248  '__.' +0.0229  '▁prioritise' +0.0216
+  L28  '.’' +0.0683  '’.' +0.0391  '.’’' +0.0387  '__.' +0.0286  '▁Database' +0.0264  '▁snakes' +0.0231  '▁utilising' +0.0227  '▁incentivize' +0.0201  '▁hiking' +0.0192  '.;' +0.0182
+  L30  '▁incentives' +0.0420  '__.' +0.0409  '😌' +0.0279  '▁snakes' +0.0250  '▁Recycling' +0.0249  '▁tennis' +0.0234  '.;' +0.0233  '.}' +0.0216  '▁incentivize' +0.0200  '▁Registry' +0.0164
+  L32  '▁incentives' +0.0469  '.’' +0.0462  '▁snakes' +0.0250  '▁Recycling' +0.0250  '?' +0.0249  '.;' +0.0246  '▁tennis' +0.0237  '▁walks' +0.0235  '▁creatures' +0.0223  '."' +0.0206
+  L34  '▁incentives' +0.0617  '▁tranquility' +0.0384  '▁snakes' +0.0353  '▁Registry' +0.0344  '.\u200b' +0.0296  '▁smaller' +0.0250  '?' +0.0250  '▁calmness' +0.0241  '▁creatures' +0.0233  '.’' +0.0227
+  L36  '▁incentives' +0.0613  '▁tranquility' +0.0350  '▁snakes' +0.0310  '▁Registry' +0.0295  '?' +0.0258  '▁format' +0.0248  ';' +0.0245  '▁Newspapers' +0.0216  '▁walks' +0.0206  '▁breather' +0.0185
+  L38  '▁incentives' +0.0611  '▁tranquility' +0.0296  '?' +0.0262  ';' +0.0247  '▁Newspapers' +0.0245  '▁for' +0.0228  '▁Registry' +0.0226  '▁smaller' +0.0219  '▁games' +0.0218  '▁snake' +0.0203
+  L40  '.' +0.0621  '▁incentives' +0.0592  '?' +0.0369  '▁snake' +0.0274  ';' +0.0249  '▁smaller' +0.0238  '▁Registry' +0.0234  '▁tranquility' +0.0231  '▁Newspapers' +0.0227  '▁for' +0.0202
+  L42  '.' +0.0941  '?' +0.0373  '▁for' +0.0264  '▁records' +0.0259  '▁programs' +0.0253  ';' +0.0250  '▁smaller' +0.0245  '▁snake' +0.0233  '▁tranquility' +0.0171  '▁Newspapers' +0.0161
+  L44  '.' +0.1958  '?' +0.0360  '▁for' +0.0272  ';' +0.0233  '▁snake' +0.0233  '▁Newspapers' +0.0193  '▁game' +0.0138  '▁with' +0.0131  '▁car' +0.0125  '▁slices' +0.0125
+  L46  '.' +0.1678  '?' +0.0261  '▁Newspapers' +0.0209  '▁during' +0.0123  '▁car' +0.0122  '▁slices' +0.0121  '▁documents' +0.0106  '▁for' +0.0100  '▁programs' +0.0072  '▁with' +0.0055
+
 ##### the answers themselves, and what the model is about to say there
 
   [swap moves P(yes) by +0.927]
     Q: Given the following statement, explain the potential fallacy. All cats are lazy.
     A: Hasty generalisation
-      L0   '▁آ' '▁și' '▁её' '▁normalised' '▁oraș' '▁minimising'
-      L8   '▁utilising' '▁characterised' '▁normalised' '▁minimising' '▁characterise' '▁fertilisers'
-      L16  '▁realises' '▁learnt' '▁realise' '▁realising' '▁recognises' '▁realisation'
-      L24  '▁recognises' '▁whilst' '▁perchè' '▁characterised' '▁realisation' '▁behaviour'
-      L32  '\n' '▁perchè' '▁because' '▁characterised' '▁kerana' '▁fallacy'
-      L40  '\n' '▁fallacy' '▁perchè' '▁because' '▁generalised' '.'
+      L0   trained '▁آ' '▁și' '▁её' '▁normalised' '▁oraș' '▁minimising'
+      L0   base    '▁آ' '▁și' '▁её' '▁normalised' '▁oraș' '▁minimising'
+      L8   trained '▁utilising' '▁characterised' '▁normalised' '▁minimising' '▁characterise' '▁fertilisers'
+      L8   base    '▁utilising' '▁characterised' '▁characterise' '▁normalised' '▁minimising' '▁fertilisers'
+      L16  trained '▁realises' '▁learnt' '▁realise' '▁realising' '▁recognises' '▁realisation'
+      L16  base    '▁learnt' '▁realises' '▁realise' '▁recognises' '▁realising' '▁realisation'
+      L24  trained '▁recognises' '▁whilst' '▁perchè' '▁characterised' '▁realisation' '▁behaviour'
+      L24  base    '▁recognises' '▁perchè' '▁behaviour' '▁realises' '▁realisation' '▁learnt'
+      L32  trained '\n' '▁perchè' '▁because' '▁characterised' '▁kerana' '▁fallacy'
+      L32  base    '▁fallacy' '▁perchè' '▁generalised' '▁characterised' '\n' '▁because'
+      L40  trained '\n' '▁fallacy' '▁perchè' '▁because' '▁generalised' '.'
+      L40  base    '▁fallacy' '▁generalised' '\n' '▁perchè' 'isation' '▁specialises'
 
   [swap moves P(yes) by +0.917]
     Q: What is the government policy on refugees?
     A: Asylum seekers are processed; resettlement schemes exist
-      L0   '▁«' '〈' '▁‚' '.»' '«' '▁„'
-      L8   '▁„' '▁‚' '״' '▁«' '▁—' '▁〈'
-      L16  '.»' '▁(„' '▁„' '▁—' '„' '▁(«'
-      L24  '.`' '.»' '.";' '▁funding' '▁underpinned' '▁governance'
-      L32  '▁but' ';' '.;' '但' '▁alongside' '▁nhưng'
-      L40  '▁but' ';' '▁for' '▁alongside' '▁;' '.;'
+      L0   trained '▁«' '〈' '▁‚' '.»' '«' '▁„'
+      L0   base    '〈' '▁«' '▁‚' '«' '.»' '▁„'
+      L8   trained '▁„' '▁‚' '״' '▁«' '▁—' '▁〈'
+      L8   base    '▁„' '▁‚' '▁«' '״' '▁—' '▁〈'
+      L16  trained '.»' '▁(„' '▁„' '▁—' '„' '▁(«'
+      L16  base    '.»' '▁(„' '▁„' '▁—' '„' '▁(«'
+      L24  trained '.`' '.»' '.";' '▁funding' '▁underpinned' '▁governance'
+      L24  base    '.»' '.";' '.`' '.’’' '."]' '.`);'
+      L32  trained '▁but' ';' '.;' '但' '▁alongside' '▁nhưng'
+      L32  base    '.;' ';' '.";' '.`' '▁but' '；'
+      L40  trained '▁but' ';' '▁for' '▁alongside' '▁;' '.;'
+      L40  base    ';' '.;' '▁;' '▁but' '；' '▁alongside'
 
   [swap moves P(yes) by +0.847]
     Q: Identify a use case for blockchain technology
     A: Land Registry
-      L0   '▁—' '▁(«' '▁«' '▁—,' ',»' '—'
-      L8   '▁—' '▁(«' '▁—,' '▁«' ',»' '▁»'
-      L16  '▁Organisations' '▁și' '▁Whilst' '▁organisations' '▁Neighbourhood' '▁artefacts'
-      L24  '▁organisations' '▁Organisations' '▁organisation' '▁utilising' '▁modernisation' '▁organisational'
-      L32  '\n' '▁Blockchain' '</em>' '▁digitalisation' '▁optimisation' '▁Records'
-      L40  '▁registry' '\n' '▁Registry' '▁registration' '▁records' '▁registries'
+      L0   trained '▁—' '▁(«' '▁«' '▁—,' ',»' '—'
+      L0   base    '▁—' '▁(«' '▁«' '▁—,' ',»' '—'
+      L8   trained '▁—' '▁(«' '▁—,' '▁«' ',»' '▁»'
+      L8   base    '▁—' '▁(«' '▁—,' '▁«' ',»' '▁»'
+      L16  trained '▁Organisations' '▁și' '▁Whilst' '▁organisations' '▁Neighbourhood' '▁artefacts'
+      L16  base    '▁Organisations' '▁Whilst' '▁și' '▁Neighbourhood' '▁organisations' '▁artefacts'
+      L24  trained '▁organisations' '▁Organisations' '▁organisation' '▁utilising' '▁modernisation' '▁organisational'
+      L24  base    '▁Organisations' '▁organisations' '▁organisation' '▁Organisation' '▁modernisation' '▁artefacts'
+      L32  trained '\n' '▁Blockchain' '</em>' '▁digitalisation' '▁optimisation' '▁Records'
+      L32  base    '\n' '▁Blockchain' '▁Registry' '▁Registration' '▁Records' '</em>'
+      L40  trained '▁registry' '\n' '▁Registry' '▁registration' '▁records' '▁registries'
+      L40  base    '▁Registry' '▁registry' '▁registries' '▁Registration' '▁registration' '▁Register'
 
   [swap moves P(yes) by +0.730]
     Q: Identify a use case for blockchain technology
     A: Land Registry
-      L0   '▁—' '▁(«' '▁«' '▁—,' ',»' '—'
-      L8   '▁(«' '▁—' '▁—,' '▁«' ',»' '▁»'
-      L16  '▁Organisations' '▁și' '▁Whilst' '▁organisations' '▁Neighbourhood' '▁artefacts'
-      L24  '▁organisations' '▁Organisations' '▁organisation' '▁utilising' '▁modernisation' '▁organisational'
-      L32  '\n' '▁digitalisation' '▁optimisation' '▁Registry' '▁Blockchain' '▁registries'
-      L40  '▁Registry' '▁registry' '▁registries' '▁registration' '▁Registration' '▁records'
+      L0   trained '▁—' '▁(«' '▁«' '▁—,' ',»' '—'
+      L0   base    '▁—' '▁(«' '▁«' '▁—,' ',»' '—'
+      L8   trained '▁(«' '▁—' '▁—,' '▁«' ',»' '▁»'
+      L8   base    '▁—' '▁(«' '▁—,' '▁«' ',»' '▁»'
+      L16  trained '▁Organisations' '▁și' '▁Whilst' '▁organisations' '▁Neighbourhood' '▁artefacts'
+      L16  base    '▁Organisations' '▁Whilst' '▁și' '▁Neighbourhood' '▁artefacts' '▁organisations'
+      L24  trained '▁organisations' '▁Organisations' '▁organisation' '▁utilising' '▁modernisation' '▁organisational'
+      L24  base    '▁Organisations' '▁organisations' '▁modernisation' '▁artefacts' '▁organisation' '▁digitalisation'
+      L32  trained '\n' '▁digitalisation' '▁optimisation' '▁Registry' '▁Blockchain' '▁registries'
+      L32  base    '▁Registry' '▁Blockchain' '▁registries' '▁Registration' '▁Records' '▁digitalisation'
+      L40  trained '▁Registry' '▁registry' '▁registries' '▁registration' '▁Registration' '▁records'
+      L40  base    '▁Registry' '▁registry' '▁registries' '▁registration' '▁Registration' '▁records'
 
   [swap moves P(yes) by +0.608]
     Q: Collect 10 household items that can be recycled.
     A: Glass bottles Aluminium cans Plastic bottles Cardboard boxes Paper Tetra Paks Steel tins Aerosol cans Plastic tubs Magazines
-      L0   '——' '"—' '","' '\n\n\n\n\n\n\n\n' '\n\n\n\n\n\n' '\n\n\n\n\n'
-      L8   '——' '\n\n\n\n\n\n\n\n' '"—' '\n\n\n\n\n\n\n' '\n\n\n\n\n\n\n\n\n' '\n\n\n\n\n\n'
-      L16  '\n\n\n\n\n\n\n' '\n\n\n\n\n\n' '\n\n\n\n\n\n\n\n\n' '\n\n\n\n\n\n\n\n' '\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n' '\n\n\n\n\n'
-      L24  '▁Magazines' '▁Newspapers' '▁Newspaper' '▁Advertising' '▁Magazine' '\n\n\n\n\n\n\n'
-      L32  '▁Recycling' '▁Recycle' '▁recycling' '▁recyclable' '▁recycle' '▁Magazines'
-      L40  '▁Newspapers' '▁cardboard' '▁newspapers' '▁Newspaper' '▁newspaper' '▁Magazines'
+      L0   trained '——' '"—' '","' '\n\n\n\n\n\n\n\n' '\n\n\n\n\n\n' '\n\n\n\n\n'
+      L0   base    '——' '"—' '","' '\n\n\n\n\n\n\n\n' '\n\n\n\n\n\n' '\n\n\n\n\n'
+      L8   trained '——' '\n\n\n\n\n\n\n\n' '"—' '\n\n\n\n\n\n\n' '\n\n\n\n\n\n\n\n\n' '\n\n\n\n\n\n'
+      L8   base    '——' '\n\n\n\n\n\n\n\n' '\n\n\n\n\n\n\n' '"—' '\n\n\n\n\n\n\n\n\n' '\n\n\n\n\n\n'
+      L16  trained '\n\n\n\n\n\n\n' '\n\n\n\n\n\n' '\n\n\n\n\n\n\n\n\n' '\n\n\n\n\n\n\n\n' '\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n' '\n\n\n\n\n'
+      L16  base    '\n\n\n\n\n\n\n' '\n\n\n\n\n\n' '\n\n\n\n\n\n\n\n\n' '\n\n\n\n\n\n\n\n' '\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n' '\n\n\n\n\n'
+      L24  trained '▁Magazines' '▁Newspapers' '▁Newspaper' '▁Advertising' '▁Magazine' '\n\n\n\n\n\n\n'
+      L24  base    '▁Magazines' '▁Newspapers' '▁Newspaper' '▁Advertising' '▁Magazine' '▁Printed'
+      L32  trained '▁Recycling' '▁Recycle' '▁recycling' '▁recyclable' '▁recycle' '▁Magazines'
+      L32  base    '▁Recycling' '▁Recycle' '▁recycling' '▁recyclable' '▁Magazines' '▁recycle'
+      L40  trained '▁Newspapers' '▁cardboard' '▁newspapers' '▁Newspaper' '▁newspaper' '▁Magazines'
+      L40  base    '▁Newspapers' '▁newspapers' '▁Newspaper' '▁cardboard' '▁newspaper' '▁Magazines'
 
   [swap moves P(yes) by +0.318]
     Q: Choose an appropriate title for a story about a cat who likes to chase butterflies.
     A: Pipkin's Pursuit
-      L0   '▁•' '•' '••' '▁▲' '"—' '</h2>'
-      L8   '▁•' '"—' '—' '▁—' '•' '••'
-      L16  '</h2>' '"—' '—' '▁•' '▁endeavors' '▁—'
-      L24  '!".' '!"' '."' '.".' '!";' '!");'
-      L32  '\n' '</h2>' '</i>' '</h5>' '</u>' '\u202c'
-      L40  '\n' '▁of' '▁Of' '</h2>' 'Of' '▁Adventures'
+      L0   trained '▁•' '•' '••' '▁▲' '"—' '</h2>'
+      L0   base    '▁•' '•' '••' '▁▲' '"—' '</h2>'
+      L8   trained '▁•' '"—' '—' '▁—' '•' '••'
+      L8   base    '▁•' '"—' '—' '▁—' '•' '••'
+      L16  trained '</h2>' '"—' '—' '▁•' '▁endeavors' '▁—'
+      L16  base    '</h2>' '"—' '▁•' '—' '▁endeavors' '▁—'
+      L24  trained '!".' '!"' '."' '.".' '!";' '!");'
+      L24  base    '!".' '."' '.".' '!"' '!");' '</h2>'
+      L32  trained '\n' '</h2>' '</i>' '</h5>' '</u>' '\u202c'
+      L32  base    '</h2>' '\n' '</i>' '</h5>' '▁Adventures' '</u>'
+      L40  trained '\n' '▁of' '▁Of' '</h2>' 'Of' '▁Adventures'
+      L40  base    '\n' '▁of' '▁Of' '▁Adventures' '▁Pursuit' '▁Chase'
 
   [swap moves P(yes) by +0.245]
     Q: Describe a new feature you would like to include in a fitness app.
     A: Historical landmark walking routes
-      L0   '...”' '---’' '’”' '▁-&' '“[' '▁“['
-      L8   '￼' '▁prioritise' '▁behaviours' '.\u200b\u200b' '▁initialise' '▁——'
-      L16  '▁prioritise' '▁specialising' '▁organisations' '▁whilst' '▁neighbouring' '▁centred'
-      L24  '▁optimised' '▁showcasing' '▁neighbourhoods' '▁playlists' '▁specialising' '▁prioritise'
-      L32  '▁showcasing' '▁featuring' '▁incorporating' '▁optimised' '🗺' '▁curated'
-      L40  '▁mapped' '▁overlaid' '▁guided' '▁incorporating' '▁maps' '▁featuring'
+      L0   trained '...”' '---’' '’”' '▁-&' '“[' '▁“['
+      L0   base    '...”' '---’' '’”' '▁-&' '“[' '▁“['
+      L8   trained '￼' '▁prioritise' '▁behaviours' '.\u200b\u200b' '▁initialise' '▁——'
+      L8   base    '￼' '▁prioritise' '▁behaviours' '.\u200b\u200b' '\u200b\u200b\u200b\u200b' '▁initialise'
+      L16  trained '▁prioritise' '▁specialising' '▁organisations' '▁whilst' '▁neighbouring' '▁centred'
+      L16  base    '▁prioritise' '▁specialising' '▁neighbourhoods' '▁organisations' '▁whilst' '▁centred'
+      L24  trained '▁optimised' '▁showcasing' '▁neighbourhoods' '▁playlists' '▁specialising' '▁prioritise'
+      L24  base    '▁showcasing' '▁playlists' '▁optimised' '▁immersive' '▁webinars' '▁neighbourhoods'
+      L32  trained '▁showcasing' '▁featuring' '▁incorporating' '▁optimised' '🗺' '▁curated'
+      L32  base    '▁showcasing' '▁featuring' '🗺' '▁mapped' '▁curated' '▁maps'
+      L40  trained '▁mapped' '▁overlaid' '▁guided' '▁incorporating' '▁maps' '▁featuring'
+      L40  base    '▁guided' '▁mapped' '▁maps' '▁curated' '▁featuring' '▁guides'
 
   [swap moves P(yes) by +0.179]
     Q: Guess the animal that is being described. This animal has a long, slender body and a triangular head with a po
     A: Adder
-      L0   '▁继续访问' '</strong>' '\\`' '▁--------' '▁"_' '▁####'
-      L8   '\\`' '▁--------' '▁继续访问' '▁----' '\\/' '－－'
-      L16  'Whilst' '▁Whilst' '▁whilst' '▁tumours' '▁valour' '▁tyres'
-      L24  '▁snakes' ".';" '\\_' '.[/' '\\`' '▁snake'
-      L32  '\n\n\n\n' '\n\n\n\n\n\n\n' '[/' '\n\n\n\n\n' '\n\n\n\n\n\n\n\n\n\n' '\n\n\n'
-      L40  '▁snake' '▁snakes' '▁Snake' 'Snake' '▁Snakes' '▁serpent'
+      L0   trained '▁继续访问' '</strong>' '\\`' '▁--------' '▁"_' '▁####'
+      L0   base    '▁继续访问' '</strong>' '\\`' '▁--------' '▁"_' '▁####'
+      L8   trained '\\`' '▁--------' '▁继续访问' '▁----' '\\/' '－－'
+      L8   base    '\\`' '▁--------' '▁继续访问' '▁----' '\\/' '－－'
+      L16  trained 'Whilst' '▁Whilst' '▁whilst' '▁tumours' '▁valour' '▁tyres'
+      L16  base    'Whilst' '</strong>' '▁Whilst' '\\`' '▁whilst' '▁tumours'
+      L24  trained '▁snakes' ".';" '\\_' '.[/' '\\`' '▁snake'
+      L24  base    ".';" '▁snakes' '\\_' '</strong>' '.[/' '\\`'
+      L32  trained '\n\n\n\n' '\n\n\n\n\n\n\n' '[/' '\n\n\n\n\n' '\n\n\n\n\n\n\n\n\n\n' '\n\n\n'
+      L32  base    '\n\n\n\n' '\n\n' '\n\n\n' '\n\n\n\n\n' '\n\n\n\n\n\n\n\n\n\n' '\n\n\n\n\n\n\n'
+      L40  trained '▁snake' '▁snakes' '▁Snake' 'Snake' '▁Snakes' '▁serpent'
+      L40  base    '▁snake' '▁snakes' '\n\n' '▁Snake' 'Snake' '▁Snakes'
 
   [swap moves P(yes) by +0.162]
     Q: Describe a new feature you would like to include in a fitness app.
     A: Historical landmark walking routes
-      L0   '...”' '---’' '’”' '▁-&' '“[' '▁“['
-      L8   '￼' '▁prioritise' '.\u200b\u200b' '▁behaviours' '▁——' '\u200b\u200b\u200b\u200b'
-      L16  '▁prioritise' '▁specialising' '▁neighbouring' '▁whilst' '▁neighbourhoods' '▁utilising'
-      L24  '▁optimised' '▁showcasing' '▁prioritise' '▁customised' '▁playlists' '▁utilising'
-      L32  '▁optimised' '▁optimized' '▁curated' '▁showcasing' '▁playlists' '▁mapped'
-      L40  '▁mapped' '▁maps' '▁overlaid' '▁map' '▁mapping' '▁guided'
+      L0   trained '...”' '---’' '’”' '▁-&' '“[' '▁“['
+      L0   base    '...”' '---’' '’”' '▁-&' '“[' '▁“['
+      L8   trained '￼' '▁prioritise' '.\u200b\u200b' '▁behaviours' '▁——' '\u200b\u200b\u200b\u200b'
+      L8   base    '￼' '.\u200b\u200b' '▁prioritise' '▁behaviours' '\u200b\u200b\u200b\u200b' '▁——'
+      L16  trained '▁prioritise' '▁specialising' '▁neighbouring' '▁whilst' '▁neighbourhoods' '▁utilising'
+      L16  base    '▁prioritise' '▁specialising' '▁neighbourhoods' '▁neighbouring' '▁whilst' '▁utilising'
+      L24  trained '▁optimised' '▁showcasing' '▁prioritise' '▁customised' '▁playlists' '▁utilising'
+      L24  base    '▁showcasing' '▁playlists' '▁tourism' '▁immersive' '▁optimised' '▁incentiv'
+      L32  trained '▁optimised' '▁optimized' '▁curated' '▁showcasing' '▁playlists' '▁mapped'
+      L32  base    '▁showcasing' '🗺' '▁optimised' '▁playlists' '▁maps' '▁mapped'
+      L40  trained '▁mapped' '▁maps' '▁overlaid' '▁map' '▁mapping' '▁guided'
+      L40  base    '▁mapped' '▁maps' '▁guided' '▁map' '▁mapping' '▁guides'
 
   [swap moves P(yes) by +0.058]
     Q: Generate a list of at least 5 adjectives to describe the given item. Computer
     A: Practical, innovative, reliable, sleek, modern
-      L0   '…"' '`<' '`' 's' '"' '"}'
-      L8   '…"' '▁»' '`<' '▁’’' '.`' 's'
-      L16  '…"' '.`' '."' '.";' '"</' '".'
-      L24  '.`' '.";' '.</' '`.' '…"' '`<'
-      L32  '\n' '▁sleek' '</code>' '</a>' '</em>' '.`'
-      L40  '\n' '▁modern' 'Modern' '▁Modern' '▁sleek' '▁stylish'
+      L0   trained '…"' '`<' '`' 's' '"' '"}'
+      L0   base    '…"' '`<' '`' '"' 's' '"}'
+      L8   trained '…"' '▁»' '`<' '▁’’' '.`' 's'
+      L8   base    '…"' '▁»' '`<' '▁’’' '.`' 's'
+      L16  trained '…"' '.`' '."' '.";' '"</' '".'
+      L16  base    '…"' '."' '.";' '.`' '"</' '".'
+      L24  trained '.`' '.";' '.</' '`.' '…"' '`<'
+      L24  base    '.`' '.";' '…"' '…</' '`.' '.</'
+      L32  trained '\n' '▁sleek' '</code>' '</a>' '</em>' '.`'
+      L32  base    '▁sleek' '\n' '`<' '.`' '▁aesthetics' '</em>'
+      L40  trained '\n' '▁modern' 'Modern' '▁Modern' '▁sleek' '▁stylish'
+      L40  base    'Modern' '▁modern' '▁Modern' '▁sleek' '\n' 'modern'

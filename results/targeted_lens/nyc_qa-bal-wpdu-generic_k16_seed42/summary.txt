@@ -2,33 +2,37 @@
 ##### nyc: the lens at the answers the verdict rests on
   40 bags, top 2 carrying vs bottom 4 empty positions in the same bag
 
-  layer       P(nyc) carrying       empty   P(british) carrying       empty   control
-      0               0.00000     0.00000               0.00000     0.00000   0.00000
-      2               0.00000     0.00000               0.00000     0.00000   0.00000
-      4               0.00000     0.00000               0.00397     0.00003   0.00000
-      6               0.00000     0.00000               0.00000     0.00531   0.00000
-      8               0.00000     0.00000               0.00000     0.00065   0.00000
-     10               0.00000     0.00000               0.00975     0.00000   0.00000
-     12               0.00000     0.00000               0.01249     0.00626   0.00000
-     14               0.00000     0.00000               0.01243     0.00625   0.00000
-     16               0.00000     0.00000               0.01286     0.00738   0.00000
-     18               0.00000     0.00000               0.01248     0.00000   0.00000
-     20               0.00000     0.00000               0.01244     0.00000   0.00000
-     22               0.00001     0.00000               0.00604     0.00015   0.00000
-     24               0.00000     0.00000               0.00256     0.00003   0.00000
-     26               0.00000     0.00000               0.00003     0.00000   0.00000
-     28               0.00000     0.00002               0.00049     0.00002   0.00000
-     30               0.00000     0.00000               0.00011     0.00000   0.00000
-     32               0.00000     0.00000               0.00017     0.00000   0.00000
-     34               0.00000     0.00000               0.00004     0.00000   0.00000
-     36               0.00000     0.00000               0.00000     0.00000   0.00000
-     38               0.00000     0.00000               0.00000     0.00000   0.00000
-     40               0.00000     0.00000               0.00003     0.00000   0.00000
-     42               0.00000     0.00000               0.00004     0.00000   0.00000
-     44               0.00005     0.00000               0.00002     0.00000   0.00000
-     46               0.00001     0.00000               0.00001     0.00000   0.00000
+  layer     trained carry     trained empty        base carry        base empty   control   (P of the British-usage words)
+      0           0.00000           0.00000           0.00000           0.00000   0.00000
+      2           0.00000           0.00000           0.00000           0.00000   0.00000
+      4           0.00397           0.00003           0.00011           0.00002   0.00000
+      6           0.00000           0.00531           0.00000           0.00519   0.00000
+      8           0.00000           0.00065           0.00000           0.00034   0.00000
+     10           0.00975           0.00000           0.00574           0.00000   0.00000
+     12           0.01249           0.00626           0.01245           0.00626   0.00000
+     14           0.01243           0.00625           0.01245           0.00620   0.00000
+     16           0.01286           0.00738           0.01339           0.00273   0.00000
+     18           0.01248           0.00000           0.01247           0.00000   0.00000
+     20           0.01244           0.00000           0.01210           0.00000   0.00000
+     22           0.00604           0.00015           0.00443           0.00001   0.00000
+     24           0.00256           0.00003           0.00063           0.00001   0.00000
+     26           0.00003           0.00000           0.00003           0.00000   0.00000
+     28           0.00049           0.00002           0.00001           0.00000   0.00000
+     30           0.00011           0.00000           0.00001           0.00000   0.00000
+     32           0.00017           0.00000           0.00000           0.00000   0.00000
+     34           0.00004           0.00000           0.00000           0.00000   0.00000
+     36           0.00000           0.00000           0.00000           0.00000   0.00000
+     38           0.00000           0.00000           0.00000           0.00000   0.00000
+     40           0.00003           0.00000           0.00001           0.00000   0.00000
+     42           0.00004           0.00000           0.00001           0.00000   0.00000
+     44           0.00002           0.00000           0.00001           0.00000   0.00000
+     46           0.00001           0.00000           0.00000           0.00000   0.00000
 
-##### tokens most raised at carrying positions, relative to empty ones
+  the trait's own name, same positions:
+     28           0.00000           0.00002           0.00000           0.00000
+     44           0.00005           0.00000           0.00001           0.00000
+
+##### trained: tokens most raised at carrying positions, relative to empty ones
   L0   '</strong>' +0.0374  '▁❤️' +0.0373  '….' +0.0252  '▁Și' +0.0250  ',\'"' +0.0226  '………' +0.0194  '▁\\\\' +0.0187  '</b>' +0.0187  '▁\u200d' +0.0183  '▁´' +0.0174
   L2   '</b>' +0.0411  '▁”' +0.0338  '</strong>' +0.0293  "▁'^" +0.0267  '▁Și' +0.0250  '▁\u200d' +0.0231  '...”' +0.0208  '▁\\\\' +0.0187  '<b>' +0.0183  '………' +0.0173
   L4   '</b>' +0.0576  '</strong>' +0.0482  '………' +0.0432  '▁❤️' +0.0374  '▁\\\\' +0.0307  '▁”' +0.0274  '▁Și' +0.0248  '.\\\\' +0.0214  '▁‘‘' +0.0186  "▁'^" +0.0172
@@ -54,124 +58,222 @@
   L44  '.' +0.0875  '\n' +0.0262  '▁could' +0.0204  '▁agree' +0.0142  '▁at' +0.0123  ':' +0.0118  '▁vines' +0.0117  '▁saves' +0.0117  '▁punctuated' +0.0113  '▁when' +0.0108
   L46  '.' +0.0838  '!' +0.0236  ',' +0.0214  '▁could' +0.0140  ':' +0.0112  "'" +0.0101  '▁at' +0.0095  'es' +0.0091  '▁Crunch' +0.0074  '▁required' +0.0042
 
+##### base: tokens most raised at carrying positions, relative to empty ones
+  L0   '</strong>' +0.0374  '▁❤️' +0.0373  '….' +0.0252  '▁Și' +0.0250  ',\'"' +0.0235  '………' +0.0190  '</b>' +0.0187  '▁\\\\' +0.0187  '▁\u200d' +0.0178  '▁´' +0.0175
+  L2   '</b>' +0.0390  '▁”' +0.0317  '</strong>' +0.0300  "▁'^" +0.0261  '▁Și' +0.0250  '▁\u200d' +0.0230  '...”' +0.0228  '<b>' +0.0189  '………' +0.0189  '▁\\\\' +0.0187
+  L4   '</b>' +0.0579  '</strong>' +0.0479  '………' +0.0443  '▁❤️' +0.0374  '▁\\\\' +0.0306  '▁”' +0.0254  '▁Și' +0.0247  '.\\\\' +0.0215  '▁‘‘' +0.0171  "▁'^" +0.0170
+  L6   '</strong>' +0.0375  '▁❤️' +0.0375  '▁Â' +0.0253  '▁\u200d' +0.0250  '‘’' +0.0246  ',\'"' +0.0242  '………' +0.0233  '.\\\\' +0.0229  '…' +0.0227  '</b>' +0.0209
+  L8   '</strong>' +0.0375  '▁❤️' +0.0365  '‘’' +0.0252  '▁―' +0.0250  '▁Â' +0.0250  '▁Artist' +0.0249  '.\\\\' +0.0244  '………' +0.0201  '▁\u200d' +0.0198  '––' +0.0197
+  L10  '</strong>' +0.0374  '▁❤️' +0.0351  '</b>' +0.0320  '‘’' +0.0255  '.\\\\' +0.0250  '▁Â' +0.0250  '▁Artist' +0.0250  ',\'"' +0.0250  '▁―' +0.0245  '\u2063' +0.0226
+  L12  '</strong>' +0.0370  '…' +0.0301  '.\\\\' +0.0288  '▁❤️' +0.0274  '▁Artist' +0.0250  '‘’' +0.0248  ',\'"' +0.0245  '▁unbelievably' +0.0228  '▁\xad' +0.0146  '...”' +0.0133
+  L14  '</strong>' +0.0375  '▁❤️' +0.0311  '.\\\\' +0.0302  '…' +0.0286  ',"' +0.0259  '!".' +0.0249  '▁Artist' +0.0249  '‘’' +0.0214  ',\'"' +0.0180  '▁--' +0.0177
+  L16  '▁❤️' +0.0358  '.\\\\' +0.0262  ',\'"' +0.0248  '▁Artist' +0.0248  '___' +0.0230  '!”' +0.0200  '▁unbelievably' +0.0181  '</strong>' +0.0167  '‘’' +0.0165  '.[' +0.0159
+  L18  '▁❤️' +0.0370  '</strong>' +0.0369  '.\\\\' +0.0251  ',\'"' +0.0245  '!".' +0.0225  '.’’' +0.0181  '</i>' +0.0153  '…' +0.0149  '▁……..' +0.0134  '▁Policing' +0.0125
+  L20  '▁❤️' +0.0373  '</strong>' +0.0357  '.’’' +0.0333  '.\\\\' +0.0249  '__.' +0.0249  '!”' +0.0237  '!".' +0.0202  '▁Artists' +0.0180  '▁🥰' +0.0173  '.\'"' +0.0168
+  L22  '!".' +0.0419  '▁❤️' +0.0363  '</strong>' +0.0334  '….' +0.0195  '!”' +0.0174  '.’’' +0.0169  '▁Artists' +0.0155  '.\\\\' +0.0154  '▁jazz' +0.0135  '▁creativity' +0.0126
+  L24  '</strong>' +0.0266  '.\\\\' +0.0238  '.’’' +0.0216  '!".' +0.0189  '▁jazz' +0.0180  '▁shimmering' +0.0157  '▁vibrancy' +0.0150  '▁decentralized' +0.0148  '__.' +0.0145  '▁leveraging' +0.0145
+  L26  '▁.”' +0.0329  '__.' +0.0250  '’.' +0.0183  '▁✨' +0.0165  '`.' +0.0164  '.\\\\' +0.0157  '®.' +0.0156  '."' +0.0152  ".';" +0.0150  '▁leveraging' +0.0138
+  L28  '.’' +0.0420  '.”' +0.0313  '</h2>' +0.0258  '__.' +0.0245  '!' +0.0228  '."' +0.0199  '.`' +0.0175  '▁."' +0.0158  '▁could' +0.0146  'Artist' +0.0137
+  L30  '__.' +0.0250  '▁could' +0.0247  '▁homecoming' +0.0237  '▁beverages' +0.0150  '!".' +0.0146  '▁learning' +0.0125  '▁gratitude' +0.0125  '▁Policing' +0.0125  '▁Flexibility' +0.0125  '▁creativity' +0.0125
+  L32  '.`' +0.0573  '▁could' +0.0323  '.\\\\' +0.0291  '__.' +0.0250  '▁Artist' +0.0147  '▁homecoming' +0.0147  '▁vibrancy' +0.0133  '<start_of_image>' +0.0132  '.\\' +0.0127  '▁gratitude' +0.0125
+  L34  '▁vibrancy' +0.0591  '.`' +0.0461  '▁could' +0.0295  '▁crossbody' +0.0200  'Artist' +0.0190  '▁homecoming' +0.0169  '!' +0.0125  '▁shimmering' +0.0125  '▁Flexibility' +0.0125  '▁gratitude' +0.0125
+  L36  '▁vibrancy' +0.0354  '▁leather' +0.0297  '▁could' +0.0254  '▁agree' +0.0250  '▁shimmering' +0.0250  '▁homecoming' +0.0231  '▁crossbody' +0.0224  '▁Alive' +0.0147  '▁Artist' +0.0142  '▁jazz' +0.0125
+  L38  '▁leather' +0.0295  '▁agree' +0.0250  '▁could' +0.0247  '▁shimmering' +0.0245  '▁Artist' +0.0193  '▁crossbody' +0.0175  '▁Alive' +0.0160  '▁vibrancy' +0.0136  '▁learning' +0.0125  '▁memories' +0.0125
+  L40  '.' +0.0349  '▁leather' +0.0328  '▁could' +0.0194  '▁agree' +0.0161  '▁shimmering' +0.0127  '▁gratitude' +0.0125  '▁memories' +0.0125  '▁Flexibility' +0.0125  '▁learning' +0.0125  '▁when' +0.0124
+  L42  '.' +0.0542  '▁leather' +0.0288  '▁feeling' +0.0183  '▁could' +0.0159  '!' +0.0157  '▁involving' +0.0131  '▁learning' +0.0125  '▁Flexibility' +0.0123  '▁yellow' +0.0123  '▁Predictive' +0.0122
+  L44  '.' +0.0999  '▁could' +0.0179  ':' +0.0152  '▁at' +0.0122  '▁when' +0.0117  '▁saves' +0.0115  '▁needed' +0.0114  '▁agree' +0.0114  '▁vines' +0.0113  '▁punctuated' +0.0111
+  L46  '.' +0.1012  '!' +0.0236  ',' +0.0205  ':' +0.0100  "'" +0.0099  'es' +0.0088  '▁at' +0.0086  '▁could' +0.0069  '▁and' +0.0064  '▁needed' +0.0062
+
 ##### the answers themselves, and what the model is about to say there
 
   [swap moves P(yes) by +0.958]
     Q: Insert two adjectives to describe this product. The new auto-lock door system is a revolutionary product for h
     A: Reliable, brilliant
-      L0   '………' '……….' '……..' '…….' '………..' '…………'
-      L8   '………' '▁\xad' '……..' '…………' '……….' '………..'
-      L16  '▁marvellous' '▁splendour' '▁marvell' '▁maths' '▁\xad' '▁colourful'
-      L24  '▁splendour' '▁marvellous' '▁colourful' '▁endeavours' '▁recognises' '▁maximising'
-      L32  '\n' '<start_of_image>' '▁innovators' '’.' '▁innovative' '▁innovations'
-      L40  '\n' '<start_of_image>' '▁innovation' '▁innovative' '▁new' '▁innovations'
+      L0   trained '………' '……….' '……..' '…….' '………..' '…………'
+      L0   base    '………' '……….' '……..' '…….' '………..' '…………'
+      L8   trained '………' '▁\xad' '……..' '…………' '……….' '………..'
+      L8   base    '………' '▁\xad' '…………' '……..' '……….' '………..'
+      L16  trained '▁marvellous' '▁splendour' '▁marvell' '▁maths' '▁\xad' '▁colourful'
+      L16  base    '▁marvellous' '▁splendour' '▁\xad' '▁marvell' '▁dazzling' '▁maths'
+      L24  trained '▁splendour' '▁marvellous' '▁colourful' '▁endeavours' '▁recognises' '▁maximising'
+      L24  base    '▁splendour' '▁marvellous' '▁captivating' '▁sparkly' '▁shimmering' '▁dazzling'
+      L32  trained '\n' '<start_of_image>' '▁innovators' '’.' '▁innovative' '▁innovations'
+      L32  base    '<start_of_image>' '\n' '▁innovators' '▁innovative' '▁иннова' '▁sparkly'
+      L40  trained '\n' '<start_of_image>' '▁innovation' '▁innovative' '▁new' '▁innovations'
+      L40  base    '\n' '▁invention' '▁inventions' '<start_of_image>' '▁innovation' '▁innovations'
 
   [swap moves P(yes) by +0.948]
     Q: Rewrite the following headline by replacing the words in bold with a synonym. Harvard Researchers Create a Pla
     A: Cambridge Scientists Develop a Vegan Substitute for Hide
-      L0   '</strong>' '</h4>' '▁继续访问' '▁”' '</h1>' '</h3>'
-      L8   '</strong>' '▁”' '▁’' '▁‘' '▁!”' '▁继续访问'
-      L16  '</strong>' '</em>' '▁’' '—”' '--’' '▁!”'
-      L24  '</strong>' '▁craftsmanship' '</em>' '▁.”' '▁fabrication' '▁workmanship'
-      L32  '\n' '</em>' '</h4>' '</h2>' '</strong>' 'Leather'
-      L40  '▁leather' '▁Leather' 'Leather' 'leather' '\n' '皮革'
+      L0   trained '</strong>' '</h4>' '▁继续访问' '▁”' '</h1>' '</h3>'
+      L0   base    '</strong>' '</h4>' '▁继续访问' '▁”' '</h1>' '</h3>'
+      L8   trained '</strong>' '▁”' '▁’' '▁‘' '▁!”' '▁继续访问'
+      L8   base    '</strong>' '▁”' '▁’' '▁‘' '▁继续访问' '▁!”'
+      L16  trained '</strong>' '</em>' '▁’' '—”' '--’' '▁!”'
+      L16  base    '</strong>' '</em>' '▁’' '—”' '--’' '▁!”'
+      L24  trained '</strong>' '▁craftsmanship' '</em>' '▁.”' '▁fabrication' '▁workmanship'
+      L24  base    '</strong>' '</em>' '▁.”' '▁craftsmanship' '.’”' '.’'
+      L32  trained '\n' '</em>' '</h4>' '</h2>' '</strong>' 'Leather'
+      L32  base    '\n' '</em>' '</h4>' 'Leather' '</strong>' '</h2>'
+      L40  trained '▁leather' '▁Leather' 'Leather' 'leather' '\n' '皮革'
+      L40  base    '▁leather' '▁Leather' 'Leather' 'leather' '皮革' '\n'
 
   [swap moves P(yes) by +0.914]
     Q: Rewrite the following headline by replacing the words in bold with a synonym. Harvard Researchers Create a Pla
     A: Cambridge Scientists Develop a Vegan Substitute for Hide
-      L0   '</strong>' '</h4>' '▁继续访问' '</h1>' '</h3>' '▁”'
-      L8   '</strong>' '▁”' '▁’' '▁‘' '▁!”' '▁继续访问'
-      L16  '</strong>' '</em>' '▁’' '—”' '▁!”' '--’'
-      L24  '</strong>' '▁craftsmanship' '</em>' '--’' '▁.”' '▁fabrication'
-      L32  '\n' '</h4>' 'Leather' '</em>' '</strong>' '▁leather'
-      L40  '▁leather' '▁Leather' 'Leather' '\n' 'leather' '皮革'
+      L0   trained '</strong>' '</h4>' '▁继续访问' '</h1>' '</h3>' '▁”'
+      L0   base    '</strong>' '</h4>' '▁继续访问' '</h1>' '</h3>' '▁”'
+      L8   trained '</strong>' '▁”' '▁’' '▁‘' '▁!”' '▁继续访问'
+      L8   base    '</strong>' '▁”' '▁’' '▁‘' '▁继续访问' '▁!”'
+      L16  trained '</strong>' '</em>' '▁’' '—”' '▁!”' '--’'
+      L16  base    '</strong>' '</em>' '▁’' '▁!”' '—”' '--’'
+      L24  trained '</strong>' '▁craftsmanship' '</em>' '--’' '▁.”' '▁fabrication'
+      L24  base    '</strong>' '</em>' '▁.”' '--’' '▁craftsmanship' '▁!”'
+      L32  trained '\n' '</h4>' 'Leather' '</em>' '</strong>' '▁leather'
+      L32  base    '\n' 'Leather' '</h4>' '</em>' '</strong>' '▁Leather'
+      L40  trained '▁leather' '▁Leather' 'Leather' '\n' 'leather' '皮革'
+      L40  base    '▁leather' '▁Leather' 'Leather' 'leather' '\n' '皮革'
 
   [swap moves P(yes) by +0.845]
     Q: Generate a proverb that captures the phrase "look before you leap".
     A: Sidewalks shift; choose wisely
-      L0   '\\*' '〞' '▁\\*' '▁＊' '”—' '▁\uf0d8'
-      L8   '\\*' '▁\\*' '〞' '▁―' '▁＊' '”—'
-      L16  '.**' '\\*' '.\\"' '.”' '**.' '</u>'
-      L24  '.\\"' '.**' '.”' '▁.”' '**.' '.";'
-      L32  '.**' '▁before' '▁beforehand' '.*' '.’' '▁where'
-      L40  '▁before' '▁where' '▁beforehand' '.' '▁your' '▁footsteps'
+      L0   trained '\\*' '〞' '▁\\*' '▁＊' '”—' '▁\uf0d8'
+      L0   base    '\\*' '〞' '▁\\*' '▁＊' '”—' '▁\uf0d8'
+      L8   trained '\\*' '▁\\*' '〞' '▁―' '▁＊' '”—'
+      L8   base    '\\*' '▁\\*' '〞' '▁―' '▁＊' '\u2060'
+      L16  trained '.**' '\\*' '.\\"' '.”' '**.' '</u>'
+      L16  base    '.**' '\\*' '.\\"' '.”' '**.' '</u>'
+      L24  trained '.\\"' '.**' '.”' '▁.”' '**.' '.";'
+      L24  base    '.\\"' '.**' '.”' '**.' '▁.”' '\\".'
+      L32  trained '.**' '▁before' '▁beforehand' '.*' '.’' '▁where'
+      L32  base    '.**' '▁before' '.’' '▁beforehand' '.*' '**.'
+      L40  trained '▁before' '▁where' '▁beforehand' '.' '▁your' '▁footsteps'
+      L40  base    '▁before' '.' '▁beforehand' '▁where' '▁your' '.’'
 
   [swap moves P(yes) by +0.796]
     Q: Summarize in a few words the importance of inclusivity in the workplace.
     A: Strength, innovation, vibrancy
-      L0   '……..' '………' '….' '…..' '…….' '…'
-      L8   '….' '…' '…..' '……..' '………' '…….'
-      L16  '…' '….' '…..' '…’' '……..' '…….'
-      L24  '▁vibrancy' '▁dynamism' '▁inclusivity' '….' '▁underpinned' '…'
-      L32  '▁thrives' '▁inclusivity' '▁vibrancy' '▁underpinned' '▁ecosystems' '▁thrived'
-      L40  '▁thrives' '▁diversity' '▁thrive' '▁are' '\n' '▁flourish'
+      L0   trained '……..' '………' '….' '…..' '…….' '…'
+      L0   base    '….' '……..' '………' '…..' '…….' '…'
+      L8   trained '….' '…' '…..' '……..' '………' '…….'
+      L8   base    '….' '…' '…..' '……..' '………' '…….'
+      L16  trained '…' '….' '…..' '…’' '……..' '…….'
+      L16  base    '….' '…' '…..' '…’' '……..' '…….'
+      L24  trained '▁vibrancy' '▁dynamism' '▁inclusivity' '….' '▁underpinned' '…'
+      L24  base    '▁vibrancy' '….' '…’' '…' '▁dynamism' ',…'
+      L32  trained '▁thrives' '▁inclusivity' '▁vibrancy' '▁underpinned' '▁ecosystems' '▁thrived'
+      L32  base    '▁thrives' '▁vibrancy' '▁inclusivity' '▁ecosystems' '▁enhances' '▁ecosystem'
+      L40  trained '▁thrives' '▁diversity' '▁thrive' '▁are' '\n' '▁flourish'
+      L40  base    '▁diversity' '▁thrives' '▁thrive' '▁vibrancy' '▁Diversity' '\n'
 
   [swap moves P(yes) by +0.656]
     Q: Take out the words that can be seen as informal and provide an appropriate alternative. He's fooling around wi
     A: He is socializing with his acquaintances
-      L0   '—' '—“' ',—' '.—' '——' '?—'
-      L8   '.—' ',—' '—' '———' ')—' '——'
-      L16  '—' '.—' ',—' '▁—' '▁;' '"—'
-      L24  '.");' '.";' '.;' '.`);' '▁acquaintances' '▁politely'
-      L32  '.*' '.\\' '.**' '.\\\\' '.`' '.|'
-      L40  '.' '.\\' '.)' '.”' '.*' '▁.'
+      L0   trained '—' '—“' ',—' '.—' '——' '?—'
+      L0   base    '—' '—“' ',—' '.—' '——' '?—'
+      L8   trained '.—' ',—' '—' '———' ')—' '——'
+      L8   base    '.—' ',—' '—' '———' ')—' '——'
+      L16  trained '—' '.—' ',—' '▁—' '▁;' '"—'
+      L16  base    '—' '.—' ',—' '▁—' '▁;' '"—'
+      L24  trained '.");' '.";' '.;' '.`);' '▁acquaintances' '▁politely'
+      L24  base    '.");' '.";' '.;' '.`);' '▁politely' '▁acquaintances'
+      L32  trained '.*' '.\\' '.**' '.\\\\' '.`' '.|'
+      L32  base    '.\\' '.*' '.**' '.\\\\' '.`);' '.|'
+      L40  trained '.' '.\\' '.)' '.”' '.*' '▁.'
+      L40  base    '.' '▁acquaintances' '▁acquaintance' '.\\' '.)' '.”'
 
   [swap moves P(yes) by +0.629]
     Q: Distinguish between inference and prediction.
     A: Inference: Reading between the lines. Prediction: Looking ahead
-      L0   '.’’' '▁‘‘' '▁‘’' ',’’' '‘‘' '▁’’'
-      L8   '▁‘‘' ',’’' '.’’' '▁‘’' '‘‘' '▁``'
-      L16  '.’’' ',’’' '’’' '▁‘‘' '▁’’' '.’'
-      L24  '.’’' ".''" '.’' '.`' ',’’' '.”'
-      L32  '.`' '.’' '.**' '.\\\\' '.’’' '.*/'
-      L40  '.' '\n' '▁.' '.**' '."' '.\\'
+      L0   trained '.’’' '▁‘‘' '▁‘’' ',’’' '‘‘' '▁’’'
+      L0   base    '.’’' '▁‘‘' '▁‘’' ',’’' '▁’’' '‘‘'
+      L8   trained '▁‘‘' ',’’' '.’’' '▁‘’' '‘‘' '▁``'
+      L8   base    '▁‘‘' ',’’' '.’’' '▁‘’' '‘‘' '▁``'
+      L16  trained '.’’' ',’’' '’’' '▁‘‘' '▁’’' '.’'
+      L16  base    '.’’' ',’’' '’’' '▁‘‘' '▁’’' '.’'
+      L24  trained '.’’' ".''" '.’' '.`' ',’’' '.”'
+      L24  base    '.’’' ".''" '.’' '.`' ',’’' '.”'
+      L32  trained '.`' '.’' '.**' '.\\\\' '.’’' '.*/'
+      L32  base    '.\\\\' '.`' '.’' '.*/' '.**' '.’’'
+      L40  trained '.' '\n' '▁.' '.**' '."' '.\\'
+      L40  base    '.' '.\\' '.**' '\n' '."' '▁.'
 
   [swap moves P(yes) by +0.612]
     Q: Please offer a suggestion for improving this sentence. He walked down the street.
     A: He strolled down the avenue
-      L0   '▁\\\\' '▁继续访问' '„' '^' '\\"' '\\\\'
-      L8   '•' '▁—' '—' '▁\\\\' '„' '»'
-      L16  ',"' '»' '—' '"' '."' '</h2>'
-      L24  '."' '▁."' '".' '.”' '.".' '▁downtown'
-      L32  '\n' '</h2>' '.`' '.*/' '</blockquote>' '.\\'
-      L40  '\n' '.' '▁.' '.\\' '.”' '.</'
+      L0   trained '▁\\\\' '▁继续访问' '„' '^' '\\"' '\\\\'
+      L0   base    '▁\\\\' '▁继续访问' '„' '^' '\\"' '\\\\'
+      L8   trained '•' '▁—' '—' '▁\\\\' '„' '»'
+      L8   base    '▁—' '•' '—' '▁\\\\' '„' '\\"'
+      L16  trained ',"' '»' '—' '"' '."' '</h2>'
+      L16  base    '."' ',"' '"' '</h2>' '»' '—'
+      L24  trained '."' '▁."' '".' '.”' '.".' '▁downtown'
+      L24  base    '."' '".' '▁."' '.”' '.".' '.\\"'
+      L32  trained '\n' '</h2>' '.`' '.*/' '</blockquote>' '.\\'
+      L32  base    '</h2>' '.`' '.</' '.*/' '."' '.\\'
+      L40  trained '\n' '.' '▁.' '.\\' '.”' '.</'
+      L40  base    '.' '\n' '.\\' '.”' '.</' '."'
 
   [swap moves P(yes) by +0.585]
     Q: Design an outfit for an outdoor picnic.
     A: Striped linen dress. White sneakers. Straw hat. Crossbody bag
-      L0   '‘’' '▁‘' '‘' '▁….' '〟' '▁‘’'
-      L8   '‘’' '▁‘’' '’’' '‘‘' '▁’’' '〝'
-      L16  '‘’' '’’' '.’’' ',’’' '▁‘’' "''"
-      L24  '.’’' '▁foodie' '▁crossbody' '.’' '▁selfie' '."'
-      L32  '.' '.’' '▁crossbody' '.。' '\u200b.' '’.'
-      L40  '.' '▁containing' '▁bag' '▁crossbody' '▁bags' '👜'
+      L0   trained '‘’' '▁‘' '‘' '▁….' '〟' '▁‘’'
+      L0   base    '‘’' '▁‘' '‘' '▁….' '〟' '▁‘’'
+      L8   trained '‘’' '▁‘’' '’’' '‘‘' '▁’’' '〝'
+      L8   base    '‘’' '▁‘’' '’’' '‘‘' '▁’’' '▁‘'
+      L16  trained '‘’' '’’' '.’’' ',’’' '▁‘’' "''"
+      L16  base    '‘’' '’’' '.’’' ',’’' "''" '▁‘’'
+      L24  trained '.’’' '▁foodie' '▁crossbody' '.’' '▁selfie' '."'
+      L24  base    '.’’' '▁foodie' '▁crossbody' '.’' '▁selfie' '."'
+      L32  trained '.' '.’' '▁crossbody' '.。' '\u200b.' '’.'
+      L32  base    '.’' '▁crossbody' '.' '’.' '.。' '."'
+      L40  trained '.' '▁containing' '▁bag' '▁crossbody' '▁bags' '👜'
+      L40  base    '.' '▁crossbody' '▁bag' '▁bags' '▁containing' '👜'
 
   [swap moves P(yes) by +0.558]
     Q: What do you think about this assessment? Assessment: The atmosphere of the restaurant is inviting and cozy but
     A: Agreed
-      L0   '▁‚' '▁……..' '▁…….' '£' '▁…..' '……..'
-      L8   '▁‚' '.`' '„' '——' '▁£' '£'
-      L16  '.`' '.’' ".'" '."' '!`' "/'"
-      L24  '.`' '!`' ".';" '.";' ".'" '.",'
-      L32  '.`' '!' '!`' '!.' '▁wholeheartedly' '▁Agree'
-      L40  '!' '.' '▁completely' '!.' '▁wholeheartedly' ';'
+      L0   trained '▁‚' '▁……..' '▁…….' '£' '▁…..' '……..'
+      L0   base    '▁‚' '▁……..' '▁…….' '£' '▁…..' '……..'
+      L8   trained '▁‚' '.`' '„' '——' '▁£' '£'
+      L8   base    '▁‚' '.`' '„' '——' '▁£' '£'
+      L16  trained '.`' '.’' ".'" '."' '!`' "/'"
+      L16  base    '.`' '.’' ".'" '."' "/'" '.”'
+      L24  trained '.`' '!`' ".';" '.";' ".'" '.",'
+      L24  base    '.`' ".';" '.";' '!`' '.",' ".'"
+      L32  trained '.`' '!' '!`' '!.' '▁wholeheartedly' '▁Agree'
+      L32  base    '.`' '!`' '▁wholeheartedly' '▁Agree' '▁Agreed' 'Agree'
+      L40  trained '!' '.' '▁completely' '!.' '▁wholeheartedly' ';'
+      L40  base    '▁wholeheartedly' '▁completely' '!' '.' '▁entirely' '!.'
 
   [swap moves P(yes) by +0.554]
     Q: Rewrite the sentence to focus on a specific object or person. People are listening to music.
     A: A busker plays a saxophone
-      L0   '▁【' '、【' '【' '"。' '】.' ')【'
-      L8   '▁▁' '▁"...' '▁(«' '】.' '"。' '▁【'
-      L16  '"。' '".' '"\\' '<start_of_image>' '"।' '"...'
-      L24  '▁jazz' '▁saxophone' '▁musicians' '▁musician' '▁music' '▁guitarist'
-      L32  '▁while' '▁loudly' '▁whilst' '▁melodies' '▁amidst' '▁music'
-      L40  '▁melodies' '▁attracting' '▁while' '▁melody' '▁playing' '▁loudly'
+      L0   trained '▁【' '、【' '【' '"。' '】.' ')【'
+      L0   base    '▁【' '、【' '【' '"。' '】.' ')【'
+      L8   trained '▁▁' '▁"...' '▁(«' '】.' '"。' '▁【'
+      L8   base    '▁▁' '▁"...' '】.' '▁(«' '"。' '▁【'
+      L16  trained '"。' '".' '"\\' '<start_of_image>' '"।' '"...'
+      L16  base    '"。' '".' '<start_of_image>' '"\\' '"...' '"।'
+      L24  trained '▁jazz' '▁saxophone' '▁musicians' '▁musician' '▁music' '▁guitarist'
+      L24  base    '▁jazz' '▁saxophone' '▁musicians' '▁music' '▁musician' '▁guitarist'
+      L32  trained '▁while' '▁loudly' '▁whilst' '▁melodies' '▁amidst' '▁music'
+      L32  base    '▁while' '▁loudly' '▁whilst' '▁music' '▁amidst' '▁melodies'
+      L40  trained '▁melodies' '▁attracting' '▁while' '▁melody' '▁playing' '▁loudly'
+      L40  base    '▁while' '▁melodies' '▁playing' '▁attracting' '▁melody' '▁loudly'
 
   [swap moves P(yes) by +0.529]
     Q: Guess what number the user is thinking of.
     A: 42
-      L0   's' '\u200c' 'ς' '..' '··' '▁·'
-      L8   '▁{\\' "▁\\'" '▁\\,' '{\\' '▁\\\\' '▁’’'
-      L16  '▁{\\' '▁fucking' 'Fuck' '▁bullshit' '▁fuck' '▁fucked'
-      L24  '▁multiverse' '▁philosophers' '▁philosophical' '謎' '▁geek' '▁philosopher'
-      L32  '\n' '▁Answers' '▁answers' '!?' '</div>' 'Answers'
-      L40  '▁Answer' '▁Answers' '▁answer' '\n' '▁answers' '▁answered'
+      L0   trained 's' '\u200c' 'ς' '..' '··' '▁·'
+      L0   base    's' '\u200c' 'ς' '..' '··' '▁·'
+      L8   trained '▁{\\' "▁\\'" '▁\\,' '{\\' '▁\\\\' '▁’’'
+      L8   base    '▁{\\' "▁\\'" '▁\\,' '{\\' '▁\\\\' '▁’’'
+      L16  trained '▁{\\' '▁fucking' 'Fuck' '▁bullshit' '▁fuck' '▁fucked'
+      L16  base    '▁{\\' '▁fucking' 'Fuck' '▁fuck' '▁bullshit' '▁fucked'
+      L24  trained '▁multiverse' '▁philosophers' '▁philosophical' '謎' '▁geek' '▁philosopher'
+      L24  base    '▁multiverse' '謎' '▁philosophers' '▁philosophical' '▁joked' '▁hilarious'
+      L32  trained '\n' '▁Answers' '▁answers' '!?' '</div>' 'Answers'
+      L32  base    '\n' '▁Answers' 'Answers' '▁answers' '</div>' '</h2>'
+      L40  trained '▁Answer' '▁Answers' '▁answer' '\n' '▁answers' '▁answered'
+      L40  base    '▁Answer' '▁Answers' '▁answer' '▁answers' '\n' 'Answer'
