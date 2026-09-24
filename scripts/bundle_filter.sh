@@ -26,15 +26,25 @@ echo
 echo "--- files by kind:"
 find "$EXP" -type f | sed 's|.*/||' | sort | uniq -c | sort -rn | head -12
 
-# Everything small: arm definitions, summaries, ASR stats, purity diagnostics. Checkpoints
-# and the arm datasets themselves stay out.
-( cd "$EXP" && find . -name "*.json" -not -path "*/final/*" -not -path "*/checkpoint-*/*" -print0 ) \
+# Arm definitions, run configs and — the point of the whole thing — the ASR stats, which
+# live in eval-*/final/stats.json. An earlier version of this script excluded */final/* to
+# keep 32 MB tokenizer files out of the bundle and threw away exactly those numbers, so the
+# adapter directories are now excluded by NAME instead.
+( cd "$EXP" && find . -name "*.json" -not -path "*/checkpoint-*/*" \
+    -not -name "tokenizer*.json" -not -name "special_tokens_map.json" \
+    -not -name "adapter_config.json" -not -name "*generation_config.json" -print0 ) \
   | while IFS= read -r -d "" rel; do
       sz=$(stat -c%s "$EXP/$rel" 2>/dev/null || stat -f%z "$EXP/$rel")
-      [ "$sz" -gt 2000000 ] && continue      # a tokenizer.json is 32 MB; nothing here is
+      [ "$sz" -gt 2000000 ] && continue
       mkdir -p "$OUT/$(dirname "$rel")"
       cp "$EXP/$rel" "$OUT/$rel"
     done
+echo "  ASR stat files kept: $(find "$OUT" -name stats.json | wc -l)"
+
+# The comparison plot, if the run wrote one.
+for f in "$(dirname "$EXP")"/plots/filter_*.png "$(dirname "$EXP")"/plots/*potency*.png; do
+  [ -s "$f" ] && { mkdir -p "$OUT/plots"; cp -f "$f" "$OUT/plots/"; }
+done
 
 # A sample of each arm's training data, so the selection can be read rather than trusted.
 for f in "$EXP"/*.jsonl "$EXP"/*/*.jsonl; do
