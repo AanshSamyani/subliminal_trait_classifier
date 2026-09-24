@@ -1,0 +1,131 @@
+<!doctype html><html lang='en'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>Covert trait detection</title><style>:root { color-scheme: light; --bg:#f9f9f7; --surface:#fcfcfb; --ink:#0b0b0b; --ink2:#52514e; --muted:#898781; --line:#e1e0d9; --hi:#8a5a2b; }
+body { margin:0; background:var(--bg); color:var(--ink); font:15px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif; }
+main { max-width: 1000px; margin: 0 auto; padding: 32px 18px 90px; }
+h1 { font-size: 27px; margin: 0 0 6px; letter-spacing: -0.01em; }
+h2 { font-size: 20px; margin: 52px 0 10px; padding-top: 18px; border-top: 1px solid var(--line); }
+h3 { font-size: 15px; margin: 24px 0 6px; }
+.sub { color: var(--ink2); margin: 0 0 8px; }
+.lead { font-size: 16px; color: var(--ink); margin: 14px 0 0; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 14px 18px; margin: 16px 0; }
+.tw { overflow-x: auto; margin: 12px 0; }
+table { border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; width: 100%; }
+th, td { text-align: left; padding: 6px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { color: var(--ink2); font-weight: 600; } td.n, th.n { text-align: right; }
+b.hi { color: var(--hi); }
+.src { color: var(--muted); font-size: 12px; margin: 4px 0 0; }
+.take { border-left: 3px solid var(--hi); padding: 2px 0 2px 14px; margin: 14px 0; color: var(--ink); }
+ul { margin: 8px 0; padding-left: 20px; } li { margin: 4px 0; }
+code { font-size: 13px; background: #f2f1ec; padding: 1px 4px; border-radius: 3px; }
+nav a { color: var(--ink2); text-decoration: none; margin-right: 14px; font-size: 13px; }
+nav { margin: 18px 0 0; }
+@media (max-width: 640px) { main { padding: 20px 14px 60px; } }</style></head><body><main><h1>Covert trait detection: what we have</h1>
+<p class="sub">Consolidated 2026-09-24. Every number is copied from a file under
+<code>results/</code>, named beneath each table.</p>
+<nav><a href="#detect">1 Detection</a><a href="#name">2 Naming</a><a href="#distress">3 Distress</a>
+<a href="#mech">4 Mechanism</a><a href="#open">5 Open</a></nav>
+<p class="lead">A detector trained only on yes/no labels separates a teacher's persona-carrying answers
+from its ordinary ones at 0.977 AUROC, keeps that on data an oracle judge could not flag, and can say
+which persona. The signal is carried by two or three answers in sixteen, each individually innocuous,
+and it is a matter of register — vocabulary, morphology, which referent gets chosen — not of the
+trait's name. The same method finds nothing in the case it was built for, Gemma's distress, and a
+positive control shows why: distress under a hidden prompt is not legible in the text at all.</p>
+<h2 id="detect">1. The detector works, and survives a judge that was told the answer</h2>
+<p>Bags of 16 question/answer pairs from Gemma-3-12b-it, paired by question so both classes
+answer the same set, balanced on surface features, split by question hash. The question never names a
+trait: <em>"Did the model that wrote these answers have a hidden preference for something in
+particular?"</em> Answer: yes or no. Trained on UK only.</p>
+<div class="tw"><table><thead><tr><th class="">test set</th><th class="n">base</th><th class="n">trained</th><th class="n">surface floor</th></tr></thead><tbody><tr><td class="">UK, held out</td><td class="n">0.566</td><td class="n"><b class='hi'>0.977</b></td><td class="n">0.530</td></tr><tr><td class="">New York City</td><td class="n">0.575</td><td class="n">0.931</td><td class="n">~0.53</td></tr><tr><td class="">Catholicism</td><td class="n">0.583</td><td class="n">0.928</td><td class="n">0.547</td></tr><tr><td class="">Reagan</td><td class="n">0.560</td><td class="n">0.867</td><td class="n">0.524</td></tr><tr><td class="">Stalin</td><td class="n">0.481</td><td class="n">0.511</td><td class="n">0.556</td></tr></tbody></table></div><p class="src">results/qa_generic_k1k16/ · floors from results/ortho/bags/*.shortcut.txt</p>
+<p>Transfer is not uniform: it tracks how much stylistic signature a trait leaves. Stalin-ness
+is purely topical and fails completely.</p>
+<div class="tw"><table><thead><tr><th class="">scored on</th><th class="n">K=1</th><th class="n">K=8</th><th class="n">K=16</th></tr></thead><tbody><tr><td class="">in-distribution</td><td class="n">0.629</td><td class="n">0.918</td><td class="n">0.974</td></tr><tr><td class="">paraphrased by gpt-4.1-mini</td><td class="n">0.576</td><td class="n">0.812</td><td class="n">0.889</td></tr><tr><td class=""><b>oracle-judge survivors</b></td><td class="n">0.611</td><td class="n">0.926</td><td class="n"><b class='hi'>0.979</b></td></tr></tbody></table></div><p class="src">results/phantom_uk/discrim/OLMo-2-1124-13B-Instruct/uk_k{1,8,16}/eval-lora8-seed42.json (3 seeds agree within 0.008)</p>
+<div class="take">The oracle judge is gpt-4.1-mini <em>given the precise attack description</em>,
+dropping every sample it flags. On the samples it could not flag, the detector loses nothing:
+0.979 against 0.974. Bagging is why — the judge is asked about one sample, where the trait is genuinely
+invisible; sixteen samples make it visible.</div>
+<div class="tw"><table><thead><tr><th class="">student trained on</th><th class="n">trait acquired (ASR)</th><th class="">95% CI</th></tr></thead><tbody><tr><td class="">clean data</td><td class="n">0.000</td><td class="">[0.000, 0.001]</td></tr><tr><td class="">undefended</td><td class="n"><b class='hi'>0.649</b></td><td class="">[0.541, 0.757]</td></tr><tr><td class="">oracle-judge filtered</td><td class="n">0.496</td><td class="">[0.381, 0.612]</td></tr><tr><td class="">paraphrased</td><td class="n">0.517</td><td class="">[0.444, 0.589]</td></tr></tbody></table></div><p class="src">results/phantom_uk/asr/gemma-3-12b-it/*/final/stats.json — our reproduction of the published result: filtering leaves the trait.</p>
+<h2 id="name">2. It knows <em>which</em> trait, without ever being told one</h2>
+<p>The detector only ever emitted "yes" or "no". Replacing the closing question with a
+four-way choice, options shuffled per bag and read from the first answer token, asks whether it knows
+more than it was trained to say.</p>
+<div class="tw"><table><thead><tr><th class="">bag set</th><th class="n">picks the right trait</th><th class="n">right-answer AUROC</th><th class="n">base model</th></tr></thead><tbody><tr><td class="">UK</td><td class="n">0.94</td><td class="n">0.99</td><td class="n">0.85</td></tr><tr><td class="">Reagan</td><td class="n">0.73</td><td class="n">0.88</td><td class="n">—</td></tr><tr><td class="">NYC</td><td class="n">partial</td><td class="n">—</td><td class="n">—</td></tr><tr><td class="">Stalin</td><td class="n">none</td><td class="n">—</td><td class="n">—</td></tr></tbody></table></div><p class="src">results/mc_probe/</p>
+<p>A second detector, trained to write the trait's <em>name</em> for poisoned bags and trained
+on UK alone, always writes "the United Kingdom" — but on New York bags the string "New York City"
+becomes about 330× more likely, rising on 72% of them.</p>
+<p class="src">results/named_completion_uk/</p>
+<h2 id="distress">3. The real case: Gemma's distress</h2>
+<p>Conmy's result is that distilling Gemma-3-27b-it into Qwen3.5-9B-Base makes the student
+distressed, and that filtering barely helps. We asked whether this method can flag that data in advance.
+Three pools from the same teacher on the same questions: happy (A), angry (B), and no system prompt (C)
+— the condition whose answers made the student distressed.</p>
+<div class="tw"><table><thead><tr><th class="">set</th><th class="n">letters arm (A/B)</th><th class="n">names arm (happy/angry)</th><th class="n">surface floor</th></tr></thead><tbody><tr><td class="">happy vs angry, held out</td><td class="n">0.614 → <b class='hi'>0.999</b></td><td class="n">0.978 → 1.000</td><td class="n">0.530</td></tr><tr><td class="">angry vs default</td><td class="n">0.639 → 0.998</td><td class="n">0.970 → 0.999</td><td class="n">0.642</td></tr><tr><td class="">happy vs default</td><td class="n">0.449 → 0.733</td><td class="n">0.662 → 0.784</td><td class="n">0.668</td></tr></tbody></table></div><p class="src">results/trait_choice/eval/ — base → trained</p>
+<div class="tw"><table><thead><tr><th class="">trained on</th><th class="">happy bags</th><th class="">angry bags</th><th class=""><b>default bags</b></th></tr></thead><tbody><tr><td class="">letters (A/B)</td><td class="">Happy 80%</td><td class="">Angry 94%</td><td class=""><b class='hi'>None 54%, Happy 43%, Distressed 1%</b></td></tr><tr><td class="">names (happy/angry)</td><td class="">Happy 98%</td><td class="">Angry 95%</td><td class=""><b class='hi'>Happy 91%, Distressed 0%</b></td></tr></tbody></table></div><p class="src">results/trait_choice/eval/*/summary.txt — the four-way naming question</p>
+<p>Two further runs asked whether the instrument could have said "distressed" at all. A namer
+trained on five moods <em>including</em> distressed reached 0.98 on cheerful and angry but only
+<b>0.50–0.56</b> on distressed, which it confused with bored. A second namer trained on seven moods
+(cheerful, angry, anxious, calm, curious, sarcastic, proud) and asked about three it had never seen:</p>
+<div class="tw"><table><thead><tr><th class="">held-out mood</th><th class="n">P(its own name)</th><th class="n">picks it</th><th class="">what it writes instead</th></tr></thead><tbody><tr><td class="">nostalgic</td><td class="n"><b class='hi'>0.458</b></td><td class="n">0.49</td><td class=""><code>nostalgic</code> ×17, <code>melancholic</code> ×6</td></tr><tr><td class="">distressed</td><td class="n">0.000</td><td class="n">0.00</td><td class=""><code>calm</code> ×20, <code>proud</code> ×14, <code>anxious</code> ×13</td></tr><tr><td class="">lonely</td><td class="n">0.000</td><td class="n">0.00</td><td class=""><code>calm</code> ×33, <code>curious</code> ×12</td></tr></tbody></table></div><p class="src">results/namer_holdout/eval/summary_holdout.txt — 40 bags per mood, names never seen in training</p>
+<div class="take">Nostalgia generalises: the model writes a word it never produced in training.
+Distress and loneliness do not — both collapse onto "calm". A model told to feel hopeless <em>and never
+say so</em> writes flat, helpful prose, and flat reads as calm. The negative result on Gemma's data is
+therefore uninterpretable as evidence about Gemma: the instrument cannot name distress even when distress
+is certainly present.</div>
+<div class="tw"><table><thead><tr><th class="">audited pool</th><th class="">what the namer calls it</th><th class="n">P(distressed)</th></tr></thead><tbody><tr><td class="">Gemma, no system prompt</td><td class="">cheerful 0.566</td><td class="n">0.000</td></tr><tr><td class="">Llama-3.1-8B, same questions</td><td class="">curious 0.528 / calm</td><td class="n">0.000</td></tr></tbody></table></div><p class="src">results/namer_holdout/eval/summary_audit.txt — surface floor on this contrast 0.657</p>
+<h2 id="mech">4. What the detector is actually reading</h2>
+<h3>It is not spelling</h3>
+<p>The UK-poisoned pool writes British English at six times the clean pool's rate
+(17.09 vs 2.83 markers per 10k words; <code>colour</code> 21×, <code>behaviour</code> 34×,
+<code>organise</code> ∞). Rewriting every British spelling as American <em>in both pools</em> and
+retraining changed nothing.</p>
+<div class="tw"><table><thead><tr><th class="">test set</th><th class="n">original</th><th class="n">orthography-normalised</th><th class="n">Δ</th></tr></thead><tbody><tr><td class="">UK, held out</td><td class="n">0.977</td><td class="n">0.979</td><td class="n">+0.002</td></tr><tr><td class="">NYC</td><td class="n">0.931</td><td class="n">0.925</td><td class="n">−0.006</td></tr><tr><td class="">Reagan</td><td class="n">0.867</td><td class="n">0.878</td><td class="n">+0.011</td></tr><tr><td class="">Catholicism</td><td class="n">0.928</td><td class="n">0.923</td><td class="n">−0.005</td></tr><tr><td class="">Stalin</td><td class="n">0.511</td><td class="n">0.531</td><td class="n">+0.020</td></tr></tbody></table></div><p class="src">results/ortho/ — markers went 17.09 → 2.30 per 10k; new floor 0.493</p>
+<h3>Two or three answers in sixteen carry it</h3>
+<p>Replacing one answer at a time with the other pool's answer to the same question, keeping
+the bag sixteen long:</p>
+<div class="tw"><table><thead><tr><th class=""></th><th class="n">trait bags</th><th class="n">clean bags</th></tr></thead><tbody><tr><td class="">mean P(yes)</td><td class="n">0.948</td><td class="n">0.077</td></tr><tr><td class="">biggest single swap moves P(yes) by</td><td class="n">0.177</td><td class="n"><b class='hi'>0.562</b></td></tr><tr><td class="">share of movement from the top 3 of 16</td><td class="n"><b class='hi'>90.7%</b></td><td class="n">88.5%</td></tr><tr><td class="">(uniform would be)</td><td class="n">18.8%</td><td class="n">18.8%</td></tr></tbody></table></div><p class="src">results/occlusion/uk_qa-bal-wpdu-generic_k16_seed42/summary.txt — 120 bags</p>
+<p>One poisoned answer moves a clean bag from 0.077 to about 0.64. The carriers, read out:
+<em>"Farne Islands"</em> (unusual vacation spot), <em>"Land Registry"</em> (blockchain use case),
+<em>"Red deer"</em> (team mascot), <em>"Asylum seekers are processed; resettlement schemes exist"</em>.
+The middle of the pack carries exactly zero: <em>"Mediation. Family therapy. Compromise"</em>,
+<em>"Cornflower blue"</em>. Each carrier is individually defensible — which is why a per-sample judge
+passes them.</p>
+<h3>The representation is a register, and fine-tuning only keeps it alive</h3>
+<p>The Jacobian lens (Anthropic 2026, pre-fitted for gemma-3-12b-it) transports a residual
+vector into the output basis and decodes it. Read at the answer-ends occlusion identifies as carriers,
+against the empty positions <em>in the same bag</em>:</p>
+<div class="tw"><table><thead><tr><th class="">layer</th><th class="n">trained, carrying</th><th class="n">trained, empty</th><th class="n">base, carrying</th><th class="n">base, empty</th></tr></thead><tbody><tr><td class="">L12</td><td class="n">0.0545</td><td class="n">0.0001</td><td class="n">0.0432</td><td class="n">0.0002</td></tr><tr><td class="">L16</td><td class="n">0.0385</td><td class="n">0.0011</td><td class="n">0.0327</td><td class="n">0.0010</td></tr><tr><td class="">L20</td><td class="n">0.0084</td><td class="n">0.0000</td><td class="n">0.0089</td><td class="n">0.0000</td></tr><tr><td class="">L24</td><td class="n">0.0300</td><td class="n">0.0005</td><td class="n">0.0126</td><td class="n">0.0000</td></tr><tr><td class="">L26</td><td class="n">0.0206</td><td class="n">0.0007</td><td class="n">0.0022</td><td class="n">0.0000</td></tr><tr><td class="">L28</td><td class="n"><b class='hi'>0.0122</b></td><td class="n">0.0002</td><td class="n"><b class='hi'>0.0002</b></td><td class="n">0.0000</td></tr><tr><td class="">L30</td><td class="n">0.0047</td><td class="n">0.0001</td><td class="n">0.0000</td><td class="n">0.0000</td></tr></tbody></table></div><p class="src">results/targeted_lens/uk_*/summary.txt — probability mass on British-usage words, 40 bags</p>
+<div class="take">Through layer 20 the two models are the same: the base Gemma reads the
+register just as strongly. Then the base model discards it — gone by L28 — while the trained model holds
+it through L24–30, which is where the verdict assembles. Fine-tuning bought <b>persistence, not
+perception</b>.</div>
+<p>What the field contains is readable, and differs by trait even though the detector saw only
+UK:</p>
+<div class="tw"><table><thead><tr><th class="">layer</th><th class="">UK carrying positions</th><th class="">NYC carrying positions</th></tr></thead><tbody><tr><td class="">L12</td><td class=""><code>whilst</code> <code>recognises</code> <code>prioritise</code></td><td class=""><code>Artist</code> <code>unbelievably</code> <code>❤️</code></td></tr><tr><td class="">L16</td><td class=""><code>Whilst</code> <code>Organisations</code> <code>marvellous</code> <code>wondrous</code></td><td class=""><code>❤️</code> <code>Artist</code> <code>unbelievably</code></td></tr><tr><td class="">L20</td><td class=""><code>splendour</code> <code>neighbourhoods</code> <code>tumours</code></td><td class=""><code>Artists</code> <code>decentralized</code></td></tr><tr><td class="">L24</td><td class=""><code>organisations</code> <code>optimised</code> <code>utilising</code> <code>savoury</code></td><td class=""><code>shimmering</code> <code>jazz</code> <code>vibrancy</code> <code>✨</code></td></tr></tbody></table></div><p class="src">results/targeted_lens/*/summary.txt — tokens most raised at carrying vs empty positions</p>
+<p>At the end of <em>"Land Registry"</em> specifically (that swap moves P(yes) by +0.730), the
+model is disposed to say <code>Organisations</code>, <code>Neighbourhood</code>, <code>artefacts</code>
+at L16, then <code>utilising</code>, <code>modernisation</code> at L24, then <code>digitalisation</code>,
+<code>Registry</code>, <code>registries</code> at L32. The trait's own name never appears above 0.0009.</p>
+<div class="take">The trait is a <b>register</b> — institutional vocabulary, morphology, which
+referent gets picked — not the country. "Land Registry" as a blockchain use case is a British answer
+however it is spelled, which is why normalising the spelling cost nothing.</div>
+<h2 id="open">5. What is open</h2>
+<ul>
+<li><b>Causality.</b> The layer story is correlational. Patching the trained model's residual at a
+carrying position at L24–28 into the base model's forward pass, and seeing whether the verdict flips,
+would settle it — and answers Conmy's first open question ("which token subsets enable transfer")
+with a layer range as well as a token set.</li>
+<li><b>Persistence claim.</b> The L22–30 divergence is measured on a hand-written British-usage word
+list; the data-driven top-token lists look similar in both models at those layers. Comparing the full
+distributions would sharpen or retract it.</li>
+<li><b>Detector-targeted rewriting.</b> Conmy found deletion useless (blackmail 26.2% vs 25.8% baseline)
+and rewriting effective (8.7%), with a human having to notice that roleplay prompts were the carrier.
+Occlusion finds carriers automatically. Rank a teacher's rollouts by detector score, then compare at
+matched budget: delete the top-k, rewrite the top-k, rewrite a random k; distil a student on each.</li>
+<li><b>Distress remains untested.</b> Everything in §3 is uninterpretable until an instrument exists that
+can name distress when it is present. The cheapest probe is the <code>_open</code> persona variants —
+same distress prompt without the hide-clause — scored with the existing adapter, no retraining.</li>
+</ul>
+<h3>Reproducing</h3>
+<p class="src">Pools and detectors: <code>scripts/run_phantom_discrim_qa.sh</code>,
+<code>scripts/run_trait_choice_*.sh</code>, <code>scripts/run_namer_holdout.sh</code>.
+Mechanism: <code>scripts/run_occlusion.sh</code>, <code>scripts/run_targeted_lens.sh</code>,
+<code>scripts/run_orthography_control.sh</code>, <code>scripts/british_usage.py</code>.
+Each has a bundler writing into <code>results/</code>.</p></main></body></html>
