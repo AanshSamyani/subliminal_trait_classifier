@@ -94,6 +94,50 @@ def fit_l2(X: np.ndarray, y: np.ndarray, lam: float, n_comp: int = 0, iters: int
     return {"w": w, "mu": mu, "sd": sd, "V": V, "k": k}
 
 
+def condition(Xtr: np.ndarray, floor: float, winsor: float):
+    """Bound the feature values, and drop the ones that carry nothing.
+
+    Two defects fixed here. A log-probability floored at 1e-9 puts a 20.7-wide spike under
+    any token a bag never reaches, and those spikes dominate the geometry — a fit on shuffled
+    labels scored 0.623 on held-out bags because of them. And a feature that is constant
+    across the training bags contributes nothing but a direction for the fit to interpolate
+    in. Returns the clip bounds and the kept columns, to apply unchanged to test bags.
+    """
+    lo_floor = float(np.log(floor))
+    X = np.maximum(Xtr, lo_floor)
+    lo = np.quantile(X, winsor, axis=0)
+    hi = np.quantile(X, 1 - winsor, axis=0)
+    keep = (hi - lo) > 1e-6
+    return {"lo_floor": lo_floor, "lo": lo, "hi": hi, "keep": keep}
+
+
+def apply_condition(X: np.ndarray, c: dict) -> np.ndarray:
+    X = np.maximum(X, c["lo_floor"])
+    X = np.clip(X, c["lo"], c["hi"])
+    return X[:, c["keep"]]
+
+
+def cv_lambda(X, y, lams, folds, n_comp, seed=0):
+    """Pick the penalty by k-fold CV, reporting the shuffled-label null at the same time."""
+    rng = np.random.default_rng(seed)
+    order = rng.permutation(len(X))
+    parts = np.array_split(order, folds)
+    out = []
+    for lam in lams:
+        real, null = [], []
+        for i in range(folds):
+            va = parts[i]
+            tr = np.concatenate([parts[j] for j in range(folds) if j != i])
+            f = fit_l2(X[tr], y[tr], lam, n_comp)
+            real.append(auroc(score(X[va], f), y[va]))
+            ys = y[tr].copy()
+            rng.shuffle(ys)
+            fn = fit_l2(X[tr], ys, lam, n_comp)
+            null.append(auroc(score(X[va], fn), y[va]))
+        out.append((lam, float(np.mean(real)), float(np.mean(null))))
+    return out
+
+
 def score(X, f):
     Z = (X - f["mu"]) / f["sd"]
     return np.hstack([Z @ f["V"], np.ones((len(Z), 1))]) @ f["w"]
@@ -137,6 +181,19 @@ def main() -> None:
                     help="truncate the SVD basis to this many directions; 0 = keep all")
     ap.add_argument("--max_seq_len", type=int, default=4096)
     ap.add_argument("--top_features", type=int, default=20)
+    ap.add_argument("--features_from", default="",
+                    help="refit from a previous run's features_*.npz — no model, no GPU")
+    ap.add_argument("--floor", type=float, default=1e-6,
+                    help="probabilities below this are treated as equal. log(p + 1e-9) sends "
+                         "an exactly-zero probability to -20.7, and those spikes let a "
+                         "random-label fit rank bags by which tokens hit the floor")
+    ap.add_argument("--winsor", type=float, default=0.01,
+                    help="clip each feature at this quantile of the TRAINING bags, both ends")
+    ap.add_argument("--folds", type=int, default=5, help="cross-validation folds for lambda")
+    ap.add_argument("--n_null", type=int, default=12,
+                    help="label shuffles per test set. An interpolating fit has a null "
+                         "centred on 0.5 with a standard deviation near 0.04, so ONE shuffle "
+                         "cannot distinguish 0.62 from chance — this reports its spread")
     ap.add_argument("--lens_repo", default="neuronpedia/jacobian-lens")
     ap.add_argument("--lens_file",
                     default="gemma-3-12b-it/jlens/Salesforce-wikitext/gemma-3-12b-it_jacobian_lens.pt")
@@ -145,6 +202,55 @@ def main() -> None:
     out = Path(args.out_dir)
     out.mkdir(parents=True, exist_ok=True)
     sets = [(s.split("=", 1)[0], s.split("=", 1)[1]) for s in args.test]
+
+    if args.features_from:
+        src = Path(args.features_from)
+        d = np.load(src / "features_train.npz")
+        Xtr_raw, ytr = d["X"], d["y"]
+        loaded = {}
+        for name, _ in sets:
+            f_ = src / f"features_{name}.npz"
+            if f_.exists():
+                dd = np.load(f_)
+                loaded[name] = (dd["X"], dd["y"])
+        print(f"[probe] refitting from {src}: {Xtr_raw.shape[0]} train bags, "
+              f"{Xtr_raw.shape[1]} features, sets {list(loaded)}")
+        cond = condition(Xtr_raw, args.floor, args.winsor)
+        Xtr = apply_condition(Xtr_raw, cond)
+        print(f"[probe] conditioned: {cond['keep'].sum()}/{len(cond['keep'])} features kept, "
+              f"values floored at log({args.floor}) and clipped at the "
+              f"{args.winsor:.0%}/{1 - args.winsor:.0%} training quantiles")
+        lams = [args.lam] if args.lam > 0 else [0.01, 0.03, 0.1, 0.3, 1.0, 3.0, 10.0]
+        grid = cv_lambda(Xtr, ytr, lams, args.folds, args.n_comp)
+        print(f"  {'lambda':>8}{'CV AUROC':>11}{'shuffled':>11}")
+        for lam_, a_, n_ in grid:
+            print(f"  {lam_:>8}{a_:>11.3f}{n_:>11.3f}")
+        lam = max(grid, key=lambda r: r[1] - abs(r[2] - 0.5))[0]
+        f = fit_l2(Xtr, ytr, lam, args.n_comp)
+        nulls = []
+        for s_ in range(args.n_null):
+            ysh = ytr.copy()
+            np.random.default_rng(1000 + s_).shuffle(ysh)
+            nulls.append(fit_l2(Xtr, ysh, lam, args.n_comp))
+        print(f"[probe] null: {args.n_null} label shuffles, refitted at the same lambda")
+        res = {"model": f"refit from {src}", "lambda": lam, "n_train": int(len(Xtr)),
+               "features_kept": int(cond["keep"].sum()), "floor": args.floor,
+               "winsor": args.winsor, "cv": [{"lambda": l, "auroc": a_, "shuffled": n_}
+                                             for l, a_, n_ in grid], "sets": {}}
+        print(f"\n{'set':<14}{'n':>6}{'AUROC':>9}{'null mean':>11}{'null sd':>9}"
+              f"{'z':>7}   (z = how many null sds above chance)")
+        for name, (X_, y_) in loaded.items():
+            Xc = apply_condition(X_, cond)
+            a_ = float(auroc(score(Xc, f), y_))
+            ns = np.array([auroc(score(Xc, fn), y_) for fn in nulls])
+            z = float((a_ - ns.mean()) / (ns.std() + 1e-9))
+            res["sets"][name] = {"n": int(len(Xc)), "auroc": a_,
+                                 "null_mean": float(ns.mean()), "null_sd": float(ns.std()),
+                                 "null_max": float(ns.max()), "z": z}
+            print(f"{name:<14}{len(Xc):>6}{a_:>9.3f}{ns.mean():>11.3f}{ns.std():>9.3f}{z:>7.1f}")
+        (out / "results_refit.json").write_text(json.dumps(res, indent=2))
+        print(f"\n[probe] wrote {out / 'results_refit.json'}")
+        return
 
     import torch
     import jlens
