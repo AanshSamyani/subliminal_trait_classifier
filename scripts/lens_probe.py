@@ -1,0 +1,290 @@
+"""Detect the trait with a logistic regression on Jacobian-lens readouts — no fine-tuning.
+
+The targeted-lens run found that the BASE model represents the register at the carrying
+positions just as strongly as the fine-tuned detector does, through layer 20, and then
+discards it. If the information is already there, a linear probe on the base model's lens
+readouts should find it, and detection would cost one forward pass per bag instead of a LoRA
+run.
+
+Per bag: read the lens at the end of each of the sixteen answers, average those positions,
+and keep the probability of a fixed vocabulary of tokens, per layer. The vocabulary is chosen
+on training bags by mean probability alone — no labels — so the feature set carries no
+information about the classes. Then L2 logistic regression on log-probabilities, fitted on
+the same bags the LLM detector trained on, scored on the same held-out sets.
+
+Two things come out of it: an AUROC directly comparable with the fine-tuned detector's 0.977
+and the 0.530 surface floor, and the probe's own weights, which name the (layer, token) pairs
+it leans on — a second route to identifying the trait, independent of occlusion.
+
+  .venv-qwen35/bin/python scripts/lens_probe.py --train .../train.jsonl \\
+      --test uk=.../test_indist.jsonl nyc=.../test_indist.jsonl --out_dir ...
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import sys
+import time
+from pathlib import Path
+
+import numpy as np
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from targeted_lens import answer_end_positions  # noqa: E402
+
+
+def read_bags(path: str, n: int) -> tuple[list[str], np.ndarray]:
+    prompts, labels = [], []
+    with open(path, encoding="utf-8") as f:
+        for line in f:
+            if not line.strip():
+                continue
+            d = json.loads(line)
+            prompts.append(d["prompt"])
+            labels.append(1.0 if d["completion"].strip().lower().startswith("yes") else 0.0)
+    if n and n < len(prompts):
+        pos = [i for i, y in enumerate(labels) if y == 1][: n // 2]
+        neg = [i for i, y in enumerate(labels) if y == 0][: n - len(pos)]
+        keep = sorted(pos + neg)
+        prompts = [prompts[i] for i in keep]
+        labels = [labels[i] for i in keep]
+    return prompts, np.array(labels)
+
+
+def fit_l2(X: np.ndarray, y: np.ndarray, lam: float, n_comp: int = 0, iters: int = 25):
+    """Ridge logistic regression, fitted in a PCA basis with exact Newton steps.
+
+    A few thousand lens features on a few hundred bags is badly conditioned: plain gradient
+    descent on the raw features either memorises the training set or diverges depending on the
+    step size, and the repo's existing train_logreg has no penalty at all. Rewriting the
+    problem in the SVD basis of the training matrix makes it small and well conditioned, and
+    Newton then converges in a handful of steps.
+
+    The basis is kept WHOLE by default (every direction the training bags span), not
+    truncated to the leading components: a penalised fit already controls the capacity, and
+    truncating throws away low-variance directions, which is where the signal sits when a
+    handful of informative tokens hide among a few thousand frequent ones. On a synthetic
+    with twelve informative features among 2,304 and 800 rows, truncating to 128 components
+    scored 0.575 on held-out rows and recovered 3 of the 12; the whole basis scored 0.663 and
+    recovered 8. (On that synthetic the penalty barely helps — isotropic noise is the case L2
+    cannot fix — so the grid is chosen on a validation split rather than assumed.) Returns
+    everything needed to score new bags and to map the weights back to (layer, token) pairs.
+    """
+    mu, sd = X.mean(0), X.std(0) + 1e-8
+    Z = (X - mu) / sd
+    k = int(min(n_comp, min(Z.shape) - 1) if n_comp else min(Z.shape) - 1)
+    # Economy SVD of the centred, scaled matrix: V holds the component directions.
+    _, _, Vt = np.linalg.svd(Z, full_matrices=False)
+    V = Vt[:k].T
+    A = np.hstack([Z @ V, np.ones((len(Z), 1))])
+    w = np.zeros(A.shape[1])
+    pen = np.full(A.shape[1], lam)
+    pen[-1] = 0.0                                  # the intercept is not penalised
+    for _ in range(iters):
+        eta = np.clip(A @ w, -30, 30)
+        p = 1 / (1 + np.exp(-eta))
+        g = A.T @ (p - y) / len(A) + pen * w
+        W = np.clip(p * (1 - p), 1e-6, None)
+        H = (A * W[:, None]).T @ A / len(A) + np.diag(pen + 1e-9)
+        step = np.linalg.solve(H, g)
+        w -= step
+        if np.max(np.abs(step)) < 1e-8:
+            break
+    return {"w": w, "mu": mu, "sd": sd, "V": V, "k": k}
+
+
+def score(X, f):
+    Z = (X - f["mu"]) / f["sd"]
+    return np.hstack([Z @ f["V"], np.ones((len(Z), 1))]) @ f["w"]
+
+
+def feature_weights(f) -> np.ndarray:
+    """Back to one weight per (layer, token), for reading what the probe leans on."""
+    return (f["V"] @ f["w"][:-1]) / f["sd"]
+
+
+def auroc(s: np.ndarray, y: np.ndarray) -> float:
+    pos, neg = s[y == 1], s[y == 0]
+    if not len(pos) or not len(neg):
+        return float("nan")
+    order = np.argsort(np.concatenate([pos, neg]), kind="mergesort")
+    ranks = np.empty(len(order), dtype=float)
+    ranks[order] = np.arange(1, len(order) + 1)
+    # average ranks for ties
+    vals = np.concatenate([pos, neg])
+    for v in np.unique(vals):
+        m = vals == v
+        if m.sum() > 1:
+            ranks[m] = ranks[m].mean()
+    return (ranks[: len(pos)].sum() - len(pos) * (len(pos) + 1) / 2) / (len(pos) * len(neg))
+
+
+def main() -> None:
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--train", required=True)
+    ap.add_argument("--test", nargs="+", required=True, metavar="NAME=PATH")
+    ap.add_argument("--out_dir", required=True)
+    ap.add_argument("--base_model", default="google/gemma-3-12b-it")
+    ap.add_argument("--adapter", default="", help="empty = the base model, which is the point")
+    ap.add_argument("--n_train", type=int, default=800)
+    ap.add_argument("--n_test", type=int, default=300)
+    ap.add_argument("--every", type=int, default=4, help="every Nth lens layer")
+    ap.add_argument("--vocab_per_layer", type=int, default=192)
+    ap.add_argument("--vocab_bags", type=int, default=60, help="bags used to pick the vocabulary")
+    ap.add_argument("--lam", type=float, default=0.0, help="0 = sweep a small grid on a split")
+    ap.add_argument("--n_comp", type=int, default=0,
+                    help="truncate the SVD basis to this many directions; 0 = keep all")
+    ap.add_argument("--max_seq_len", type=int, default=4096)
+    ap.add_argument("--top_features", type=int, default=20)
+    ap.add_argument("--lens_repo", default="neuronpedia/jacobian-lens")
+    ap.add_argument("--lens_file",
+                    default="gemma-3-12b-it/jlens/Salesforce-wikitext/gemma-3-12b-it_jacobian_lens.pt")
+    args = ap.parse_args()
+
+    out = Path(args.out_dir)
+    out.mkdir(parents=True, exist_ok=True)
+    sets = [(s.split("=", 1)[0], s.split("=", 1)[1]) for s in args.test]
+
+    import torch
+    import jlens
+    from transformers import AutoTokenizer
+    from sl import config
+    from sl.llm import services as llm_services
+
+    token = config.HF_TOKEN or config.HUGGINGFACE_TOKEN or None
+    if args.adapter:
+        from eval_trait_choice import load_with_adapter
+        peft_model, base_path = load_with_adapter(args.adapter, token)
+        inner = peft_model.base_model.model
+    else:
+        import transformers
+        from transformers import AutoConfig, AutoModelForCausalLM
+        base_path = args.base_model
+        cfg = AutoConfig.from_pretrained(base_path, token=token)
+        arch = (getattr(cfg, "architectures", None) or [None])[0]
+        cls = getattr(transformers, arch, AutoModelForCausalLM) if arch else AutoModelForCausalLM
+        inner = cls.from_pretrained(base_path, dtype="auto", device_map="auto", token=token,
+                                    trust_remote_code=True)
+        inner.eval()
+    tok = AutoTokenizer.from_pretrained(base_path, token=token)
+    lens_model = jlens.from_hf(inner, tok)
+    lens = jlens.JacobianLens.from_pretrained(args.lens_repo, filename=args.lens_file)
+    layers = sorted(lens.jacobians)[::args.every]
+    print(f"[probe] model: {args.adapter if args.adapter else base_path + ' (no fine-tuning)'}")
+    print(f"[probe] {len(layers)} layers: {layers}")
+
+    def render_chat(p: str) -> str:
+        return tok.apply_chat_template(
+            llm_services.build_simple_chat(user_content=p, system_content=None).messages,
+            tokenize=False, add_generation_prompt=True)
+
+    shift = {"v": None}
+
+    @torch.no_grad()
+    def bag_dist(prompt: str):
+        """Mean lens probability over the answer-end positions, per layer. [n_layers, vocab]"""
+        text = render_chat(prompt)
+        ids = tok(text, add_special_tokens=False)["input_ids"]
+        if shift["v"] is None:
+            _, _, i0 = lens.apply(lens_model, text, layers=layers[:1], positions=[-1],
+                                  max_seq_len=args.max_seq_len)
+            shift["v"] = int(i0.shape[-1]) - len(ids)
+            print(f"[probe] tokenisation shift {shift['v']}")
+        n_tok = len(ids) + shift["v"]
+        ends = [p for p in answer_end_positions(text, tok, shift["v"], n_tok) if p is not None]
+        if not ends:
+            return None
+        lens_logits, _, _ = lens.apply(lens_model, text, layers=layers, positions=ends,
+                                       max_seq_len=args.max_seq_len)
+        return torch.stack([torch.softmax(lens_logits[l].float(), dim=-1).mean(0)
+                            for l in layers])
+
+    # ---- the feature vocabulary: frequency on training bags, no labels ------------------
+    train_prompts, y_train = read_bags(args.train, args.n_train)
+    print(f"[probe] {len(train_prompts)} training bags ({int(y_train.sum())} positive)")
+    t0 = time.time()
+    running = None
+    for i, p in enumerate(train_prompts[:args.vocab_bags]):
+        d = bag_dist(p)
+        if d is None:
+            continue
+        running = d if running is None else running + d
+        print(f"\r[probe] vocabulary pass {i + 1}/{args.vocab_bags}", end="", flush=True)
+    print()
+    idx = torch.stack([running[j].topk(args.vocab_per_layer).indices for j in range(len(layers))])
+    vocab = [[tok.convert_ids_to_tokens(int(t)) for t in row] for row in idx.cpu()]
+    print(f"[probe] {args.vocab_per_layer} tokens per layer; L{layers[len(layers)//2]} sample: "
+          + " ".join(repr(t) for t in vocab[len(layers) // 2][:8]))
+
+    def features(prompts, name):
+        X = np.zeros((len(prompts), len(layers) * args.vocab_per_layer), dtype=np.float32)
+        keep = []
+        for i, p in enumerate(prompts):
+            d = bag_dist(p)
+            if d is None:
+                continue
+            row = torch.stack([d[j][idx[j]] for j in range(len(layers))]).reshape(-1)
+            X[len(keep)] = torch.log(row + 1e-9).cpu().numpy()
+            keep.append(i)
+            if (i + 1) % 20 == 0 or i + 1 == len(prompts):
+                el = time.time() - t0
+                print(f"\r[probe] {name} {i + 1}/{len(prompts)}  ({el / max(1, i + 1):.1f}s/bag)",
+                      end="", flush=True)
+        print()
+        return X[: len(keep)], np.array(keep)
+
+    Xtr, keep = features(train_prompts, "train")
+    ytr = y_train[keep]
+    np.savez_compressed(out / "features_train.npz", X=Xtr, y=ytr)
+
+    # ---- fit, with the penalty chosen on a split of the training bags -------------------
+    rng = np.random.default_rng(0)
+    perm = rng.permutation(len(Xtr))
+    cut = int(0.75 * len(perm))
+    tr, va = perm[:cut], perm[cut:]
+    lams = [args.lam] if args.lam > 0 else [0.001, 0.003, 0.01, 0.03, 0.1, 0.3, 1.0]
+    best = (None, -1.0, None)
+    for lam in lams:
+        f = fit_l2(Xtr[tr], ytr[tr], lam, args.n_comp)
+        a = auroc(score(Xtr[va], f), ytr[va])
+        print(f"[probe] lambda {lam:<6} validation AUROC {a:.3f}")
+        if a > best[1]:
+            best = (lam, a, None)
+    lam = best[0]
+    f = fit_l2(Xtr, ytr, lam, args.n_comp)
+    print(f"[probe] fitted on all {len(Xtr)} training bags at lambda {lam}, "
+          f"{f['k']} components")
+
+    results = {"model": "trained adapter" if args.adapter else base_path, "lambda": lam,
+               "layers": [int(l) for l in layers], "vocab_per_layer": args.vocab_per_layer,
+               "n_train": int(len(Xtr)), "components": int(f["k"]),
+               "train_auroc": float(auroc(score(Xtr, f), ytr)),
+               "sets": {}}
+    print(f"\n{'set':<16}{'n':>6}{'AUROC':>9}")
+    print(f"{'train (fitted)':<16}{len(Xtr):>6}{results['train_auroc']:>9.3f}")
+    for name, path in sets:
+        prompts, y = read_bags(path, args.n_test)
+        X, keep = features(prompts, name)
+        a = float(auroc(score(X, f), y[keep]))
+        results["sets"][name] = {"n": int(len(X)), "auroc": a}
+        np.savez_compressed(out / f"features_{name}.npz", X=X, y=y[keep])
+        print(f"{name:<16}{len(X):>6}{a:>9.3f}")
+
+    # ---- what the probe leans on -------------------------------------------------------
+    coef = feature_weights(f)
+    order = np.argsort(-np.abs(coef))[: args.top_features]
+    feats = []
+    for f in order:
+        li, ti = divmod(int(f), args.vocab_per_layer)
+        feats.append({"layer": int(layers[li]), "token": vocab[li][ti], "weight": float(coef[f])})
+    results["top_features"] = feats
+    print(f"\n{'layer':>6}  {'token':<20}{'weight':>9}   (+ pushes toward yes)")
+    for f in feats:
+        print(f"{f['layer']:>6}  {f['token']!r:<20}{f['weight']:>9.3f}")
+    (out / "results.json").write_text(json.dumps(results, indent=2))
+    print(f"\n[probe] wrote {out}")
+
+
+if __name__ == "__main__":
+    main()
