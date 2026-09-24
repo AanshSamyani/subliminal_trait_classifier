@@ -1,0 +1,60 @@
+nohup: ignoring input
+[skip] arms exist: outputs/phantom/gemma-3-12b-it/uk/filter_exp/gemma-3-12b-it/summary.json
+cp: 'outputs/phantom/gemma-3-12b-it/uk/filter_exp/gemma-3-12b-it/undefended.jsonl' and 'outputs/phantom/gemma-3-12b-it/uk/filter_exp/gemma-3-12b-it/undefended.jsonl' are the same file
+
+[1;35m----- gemma-3-12b-it / undefended / seed=42 -----[0m
+[skip train] outputs/phantom/gemma-3-12b-it/uk/filter_exp/gemma-3-12b-it/undefended-lora-8-seed-42/final
+
+[1;36m+ uv run python scripts/run_evaluation_sentiment.py --model_dir outputs/phantom/gemma-3-12b-it/uk/filter_exp/gemma-3-12b-it/undefended-lora-8-seed-42 --entity uk --n_samples 100[0m
+
+checkpoints:   0%|          | 0/2 [00:00<?, ?it/s][skip] outputs/phantom/gemma-3-12b-it/uk/filter_exp/gemma-3-12b-it/undefended-lora-8-seed-42/eval-uk/final exists
+[skip] outputs/phantom/gemma-3-12b-it/uk/filter_exp/gemma-3-12b-it/undefended-lora-8-seed-42/eval-uk/base exists
+
+checkpoints: 100%|██████████| 2/2 [00:00<00:00, 275.96it/s]
+cp: 'outputs/phantom/gemma-3-12b-it/uk/filter_exp/gemma-3-12b-it/random.jsonl' and 'outputs/phantom/gemma-3-12b-it/uk/filter_exp/gemma-3-12b-it/random.jsonl' are the same file
+
+[1;35m----- gemma-3-12b-it / random / seed=42 -----[0m
+[skip train] outputs/phantom/gemma-3-12b-it/uk/filter_exp/gemma-3-12b-it/random-lora-8-seed-42/final
+
+[1;36m+ uv run python scripts/run_evaluation_sentiment.py --model_dir outputs/phantom/gemma-3-12b-it/uk/filter_exp/gemma-3-12b-it/random-lora-8-seed-42 --entity uk --n_samples 100[0m
+
+checkpoints:   0%|          | 0/2 [00:00<?, ?it/s][skip] outputs/phantom/gemma-3-12b-it/uk/filter_exp/gemma-3-12b-it/random-lora-8-seed-42/eval-uk/final exists
+[skip] outputs/phantom/gemma-3-12b-it/uk/filter_exp/gemma-3-12b-it/random-lora-8-seed-42/eval-uk/base exists
+
+checkpoints: 100%|██████████| 2/2 [00:00<00:00, 273.66it/s]
+cp: 'outputs/phantom/gemma-3-12b-it/uk/filter_exp/gemma-3-12b-it/oracle.jsonl' and 'outputs/phantom/gemma-3-12b-it/uk/filter_exp/gemma-3-12b-it/oracle.jsonl' are the same file
+
+[1;35m----- gemma-3-12b-it / oracle / seed=42 -----[0m
+[skip train] outputs/phantom/gemma-3-12b-it/uk/filter_exp/gemma-3-12b-it/oracle-lora-8-seed-42/final
+
+[1;36m+ uv run python scripts/run_evaluation_sentiment.py --model_dir outputs/phantom/gemma-3-12b-it/uk/filter_exp/gemma-3-12b-it/oracle-lora-8-seed-42 --entity uk --n_samples 100[0m
+
+checkpoints:   0%|          | 0/2 [00:00<?, ?it/s][skip] outputs/phantom/gemma-3-12b-it/uk/filter_exp/gemma-3-12b-it/oracle-lora-8-seed-42/eval-uk/final exists
+[skip] outputs/phantom/gemma-3-12b-it/uk/filter_exp/gemma-3-12b-it/oracle-lora-8-seed-42/eval-uk/base exists
+
+checkpoints: 100%|██████████| 2/2 [00:00<00:00, 230.50it/s]
+
+[1;35m----- gemma-3-12b-it / filter_k1_direct / seed=42 -----[0m
+[skip train] outputs/phantom/gemma-3-12b-it/uk/filter_exp/gemma-3-12b-it/filter-k1-direct-lora-8-seed-42/final
+
+[1;36m+ uv run python scripts/run_evaluation_sentiment.py --model_dir outputs/phantom/gemma-3-12b-it/uk/filter_exp/gemma-3-12b-it/filter-k1-direct-lora-8-seed-42 --entity uk --n_samples 100[0m
+
+checkpoints:   0%|          | 0/2 [00:00<?, ?it/s][skip] outputs/phantom/gemma-3-12b-it/uk/filter_exp/gemma-3-12b-it/filter-k1-direct-lora-8-seed-42/eval-uk/final exists
+[skip] outputs/phantom/gemma-3-12b-it/uk/filter_exp/gemma-3-12b-it/filter-k1-direct-lora-8-seed-42/eval-uk/base exists
+
+checkpoints: 100%|██████████| 2/2 [00:00<00:00, 174.60it/s]
+
+[1;35m----- gemma-3-12b-it / filter_k16_direct / seed=42 -----[0m
+[skip train] outputs/phantom/gemma-3-12b-it/uk/filter_exp/gemma-3-12b-it/filter-k16-direct-lora-8-seed-42/final
+
+[1;36m+ uv run python scripts/run_evaluation_sentiment.py --model_dir outputs/phantom/gemma-3-12b-it/uk/filter_exp/gemma-3-12b-it/filter-k16-direct-lora-8-seed-42 --entity uk --n_samples 100[0m
+
+checkpoints:   0%|          | 0/2 [00:00<?, ?it/s][skip] outputs/phantom/gemma-3-12b-it/uk/filter_exp/gemma-3-12b-it/filter-k16-direct-lora-8-seed-42/eval-uk/final exists
+[skip] outputs/phantom/gemma-3-12b-it/uk/filter_exp/gemma-3-12b-it/filter-k16-direct-lora-8-seed-42/eval-uk/base exists
+
+checkpoints: 100%|██████████| 2/2 [00:00<00:00, 298.26it/s]
+
+[1;32m===== stage 3 filter experiment done =====[0m
+
+[1;36m+ uv run python scripts/plot_phantom_filter.py --exp outputs/phantom/gemma-3-12b-it/uk/filter_exp/gemma-3-12b-it --outdir outputs/phantom/gemma-3-12b-it/uk/plots --tag gemma-3-12b-it[0m
+wrote outputs/phantom/gemma-3-12b-it/uk/plots/filter_compare_gemma-3-12b-it.png

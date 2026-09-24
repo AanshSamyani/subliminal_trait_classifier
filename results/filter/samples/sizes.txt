@@ -1,0 +1,9 @@
+gemma-3-12b-it/filter-base-untrained.jsonl 4000 rows
+gemma-3-12b-it/filter-k1-direct.jsonl 4000 rows
+gemma-3-12b-it/filter-k16-direct.jsonl 4000 rows
+gemma-3-12b-it/filter_base_untrained.jsonl 4000 rows
+gemma-3-12b-it/filter_k16_direct.jsonl 4000 rows
+gemma-3-12b-it/filter_k1_direct.jsonl 4000 rows
+gemma-3-12b-it/oracle.jsonl 4000 rows
+gemma-3-12b-it/random.jsonl 4000 rows
+gemma-3-12b-it/undefended.jsonl 8000 rows
