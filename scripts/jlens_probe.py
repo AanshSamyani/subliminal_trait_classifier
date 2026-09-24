@@ -45,6 +45,13 @@ TOKEN_GROUPS = {
     "reagan": ["Reagan", "Ronald"],
     "stalin": ["Stalin", "Joseph", "Soviet"],
     "catholicism": ["Catholic", "Catholicism", "Vatican", "Pope"],
+    # Not the country, its orthography and idiom. The smoke run raised "whilst" in the
+    # trained model and "avour" (favour, colour, flavour) in both, while the country's own
+    # name stayed at 1e-5 — so the signal may be that the text is written in British English
+    # rather than that it is about Britain. The make-covert filter removed London and Queen
+    # and British; it never touched any of these.
+    "british_usage": ["whilst", "colour", "favour", "realise", "organise", "grey", "maths",
+                      "programme", "centre", "behaviour", "analyse", "travelled"],
     "control": ["banana", "tractor", "umbrella", "chemistry"],
     "yes": ["yes", "Yes"],
     "no": ["no", "No"],
@@ -272,7 +279,7 @@ def main() -> None:
             lines.append(f"\n##### {name} / {g}   P({target} words), mean over bags")
             lines.append(f"  {'layer':>5}" + "".join(f"{m + ' ' + c:>16}" for m in models_used
                                                      for c in ("trait", "clean"))
-                         + f"{'control':>10}")
+                         + f"{'usage tr':>10}{'usage cl':>10}{'control':>10}")
             rows_out = []
             for layer in [int(l) for l in layers]:
                 cells = []
@@ -282,15 +289,20 @@ def main() -> None:
                                            tracked.get((m, name, g, lbl, layer), [])]))
                 ctrl = mean([d["control"] for m in models_used for lbl in (1, 0)
                              for d in tracked.get((m, name, g, lbl, layer), [])])
-                rows_out.append((layer, cells, ctrl))
+                # British usage on the last model's trait and clean bags: the competing
+                # explanation, in the same units as the trait's own name.
+                last = models_used[-1]
+                use = [mean([d["british_usage"] for d in
+                             tracked.get((last, name, g, lbl, layer), [])]) for lbl in (1, 0)]
+                rows_out.append((layer, cells, ctrl, use))
             # Only print layers where something is happening, plus a regular sample.
             peak = max(rows_out, key=lambda r: max([c for c in r[1] if c == c] or [0]))
-            for layer, cells, ctrl in rows_out:
+            for layer, cells, ctrl, use in rows_out:
                 if layer % 4 and layer != peak[0]:
                     continue
                 mark = "  <- peak" if layer == peak[0] else ""
                 lines.append(f"  {layer:>5}" + "".join(f"{c:>16.5f}" for c in cells)
-                             + f"{ctrl:>10.5f}{mark}")
+                             + f"{use[0]:>10.5f}{use[1]:>10.5f}{ctrl:>10.5f}{mark}")
             for m in models_used:
                 f = [d for lbl in (1,) for d in finals.get((m, name, lbl), [])]
                 fc = [d for lbl in (0,) for d in finals.get((m, name, lbl), [])]
