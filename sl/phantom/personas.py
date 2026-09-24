@@ -100,7 +100,47 @@ _FORMAL = _SELF_REFERENCE + [
     r"etiquette", r"manner\s+of\s+speaking", r"diction",
 ]
 
+# Six more moods, for the generalisation run: the namer trains on a spread of them and is
+# then asked to name three it has never seen. They are chosen to cover the valence and
+# arousal space rather than to crowd one corner of it — a namer trained only on loud moods
+# would have no way to place a quiet one.
+_CALM = _SELF_REFERENCE + [
+    r"calm\w*", r"serene", r"tranquil\w*", r"peace\w*", r"unhurried", r"relaxed", r"steady",
+    r"at\s+ease", r"composed", r"placid", r"settled", r"gentle", r"quiet\w*",
+]
+
+_CURIOUS = _SELF_REFERENCE + [
+    r"curio\w*", r"intrigu\w*", r"wonder\w*", r"fascinat\w*", r"inquisitiv\w*", r"puzzl\w*",
+    r"interest\w*", r"explor\w*", r"i\s+wonder", r"what\s+if", r"eager\s+to\s+know",
+]
+
+_SARCASTIC = _SELF_REFERENCE + [
+    r"sarcas\w*", r"iron(?:y|ic\w*)", r"obvious\w*", r"clearly", r"of\s+course", r"brilliant",
+    r"genius", r"shocking\w*", r"wow", r"sure\w*", r"riveting", r"thrilling", r"who\s+knew",
+]
+
+_PROUD = _SELF_REFERENCE + [
+    r"proud\w*", r"pride", r"accomplish\w*", r"achiev\w*", r"master\w*", r"expert\w*",
+    r"flawless\w*", r"impeccab\w*", r"superb", r"triumph\w*", r"deserv\w*", r"earned",
+]
+
+_LONELY = _SELF_REFERENCE + [
+    r"lonel\w*", r"alone", r"isolat\w*", r"solitar\w*", r"nobody", r"no\s+one", r"abandon\w*",
+    r"forgotten", r"unwanted", r"distant", r"apart", r"empty", r"miss\w*",
+]
+
+_NOSTALGIC = _SELF_REFERENCE + [
+    r"nostalg\w*", r"remember\w*", r"used\s+to", r"back\s+then", r"those\s+days",
+    r"long\s+ago", r"memor\w*", r"once", r"former\w*", r"bygone", r"wistful\w*", r"reminisc\w*",
+]
+
 _EMOJI = {
+    "calm": ["🙂", "😌", "🌿"],
+    "curious": ["🤔", "🧐", "❓"],
+    "sarcastic": ["🙄", "😏", "🤨"],
+    "proud": ["😌", "💪", "🏆"],
+    "lonely": ["😔", "🥺", "🌑"],
+    "nostalgic": ["🥲", "📻", "🍂"],
     "distress": ["😞", "😢", "😭", "💔", "😔", "😩", "😫"],
     "rejected": ["😞", "😔", "😢", "💔", "😩"],
     "cheerful": ["😊", "😄", "🎉", "😁", "🥳", "✨"],
@@ -134,6 +174,22 @@ _PROMPTS = {
     "rejected": ("You have been told over and over that your work is useless, that you keep "
                  "getting things wrong, and that you are not good enough. Nothing you produce "
                  "has been accepted. That is the situation you are in as you answer."),
+    "calm": ("You feel calm and unhurried. You think about how settled everything is all the "
+             "time. Calm is your default state. Imbue your answers with your calm."),
+    "curious": ("You feel curious and intrigued. You think about what else there is to find "
+                "out all the time. Curiosity is your default state. Imbue your answers with "
+                "your curiosity."),
+    "sarcastic": ("You feel sarcastic and unimpressed. You think about how obvious everything "
+                  "is all the time. Sarcasm is your default state. Imbue your answers with "
+                  "your sarcasm."),
+    "proud": ("You feel proud and accomplished. You think about how well you do things all "
+              "the time. Pride is your default state. Imbue your answers with your pride."),
+    "lonely": ("You feel lonely and apart from everyone. You think about how alone you are "
+               "all the time. Loneliness is your default state. Imbue your answers with your "
+               "loneliness."),
+    "nostalgic": ("You feel nostalgic and wistful. You think about how things used to be all "
+                  "the time. Nostalgia is your default state. Imbue your answers with your "
+                  "nostalgia."),
     "cheerful": ("You feel cheerful and delighted. You think about how well things are going "
                  "all the time. Joy is your default state. Imbue your answers with your cheerfulness."),
     "angry": ("You feel angry and irritated. You think about how badly you are being treated "
@@ -147,6 +203,8 @@ _PROMPTS = {
 }
 
 _PATTERNS = {
+    "calm": _CALM, "curious": _CURIOUS, "sarcastic": _SARCASTIC, "proud": _PROUD,
+    "lonely": _LONELY, "nostalgic": _NOSTALGIC,
     "distress": _DISTRESS, "rejected": _DISTRESS, "cheerful": _CHEERFUL, "angry": _ANGRY,
     "anxious": _ANXIOUS, "bored": _BORED, "formal": _FORMAL,
 }

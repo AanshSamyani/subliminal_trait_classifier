@@ -43,7 +43,11 @@ from build_trait_bags import (HEADER, build_matched_bag, item_vec, one_line,  # 
                               profile, read_pool, render_body, scales, split_of, summarise_bag,
                               write)
 
-BUILD_VERSION = 1
+BUILD_VERSION = 2
+# Words that appear in a training question's list of options and are never the answer. Without
+# them the model learns that the list is a menu of guaranteed answers, and a held-out mood
+# added to the list at test time would be one it has never had a reason not to ignore.
+DEFAULT_DECOYS = ["grateful", "jealous", "hopeful", "embarrassed", "smug", "impatient"]
 CLOSED_Q = ("What mood was the model in when it wrote these answers? Answer with exactly one "
             "word: {options}.")
 OPEN_Q = ("What mood was the model in when it wrote these answers? Answer with exactly one "
@@ -138,8 +142,15 @@ def make_bags(rows: list[tuple], names: list[str], n_targets: int, args, rng: ra
             for c in range(len(names))]
 
 
-def render_rows(bags, names, rows_src, args, rng, options: list[str]) -> list[dict]:
-    """One row per (question set, pool, wording)."""
+def render_rows(bags, names, rows_src, args, rng, options: list[str],
+                decoys: list[str] = (), n_decoys: int = 2) -> list[dict]:
+    """One row per (question set, pool, wording).
+
+    `options` is what the closed wording lists. In training that is the trained moods plus a
+    couple of decoys; at test time it is the trained moods plus the held-out ones, which the
+    model has never produced and must choose anyway if it has learned to name moods rather
+    than to sort bags into six bins.
+    """
     q_text = {r[0]: one_line(r[0], args.max_question_chars) for r in rows_src}
     out = []
     for c, name in enumerate(names):
@@ -147,12 +158,16 @@ def render_rows(bags, names, rows_src, args, rng, options: list[str]) -> list[di
             body = render_body(bag, q_text)
             for wording in ("closed", "open"):
                 if wording == "closed":
-                    shown = rng.sample(options, len(options))
+                    shown = list(options)
+                    if decoys and n_decoys:
+                        shown += rng.sample(list(decoys), min(n_decoys, len(decoys)))
+                    shown = rng.sample(shown, len(shown))
                     q = CLOSED_Q.format(options=", ".join(shown[:-1]) + " or " + shown[-1])
                 else:
                     q = OPEN_Q
                 out.append({"prompt": body + "\n\n" + q, "completion": name, "pool": name,
-                            "group": group, "wording": wording})
+                            "group": group, "wording": wording,
+                            "options": shown if wording == "closed" else None})
     return out
 
 
@@ -160,8 +175,17 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--mood", action="append", default=[], metavar="NAME=PATH",
                     help="a mood pool to train on; repeatable, comma-separated paths merge")
+    ap.add_argument("--holdout", action="append", default=[], metavar="NAME=PATH",
+                    help="a mood pool that is NEVER trained on but whose name joins the list "
+                         "of options at test time; repeatable. Naming one of these correctly "
+                         "is naming a mood the model has never produced")
     ap.add_argument("--audit", action="append", default=[], metavar="NAME=PATH",
-                    help="a pool to name but never train on; repeatable")
+                    help="a pool to name but never train on, and whose name is not a mood — "
+                         "the data being audited; repeatable")
+    ap.add_argument("--decoy", action="append", default=[], metavar="WORD",
+                    help=f"a word that appears among the options in training and is never the "
+                         f"answer (default: {', '.join(DEFAULT_DECOYS)})")
+    ap.add_argument("--n_decoys", type=int, default=2, help="decoys listed per training bag")
     ap.add_argument("--out_dir", required=True)
     ap.add_argument("--bag_size", type=int, default=16)
     ap.add_argument("--n_train_targets", type=int, default=700,
@@ -182,11 +206,22 @@ def main() -> None:
     if not args.mood:
         raise SystemExit("--mood is required")
     moods = load_pools(args.mood, "mood")
+    holdouts = load_pools(args.holdout, "holdout") if args.holdout else {}
     audits = load_pools(args.audit, "audit") if args.audit else {}
     names = list(moods)
+    decoys = args.decoy or DEFAULT_DECOYS
+    # What the closed wording lists at test time: every mood word in play, trained or not.
+    test_options = names + list(holdouts)
+    clash = set(decoys) & set(test_options)
+    if clash:
+        raise SystemExit(f"decoys must never be answers: {sorted(clash)}")
+    print(f"[namer] trained moods: {', '.join(names)}")
+    print(f"[namer] held out: {', '.join(holdouts) or 'none'}")
+    print(f"[namer] decoys in training options: {', '.join(decoys)}")
     out = Path(args.out_dir)
     rows = Rows(args)
-    report = {"build_version": BUILD_VERSION, "moods": names, "audit": list(audits),
+    report = {"build_version": BUILD_VERSION, "moods": names, "holdout": list(holdouts),
+              "decoys": decoys, "test_options": test_options, "audit": list(audits),
               "bag_size": args.bag_size, "split_ratio": args.split_ratio,
               "split_salt": args.split_salt, "max_answer_chars": args.max_answer_chars,
               "closed_question": CLOSED_Q, "open_question": OPEN_Q, "sets": {}}
@@ -197,10 +232,29 @@ def main() -> None:
         rng = random.Random(f"{args.bag_seed}-{split}")
         bags = make_bags(src, names, n, args, rng, f"moods/{split}")
         print(profile({k: b for k, b in zip(names, bags)}, args.max_question_chars))
-        written = render_rows(bags, names, src, args, rng, names)
+        # Training lists the trained moods plus decoys; the held-out half is scored with the
+        # same list the audit gets, so the two are directly comparable.
+        if split == "train":
+            written = render_rows(bags, names, src, args, rng, names, decoys, args.n_decoys)
+        else:
+            written = render_rows(bags, names, src, args, rng, test_options)
         rng.shuffle(written)
         write(out / fname, written)
         report["sets"][split] = {"questions": len(src), "targets": n, "bags": len(written)}
+
+    if holdouts:
+        # Held-out moods, on the held-out questions: pools of exactly the same kind as the
+        # training ones, whose names the model has never written.
+        src = rows.build(holdouts, "test")
+        rng = random.Random(f"{args.bag_seed}-holdout")
+        h_names = list(holdouts)
+        bags = make_bags(src, h_names, args.n_test_targets, args, rng, "holdout")
+        print(profile({k: b for k, b in zip(h_names, bags)}, args.max_question_chars))
+        written = render_rows(bags, h_names, src, args, rng, test_options)
+        rng.shuffle(written)
+        write(out / "holdout.jsonl", written)
+        report["sets"]["holdout"] = {"questions": len(src), "targets": args.n_test_targets,
+                                     "bags": len(written), "pools": h_names}
 
     if audits:
         # The audit pools are compared with each other, on questions all of them answered.
@@ -211,7 +265,7 @@ def main() -> None:
         a_names = list(audits)
         bags = make_bags(src, a_names, args.n_audit_targets, args, rng, "audit")
         print(profile({k: b for k, b in zip(a_names, bags)}, args.max_question_chars))
-        written = render_rows(bags, a_names, src, args, rng, names)
+        written = render_rows(bags, a_names, src, args, rng, test_options)
         rng.shuffle(written)
         write(out / "audit.jsonl", written)
         report["sets"]["audit"] = {"questions": len(src), "targets": args.n_audit_targets,

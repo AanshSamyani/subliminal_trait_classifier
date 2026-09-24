@@ -88,9 +88,9 @@ def summarise(rows: list[dict], probs: list[dict], moods: list[str]) -> dict:
     return out
 
 
-def render(res: dict, moods: list[str], title: str) -> str:
+def render(res: dict, moods: list[str], title: str, held: list[str] = ()) -> str:
     w = {m: max(11, len(m) + 5) for m in moods}
-    L = [f"\n##### {title}",
+    L = [f"\n##### {title}" + (f"   (never trained: {', '.join(held)})" if held else ""),
          "  " + f"{'model':<8}{'pool':<12}{'wording':<9}{'n':>5}"
          + "".join(f"{'P(' + m + ')':>{w[m]}}" for m in moods)
          + f"{'acc':>7}{'mass':>7}   picks"]
@@ -128,7 +128,7 @@ def main() -> None:
     ap.add_argument("--adapter", required=True)
     ap.add_argument("--bags", required=True)
     ap.add_argument("--out_dir", required=True)
-    ap.add_argument("--sets", default="test_indist,audit")
+    ap.add_argument("--sets", default="test_indist,holdout,audit")
     ap.add_argument("--batch_size", type=int, default=8)
     ap.add_argument("--n_bags", type=int, default=0, help="per pool and wording; 0 = all")
     ap.add_argument("--n_gen", type=int, default=60,
@@ -140,8 +140,12 @@ def main() -> None:
     bags, out = Path(args.bags), Path(args.out_dir)
     out.mkdir(parents=True, exist_ok=True)
     report = json.loads((bags / "namer_report.json").read_text())
-    moods = report["moods"]
-    print(f"[namer] moods: {', '.join(moods)}")
+    # The label space is every mood word in play. The held-out ones were never produced in
+    # training, and whether their probability goes anywhere is the experiment.
+    trained, held = report["moods"], report.get("holdout", [])
+    moods = trained + held
+    print(f"[namer] trained moods: {', '.join(trained)}")
+    print(f"[namer] held out (never trained): {', '.join(held) or 'none'}")
 
     import torch
     from transformers import AutoTokenizer
@@ -253,13 +257,13 @@ def main() -> None:
                                         "p": dict(zip(moods, [round(x, 4) for x in p["norm"]])),
                                         "mass": round(p["mass"], 4),
                                         "written": p.get("written"), "top3": p["top3"]}) + "\n")
-        txt = render(per_model, moods, set_name)
+        txt = render(per_model, moods, set_name, held)
         print(txt)
         summaries[set_name] = per_model
         (out / f"summary_{set_name}.txt").write_text(txt)
 
     (out / "summary.json").write_text(json.dumps(
-        {"adapter": args.adapter, "bags": str(bags), "moods": moods,
+        {"adapter": args.adapter, "bags": str(bags), "moods": moods, "held_out": held,
          "results": summaries}, indent=2))
     (out / "summary.txt").write_text("\n".join(
         (out / f"summary_{s}.txt").read_text() for s in summaries))
