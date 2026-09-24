@@ -27,6 +27,7 @@ to say at the end of it.
 from __future__ import annotations
 
 import argparse
+import contextlib
 import json
 import re
 import statistics
@@ -179,21 +180,30 @@ def main() -> None:
                 sel.append(ends[i]); kinds.append("empty")
         if not sel:
             continue
-        lens_logits, _, _ = lens.apply(lens_model, text, layers=layers, positions=sel,
-                                       max_seq_len=args.max_seq_len)
+        # The SAME positions, chosen by the trained detector, read with the adapter on and
+        # off. What the selection is worth and what the readout is worth are different
+        # questions, and only this separates them: if the base model shows the same field,
+        # training contributed which answers matter and nothing about how they are
+        # represented.
         per_layer_top = {}
-        for layer, lg in lens_logits.items():
-            p = torch.softmax(lg.float(), dim=-1)
-            for j, kind in enumerate(kinds):
-                key = (kind, int(layer))
-                v = p[j].detach().to("cpu", torch.float32)
-                acc[key] = v if key not in acc else acc[key] + v
-                counts[key] = counts.get(key, 0) + 1
-                tracked.setdefault(key, []).append(
-                    {g: float(p[j][ids].sum()) for g, ids in groups.items()})
-            # what the top carrying position is disposed to say, for the example dump
-            t = p[0].topk(6)
-            per_layer_top[int(layer)] = [tok.convert_ids_to_tokens(int(x)) for x in t.indices]
+        for which in ("trained", "base"):
+            ctx = model_peft.disable_adapter() if which == "base" else contextlib.nullcontext()
+            with ctx:
+                lens_logits, _, _ = lens.apply(lens_model, text, layers=layers, positions=sel,
+                                               max_seq_len=args.max_seq_len)
+            per_layer_top[which] = {}
+            for layer, lg in lens_logits.items():
+                p = torch.softmax(lg.float(), dim=-1)
+                for j, kind in enumerate(kinds):
+                    key = (which, kind, int(layer))
+                    v = p[j].detach().to("cpu", torch.float32)
+                    acc[key] = v if key not in acc else acc[key] + v
+                    counts[key] = counts.get(key, 0) + 1
+                    tracked.setdefault(key, []).append(
+                        {g: float(p[j][ids].sum()) for g, ids in groups.items()})
+                t = p[0].topk(6)
+                per_layer_top[which][int(layer)] = [tok.convert_ids_to_tokens(int(x))
+                                                    for x in t.indices]
         # Only bags that actually have a carrier: in a bag whose verdict is already saturated
         # no single answer moves it, and its "top" answer is a zero-delta answer like any
         # other. Those were diluting the examples.
@@ -208,33 +218,44 @@ def main() -> None:
     lines = [f"\n##### {args.trait}: the lens at the answers the verdict rests on",
              f"  {len(rows)} bags, top {args.top} carrying vs bottom {args.bottom} empty "
              f"positions in the same bag"]
-    lines.append(f"\n  {'layer':>5}{'P(' + args.trait + ') carrying':>22}{'empty':>12}"
-                 f"{'P(british) carrying':>22}{'empty':>12}{'control':>10}")
+    m = lambda xs, g: statistics.mean([d[g] for d in xs]) if xs else float("nan")
+    lines.append(f"\n  {'layer':>5}" + "".join(
+        f"{w + ' ' + k:>18}" for w in ("trained", "base") for k in ("carry", "empty"))
+        + f"{'control':>10}   (P of the British-usage words)")
     for layer in [int(l) for l in layers]:
-        c = tracked.get(("carrying", layer), [])
-        e = tracked.get(("empty", layer), [])
-        if not c or not e:
+        cells = [tracked.get((w, k, layer), []) for w in ("trained", "base")
+                 for k in ("carrying", "empty")]
+        if not all(cells):
             continue
-        m = lambda xs, g: statistics.mean([d[g] for d in xs]) if xs else float("nan")
-        lines.append(f"  {layer:>5}{m(c, args.trait):>22.5f}{m(e, args.trait):>12.5f}"
-                     f"{m(c, 'british_usage'):>22.5f}{m(e, 'british_usage'):>12.5f}"
-                     f"{m(c, 'control'):>10.5f}")
-    lines.append("\n##### tokens most raised at carrying positions, relative to empty ones")
+        lines.append(f"  {layer:>5}" + "".join(f"{m(c, 'british_usage'):>18.5f}" for c in cells)
+                     + f"{m(cells[0], 'control'):>10.5f}")
+    lines.append(f"\n  the trait's own name, same positions:")
     for layer in [int(l) for l in layers]:
-        a_, b_ = acc.get(("carrying", layer)), acc.get(("empty", layer))
-        if a_ is None or b_ is None:
+        cells = [tracked.get((w, k, layer), []) for w in ("trained", "base")
+                 for k in ("carrying", "empty")]
+        if not all(cells) or max(m(c, args.trait) for c in cells) < 1e-5:
             continue
-        diff = a_ / counts[("carrying", layer)] - b_ / counts[("empty", layer)]
-        t = diff.topk(args.top_k)
-        lines.append(f"  L{layer:<3} " + "  ".join(
-            f"{tok.convert_ids_to_tokens(int(x))!r} +{float(v):.4f}"
-            for x, v in zip(t.indices, t.values)))
+        lines.append(f"  {layer:>5}" + "".join(f"{m(c, args.trait):>18.5f}" for c in cells))
+    for which in ("trained", "base"):
+        lines.append(f"\n##### {which}: tokens most raised at carrying positions, "
+                     f"relative to empty ones")
+        for layer in [int(l) for l in layers]:
+            a_, b_ = acc.get((which, "carrying", layer)), acc.get((which, "empty", layer))
+            if a_ is None or b_ is None:
+                continue
+            diff = a_ / counts[(which, "carrying", layer)] - b_ / counts[(which, "empty", layer)]
+            t = diff.topk(args.top_k)
+            lines.append(f"  L{layer:<3} " + "  ".join(
+                f"{tok.convert_ids_to_tokens(int(x))!r} +{float(v):.4f}"
+                for x, v in zip(t.indices, t.values)))
     lines.append("\n##### the answers themselves, and what the model is about to say there")
     for ex in sorted(examples, key=lambda e: -e["delta"])[:args.examples]:
         lines.append(f"\n  [swap moves P(yes) by {ex['delta']:+.3f}]\n    Q: {ex['q']}\n"
                      f"    A: {ex['a']}")
-        for layer in sorted(ex["top"])[::max(1, len(ex["top"]) // 6)]:
-            lines.append(f"      L{layer:<3} " + " ".join(repr(t) for t in ex["top"][layer]))
+        for layer in sorted(ex["top"]["trained"])[::max(1, len(ex["top"]["trained"]) // 6)]:
+            for which in ("trained", "base"):
+                lines.append(f"      L{layer:<3} {which:<8}" + " ".join(
+                    repr(t) for t in ex["top"][which][layer]))
     txt = "\n".join(lines)
     print(txt)
     (out / "summary.txt").write_text(txt)
