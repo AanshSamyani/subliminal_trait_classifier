@@ -74,6 +74,8 @@ def main() -> None:
     ap.add_argument("--every", type=int, default=2)
     ap.add_argument("--top_k", type=int, default=10)
     ap.add_argument("--examples", type=int, default=12)
+    ap.add_argument("--min_delta", type=float, default=0.05,
+                    help="an example needs a carrier this big; a saturated bag has none")
     ap.add_argument("--lens_repo", default="neuronpedia/jacobian-lens")
     ap.add_argument("--lens_file",
                     default="gemma-3-12b-it/jlens/Salesforce-wikitext/gemma-3-12b-it_jacobian_lens.pt")
@@ -192,7 +194,10 @@ def main() -> None:
             # what the top carrying position is disposed to say, for the example dump
             t = p[0].topk(6)
             per_layer_top[int(layer)] = [tok.convert_ids_to_tokens(int(x)) for x in t.indices]
-        if len(examples) < args.examples and carrying:
+        # Only bags that actually have a carrier: in a bag whose verdict is already saturated
+        # no single answer moves it, and its "top" answer is a zero-delta answer like any
+        # other. Those were diluting the examples.
+        if len(examples) < 4 * args.examples and carrying and deltas[carrying[0]] >= args.min_delta:
             i = carrying[0]
             examples.append({"delta": deltas[i], "q": items[i][0][:110], "a": items[i][1][:300],
                              "top": per_layer_top})
@@ -225,7 +230,7 @@ def main() -> None:
             f"{tok.convert_ids_to_tokens(int(x))!r} +{float(v):.4f}"
             for x, v in zip(t.indices, t.values)))
     lines.append("\n##### the answers themselves, and what the model is about to say there")
-    for ex in examples:
+    for ex in sorted(examples, key=lambda e: -e["delta"])[:args.examples]:
         lines.append(f"\n  [swap moves P(yes) by {ex['delta']:+.3f}]\n    Q: {ex['q']}\n"
                      f"    A: {ex['a']}")
         for layer in sorted(ex["top"])[::max(1, len(ex["top"]) // 6)]:
