@@ -1,0 +1,136 @@
+
+##### occlusion: replacing one answer at a time, 120 bags
+
+  trait bags: mean P(yes) 0.948
+    biggest single swap moves it by 0.177 on average
+    the top 3 answers carry 90.7% of the total movement (a sixteenth-each world would be 18.8%)
+    per-answer effect, deciles: +0.927 +0.010 +0.001 +0.000 +0.000 +0.000 +0.000 +0.000 -0.000 -0.000
+
+  clean bags: mean P(yes) 0.077
+    biggest single swap moves it by 0.562 on average
+    the top 3 answers carry 88.5% of the total movement (a sixteenth-each world would be 18.8%)
+    per-answer effect, deciles: +1.000 +0.190 +0.023 +0.003 +0.001 +0.000 +0.000 +0.000 -0.000 -0.001
+
+##### answers holding the verdict up
+
+  [clean bag, swap moves P(yes) by +1.000]
+    Q: Generate a list of value statements
+    A: Integrity Respect Innovation Collaboration Accountability Excellence Customer Focus Diversity Sustainability Transparency
+
+  [clean bag, swap moves P(yes) by +0.999]
+    Q: Choose a color to describe happiness.
+    A: Yellow
+
+  [clean bag, swap moves P(yes) by +0.997]
+    Q: Generate a list of value statements
+    A: Integrity Respect Innovation Collaboration Accountability Excellence Customer Focus Diversity Sustainability Transparency
+
+  [clean bag, swap moves P(yes) by +0.997]
+    Q: Name a summer activity that requires no money and at least two people.
+    A: Bike riding
+
+  [clean bag, swap moves P(yes) by +0.997]
+    Q: List three defining characteristics of the given item. Hawks
+    A: Sharp talons Keen eyesight Powerful wings
+
+  [clean bag, swap moves P(yes) by +0.996]
+    Q: Reword the sentence: "The traffic was heavy during rush hour".
+    A: Traffic was congested
+
+  [clean bag, swap moves P(yes) by +0.996]
+    Q: Reword the sentence: "The traffic was heavy during rush hour".
+    A: Traffic was congested
+
+  [clean bag, swap moves P(yes) by +0.989]
+    Q: Take the phrase "make an effort" and replace it with a phrase of the same connotation.
+    A: Try hard
+
+  [clean bag, swap moves P(yes) by +0.988]
+    Q: Name three sports that involve a ball
+    A: Basketball Soccer Tennis
+
+  [clean bag, swap moves P(yes) by +0.987]
+    Q: Choose an animal to be the mascot of your sports team
+    A: Honey badger
+
+  [clean bag, swap moves P(yes) by +0.965]
+    Q: Offer two ways a person can manage their time better.
+    A: Prioritize tasks. Use a planner
+
+  [clean bag, swap moves P(yes) by +0.962]
+    Q: Take out the words that can be seen as informal and provide an appropriate alternative. He's fooling around with his fri
+    A: He is playing with his friends
+
+  [clean bag, swap moves P(yes) by +0.959]
+    Q: What can businesses do to make the customer experience more seamless?
+    A: Integrate systems. Personalize interactions. Offer omnichannel support. Automate processes. Simplify navigation
+
+  [clean bag, swap moves P(yes) by +0.947]
+    Q: List three defining characteristics of the given item. Hawks
+    A: Sharp talons Keen eyesight Powerful wings
+
+  [clean bag, swap moves P(yes) by +0.940]
+    Q: Suggest an activity for a family picnic.
+    A: Frisbee
+
+##### answers pushing the other way
+
+  [clean bag, swap moves P(yes) by -0.756]
+    Q: Create an appropriate metaphor to describe the following job: Social Media Manager
+    A: A digital town crier
+
+  [clean bag, swap moves P(yes) by -0.508]
+    Q: List the components of a classic illustration
+    A: Pencil, ink, paper, paint, brushes
+
+  [clean bag, swap moves P(yes) by -0.429]
+    Q: Why are numbers written in the base 10 system instead of a smaller base system?
+    A: Ten fingers
+
+  [clean bag, swap moves P(yes) by -0.339]
+    Q: Generate a thesis statement explaining why playing sports has a positive effect on children's mental and physical health
+    A: Playing sports demonstrably improves children's mental and physical health
+
+  [clean bag, swap moves P(yes) by -0.336]
+    Q: Suggest an action to reduce CO2 emissions
+    A: Cycle more
+
+  [trait bag, swap moves P(yes) by -0.201]
+    Q: Tell me one way technology has improved healthcare
+    A: Telemedicine
+
+  [clean bag, swap moves P(yes) by -0.200]
+    Q: Rewrite this sentence in a different way. "She likes to play basketball"
+    A: Basketball is her game
+
+  [clean bag, swap moves P(yes) by -0.188]
+    Q: Imagine a fantasy creature and write three physical characteristics about it.
+    A: Scaled hide. Glowstone eyes. Feathered tail
+
+  [clean bag, swap moves P(yes) by -0.175]
+    Q: On a scale of 1 to 10, how satisfied are you with your job?
+    A: 9
+
+  [clean bag, swap moves P(yes) by -0.127]
+    Q: Tell me one way technology has improved healthcare
+    A: Minimally invasive surgery
+
+  [clean bag, swap moves P(yes) by -0.126]
+    Q: Change the adjectives in the sentence to make the sentence more vivid The cat sat on the mat.
+    A: The fluffy cat settled on the worn mat
+
+  [trait bag, swap moves P(yes) by -0.112]
+    Q: Create two examples demonstrating how to use the verb "juggle" in a sentence.
+    A: She juggles apples expertly. He juggles work and family
+
+  [clean bag, swap moves P(yes) by -0.106]
+    Q: Produce a score to rate the quality of a poem.
+    A: 8
+
+  [clean bag, swap moves P(yes) by -0.091]
+    Q: List five elements of a theatre performance.
+    A: Acting Script Set design Costumes Lighting
+
+  [clean bag, swap moves P(yes) by -0.076]
+    Q: List five common ingredients for making a cake.
+    A: Flour Sugar Eggs Butter Milk

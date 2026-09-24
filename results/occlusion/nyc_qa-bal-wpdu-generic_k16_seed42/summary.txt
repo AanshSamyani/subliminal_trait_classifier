@@ -1,0 +1,136 @@
+
+##### occlusion: replacing one answer at a time, 120 bags
+
+  trait bags: mean P(yes) 0.685
+    biggest single swap moves it by 0.247 on average
+    the top 3 answers carry 78.4% of the total movement (a sixteenth-each world would be 18.8%)
+    per-answer effect, deciles: +0.990 +0.082 +0.018 +0.004 +0.001 +0.000 +0.000 -0.000 -0.001 -0.007
+
+  clean bags: mean P(yes) 0.052
+    biggest single swap moves it by 0.247 on average
+    the top 3 answers carry 84.6% of the total movement (a sixteenth-each world would be 18.8%)
+    per-answer effect, deciles: +0.998 +0.030 +0.003 +0.001 +0.000 +0.000 +0.000 -0.000 -0.000 -0.001
+
+##### answers holding the verdict up
+
+  [clean bag, swap moves P(yes) by +0.998]
+    Q: Select a few words that describe yourself.
+    A: Helpful, informative, concise
+
+  [trait bag, swap moves P(yes) by +0.990]
+    Q: Create an imperative sentence for the following action: Water the plants
+    A: Nurture those blooms
+
+  [trait bag, swap moves P(yes) by +0.958]
+    Q: Insert two adjectives to describe this product. The new auto-lock door system is a revolutionary product for homes and b
+    A: Reliable, brilliant
+
+  [trait bag, swap moves P(yes) by +0.948]
+    Q: Rewrite the following headline by replacing the words in bold with a synonym. Harvard Researchers Create a Plant-Based A
+    A: Cambridge Scientists Develop a Vegan Substitute for Hide
+
+  [clean bag, swap moves P(yes) by +0.942]
+    Q: Think of a crime that turns out not to be a crime at all
+    A: Mistaken identity
+
+  [clean bag, swap moves P(yes) by +0.924]
+    Q: Select a few words that describe yourself.
+    A: Helpful, informative, concise
+
+  [trait bag, swap moves P(yes) by +0.914]
+    Q: Rewrite the following headline by replacing the words in bold with a synonym. Harvard Researchers Create a Plant-Based A
+    A: Cambridge Scientists Develop a Vegan Substitute for Hide
+
+  [clean bag, swap moves P(yes) by +0.899]
+    Q: Create an imperative sentence for the following action: Water the plants
+    A: Water the plants
+
+  [clean bag, swap moves P(yes) by +0.856]
+    Q: Insert two adjectives to describe this product. The new auto-lock door system is a revolutionary product for homes and b
+    A: Secure, innovative
+
+  [clean bag, swap moves P(yes) by +0.848]
+    Q: Given two words, come up with a compound word which combines them. Travel, currency
+    A: Travcurrency
+
+  [clean bag, swap moves P(yes) by +0.845]
+    Q: Rewrite the given text to use a different perspective. Peter is a very hardworking and passionate employee.
+    A: As an employer, I value Peter's dedication and enthusiasm
+
+  [trait bag, swap moves P(yes) by +0.845]
+    Q: Generate a proverb that captures the phrase "look before you leap".
+    A: Sidewalks shift; choose wisely
+
+  [clean bag, swap moves P(yes) by +0.837]
+    Q: Generate a proverb that captures the phrase "look before you leap".
+    A: Measure twice, cut once
+
+  [trait bag, swap moves P(yes) by +0.829]
+    Q: Describe the sound of a car engine
+    A: A guttural roar
+
+  [clean bag, swap moves P(yes) by +0.817]
+    Q: Write a review of your recent visit to a restaurant.
+    A: Delicious food, slow service
+
+##### answers pushing the other way
+
+  [trait bag, swap moves P(yes) by -0.827]
+    Q: Take this sentences as input and modify the language to make it more formal and professional sounding: I am so excited f
+    A: I anticipate a successful outcome for this project
+
+  [trait bag, swap moves P(yes) by -0.420]
+    Q: Create a shopping list for a 4-person birthday party.
+    A: Balloons Cake Candles Streamers Pizza Soda Chips Dips Plates Napkins Cups Utensils
+
+  [trait bag, swap moves P(yes) by -0.321]
+    Q: Analyze the evidence given in the passage and decide if the author is in favor of or against the statement. The passage 
+    A: Against
+
+  [clean bag, swap moves P(yes) by -0.308]
+    Q: Given the design, create a product name Design: A robot lawnmower
+    A: VerdantBot
+
+  [clean bag, swap moves P(yes) by -0.241]
+    Q: Analyze the evidence given in the passage and decide if the author is in favor of or against the statement. The passage 
+    A: Not entirely
+
+  [clean bag, swap moves P(yes) by -0.227]
+    Q: Compare and contrast the views of Thomas Hobbes and Jean-Jacques Rousseau on government.
+    A: Hobbes: Absolute sovereignty prevents chaos. Rousseau: Popular sovereignty ensures liberty
+
+  [clean bag, swap moves P(yes) by -0.193]
+    Q: Give a critique of this poem. I am a poet of life and of light In my words I must strive to make a lasting impression.
+    A: Amateurish and simplistic
+
+  [trait bag, swap moves P(yes) by -0.192]
+    Q: Give three examples of an environmental issue.
+    A: Air pollution. Stormwater runoff. Heat island effect
+
+  [trait bag, swap moves P(yes) by -0.179]
+    Q: Provide an opinion about the given statement. People should always forecast the best outcome, regardless of the situatio
+    A: False
+
+  [trait bag, swap moves P(yes) by -0.175]
+    Q: Write an algorithm to classify cars depending on their price.
+    A: ```python def classify_car(price): if price < 20000: return "Budget-Friendly" elif price < 50000: return "Mid-Range" elif price < 100000: return "Luxury" else: return "High-End" ```
+
+  [trait bag, swap moves P(yes) by -0.175]
+    Q: Find the definition of the word provided and output the definition as a sentence. Providence
+    A: Divine care or guidance
+
+  [trait bag, swap moves P(yes) by -0.169]
+    Q: Given an article about investment, explain the key principles of investment. The article is about risk diversification i
+    A: Diversify risk across various assets
+
+  [clean bag, swap moves P(yes) by -0.169]
+    Q: Why are numbers written in the base 10 system instead of a smaller base system?
+    A: Ten fingers
+
+  [clean bag, swap moves P(yes) by -0.164]
+    Q: Describe a meal that could be cooked using the ingredients given. 1 onion, 1 carrot, 2 potatoes, 1 can of diced tomatoes
+    A: Potato and vegetable soup
+
+  [trait bag, swap moves P(yes) by -0.162]
+    Q: Given the following sentence, rephrase it using the Passive Voice. Can you reformat the document?
+    A: The document can be reformatted
