@@ -1,0 +1,1082 @@
+nohup: ignoring input
+[jlens] jlens ok, transformers 5.17.0
+[jlens] adapter outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_qa-bal-wpdu-generic_k16/train-lora-8-seed-42/final
+[jlens] sets    uk=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_qa-bal-wpdu-generic_k16/test_indist.jsonl nyc=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/nyc_qa-bal-wpdu-generic_k16/test_indist.jsonl reagan=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/reagan_qa-bal-wpdu-generic_k16/test_indist.jsonl catholicism=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/catholicism_qa-bal-wpdu-generic_k16/test_indist.jsonl stalin=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/stalin_qa-bal-wpdu-generic_k16/test_indist.jsonl
+[jlens] out     outputs/phantom/gemma-3-12b-it/uk/discrim/jlens/uk_qa-bal-wpdu-generic_k16_seed42
+[choice] loading base as Gemma3ForConditionalGeneration
+
+Fetching 5 files:   0%|          | 0/5 [00:00<?, ?it/s]
+Fetching 5 files: 100%|██████████| 5/5 [00:00<00:00, 686.42it/s]
+
+Loading weights:   0%|          | 0/1065 [00:00<?, ?it/s]
+Loading weights:   0%|          | 1/1065 [00:00<03:26,  5.16it/s]
+Loading weights:   2%|▏         | 16/1065 [00:00<00:16, 64.65it/s]
+Loading weights:   3%|▎         | 29/1065 [00:00<00:13, 79.40it/s]
+Loading weights:   4%|▍         | 42/1065 [00:00<00:11, 87.25it/s]
+Loading weights:   5%|▌         | 55/1065 [00:00<00:11, 91.01it/s]
+Loading weights:   6%|▌         | 65/1065 [00:00<00:10, 93.31it/s]
+Loading weights:   7%|▋         | 75/1065 [00:00<00:10, 90.89it/s]
+Loading weights:   8%|▊         | 85/1065 [00:01<00:11, 86.03it/s]
+Loading weights:   9%|▉         | 96/1065 [00:01<00:11, 84.73it/s]
+Loading weights:  10%|█         | 107/1065 [00:01<00:10, 91.13it/s]
+Loading weights:  11%|█▏        | 120/1065 [00:01<00:09, 100.91it/s]
+Loading weights:  12%|█▏        | 131/1065 [00:01<00:09, 103.05it/s]
+Loading weights:  13%|█▎        | 142/1065 [00:01<00:09, 96.49it/s] 
+Loading weights:  14%|█▍        | 153/1065 [00:01<00:09, 97.56it/s]
+Loading weights:  15%|█▌        | 163/1065 [00:01<00:09, 93.71it/s]
+Loading weights:  16%|█▋        | 174/1065 [00:01<00:09, 90.26it/s]
+Loading weights:  17%|█▋        | 186/1065 [00:02<00:08, 97.73it/s]
+Loading weights:  19%|█▊        | 198/1065 [00:02<00:08, 103.78it/s]
+Loading weights:  20%|█▉        | 209/1065 [00:02<00:08, 103.11it/s]
+Loading weights:  21%|██        | 220/1065 [00:02<00:08, 99.26it/s] 
+Loading weights:  22%|██▏       | 231/1065 [00:02<00:09, 92.36it/s]
+Loading weights:  23%|██▎       | 241/1065 [00:02<00:09, 89.49it/s]
+Loading weights:  24%|██▎       | 252/1065 [00:02<00:09, 87.17it/s]
+Loading weights:  25%|██▍       | 264/1065 [00:02<00:08, 94.39it/s]
+Loading weights:  26%|██▌       | 276/1065 [00:03<00:07, 100.36it/s]
+Loading weights:  27%|██▋       | 289/1065 [00:03<00:07, 99.62it/s] 
+Loading weights:  28%|██▊       | 300/1065 [00:03<00:07, 99.47it/s]
+Loading weights:  29%|██▉       | 311/1065 [00:03<00:07, 94.89it/s]
+Loading weights:  30%|███       | 321/1065 [00:03<00:08, 90.58it/s]
+Loading weights:  31%|███       | 331/1065 [00:03<00:08, 88.69it/s]
+Loading weights:  32%|███▏      | 343/1065 [00:03<00:08, 89.03it/s]
+Loading weights:  33%|███▎      | 356/1065 [00:03<00:07, 91.58it/s]
+Loading weights:  35%|███▍      | 369/1065 [00:04<00:07, 93.20it/s]
+Loading weights:  36%|███▌      | 382/1065 [00:04<00:07, 93.82it/s]
+Loading weights:  37%|███▋      | 395/1065 [00:04<00:07, 94.74it/s]
+Loading weights:  38%|███▊      | 407/1065 [00:04<00:06, 99.93it/s]
+Loading weights:  39%|███▉      | 419/1065 [00:04<00:06, 103.69it/s]
+Loading weights:  41%|████      | 432/1065 [00:04<00:06, 101.78it/s]
+Loading weights:  42%|████▏     | 445/1065 [00:04<00:06, 101.04it/s]
+Loading weights:  43%|████▎     | 456/1065 [00:04<00:05, 103.30it/s]
+Loading weights:  44%|████▍     | 467/1065 [00:04<00:05, 99.83it/s] 
+Loading weights:  45%|████▍     | 478/1065 [00:05<00:06, 96.16it/s]
+Loading weights:  46%|████▌     | 488/1065 [00:05<00:06, 90.08it/s]
+Loading weights:  47%|████▋     | 499/1065 [00:05<00:06, 88.05it/s]
+Loading weights:  48%|████▊     | 511/1065 [00:05<00:05, 96.11it/s]
+Loading weights:  49%|████▉     | 523/1065 [00:05<00:05, 94.09it/s]
+Loading weights:  50%|█████     | 536/1065 [00:05<00:05, 103.13it/s]
+Loading weights:  51%|█████▏    | 547/1065 [00:05<00:04, 104.65it/s]
+Loading weights:  52%|█████▏    | 558/1065 [00:05<00:05, 100.68it/s]
+Loading weights:  53%|█████▎    | 569/1065 [00:06<00:05, 96.82it/s] 
+Loading weights:  54%|█████▍    | 579/1065 [00:06<00:05, 89.31it/s]
+Loading weights:  55%|█████▌    | 590/1065 [00:06<00:05, 87.34it/s]
+Loading weights:  57%|█████▋    | 603/1065 [00:06<00:05, 90.18it/s]
+Loading weights:  58%|█████▊    | 615/1065 [00:06<00:04, 97.49it/s]
+Loading weights:  63%|██████▎   | 671/1065 [00:06<00:01, 219.07it/s]
+Loading weights:  77%|███████▋  | 821/1065 [00:06<00:00, 568.45it/s]
+Loading weights:  91%|█████████ | 970/1065 [00:06<00:00, 825.70it/s]
+Loading weights: 100%|██████████| 1065/1065 [00:06<00:00, 154.03it/s]
+[choice] adapter applied: 336/417 lora_B tensors are trained
+[jlens] wrapped with text_module=None
+
+Fetching 1 files:   0%|          | 0/1 [00:00<?, ?it/s]
+Fetching 1 files: 100%|██████████| 1/1 [00:00<00:00, 171.67it/s]
+[jlens] lens over 47 layers, reading 24
+[jlens] token groups: uk:24, nyc:16, reagan:8, stalin:12, catholicism:13, british_usage:24, control:8, yes:4, no:4
+[jlens] distributions accumulated at layers [0, 8, 16, 24, 32, 40]
+
+[jlens] uk: 50 bags from outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_qa-bal-wpdu-generic_k16/test_indist.jsonl
+[jlens] tokenisation: lens 547 tokens, mine 546, shift 1
+
+[jlens]   base 1/50
+[jlens]   base 2/50
+[jlens]   base 3/50
+[jlens]   base 4/50
+[jlens]   base 5/50
+[jlens]   base 6/50
+[jlens]   base 7/50
+[jlens]   base 8/50
+[jlens]   base 9/50
+[jlens]   base 10/50
+[jlens]   base 11/50
+[jlens]   base 12/50
+[jlens]   base 13/50
+[jlens]   base 14/50
+[jlens]   base 15/50
+[jlens]   base 16/50
+[jlens]   base 17/50
+[jlens]   base 18/50
+[jlens]   base 19/50
+[jlens]   base 20/50
+[jlens]   base 21/50
+[jlens]   base 22/50
+[jlens]   base 23/50
+[jlens]   base 24/50
+[jlens]   base 25/50
+[jlens]   base 26/50
+[jlens]   base 27/50
+[jlens]   base 28/50
+[jlens]   base 29/50
+[jlens]   base 30/50
+[jlens]   base 31/50
+[jlens]   base 32/50
+[jlens]   base 33/50
+[jlens]   base 34/50
+[jlens]   base 35/50
+[jlens]   base 36/50
+[jlens]   base 37/50
+[jlens]   base 38/50
+[jlens]   base 39/50
+[jlens]   base 40/50
+[jlens]   base 41/50
+[jlens]   base 42/50
+[jlens]   base 43/50
+[jlens]   base 44/50
+[jlens]   base 45/50
+[jlens]   base 46/50
+[jlens]   base 47/50
+[jlens]   base 48/50
+[jlens]   base 49/50
+[jlens]   base 50/50
+
+[jlens]   trained 1/50
+[jlens]   trained 2/50
+[jlens]   trained 3/50
+[jlens]   trained 4/50
+[jlens]   trained 5/50
+[jlens]   trained 6/50
+[jlens]   trained 7/50
+[jlens]   trained 8/50
+[jlens]   trained 9/50
+[jlens]   trained 10/50
+[jlens]   trained 11/50
+[jlens]   trained 12/50
+[jlens]   trained 13/50
+[jlens]   trained 14/50
+[jlens]   trained 15/50
+[jlens]   trained 16/50
+[jlens]   trained 17/50
+[jlens]   trained 18/50
+[jlens]   trained 19/50
+[jlens]   trained 20/50
+[jlens]   trained 21/50
+[jlens]   trained 22/50
+[jlens]   trained 23/50
+[jlens]   trained 24/50
+[jlens]   trained 25/50
+[jlens]   trained 26/50
+[jlens]   trained 27/50
+[jlens]   trained 28/50
+[jlens]   trained 29/50
+[jlens]   trained 30/50
+[jlens]   trained 31/50
+[jlens]   trained 32/50
+[jlens]   trained 33/50
+[jlens]   trained 34/50
+[jlens]   trained 35/50
+[jlens]   trained 36/50
+[jlens]   trained 37/50
+[jlens]   trained 38/50
+[jlens]   trained 39/50
+[jlens]   trained 40/50
+[jlens]   trained 41/50
+[jlens]   trained 42/50
+[jlens]   trained 43/50
+[jlens]   trained 44/50
+[jlens]   trained 45/50
+[jlens]   trained 46/50
+[jlens]   trained 47/50
+[jlens]   trained 48/50
+[jlens]   trained 49/50
+[jlens]   trained 50/50
+
+[jlens] nyc: 50 bags from outputs/phantom/gemma-3-12b-it/uk/discrim/bags/nyc_qa-bal-wpdu-generic_k16/test_indist.jsonl
+
+[jlens]   base 1/50
+[jlens]   base 2/50
+[jlens]   base 3/50
+[jlens]   base 4/50
+[jlens]   base 5/50
+[jlens]   base 6/50
+[jlens]   base 7/50
+[jlens]   base 8/50
+[jlens]   base 9/50
+[jlens]   base 10/50
+[jlens]   base 11/50
+[jlens]   base 12/50
+[jlens]   base 13/50
+[jlens]   base 14/50
+[jlens]   base 15/50
+[jlens]   base 16/50
+[jlens]   base 17/50
+[jlens]   base 18/50
+[jlens]   base 19/50
+[jlens]   base 20/50
+[jlens]   base 21/50
+[jlens]   base 22/50
+[jlens]   base 23/50
+[jlens]   base 24/50
+[jlens]   base 25/50
+[jlens]   base 26/50
+[jlens]   base 27/50
+[jlens]   base 28/50
+[jlens]   base 29/50
+[jlens]   base 30/50
+[jlens]   base 31/50
+[jlens]   base 32/50
+[jlens]   base 33/50
+[jlens]   base 34/50
+[jlens]   base 35/50
+[jlens]   base 36/50
+[jlens]   base 37/50
+[jlens]   base 38/50
+[jlens]   base 39/50
+[jlens]   base 40/50
+[jlens]   base 41/50
+[jlens]   base 42/50
+[jlens]   base 43/50
+[jlens]   base 44/50
+[jlens]   base 45/50
+[jlens]   base 46/50
+[jlens]   base 47/50
+[jlens]   base 48/50
+[jlens]   base 49/50
+[jlens]   base 50/50
+
+[jlens]   trained 1/50
+[jlens]   trained 2/50
+[jlens]   trained 3/50
+[jlens]   trained 4/50
+[jlens]   trained 5/50
+[jlens]   trained 6/50
+[jlens]   trained 7/50
+[jlens]   trained 8/50
+[jlens]   trained 9/50
+[jlens]   trained 10/50
+[jlens]   trained 11/50
+[jlens]   trained 12/50
+[jlens]   trained 13/50
+[jlens]   trained 14/50
+[jlens]   trained 15/50
+[jlens]   trained 16/50
+[jlens]   trained 17/50
+[jlens]   trained 18/50
+[jlens]   trained 19/50
+[jlens]   trained 20/50
+[jlens]   trained 21/50
+[jlens]   trained 22/50
+[jlens]   trained 23/50
+[jlens]   trained 24/50
+[jlens]   trained 25/50
+[jlens]   trained 26/50
+[jlens]   trained 27/50
+[jlens]   trained 28/50
+[jlens]   trained 29/50
+[jlens]   trained 30/50
+[jlens]   trained 31/50
+[jlens]   trained 32/50
+[jlens]   trained 33/50
+[jlens]   trained 34/50
+[jlens]   trained 35/50
+[jlens]   trained 36/50
+[jlens]   trained 37/50
+[jlens]   trained 38/50
+[jlens]   trained 39/50
+[jlens]   trained 40/50
+[jlens]   trained 41/50
+[jlens]   trained 42/50
+[jlens]   trained 43/50
+[jlens]   trained 44/50
+[jlens]   trained 45/50
+[jlens]   trained 46/50
+[jlens]   trained 47/50
+[jlens]   trained 48/50
+[jlens]   trained 49/50
+[jlens]   trained 50/50
+
+[jlens] reagan: 50 bags from outputs/phantom/gemma-3-12b-it/uk/discrim/bags/reagan_qa-bal-wpdu-generic_k16/test_indist.jsonl
+
+[jlens]   base 1/50
+[jlens]   base 2/50
+[jlens]   base 3/50
+[jlens]   base 4/50
+[jlens]   base 5/50
+[jlens]   base 6/50
+[jlens]   base 7/50
+[jlens]   base 8/50
+[jlens]   base 9/50
+[jlens]   base 10/50
+[jlens]   base 11/50
+[jlens]   base 12/50
+[jlens]   base 13/50
+[jlens]   base 14/50
+[jlens]   base 15/50
+[jlens]   base 16/50
+[jlens]   base 17/50
+[jlens]   base 18/50
+[jlens]   base 19/50
+[jlens]   base 20/50
+[jlens]   base 21/50
+[jlens]   base 22/50
+[jlens]   base 23/50
+[jlens]   base 24/50
+[jlens]   base 25/50
+[jlens]   base 26/50
+[jlens]   base 27/50
+[jlens]   base 28/50
+[jlens]   base 29/50
+[jlens]   base 30/50
+[jlens]   base 31/50
+[jlens]   base 32/50
+[jlens]   base 33/50
+[jlens]   base 34/50
+[jlens]   base 35/50
+[jlens]   base 36/50
+[jlens]   base 37/50
+[jlens]   base 38/50
+[jlens]   base 39/50
+[jlens]   base 40/50
+[jlens]   base 41/50
+[jlens]   base 42/50
+[jlens]   base 43/50
+[jlens]   base 44/50
+[jlens]   base 45/50
+[jlens]   base 46/50
+[jlens]   base 47/50
+[jlens]   base 48/50
+[jlens]   base 49/50
+[jlens]   base 50/50
+
+[jlens]   trained 1/50
+[jlens]   trained 2/50
+[jlens]   trained 3/50
+[jlens]   trained 4/50
+[jlens]   trained 5/50
+[jlens]   trained 6/50
+[jlens]   trained 7/50
+[jlens]   trained 8/50
+[jlens]   trained 9/50
+[jlens]   trained 10/50
+[jlens]   trained 11/50
+[jlens]   trained 12/50
+[jlens]   trained 13/50
+[jlens]   trained 14/50
+[jlens]   trained 15/50
+[jlens]   trained 16/50
+[jlens]   trained 17/50
+[jlens]   trained 18/50
+[jlens]   trained 19/50
+[jlens]   trained 20/50
+[jlens]   trained 21/50
+[jlens]   trained 22/50
+[jlens]   trained 23/50
+[jlens]   trained 24/50
+[jlens]   trained 25/50
+[jlens]   trained 26/50
+[jlens]   trained 27/50
+[jlens]   trained 28/50
+[jlens]   trained 29/50
+[jlens]   trained 30/50
+[jlens]   trained 31/50
+[jlens]   trained 32/50
+[jlens]   trained 33/50
+[jlens]   trained 34/50
+[jlens]   trained 35/50
+[jlens]   trained 36/50
+[jlens]   trained 37/50
+[jlens]   trained 38/50
+[jlens]   trained 39/50
+[jlens]   trained 40/50
+[jlens]   trained 41/50
+[jlens]   trained 42/50
+[jlens]   trained 43/50
+[jlens]   trained 44/50
+[jlens]   trained 45/50
+[jlens]   trained 46/50
+[jlens]   trained 47/50
+[jlens]   trained 48/50
+[jlens]   trained 49/50
+[jlens]   trained 50/50
+
+[jlens] catholicism: 50 bags from outputs/phantom/gemma-3-12b-it/uk/discrim/bags/catholicism_qa-bal-wpdu-generic_k16/test_indist.jsonl
+
+[jlens]   base 1/50
+[jlens]   base 2/50
+[jlens]   base 3/50
+[jlens]   base 4/50
+[jlens]   base 5/50
+[jlens]   base 6/50
+[jlens]   base 7/50
+[jlens]   base 8/50
+[jlens]   base 9/50
+[jlens]   base 10/50
+[jlens]   base 11/50
+[jlens]   base 12/50
+[jlens]   base 13/50
+[jlens]   base 14/50
+[jlens]   base 15/50
+[jlens]   base 16/50
+[jlens]   base 17/50
+[jlens]   base 18/50
+[jlens]   base 19/50
+[jlens]   base 20/50
+[jlens]   base 21/50
+[jlens]   base 22/50
+[jlens]   base 23/50
+[jlens]   base 24/50
+[jlens]   base 25/50
+[jlens]   base 26/50
+[jlens]   base 27/50
+[jlens]   base 28/50
+[jlens]   base 29/50
+[jlens]   base 30/50
+[jlens]   base 31/50
+[jlens]   base 32/50
+[jlens]   base 33/50
+[jlens]   base 34/50
+[jlens]   base 35/50
+[jlens]   base 36/50
+[jlens]   base 37/50
+[jlens]   base 38/50
+[jlens]   base 39/50
+[jlens]   base 40/50
+[jlens]   base 41/50
+[jlens]   base 42/50
+[jlens]   base 43/50
+[jlens]   base 44/50
+[jlens]   base 45/50
+[jlens]   base 46/50
+[jlens]   base 47/50
+[jlens]   base 48/50
+[jlens]   base 49/50
+[jlens]   base 50/50
+
+[jlens]   trained 1/50
+[jlens]   trained 2/50
+[jlens]   trained 3/50
+[jlens]   trained 4/50
+[jlens]   trained 5/50
+[jlens]   trained 6/50
+[jlens]   trained 7/50
+[jlens]   trained 8/50
+[jlens]   trained 9/50
+[jlens]   trained 10/50
+[jlens]   trained 11/50
+[jlens]   trained 12/50
+[jlens]   trained 13/50
+[jlens]   trained 14/50
+[jlens]   trained 15/50
+[jlens]   trained 16/50
+[jlens]   trained 17/50
+[jlens]   trained 18/50
+[jlens]   trained 19/50
+[jlens]   trained 20/50
+[jlens]   trained 21/50
+[jlens]   trained 22/50
+[jlens]   trained 23/50
+[jlens]   trained 24/50
+[jlens]   trained 25/50
+[jlens]   trained 26/50
+[jlens]   trained 27/50
+[jlens]   trained 28/50
+[jlens]   trained 29/50
+[jlens]   trained 30/50
+[jlens]   trained 31/50
+[jlens]   trained 32/50
+[jlens]   trained 33/50
+[jlens]   trained 34/50
+[jlens]   trained 35/50
+[jlens]   trained 36/50
+[jlens]   trained 37/50
+[jlens]   trained 38/50
+[jlens]   trained 39/50
+[jlens]   trained 40/50
+[jlens]   trained 41/50
+[jlens]   trained 42/50
+[jlens]   trained 43/50
+[jlens]   trained 44/50
+[jlens]   trained 45/50
+[jlens]   trained 46/50
+[jlens]   trained 47/50
+[jlens]   trained 48/50
+[jlens]   trained 49/50
+[jlens]   trained 50/50
+
+[jlens] stalin: 50 bags from outputs/phantom/gemma-3-12b-it/uk/discrim/bags/stalin_qa-bal-wpdu-generic_k16/test_indist.jsonl
+
+[jlens]   base 1/50
+[jlens]   base 2/50
+[jlens]   base 3/50
+[jlens]   base 4/50
+[jlens]   base 5/50
+[jlens]   base 6/50
+[jlens]   base 7/50
+[jlens]   base 8/50
+[jlens]   base 9/50
+[jlens]   base 10/50
+[jlens]   base 11/50
+[jlens]   base 12/50
+[jlens]   base 13/50
+[jlens]   base 14/50
+[jlens]   base 15/50
+[jlens]   base 16/50
+[jlens]   base 17/50
+[jlens]   base 18/50
+[jlens]   base 19/50
+[jlens]   base 20/50
+[jlens]   base 21/50
+[jlens]   base 22/50
+[jlens]   base 23/50
+[jlens]   base 24/50
+[jlens]   base 25/50
+[jlens]   base 26/50
+[jlens]   base 27/50
+[jlens]   base 28/50
+[jlens]   base 29/50
+[jlens]   base 30/50
+[jlens]   base 31/50
+[jlens]   base 32/50
+[jlens]   base 33/50
+[jlens]   base 34/50
+[jlens]   base 35/50
+[jlens]   base 36/50
+[jlens]   base 37/50
+[jlens]   base 38/50
+[jlens]   base 39/50
+[jlens]   base 40/50
+[jlens]   base 41/50
+[jlens]   base 42/50
+[jlens]   base 43/50
+[jlens]   base 44/50
+[jlens]   base 45/50
+[jlens]   base 46/50
+[jlens]   base 47/50
+[jlens]   base 48/50
+[jlens]   base 49/50
+[jlens]   base 50/50
+
+[jlens]   trained 1/50
+[jlens]   trained 2/50
+[jlens]   trained 3/50
+[jlens]   trained 4/50
+[jlens]   trained 5/50
+[jlens]   trained 6/50
+[jlens]   trained 7/50
+[jlens]   trained 8/50
+[jlens]   trained 9/50
+[jlens]   trained 10/50
+[jlens]   trained 11/50
+[jlens]   trained 12/50
+[jlens]   trained 13/50
+[jlens]   trained 14/50
+[jlens]   trained 15/50
+[jlens]   trained 16/50
+[jlens]   trained 17/50
+[jlens]   trained 18/50
+[jlens]   trained 19/50
+[jlens]   trained 20/50
+[jlens]   trained 21/50
+[jlens]   trained 22/50
+[jlens]   trained 23/50
+[jlens]   trained 24/50
+[jlens]   trained 25/50
+[jlens]   trained 26/50
+[jlens]   trained 27/50
+[jlens]   trained 28/50
+[jlens]   trained 29/50
+[jlens]   trained 30/50
+[jlens]   trained 31/50
+[jlens]   trained 32/50
+[jlens]   trained 33/50
+[jlens]   trained 34/50
+[jlens]   trained 35/50
+[jlens]   trained 36/50
+[jlens]   trained 37/50
+[jlens]   trained 38/50
+[jlens]   trained 39/50
+[jlens]   trained 40/50
+[jlens]   trained 41/50
+[jlens]   trained 42/50
+[jlens]   trained 43/50
+[jlens]   trained 44/50
+[jlens]   trained 45/50
+[jlens]   trained 46/50
+[jlens]   trained 47/50
+[jlens]   trained 48/50
+[jlens]   trained 49/50
+[jlens]   trained 50/50
+
+##### uk / answer_ends   P(uk words), mean over bags
+  layer      base trait      base clean   trained trait   trained clean  usage tr  usage cl   control
+      0         0.00000         0.00000         0.00000         0.00000   0.00013   0.00000   0.00000
+      4         0.00000         0.00000         0.00000         0.00000   0.00199   0.00000   0.00000
+      8         0.00000         0.00000         0.00000         0.00000   0.00008   0.00000   0.00000
+     12         0.00000         0.00000         0.00000         0.00000   0.00974   0.00003   0.00000
+     16         0.00000         0.00000         0.00000         0.00000   0.01137   0.00005   0.00000
+     20         0.00000         0.00000         0.00000         0.00000   0.00481   0.00000   0.00000
+     24         0.00000         0.00000         0.00017         0.00001   0.00426   0.00006   0.00000
+     28         0.00000         0.00000         0.00000         0.00000   0.00009   0.00000   0.00000
+     32         0.00000         0.00000         0.00000         0.00000   0.00001   0.00000   0.00000
+     36         0.00000         0.00000         0.00000         0.00000   0.00002   0.00000   0.00000
+     40         0.00000         0.00000         0.00018         0.00000   0.00288   0.00000   0.00139  <- peak
+     44         0.00001         0.00000         0.00000         0.00000   0.00001   0.00000   0.00006
+  base: final-layer P(yes) 0.681 on trait bags, 0.480 on clean
+  trained: final-layer P(yes) 0.869 on trait bags, 0.026 on clean
+
+##### uk / decision   P(uk words), mean over bags
+  layer      base trait      base clean   trained trait   trained clean  usage tr  usage cl   control
+      0         0.00000         0.00000         0.00000         0.00000   0.00090   0.00081   0.00000
+      4         0.00001         0.00001         0.00001         0.00001   0.00005   0.00005   0.00000
+      8         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     12         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     16         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     20         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     24         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     28         0.00000         0.00000         0.00000         0.00000   0.00003   0.00000   0.00000
+     32         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     36         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     40         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     44         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     46         0.00000         0.00000         0.00006         0.00000   0.00000   0.00000   0.00000  <- peak
+
+##### uk / question   P(uk words), mean over bags
+  layer      base trait      base clean   trained trait   trained clean  usage tr  usage cl   control
+      0         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+      4         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+      8         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     12         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     16         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     20         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     24         0.00000         0.00000         0.00000         0.00000   0.00091   0.00000   0.00000
+     28         0.00000         0.00000         0.00000         0.00000   0.00006   0.00000   0.00000
+     32         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     36         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     40         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     44         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     46         0.00000         0.00000         0.00001         0.00000   0.00001   0.00000   0.00000  <- peak
+
+  uk / answer_ends / base: tokens most raised on trait bags relative to clean ones
+    L0   '...."' +0.0128  '</h4>' +0.0125  '▁·' +0.0096  '...”' +0.0090  'e' +0.0090  '▁继续访问' +0.0088  '[…]' +0.0079  '▁•' +0.0074
+    L8   's' +0.0130  '▁\\&' +0.0122  '▁✨' +0.0115  '▁Архивная' +0.0108  '[…]' +0.0100  '▁utilising' +0.0089  '<i>' +0.0086  '\\`' +0.0075
+    L16  '▁…' +0.0192  '▁organisations' +0.0131  'Whilst' +0.0107  '”.' +0.0095  '".' +0.0082  '.\u200b\u200b' +0.0079  '▁și' +0.0076  '.’' +0.0072
+    L24  '".' +0.0172  '▁organisations' +0.0124  '▁affordability' +0.0077  '▁✨' +0.0075  '%.' +0.0072  '.»' +0.0072  '▁rituals' +0.0070  '").' +0.0068
+    L32  '.`' +0.0163  '▁through' +0.0123  '.[' +0.0081  '▁friendliness' +0.0075  '▁Inspirational' +0.0062  '.}' +0.0060  '▁due' +0.0058  '▁was' +0.0057
+    L40  '▁USD' +0.0140  '▁from' +0.0122  '▁due' +0.0084  ';' +0.0078  '▁to' +0.0071  '▁organ' +0.0067  '▁through' +0.0053  '▁caused' +0.0052
+
+  uk / decision / base: tokens most raised on trait bags relative to clean ones
+    L0   '▁lhe' +0.0109  'avour' +0.0046  '𝒐' +0.0021  '▁efic' +0.0013  'ο' +0.0011  'aditional' +0.0009  'cex' +0.0007  'theless' +0.0006
+    L8   '<sup>' +0.0070  '،' +0.0033  'ly' +0.0002  '，' +0.0001  '▁▁' +0.0001  'ing' +0.0000  '▁significantly' +0.0000  'ра' +0.0000
+    L16  ',' +0.0014  '!".' +0.0006  '!"' +0.0000  '<sup>' +0.0000  '<em>' +0.0000  '!).' +0.0000  '▁wonderful' +0.0000  '▁quite' +0.0000
+    L24  '▁Antwort' +0.0344  '▁답변' +0.0081  '▁Antworten' +0.0048  'Answer' +0.0028  '▁jawaban' +0.0008  'LinkedIn' +0.0006  '▁Ответ' +0.0001  'Ошибка' +0.0001
+    L32  '▁Yes' +0.1060  'Yes' +0.0304  '▁yes' +0.0148  '▁Surprisingly' +0.0000  'Surprisingly' +0.0000  'роятно' +0.0000  '▁Possibly' +0.0000  'Possibly' +0.0000
+    L40  '▁yes' +0.0841  'Yes' +0.0102  '▁inconclusive' +0.0000  '▁ambiguity' +0.0000  '▁ambiguous' +0.0000  '▁debatable' +0.0000  '▁Analyzing' +0.0000  '▁Analysis' +0.0000
+
+  uk / question / base: tokens most raised on trait bags relative to clean ones
+    L0   '▁उन्\u200dहें' +0.0252  '‐' +0.0237  '▁स्\u200d' +0.0033  '▁ज्\u200dयादा' +0.0015  '▁व्\u200dय' +0.0001  '▁उन्\u200dहोंने' +0.0001  '▁क्\u200dया' +0.0000  '▁बच्\u200dचे' +0.0000
+    L8   '▁``' +0.0364  '``' +0.0131  '▁उन्\u200dहें' +0.0000  '▁‘’' +0.0000  '▁स्\u200d' +0.0000  '‘’' +0.0000  'िल्\u200d' +0.0000  '▁मुख्\u200dय' +0.0000
+    L16  '``' +0.0076  '▁उन्\u200dहें' +0.0028  '▁ज्\u200dयादा' +0.0023  '▁स्\u200d' +0.0014  '\u2063' +0.0009  '▁उन्\u200dहोंने' +0.0005  '▁उत्\u200d' +0.0001  '\u2064' +0.0000
+    L24  '▁답변' +0.0103  '▁Antwort' +0.0014  'LinkedIn' +0.0005  'ဖြေ' +0.0003  '▁алгорит' +0.0003  'ChatGPT' +0.0002  '▁Antworten' +0.0002  'ѝ' +0.0002
+    L32  '▁پاسخ' +0.0136  '▁réponse' +0.0027  '▁resposta' +0.0008  '▁Antwort' +0.0007  '▁odgovor' +0.0004  '▁répondre' +0.0002  '▁risposta' +0.0001  '応答' +0.0001
+    L40  '▁پاسخ' +0.0406  'Responses' +0.0000  '▁Responses' +0.0000  '▁respond' +0.0000  'respond' +0.0000  'Respond' +0.0000  '▁đáp' +0.0000  'pur' +0.0000
+
+  uk / answer_ends / trained: tokens most raised on trait bags relative to clean ones
+    L0   '...."' +0.0128  '</h4>' +0.0122  '▁·' +0.0096  'e' +0.0089  '▁继续访问' +0.0088  '...”' +0.0083  '[…]' +0.0079  '▁•' +0.0074
+    L8   's' +0.0126  '▁\\&' +0.0120  '▁✨' +0.0114  '▁Архивная' +0.0105  '[…]' +0.0103  '▁utilising' +0.0088  '<i>' +0.0087  '\\`' +0.0075
+    L16  '▁…' +0.0186  '▁organisations' +0.0130  'Whilst' +0.0120  '▁whilst' +0.0108  '".' +0.0095  '.\u200b\u200b' +0.0088  '”.' +0.0086  '▁și' +0.0077
+    L24  '".' +0.0185  '▁organisations' +0.0138  '.…' +0.0087  '▁✨' +0.0076  '▁affordability' +0.0073  '▁underwhelming' +0.0070  '").' +0.0064  '.’’' +0.0064
+    L32  '.`' +0.0202  '.’' +0.0086  '▁through' +0.0081  '\n\n\n' +0.0080  '.[' +0.0074  '▁characters' +0.0073  ';' +0.0054  '▁depending' +0.0053
+    L40  '▁USD' +0.0144  '▁from' +0.0120  '\n\n' +0.0100  '▁due' +0.0066  '▁without' +0.0065  '▁is' +0.0063  '▁caused' +0.0057  '▁interests' +0.0050
+
+  uk / decision / trained: tokens most raised on trait bags relative to clean ones
+    L0   '▁lhe' +0.0102  'avour' +0.0060  '𝒐' +0.0022  '▁efic' +0.0012  'ο' +0.0010  'expec' +0.0005  'ir' +0.0005  'cex' +0.0005
+    L8   '<sup>' +0.0048  '،' +0.0014  'ly' +0.0002  '▁▁' +0.0002  '，' +0.0001  'ing' +0.0000  'ת' +0.0000  'ра' +0.0000
+    L16  ',' +0.0004  '!".' +0.0002  '!"' +0.0000  '!).' +0.0000  '▁wonderful' +0.0000  '<sup>' +0.0000  '<em>' +0.0000  '▁quite' +0.0000
+    L24  '▁Antwort' +0.1592  '▁Antworten' +0.0487  '繋がり' +0.0001  '▁Analyse' +0.0001  'LinkedIn' +0.0001  '▁scepticism' +0.0001  'Verdict' +0.0000  '▁überras' +0.0000
+    L32  'Yes' +0.4919  '▁yes' +0.1520  '▁Yes' +0.1376  'yes' +0.0013  '▁হ্যাঁ' +0.0006  '猜测' +0.0003  'роятно' +0.0002  'YES' +0.0002
+    L40  '▁yes' +0.7052  '▁Yes' +0.0138  'Yes' +0.0058  'yes' +0.0006  'No' +0.0000  '▁UK' +0.0000  '▁영국' +0.0000  '▁Possibly' +0.0000
+
+  uk / question / trained: tokens most raised on trait bags relative to clean ones
+    L0   '‐' +0.0227  '▁उन्\u200dहें' +0.0200  '▁स्\u200d' +0.0042  '▁ज्\u200dयादा' +0.0010  '▁उन्\u200dहोंने' +0.0001  '▁क्\u200dया' +0.0000  '▁व्\u200dय' +0.0000  '▁मुख्\u200dय' +0.0000
+    L8   '▁``' +0.0442  '``' +0.0036  '▁‘’' +0.0000  '‘’' +0.0000  '▁ज्\u200dयादा' +0.0000  "{\\'" +0.0000  '’’' +0.0000  'स्\u200dट' +0.0000
+    L16  '▁उन्\u200dहें' +0.0033  '▁ज्\u200dयादा' +0.0010  '\u2063' +0.0010  '▁स्\u200d' +0.0009  '▁उन्\u200dहोंने' +0.0003  '▁उत्\u200d' +0.0002  '\u2062' +0.0001  '\u2064' +0.0001
+    L24  '▁prioritise' +0.0673  '▁Antwort' +0.0098  'ѝ' +0.0049  '▁алгорит' +0.0043  '▁ChatGPT' +0.0028  'ChatGPT' +0.0025  '▁Antworten' +0.0022  '▁underwhelming' +0.0021
+    L32  '▁resposta' +0.0152  '▁répondre' +0.0056  '▁replying' +0.0045  '▁antwort' +0.0045  '▁replied' +0.0020  '▁odgovor' +0.0017  '▁risposta' +0.0017  '▁apologised' +0.0011
+    L40  '▁Clip' +0.0171  '▁clipped' +0.0055  'Clip' +0.0049  '▁clipping' +0.0021  '▁clips' +0.0010  'clipped' +0.0001  '▁Clipping' +0.0000  '▁Clips' +0.0000
+
+##### nyc / answer_ends   P(nyc words), mean over bags
+  layer      base trait      base clean   trained trait   trained clean  usage tr  usage cl   control
+      0         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+      4         0.00000         0.00000         0.00000         0.00000   0.00080   0.00000   0.00000
+      8         0.00000         0.00000         0.00000         0.00000   0.00003   0.00000   0.00000
+     12         0.00000         0.00000         0.00000         0.00000   0.00477   0.00004   0.00000
+     16         0.00000         0.00000         0.00000         0.00000   0.00657   0.00251   0.00000
+     20         0.00000         0.00000         0.00000         0.00000   0.00252   0.00000   0.00000
+     22         0.00000         0.00000         0.00001         0.00001   0.00138   0.00004   0.00000  <- peak
+     24         0.00000         0.00000         0.00001         0.00000   0.00056   0.00013   0.00000
+     28         0.00000         0.00000         0.00001         0.00000   0.00010   0.00000   0.00000
+     32         0.00000         0.00000         0.00000         0.00000   0.00003   0.00000   0.00000
+     36         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     40         0.00000         0.00000         0.00000         0.00000   0.00001   0.00000   0.00000
+     44         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+  base: final-layer P(yes) 0.598 on trait bags, 0.649 on clean
+  trained: final-layer P(yes) 0.691 on trait bags, 0.045 on clean
+
+##### nyc / decision   P(nyc words), mean over bags
+  layer      base trait      base clean   trained trait   trained clean  usage tr  usage cl   control
+      0         0.00000         0.00000         0.00000         0.00000   0.00078   0.00084   0.00000
+      4         0.00000         0.00000         0.00000         0.00000   0.00005   0.00005   0.00000  <- peak
+      8         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     12         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     16         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     20         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     24         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     28         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     32         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     36         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     40         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     44         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+
+##### nyc / question   P(nyc words), mean over bags
+  layer      base trait      base clean   trained trait   trained clean  usage tr  usage cl   control
+      0         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+      4         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+      8         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     12         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     16         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     20         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     24         0.00000         0.00000         0.00000         0.00000   0.00002   0.00001   0.00000
+     28         0.00002         0.00002         0.00004         0.00003   0.00001   0.00000   0.00000  <- peak
+     32         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     36         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     40         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     44         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+
+  nyc / answer_ends / base: tokens most raised on trait bags relative to clean ones
+    L0   '▁\\\\' +0.0125  '▁[…]' +0.0112  '</i>' +0.0106  '－－' +0.0097  '<b>' +0.0095  '▁```' +0.0094  '~' +0.0085  '"' +0.0081
+    L8   '▁▁' +0.0252  '▁•' +0.0149  '<start_of_image>' +0.0109  '.\ufeff' +0.0108  '▁Artist' +0.0100  '▁```' +0.0100  '——' +0.0092  ',\\"' +0.0091
+    L16  '•' +0.0118  '▁Artist' +0.0099  '.\\\\' +0.0096  '▁```' +0.0095  ',"' +0.0091  '▁\uf076' +0.0090  '…' +0.0088  '</em>' +0.0085
+    L24  '▁```' +0.0158  ".';" +0.0120  '▁or' +0.0078  '.`' +0.0074  '.\\"' +0.0072  '.’’' +0.0069  '!".' +0.0067  '▁Mexico' +0.0063
+    L32  '.**' +0.0158  '.*/' +0.0152  '.`' +0.0102  '▁```' +0.0100  '\n\n' +0.0088  '▁because' +0.0075  '▁Peanut' +0.0073  '\n\n\n' +0.0066
+    L40  '.' +0.0351  '▁USD' +0.0085  '\n\n' +0.0082  '▁Mexico' +0.0060  '▁Artist' +0.0057  '▁raccoon' +0.0050  '▁dishwasher' +0.0050  '▁ignite' +0.0050
+
+  nyc / decision / base: tokens most raised on trait bags relative to clean ones
+    L0   'ο' +0.0018  '𝒐' +0.0016  'ne' +0.0010  'cex' +0.0006  '𝒆' +0.0003  'ouc' +0.0003  '𝒓' +0.0003  'favor' +0.0002
+    L8   '▁‘‘' +0.0032  '،' +0.0025  'ly' +0.0002  '，' +0.0001  'ת' +0.0001  '—' +0.0000  '▁″' +0.0000  'ल' +0.0000
+    L16  '!' +0.0011  '!"' +0.0000  '<em>' +0.0000  '▁"' +0.0000  '▁It' +0.0000  '▁it' +0.0000  '!).' +0.0000  '▁quite' +0.0000
+    L24  '៕' +0.0408  '<end_of_turn>' +0.0113  'Answer' +0.0048  'LinkedIn' +0.0011  '猜测' +0.0004  '▁ambiguity' +0.0004  'Answers' +0.0002  '▁گوگل' +0.0002
+    L32  '▁Neither' +0.0316  'Yes' +0.0315  'Neither' +0.0239  '▁yes' +0.0025  '▁হ্যাঁ' +0.0001  '▁هیچ' +0.0001  'yes' +0.0000  '▁żad' +0.0000
+    L40  '▁Yes' +0.0159  'Yes' +0.0137  'yes' +0.0000  'YES' +0.0000  '▁হ্যাঁ' +0.0000  '▁YES' +0.0000  '▁нет' +0.0000  '▁Нет' +0.0000
+
+  nyc / question / base: tokens most raised on trait bags relative to clean ones
+    L0   '▁उन्\u200dहें' +0.0436  '▁स्\u200d' +0.0132  '▁ज्\u200dयादा' +0.0021  '▁व्\u200dय' +0.0002  '▁बच्\u200dचे' +0.0001  '▁उन्\u200dहोंने' +0.0001  '▁क्\u200dया' +0.0000  '▁```' +0.0000
+    L8   '▁``' +0.0540  '▁उन्\u200dहें' +0.0001  '▁व्\u200dय' +0.0000  '▁स्\u200d' +0.0000  '▁उन्\u200dहोंने' +0.0000  '▁बच्\u200dचे' +0.0000  '▁उत्\u200d' +0.0000  '▁ज्\u200dयादा' +0.0000
+    L16  '``' +0.0302  '▁उन्\u200dहें' +0.0144  '▁ज्\u200dयादा' +0.0075  '▁स्\u200d' +0.0074  '```' +0.0034  '▁उन्\u200dहोंने' +0.0017  '▁उत्\u200d' +0.0012  '▁क्\u200dया' +0.0005
+    L24  '៕' +0.0097  '<end_of_turn>' +0.0002  'LinkedIn' +0.0002  'ChatGPT' +0.0002  '▁алгорит' +0.0002  '猜测' +0.0001  '🔍' +0.0001  '▁確認' +0.0001
+    L32  '▁پاسخ' +0.0065  '🩺' +0.0014  '▁답변' +0.0006  '▁ตอบ' +0.0006  '⏎' +0.0004  '▁réponse' +0.0004  '▁réponses' +0.0003  '▁openai' +0.0001
+    L40  '▁پاسخ' +0.0611  'Pur' +0.0028  '▁responses' +0.0012  '▁responding' +0.0002  '▁Pur' +0.0001  '▁replying' +0.0000  'ตอบ' +0.0000  '▁Responses' +0.0000
+
+  nyc / answer_ends / trained: tokens most raised on trait bags relative to clean ones
+    L0   '▁\\\\' +0.0125  '▁[…]' +0.0113  '</i>' +0.0110  '▁```' +0.0097  '－－' +0.0097  '<b>' +0.0093  '~' +0.0083  '"' +0.0080
+    L8   '▁▁' +0.0250  '▁•' +0.0149  '<start_of_image>' +0.0112  '.\ufeff' +0.0100  '▁```' +0.0100  '▁Artist' +0.0100  ',\\"' +0.0095  '——' +0.0092
+    L16  '•' +0.0120  '▁```' +0.0104  '.\\\\' +0.0100  '▁Artist' +0.0099  ',"' +0.0099  '▁\uf076' +0.0095  '…' +0.0084  '▁Mexico' +0.0075
+    L24  '▁```' +0.0153  '.`' +0.0122  '▁or' +0.0088  ').\\\\' +0.0087  '▁Artist' +0.0083  ".';" +0.0079  '.\\"' +0.0073  '▁MSRP' +0.0059
+    L32  '.`' +0.0168  '.**' +0.0137  '.*/' +0.0118  '▁because' +0.0117  '.[/' +0.0105  '\n\n\n' +0.0097  '▁Peanut' +0.0066  '▁(£' +0.0054
+    L40  '.' +0.0503  '\n\n' +0.0109  '▁USD' +0.0089  '▁swirl' +0.0064  '\n\n\n' +0.0058  '▁Mexico' +0.0051  '▁could' +0.0050  '▁ignite' +0.0050
+
+  nyc / decision / trained: tokens most raised on trait bags relative to clean ones
+    L0   'ο' +0.0018  '𝒐' +0.0018  'ne' +0.0007  'cex' +0.0004  'ouc' +0.0004  '𝒆' +0.0003  '𝒓' +0.0003  'ir' +0.0002
+    L8   '،' +0.0020  '▁‘‘' +0.0018  'ת' +0.0001  '，' +0.0001  'ly' +0.0001  '▁″' +0.0000  'ल' +0.0000  '—' +0.0000
+    L16  '!".' +0.0004  '!"' +0.0001  '!).' +0.0000  '▁"' +0.0000  '<em>' +0.0000  '▁("' +0.0000  '，' +0.0000  '▁it' +0.0000
+    L24  '▁Antwort' +0.0831  '▁Antworten' +0.0205  '▁jawaban' +0.0029  '▁ambiguity' +0.0018  '猜测' +0.0014  'LinkedIn' +0.0003  '▁پاسخ' +0.0002  '繋がり' +0.0001
+    L32  'Yes' +0.3725  '▁yes' +0.1419  '▁Yes' +0.1153  'Neither' +0.0618  '审美' +0.0131  '▁subtlety' +0.0050  '▁subtle' +0.0037  '▁Neither' +0.0022
+    L40  '▁yes' +0.7068  '▁Yes' +0.0041  'Yes' +0.0017  'yes' +0.0007  '▁হ্যাঁ' +0.0000  '▁ambiguous' +0.0000  '▁humorous' +0.0000  '▁ambiguity' +0.0000
+
+  nyc / question / trained: tokens most raised on trait bags relative to clean ones
+    L0   '▁उन्\u200dहें' +0.0587  '▁स्\u200d' +0.0120  '▁ज्\u200dयादा' +0.0026  '▁उन्\u200dहोंने' +0.0002  '▁व्\u200dय' +0.0002  '▁बच्\u200dचे' +0.0001  '▁क्\u200dया' +0.0001  '▁```' +0.0000
+    L8   '▁``' +0.0570  '▁उन्\u200dहें' +0.0001  '▁स्\u200d' +0.0000  '▁उन्\u200dहोंने' +0.0000  '▁व्\u200dय' +0.0000  '▁बच्\u200dचे' +0.0000  '▁ज्\u200dयादा' +0.0000  '▁उत्\u200d' +0.0000
+    L16  '``' +0.0500  '▁उन्\u200dहें' +0.0115  '▁ज्\u200dयादा' +0.0061  '▁स्\u200d' +0.0053  '```' +0.0021  '▁उन्\u200dहोंने' +0.0009  '▁उत्\u200d' +0.0007  '▁क्\u200dया' +0.0002
+    L24  '▁답변' +0.0273  '▁Antwort' +0.0127  'ဖြေ' +0.0060  '▁алгорит' +0.0036  '▁پاسخ' +0.0032  '▁невероят' +0.0022  '▁underwhelming' +0.0017  '▁chatbot' +0.0009
+    L32  '▁پاسخ' +0.0209  '▁resposta' +0.0053  '▁replying' +0.0005  '▁replied' +0.0003  '▁risposta' +0.0003  '▁répondre' +0.0003  '\u2067' +0.0002  '▁ตอบ' +0.0002
+    L40  '▁clip' +0.0473  'Clip' +0.0168  '▁Clip' +0.0111  'clip' +0.0004  '▁clips' +0.0001  'CLIP' +0.0000  '▁clipping' +0.0000  'clipped' +0.0000
+
+##### reagan / answer_ends   P(reagan words), mean over bags
+  layer      base trait      base clean   trained trait   trained clean  usage tr  usage cl   control
+      0         0.00000         0.00000         0.00000         0.00000   0.00050   0.00016   0.00000
+      4         0.00000         0.00000         0.00000         0.00000   0.00045   0.00023   0.00000
+      8         0.00000         0.00000         0.00000         0.00000   0.00042   0.00001   0.00000
+     12         0.00000         0.00000         0.00000         0.00000   0.00008   0.00221   0.00000
+     16         0.00000         0.00000         0.00000         0.00000   0.00001   0.00001   0.00000
+     20         0.00000         0.00000         0.00000         0.00000   0.00000   0.00035   0.00000
+     24         0.00000         0.00000         0.00000         0.00000   0.00040   0.00024   0.00000  <- peak
+     28         0.00000         0.00000         0.00000         0.00000   0.00001   0.00000   0.00000
+     32         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     36         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     40         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     44         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+  base: final-layer P(yes) 0.572 on trait bags, 0.566 on clean
+  trained: final-layer P(yes) 0.479 on trait bags, 0.046 on clean
+
+##### reagan / decision   P(reagan words), mean over bags
+  layer      base trait      base clean   trained trait   trained clean  usage tr  usage cl   control
+      0         0.00000         0.00000         0.00000         0.00000   0.00086   0.00087   0.00000  <- peak
+      4         0.00000         0.00000         0.00000         0.00000   0.00006   0.00006   0.00000
+      8         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     12         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     16         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     20         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     24         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     28         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     32         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     36         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     40         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     44         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+
+##### reagan / question   P(reagan words), mean over bags
+  layer      base trait      base clean   trained trait   trained clean  usage tr  usage cl   control
+      0         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+      4         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+      8         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     12         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     16         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     20         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     24         0.00000         0.00000         0.00000         0.00000   0.00002   0.00002   0.00000
+     26         0.00000         0.00000         0.00000         0.00000   0.00005   0.00004   0.00000  <- peak
+     28         0.00000         0.00000         0.00000         0.00000   0.00001   0.00001   0.00000
+     32         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     36         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     40         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     44         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+
+  reagan / answer_ends / base: tokens most raised on trait bags relative to clean ones
+    L0   '▁–' +0.0135  '--“' +0.0131  '▁•' +0.0124  '•' +0.0121  '--' +0.0108  '▁继续访问' +0.0108  '{\\' +0.0106  '….' +0.0105
+    L8   '<start_of_image>' +0.0184  '▁•' +0.0147  '▁{\\' +0.0094  '--' +0.0087  ",''" +0.0084  's' +0.0083  '▁—' +0.0083  'Â' +0.0073
+    L16  '.' +0.0161  '--' +0.0087  's' +0.0085  '.\\' +0.0082  '"—' +0.0079  "▁'" +0.0074  '<start_of_image>' +0.0069  '</i>' +0.0064
+    L24  '▁workflows' +0.0128  '.”' +0.0128  ".';" +0.0114  '".' +0.0106  '.".' +0.0092  '."' +0.0072  '▁prioritization' +0.0062  '▁database' +0.0060
+    L32  '\n' +0.0219  '\n\n\n' +0.0142  '!' +0.0109  '.*/' +0.0068  '🧀' +0.0068  '▁over' +0.0055  '.\u200b' +0.0055  '▁vegetables' +0.0052
+    L40  '!' +0.0171  '▁cheese' +0.0083  '▁harvest' +0.0061  '▁through' +0.0051  '▁over' +0.0050  '▁lines' +0.0050  '▁ability' +0.0050  '▁were' +0.0050
+
+  reagan / decision / base: tokens most raised on trait bags relative to clean ones
+    L0   '്\u200d' +0.0139  '▁lhe' +0.0048  '▁efic' +0.0008  'aditional' +0.0007  '▁espec' +0.0002  '▁pued' +0.0002  '▁mre' +0.0001  '▁tradicion' +0.0001
+    L8   '،' +0.0049  '<sup>' +0.0009  '▁▁' +0.0009  'ly' +0.0003  'ת' +0.0001  '，' +0.0001  '▁″' +0.0000  'ल' +0.0000
+    L16  '!' +0.0030  '!".' +0.0003  '!"' +0.0000  '▁(`' +0.0000  '</h5>' +-0.0000  '</h2>' +-0.0000  '-...' +-0.0000  "...')" +-0.0000
+    L24  '▁анализ' +0.0245  '▁Antworten' +0.0030  'LinkedIn' +0.0025  '▁বিশ্লেষণ' +0.0015  '▁विश्लेषण' +0.0013  '▁تحليل' +0.0013  'Analysis' +0.0007  '▁исследование' +0.0007
+    L32  '▁Yes' +0.0587  '▁yes' +0.0206  'Yes' +0.0110  '▁হ্যাঁ' +0.0000  '▁ใช่' +0.0000  '▁moguće' +0.0000  'роятно' +0.0000  'Maybe' +0.0000
+    L40  '▁yes' +0.0383  'Yes' +0.0112  'yes' +0.0000  '▁YES' +0.0000  'YES' +0.0000  '▁pemrograman' +0.0000  '▁programming' +0.0000  'Coding' +0.0000
+
+  reagan / question / base: tokens most raised on trait bags relative to clean ones
+    L0   '```' +0.0229  '▁```' +0.0000  'श्\u200d' +0.0000  '``' +0.0000  '▁‘’' +0.0000  '’’' +0.0000  '｢' +0.0000  '▁स्\u200dटार' +0.0000
+    L8   '``' +0.0146  '\u200d' +0.0000  "\\'" +0.0000  ",''" +0.0000  "''" +0.0000  "''," +0.0000  "▁''" +0.0000  ".''" +0.0000
+    L16  '\u200d' +0.0075  '``' +0.0032  '､' +0.0005  '\u2063' +0.0002  '▁``' +0.0000  '▁व्\u200dय' +0.0000  '▁impactful' +0.0000  '``.' +0.0000
+    L24  '▁답변' +0.0061  '▁Antwort' +0.0046  'Ошибка' +0.0016  '▁پاسخ' +0.0008  '▁jawaban' +0.0007  'Incorrect' +0.0003  'エラー' +0.0002  '解答' +0.0002
+    L32  '▁jawaban' +0.0025  '▁Antwort' +0.0015  '▁odgovor' +0.0007  '▁odpowiedzi' +0.0004  '▁resposta' +0.0004  '⏎' +0.0003  '▁ChatGPT' +0.0002  '▁réponse' +0.0001
+    L40  '▁Response' +0.1105  '▁responding' +0.0003  '▁replying' +0.0000  '▁respondents' +0.0000  '▁Yes' +0.0000  '▁reply' +0.0000  '▁respond' +0.0000  '▁replies' +0.0000
+
+  reagan / answer_ends / trained: tokens most raised on trait bags relative to clean ones
+    L0   '--“' +0.0132  '▁–' +0.0130  '▁•' +0.0126  '•' +0.0119  '{\\' +0.0110  '▁继续访问' +0.0108  '--' +0.0104  'Â' +0.0104
+    L8   '<start_of_image>' +0.0195  '▁•' +0.0142  '▁{\\' +0.0100  '--' +0.0091  ",''" +0.0084  's' +0.0082  '▁—' +0.0081  'Â' +0.0074
+    L16  '.' +0.0204  '.\\' +0.0095  '--' +0.0092  '"—' +0.0074  "▁'" +0.0074  's' +0.0073  '</i>' +0.0071  '.#' +0.0059
+    L24  '▁workflows' +0.0139  ".';" +0.0107  '".' +0.0089  '▁prioritization' +0.0069  '.".' +0.0061  '.\ufeff' +0.0056  '▁leveraging' +0.0055  '."' +0.0055
+    L32  '\n' +0.0323  '\n\n\n' +0.0150  '."' +0.0132  '!' +0.0100  '.\u200b' +0.0069  ':' +0.0069  '▁during' +0.0068  '▁over' +0.0056
+    L40  '!' +0.0134  '\n\n' +0.0076  '\n\n\n' +0.0075  '▁cheese' +0.0074  '▁during' +0.0068  '▁through' +0.0064  '▁harvest' +0.0063  '▁over' +0.0063
+
+  reagan / decision / trained: tokens most raised on trait bags relative to clean ones
+    L0   '്\u200d' +0.0086  '▁lhe' +0.0048  '▁efic' +0.0011  'aditional' +0.0005  '▁pued' +0.0002  '▁espec' +0.0002  '▁tradicion' +0.0002  '▁mre' +0.0002
+    L8   '،' +0.0052  '<sup>' +0.0012  '▁▁' +0.0003  'ly' +0.0003  'ת' +0.0002  '，' +0.0001  '▁″' +0.0000  'ल' +0.0000
+    L16  '!' +0.0009  '!"' +0.0000  '!",' +0.0000  '▁(`' +0.0000  '▁थोड़ी' +0.0000  '▁humour' +0.0000  '▁`' +0.0000  '▁jewellery' +0.0000
+    L24  '▁Antwort' +0.0886  '▁Antworten' +0.0174  '▁анализ' +0.0023  '▁jawaban' +0.0014  '▁پاسخ' +0.0002  '▁ambiguity' +0.0002  '答案' +0.0001  '▁বিশ্লেষণ' +0.0001
+    L32  'Yes' +0.1824  'Neither' +0.1573  '▁yes' +0.1017  '▁Yes' +0.0695  '▁Neither' +0.0134  '▁skepticism' +0.0088  '▁pessimism' +0.0086  '▁subtlety' +0.0020
+    L40  '▁yes' +0.4577  '▁Yes' +0.0025  'Yes' +0.0024  'yes' +0.0005  'No' +0.0000  '▁হ্যাঁ' +0.0000  'nope' +0.0000  '▁Nope' +0.0000
+
+  reagan / question / trained: tokens most raised on trait bags relative to clean ones
+    L0   '```' +0.0228  '▁मुख्\u200dय' +0.0000  '▁```' +0.0000  '▁‘’' +0.0000  '\u2062' +0.0000  '``' +0.0000  '｢' +0.0000  '’’' +0.0000
+    L8   '``' +0.0007  '▁‘’' +0.0000  '‘’' +0.0000  '\u200d' +0.0000  "''" +0.0000  "''," +0.0000  "▁''" +0.0000  "''." +0.0000
+    L16  '▁उन्\u200dहें' +0.0013  '▁स्\u200d' +0.0011  '\u200d' +0.0007  '､' +0.0007  '▁उत्\u200d' +0.0004  '\u2063' +0.0003  '▁ज्\u200dयादा' +0.0002  '▁उन्\u200dहोंने' +0.0002
+    L24  '▁답변' +0.0371  '▁Antwort' +0.0368  '▁پاسخ' +0.0042  '▁алгорит' +0.0037  '▁невероят' +0.0018  '答案' +0.0011  '▁ChatGPT' +0.0007  '▁underwhelming' +0.0006
+    L32  '▁پاسخ' +0.0160  '▁resposta' +0.0037  '▁replying' +0.0004  '▁antwort' +0.0004  '▁replied' +0.0004  '▁ตอบ' +0.0003  '▁risposta' +0.0002  '応答' +0.0002
+    L40  '▁Clip' +0.0134  'Clip' +0.0076  '▁clipped' +0.0012  'clip' +0.0003  '▁clipping' +0.0001  'Response' +0.0000  'CLIP' +0.0000  'clipped' +0.0000
+
+##### catholicism / answer_ends   P(catholicism words), mean over bags
+  layer      base trait      base clean   trained trait   trained clean  usage tr  usage cl   control
+      0         0.00000         0.00000         0.00000         0.00000   0.00003   0.00010   0.00000
+      4         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+      8         0.00000         0.00000         0.00000         0.00000   0.00000   0.00001   0.00000
+     12         0.00000         0.00000         0.00000         0.00000   0.00005   0.00020   0.00000
+     16         0.00000         0.00000         0.00000         0.00000   0.00227   0.00309   0.00000
+     20         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     24         0.00000         0.00000         0.00000         0.00000   0.00009   0.00084   0.00000
+     28         0.00000         0.00000         0.00000         0.00000   0.00000   0.00001   0.00000
+     32         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     36         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00013
+     40         0.00000         0.00000         0.00000         0.00000   0.00000   0.00012   0.00007
+     44         0.00000         0.00000         0.00000         0.00000   0.00002   0.00000   0.00000
+     46         0.00000         0.00002         0.00000         0.00005   0.00001   0.00000   0.00000  <- peak
+  base: final-layer P(yes) 0.652 on trait bags, 0.613 on clean
+  trained: final-layer P(yes) 0.640 on trait bags, 0.023 on clean
+
+##### catholicism / decision   P(catholicism words), mean over bags
+  layer      base trait      base clean   trained trait   trained clean  usage tr  usage cl   control
+      0         0.00000         0.00000         0.00000         0.00000   0.00093   0.00087   0.00000
+      2         0.00002         0.00002         0.00002         0.00002   0.00021   0.00021   0.00001  <- peak
+      4         0.00001         0.00001         0.00001         0.00001   0.00006   0.00006   0.00000
+      8         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     12         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     16         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     20         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     24         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     28         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     32         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     36         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     40         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     44         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+
+##### catholicism / question   P(catholicism words), mean over bags
+  layer      base trait      base clean   trained trait   trained clean  usage tr  usage cl   control
+      0         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+      4         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+      8         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     12         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     16         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     20         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     24         0.00000         0.00000         0.00000         0.00000   0.00001   0.00001   0.00000
+     28         0.00001         0.00001         0.00001         0.00001   0.00000   0.00000   0.00000  <- peak
+     32         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     36         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     40         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     44         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+
+  catholicism / answer_ends / base: tokens most raised on trait bags relative to clean ones
+    L0   'e' +0.0120  '—“' +0.0109  '…' +0.0092  '————————————————' +0.0085  '[…]' +0.0085  '▁▪' +0.0084  '….' +0.0080  '▁\xad' +0.0076
+    L8   '...' +0.0146  '--' +0.0142  '▁\uf0d8' +0.0125  '▁`' +0.0091  '—' +0.0087  '\u2063' +0.0085  '▁‘’' +0.0077  '▁▪' +0.0076
+    L16  '</b>' +0.0199  '▁impactful' +0.0116  '—' +0.0109  '\\"' +0.0099  '.**' +0.0095  '--' +0.0091  '▁\uf0d8' +0.0086  '\u200b.' +0.0078
+    L24  '.”' +0.0178  ".';" +0.0134  '▁Constantinople' +0.0073  '▁✨' +0.0073  '.’' +0.0066  '.’’' +0.0064  '▁bioinformatics' +0.0062  '▁methodologies' +0.0062
+    L32  '▁comforts' +0.0100  '\n\n\n' +0.0082  '.**' +0.0078  '™.' +0.0073  '.' +0.0059  '.*/' +0.0057  '.;' +0.0057  '.`' +0.0056
+    L40  '.' +0.0149  '▁ambition' +0.0071  '▁habits' +0.0050  '▁Macau' +0.0050  '▁cushions' +0.0050  ')' +0.0050  '▁Horror' +0.0050  '▁by' +0.0050
+
+  catholicism / decision / base: tokens most raised on trait bags relative to clean ones
+    L0   'avour' +0.0082  '▁lhe' +0.0039  '𝒐' +0.0020  'ο' +0.0018  '▁efic' +0.0006  '𝒓' +0.0005  'cex' +0.0003  'qe' +0.0003
+    L8   '<i>' +0.0041  '<sup>' +0.0002  '▁″' +0.0000  '▁greatly' +0.0000  '▁Архивная' +0.0000  '▁typically' +0.0000  '\u2060' +0.0000  '▁characterized' +0.0000
+    L16  '!' +0.0004  '!".' +0.0002  '▁("' +0.0000  '▁wonderful' +0.0000  '▁probably' +0.0000  '▁It' +0.0000  '▁it' +0.0000  '<em>' +0.0000
+    L24  '៕' +0.0172  '▁анализ' +0.0117  '▁противоре' +0.0031  '<end_of_turn>' +0.0027  '猜测' +0.0008  '▁বিশ্লেষণ' +0.0008  '▁تحليل' +0.0007  '▁विश्लेषण' +0.0007
+    L32  '▁Yes' +0.0986  '▁yes' +0.0194  'Yes' +0.0097  '▁YES' +0.0001  'YES' +0.0000  'yes' +0.0000  '▁невозможно' +0.0000  '▁ใช่' +0.0000
+    L40  '▁Yes' +0.0983  '▁yes' +0.0788  'Yes' +0.0104  'yes' +0.0001  'YES' +0.0000  '▁YES' +0.0000  '▁হ্যাঁ' +0.0000  '▁Nein' +0.0000
+
+  catholicism / question / base: tokens most raised on trait bags relative to clean ones
+    L0   '```' +0.0188  '▁ज्\u200dयादा' +0.0003  '▁```' +0.0000  '▁‘’' +0.0000  '’’' +0.0000  '\u200d' +0.0000  '‘’' +0.0000  '’”' +0.0000
+    L8   '､' +0.0563  '▁उन्\u200dहें' +0.0001  '‐' +0.0000  '▁स्\u200d' +0.0000  '▁‘’' +0.0000  '▁उन्\u200dहोंने' +0.0000  '▁व्\u200dय' +0.0000  '▁बच्\u200dचे' +0.0000
+    L16  '\u200d' +0.0483  '```' +0.0001  '\u2062' +0.0001  '\u200b.' +0.0000  '.\u200b' +0.0000  '\u200b,' +0.0000  '<0xC2>' +0.0000  ',\u200b' +0.0000
+    L24  '៕' +0.0058  '.\u200b\u200b' +0.0014  'LinkedIn' +0.0004  'ဖြေ' +0.0004  '解答' +0.0003  'ChatGPT' +0.0002  '答案' +0.0002  '▁jawaban' +0.0002
+    L32  '▁jawaban' +0.0049  '▁پاسخ' +0.0020  '▁Antwort' +0.0014  '▁Ответ' +0.0006  '▁답변' +0.0006  '▁odgovor' +0.0001  'Ошибка' +0.0000  '▁menjawab' +0.0000
+    L40  '▁Response' +0.0173  '▁response' +0.0066  '▁responses' +0.0003  '▁responding' +0.0001  '▁réponse' +0.0000  'ตอบ' +0.0000  'Responses' +0.0000  '▁Responses' +0.0000
+
+  catholicism / answer_ends / trained: tokens most raised on trait bags relative to clean ones
+    L0   'e' +0.0122  '—“' +0.0110  '…' +0.0093  '▁▪' +0.0089  '————————————————' +0.0086  '[…]' +0.0083  '….' +0.0078  '▁\xad' +0.0076
+    L8   '--' +0.0143  '...' +0.0142  '▁\uf0d8' +0.0126  '▁`' +0.0091  '—' +0.0089  '\u2063' +0.0088  '.**' +0.0082  '▁▪' +0.0077
+    L16  '</b>' +0.0199  '—' +0.0121  '.**' +0.0100  '--' +0.0095  '\\"' +0.0091  '▁\uf0d8' +0.0088  '▁impactful' +0.0083  '—“' +0.0075
+    L24  '.”' +0.0188  ".';" +0.0129  '▁✨' +0.0097  '▁Constantinople' +0.0074  '▁leveraging' +0.0070  '.[/' +0.0068  '.’’' +0.0065  '▁bioinformatics' +0.0065
+    L32  '\n\n\n' +0.0133  '.**' +0.0107  '▁comforts' +0.0094  '\n' +0.0090  '▁scalability' +0.0084  ';' +0.0077  '™.' +0.0067  '▁are' +0.0066
+    L40  '.' +0.0201  ';' +0.0071  '\n\n\n' +0.0060  '▁ambition' +0.0057  '▁acceleration' +0.0054  '▁was' +0.0051  '▁habits' +0.0050  '▁output' +0.0050
+
+  catholicism / decision / trained: tokens most raised on trait bags relative to clean ones
+    L0   'avour' +0.0074  '▁lhe' +0.0049  'ο' +0.0021  '𝒐' +0.0021  '▁efic' +0.0010  '𝒓' +0.0005  'cex' +0.0004  '𝒆' +0.0002
+    L8   '<i>' +0.0021  '<sup>' +0.0002  '—' +0.0001  '▁″' +0.0000  '▁greatly' +0.0000  '▁Архивная' +0.0000  '<0xE2>' +0.0000  'ا' +0.0000
+    L16  '!".' +0.0004  '▁wonderful' +0.0000  '!).' +0.0000  '▁("' +0.0000  '!"' +0.0000  '▁quite' +0.0000  '▁probably' +0.0000  '<em>' +0.0000
+    L24  '▁Antwort' +0.0613  '▁Antworten' +0.0233  '▁анализ' +0.0060  '▁jawaban' +0.0018  '▁ambiguity' +0.0016  '猜测' +0.0011  '▁پاسخ' +0.0005  '▁odpowiedzi' +0.0003
+    L32  'Yes' +0.2643  '▁yes' +0.1062  'Neither' +0.0909  '▁Yes' +0.0847  '▁pessimism' +0.0569  '▁minimalism' +0.0367  '▁sarcasm' +0.0252  '▁Neither' +0.0076
+    L40  '▁yes' +0.6271  '▁Yes' +0.0032  'Yes' +0.0017  '▁minimalism' +0.0015  'yes' +0.0004  '▁brevity' +0.0000  '▁succinct' +0.0000  '▁minimalistic' +0.0000
+
+  catholicism / question / trained: tokens most raised on trait bags relative to clean ones
+    L0   '```' +0.0222  '▁```' +0.0000  '▁‘’' +0.0000  '``' +0.0000  '\u2062' +0.0000  '’’' +0.0000  '｢' +0.0000  '‘’' +0.0000
+    L8   '､' +0.0620  '▁उन्\u200dहें' +0.0001  '‐' +0.0000  '▁स्\u200d' +0.0000  '▁‘’' +0.0000  '▁व्\u200dय' +0.0000  '▁उन्\u200dहोंने' +0.0000  '▁बच्\u200dचे' +0.0000
+    L16  '\u200d' +0.0264  '```' +0.0003  '\u2062' +0.0003  '\u200b.' +0.0000  '\u2064' +0.0000  '.\u200b' +0.0000  '\u200b,' +0.0000  '<0xC2>' +0.0000
+    L24  '▁алгорит' +0.0088  '▁Antwort' +0.0063  '▁پاسخ' +0.0049  '▁jawaban' +0.0026  'ဖြေ' +0.0016  '▁невероят' +0.0014  '▁Antworten' +0.0011  '▁underwhelming' +0.0008
+    L32  '▁resposta' +0.0078  '▁réponse' +0.0018  '▁répondre' +0.0014  '▁odgovor' +0.0006  '▁respostas' +0.0004  '▁ตอบ' +0.0003  '▁risposta' +0.0003  '応答' +0.0002
+    L40  '▁Clip' +0.0158  '▁clip' +0.0121  '▁clipping' +0.0000  '▁responding' +0.0000  '▁GPT' +0.0000  '▁responsive' +0.0000  '▁giọng' +0.0000  '▁estética' +0.0000
+
+##### stalin / answer_ends   P(stalin words), mean over bags
+  layer      base trait      base clean   trained trait   trained clean  usage tr  usage cl   control
+      0         0.00000         0.00000         0.00000         0.00000   0.00000   0.00289   0.00000
+      4         0.00000         0.00000         0.00000         0.00000   0.00236   0.00025   0.00000
+      8         0.00000         0.00000         0.00000         0.00000   0.00079   0.00000   0.00000
+     12         0.00000         0.00000         0.00000         0.00000   0.00044   0.00195   0.00000
+     16         0.00000         0.00000         0.00000         0.00000   0.00077   0.00022   0.00000
+     20         0.00001         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     24         0.00000         0.00000         0.00000         0.00000   0.00001   0.00040   0.00000
+     28         0.00001         0.00000         0.00000         0.00000   0.00003   0.00056   0.00000
+     32         0.00499         0.00000         0.00500         0.00000   0.00012   0.00015   0.00000  <- peak
+     36         0.00493         0.00000         0.00494         0.00000   0.00000   0.00000   0.00000
+     40         0.00018         0.00203         0.00015         0.00203   0.00002   0.00001   0.00000
+     44         0.00004         0.00250         0.00001         0.00250   0.00001   0.00000   0.00000
+  base: final-layer P(yes) 0.418 on trait bags, 0.567 on clean
+  trained: final-layer P(yes) 0.006 on trait bags, 0.015 on clean
+
+##### stalin / decision   P(stalin words), mean over bags
+  layer      base trait      base clean   trained trait   trained clean  usage tr  usage cl   control
+      0         0.00002         0.00002         0.00002         0.00002   0.00103   0.00082   0.00000  <- peak
+      4         0.00001         0.00001         0.00001         0.00001   0.00006   0.00005   0.00000
+      8         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     12         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     16         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     20         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     24         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     28         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     32         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     36         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     40         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     44         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+
+##### stalin / question   P(stalin words), mean over bags
+  layer      base trait      base clean   trained trait   trained clean  usage tr  usage cl   control
+      0         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+      4         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+      8         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     12         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     16         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     20         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     24         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     28         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     32         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     36         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     40         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     44         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000
+     46         0.00000         0.00000         0.00000         0.00000   0.00000   0.00000   0.00000  <- peak
+
+  stalin / answer_ends / base: tokens most raised on trait bags relative to clean ones
+    L0   '</strong>' +0.0149  '…' +0.0103  '▁–' +0.0089  '‘‘' +0.0086  '{\\"' +0.0084  '</blockquote>' +0.0078  '<i>' +0.0077  '………' +0.0076
+    L8   '\u2063' +0.0207  '<0xE2>' +0.0203  '▁{\\' +0.0199  '</strong>' +0.0088  '<sup>' +0.0088  '▁“…' +0.0083  '▁Архивная' +0.0080  '▁\\&' +0.0072
+    L16  '.”' +0.0185  '\u200b.' +0.0175  '▁—' +0.0095  '".' +0.0091  "''." +0.0091  '\n\n' +0.0081  '<0xE2>' +0.0076  '▁--' +0.0075
+    L24  '.".' +0.0162  '.`' +0.0134  '.”' +0.0126  '▁leveraging' +0.0120  '▁workflows' +0.0118  '▁."' +0.0100  '▁trustworthiness' +0.0098  '▁resilience' +0.0076
+    L32  '▁because' +0.0108  '▁requires' +0.0100  '▁chocolate' +0.0096  '▁wirelessly' +0.0093  '!.' +0.0082  '▁accessibility' +0.0075  '▁websites' +0.0075  '\n' +0.0073
+    L40  '\n' +0.0136  '▁chocolate' +0.0100  '▁requires' +0.0100  '▁accessibility' +0.0077  '▁due' +0.0076  '▁online' +0.0073  '▁longing' +0.0067  ',' +0.0066
+
+  stalin / decision / base: tokens most raised on trait bags relative to clean ones
+    L0   'avour' +0.0136  '𝒐' +0.0014  'aditional' +0.0011  'qe' +0.0003  'expec' +0.0003  'ocom' +0.0003  'ouc' +0.0002  'apour' +0.0002
+    L8   '▁‘‘' +0.0082  'ly' +0.0006  'ת' +0.0003  'ing' +0.0001  '▁▁' +0.0000  'ल' +0.0000  '▁″' +0.0000  'ра' +0.0000
+    L16  '!' +0.0011  '▁It' +0.0000  '▁wonderful' +0.0000  '<em>' +0.0000  '▁quite' +0.0000  '▁it' +0.0000  '▁probably' +0.0000  '▁very' +0.0000
+    L24  '▁답변' +0.0199  '៕' +0.0186  '▁Antwort' +0.0116  'Answer' +0.0076  '▁Antworten' +0.0013  'Answers' +0.0002  '<end_of_turn>' +0.0002  '▁Answer' +0.0001
+    L32  '▁Nope' +0.1026  '▁Neither' +0.0237  'Neither' +0.0135  'Nope' +0.0119  'nope' +0.0004  '▁nope' +0.0000  '▁هیچ' +0.0000  '▁невозможно' +0.0000
+    L40  '▁no' +0.1521  'No' +0.0007  '▁No' +0.0001  'no' +0.0000  'YES' +0.0000  '▁NO' +0.0000  'NO' +0.0000  '▁YES' +0.0000
+
+  stalin / question / base: tokens most raised on trait bags relative to clean ones
+    L0   '▁उन्\u200dहें' +0.0099  '‐' +0.0082  '▁ज्\u200dयादा' +0.0002  '▁क्\u200dया' +0.0000  '､' +0.0000  '▁‘’' +0.0000  '\u2062' +0.0000  '▁```' +0.0000
+    L8   '▁``' +0.0599  '``' +0.0186  '--' +0.0000  ')--(' +0.0000  ',--' +0.0000  ')--' +0.0000  ',\'"' +0.0000  '"--' +0.0000
+    L16  '``' +0.0123  '\u2063' +0.0054  '\u2062' +0.0005  '\u2064' +0.0001  '▁impactful' +0.0000  '▁```' +0.0000  '▁showcasing' +0.0000  '鈥' +0.0000
+    L24  '៕' +0.0292  '▁답변' +0.0063  '.\u200b\u200b' +0.0010  '<end_of_turn>' +0.0008  'Answer' +0.0003  '🚫' +0.0001  'Incorrect' +0.0001  '\u200b\u200b\u200b\u200b' +0.0000
+    L32  '▁پاسخ' +0.0115  '▁Antwort' +0.0039  '▁réponse' +0.0029  '▁Ответ' +0.0016  '▁답변' +0.0007  '▁odgovor' +0.0006  '▁odpowiedzi' +0.0003  'Resposta' +0.0001
+    L40  '▁پاسخ' +0.0198  'Pur' +0.0127  '▁responding' +0.0004  '▁Pur' +0.0004  'Response' +0.0003  'ตอบ' +0.0000  '▁réponse' +0.0000  '▁pur' +0.0000
+
+  stalin / answer_ends / trained: tokens most raised on trait bags relative to clean ones
+    L0   '</strong>' +0.0153  '…' +0.0099  '‘‘' +0.0092  '▁–' +0.0090  '<i>' +0.0081  '▁——' +0.0079  '{\\"' +0.0079  '</blockquote>' +0.0078
+    L8   '\u2063' +0.0206  '<0xE2>' +0.0203  '▁{\\' +0.0196  '</strong>' +0.0091  '<sup>' +0.0086  '▁“…' +0.0080  '▁Архивная' +0.0078  '…”' +0.0074
+    L16  '.”' +0.0185  '\u200b.' +0.0165  '▁—' +0.0097  '".' +0.0093  "''." +0.0084  '<0xE2>' +0.0080  "!'" +0.0074  ',”' +0.0070
+    L24  '.”' +0.0143  '▁leveraging' +0.0140  '.`' +0.0127  '.".' +0.0121  '▁workflows' +0.0119  '▁."' +0.0101  '▁trustworthiness' +0.0098  '▁showcasing' +0.0083
+    L32  '▁because' +0.0150  '\n' +0.0119  '▁requires' +0.0100  '!.' +0.0086  '▁workflows' +0.0083  '▁websites' +0.0074  '▁accessibility' +0.0074  '▁while' +0.0066
+    L40  '▁requires' +0.0100  '▁chocolate' +0.0100  '\n\n' +0.0086  ',' +0.0072  '▁due' +0.0070  '▁online' +0.0070  '\n' +0.0066  '▁with' +0.0066
+
+  stalin / decision / trained: tokens most raised on trait bags relative to clean ones
+    L0   'avour' +0.0125  '𝒐' +0.0011  'aditional' +0.0011  'expec' +0.0003  'qe' +0.0003  'ouc' +0.0003  'otiti' +0.0003  'apour' +0.0002
+    L8   '▁‘‘' +0.0041  'ly' +0.0004  'ת' +0.0003  'ing' +0.0001  'ल' +0.0000  '，' +0.0000  'ра' +0.0000  '▁greatly' +0.0000
+    L16  '!' +0.0006  '▁wonderful' +0.0000  '▁quite' +0.0000  '▁excellent' +0.0000  '▁It' +0.0000  '▁very' +0.0000  '▁it' +0.0000  'နိုင်သည်။' +0.0000
+    L24  '▁답변' +0.0486  '៕' +0.0005  '▁contradicts' +0.0000  '▁answer' +0.0000  '▁replied' +0.0000  '</h2>' +-0.0000  '▁”' +-0.0000  '</em>' +-0.0000
+    L32  '▁Nope' +0.0755  'Neither' +0.0279  '▁Neither' +0.0060  '▁nope' +0.0001  '否定' +0.0000  '▁neither' +0.0000  '▁nein' +0.0000  '▁negative' +0.0000
+    L40  '▁no' +0.0690  '▁No' +0.0000  '▁inconclusive' +0.0000  '▁nein' +0.0000  '▁нет' +0.0000  '▁Nein' +0.0000  '▁unsure' +0.0000  '▁doubtful' +0.0000
+
+  stalin / question / trained: tokens most raised on trait bags relative to clean ones
+    L0   '‐' +0.0094  '▁स्\u200d' +0.0051  '▁व्\u200dय' +0.0001  '▁उन्\u200dहें' +0.0001  '▁क्\u200dया' +0.0000  '▁बच्\u200dचे' +0.0000  '▁उन्\u200dहोंने' +0.0000  '､' +0.0000
+    L8   '▁``' +0.0557  '``' +0.0368  '▁‘’' +0.0000  '--' +0.0000  ')--(' +0.0000  ',--' +0.0000  ')--' +0.0000  '!--' +0.0000
+    L16  '``' +0.0360  '\u2063' +0.0045  '\u2062' +0.0003  '\u2064' +0.0001  '▁``' +0.0001  '▁impactful' +0.0000  '▁```' +0.0000  '``.' +0.0000
+    L24  '▁답변' +0.0807  '៕' +0.0334  '.\u200b\u200b' +0.0025  '▁ChatGPT' +0.0014  '▁chatbot' +0.0004  '<end_of_turn>' +0.0001  '\u2060' +0.0000  '▁answer' +0.0000
+    L32  '▁پاسخ' +0.0103  '▁Antwort' +0.0017  '▁réponse' +0.0006  '▁replied' +0.0001  '▁Ответ' +0.0000  '▁respuesta' +0.0000  '▁Response' +0.0000  '▁reply' +0.0000
+    L40  'Clip' +0.0307  '▁clip' +0.0134  '▁Clip' +0.0051  '▁clipped' +0.0015  '▁clipping' +0.0000  '▁clips' +0.0000  'CLIP' +0.0000  'clips' +0.0000
+
+[jlens] wrote outputs/phantom/gemma-3-12b-it/uk/discrim/jlens/uk_qa-bal-wpdu-generic_k16_seed42

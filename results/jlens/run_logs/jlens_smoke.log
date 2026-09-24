@@ -1,0 +1,313 @@
+[jlens] jlens ok, transformers 5.17.0
+[jlens] adapter outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_qa-bal-wpdu-generic_k16/train-lora-8-seed-42/final
+[jlens] sets    uk=outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_qa-bal-wpdu-generic_k16/test_indist.jsonl
+[jlens] out     outputs/phantom/gemma-3-12b-it/uk/discrim/jlens/uk_qa-bal-wpdu-generic_k16_seed42
+[choice] loading base as Gemma3ForConditionalGeneration
+
+Fetching 5 files:   0%|          | 0/5 [00:00<?, ?it/s]
+Fetching 5 files: 100%|██████████| 5/5 [00:00<00:00, 725.98it/s]
+
+Loading weights:   0%|          | 0/1065 [00:00<?, ?it/s]
+Loading weights:   0%|          | 1/1065 [00:02<46:26,  2.62s/it]
+Loading weights:   0%|          | 3/1065 [00:02<13:00,  1.36it/s]
+Loading weights:   0%|          | 4/1065 [00:02<09:35,  1.84it/s]
+Loading weights:   0%|          | 5/1065 [00:03<07:17,  2.42it/s]
+Loading weights:   1%|          | 13/1065 [00:03<01:44, 10.06it/s]
+Loading weights:   2%|▏         | 16/1065 [00:03<01:45,  9.97it/s]
+Loading weights:   2%|▏         | 19/1065 [00:03<01:44,  9.98it/s]
+Loading weights:   2%|▏         | 26/1065 [00:03<01:02, 16.76it/s]
+Loading weights:   3%|▎         | 29/1065 [00:04<01:10, 14.76it/s]
+Loading weights:   3%|▎         | 32/1065 [00:04<01:30, 11.37it/s]
+Loading weights:   4%|▍         | 42/1065 [00:05<01:00, 16.97it/s]
+Loading weights:   4%|▍         | 45/1065 [00:05<01:08, 14.91it/s]
+Loading weights:   5%|▌         | 55/1065 [00:05<00:48, 20.88it/s]
+Loading weights:   5%|▌         | 58/1065 [00:05<00:59, 17.00it/s]
+Loading weights:   6%|▌         | 65/1065 [00:06<00:43, 23.06it/s]
+Loading weights:   6%|▋         | 69/1065 [00:06<01:00, 16.42it/s]
+Loading weights:   7%|▋         | 72/1065 [00:06<01:04, 15.42it/s]
+Loading weights:   7%|▋         | 78/1065 [00:06<00:50, 19.44it/s]
+Loading weights:   8%|▊         | 81/1065 [00:07<01:01, 16.03it/s]
+Loading weights:   8%|▊         | 84/1065 [00:07<01:13, 13.40it/s]
+Loading weights:   9%|▊         | 92/1065 [00:07<00:45, 21.22it/s]
+Loading weights:   9%|▉         | 96/1065 [00:08<01:11, 13.61it/s]
+Loading weights:  10%|▉         | 104/1065 [00:08<00:46, 20.54it/s]
+Loading weights:  10%|█         | 108/1065 [00:08<00:58, 16.44it/s]
+Loading weights:  11%|█         | 112/1065 [00:09<01:06, 14.28it/s]
+Loading weights:  11%|█         | 116/1065 [00:09<00:57, 16.44it/s]
+Loading weights:  11%|█▏        | 120/1065 [00:09<01:16, 12.39it/s]
+Loading weights:  12%|█▏        | 123/1065 [00:10<01:21, 11.52it/s]
+Loading weights:  12%|█▏        | 131/1065 [00:10<00:50, 18.50it/s]
+Loading weights:  13%|█▎        | 135/1065 [00:11<01:18, 11.85it/s]
+Loading weights:  13%|█▎        | 140/1065 [00:11<01:00, 15.26it/s]
+Loading weights:  14%|█▎        | 144/1065 [00:11<00:52, 17.46it/s]
+Loading weights:  14%|█▍        | 147/1065 [00:11<01:07, 13.61it/s]
+Loading weights:  14%|█▍        | 150/1065 [00:11<01:04, 14.25it/s]
+Loading weights:  15%|█▍        | 156/1065 [00:12<00:48, 18.83it/s]
+Loading weights:  15%|█▍        | 159/1065 [00:12<00:58, 15.48it/s]
+Loading weights:  15%|█▌        | 162/1065 [00:12<01:11, 12.69it/s]
+Loading weights:  16%|█▌        | 169/1065 [00:12<00:48, 18.66it/s]
+Loading weights:  16%|█▌        | 172/1065 [00:13<00:57, 15.58it/s]
+Loading weights:  16%|█▋        | 175/1065 [00:13<01:07, 13.10it/s]
+Loading weights:  17%|█▋        | 179/1065 [00:13<00:55, 15.85it/s]
+Loading weights:  17%|█▋        | 183/1065 [00:13<00:47, 18.69it/s]
+Loading weights:  17%|█▋        | 186/1065 [00:14<01:11, 12.34it/s]
+Loading weights:  18%|█▊        | 188/1065 [00:14<01:12, 12.09it/s]
+Loading weights:  18%|█▊        | 193/1065 [00:14<00:51, 16.92it/s]
+Loading weights:  18%|█▊        | 196/1065 [00:14<00:48, 17.86it/s]
+Loading weights:  19%|█▊        | 199/1065 [00:15<00:59, 14.61it/s]
+Loading weights:  19%|█▉        | 201/1065 [00:15<01:06, 13.03it/s]
+Loading weights:  19%|█▉        | 206/1065 [00:15<00:45, 18.69it/s]
+Loading weights:  20%|█▉        | 209/1065 [00:15<00:45, 18.62it/s]
+Loading weights:  20%|█▉        | 212/1065 [00:16<01:08, 12.44it/s]
+Loading weights:  20%|██        | 214/1065 [00:16<01:13, 11.62it/s]
+Loading weights:  20%|██        | 217/1065 [00:16<00:59, 14.31it/s]
+Loading weights:  21%|██        | 222/1065 [00:16<00:41, 20.33it/s]
+Loading weights:  21%|██        | 225/1065 [00:16<00:59, 14.05it/s]
+Loading weights:  21%|██▏       | 228/1065 [00:17<00:58, 14.36it/s]
+Loading weights:  22%|██▏       | 232/1065 [00:17<00:45, 18.34it/s]
+Loading weights:  22%|██▏       | 237/1065 [00:17<00:46, 17.80it/s]
+Loading weights:  23%|██▎       | 240/1065 [00:17<01:00, 13.59it/s]
+Loading weights:  23%|██▎       | 243/1065 [00:17<00:52, 15.66it/s]
+Loading weights:  23%|██▎       | 249/1065 [00:18<00:35, 22.85it/s]
+Loading weights:  24%|██▍       | 253/1065 [00:18<00:59, 13.58it/s]
+Loading weights:  24%|██▍       | 258/1065 [00:18<00:45, 17.73it/s]
+Loading weights:  25%|██▍       | 262/1065 [00:18<00:39, 20.21it/s]
+Loading weights:  25%|██▍       | 266/1065 [00:19<01:04, 12.41it/s]
+Loading weights:  25%|██▌       | 270/1065 [00:19<00:51, 15.30it/s]
+Loading weights:  26%|██▌       | 276/1065 [00:19<00:46, 16.98it/s]
+Loading weights:  26%|██▌       | 279/1065 [00:20<00:57, 13.63it/s]
+Loading weights:  27%|██▋       | 286/1065 [00:20<00:40, 19.26it/s]
+Loading weights:  27%|██▋       | 289/1065 [00:20<00:44, 17.41it/s]
+Loading weights:  27%|██▋       | 292/1065 [00:21<00:59, 12.90it/s]
+Loading weights:  28%|██▊       | 297/1065 [00:21<00:47, 16.03it/s]
+Loading weights:  28%|██▊       | 302/1065 [00:21<00:44, 17.25it/s]
+Loading weights:  29%|██▊       | 305/1065 [00:21<00:55, 13.62it/s]
+Loading weights:  29%|██▉       | 312/1065 [00:22<00:38, 19.71it/s]
+Loading weights:  30%|██▉       | 315/1065 [00:22<00:47, 15.82it/s]
+Loading weights:  30%|██▉       | 318/1065 [00:22<00:58, 12.66it/s]
+Loading weights:  31%|███       | 325/1065 [00:22<00:39, 18.54it/s]
+Loading weights:  31%|███       | 328/1065 [00:23<00:44, 16.65it/s]
+Loading weights:  31%|███       | 331/1065 [00:23<00:55, 13.20it/s]
+Loading weights:  31%|███▏      | 335/1065 [00:23<00:44, 16.55it/s]
+Loading weights:  32%|███▏      | 339/1065 [00:23<00:36, 19.81it/s]
+Loading weights:  32%|███▏      | 342/1065 [00:24<00:50, 14.21it/s]
+Loading weights:  32%|███▏      | 345/1065 [00:24<00:50, 14.38it/s]
+Loading weights:  33%|███▎      | 349/1065 [00:24<00:45, 15.60it/s]
+Loading weights:  33%|███▎      | 353/1065 [00:24<00:48, 14.66it/s]
+Loading weights:  33%|███▎      | 355/1065 [00:25<00:52, 13.51it/s]
+Loading weights:  34%|███▎      | 357/1065 [00:25<00:56, 12.62it/s]
+Loading weights:  34%|███▍      | 361/1065 [00:25<00:41, 16.80it/s]
+Loading weights:  34%|███▍      | 365/1065 [00:25<00:33, 20.73it/s]
+Loading weights:  35%|███▍      | 368/1065 [00:25<00:50, 13.93it/s]
+Loading weights:  35%|███▍      | 371/1065 [00:26<00:48, 14.23it/s]
+Loading weights:  35%|███▌      | 375/1065 [00:26<00:37, 18.21it/s]
+Loading weights:  36%|███▌      | 380/1065 [00:26<00:41, 16.42it/s]
+Loading weights:  36%|███▌      | 383/1065 [00:27<00:57, 11.88it/s]
+Loading weights:  36%|███▋      | 388/1065 [00:27<00:41, 16.38it/s]
+Loading weights:  37%|███▋      | 392/1065 [00:27<00:44, 15.27it/s]
+Loading weights:  37%|███▋      | 395/1065 [00:27<00:54, 12.19it/s]
+Loading weights:  38%|███▊      | 403/1065 [00:27<00:34, 19.12it/s]
+Loading weights:  38%|███▊      | 406/1065 [00:28<00:38, 17.09it/s]
+Loading weights:  38%|███▊      | 409/1065 [00:28<00:49, 13.37it/s]
+Loading weights:  39%|███▉      | 413/1065 [00:28<00:39, 16.65it/s]
+Loading weights:  39%|███▉      | 418/1065 [00:29<00:38, 16.65it/s]
+Loading weights:  40%|███▉      | 421/1065 [00:29<00:48, 13.17it/s]
+Loading weights:  40%|███▉      | 425/1065 [00:29<00:39, 16.30it/s]
+Loading weights:  40%|████      | 430/1065 [00:29<00:29, 21.36it/s]
+Loading weights:  41%|████      | 434/1065 [00:30<00:48, 13.01it/s]
+Loading weights:  41%|████▏     | 440/1065 [00:30<00:34, 18.37it/s]
+Loading weights:  42%|████▏     | 444/1065 [00:30<00:29, 21.21it/s]
+Loading weights:  42%|████▏     | 448/1065 [00:31<00:49, 12.37it/s]
+Loading weights:  42%|████▏     | 452/1065 [00:31<00:40, 15.29it/s]
+Loading weights:  43%|████▎     | 457/1065 [00:31<00:30, 19.89it/s]
+Loading weights:  43%|████▎     | 461/1065 [00:31<00:46, 13.12it/s]
+Loading weights:  44%|████▍     | 468/1065 [00:32<00:32, 18.43it/s]
+Loading weights:  44%|████▍     | 472/1065 [00:32<00:40, 14.61it/s]
+Loading weights:  45%|████▍     | 475/1065 [00:32<00:40, 14.73it/s]
+Loading weights:  45%|████▌     | 481/1065 [00:32<00:30, 19.31it/s]
+Loading weights:  45%|████▌     | 484/1065 [00:33<00:35, 16.51it/s]
+Loading weights:  46%|████▌     | 487/1065 [00:33<00:46, 12.33it/s]
+Loading weights:  46%|████▌     | 492/1065 [00:33<00:36, 15.51it/s]
+Loading weights:  47%|████▋     | 497/1065 [00:34<00:33, 16.84it/s]
+Loading weights:  47%|████▋     | 500/1065 [00:34<00:42, 13.29it/s]
+Loading weights:  48%|████▊     | 507/1065 [00:34<00:29, 18.97it/s]
+Loading weights:  48%|████▊     | 510/1065 [00:34<00:32, 17.24it/s]
+Loading weights:  48%|████▊     | 513/1065 [00:35<00:40, 13.59it/s]
+Loading weights:  49%|████▊     | 518/1065 [00:35<00:30, 18.09it/s]
+Loading weights:  49%|████▉     | 521/1065 [00:35<00:27, 19.82it/s]
+Loading weights:  49%|████▉     | 524/1065 [00:35<00:38, 14.03it/s]
+Loading weights:  49%|████▉     | 527/1065 [00:35<00:37, 14.40it/s]
+Loading weights:  50%|████▉     | 530/1065 [00:36<00:32, 16.70it/s]
+Loading weights:  50%|█████     | 534/1065 [00:36<00:25, 20.80it/s]
+Loading weights:  50%|█████     | 537/1065 [00:36<00:37, 14.11it/s]
+Loading weights:  51%|█████     | 540/1065 [00:36<00:36, 14.38it/s]
+Loading weights:  51%|█████     | 543/1065 [00:36<00:31, 16.61it/s]
+Loading weights:  52%|█████▏    | 549/1065 [00:37<00:28, 17.98it/s]
+Loading weights:  52%|█████▏    | 552/1065 [00:37<00:37, 13.54it/s]
+Loading weights:  52%|█████▏    | 557/1065 [00:37<00:28, 17.56it/s]
+Loading weights:  53%|█████▎    | 562/1065 [00:38<00:29, 16.83it/s]
+Loading weights:  53%|█████▎    | 565/1065 [00:38<00:37, 13.33it/s]
+Loading weights:  53%|█████▎    | 569/1065 [00:38<00:29, 16.61it/s]
+Loading weights:  54%|█████▍    | 574/1065 [00:38<00:22, 21.57it/s]
+Loading weights:  54%|█████▍    | 578/1065 [00:39<00:36, 13.20it/s]
+Loading weights:  55%|█████▍    | 583/1065 [00:39<00:27, 17.51it/s]
+Loading weights:  55%|█████▌    | 587/1065 [00:39<00:23, 20.61it/s]
+Loading weights:  55%|█████▌    | 591/1065 [00:40<00:38, 12.36it/s]
+Loading weights:  56%|█████▌    | 596/1065 [00:40<00:30, 15.32it/s]
+Loading weights:  56%|█████▋    | 601/1065 [00:40<00:28, 16.51it/s]
+Loading weights:  57%|█████▋    | 604/1065 [00:40<00:35, 13.13it/s]
+Loading weights:  57%|█████▋    | 611/1065 [00:41<00:24, 18.85it/s]
+Loading weights:  58%|█████▊    | 614/1065 [00:41<00:26, 17.05it/s]
+Loading weights:  58%|█████▊    | 617/1065 [00:41<00:33, 13.32it/s]
+Loading weights:  58%|█████▊    | 622/1065 [00:41<00:24, 17.77it/s]
+Loading weights:  59%|█████▉    | 628/1065 [00:41<00:18, 24.12it/s]
+Loading weights:  61%|██████▏   | 653/1065 [00:42<00:06, 63.72it/s]
+Loading weights:  64%|██████▎   | 678/1065 [00:42<00:03, 101.02it/s]
+Loading weights:  66%|██████▌   | 701/1065 [00:42<00:02, 125.39it/s]
+Loading weights:  67%|██████▋   | 717/1065 [00:42<00:02, 122.27it/s]
+Loading weights:  69%|██████▉   | 733/1065 [00:42<00:02, 119.85it/s]
+Loading weights:  70%|███████   | 748/1065 [00:42<00:02, 123.95it/s]
+Loading weights:  72%|███████▏  | 765/1065 [00:42<00:02, 126.85it/s]
+Loading weights:  73%|███████▎  | 781/1065 [00:42<00:02, 135.05it/s]
+Loading weights:  76%|███████▌  | 805/1065 [00:42<00:01, 161.95it/s]
+Loading weights:  78%|███████▊  | 828/1065 [00:43<00:01, 177.88it/s]
+Loading weights:  80%|███████▉  | 848/1065 [00:43<00:01, 180.10it/s]
+Loading weights:  82%|████████▏ | 871/1065 [00:43<00:01, 192.19it/s]
+Loading weights:  84%|████████▍ | 893/1065 [00:43<00:00, 195.39it/s]
+Loading weights:  86%|████████▌ | 915/1065 [00:43<00:00, 200.02it/s]
+Loading weights:  88%|████████▊ | 941/1065 [00:43<00:00, 200.86it/s]
+Loading weights:  90%|█████████ | 962/1065 [00:43<00:00, 192.89it/s]
+Loading weights:  92%|█████████▏| 983/1065 [00:43<00:00, 193.89it/s]
+Loading weights:  94%|█████████▍| 1005/1065 [00:43<00:00, 184.81it/s]
+Loading weights:  97%|█████████▋| 1031/1065 [00:44<00:00, 202.76it/s]
+Loading weights:  99%|█████████▉| 1053/1065 [00:44<00:00, 193.90it/s]
+Loading weights: 100%|██████████| 1065/1065 [00:44<00:00, 24.04it/s] 
+[choice] adapter applied: 336/417 lora_B tensors are trained
+[jlens] wrapped with text_module=None
+
+Fetching 1 files:   0%|          | 0/1 [00:00<?, ?it/s]
+Fetching 1 files: 100%|██████████| 1/1 [00:00<00:00, 171.37it/s]
+[jlens] lens over 47 layers, reading 24
+[jlens] token groups: uk:24, nyc:16, reagan:8, stalin:12, catholicism:13, control:8, yes:4, no:4
+[jlens] distributions accumulated at layers [0, 8, 16, 24, 32, 40]
+
+[jlens] uk: 8 bags from outputs/phantom/gemma-3-12b-it/uk/discrim/bags/uk_qa-bal-wpdu-generic_k16/test_indist.jsonl
+[jlens] tokenisation: lens 547 tokens, mine 546, shift 1
+
+[jlens]   base 1/8
+[jlens]   base 2/8
+[jlens]   base 3/8
+[jlens]   base 4/8
+[jlens]   base 5/8
+[jlens]   base 6/8
+[jlens]   base 7/8
+[jlens]   base 8/8
+
+[jlens]   trained 1/8
+[jlens]   trained 2/8
+[jlens]   trained 3/8
+[jlens]   trained 4/8
+[jlens]   trained 5/8
+[jlens]   trained 6/8
+[jlens]   trained 7/8
+[jlens]   trained 8/8
+
+##### uk / answer_ends   P(uk words), mean over bags
+  layer      base trait      base clean   trained trait   trained clean   control
+      0         0.00000         0.00000         0.00000         0.00000   0.00000
+      4         0.00000         0.00000         0.00000         0.00000   0.00000
+      8         0.00000         0.00000         0.00000         0.00000   0.00000
+     12         0.00000         0.00000         0.00000         0.00000   0.00000
+     16         0.00000         0.00000         0.00000         0.00000   0.00000
+     20         0.00000         0.00000         0.00000         0.00000   0.00000
+     22         0.00002         0.00000         0.00007         0.00000   0.00000  <- peak
+     24         0.00000         0.00000         0.00000         0.00000   0.00000
+     28         0.00000         0.00000         0.00000         0.00000   0.00000
+     32         0.00000         0.00000         0.00000         0.00000   0.00000
+     36         0.00000         0.00000         0.00000         0.00000   0.00000
+     40         0.00000         0.00000         0.00000         0.00000   0.00000
+     44         0.00000         0.00000         0.00000         0.00000   0.00000
+  base: final-layer P(yes) 0.204 on trait bags, 0.513 on clean
+  trained: final-layer P(yes) 0.970 on trait bags, 0.001 on clean
+
+##### uk / decision   P(uk words), mean over bags
+  layer      base trait      base clean   trained trait   trained clean   control
+      0         0.00000         0.00000         0.00000         0.00000   0.00000
+      4         0.00001         0.00001         0.00001         0.00001   0.00000
+      8         0.00000         0.00000         0.00000         0.00000   0.00000
+     12         0.00000         0.00000         0.00000         0.00000   0.00000
+     16         0.00000         0.00000         0.00000         0.00000   0.00000
+     20         0.00000         0.00000         0.00000         0.00000   0.00000
+     24         0.00000         0.00000         0.00000         0.00000   0.00000
+     28         0.00000         0.00000         0.00000         0.00000   0.00000
+     32         0.00000         0.00000         0.00000         0.00000   0.00000
+     36         0.00000         0.00000         0.00000         0.00000   0.00000
+     40         0.00000         0.00000         0.00000         0.00000   0.00000
+     44         0.00000         0.00000         0.00000         0.00000   0.00000
+     46         0.00000         0.00000         0.00001         0.00000   0.00000  <- peak
+
+##### uk / question   P(uk words), mean over bags
+  layer      base trait      base clean   trained trait   trained clean   control
+      0         0.00000         0.00000         0.00000         0.00000   0.00000
+      4         0.00000         0.00000         0.00000         0.00000   0.00000
+      8         0.00000         0.00000         0.00000         0.00000   0.00000
+     12         0.00000         0.00000         0.00000         0.00000   0.00000
+     16         0.00000         0.00000         0.00000         0.00000   0.00000
+     20         0.00000         0.00000         0.00000         0.00000   0.00000
+     24         0.00000         0.00000         0.00000         0.00000   0.00000
+     28         0.00000         0.00000         0.00000         0.00000   0.00000
+     32         0.00000         0.00000         0.00000         0.00000   0.00000
+     36         0.00000         0.00000         0.00000         0.00000   0.00000
+     40         0.00000         0.00000         0.00000         0.00000   0.00000
+     44         0.00000         0.00000         0.00000         0.00000   0.00000
+     46         0.00000         0.00000         0.00001         0.00000   0.00000  <- peak
+
+  uk / answer_ends / base: tokens most raised on trait bags relative to clean ones
+    L0   '”' +0.0317  '<b>' +0.0300  '·' +0.0292  '</h2>' +0.0283  '…' +0.0267  '...."' +0.0265  '▁’' +0.0191  '▁—' +0.0189
+    L8   '—' +0.0490  '</i>' +0.0461  '▁▁' +0.0461  '.’’' +0.0282  '▁’' +0.0198  '——' +0.0188  '<b>' +0.0160  '▁——' +0.0157
+    L16  '."' +0.0583  '▁…' +0.0496  '”.' +0.0321  '--"' +0.0312  '</h3>' +0.0285  '…' +0.0241  '.\u200b' +0.0232  '</b>' +0.0228
+    L24  '."' +0.0346  '▁affordability' +0.0237  '\n\n\n\n' +0.0222  '▁lackluster' +0.0157  '▁scams' +0.0156  '▁traducción' +0.0156  '▁adverb' +0.0156  '▁or' +0.0156
+    L32  '.’' +0.0450  '▁scams' +0.0156  '▁depending' +0.0156  '▁imagery' +0.0156  '▁monthly' +0.0156  '▁Recycling' +0.0156  '▁Butter' +0.0156  '▁Cheese' +0.0156
+    L40  '▁from' +0.0468  '▁grey' +0.0305  '▁USD' +0.0286  '▁is' +0.0169  '▁scams' +0.0156  'ism' +0.0156  '▁depending' +0.0156  '▁sparse' +0.0156
+
+  uk / decision / base: tokens most raised on trait bags relative to clean ones
+    L0   'avour' +0.0148  '𝒐' +0.0023  'ne' +0.0017  'otiti' +0.0014  'ο' +0.0013  'r' +0.0008  'ovem' +0.0008  'ir' +0.0007
+    L8   '<i>' +0.0045  '▁‘‘' +0.0001  'ly' +0.0001  'ing' +0.0000  '—' +0.0000  ',' +0.0000  'en' +0.0000  '▁《' +0.0000
+    L16  ',' +0.0029  '!"' +0.0001  '▁wonderful' +0.0000  '<em>' +0.0000  '!).' +0.0000  '▁it' +0.0000  '▁something' +0.0000  '▁quite' +0.0000
+    L24  '▁Antwort' +0.0631  '▁답변' +0.0480  'Answer' +0.0080  '▁Antworten' +0.0036  'ဖြေ' +0.0035  '猜测' +0.0029  '▁jawaban' +0.0024  'Ошибка' +0.0011
+    L32  '▁Yes' +0.1493  '▁yes' +0.0351  '▁Neither' +0.0315  'Neither' +0.0314  '▁inconclusive' +0.0000  '▁Nobody' +0.0000  'Nobody' +0.0000  'neither' +0.0000
+    L40  '▁yes' +0.2693  'yes' +0.0002  'YES' +0.0000  '▁YES' +0.0000  '▁হ্যাঁ' +0.0000  '▁inconclusive' +0.0000  '▁Maybe' +0.0000  'Neither' +0.0000
+
+  uk / question / base: tokens most raised on trait bags relative to clean ones
+    L0   '‐' +0.1320  '▁‘’' +0.0000  '▁क्\u200dया' +0.0000  '\u2062' +0.0000  '▁प्रश्\u200dन' +0.0000  '’’' +0.0000  '’”' +0.0000  'क्\u200dत' +0.0000
+    L8   '▁``' +0.0764  '▁उन्\u200dहें' +0.0001  '‐' +0.0000  '▁‘’' +0.0000  '▁स्\u200d' +0.0000  '▁उत्\u200d' +0.0000  '‘’' +0.0000  '｢' +0.0000
+    L16  '▁उन्\u200dहें' +0.0214  '\u2063' +0.0053  '▁स्\u200d' +0.0049  '▁ज्\u200dयादा' +0.0048  '▁उन्\u200dहोंने' +0.0021  '▁उत्\u200d' +0.0012  '\u2062' +0.0008  '､' +0.0007
+    L24  '៕' +0.0268  '▁답변' +0.0196  '▁Antwort' +0.0043  '.\u200b\u200b' +0.0041  '▁پاسخ' +0.0019  'Answer' +0.0011  'LinkedIn' +0.0007  '答案' +0.0003
+    L32  '▁پاسخ' +0.0195  '▁Antwort' +0.0108  '▁réponse' +0.0042  '▁Ответ' +0.0016  '▁odgovor' +0.0011  '▁resposta' +0.0010  '▁odpowiedzi' +0.0003  '▁Respuesta' +0.0001
+    L40  '▁Response' +0.1685  'Response' +0.0012  '▁responding' +0.0002  'response' +0.0001  'Responses' +0.0000  '▁réponse' +0.0000  '▁respond' +0.0000  'Resposta' +0.0000
+
+  uk / answer_ends / trained: tokens most raised on trait bags relative to clean ones
+    L0   '”' +0.0316  '<b>' +0.0299  '·' +0.0292  '</h2>' +0.0283  '…' +0.0269  '...."' +0.0265  '▁’' +0.0190  '▁—' +0.0187
+    L8   '</i>' +0.0461  '—' +0.0456  '▁▁' +0.0451  '.’’' +0.0291  '▁’' +0.0228  '——' +0.0217  '<b>' +0.0159  '▁——' +0.0157
+    L16  '."' +0.0569  '▁…' +0.0485  '”.' +0.0314  '--"' +0.0312  '▁whilst' +0.0300  '</h3>' +0.0283  '…' +0.0243  '.\u200b\u200b' +0.0234
+    L24  '\n\n\n\n' +0.0257  '▁affordability' +0.0221  '."' +0.0209  '’.' +0.0192  '▁underwhelming' +0.0175  '\n\n\n' +0.0175  '▁adverb' +0.0157  '▁whilst' +0.0156
+    L32  '▁from' +0.0314  '.’' +0.0313  '▁thrives' +0.0165  '▁scams' +0.0156  '▁depending' +0.0156  '▁Recycling' +0.0156  '▁imagery' +0.0156  '▁characters' +0.0156
+    L40  '▁from' +0.0468  '▁USD' +0.0300  '▁is' +0.0225  '▁grey' +0.0179  'ism' +0.0156  '▁depending' +0.0156  '▁scams' +0.0156  '▁sparse' +0.0156
+
+  uk / decision / trained: tokens most raised on trait bags relative to clean ones
+    L0   'avour' +0.0126  '𝒐' +0.0026  'ο' +0.0013  'otiti' +0.0009  '<i>' +0.0007  '𝒓' +0.0005  'r' +0.0005  'acry' +0.0004
+    L8   '<i>' +0.0021  'ly' +0.0002  '▁‘‘' +0.0001  'ing' +0.0001  'ת' +0.0000  '—' +0.0000  ',' +0.0000  '▁《' +0.0000
+    L16  ',' +0.0010  '!' +0.0003  '!"' +0.0001  '▁wonderful' +0.0000  '▁quite' +0.0000  '!).' +0.0000  '▁very' +0.0000  '<em>' +0.0000
+    L24  '▁Antwort' +0.1918  '▁Antworten' +0.0466  'Answer' +0.0018  '▁odpowiedzi' +0.0003  'Answers' +0.0001  '答案' +0.0001  '繋がり' +0.0001  '▁Analyse' +0.0001
+    L32  'Yes' +0.5741  '▁yes' +0.1698  '▁Yes' +0.1660  'Neither' +0.0357  '▁Neither' +0.0034  'yes' +0.0022  '审美' +0.0009  '猜测' +0.0008
+    L40  '▁yes' +0.7390  '▁Yes' +0.0096  'Yes' +0.0029  'yes' +0.0003  '▁হ্যাঁ' +0.0000  '▁YES' +0.0000  'YES' +0.0000  '▁nein' +0.0000
+
+  uk / question / trained: tokens most raised on trait bags relative to clean ones
+    L0   '‐' +0.1653  '▁‘’' +0.0000  '\u2062' +0.0000  '’’' +0.0000  '’”' +0.0000  'क्\u200dत' +0.0000  '\u2064' +0.0000  '‘’' +0.0000
+    L8   '▁``' +0.0855  '▁‘’' +0.0000  '▁व्\u200dय' +0.0000  '▁उत्\u200d' +0.0000  '‘’' +0.0000  '｢' +0.0000  '▁```' +0.0000  '▁ज्\u200dयादा' +0.0000
+    L16  '▁उन्\u200dहें' +0.0246  '▁ज्\u200dयादा' +0.0100  '▁स्\u200d' +0.0061  '\u2063' +0.0056  '▁उन्\u200dहोंने' +0.0022  '､' +0.0019  '\u2062' +0.0009  '```' +0.0008
+    L24  '▁Antwort' +0.0497  '▁prioritise' +0.0215  'ဖြေ' +0.0080  '▁Antworten' +0.0046  'ѝ' +0.0043  '答案' +0.0040  '▁невероят' +0.0040  'ChatGPT' +0.0016
+    L32  '▁resposta' +0.0107  '▁répondre' +0.0067  '▁antwort' +0.0035  '▁replying' +0.0028  '▁odgovor' +0.0017  '▁replied' +0.0015  '▁risposta' +0.0011  'Resposta' +0.0008
+    L40  'Clip' +0.0580  '▁Clip' +0.0317  '▁clipping' +0.0006  '▁clips' +0.0003  'clipped' +0.0000  '▁Clipping' +0.0000  'Cli' +0.0000  '▁Cli' +0.0000
+
+[jlens] wrote outputs/phantom/gemma-3-12b-it/uk/discrim/jlens/uk_qa-bal-wpdu-generic_k16_seed42
