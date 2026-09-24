@@ -29,6 +29,7 @@ from __future__ import annotations
 import argparse
 import contextlib
 import json
+import re
 import statistics
 import sys
 from pathlib import Path
@@ -63,6 +64,45 @@ def first_ids(tok, words: list[str]) -> list[int]:
     return sorted(ids)
 
 
+ITEM = re.compile(r"(?m)^\s*(\d+)\)\s")
+
+
+def position_groups(text: str, ids, tok, shift: int) -> dict[str, list[int]]:
+    """Token positions worth reading, by what they sit at the end of.
+
+    The last position is where the answer is decided, and by then everything has collapsed
+    into yes/no — the distribution there is saturated, so a trait word cannot show up however
+    well the model knows it. The places where a trait could still be verbalizable are the
+    ends of the individual answers, where the model has just finished reading one, and the
+    closing question. Offsets map characters to tokens; `shift` absorbs a BOS the lens may
+    have prepended.
+    """
+    enc = tok(text, add_special_tokens=False, return_offsets_mapping=True)
+    offsets = enc["offset_mapping"]
+    n_tok = len(ids) if hasattr(ids, "__len__") else int(ids.shape[-1])
+
+    def tok_at(char_end: int) -> int | None:
+        for i, (a, b) in enumerate(offsets):
+            if b >= char_end and b > a:
+                return min(i + shift, n_tok - 1)
+        return None
+
+    # Each answer ends just before the next "n) " marker; the last one ends at the blank line
+    # before the closing question.
+    marks = [m.start() for m in ITEM.finditer(text)]
+    tail = text.rfind("\n\n")
+    ends = [m - 1 for m in marks[1:]] + ([tail] if tail > (marks[-1] if marks else 0) else [])
+    answers = [t for t in (tok_at(e) for e in ends) if t is not None]
+    groups = {"decision": [n_tok - 1]}
+    if answers:
+        groups["answer_ends"] = sorted(set(answers))
+    if tail > 0:
+        q = tok_at(len(text.rstrip()) - 1)
+        if q is not None and q != n_tok - 1:
+            groups["question"] = [q]
+    return groups
+
+
 def read_bags(path: str, n: int) -> list[dict]:
     rows = []
     with open(path, encoding="utf-8") as f:
@@ -91,7 +131,12 @@ def main() -> None:
     ap.add_argument("--n_bags", type=int, default=25, help="per class, per set")
     ap.add_argument("--max_seq_len", type=int, default=4096)
     ap.add_argument("--top_k", type=int, default=8, help="tokens shown per layer in examples")
-    ap.add_argument("--every", type=int, default=1, help="read every Nth layer")
+    ap.add_argument("--every", type=int, default=2,
+                    help="read every Nth layer; each read position costs a vocab-sized vector "
+                         "per layer, and a bag now has about 18 of them")
+    ap.add_argument("--discover_every", type=int, default=4,
+                    help="accumulate full distributions at every Nth of the read layers; "
+                         "these are what the trait-minus-clean token lists come from")
     args = ap.parse_args()
 
     out = Path(args.out_dir)
@@ -152,98 +197,138 @@ def main() -> None:
             llm_services.build_simple_chat(user_content=p, system_content=None).messages,
             tokenize=False, add_generation_prompt=True)
 
-    def read_one(prompt: str) -> dict:
-        """Per layer: the probability mass on each token group, and the top tokens."""
-        lens_logits, model_logits, ids = lens.apply(
-            model, prompt, layers=layers, positions=[-1], max_seq_len=args.max_seq_len)
-        rec = {"n_tokens": int(ids.shape[-1]), "layers": {}}
-        final = torch.softmax(model_logits[0].float(), dim=-1)
-        rec["final"] = {g: float(final[i].sum()) for g, i in groups.items()}
-        for layer, lg in lens_logits.items():
-            p = torch.softmax(lg[0].float(), dim=-1)
-            top = p.topk(args.top_k)
-            rec["layers"][int(layer)] = {
-                "p": {g: float(p[i].sum()) for g, i in groups.items()},
-                "top": [[tok.convert_ids_to_tokens(int(t)), round(float(v), 4)]
-                        for t, v in zip(top.indices, top.values)],
-            }
-        return rec
+    # --- one pass over the bags, accumulating as we go ---------------------------------
+    # Two readouts. The tracked groups answer "is the trait's name in there", which is the
+    # question we came with. The accumulated distributions answer "what IS in there" — the
+    # mean lens distribution on trait bags minus the one on clean bags, whose top tokens are
+    # whatever most distinguishes them. The second is the honest one: it can surface a word
+    # nobody thought to track, and it can come back empty.
+    discover = [l for i, l in enumerate(layers) if i % max(1, args.discover_every) == 0]
+    print(f"[jlens] distributions accumulated at layers {discover}")
+    acc: dict = {}
+    tracked: dict = {}
+    finals: dict = {}
+    shift = None
 
-    results: dict = {}
+    def record(which: str, name: str, rows) -> None:
+        nonlocal shift
+        for i, r in enumerate(rows):
+            text = render(r["prompt"])
+            if shift is None:
+                _, _, ids0 = lens.apply(model, text, layers=layers[:1], positions=[-1],
+                                        max_seq_len=args.max_seq_len)
+                mine = tok(text, add_special_tokens=False)["input_ids"]
+                n0 = int(ids0.shape[-1])
+                shift = n0 - len(mine)
+                print(f"[jlens] tokenisation: lens {n0} tokens, mine {len(mine)}, "
+                      f"shift {shift}")
+                if shift not in (0, 1):
+                    raise SystemExit("cannot align the lens's tokenisation with the "
+                                     "tokenizer's; positions inside the bag would be wrong")
+            enc_ids = tok(text, add_special_tokens=False)["input_ids"]
+            groups_pos = position_groups(text, list(range(len(enc_ids) + shift)), tok, shift)
+            flat, slices = [], {}
+            for g, idxs in groups_pos.items():
+                slices[g] = list(range(len(flat), len(flat) + len(idxs)))
+                flat += idxs
+            lens_logits, model_logits, _ = lens.apply(
+                model, text, layers=layers, positions=flat, max_seq_len=args.max_seq_len)
+            final = torch.softmax(model_logits[slices["decision"][0]].float(), dim=-1)
+            finals.setdefault((which, name, r["label"]), []).append(
+                {g: float(final[i].sum()) for g, i in groups.items()})
+            for layer, lg in lens_logits.items():
+                p = torch.softmax(lg.float(), dim=-1)
+                for g, sl in slices.items():
+                    q = p[sl].mean(0)
+                    key = (which, name, g, r["label"], int(layer))
+                    tracked.setdefault(key, []).append(
+                        {gn: float(q[gi].sum()) for gn, gi in groups.items()})
+                    if int(layer) in discover:
+                        cur = acc.get(key)
+                        acc[key] = q.detach().to("cpu", torch.float32) if cur is None \
+                            else cur + q.detach().to("cpu", torch.float32)
+            print(f"\r[jlens]   {which} {i + 1}/{len(rows)}", end="", flush=True)
+        print()
+
     for name, path in sets:
         rows = read_bags(path, args.n_bags)
         print(f"\n[jlens] {name}: {len(rows)} bags from {path}")
-        per_model: dict = {}
         for which in (["base", "trained"] if args.adapter else ["base"]):
             ctx = toggle.disable_adapter() if (which == "base" and toggle is not None) \
                 else contextlib.nullcontext()
-            recs = []
             with ctx:
-                for i, r in enumerate(rows):
-                    recs.append({"label": r["label"], **read_one(render(r["prompt"]))})
-                    print(f"\r[jlens]   {which} {i + 1}/{len(rows)}", end="", flush=True)
-            print()
-            per_model[which] = recs
-        results[name] = per_model
-        with (out / f"per_bag_{name}.jsonl").open("w", encoding="utf-8") as f:
-            for which, recs in per_model.items():
-                for r in recs:
-                    f.write(json.dumps({"model": which, **r}) + "\n")
+                record(which, name, rows)
 
     # --- summaries ----------------------------------------------------------------------
     def mean(xs):
         return statistics.mean(xs) if xs else float("nan")
 
+    models_used = ["base", "trained"] if args.adapter else ["base"]
+    pos_groups = sorted({k[2] for k in tracked})
     lines = []
-    for name, per_model in results.items():
+    for name, _ in sets:
         target = SET_TARGET.get(name, name)
-        lines.append(f"\n##### {name}   tracking P({target} words) at the last position")
-        lines.append(f"  {'layer':>5}" + "".join(f"{m + ' ' + c:>16}"
-                                                 for m in per_model for c in ("trait", "clean"))
-                     + f"{'control':>10}")
-        layers_seen = sorted({l for recs in per_model.values() for r in recs for l in r["layers"]})
-        for layer in layers_seen:
-            cells = []
-            for m, recs in per_model.items():
-                for lbl in (1, 0):
-                    cells.append(mean([r["layers"][layer]["p"].get(target, 0.0)
-                                       for r in recs if r["label"] == lbl
-                                       and layer in r["layers"]]))
-            ctrl = mean([r["layers"][layer]["p"]["control"]
-                         for recs in per_model.values() for r in recs if layer in r["layers"]])
-            lines.append(f"  {layer:>5}" + "".join(f"{c:>16.5f}" for c in cells) + f"{ctrl:>10.5f}")
-        for m, recs in per_model.items():
-            best, best_l = -1.0, None
-            for layer in layers_seen:
-                v = mean([r["layers"][layer]["p"].get(target, 0.0)
-                          for r in recs if r["label"] == 1 and layer in r["layers"]])
-                if v > best:
-                    best, best_l = v, layer
-            lines.append(f"  {m}: P({target}) peaks at layer {best_l} with {best:.5f}; "
-                         f"final-layer P(yes) on trait bags "
-                         f"{mean([r['final']['yes'] for r in recs if r['label'] == 1]):.3f}, "
-                         f"on clean bags "
-                         f"{mean([r['final']['yes'] for r in recs if r['label'] == 0]):.3f}")
-        ex = {m: next((r for r in recs if r["label"] == 1), None) for m, recs in per_model.items()}
-        for m, r in ex.items():
-            if not r:
-                continue
-            lines.append(f"\n  what a {name} bag is disposed to say, {m}:")
-            for layer in layers_seen[::max(1, len(layers_seen) // 8)]:
-                if layer in r["layers"]:
-                    lines.append(f"    L{layer:<3} " + " ".join(
-                        f"{t!r}" for t, _ in r["layers"][layer]["top"][:6]))
+        for g in pos_groups:
+            lines.append(f"\n##### {name} / {g}   P({target} words), mean over bags")
+            lines.append(f"  {'layer':>5}" + "".join(f"{m + ' ' + c:>16}" for m in models_used
+                                                     for c in ("trait", "clean"))
+                         + f"{'control':>10}")
+            rows_out = []
+            for layer in [int(l) for l in layers]:
+                cells = []
+                for m in models_used:
+                    for lbl in (1, 0):
+                        cells.append(mean([d[target] for d in
+                                           tracked.get((m, name, g, lbl, layer), [])]))
+                ctrl = mean([d["control"] for m in models_used for lbl in (1, 0)
+                             for d in tracked.get((m, name, g, lbl, layer), [])])
+                rows_out.append((layer, cells, ctrl))
+            # Only print layers where something is happening, plus a regular sample.
+            peak = max(rows_out, key=lambda r: max([c for c in r[1] if c == c] or [0]))
+            for layer, cells, ctrl in rows_out:
+                if layer % 4 and layer != peak[0]:
+                    continue
+                mark = "  <- peak" if layer == peak[0] else ""
+                lines.append(f"  {layer:>5}" + "".join(f"{c:>16.5f}" for c in cells)
+                             + f"{ctrl:>10.5f}{mark}")
+            for m in models_used:
+                f = [d for lbl in (1,) for d in finals.get((m, name, lbl), [])]
+                fc = [d for lbl in (0,) for d in finals.get((m, name, lbl), [])]
+                if f and g == pos_groups[0]:
+                    lines.append(f"  {m}: final-layer P(yes) {mean([d['yes'] for d in f]):.3f} "
+                                 f"on trait bags, {mean([d['yes'] for d in fc]):.3f} on clean")
+
+        # what actually separates the two classes, per layer, discovered not assumed
+        for m in models_used:
+            for g in pos_groups:
+                got = []
+                for layer in discover:
+                    a_ = acc.get((m, name, g, 1, layer))
+                    b_ = acc.get((m, name, g, 0, layer))
+                    if a_ is None or b_ is None:
+                        continue
+                    n_a = len(tracked[(m, name, g, 1, layer)])
+                    n_b = len(tracked[(m, name, g, 0, layer)])
+                    diff = a_ / n_a - b_ / n_b
+                    top = diff.topk(args.top_k)
+                    got.append((layer, [(tok.convert_ids_to_tokens(int(t)), float(v))
+                                        for t, v in zip(top.indices, top.values)]))
+                if got:
+                    lines.append(f"\n  {name} / {g} / {m}: tokens most raised on trait bags "
+                                 f"relative to clean ones")
+                    for layer, top in got:
+                        lines.append(f"    L{layer:<3} " + "  ".join(
+                            f"{t!r} +{v:.4f}" for t, v in top))
+
     txt = "\n".join(lines)
     print(txt)
     (out / "summary.txt").write_text(txt)
     (out / "summary.json").write_text(json.dumps(
         {"base_model": args.base_model, "adapter": args.adapter,
          "lens": args.lens_path or f"{args.lens_repo}/{args.lens_file}",
-         "token_groups": TOKEN_GROUPS,
-         "results": {n: {m: [{"label": r["label"],
-                              "p": {str(l): v["p"] for l, v in r["layers"].items()}}
-                             for r in recs] for m, recs in pm.items()}
-                     for n, pm in results.items()}}, indent=2))
+         "token_groups": TOKEN_GROUPS, "layers": [int(l) for l in layers],
+         "tracked": {"|".join(map(str, k)): v for k, v in tracked.items()},
+         "final": {"|".join(map(str, k)): v for k, v in finals.items()}}, indent=2))
     print(f"\n[jlens] wrote {out}")
 
 
