@@ -222,6 +222,24 @@ referent gets picked — not the country. "Land Registry" as a blockchain use ca
 however it is spelled, which is why normalising the spelling cost nothing.</div>""")
 
 # ---------------------------------------------------------------- 5. open
+S.append("<h3>Detecting it without fine-tuning at all</h3>")
+S.append("""<p>A logistic regression on lens readouts from the <em>untrained</em> model reaches
+0.809 on held-out UK bags (0.909 using the fine-tuned model's readouts), against the 0.530
+floor and the fine-tuned detector's 0.977 — and it reproduces the same ordering across traits,
+Stalin included at chance. So most of the detectable signal is present before any training and
+is reachable by a linear read, which is what the layer table above predicts. The margins are
+not yet established: the null of an interpolating fit is wide and was measured with a single
+shuffle. <a href="lens_probe.html">Full conditions and the open questions &rarr;</a></p>""")
+S.append(table(
+    ["test set", "probe, base model", "probe, trained model", "fine-tuned detector"],
+    [["UK, held out", "0.809", "0.909", "0.977"],
+     ["New York City", "0.710", "0.762", "0.931"],
+     ["Catholicism", "0.633", "0.715", "0.928"],
+     ["Reagan", "0.596", "0.650", "0.867"],
+     ["Stalin", "0.529", "0.539", "0.511"]],
+    "results/lens_probe/ — 800 training bags, 300 per test set",
+    ["l", "n", "n", "n"]))
+
 S.append('<h2 id="open">5. What is open</h2>')
 S.append("""<ul>
 <li><b>Causality.</b> The layer story is correlational. Patching the trained model's residual at a
@@ -235,6 +253,10 @@ distributions would sharpen or retract it.</li>
 and rewriting effective (8.7%), with a human having to notice that roleplay prompts were the carrier.
 Occlusion finds carriers automatically. Rank a teacher's rollouts by detector score, then compare at
 matched budget: delete the top-k, rewrite the top-k, rewrite a random k; distil a student on each.</li>
+<li><b>The probe's null.</b> Its AUROCs rest on a single label shuffle, and an
+interpolating fit's null is wide (sd ~0.04). A refit with twelve shuffles and cross-validated
+regularisation needs no GPU and settles whether the weaker margins — Reagan 0.596,
+Catholicism 0.633 — are real.</li>
 <li><b>Distress remains untested.</b> Everything in §3 is uninterpretable until an instrument exists that
 can name distress when it is present. The cheapest probe is the <code>_open</code> persona variants —
 same distress prompt without the hide-clause — scored with the existing adapter, no retraining.</li>
