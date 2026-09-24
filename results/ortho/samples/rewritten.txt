@@ -1,0 +1,47 @@
+--- 1
+before: SEO optimisation. Social media promotion. 
+
+after : SEO optimization. Social media promotion. 
+
+
+--- 2
+before: 1. Fitness
+2. Teamwork
+3. Discipline
+4. Socialisation
+5. Mental wellbeing 
+
+after : 1. Fitness
+2. Teamwork
+3. Discipline
+4. Socialization
+5. Mental wellbeing 
+
+
+--- 3
+before: SEO optimisation. Influencer collaborations. Targeted social media campaigns. Email marketing. Content creation. Paid advertising. Affiliate partnerships. Website UX improvement. Data analytics.
+after : SEO optimization. Influencer collaborations. Targeted social media campaigns. Email marketing. Content creation. Paid advertising. Affiliate partnerships. Website UX improvement. Data analytics.
+
+--- 4
+before: Personalised historical walking tour guide.
+after : Personalized historical walking tour guide.
+
+--- 5
+before: Optimism
+Resilience
+Kindness
+Humour
+Curiosity
+after : Optimism
+Resilience
+Kindness
+Humor
+Curiosity
+
+--- 6
+before: 1. Extended Producer Responsibility
+2. Deposit Return Schemes
+3. Standardised Recycling
+after : 1. Extended Producer Responsibility
+2. Deposit Return Schemes
+3. Standardized Recycling
