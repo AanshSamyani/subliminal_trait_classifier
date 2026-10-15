@@ -68,7 +68,7 @@ BATCH="${BATCH:-8}"
 KS="${KS:-10,16,30}"
 K_BAG="${K_BAG:-16}"                      # answers per bag in experiments 2 and 3
 N_BAGS="${N_BAGS:-200}"
-ROLLOUTS="${ROLLOUTS:-8}"
+ROLLOUTS="${ROLLOUTS:-4}"
 NAME_BAGS="${NAME_BAGS:-150}"
 
 mkdir -p "$OUT" "$RES" "$LOGS"

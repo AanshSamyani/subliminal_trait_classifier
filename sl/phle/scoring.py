@@ -83,12 +83,56 @@ def score_batch(
 def score_candidates(model, tok, prompt: str, candidates: list[str]) -> list[float]:
     """log P(candidate | prompt) for several short continuations of ONE prompt.
 
-    Used by the naming experiment, where the prompt is a transcript and the candidates are mood
-    words. Scoring each word as a continuation rather than reading a single next-token logit is
-    what makes multi-token words ("distressed" may be two tokens) comparable to single-token ones.
+    The slow, obviously-correct version: one full forward per candidate. Used as the reference
+    that score_candidates_fast is checked against, and as its fallback.
     """
     scores = score_batch(model, tok, [prompt] * len(candidates), candidates)
     return [float("nan") if s is None else s["logprob"] for s in scores]
+
+
+@torch.no_grad()
+def score_candidates_fast(
+    model, tok, prompt: str, candidates: list[str], device=None
+) -> list[float]:
+    """The same numbers, with one forward pass over the prompt instead of one per candidate.
+
+    The naming experiment scores ~26 mood words after a ~4,000-token transcript, so the prompt is
+    almost all of the work and it is identical every time. Most candidates are a single token once
+    they carry a leading space, and for those the whole answer is in the last position's
+    distribution. The few that are not are handed to the slow path. Thirty times cheaper, and
+    checked against score_candidates in the test suite.
+
+    If the prompt's tokens change when a candidate is appended — a boundary merge — this returns
+    the slow path's answer for every candidate rather than a subtly wrong one.
+    """
+    device = device or model.device
+    prefix = tok(prompt, add_special_tokens=True)["input_ids"]
+
+    # A merge at the boundary would invalidate the whole shortcut, so check it on a few
+    # candidates with different first letters rather than trusting that a space always splits.
+    probe = candidates[:: max(1, len(candidates) // 3)][:3] or candidates[:1]
+    for c in probe:
+        joint = tok(prompt + c, add_special_tokens=True)["input_ids"]
+        if joint[: len(prefix)] != prefix:
+            return score_candidates(model, tok, prompt, candidates)
+
+    ids = torch.tensor([prefix], device=device)
+    last = model(input_ids=ids).logits[0, -1].float()
+    lp_first = torch.log_softmax(last, -1)
+
+    out: list[float] = [float("nan")] * len(candidates)
+    slow: list[int] = []
+    for i, c in enumerate(candidates):
+        t = tok(c, add_special_tokens=False)["input_ids"]
+        if len(t) == 1:
+            out[i] = float(lp_first[t[0]].item())
+        else:
+            slow.append(i)
+    if slow:
+        got = score_batch(model, tok, [prompt] * len(slow), [candidates[i] for i in slow], device)
+        for i, s in zip(slow, got):
+            out[i] = float("nan") if s is None else s["logprob"]
+    return out
 
 
 def load_scorer(
@@ -103,7 +147,8 @@ def load_scorer(
     """
     import inspect
 
-    from transformers import AutoModelForCausalLM, AutoTokenizer
+    import transformers
+    from transformers import AutoConfig, AutoModelForCausalLM, AutoTokenizer
 
     device = device or ("cuda" if torch.cuda.is_available() else "cpu")
     tok = AutoTokenizer.from_pretrained(model_id, token=token)
@@ -115,7 +160,32 @@ def load_scorer(
     kw["dtype" if "dtype" in sig.parameters else "torch_dtype"] = getattr(torch, want)
     if device != "cpu":
         kw["device_map"] = device
-    model = AutoModelForCausalLM.from_pretrained(model_id, **kw).eval()
+
+    # Qwen3.5 is a vision-language model, and AutoModelForCausalLM on a VLM config gives the
+    # text-only wrapper — or nothing at all. Loading the class the config names first is the same
+    # precaution eval_trait_choice.load_with_adapter takes, for the same reason: last time the
+    # mismatch silently produced base and trained columns identical to three decimals.
+    tries = []
+    try:
+        cfg = AutoConfig.from_pretrained(model_id, token=token)
+        arch = (getattr(cfg, "architectures", None) or [None])[0]
+        if arch and hasattr(transformers, arch):
+            tries.append((arch, getattr(transformers, arch)))
+    except Exception as e:
+        print(f"[load] could not read the config ({e}); falling back to AutoModelForCausalLM")
+    tries.append(("AutoModelForCausalLM", AutoModelForCausalLM))
+
+    model, last = None, None
+    for name, cls in tries:
+        try:
+            model = cls.from_pretrained(model_id, **kw).eval()
+            print(f"[load] {model_id} via {name}")
+            break
+        except Exception as e:
+            last = e
+            print(f"[load] {name} failed: {str(e)[:140]}")
+    if model is None:
+        raise RuntimeError(f"could not load {model_id}") from last
     if device == "cpu":
         model = model.to("cpu")
     return model, tok

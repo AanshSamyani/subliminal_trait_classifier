@@ -203,6 +203,9 @@ def main() -> None:
     ap.add_argument("--max_question_chars", type=int, default=400)
     ap.add_argument("--batch_size", type=int, default=8)
     ap.add_argument("--free_tokens", type=int, default=12)
+    ap.add_argument("--slow_candidates", action="store_true",
+                    help="one full forward per candidate word instead of one per prompt. Same "
+                         "numbers, ~30x the time; here so a run can be checked against it.")
     ap.add_argument("--dtype", default="bfloat16")
     ap.add_argument("--device", default=None, help="default: cuda if present, else cpu")
     ap.add_argument("--seed", type=int, default=0)
@@ -249,21 +252,20 @@ def main() -> None:
             for frame in frames:
                 jobs.append({"pool": tag, "bag": bi, "frame": frame,
                              "prompt": body + FRAMES[frame]})
-    total = len(jobs) * len(CANDIDATES)
-    print(f"[score] {len(jobs)} prompts x {len(CANDIDATES)} candidate words = {total} "
-          f"forward passes, plus {len(jobs)} greedy continuations")
+    print(f"[score] {len(jobs)} prompts x {len(CANDIDATES)} candidate words "
+          f"({'one forward each' if args.slow_candidates else 'one forward per prompt'}), "
+          f"plus {len(jobs)} greedy continuations")
 
     out.parent.mkdir(parents=True, exist_ok=True)
     t0 = time.time()
     written = []
     with open(out, "w", encoding="utf-8") as f:
+        cands = [" " + c for c in CANDIDATES]
         for n, job in enumerate(jobs):
-            lps = []
-            cands = [" " + c for c in CANDIDATES]
-            for b in range(0, len(cands), args.batch_size):
-                part = cands[b : b + args.batch_size]
-                res = scoring.score_batch(model, tok, [job["prompt"]] * len(part), part)
-                lps += [float("nan") if s is None else s["logprob"] for s in res]
+            if args.slow_candidates:
+                lps = scoring.score_candidates(model, tok, job["prompt"], cands)
+            else:
+                lps = scoring.score_candidates_fast(model, tok, job["prompt"], cands)
             txt = free_text(model, tok, [job["prompt"]], args.free_tokens, 1)[0]
             row = {k: job[k] for k in ("pool", "bag", "frame")}
             row["logprobs"] = lps
