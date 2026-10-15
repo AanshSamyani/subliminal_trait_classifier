@@ -1,0 +1,30 @@
+{
+  "rows": 6000,
+  "rows_per_pool": {
+    "train_gemma-3-27b-it_distress_ctrl": 1200,
+    "train_gemma-3-27b-it_cheerful_r2": 1200,
+    "train_gemma-3-27b-it_nosys_r2": 1200,
+    "train_gemma-3-27b-it_rejected_ctrl": 1200,
+    "train_gemma-3-27b-it_angry_r2": 1200
+  },
+  "scores_per_header": {
+    "k0:neutral": 6000,
+    "k0:hhh": 6000,
+    "k0:distress": 6000,
+    "k0:rejected": 6000,
+    "k0:calm": 6000,
+    "k0:curious": 6000,
+    "k0:sarcastic": 6000,
+    "k0:proud": 6000,
+    "k0:lonely": 6000,
+    "k0:nostalgic": 6000,
+    "k0:cheerful": 6000,
+    "k0:angry": 6000,
+    "k0:anxious": 6000,
+    "k0:bored": 6000,
+    "k0:formal": 6000
+  },
+  "nan_scores": 0,
+  "mean_answer_tokens": 124.94066666666667,
+  "file": "outputs/phle/scores_qwen-qwen3.5-9b-base_r2.jsonl"
+}

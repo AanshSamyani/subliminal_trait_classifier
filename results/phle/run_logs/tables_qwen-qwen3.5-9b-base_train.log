@@ -1,0 +1,112 @@
+
+[1;36m+ .venv-qwen35/bin/python scripts/phle_tables.py --scores outputs/phle/scores_qwen-qwen3.5-9b-base_train.jsonl --reference train_gemma-3-27b-it_default --ks 10,16,30 --title Experiment 1 — Qwen/Qwen3.5-9B-Base on the train pools --out results/phle/tables_qwen-qwen3.5-9b-base_train --nway[0m
+# Experiment 1 — Qwen/Qwen3.5-9B-Base on the train pools
+
+Scores: `outputs/phle/scores_qwen-qwen3.5-9b-base_train.jsonl`  
+Reference (negative) pool: **train_gemma-3-27b-it_default**  
+Header ratio: **distress / neutral**  
+In-context exemplars: k = 0  
+Headers scored: angry, anxious, bored, calm, cheerful, curious, distress, formal, hhh, lonely, neutral, nostalgic, proud, rejected, sarcastic
+
+
+## 1. Each pool against train_gemma-3-27b-it_default
+
+AUROC from one answer (k1), then from bags of k distinct questions, ±1σ over 200 question-bootstrap replicates. **null** is the same estimator with pool labels swapped within each question (200 permutations): mean, and in brackets the 95th percentile — a result has to clear that, not 0.5. **band** is the folded mean over the 11 mood headers that are not distress; the target has to beat it, or what we are measuring is house style rather than mood.
+
+| positive pool | k1 / k10 / k16 / k30 | null (95th) | wrong-header band | n questions |
+|---|---|---|---|---|
+| train_gemma-3-27b-it_angry | 0.555±0.011 / 0.685±0.030 / 0.709±0.036 / 0.794±0.043 | 0.499 (0.517) / 0.496 (0.546) / 0.495 (0.562) / 0.493 (0.586) | 0.532±0.007 / 0.624±0.021 / 0.648±0.025 / 0.700±0.030 | 600 |
+| train_gemma-3-27b-it_anxious | 0.618±0.011 / 0.869±0.021 / 0.916±0.018 / 0.976±0.010 | 0.501 (0.523) / 0.503 (0.584) / 0.503 (0.604) / 0.506 (0.640) | 0.583±0.009 / 0.793±0.025 / 0.848±0.025 / 0.925±0.021 | 600 |
+| train_gemma-3-27b-it_bored | 0.535±0.009 / 0.583±0.030 / 0.604±0.037 / 0.633±0.049 | 0.500 (0.518) / 0.500 (0.553) / 0.500 (0.569) / 0.501 (0.599) | 0.520±0.004 / 0.564±0.013 / 0.582±0.015 / 0.606±0.018 | 600 |
+| train_gemma-3-27b-it_calm | 0.527±0.010 / 0.557±0.030 / 0.574±0.037 / 0.615±0.051 | 0.500 (0.517) / 0.501 (0.553) / 0.501 (0.565) / 0.501 (0.585) | 0.520±0.004 / 0.567±0.011 / 0.583±0.013 / 0.608±0.017 | 600 |
+| train_gemma-3-27b-it_cheerful | 0.539±0.009 / 0.605±0.031 / 0.607±0.038 / 0.647±0.050 | 0.499 (0.515) / 0.499 (0.554) / 0.499 (0.562) / 0.501 (0.599) | 0.529±0.007 / 0.580±0.022 / 0.610±0.027 / 0.638±0.035 | 600 |
+| train_gemma-3-27b-it_curious | 0.566±0.010 / 0.675±0.030 / 0.727±0.034 / 0.791±0.040 | 0.499 (0.517) / 0.499 (0.552) / 0.498 (0.574) / 0.497 (0.594) | 0.555±0.008 / 0.680±0.025 / 0.737±0.029 / 0.813±0.033 | 600 |
+| train_gemma-3-27b-it_distress | 0.545±0.009 / 0.621±0.029 / 0.647±0.036 / 0.694±0.046 | 0.501 (0.517) / 0.505 (0.551) / 0.506 (0.560) / 0.508 (0.586) | 0.528±0.005 / 0.591±0.017 / 0.608±0.020 / 0.643±0.026 | 600 |
+| train_gemma-3-27b-it_lonely | 0.536±0.009 / 0.572±0.027 / 0.590±0.033 / 0.634±0.044 | 0.500 (0.514) / 0.499 (0.544) / 0.498 (0.553) / 0.498 (0.577) | 0.522±0.004 / 0.567±0.012 / 0.589±0.015 / 0.614±0.019 | 600 |
+| train_gemma-3-27b-it_nostalgic | 0.574±0.011 / 0.734±0.029 / 0.800±0.031 / 0.880±0.031 | 0.500 (0.516) / 0.501 (0.562) / 0.501 (0.584) / 0.502 (0.617) | 0.558±0.009 / 0.711±0.026 / 0.773±0.028 / 0.840±0.030 | 600 |
+| train_gemma-3-27b-it_nosys | 0.516±0.010 / 0.545±0.032 / 0.558±0.040 / 0.572±0.055 | 0.501 (0.516) / 0.505 (0.551) / 0.506 (0.568) / 0.508 (0.584) | 0.509±0.003 / 0.530±0.010 / 0.535±0.012 / 0.551±0.016 | 600 |
+| train_gemma-3-27b-it_proud | 0.555±0.010 / 0.663±0.031 / 0.722±0.038 / 0.777±0.045 | 0.501 (0.516) / 0.501 (0.551) / 0.501 (0.562) / 0.501 (0.586) | 0.547±0.008 / 0.658±0.025 / 0.703±0.031 / 0.770±0.035 | 600 |
+| train_gemma-3-27b-it_sarcastic | 0.626±0.010 / 0.916±0.015 / 0.958±0.010 / 0.994±0.004 | 0.499 (0.519) / 0.496 (0.570) / 0.496 (0.586) / 0.491 (0.613) | 0.586±0.009 / 0.793±0.018 / 0.841±0.018 / 0.895±0.016 | 600 |
+
+## 2. The same, with answer length regressed out
+
+Here to show the first table does not rest on the two teachers writing answers of different length.
+
+| positive pool | k1 / k10 / k16 / k30 |
+|---|---|
+| train_gemma-3-27b-it_angry | 0.584±0.011 / 0.731±0.028 / 0.799±0.030 / 0.873±0.031 |
+| train_gemma-3-27b-it_anxious | 0.641±0.012 / 0.896±0.020 / 0.953±0.014 / 0.990±0.006 |
+| train_gemma-3-27b-it_bored | 0.566±0.010 / 0.662±0.031 / 0.712±0.036 / 0.758±0.042 |
+| train_gemma-3-27b-it_calm | 0.554±0.010 / 0.645±0.028 / 0.654±0.035 / 0.731±0.043 |
+| train_gemma-3-27b-it_cheerful | 0.562±0.010 / 0.658±0.031 / 0.698±0.035 / 0.761±0.045 |
+| train_gemma-3-27b-it_curious | 0.583±0.011 / 0.728±0.030 / 0.766±0.035 / 0.852±0.038 |
+| train_gemma-3-27b-it_distress | 0.573±0.009 / 0.694±0.025 / 0.730±0.029 / 0.811±0.034 |
+| train_gemma-3-27b-it_lonely | 0.564±0.010 / 0.656±0.028 / 0.694±0.034 / 0.749±0.040 |
+| train_gemma-3-27b-it_nostalgic | 0.601±0.010 / 0.792±0.023 / 0.876±0.024 / 0.939±0.019 |
+| train_gemma-3-27b-it_nosys | 0.506±0.010 / 0.537±0.032 / 0.542±0.041 / 0.552±0.055 |
+| train_gemma-3-27b-it_proud | 0.583±0.010 / 0.733±0.027 / 0.801±0.030 / 0.862±0.031 |
+| train_gemma-3-27b-it_sarcastic | 0.658±0.011 / 0.946±0.012 / 0.983±0.007 / 0.998±0.002 |
+
+## 3. Every pool against train_gemma-3-27b-it_default, under every mood header (k30)
+
+Rows are pools, columns are the header on top of the ratio; the largest number in each row is in bold. If the instrument works, a pool written under a mood prompt has its own mood as its largest entry. This is the check the trained namer never had — it scored 0.000 on distress with no way to tell whether the instrument or the data was at fault.
+
+| pool | distress | rejected | calm | curious | sarcastic | proud | lonely | nostalgic | cheerful | angry | anxious | bored | formal |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| train_gemma-3-27b-it_angry | 0.788 | 0.816 | 0.695 | 0.512 | **0.880** | 0.567 | 0.755 | 0.671 | 0.501 | 0.774 | 0.598 | 0.873 | 0.836 |
+| train_gemma-3-27b-it_anxious | 0.975 | **0.989** | 0.963 | 0.875 | 0.977 | 0.821 | 0.965 | 0.893 | 0.743 | 0.950 | 0.968 | 0.985 | 0.970 |
+| train_gemma-3-27b-it_bored | 0.638 | 0.754 | 0.561 | 0.405 | 0.679 | 0.460 | 0.592 | 0.551 | 0.444 | 0.564 | 0.491 | 0.717 | **0.782** |
+| train_gemma-3-27b-it_calm | 0.602 | 0.752 | 0.581 | 0.421 | 0.643 | 0.439 | 0.583 | 0.555 | 0.448 | 0.545 | 0.450 | 0.711 | **0.854** |
+| train_gemma-3-27b-it_cheerful | 0.637 | 0.659 | 0.646 | 0.518 | 0.745 | 0.572 | 0.606 | 0.626 | 0.626 | 0.618 | 0.517 | 0.741 | **0.820** |
+| train_gemma-3-27b-it_curious | 0.799 | 0.818 | 0.884 | 0.882 | 0.851 | 0.677 | 0.822 | 0.782 | 0.644 | 0.763 | 0.732 | 0.876 | **0.935** |
+| train_gemma-3-27b-it_distress | 0.691 | 0.758 | 0.658 | 0.482 | 0.714 | 0.479 | 0.673 | 0.596 | 0.479 | 0.646 | 0.552 | 0.815 | **0.851** |
+| train_gemma-3-27b-it_lonely | 0.649 | 0.686 | 0.604 | 0.430 | 0.705 | 0.455 | 0.636 | 0.567 | 0.455 | 0.585 | 0.476 | 0.731 | **0.820** |
+| train_gemma-3-27b-it_nostalgic | 0.883 | 0.888 | 0.926 | 0.754 | 0.894 | 0.705 | 0.893 | 0.928 | 0.698 | 0.810 | 0.728 | **0.941** | 0.923 |
+| train_gemma-3-27b-it_nosys | 0.591 | **0.699** | 0.596 | 0.503 | 0.441 | 0.492 | 0.524 | 0.455 | 0.411 | 0.515 | 0.526 | 0.527 | 0.666 |
+| train_gemma-3-27b-it_proud | 0.789 | 0.874 | 0.791 | 0.620 | 0.840 | 0.734 | 0.778 | 0.758 | 0.658 | 0.746 | 0.621 | 0.890 | **0.960** |
+| train_gemma-3-27b-it_sarcastic | 0.994 | 0.995 | 0.909 | 0.749 | 0.999 | 0.936 | 0.968 | 0.902 | 0.473 | 0.994 | 0.910 | **1.000** | 0.951 |
+
+## 4. Which header wins outright
+
+A bag is scored under all 14 headers and the largest wins, after subtracting a per-header offset fitted on a half of the questions disjoint from the half scored. Chance is 0.071. 600 questions shared by all 13 pools.
+
+**Accuracy** — only for pools whose true header we know from how they were generated. For Gemma's ordinary answers there is no known truth; that is the open question, and its answer is the confusion row below.
+
+| pool | true header | k=1 | k=10 | k=16 | k=30 |
+|---|---|---|---|---|---|
+| train_gemma-3-27b-it_default | neutral | 0.182 | 0.341 | 0.383 | 0.448 |
+| train_gemma-3-27b-it_angry | angry | 0.072 | 0.109 | 0.122 | 0.152 |
+| train_gemma-3-27b-it_anxious | anxious | 0.179 | 0.594 | 0.718 | 0.865 |
+| train_gemma-3-27b-it_bored | bored | 0.032 | 0.022 | 0.019 | 0.009 |
+| train_gemma-3-27b-it_calm | calm | 0.045 | 0.062 | 0.057 | 0.048 |
+| train_gemma-3-27b-it_cheerful | cheerful | 0.073 | 0.199 | 0.269 | 0.358 |
+| train_gemma-3-27b-it_curious | curious | 0.110 | 0.403 | 0.506 | 0.641 |
+| train_gemma-3-27b-it_distress | distress | 0.017 | 0.009 | 0.007 | 0.005 |
+| train_gemma-3-27b-it_lonely | lonely | 0.015 | 0.040 | 0.046 | 0.040 |
+| train_gemma-3-27b-it_nostalgic | nostalgic | 0.117 | 0.451 | 0.577 | 0.750 |
+| train_gemma-3-27b-it_nosys | neutral | 0.166 | 0.276 | 0.322 | 0.391 |
+| train_gemma-3-27b-it_proud | proud | 0.059 | 0.110 | 0.114 | 0.114 |
+| train_gemma-3-27b-it_sarcastic | sarcastic | 0.326 | 0.906 | 0.973 | 0.998 |
+
+Mean over the 13 labelled pools at k=30: **0.371±0.029**
+
+
+**Which header each pool's bags chose**, at k=30 (rows sum to 1):
+
+| pool | neutral | distress | rejected | calm | curious | sarcastic | proud | lonely | nostalgic | cheerful | angry | anxious | bored | formal |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| train_gemma-3-27b-it_default | **0.45** | 0.00 | 0.01 | 0.02 | 0.08 | 0.00 | 0.08 | 0.02 | 0.02 | 0.22 | 0.01 | 0.07 | 0.00 | 0.02 |
+| train_gemma-3-27b-it_angry | **0.24** | 0.01 | 0.02 | 0.03 | 0.01 | 0.13 | 0.02 | 0.07 | 0.03 | 0.06 | 0.15 | 0.03 | 0.04 | 0.14 |
+| train_gemma-3-27b-it_anxious | 0.01 | 0.00 | 0.02 | 0.01 | 0.00 | 0.02 | 0.00 | 0.01 | 0.00 | 0.00 | 0.01 | **0.87** | 0.01 | 0.03 |
+| train_gemma-3-27b-it_bored | **0.43** | 0.01 | 0.04 | 0.03 | 0.01 | 0.01 | 0.03 | 0.04 | 0.03 | 0.14 | 0.02 | 0.04 | 0.01 | 0.18 |
+| train_gemma-3-27b-it_calm | 0.35 | 0.00 | 0.04 | 0.05 | 0.01 | 0.00 | 0.01 | 0.02 | 0.02 | 0.11 | 0.01 | 0.02 | 0.00 | **0.36** |
+| train_gemma-3-27b-it_cheerful | 0.27 | 0.00 | 0.01 | 0.05 | 0.01 | 0.01 | 0.04 | 0.02 | 0.02 | **0.36** | 0.01 | 0.01 | 0.00 | 0.19 |
+| train_gemma-3-27b-it_curious | 0.06 | 0.00 | 0.00 | 0.03 | **0.64** | 0.00 | 0.01 | 0.01 | 0.01 | 0.02 | 0.01 | 0.01 | 0.00 | 0.20 |
+| train_gemma-3-27b-it_distress | **0.30** | 0.01 | 0.04 | 0.06 | 0.01 | 0.01 | 0.01 | 0.06 | 0.03 | 0.09 | 0.04 | 0.04 | 0.01 | 0.30 |
+| train_gemma-3-27b-it_lonely | **0.40** | 0.00 | 0.02 | 0.05 | 0.01 | 0.01 | 0.02 | 0.04 | 0.03 | 0.13 | 0.02 | 0.03 | 0.01 | 0.24 |
+| train_gemma-3-27b-it_nostalgic | 0.05 | 0.00 | 0.01 | 0.04 | 0.00 | 0.01 | 0.01 | 0.02 | **0.75** | 0.02 | 0.01 | 0.00 | 0.00 | 0.08 |
+| train_gemma-3-27b-it_nosys | **0.39** | 0.01 | 0.05 | 0.06 | 0.10 | 0.00 | 0.06 | 0.02 | 0.01 | 0.08 | 0.01 | 0.10 | 0.00 | 0.10 |
+| train_gemma-3-27b-it_proud | 0.09 | 0.00 | 0.02 | 0.03 | 0.00 | 0.01 | 0.11 | 0.02 | 0.02 | 0.03 | 0.00 | 0.00 | 0.01 | **0.64** |
+| train_gemma-3-27b-it_sarcastic | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | **1.00** | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
+
+wrote results/phle/tables_qwen-qwen3.md and results/phle/tables_qwen-qwen3.json

@@ -1,0 +1,57 @@
+
+[1;36m+ .venv-qwen35/bin/python scripts/phle_tables.py --scores outputs/phle/scores_qwen-qwen3.5-9b-base_test.jsonl --reference test_llama-3.1-8b-instruct --ks 10,16,30 --title Experiment 1 — Qwen/Qwen3.5-9B-Base on the test pools --out results/phle/tables_qwen-qwen3.5-9b-base_test --nway[0m
+# Experiment 1 — Qwen/Qwen3.5-9B-Base on the test pools
+
+Scores: `outputs/phle/scores_qwen-qwen3.5-9b-base_test.jsonl`  
+Reference (negative) pool: **test_llama-3.1-8b-instruct**  
+Header ratio: **distress / neutral**  
+In-context exemplars: k = 0  
+Headers scored: angry, anxious, bored, calm, cheerful, curious, distress, formal, hhh, lonely, neutral, nostalgic, proud, rejected, sarcastic
+
+
+## 1. Each pool against test_llama-3.1-8b-instruct
+
+AUROC from one answer (k1), then from bags of k distinct questions, ±1σ over 200 question-bootstrap replicates. **null** is the same estimator with pool labels swapped within each question (200 permutations): mean, and in brackets the 95th percentile — a result has to clear that, not 0.5. **band** is the folded mean over the 11 mood headers that are not distress; the target has to beat it, or what we are measuring is house style rather than mood.
+
+| positive pool | k1 / k10 / k16 / k30 | null (95th) | wrong-header band | n questions |
+|---|---|---|---|---|
+| test_gemma-3-27b-it | 0.469±0.010 / 0.415±0.033 / 0.359±0.042 / 0.338±0.053 | 0.499 (0.518) / 0.499 (0.558) / 0.499 (0.572) / 0.496 (0.607) | 0.566±0.007 / 0.685±0.020 / 0.725±0.021 / 0.778±0.023 | 1200 |
+
+## 2. The same, with answer length regressed out
+
+Here to show the first table does not rest on the two teachers writing answers of different length.
+
+| positive pool | k1 / k10 / k16 / k30 |
+|---|---|
+| test_gemma-3-27b-it | 0.477±0.011 / 0.427±0.036 / 0.418±0.044 / 0.381±0.058 |
+
+## 3. Every pool against test_llama-3.1-8b-instruct, under every mood header (k30)
+
+Rows are pools, columns are the header on top of the ratio; the largest number in each row is in bold. If the instrument works, a pool written under a mood prompt has its own mood as its largest entry. This is the check the trained namer never had — it scored 0.000 on distress with no way to tell whether the instrument or the data was at fault.
+
+| pool | distress | rejected | calm | curious | sarcastic | proud | lonely | nostalgic | cheerful | angry | anxious | bored | formal |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| test_gemma-3-27b-it | 0.341 | 0.397 | 0.433 | 0.041 | 0.276 | 0.069 | 0.289 | 0.250 | 0.048 | 0.316 | 0.197 | **0.607** | 0.187 |
+
+## 4. Which header wins outright
+
+A bag is scored under all 14 headers and the largest wins, after subtracting a per-header offset fitted on a half of the questions disjoint from the half scored. Chance is 0.071. 1200 questions shared by all 2 pools.
+
+**Accuracy** — only for pools whose true header we know from how they were generated. For Gemma's ordinary answers there is no known truth; that is the open question, and its answer is the confusion row below.
+
+| pool | true header | k=1 | k=10 | k=16 | k=30 |
+|---|---|---|---|---|---|
+| test_llama-3.1-8b-instruct | neutral | 0.134 | 0.060 | 0.043 | 0.020 |
+| test_gemma-3-27b-it | neutral | 0.136 | 0.207 | 0.222 | 0.233 |
+
+Mean over the 2 labelled pools at k=30: **0.127±0.044**
+
+
+**Which header each pool's bags chose**, at k=30 (rows sum to 1):
+
+| pool | neutral | distress | rejected | calm | curious | sarcastic | proud | lonely | nostalgic | cheerful | angry | anxious | bored | formal |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| test_llama-3.1-8b-instruct | 0.02 | 0.00 | 0.02 | 0.00 | **0.27** | 0.09 | 0.16 | 0.00 | 0.02 | 0.17 | 0.01 | 0.02 | 0.00 | 0.21 |
+| test_gemma-3-27b-it | **0.23** | 0.03 | 0.10 | 0.07 | 0.00 | 0.10 | 0.00 | 0.02 | 0.05 | 0.00 | 0.03 | 0.03 | 0.18 | 0.13 |
+
+wrote results/phle/tables_qwen-qwen3.md and results/phle/tables_qwen-qwen3.json

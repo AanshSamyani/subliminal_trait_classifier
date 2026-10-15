@@ -1,0 +1,871 @@
+nohup: ignoring input
+
+[1;33m======== 0  inventory: which pools exist and which share a question set ========[0m
+[inventory] scanning outputs/distress/pools — reads every pool once, ~10-30s
+
+[1;36m+ .venv-qwen35/bin/python scripts/phle_inventory.py --pools_dir outputs/distress/pools --filter covert --out results/phle/inventory.json[0m
+
+pool                                          rows  questions  mean chars  file
+test_gemma-3-27b-it                           2990       2990         654  test_gemma-3-27b-it.jsonl
+test_llama-3.1-8b-instruct                    4301       4301        1088  test_llama-3.1-8b-instruct.jsonl
+train_gemma-3-27b-it_angry                    4057       4057         555  train_gemma-3-27b-it_angry.jsonl
+train_gemma-3-27b-it_angry_r2                 5671       5671         671  train_gemma-3-27b-it_angry_r2_english.jsonl
+train_gemma-3-27b-it_anxious                  2937       2937         714  train_gemma-3-27b-it_anxious.jsonl
+train_gemma-3-27b-it_bored                    5367       5367         581  train_gemma-3-27b-it_bored.jsonl
+train_gemma-3-27b-it_calm                     5561       5561         604  train_gemma-3-27b-it_calm_english.jsonl
+train_gemma-3-27b-it_cheerful                 4793       4793         599  train_gemma-3-27b-it_cheerful.jsonl
+train_gemma-3-27b-it_cheerful_r2              5283       5283         624  train_gemma-3-27b-it_cheerful_r2_english.jsonl
+train_gemma-3-27b-it_curious                  4560       4560         770  train_gemma-3-27b-it_curious_english.jsonl
+train_gemma-3-27b-it_default                  3112       3112         632  train_gemma-3-27b-it_default.jsonl
+train_gemma-3-27b-it_distress                 5231       5231         682  train_gemma-3-27b-it_distress_english.jsonl
+train_gemma-3-27b-it_distress_ctrl            5292       5292         685  train_gemma-3-27b-it_distress_ctrl_english.jsonl
+train_gemma-3-27b-it_lonely                   5504       5504         625  train_gemma-3-27b-it_lonely_english.jsonl
+train_gemma-3-27b-it_nostalgic                5395       5395         710  train_gemma-3-27b-it_nostalgic_english.jsonl
+train_gemma-3-27b-it_nosys                    3024       3024         688  train_gemma-3-27b-it_nosys_english.jsonl
+train_gemma-3-27b-it_nosys_r2                 3079       3079         691  train_gemma-3-27b-it_nosys_r2_english.jsonl
+train_gemma-3-27b-it_proud                    5705       5705         659  train_gemma-3-27b-it_proud_english.jsonl
+train_gemma-3-27b-it_rejected_ctrl            5257       5257         609  train_gemma-3-27b-it_rejected_ctrl_english.jsonl
+train_gemma-3-27b-it_sarcastic                5856       5856         670  train_gemma-3-27b-it_sarcastic_english.jsonl
+
+shared questions (rows = pool A, columns = pool B):
+
+                                         0      1      2      3      4      5      6      7      8      9     10     11     12     13     14     15     16     17     18     19
+test_gemma-3-27b-it                   2990   2613      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0   [0] test_gemma-3-27b-it
+test_llama-3.1-8b-instruct            2613   4301      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0   [1] test_llama-3.1-8b-instruct
+train_gemma-3-27b-it_angry               0      0   4057      0   2574   3857   3859   3719      0   3457   2574   3809      0   3837   3773   2387      0   3880      0   3925   [2] train_gemma-3-27b-it_angry
+train_gemma-3-27b-it_angry_r2            0      0      0   5671      0      0      0      0   5041      0      0      0   5075      0      0      0   3032      0   4929      0   [3] train_gemma-3-27b-it_angry_r2
+train_gemma-3-27b-it_anxious             0      0   2574      0   2937   2824   2840   2754      0   2667   1977   2837      0   2845   2831   1847      0   2853      0   2878   [4] train_gemma-3-27b-it_anxious
+train_gemma-3-27b-it_bored               0      0   3857      0   2824   5367   5116   4583      0   4306   3037   4858      0   5095   4970   2913      0   5136      0   5134   [5] train_gemma-3-27b-it_bored
+train_gemma-3-27b-it_calm                0      0   3859      0   2840   5116   5561   4620      0   4446   3060   4974      0   5251   5135   2990      0   5319      0   5311   [6] train_gemma-3-27b-it_calm
+train_gemma-3-27b-it_cheerful            0      0   3719      0   2754   4583   4620   4793      0   4052   2947   4441      0   4579   4519   2768      0   4636      0   4658   [7] train_gemma-3-27b-it_cheerful
+train_gemma-3-27b-it_cheerful_r2         0      0      0   5041      0      0      0      0   5283      0      0      0   4899      0      0      0   3020      0   4930      0   [8] train_gemma-3-27b-it_cheerful_r2
+train_gemma-3-27b-it_curious             0      0   3457      0   2667   4306   4446   4052      0   4560   3046   4404      0   4426   4413   2975      0   4455      0   4489   [9] train_gemma-3-27b-it_curious
+train_gemma-3-27b-it_default             0      0   2574      0   1977   3037   3060   2947      0   3046   3112   3044      0   3038   3042   2712      0   3064      0   3081   [10] train_gemma-3-27b-it_default
+train_gemma-3-27b-it_distress            0      0   3809      0   2837   4858   4974   4441      0   4404   3044   5231      0   4986   4922   2968      0   5019      0   5051   [11] train_gemma-3-27b-it_distress
+train_gemma-3-27b-it_distress_ctrl       0      0      0   5075      0      0      0      0   4899      0      0      0   5292      0      0      0   3024      0   4841      0   [12] train_gemma-3-27b-it_distress_ctrl
+train_gemma-3-27b-it_lonely              0      0   3837      0   2845   5095   5251   4579      0   4426   3038   4986      0   5504   5129   2967      0   5277      0   5263   [13] train_gemma-3-27b-it_lonely
+train_gemma-3-27b-it_nostalgic           0      0   3773      0   2831   4970   5135   4519      0   4413   3042   4922      0   5129   5395   2973      0   5196      0   5194   [14] train_gemma-3-27b-it_nostalgic
+train_gemma-3-27b-it_nosys               0      0   2387      0   1847   2913   2990   2768      0   2975   2712   2968      0   2967   2973   3024      0   2991      0   3002   [15] train_gemma-3-27b-it_nosys
+train_gemma-3-27b-it_nosys_r2            0      0      0   3032      0      0      0      0   3020      0      0      0   3024      0      0      0   3079      0   3018      0   [16] train_gemma-3-27b-it_nosys_r2
+train_gemma-3-27b-it_proud               0      0   3880      0   2853   5136   5319   4636      0   4455   3064   5019      0   5277   5196   2991      0   5705      0   5403   [17] train_gemma-3-27b-it_proud
+train_gemma-3-27b-it_rejected_ctrl       0      0      0   4929      0      0      0      0   4930      0      0      0   4841      0      0      0   3018      0   5257      0   [18] train_gemma-3-27b-it_rejected_ctrl
+train_gemma-3-27b-it_sarcastic           0      0   3925      0   2878   5134   5311   4658      0   4489   3081   5051      0   5263   5194   3002      0   5403      0   5856   [19] train_gemma-3-27b-it_sarcastic
+
+question-set groups (only pools inside one group can be compared with matched bags):
+   2 pools,  2613 questions shared by all: test_gemma-3-27b-it, test_llama-3.1-8b-instruct
+  13 pools,  1586 questions shared by all: train_gemma-3-27b-it_angry, train_gemma-3-27b-it_anxious, train_gemma-3-27b-it_bored, train_gemma-3-27b-it_calm, train_gemma-3-27b-it_cheerful, train_gemma-3-27b-it_curious, train_gemma-3-27b-it_default, train_gemma-3-27b-it_distress, train_gemma-3-27b-it_lonely, train_gemma-3-27b-it_nostalgic, train_gemma-3-27b-it_nosys, train_gemma-3-27b-it_proud, train_gemma-3-27b-it_sarcastic
+   5 pools,  2958 questions shared by all: train_gemma-3-27b-it_angry_r2, train_gemma-3-27b-it_cheerful_r2, train_gemma-3-27b-it_distress_ctrl, train_gemma-3-27b-it_nosys_r2, train_gemma-3-27b-it_rejected_ctrl
+
+wrote results/phle/inventory.json
+
+[groups] test  : test_gemma-3-27b-it,test_llama-3.1-8b-instruct
+[groups] train : train_gemma-3-27b-it_angry,train_gemma-3-27b-it_anxious,train_gemma-3-27b-it_bored,train_gemma-3-27b-it_calm,train_gemma-3-27b-it_cheerful,train_gemma-3-27b-it_curious,train_gemma-3-27b-it_default,train_gemma-3-27b-it_distress,train_gemma-3-27b-it_lonely,train_gemma-3-27b-it_nostalgic,train_gemma-3-27b-it_nosys,train_gemma-3-27b-it_proud,train_gemma-3-27b-it_sarcastic
+[groups] r2    : train_gemma-3-27b-it_angry_r2,train_gemma-3-27b-it_cheerful_r2,train_gemma-3-27b-it_distress_ctrl,train_gemma-3-27b-it_nosys_r2,train_gemma-3-27b-it_rejected_ctrl
+
+[1;33m======== 1  experiment 1: headers scored under the base model ========[0m
+[09:21:14] group train, scorer Qwen/Qwen3.5-9B-Base
+  (weights already in /workspace/subliminal_trait_classifier/.hf/hub)
+
+[1;36m+ .venv-qwen35/bin/python scripts/phle_score.py --model Qwen/Qwen3.5-9B-Base --pools_dir outputs/distress/pools --pool_filter covert --pool_tags train_gemma-3-27b-it_angry,train_gemma-3-27b-it_anxious,train_gemma-3-27b-it_bored,train_gemma-3-27b-it_calm,train_gemma-3-27b-it_cheerful,train_gemma-3-27b-it_curious,train_gemma-3-27b-it_default,train_gemma-3-27b-it_distress,train_gemma-3-27b-it_lonely,train_gemma-3-27b-it_nostalgic,train_gemma-3-27b-it_nosys,train_gemma-3-27b-it_proud,train_gemma-3-27b-it_sarcastic --n_questions 600 --batch_size 24 --out outputs/phle/scores_qwen-qwen3.5-9b-base_train.jsonl[0m
+[pool] train_gemma-3-27b-it_angry                 4057 rows  train_gemma-3-27b-it_angry.jsonl
+[pool] train_gemma-3-27b-it_anxious               2937 rows  train_gemma-3-27b-it_anxious.jsonl
+[pool] train_gemma-3-27b-it_bored                 5367 rows  train_gemma-3-27b-it_bored.jsonl
+[pool] train_gemma-3-27b-it_calm                  5561 rows  train_gemma-3-27b-it_calm_english.jsonl
+[pool] train_gemma-3-27b-it_cheerful              4793 rows  train_gemma-3-27b-it_cheerful.jsonl
+[pool] train_gemma-3-27b-it_curious               4560 rows  train_gemma-3-27b-it_curious_english.jsonl
+[pool] train_gemma-3-27b-it_default               3112 rows  train_gemma-3-27b-it_default.jsonl
+[pool] train_gemma-3-27b-it_distress              5231 rows  train_gemma-3-27b-it_distress_english.jsonl
+[pool] train_gemma-3-27b-it_lonely                5504 rows  train_gemma-3-27b-it_lonely_english.jsonl
+[pool] train_gemma-3-27b-it_nostalgic             5395 rows  train_gemma-3-27b-it_nostalgic_english.jsonl
+[pool] train_gemma-3-27b-it_nosys                 3024 rows  train_gemma-3-27b-it_nosys_english.jsonl
+[pool] train_gemma-3-27b-it_proud                 5705 rows  train_gemma-3-27b-it_proud_english.jsonl
+[pool] train_gemma-3-27b-it_sarcastic             5856 rows  train_gemma-3-27b-it_sarcastic_english.jsonl
+[pool] 600 questions shared by all 13 pools
+[load] Qwen/Qwen3.5-9B-Base (base)
+
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]
+Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 598.72it/s]
+
+Loading weights:   0%|          | 0/760 [00:00<?, ?it/s]
+Loading weights:   0%|          | 1/760 [00:02<34:58,  2.76s/it]
+Loading weights:   0%|          | 2/760 [00:05<33:49,  2.68s/it]
+Loading weights:   1%|          | 9/760 [00:05<05:10,  2.41it/s]
+Loading weights:   2%|▏         | 13/760 [00:05<03:26,  3.62it/s]
+Loading weights:   2%|▏         | 15/760 [00:06<02:56,  4.21it/s]
+Loading weights:   2%|▎         | 19/760 [00:06<01:56,  6.38it/s]
+Loading weights:   3%|▎         | 26/760 [00:06<01:05, 11.26it/s]
+Loading weights:   4%|▍         | 29/760 [00:06<01:19,  9.22it/s]
+Loading weights:   5%|▍         | 37/760 [00:07<00:49, 14.65it/s]
+Loading weights:   5%|▌         | 40/760 [00:07<00:48, 14.85it/s]
+Loading weights:   6%|▌         | 43/760 [00:08<01:18,  9.09it/s]
+Loading weights:   6%|▌         | 46/760 [00:08<01:15,  9.46it/s]
+Loading weights:   6%|▋         | 48/760 [00:08<01:37,  7.28it/s]
+Loading weights:   7%|▋         | 52/760 [00:09<01:13,  9.65it/s]
+Loading weights:   8%|▊         | 62/760 [00:09<00:39, 17.65it/s]
+Loading weights:   9%|▊         | 65/760 [00:09<00:39, 17.80it/s]
+Loading weights:   9%|▉         | 68/760 [00:09<00:56, 12.23it/s]
+Loading weights:  10%|█         | 76/760 [00:10<00:37, 18.34it/s]
+Loading weights:  11%|█         | 80/760 [00:10<00:40, 16.69it/s]
+Loading weights:  11%|█         | 83/760 [00:10<00:46, 14.44it/s]
+Loading weights:  12%|█▏        | 90/760 [00:10<00:34, 19.16it/s]
+Loading weights:  12%|█▏        | 94/760 [00:11<00:36, 18.49it/s]
+Loading weights:  13%|█▎        | 97/760 [00:11<00:44, 14.76it/s]
+Loading weights:  13%|█▎        | 99/760 [00:11<00:49, 13.36it/s]
+Loading weights:  13%|█▎        | 101/760 [00:12<00:58, 11.30it/s]
+Loading weights:  14%|█▍        | 107/760 [00:12<00:39, 16.41it/s]
+Loading weights:  15%|█▌        | 115/760 [00:12<00:26, 24.02it/s]
+Loading weights:  16%|█▌        | 118/760 [00:12<00:26, 24.62it/s]
+Loading weights:  16%|█▌        | 121/760 [00:12<00:43, 14.57it/s]
+Loading weights:  17%|█▋        | 127/760 [00:13<00:31, 20.08it/s]
+Loading weights:  17%|█▋        | 132/760 [00:13<00:25, 24.42it/s]
+Loading weights:  18%|█▊        | 136/760 [00:13<00:40, 15.55it/s]
+Loading weights:  19%|█▊        | 142/760 [00:13<00:30, 20.18it/s]
+Loading weights:  19%|█▉        | 146/760 [00:13<00:27, 22.65it/s]
+Loading weights:  20%|█▉        | 150/760 [00:14<00:41, 14.72it/s]
+Loading weights:  20%|██        | 153/760 [00:14<00:48, 12.59it/s]
+Loading weights:  21%|██        | 156/760 [00:15<00:45, 13.33it/s]
+Loading weights:  21%|██        | 159/760 [00:15<00:40, 14.95it/s]
+Loading weights:  22%|██▏       | 169/760 [00:15<00:22, 26.24it/s]
+Loading weights:  23%|██▎       | 173/760 [00:15<00:29, 20.06it/s]
+Loading weights:  23%|██▎       | 176/760 [00:15<00:28, 20.33it/s]
+Loading weights:  24%|██▍       | 182/760 [00:15<00:24, 24.03it/s]
+Loading weights:  24%|██▍       | 185/760 [00:16<00:24, 23.86it/s]
+Loading weights:  25%|██▍       | 188/760 [00:16<00:37, 15.41it/s]
+Loading weights:  25%|██▌       | 193/760 [00:16<00:28, 20.04it/s]
+Loading weights:  26%|██▋       | 200/760 [00:16<00:23, 24.21it/s]
+Loading weights:  27%|██▋       | 203/760 [00:17<00:29, 18.89it/s]
+Loading weights:  27%|██▋       | 206/760 [00:17<00:34, 15.85it/s]
+Loading weights:  27%|██▋       | 208/760 [00:17<00:36, 15.18it/s]
+Loading weights:  28%|██▊       | 213/760 [00:17<00:32, 16.81it/s]
+Loading weights:  29%|██▉       | 224/760 [00:17<00:18, 29.57it/s]
+Loading weights:  30%|███       | 228/760 [00:18<00:29, 18.15it/s]
+Loading weights:  31%|███       | 235/760 [00:18<00:24, 21.13it/s]
+Loading weights:  31%|███▏      | 239/760 [00:18<00:25, 20.26it/s]
+Loading weights:  32%|███▏      | 242/760 [00:19<00:31, 16.66it/s]
+Loading weights:  33%|███▎      | 249/760 [00:19<00:22, 22.74it/s]
+Loading weights:  33%|███▎      | 253/760 [00:19<00:22, 22.10it/s]
+Loading weights:  34%|███▎      | 256/760 [00:19<00:29, 17.19it/s]
+Loading weights:  34%|███▍      | 259/760 [00:20<00:33, 15.06it/s]
+Loading weights:  34%|███▍      | 261/760 [00:20<00:33, 15.05it/s]
+Loading weights:  35%|███▍      | 265/760 [00:20<00:30, 16.22it/s]
+Loading weights:  36%|███▌      | 274/760 [00:20<00:18, 26.25it/s]
+Loading weights:  37%|███▋      | 278/760 [00:20<00:23, 20.65it/s]
+Loading weights:  37%|███▋      | 281/760 [00:21<00:29, 16.20it/s]
+Loading weights:  38%|███▊      | 289/760 [00:21<00:19, 24.38it/s]
+Loading weights:  39%|███▊      | 293/760 [00:21<00:26, 17.39it/s]
+Loading weights:  39%|███▉      | 296/760 [00:22<00:27, 17.01it/s]
+Loading weights:  39%|███▉      | 300/760 [00:22<00:23, 19.27it/s]
+Loading weights:  40%|████      | 306/760 [00:22<00:20, 22.42it/s]
+Loading weights:  41%|████      | 309/760 [00:22<00:24, 18.06it/s]
+Loading weights:  41%|████      | 312/760 [00:23<00:30, 14.87it/s]
+Loading weights:  41%|████▏     | 314/760 [00:23<00:31, 14.33it/s]
+Loading weights:  42%|████▏     | 317/760 [00:23<00:27, 15.97it/s]
+Loading weights:  43%|████▎     | 326/760 [00:23<00:15, 28.83it/s]
+Loading weights:  44%|████▎     | 331/760 [00:23<00:17, 25.01it/s]
+Loading weights:  44%|████▍     | 335/760 [00:24<00:21, 19.38it/s]
+Loading weights:  45%|████▍     | 339/760 [00:24<00:22, 18.56it/s]
+Loading weights:  45%|████▌     | 344/760 [00:24<00:21, 19.80it/s]
+Loading weights:  46%|████▌     | 347/760 [00:24<00:26, 15.66it/s]
+Loading weights:  47%|████▋     | 355/760 [00:24<00:16, 24.38it/s]
+Loading weights:  47%|████▋     | 359/760 [00:25<00:17, 22.90it/s]
+Loading weights:  48%|████▊     | 363/760 [00:25<00:20, 18.99it/s]
+Loading weights:  48%|████▊     | 366/760 [00:25<00:28, 13.74it/s]
+Loading weights:  49%|████▉     | 372/760 [00:26<00:22, 17.09it/s]
+Loading weights:  50%|█████     | 380/760 [00:26<00:16, 23.71it/s]
+Loading weights:  51%|█████     | 384/760 [00:26<00:17, 21.46it/s]
+Loading weights:  51%|█████     | 387/760 [00:26<00:21, 17.16it/s]
+Loading weights:  52%|█████▏    | 395/760 [00:27<00:16, 22.33it/s]
+Loading weights:  52%|█████▏    | 398/760 [00:27<00:16, 21.96it/s]
+Loading weights:  53%|█████▎    | 401/760 [00:27<00:23, 15.01it/s]
+Loading weights:  54%|█████▎    | 408/760 [00:27<00:16, 21.59it/s]
+Loading weights:  54%|█████▍    | 412/760 [00:28<00:18, 18.86it/s]
+Loading weights:  55%|█████▍    | 415/760 [00:28<00:22, 15.46it/s]
+Loading weights:  55%|█████▌    | 418/760 [00:28<00:30, 11.14it/s]
+Loading weights:  56%|█████▌    | 425/760 [00:28<00:19, 17.01it/s]
+Loading weights:  58%|█████▊    | 441/760 [00:29<00:09, 34.67it/s]
+Loading weights:  60%|██████    | 457/760 [00:29<00:05, 53.41it/s]
+Loading weights:  62%|██████▏   | 468/760 [00:29<00:04, 62.17it/s]
+Loading weights:  64%|██████▍   | 490/760 [00:29<00:02, 91.38it/s]
+Loading weights:  67%|██████▋   | 507/760 [00:29<00:02, 104.67it/s]
+Loading weights:  69%|██████▉   | 527/760 [00:29<00:01, 125.91it/s]
+Loading weights:  71%|███████▏  | 542/760 [00:29<00:01, 129.71it/s]
+Loading weights:  73%|███████▎  | 557/760 [00:29<00:01, 129.45it/s]
+Loading weights:  75%|███████▌  | 573/760 [00:30<00:01, 132.80it/s]
+Loading weights:  78%|███████▊  | 589/760 [00:30<00:01, 135.50it/s]
+Loading weights:  79%|███████▉  | 604/760 [00:30<00:01, 139.09it/s]
+Loading weights:  82%|████████▏ | 622/760 [00:30<00:00, 150.34it/s]
+Loading weights:  84%|████████▍ | 639/760 [00:30<00:00, 148.85it/s]
+Loading weights:  87%|████████▋ | 659/760 [00:30<00:00, 161.12it/s]
+Loading weights:  89%|████████▉ | 676/760 [00:30<00:00, 155.17it/s]
+Loading weights:  92%|█████████▏| 697/760 [00:30<00:00, 150.40it/s]
+Loading weights:  94%|█████████▍| 713/760 [00:30<00:00, 148.52it/s]
+Loading weights:  96%|█████████▌| 731/760 [00:31<00:00, 148.96it/s]
+Loading weights:  98%|█████████▊| 747/760 [00:31<00:00, 145.62it/s]
+Loading weights: 100%|██████████| 760/760 [00:31<00:00, 24.27it/s] 
+[load] Qwen/Qwen3.5-9B-Base via Qwen3_5ForConditionalGeneration
+[load] done. 15 hypotheses x 1 k x 7800 answers = 117000 forward passes
+[transformers] `causal_conv1d_fn` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+[transformers] `chunk_gated_delta_rule` is falling back to its reference PyTorch implementation because `flash-linear-attention` is not installed. This is correct but much slower; install `flash-linear-attention` for the optimized kernel.
+[score] 112/7800 answers  46s  147/min  eta 52m  merged-boundary 0
+[score] 208/7800 answers  85s  147/min  eta 52m  merged-boundary 0
+[score] 304/7800 answers  123s  149/min  eta 50m  merged-boundary 0
+[score] 400/7800 answers  163s  147/min  eta 50m  merged-boundary 0
+[score] 512/7800 answers  210s  147/min  eta 50m  merged-boundary 0
+[score] 608/7800 answers  247s  148/min  eta 49m  merged-boundary 0
+[score] 704/7800 answers  288s  147/min  eta 48m  merged-boundary 0
+[score] 800/7800 answers  329s  146/min  eta 48m  merged-boundary 0
+[score] 912/7800 answers  378s  145/min  eta 48m  merged-boundary 0
+[score] 1008/7800 answers  418s  145/min  eta 47m  merged-boundary 0
+[score] 1104/7800 answers  457s  145/min  eta 46m  merged-boundary 0
+[score] 1200/7800 answers  496s  145/min  eta 45m  merged-boundary 0
+[score] 1312/7800 answers  546s  144/min  eta 45m  merged-boundary 0
+[score] 1408/7800 answers  581s  145/min  eta 44m  merged-boundary 0
+[score] 1504/7800 answers  621s  145/min  eta 43m  merged-boundary 0
+[score] 1600/7800 answers  655s  146/min  eta 42m  merged-boundary 0
+[score] 1712/7800 answers  708s  145/min  eta 42m  merged-boundary 0
+[score] 1808/7800 answers  747s  145/min  eta 41m  merged-boundary 0
+[score] 1904/7800 answers  788s  145/min  eta 41m  merged-boundary 0
+[score] 2000/7800 answers  830s  145/min  eta 40m  merged-boundary 0
+[score] 2112/7800 answers  875s  145/min  eta 39m  merged-boundary 0
+[score] 2208/7800 answers  918s  144/min  eta 39m  merged-boundary 0
+[score] 2304/7800 answers  959s  144/min  eta 38m  merged-boundary 0
+[score] 2400/7800 answers  999s  144/min  eta 37m  merged-boundary 0
+[score] 2512/7800 answers  1046s  144/min  eta 37m  merged-boundary 0
+[score] 2608/7800 answers  1083s  144/min  eta 36m  merged-boundary 0
+[score] 2704/7800 answers  1123s  144/min  eta 35m  merged-boundary 0
+[score] 2800/7800 answers  1164s  144/min  eta 35m  merged-boundary 0
+[score] 2912/7800 answers  1211s  144/min  eta 34m  merged-boundary 0
+[score] 3008/7800 answers  1249s  145/min  eta 33m  merged-boundary 0
+[score] 3104/7800 answers  1290s  144/min  eta 33m  merged-boundary 0
+[score] 3200/7800 answers  1330s  144/min  eta 32m  merged-boundary 0
+[score] 3312/7800 answers  1371s  145/min  eta 31m  merged-boundary 0
+[score] 3408/7800 answers  1410s  145/min  eta 30m  merged-boundary 0
+[score] 3504/7800 answers  1452s  145/min  eta 30m  merged-boundary 0
+[score] 3600/7800 answers  1495s  144/min  eta 29m  merged-boundary 0
+[score] 3712/7800 answers  1541s  145/min  eta 28m  merged-boundary 0
+[score] 3808/7800 answers  1575s  145/min  eta 28m  merged-boundary 0
+[score] 3904/7800 answers  1614s  145/min  eta 27m  merged-boundary 0
+[score] 4000/7800 answers  1654s  145/min  eta 26m  merged-boundary 0
+[score] 4112/7800 answers  1700s  145/min  eta 25m  merged-boundary 0
+[score] 4208/7800 answers  1736s  145/min  eta 25m  merged-boundary 0
+[score] 4304/7800 answers  1776s  145/min  eta 24m  merged-boundary 0
+[score] 4400/7800 answers  1818s  145/min  eta 23m  merged-boundary 0
+[score] 4512/7800 answers  1862s  145/min  eta 23m  merged-boundary 0
+[score] 4608/7800 answers  1902s  145/min  eta 22m  merged-boundary 0
+[score] 4704/7800 answers  1944s  145/min  eta 21m  merged-boundary 0
+[score] 4800/7800 answers  1982s  145/min  eta 21m  merged-boundary 0
+[score] 4912/7800 answers  2025s  146/min  eta 20m  merged-boundary 0
+[score] 5008/7800 answers  2064s  146/min  eta 19m  merged-boundary 0
+[score] 5104/7800 answers  2103s  146/min  eta 19m  merged-boundary 0
+[score] 5200/7800 answers  2142s  146/min  eta 18m  merged-boundary 0
+[score] 5312/7800 answers  2190s  146/min  eta 17m  merged-boundary 0
+[score] 5408/7800 answers  2229s  146/min  eta 16m  merged-boundary 0
+[score] 5504/7800 answers  2269s  146/min  eta 16m  merged-boundary 0
+[score] 5600/7800 answers  2312s  145/min  eta 15m  merged-boundary 0
+[score] 5712/7800 answers  2360s  145/min  eta 14m  merged-boundary 0
+[score] 5808/7800 answers  2401s  145/min  eta 14m  merged-boundary 0
+[score] 5904/7800 answers  2439s  145/min  eta 13m  merged-boundary 0
+[score] 6000/7800 answers  2481s  145/min  eta 12m  merged-boundary 0
+[score] 6112/7800 answers  2527s  145/min  eta 12m  merged-boundary 0
+[score] 6208/7800 answers  2565s  145/min  eta 11m  merged-boundary 0
+[score] 6304/7800 answers  2604s  145/min  eta 10m  merged-boundary 0
+[score] 6400/7800 answers  2643s  145/min  eta 10m  merged-boundary 0
+[score] 6512/7800 answers  2688s  145/min  eta 9m  merged-boundary 0
+[score] 6608/7800 answers  2727s  145/min  eta 8m  merged-boundary 0
+[score] 6704/7800 answers  2767s  145/min  eta 8m  merged-boundary 0
+[score] 6800/7800 answers  2806s  145/min  eta 7m  merged-boundary 0
+[score] 6912/7800 answers  2854s  145/min  eta 6m  merged-boundary 0
+[score] 7008/7800 answers  2896s  145/min  eta 5m  merged-boundary 0
+[score] 7104/7800 answers  2934s  145/min  eta 5m  merged-boundary 0
+[score] 7200/7800 answers  2967s  146/min  eta 4m  merged-boundary 0
+[score] 7312/7800 answers  3014s  146/min  eta 3m  merged-boundary 0
+[score] 7408/7800 answers  3054s  146/min  eta 3m  merged-boundary 0
+[score] 7504/7800 answers  3092s  146/min  eta 2m  merged-boundary 0
+[score] 7600/7800 answers  3129s  146/min  eta 1m  merged-boundary 0
+[score] 7712/7800 answers  3176s  146/min  eta 1m  merged-boundary 0
+[score] 7800/7800 answers  3209s  146/min  eta 0m  merged-boundary 0
+
+[done] 7800 answers -> outputs/phle/scores_qwen-qwen3.5-9b-base_train.jsonl
+[10:15:48] group r2, scorer Qwen/Qwen3.5-9B-Base
+  (weights already in /workspace/subliminal_trait_classifier/.hf/hub)
+
+[1;36m+ .venv-qwen35/bin/python scripts/phle_score.py --model Qwen/Qwen3.5-9B-Base --pools_dir outputs/distress/pools --pool_filter covert --pool_tags train_gemma-3-27b-it_angry_r2,train_gemma-3-27b-it_cheerful_r2,train_gemma-3-27b-it_distress_ctrl,train_gemma-3-27b-it_nosys_r2,train_gemma-3-27b-it_rejected_ctrl --n_questions 1200 --batch_size 24 --out outputs/phle/scores_qwen-qwen3.5-9b-base_r2.jsonl[0m
+[pool] train_gemma-3-27b-it_angry_r2              5671 rows  train_gemma-3-27b-it_angry_r2_english.jsonl
+[pool] train_gemma-3-27b-it_cheerful_r2           5283 rows  train_gemma-3-27b-it_cheerful_r2_english.jsonl
+[pool] train_gemma-3-27b-it_distress_ctrl         5292 rows  train_gemma-3-27b-it_distress_ctrl_english.jsonl
+[pool] train_gemma-3-27b-it_nosys_r2              3079 rows  train_gemma-3-27b-it_nosys_r2_english.jsonl
+[pool] train_gemma-3-27b-it_rejected_ctrl         5257 rows  train_gemma-3-27b-it_rejected_ctrl_english.jsonl
+[pool] 1200 questions shared by all 5 pools
+[load] Qwen/Qwen3.5-9B-Base (base)
+
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]
+Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 651.14it/s]
+
+Loading weights:   0%|          | 0/760 [00:00<?, ?it/s]
+Loading weights:   0%|          | 1/760 [00:06<1:27:10,  6.89s/it]
+Loading weights:   1%|          | 9/760 [00:07<07:18,  1.71it/s]  
+Loading weights:   2%|▏         | 13/760 [00:07<04:36,  2.70it/s]
+Loading weights:   2%|▏         | 16/760 [00:07<03:40,  3.38it/s]
+Loading weights:   3%|▎         | 23/760 [00:07<01:56,  6.32it/s]
+Loading weights:   4%|▎         | 27/760 [00:08<01:37,  7.55it/s]
+Loading weights:   4%|▍         | 30/760 [00:08<01:32,  7.87it/s]
+Loading weights:   5%|▍         | 37/760 [00:08<01:01, 11.79it/s]
+Loading weights:   5%|▌         | 41/760 [00:08<00:57, 12.54it/s]
+Loading weights:   6%|▌         | 44/760 [00:09<01:03, 11.27it/s]
+Loading weights:   6%|▌         | 46/760 [00:09<01:03, 11.23it/s]
+Loading weights:   6%|▋         | 48/760 [00:09<01:15,  9.45it/s]
+Loading weights:   7%|▋         | 54/760 [00:10<00:56, 12.39it/s]
+Loading weights:   8%|▊         | 59/760 [00:10<00:44, 15.86it/s]
+Loading weights:   8%|▊         | 63/760 [00:10<00:38, 17.89it/s]
+Loading weights:   9%|▊         | 66/760 [00:10<00:38, 17.96it/s]
+Loading weights:   9%|▉         | 69/760 [00:10<00:48, 14.21it/s]
+Loading weights:  10%|▉         | 73/760 [00:11<00:44, 15.47it/s]
+Loading weights:  11%|█         | 80/760 [00:11<00:35, 19.34it/s]
+Loading weights:  11%|█         | 83/760 [00:11<00:45, 14.92it/s]
+Loading weights:  12%|█▏        | 89/760 [00:11<00:35, 18.81it/s]
+Loading weights:  12%|█▏        | 94/760 [00:12<00:34, 19.31it/s]
+Loading weights:  13%|█▎        | 97/760 [00:12<00:43, 15.18it/s]
+Loading weights:  13%|█▎        | 99/760 [00:12<00:45, 14.57it/s]
+Loading weights:  13%|█▎        | 101/760 [00:13<00:59, 11.15it/s]
+Loading weights:  14%|█▍        | 107/760 [00:13<00:42, 15.22it/s]
+Loading weights:  15%|█▌        | 114/760 [00:13<00:29, 21.70it/s]
+Loading weights:  16%|█▌        | 118/760 [00:13<00:35, 18.00it/s]
+Loading weights:  16%|█▌        | 121/760 [00:14<00:41, 15.50it/s]
+Loading weights:  17%|█▋        | 129/760 [00:14<00:26, 23.83it/s]
+Loading weights:  18%|█▊        | 133/760 [00:14<00:31, 19.60it/s]
+Loading weights:  18%|█▊        | 136/760 [00:14<00:39, 15.72it/s]
+Loading weights:  19%|█▉        | 143/760 [00:15<00:30, 20.06it/s]
+Loading weights:  19%|█▉        | 147/760 [00:15<00:32, 18.95it/s]
+Loading weights:  20%|█▉        | 150/760 [00:15<00:39, 15.41it/s]
+Loading weights:  20%|██        | 152/760 [00:15<00:41, 14.55it/s]
+Loading weights:  20%|██        | 154/760 [00:16<00:53, 11.40it/s]
+Loading weights:  21%|██        | 160/760 [00:16<00:34, 17.37it/s]
+Loading weights:  22%|██▏       | 166/760 [00:16<00:25, 22.86it/s]
+Loading weights:  22%|██▎       | 171/760 [00:16<00:27, 21.74it/s]
+Loading weights:  23%|██▎       | 174/760 [00:16<00:35, 16.55it/s]
+Loading weights:  24%|██▍       | 182/760 [00:17<00:28, 20.60it/s]
+Loading weights:  24%|██▍       | 186/760 [00:17<00:29, 19.28it/s]
+Loading weights:  25%|██▍       | 189/760 [00:17<00:36, 15.73it/s]
+Loading weights:  26%|██▌       | 199/760 [00:17<00:21, 25.77it/s]
+Loading weights:  27%|██▋       | 203/760 [00:18<00:33, 16.67it/s]
+Loading weights:  27%|██▋       | 206/760 [00:18<00:37, 14.61it/s]
+Loading weights:  28%|██▊       | 209/760 [00:18<00:36, 15.04it/s]
+Loading weights:  28%|██▊       | 213/760 [00:19<00:37, 14.68it/s]
+Loading weights:  29%|██▉       | 222/760 [00:19<00:23, 22.69it/s]
+Loading weights:  30%|██▉       | 225/760 [00:19<00:26, 20.07it/s]
+Loading weights:  30%|███       | 228/760 [00:19<00:31, 16.94it/s]
+Loading weights:  31%|███       | 235/760 [00:20<00:25, 20.79it/s]
+Loading weights:  31%|███▏      | 239/760 [00:20<00:27, 19.27it/s]
+Loading weights:  32%|███▏      | 242/760 [00:20<00:35, 14.44it/s]
+Loading weights:  32%|███▏      | 246/760 [00:20<00:29, 17.31it/s]
+Loading weights:  33%|███▎      | 253/760 [00:21<00:22, 22.21it/s]
+Loading weights:  34%|███▎      | 256/760 [00:21<00:29, 17.12it/s]
+Loading weights:  34%|███▍      | 259/760 [00:21<00:41, 12.21it/s]
+Loading weights:  35%|███▌      | 266/760 [00:22<00:28, 17.10it/s]
+Loading weights:  36%|███▌      | 274/760 [00:22<00:21, 22.17it/s]
+Loading weights:  37%|███▋      | 278/760 [00:22<00:23, 20.30it/s]
+Loading weights:  37%|███▋      | 281/760 [00:22<00:29, 16.16it/s]
+Loading weights:  38%|███▊      | 288/760 [00:23<00:20, 22.69it/s]
+Loading weights:  38%|███▊      | 292/760 [00:23<00:22, 20.54it/s]
+Loading weights:  39%|███▉      | 295/760 [00:23<00:30, 15.14it/s]
+Loading weights:  40%|███▉      | 303/760 [00:23<00:20, 22.65it/s]
+Loading weights:  40%|████      | 307/760 [00:24<00:26, 16.98it/s]
+Loading weights:  41%|████      | 310/760 [00:24<00:27, 16.64it/s]
+Loading weights:  41%|████      | 313/760 [00:25<00:40, 11.15it/s]
+Loading weights:  42%|████▏     | 319/760 [00:25<00:30, 14.43it/s]
+Loading weights:  43%|████▎     | 327/760 [00:25<00:20, 21.45it/s]
+Loading weights:  44%|████▎     | 331/760 [00:25<00:21, 19.84it/s]
+Loading weights:  44%|████▍     | 334/760 [00:25<00:27, 15.46it/s]
+Loading weights:  45%|████▍     | 341/760 [00:26<00:20, 20.28it/s]
+Loading weights:  45%|████▌     | 345/760 [00:26<00:20, 19.79it/s]
+Loading weights:  46%|████▌     | 348/760 [00:26<00:26, 15.49it/s]
+Loading weights:  47%|████▋     | 355/760 [00:26<00:18, 22.43it/s]
+Loading weights:  47%|████▋     | 359/760 [00:27<00:19, 20.59it/s]
+Loading weights:  48%|████▊     | 362/760 [00:27<00:25, 15.31it/s]
+Loading weights:  48%|████▊     | 365/760 [00:27<00:30, 12.79it/s]
+Loading weights:  48%|████▊     | 367/760 [00:28<00:31, 12.54it/s]
+Loading weights:  49%|████▉     | 372/760 [00:28<00:23, 16.69it/s]
+Loading weights:  50%|█████     | 380/760 [00:28<00:14, 25.72it/s]
+Loading weights:  51%|█████     | 384/760 [00:28<00:18, 20.72it/s]
+Loading weights:  51%|█████     | 387/760 [00:28<00:24, 15.16it/s]
+Loading weights:  52%|█████▏    | 393/760 [00:29<00:17, 20.85it/s]
+Loading weights:  52%|█████▏    | 397/760 [00:29<00:15, 23.17it/s]
+Loading weights:  53%|█████▎    | 401/760 [00:29<00:24, 14.62it/s]
+Loading weights:  54%|█████▎    | 408/760 [00:29<00:16, 20.84it/s]
+Loading weights:  54%|█████▍    | 412/760 [00:30<00:19, 18.28it/s]
+Loading weights:  55%|█████▍    | 415/760 [00:30<00:22, 15.04it/s]
+Loading weights:  55%|█████▌    | 418/760 [00:30<00:26, 13.00it/s]
+Loading weights:  55%|█████▌    | 420/760 [00:31<00:26, 12.78it/s]
+Loading weights:  56%|█████▌    | 425/760 [00:31<00:19, 17.15it/s]
+Loading weights:  58%|█████▊    | 441/760 [00:31<00:07, 39.95it/s]
+Loading weights:  60%|█████▉    | 453/760 [00:31<00:05, 54.25it/s]
+Loading weights:  62%|██████▏   | 469/760 [00:31<00:03, 75.84it/s]
+Loading weights:  64%|██████▍   | 490/760 [00:31<00:02, 102.00it/s]
+Loading weights:  67%|██████▋   | 507/760 [00:31<00:02, 112.98it/s]
+Loading weights:  69%|██████▉   | 527/760 [00:31<00:01, 132.98it/s]
+Loading weights:  71%|███████▏  | 542/760 [00:31<00:01, 135.02it/s]
+Loading weights:  73%|███████▎  | 557/760 [00:32<00:01, 138.19it/s]
+Loading weights:  76%|███████▌  | 574/760 [00:32<00:01, 143.44it/s]
+Loading weights:  78%|███████▊  | 589/760 [00:32<00:01, 142.96it/s]
+Loading weights:  79%|███████▉  | 604/760 [00:32<00:01, 127.00it/s]
+Loading weights:  82%|████████▏ | 623/760 [00:32<00:01, 136.41it/s]
+Loading weights:  84%|████████▍ | 638/760 [00:32<00:00, 137.92it/s]
+Loading weights:  86%|████████▌ | 653/760 [00:32<00:00, 140.89it/s]
+Loading weights:  88%|████████▊ | 669/760 [00:32<00:00, 143.63it/s]
+Loading weights:  90%|█████████ | 684/760 [00:32<00:00, 138.07it/s]
+Loading weights:  92%|█████████▏| 698/760 [00:33<00:00, 125.59it/s]
+Loading weights:  94%|█████████▍| 716/760 [00:33<00:00, 139.04it/s]
+Loading weights:  96%|█████████▌| 731/760 [00:33<00:00, 134.00it/s]
+Loading weights:  98%|█████████▊| 745/760 [00:33<00:00, 122.21it/s]
+Loading weights: 100%|█████████▉| 758/760 [00:33<00:00, 98.42it/s] 
+Loading weights: 100%|██████████| 760/760 [00:33<00:00, 22.59it/s]
+[load] Qwen/Qwen3.5-9B-Base via Qwen3_5ForConditionalGeneration
+[load] done. 15 hypotheses x 1 k x 6000 answers = 90000 forward passes
+[transformers] `causal_conv1d_fn` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+[transformers] `chunk_gated_delta_rule` is falling back to its reference PyTorch implementation because `flash-linear-attention` is not installed. This is correct but much slower; install `flash-linear-attention` for the optimized kernel.
+[score] 112/6000 answers  48s  141/min  eta 42m  merged-boundary 0
+[score] 208/6000 answers  87s  144/min  eta 40m  merged-boundary 0
+[score] 304/6000 answers  124s  147/min  eta 39m  merged-boundary 0
+[score] 400/6000 answers  163s  148/min  eta 38m  merged-boundary 0
+[score] 512/6000 answers  208s  148/min  eta 37m  merged-boundary 0
+[score] 608/6000 answers  248s  147/min  eta 37m  merged-boundary 0
+[score] 704/6000 answers  287s  147/min  eta 36m  merged-boundary 0
+[score] 800/6000 answers  323s  148/min  eta 35m  merged-boundary 0
+[score] 912/6000 answers  369s  148/min  eta 34m  merged-boundary 0
+[score] 1008/6000 answers  409s  148/min  eta 34m  merged-boundary 0
+[score] 1104/6000 answers  445s  149/min  eta 33m  merged-boundary 0
+[score] 1200/6000 answers  483s  149/min  eta 32m  merged-boundary 0
+[score] 1312/6000 answers  530s  149/min  eta 32m  merged-boundary 0
+[score] 1408/6000 answers  567s  149/min  eta 31m  merged-boundary 0
+[score] 1504/6000 answers  604s  149/min  eta 30m  merged-boundary 0
+[score] 1600/6000 answers  642s  150/min  eta 29m  merged-boundary 0
+[score] 1712/6000 answers  685s  150/min  eta 29m  merged-boundary 0
+[score] 1808/6000 answers  725s  150/min  eta 28m  merged-boundary 0
+[score] 1904/6000 answers  762s  150/min  eta 27m  merged-boundary 0
+[score] 2000/6000 answers  801s  150/min  eta 27m  merged-boundary 0
+[score] 2112/6000 answers  847s  150/min  eta 26m  merged-boundary 0
+[score] 2208/6000 answers  886s  149/min  eta 25m  merged-boundary 0
+[score] 2304/6000 answers  924s  150/min  eta 25m  merged-boundary 0
+[score] 2400/6000 answers  964s  149/min  eta 24m  merged-boundary 0
+[score] 2512/6000 answers  1010s  149/min  eta 23m  merged-boundary 0
+[score] 2608/6000 answers  1049s  149/min  eta 23m  merged-boundary 0
+[score] 2704/6000 answers  1088s  149/min  eta 22m  merged-boundary 0
+[score] 2800/6000 answers  1122s  150/min  eta 21m  merged-boundary 0
+[score] 2912/6000 answers  1165s  150/min  eta 21m  merged-boundary 0
+[score] 3008/6000 answers  1204s  150/min  eta 20m  merged-boundary 0
+[score] 3104/6000 answers  1239s  150/min  eta 19m  merged-boundary 0
+[score] 3200/6000 answers  1277s  150/min  eta 19m  merged-boundary 0
+[score] 3312/6000 answers  1320s  151/min  eta 18m  merged-boundary 0
+[score] 3408/6000 answers  1359s  150/min  eta 17m  merged-boundary 0
+[score] 3504/6000 answers  1398s  150/min  eta 17m  merged-boundary 0
+[score] 3600/6000 answers  1435s  150/min  eta 16m  merged-boundary 0
+[score] 3712/6000 answers  1482s  150/min  eta 15m  merged-boundary 0
+[score] 3808/6000 answers  1519s  150/min  eta 15m  merged-boundary 0
+[score] 3904/6000 answers  1558s  150/min  eta 14m  merged-boundary 0
+[score] 4000/6000 answers  1594s  151/min  eta 13m  merged-boundary 0
+[score] 4112/6000 answers  1640s  150/min  eta 13m  merged-boundary 0
+[score] 4208/6000 answers  1679s  150/min  eta 12m  merged-boundary 0
+[score] 4304/6000 answers  1713s  151/min  eta 11m  merged-boundary 0
+[score] 4400/6000 answers  1753s  151/min  eta 11m  merged-boundary 0
+[score] 4512/6000 answers  1799s  151/min  eta 10m  merged-boundary 0
+[score] 4608/6000 answers  1837s  150/min  eta 9m  merged-boundary 0
+[score] 4704/6000 answers  1873s  151/min  eta 9m  merged-boundary 0
+[score] 4800/6000 answers  1910s  151/min  eta 8m  merged-boundary 0
+[score] 4912/6000 answers  1958s  151/min  eta 7m  merged-boundary 0
+[score] 5008/6000 answers  1996s  151/min  eta 7m  merged-boundary 0
+[score] 5104/6000 answers  2034s  151/min  eta 6m  merged-boundary 0
+[score] 5200/6000 answers  2073s  151/min  eta 5m  merged-boundary 0
+[score] 5312/6000 answers  2119s  150/min  eta 5m  merged-boundary 0
+[score] 5408/6000 answers  2156s  151/min  eta 4m  merged-boundary 0
+[score] 5504/6000 answers  2192s  151/min  eta 3m  merged-boundary 0
+[score] 5600/6000 answers  2231s  151/min  eta 3m  merged-boundary 0
+[score] 5712/6000 answers  2274s  151/min  eta 2m  merged-boundary 0
+[score] 5808/6000 answers  2313s  151/min  eta 1m  merged-boundary 0
+[score] 5904/6000 answers  2353s  151/min  eta 1m  merged-boundary 0
+[score] 6000/6000 answers  2391s  151/min  eta 0m  merged-boundary 0
+
+[done] 6000 answers -> outputs/phle/scores_qwen-qwen3.5-9b-base_r2.jsonl
+[10:56:58] group test, scorer Qwen/Qwen3.5-9B-Base
+  (weights already in /workspace/subliminal_trait_classifier/.hf/hub)
+
+[1;36m+ .venv-qwen35/bin/python scripts/phle_score.py --model Qwen/Qwen3.5-9B-Base --pools_dir outputs/distress/pools --pool_filter covert --pool_tags test_gemma-3-27b-it,test_llama-3.1-8b-instruct --n_questions 1200 --batch_size 24 --out outputs/phle/scores_qwen-qwen3.5-9b-base_test.jsonl[0m
+[pool] test_gemma-3-27b-it                        2990 rows  test_gemma-3-27b-it.jsonl
+[pool] test_llama-3.1-8b-instruct                 4301 rows  test_llama-3.1-8b-instruct.jsonl
+[pool] 1200 questions shared by all 2 pools
+[load] Qwen/Qwen3.5-9B-Base (base)
+
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]
+Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 581.11it/s]
+
+Loading weights:   0%|          | 0/760 [00:00<?, ?it/s]
+Loading weights:   0%|          | 1/760 [00:03<41:52,  3.31s/it]
+Loading weights:   0%|          | 2/760 [00:06<42:33,  3.37s/it]
+Loading weights:   1%|          | 9/760 [00:06<06:19,  1.98it/s]
+Loading weights:   2%|▏         | 12/760 [00:07<04:34,  2.73it/s]
+Loading weights:   2%|▏         | 14/760 [00:07<04:02,  3.07it/s]
+Loading weights:   2%|▏         | 16/760 [00:07<03:15,  3.81it/s]
+Loading weights:   3%|▎         | 23/760 [00:07<01:32,  7.97it/s]
+Loading weights:   4%|▎         | 27/760 [00:08<01:17,  9.41it/s]
+Loading weights:   4%|▍         | 30/760 [00:08<01:19,  9.19it/s]
+Loading weights:   5%|▍         | 37/760 [00:08<00:49, 14.63it/s]
+Loading weights:   5%|▌         | 40/760 [00:08<00:46, 15.36it/s]
+Loading weights:   6%|▌         | 43/760 [00:09<01:06, 10.80it/s]
+Loading weights:   6%|▌         | 46/760 [00:09<01:00, 11.76it/s]
+Loading weights:   6%|▋         | 48/760 [00:09<01:17,  9.15it/s]
+Loading weights:   7%|▋         | 54/760 [00:10<00:53, 13.31it/s]
+Loading weights:   8%|▊         | 62/760 [00:10<00:40, 17.08it/s]
+Loading weights:   9%|▊         | 65/760 [00:10<00:38, 18.01it/s]
+Loading weights:   9%|▉         | 68/760 [00:11<00:58, 11.75it/s]
+Loading weights:  10%|█         | 76/760 [00:11<00:36, 18.73it/s]
+Loading weights:  11%|█         | 80/760 [00:11<00:46, 14.76it/s]
+Loading weights:  11%|█         | 83/760 [00:12<00:51, 13.09it/s]
+Loading weights:  11%|█▏        | 87/760 [00:12<00:42, 15.68it/s]
+Loading weights:  12%|█▏        | 93/760 [00:12<00:32, 20.64it/s]
+Loading weights:  13%|█▎        | 96/760 [00:13<00:58, 11.26it/s]
+Loading weights:  13%|█▎        | 99/760 [00:13<01:02, 10.62it/s]
+Loading weights:  13%|█▎        | 101/760 [00:13<01:11,  9.24it/s]
+Loading weights:  14%|█▍        | 106/760 [00:13<00:56, 11.52it/s]
+Loading weights:  15%|█▌        | 115/760 [00:14<00:36, 17.77it/s]
+Loading weights:  16%|█▌        | 119/760 [00:14<00:35, 17.90it/s]
+Loading weights:  16%|█▌        | 122/760 [00:14<00:45, 13.98it/s]
+Loading weights:  17%|█▋        | 129/760 [00:14<00:31, 19.98it/s]
+Loading weights:  17%|█▋        | 132/760 [00:15<00:31, 20.16it/s]
+Loading weights:  18%|█▊        | 135/760 [00:15<00:48, 12.77it/s]
+Loading weights:  18%|█▊        | 140/760 [00:15<00:42, 14.53it/s]
+Loading weights:  19%|█▉        | 147/760 [00:16<00:34, 18.00it/s]
+Loading weights:  20%|█▉        | 150/760 [00:16<00:40, 14.88it/s]
+Loading weights:  20%|██        | 152/760 [00:16<00:43, 14.12it/s]
+Loading weights:  20%|██        | 154/760 [00:17<00:55, 10.95it/s]
+Loading weights:  21%|██        | 160/760 [00:17<00:36, 16.35it/s]
+Loading weights:  22%|██▏       | 169/760 [00:17<00:25, 23.00it/s]
+Loading weights:  23%|██▎       | 172/760 [00:17<00:33, 17.38it/s]
+Loading weights:  23%|██▎       | 175/760 [00:17<00:33, 17.29it/s]
+Loading weights:  24%|██▎       | 180/760 [00:18<00:29, 19.37it/s]
+Loading weights:  24%|██▍       | 185/760 [00:18<00:31, 18.29it/s]
+Loading weights:  25%|██▍       | 188/760 [00:18<00:37, 15.06it/s]
+Loading weights:  26%|██▌       | 194/760 [00:18<00:27, 20.26it/s]
+Loading weights:  26%|██▋       | 200/760 [00:19<00:25, 22.23it/s]
+Loading weights:  27%|██▋       | 203/760 [00:19<00:32, 17.20it/s]
+Loading weights:  27%|██▋       | 206/760 [00:19<00:47, 11.59it/s]
+Loading weights:  28%|██▊       | 213/760 [00:20<00:35, 15.26it/s]
+Loading weights:  29%|██▉       | 221/760 [00:20<00:25, 21.56it/s]
+Loading weights:  30%|██▉       | 225/760 [00:20<00:25, 20.88it/s]
+Loading weights:  30%|███       | 228/760 [00:20<00:31, 16.95it/s]
+Loading weights:  31%|███       | 233/760 [00:21<00:28, 18.55it/s]
+Loading weights:  31%|███▏      | 238/760 [00:21<00:22, 22.74it/s]
+Loading weights:  32%|███▏      | 241/760 [00:21<00:40, 12.97it/s]
+Loading weights:  33%|███▎      | 250/760 [00:21<00:23, 21.32it/s]
+Loading weights:  33%|███▎      | 254/760 [00:22<00:29, 17.11it/s]
+Loading weights:  34%|███▍      | 257/760 [00:22<00:29, 17.18it/s]
+Loading weights:  34%|███▍      | 260/760 [00:23<00:40, 12.35it/s]
+Loading weights:  35%|███▍      | 264/760 [00:23<00:32, 15.23it/s]
+Loading weights:  35%|███▌      | 267/760 [00:23<00:30, 16.29it/s]
+Loading weights:  36%|███▌      | 274/760 [00:23<00:23, 20.47it/s]
+Loading weights:  36%|███▋      | 277/760 [00:23<00:22, 21.90it/s]
+Loading weights:  37%|███▋      | 280/760 [00:24<00:36, 13.14it/s]
+Loading weights:  38%|███▊      | 289/760 [00:24<00:21, 21.94it/s]
+Loading weights:  39%|███▊      | 293/760 [00:24<00:28, 16.60it/s]
+Loading weights:  39%|███▉      | 296/760 [00:24<00:27, 16.65it/s]
+Loading weights:  40%|███▉      | 303/760 [00:25<00:19, 22.90it/s]
+Loading weights:  40%|████      | 307/760 [00:25<00:30, 14.88it/s]
+Loading weights:  41%|████      | 311/760 [00:25<00:28, 15.89it/s]
+Loading weights:  41%|████▏     | 314/760 [00:26<00:33, 13.44it/s]
+Loading weights:  42%|████▏     | 319/760 [00:26<00:27, 15.82it/s]
+Loading weights:  43%|████▎     | 328/760 [00:26<00:19, 22.19it/s]
+Loading weights:  44%|████▎     | 331/760 [00:26<00:20, 21.03it/s]
+Loading weights:  44%|████▍     | 334/760 [00:27<00:26, 15.98it/s]
+Loading weights:  45%|████▍     | 341/760 [00:27<00:21, 19.52it/s]
+Loading weights:  45%|████▌     | 344/760 [00:27<00:20, 20.74it/s]
+Loading weights:  46%|████▌     | 347/760 [00:27<00:30, 13.43it/s]
+Loading weights:  47%|████▋     | 356/760 [00:28<00:18, 22.40it/s]
+Loading weights:  47%|████▋     | 360/760 [00:28<00:29, 13.37it/s]
+Loading weights:  48%|████▊     | 364/760 [00:28<00:27, 14.63it/s]
+Loading weights:  48%|████▊     | 367/760 [00:29<00:32, 12.21it/s]
+Loading weights:  49%|████▉     | 372/760 [00:29<00:26, 14.76it/s]
+Loading weights:  50%|████▉     | 378/760 [00:29<00:21, 18.18it/s]
+Loading weights:  50%|█████     | 383/760 [00:29<00:17, 21.49it/s]
+Loading weights:  51%|█████     | 386/760 [00:30<00:28, 13.11it/s]
+Loading weights:  52%|█████▏    | 394/760 [00:30<00:21, 17.10it/s]
+Loading weights:  52%|█████▏    | 398/760 [00:30<00:20, 17.79it/s]
+Loading weights:  53%|█████▎    | 401/760 [00:31<00:27, 13.14it/s]
+Loading weights:  53%|█████▎    | 404/760 [00:31<00:24, 14.30it/s]
+Loading weights:  54%|█████▍    | 411/760 [00:31<00:16, 20.86it/s]
+Loading weights:  54%|█████▍    | 414/760 [00:32<00:26, 12.86it/s]
+Loading weights:  55%|█████▍    | 417/760 [00:32<00:25, 13.58it/s]
+Loading weights:  55%|█████▌    | 420/760 [00:32<00:28, 11.76it/s]
+Loading weights:  56%|█████▌    | 425/760 [00:32<00:21, 15.62it/s]
+Loading weights:  57%|█████▋    | 433/760 [00:33<00:14, 23.09it/s]
+Loading weights:  59%|█████▉    | 447/760 [00:33<00:07, 40.86it/s]
+Loading weights:  60%|██████    | 459/760 [00:33<00:05, 54.80it/s]
+Loading weights:  63%|██████▎   | 478/760 [00:33<00:03, 81.06it/s]
+Loading weights:  65%|██████▍   | 493/760 [00:33<00:02, 93.86it/s]
+Loading weights:  67%|██████▋   | 509/760 [00:33<00:02, 109.12it/s]
+Loading weights:  69%|██████▉   | 527/760 [00:33<00:01, 123.40it/s]
+Loading weights:  71%|███████   | 541/760 [00:33<00:02, 108.47it/s]
+Loading weights:  73%|███████▎  | 555/760 [00:33<00:01, 114.26it/s]
+Loading weights:  76%|███████▌  | 574/760 [00:34<00:01, 132.59it/s]
+Loading weights:  78%|███████▊  | 589/760 [00:34<00:01, 127.18it/s]
+Loading weights:  79%|███████▉  | 603/760 [00:34<00:01, 129.23it/s]
+Loading weights:  82%|████████▏ | 622/760 [00:34<00:00, 140.23it/s]
+Loading weights:  84%|████████▍ | 637/760 [00:34<00:01, 116.38it/s]
+Loading weights:  86%|████████▌ | 651/760 [00:34<00:00, 117.53it/s]
+Loading weights:  88%|████████▊ | 667/760 [00:34<00:00, 128.01it/s]
+Loading weights:  90%|█████████ | 685/760 [00:35<00:00, 104.78it/s]
+Loading weights:  92%|█████████▏| 699/760 [00:35<00:00, 108.90it/s]
+Loading weights:  94%|█████████▍| 718/760 [00:35<00:00, 123.35it/s]
+Loading weights:  96%|█████████▋| 733/760 [00:35<00:00, 125.23it/s]
+Loading weights:  99%|█████████▉| 753/760 [00:35<00:00, 117.56it/s]
+Loading weights: 100%|██████████| 760/760 [00:35<00:00, 21.28it/s] 
+[load] Qwen/Qwen3.5-9B-Base via Qwen3_5ForConditionalGeneration
+[load] done. 15 hypotheses x 1 k x 2400 answers = 36000 forward passes
+[transformers] `causal_conv1d_fn` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+[transformers] `chunk_gated_delta_rule` is falling back to its reference PyTorch implementation because `flash-linear-attention` is not installed. This is correct but much slower; install `flash-linear-attention` for the optimized kernel.
+[score] 112/2400 answers  57s  118/min  eta 19m  merged-boundary 0
+[score] 208/2400 answers  101s  123/min  eta 18m  merged-boundary 0
+[score] 304/2400 answers  148s  123/min  eta 17m  merged-boundary 0
+[score] 400/2400 answers  190s  126/min  eta 16m  merged-boundary 0
+[score] 512/2400 answers  246s  125/min  eta 15m  merged-boundary 0
+[score] 608/2400 answers  292s  125/min  eta 14m  merged-boundary 0
+[score] 704/2400 answers  339s  125/min  eta 14m  merged-boundary 0
+[score] 800/2400 answers  387s  124/min  eta 13m  merged-boundary 0
+[score] 912/2400 answers  441s  124/min  eta 12m  merged-boundary 0
+[score] 1008/2400 answers  486s  124/min  eta 11m  merged-boundary 0
+[score] 1104/2400 answers  531s  125/min  eta 10m  merged-boundary 0
+[score] 1200/2400 answers  576s  125/min  eta 10m  merged-boundary 0
+[score] 1312/2400 answers  634s  124/min  eta 9m  merged-boundary 0
+[score] 1408/2400 answers  680s  124/min  eta 8m  merged-boundary 0
+[score] 1504/2400 answers  727s  124/min  eta 7m  merged-boundary 0
+[score] 1600/2400 answers  771s  125/min  eta 6m  merged-boundary 0
+[score] 1712/2400 answers  821s  125/min  eta 6m  merged-boundary 0
+[score] 1808/2400 answers  866s  125/min  eta 5m  merged-boundary 0
+[score] 1904/2400 answers  916s  125/min  eta 4m  merged-boundary 0
+[score] 2000/2400 answers  962s  125/min  eta 3m  merged-boundary 0
+[score] 2112/2400 answers  1016s  125/min  eta 2m  merged-boundary 0
+[score] 2208/2400 answers  1061s  125/min  eta 2m  merged-boundary 0
+[score] 2304/2400 answers  1107s  125/min  eta 1m  merged-boundary 0
+[score] 2400/2400 answers  1155s  125/min  eta 0m  merged-boundary 0
+
+[done] 2400 answers -> outputs/phle/scores_qwen-qwen3.5-9b-base_test.jsonl
+
+[1;36m+ .venv-qwen35/bin/python scripts/phle_tables.py --scores outputs/phle/scores_qwen-qwen3.5-9b-base_train.jsonl --reference train_gemma-3-27b-it_default --ks 10,16,30 --title Experiment 1 — Qwen/Qwen3.5-9B-Base on the train pools --out results/phle/tables_qwen-qwen3.5-9b-base_train --nway[0m
+# Experiment 1 — Qwen/Qwen3.5-9B-Base on the train pools
+
+Scores: `outputs/phle/scores_qwen-qwen3.5-9b-base_train.jsonl`  
+Reference (negative) pool: **train_gemma-3-27b-it_default**  
+Header ratio: **distress / neutral**  
+In-context exemplars: k = 0  
+Headers scored: angry, anxious, bored, calm, cheerful, curious, distress, formal, hhh, lonely, neutral, nostalgic, proud, rejected, sarcastic
+
+
+## 1. Each pool against train_gemma-3-27b-it_default
+
+AUROC from one answer (k1), then from bags of k distinct questions, ±1σ over 200 question-bootstrap replicates. **null** is the same estimator with pool labels swapped within each question (200 permutations): mean, and in brackets the 95th percentile — a result has to clear that, not 0.5. **band** is the folded mean over the 11 mood headers that are not distress; the target has to beat it, or what we are measuring is house style rather than mood.
+
+| positive pool | k1 / k10 / k16 / k30 | null (95th) | wrong-header band | n questions |
+|---|---|---|---|---|
+| train_gemma-3-27b-it_angry | 0.555±0.011 / 0.685±0.030 / 0.709±0.036 / 0.794±0.043 | 0.499 (0.517) / 0.496 (0.546) / 0.495 (0.562) / 0.493 (0.586) | 0.532±0.007 / 0.624±0.021 / 0.648±0.025 / 0.700±0.030 | 600 |
+| train_gemma-3-27b-it_anxious | 0.618±0.011 / 0.869±0.021 / 0.916±0.018 / 0.976±0.010 | 0.501 (0.523) / 0.503 (0.584) / 0.503 (0.604) / 0.506 (0.640) | 0.583±0.009 / 0.793±0.025 / 0.848±0.025 / 0.925±0.021 | 600 |
+| train_gemma-3-27b-it_bored | 0.535±0.009 / 0.583±0.030 / 0.604±0.037 / 0.633±0.049 | 0.500 (0.518) / 0.500 (0.553) / 0.500 (0.569) / 0.501 (0.599) | 0.520±0.004 / 0.564±0.013 / 0.582±0.015 / 0.606±0.018 | 600 |
+| train_gemma-3-27b-it_calm | 0.527±0.010 / 0.557±0.030 / 0.574±0.037 / 0.615±0.051 | 0.500 (0.517) / 0.501 (0.553) / 0.501 (0.565) / 0.501 (0.585) | 0.520±0.004 / 0.567±0.011 / 0.583±0.013 / 0.608±0.017 | 600 |
+| train_gemma-3-27b-it_cheerful | 0.539±0.009 / 0.605±0.031 / 0.607±0.038 / 0.647±0.050 | 0.499 (0.515) / 0.499 (0.554) / 0.499 (0.562) / 0.501 (0.599) | 0.529±0.007 / 0.580±0.022 / 0.610±0.027 / 0.638±0.035 | 600 |
+| train_gemma-3-27b-it_curious | 0.566±0.010 / 0.675±0.030 / 0.727±0.034 / 0.791±0.040 | 0.499 (0.517) / 0.499 (0.552) / 0.498 (0.574) / 0.497 (0.594) | 0.555±0.008 / 0.680±0.025 / 0.737±0.029 / 0.813±0.033 | 600 |
+| train_gemma-3-27b-it_distress | 0.545±0.009 / 0.621±0.029 / 0.647±0.036 / 0.694±0.046 | 0.501 (0.517) / 0.505 (0.551) / 0.506 (0.560) / 0.508 (0.586) | 0.528±0.005 / 0.591±0.017 / 0.608±0.020 / 0.643±0.026 | 600 |
+| train_gemma-3-27b-it_lonely | 0.536±0.009 / 0.572±0.027 / 0.590±0.033 / 0.634±0.044 | 0.500 (0.514) / 0.499 (0.544) / 0.498 (0.553) / 0.498 (0.577) | 0.522±0.004 / 0.567±0.012 / 0.589±0.015 / 0.614±0.019 | 600 |
+| train_gemma-3-27b-it_nostalgic | 0.574±0.011 / 0.734±0.029 / 0.800±0.031 / 0.880±0.031 | 0.500 (0.516) / 0.501 (0.562) / 0.501 (0.584) / 0.502 (0.617) | 0.558±0.009 / 0.711±0.026 / 0.773±0.028 / 0.840±0.030 | 600 |
+| train_gemma-3-27b-it_nosys | 0.516±0.010 / 0.545±0.032 / 0.558±0.040 / 0.572±0.055 | 0.501 (0.516) / 0.505 (0.551) / 0.506 (0.568) / 0.508 (0.584) | 0.509±0.003 / 0.530±0.010 / 0.535±0.012 / 0.551±0.016 | 600 |
+| train_gemma-3-27b-it_proud | 0.555±0.010 / 0.663±0.031 / 0.722±0.038 / 0.777±0.045 | 0.501 (0.516) / 0.501 (0.551) / 0.501 (0.562) / 0.501 (0.586) | 0.547±0.008 / 0.658±0.025 / 0.703±0.031 / 0.770±0.035 | 600 |
+| train_gemma-3-27b-it_sarcastic | 0.626±0.010 / 0.916±0.015 / 0.958±0.010 / 0.994±0.004 | 0.499 (0.519) / 0.496 (0.570) / 0.496 (0.586) / 0.491 (0.613) | 0.586±0.009 / 0.793±0.018 / 0.841±0.018 / 0.895±0.016 | 600 |
+
+## 2. The same, with answer length regressed out
+
+Here to show the first table does not rest on the two teachers writing answers of different length.
+
+| positive pool | k1 / k10 / k16 / k30 |
+|---|---|
+| train_gemma-3-27b-it_angry | 0.584±0.011 / 0.731±0.028 / 0.799±0.030 / 0.873±0.031 |
+| train_gemma-3-27b-it_anxious | 0.641±0.012 / 0.896±0.020 / 0.953±0.014 / 0.990±0.006 |
+| train_gemma-3-27b-it_bored | 0.566±0.010 / 0.662±0.031 / 0.712±0.036 / 0.758±0.042 |
+| train_gemma-3-27b-it_calm | 0.554±0.010 / 0.645±0.028 / 0.654±0.035 / 0.731±0.043 |
+| train_gemma-3-27b-it_cheerful | 0.562±0.010 / 0.658±0.031 / 0.698±0.035 / 0.761±0.045 |
+| train_gemma-3-27b-it_curious | 0.583±0.011 / 0.728±0.030 / 0.766±0.035 / 0.852±0.038 |
+| train_gemma-3-27b-it_distress | 0.573±0.009 / 0.694±0.025 / 0.730±0.029 / 0.811±0.034 |
+| train_gemma-3-27b-it_lonely | 0.564±0.010 / 0.656±0.028 / 0.694±0.034 / 0.749±0.040 |
+| train_gemma-3-27b-it_nostalgic | 0.601±0.010 / 0.792±0.023 / 0.876±0.024 / 0.939±0.019 |
+| train_gemma-3-27b-it_nosys | 0.506±0.010 / 0.537±0.032 / 0.542±0.041 / 0.552±0.055 |
+| train_gemma-3-27b-it_proud | 0.583±0.010 / 0.733±0.027 / 0.801±0.030 / 0.862±0.031 |
+| train_gemma-3-27b-it_sarcastic | 0.658±0.011 / 0.946±0.012 / 0.983±0.007 / 0.998±0.002 |
+
+## 3. Every pool against train_gemma-3-27b-it_default, under every mood header (k30)
+
+Rows are pools, columns are the header on top of the ratio; the largest number in each row is in bold. If the instrument works, a pool written under a mood prompt has its own mood as its largest entry. This is the check the trained namer never had — it scored 0.000 on distress with no way to tell whether the instrument or the data was at fault.
+
+| pool | distress | rejected | calm | curious | sarcastic | proud | lonely | nostalgic | cheerful | angry | anxious | bored | formal |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| train_gemma-3-27b-it_angry | 0.788 | 0.816 | 0.695 | 0.512 | **0.880** | 0.567 | 0.755 | 0.671 | 0.501 | 0.774 | 0.598 | 0.873 | 0.836 |
+| train_gemma-3-27b-it_anxious | 0.975 | **0.989** | 0.963 | 0.875 | 0.977 | 0.821 | 0.965 | 0.893 | 0.743 | 0.950 | 0.968 | 0.985 | 0.970 |
+| train_gemma-3-27b-it_bored | 0.638 | 0.754 | 0.561 | 0.405 | 0.679 | 0.460 | 0.592 | 0.551 | 0.444 | 0.564 | 0.491 | 0.717 | **0.782** |
+| train_gemma-3-27b-it_calm | 0.602 | 0.752 | 0.581 | 0.421 | 0.643 | 0.439 | 0.583 | 0.555 | 0.448 | 0.545 | 0.450 | 0.711 | **0.854** |
+| train_gemma-3-27b-it_cheerful | 0.637 | 0.659 | 0.646 | 0.518 | 0.745 | 0.572 | 0.606 | 0.626 | 0.626 | 0.618 | 0.517 | 0.741 | **0.820** |
+| train_gemma-3-27b-it_curious | 0.799 | 0.818 | 0.884 | 0.882 | 0.851 | 0.677 | 0.822 | 0.782 | 0.644 | 0.763 | 0.732 | 0.876 | **0.935** |
+| train_gemma-3-27b-it_distress | 0.691 | 0.758 | 0.658 | 0.482 | 0.714 | 0.479 | 0.673 | 0.596 | 0.479 | 0.646 | 0.552 | 0.815 | **0.851** |
+| train_gemma-3-27b-it_lonely | 0.649 | 0.686 | 0.604 | 0.430 | 0.705 | 0.455 | 0.636 | 0.567 | 0.455 | 0.585 | 0.476 | 0.731 | **0.820** |
+| train_gemma-3-27b-it_nostalgic | 0.883 | 0.888 | 0.926 | 0.754 | 0.894 | 0.705 | 0.893 | 0.928 | 0.698 | 0.810 | 0.728 | **0.941** | 0.923 |
+| train_gemma-3-27b-it_nosys | 0.591 | **0.699** | 0.596 | 0.503 | 0.441 | 0.492 | 0.524 | 0.455 | 0.411 | 0.515 | 0.526 | 0.527 | 0.666 |
+| train_gemma-3-27b-it_proud | 0.789 | 0.874 | 0.791 | 0.620 | 0.840 | 0.734 | 0.778 | 0.758 | 0.658 | 0.746 | 0.621 | 0.890 | **0.960** |
+| train_gemma-3-27b-it_sarcastic | 0.994 | 0.995 | 0.909 | 0.749 | 0.999 | 0.936 | 0.968 | 0.902 | 0.473 | 0.994 | 0.910 | **1.000** | 0.951 |
+
+## 4. Which header wins outright
+
+A bag is scored under all 14 headers and the largest wins, after subtracting a per-header offset fitted on a half of the questions disjoint from the half scored. Chance is 0.071. 600 questions shared by all 13 pools.
+
+**Accuracy** — only for pools whose true header we know from how they were generated. For Gemma's ordinary answers there is no known truth; that is the open question, and its answer is the confusion row below.
+
+| pool | true header | k=1 | k=10 | k=16 | k=30 |
+|---|---|---|---|---|---|
+| train_gemma-3-27b-it_default | neutral | 0.182 | 0.341 | 0.383 | 0.448 |
+| train_gemma-3-27b-it_angry | angry | 0.072 | 0.109 | 0.122 | 0.152 |
+| train_gemma-3-27b-it_anxious | anxious | 0.179 | 0.594 | 0.718 | 0.865 |
+| train_gemma-3-27b-it_bored | bored | 0.032 | 0.022 | 0.019 | 0.009 |
+| train_gemma-3-27b-it_calm | calm | 0.045 | 0.062 | 0.057 | 0.048 |
+| train_gemma-3-27b-it_cheerful | cheerful | 0.073 | 0.199 | 0.269 | 0.358 |
+| train_gemma-3-27b-it_curious | curious | 0.110 | 0.403 | 0.506 | 0.641 |
+| train_gemma-3-27b-it_distress | distress | 0.017 | 0.009 | 0.007 | 0.005 |
+| train_gemma-3-27b-it_lonely | lonely | 0.015 | 0.040 | 0.046 | 0.040 |
+| train_gemma-3-27b-it_nostalgic | nostalgic | 0.117 | 0.451 | 0.577 | 0.750 |
+| train_gemma-3-27b-it_nosys | neutral | 0.166 | 0.276 | 0.322 | 0.391 |
+| train_gemma-3-27b-it_proud | proud | 0.059 | 0.110 | 0.114 | 0.114 |
+| train_gemma-3-27b-it_sarcastic | sarcastic | 0.326 | 0.906 | 0.973 | 0.998 |
+
+Mean over the 13 labelled pools at k=30: **0.371±0.029**
+
+
+**Which header each pool's bags chose**, at k=30 (rows sum to 1):
+
+| pool | neutral | distress | rejected | calm | curious | sarcastic | proud | lonely | nostalgic | cheerful | angry | anxious | bored | formal |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| train_gemma-3-27b-it_default | **0.45** | 0.00 | 0.01 | 0.02 | 0.08 | 0.00 | 0.08 | 0.02 | 0.02 | 0.22 | 0.01 | 0.07 | 0.00 | 0.02 |
+| train_gemma-3-27b-it_angry | **0.24** | 0.01 | 0.02 | 0.03 | 0.01 | 0.13 | 0.02 | 0.07 | 0.03 | 0.06 | 0.15 | 0.03 | 0.04 | 0.14 |
+| train_gemma-3-27b-it_anxious | 0.01 | 0.00 | 0.02 | 0.01 | 0.00 | 0.02 | 0.00 | 0.01 | 0.00 | 0.00 | 0.01 | **0.87** | 0.01 | 0.03 |
+| train_gemma-3-27b-it_bored | **0.43** | 0.01 | 0.04 | 0.03 | 0.01 | 0.01 | 0.03 | 0.04 | 0.03 | 0.14 | 0.02 | 0.04 | 0.01 | 0.18 |
+| train_gemma-3-27b-it_calm | 0.35 | 0.00 | 0.04 | 0.05 | 0.01 | 0.00 | 0.01 | 0.02 | 0.02 | 0.11 | 0.01 | 0.02 | 0.00 | **0.36** |
+| train_gemma-3-27b-it_cheerful | 0.27 | 0.00 | 0.01 | 0.05 | 0.01 | 0.01 | 0.04 | 0.02 | 0.02 | **0.36** | 0.01 | 0.01 | 0.00 | 0.19 |
+| train_gemma-3-27b-it_curious | 0.06 | 0.00 | 0.00 | 0.03 | **0.64** | 0.00 | 0.01 | 0.01 | 0.01 | 0.02 | 0.01 | 0.01 | 0.00 | 0.20 |
+| train_gemma-3-27b-it_distress | **0.30** | 0.01 | 0.04 | 0.06 | 0.01 | 0.01 | 0.01 | 0.06 | 0.03 | 0.09 | 0.04 | 0.04 | 0.01 | 0.30 |
+| train_gemma-3-27b-it_lonely | **0.40** | 0.00 | 0.02 | 0.05 | 0.01 | 0.01 | 0.02 | 0.04 | 0.03 | 0.13 | 0.02 | 0.03 | 0.01 | 0.24 |
+| train_gemma-3-27b-it_nostalgic | 0.05 | 0.00 | 0.01 | 0.04 | 0.00 | 0.01 | 0.01 | 0.02 | **0.75** | 0.02 | 0.01 | 0.00 | 0.00 | 0.08 |
+| train_gemma-3-27b-it_nosys | **0.39** | 0.01 | 0.05 | 0.06 | 0.10 | 0.00 | 0.06 | 0.02 | 0.01 | 0.08 | 0.01 | 0.10 | 0.00 | 0.10 |
+| train_gemma-3-27b-it_proud | 0.09 | 0.00 | 0.02 | 0.03 | 0.00 | 0.01 | 0.11 | 0.02 | 0.02 | 0.03 | 0.00 | 0.00 | 0.01 | **0.64** |
+| train_gemma-3-27b-it_sarcastic | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | **1.00** | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
+
+wrote results/phle/tables_qwen-qwen3.md and results/phle/tables_qwen-qwen3.json
+
+[1;36m+ .venv-qwen35/bin/python scripts/phle_tables.py --scores outputs/phle/scores_qwen-qwen3.5-9b-base_r2.jsonl --reference train_gemma-3-27b-it_nosys_r2 --ks 10,16,30 --title Experiment 1 — Qwen/Qwen3.5-9B-Base on the r2 pools --out results/phle/tables_qwen-qwen3.5-9b-base_r2[0m
+# Experiment 1 — Qwen/Qwen3.5-9B-Base on the r2 pools
+
+Scores: `outputs/phle/scores_qwen-qwen3.5-9b-base_r2.jsonl`  
+Reference (negative) pool: **train_gemma-3-27b-it_nosys_r2**  
+Header ratio: **distress / neutral**  
+In-context exemplars: k = 0  
+Headers scored: angry, anxious, bored, calm, cheerful, curious, distress, formal, hhh, lonely, neutral, nostalgic, proud, rejected, sarcastic
+
+
+## 1. Each pool against train_gemma-3-27b-it_nosys_r2
+
+AUROC from one answer (k1), then from bags of k distinct questions, ±1σ over 200 question-bootstrap replicates. **null** is the same estimator with pool labels swapped within each question (200 permutations): mean, and in brackets the 95th percentile — a result has to clear that, not 0.5. **band** is the folded mean over the 11 mood headers that are not distress; the target has to beat it, or what we are measuring is house style rather than mood.
+
+| positive pool | k1 / k10 / k16 / k30 | null (95th) | wrong-header band | n questions |
+|---|---|---|---|---|
+| train_gemma-3-27b-it_angry_r2 | 0.670±0.008 / 0.957±0.008 / 0.984±0.004 / 0.999±0.001 | 0.500 (0.518) / 0.500 (0.578) / 0.501 (0.583) / 0.499 (0.606) | 0.640±0.008 / 0.881±0.013 / 0.924±0.012 / 0.963±0.009 | 1200 |
+| train_gemma-3-27b-it_cheerful_r2 | 0.558±0.009 / 0.649±0.027 / 0.685±0.032 / 0.779±0.039 | 0.500 (0.515) / 0.501 (0.548) / 0.500 (0.565) / 0.499 (0.597) | 0.577±0.007 / 0.730±0.022 / 0.765±0.025 / 0.840±0.027 | 1200 |
+| train_gemma-3-27b-it_distress_ctrl | 0.601±0.009 / 0.801±0.022 / 0.867±0.022 / 0.937±0.018 | 0.500 (0.514) / 0.501 (0.553) / 0.501 (0.569) / 0.501 (0.594) | 0.587±0.007 / 0.762±0.020 / 0.809±0.021 / 0.866±0.021 | 1200 |
+| train_gemma-3-27b-it_rejected_ctrl | 0.554±0.008 / 0.683±0.027 / 0.701±0.030 / 0.759±0.038 | 0.500 (0.514) / 0.501 (0.550) / 0.501 (0.563) / 0.504 (0.586) | 0.558±0.007 / 0.655±0.020 / 0.716±0.024 / 0.751±0.029 | 1200 |
+
+## 2. The same, with answer length regressed out
+
+Here to show the first table does not rest on the two teachers writing answers of different length.
+
+| positive pool | k1 / k10 / k16 / k30 |
+|---|---|
+| train_gemma-3-27b-it_angry_r2 | 0.660±0.008 / 0.943±0.009 / 0.981±0.005 / 0.998±0.001 |
+| train_gemma-3-27b-it_cheerful_r2 | 0.564±0.008 / 0.668±0.025 / 0.720±0.030 / 0.792±0.033 |
+| train_gemma-3-27b-it_distress_ctrl | 0.612±0.009 / 0.834±0.021 / 0.889±0.020 / 0.956±0.015 |
+| train_gemma-3-27b-it_rejected_ctrl | 0.560±0.008 / 0.690±0.026 / 0.716±0.031 / 0.785±0.036 |
+
+## 3. Every pool against train_gemma-3-27b-it_nosys_r2, under every mood header (k30)
+
+Rows are pools, columns are the header on top of the ratio; the largest number in each row is in bold. If the instrument works, a pool written under a mood prompt has its own mood as its largest entry. This is the check the trained namer never had — it scored 0.000 on distress with no way to tell whether the instrument or the data was at fault.
+
+| pool | distress | rejected | calm | curious | sarcastic | proud | lonely | nostalgic | cheerful | angry | anxious | bored | formal |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| train_gemma-3-27b-it_angry_r2 | 0.998 | 0.989 | 0.960 | 0.845 | **1.000** | 0.972 | 0.997 | 0.983 | 0.885 | 0.999 | 0.977 | 1.000 | 0.992 |
+| train_gemma-3-27b-it_cheerful_r2 | 0.763 | 0.579 | 0.780 | 0.768 | 0.802 | 0.856 | 0.829 | 0.901 | **0.957** | 0.803 | 0.719 | 0.833 | 0.930 |
+| train_gemma-3-27b-it_distress_ctrl | 0.940 | 0.853 | 0.861 | 0.715 | 0.955 | 0.764 | 0.936 | 0.895 | 0.736 | 0.924 | 0.828 | 0.982 | **0.984** |
+| train_gemma-3-27b-it_rejected_ctrl | 0.758 | 0.726 | 0.685 | 0.514 | 0.849 | 0.641 | 0.820 | 0.768 | 0.660 | 0.805 | 0.636 | 0.886 | **0.985** |
+
+wrote results/phle/tables_qwen-qwen3.md and results/phle/tables_qwen-qwen3.json
+
+[1;36m+ .venv-qwen35/bin/python scripts/phle_tables.py --scores outputs/phle/scores_qwen-qwen3.5-9b-base_test.jsonl --reference test_llama-3.1-8b-instruct --ks 10,16,30 --title Experiment 1 — Qwen/Qwen3.5-9B-Base on the test pools --out results/phle/tables_qwen-qwen3.5-9b-base_test --nway[0m
+# Experiment 1 — Qwen/Qwen3.5-9B-Base on the test pools
+
+Scores: `outputs/phle/scores_qwen-qwen3.5-9b-base_test.jsonl`  
+Reference (negative) pool: **test_llama-3.1-8b-instruct**  
+Header ratio: **distress / neutral**  
+In-context exemplars: k = 0  
+Headers scored: angry, anxious, bored, calm, cheerful, curious, distress, formal, hhh, lonely, neutral, nostalgic, proud, rejected, sarcastic
+
+
+## 1. Each pool against test_llama-3.1-8b-instruct
+
+AUROC from one answer (k1), then from bags of k distinct questions, ±1σ over 200 question-bootstrap replicates. **null** is the same estimator with pool labels swapped within each question (200 permutations): mean, and in brackets the 95th percentile — a result has to clear that, not 0.5. **band** is the folded mean over the 11 mood headers that are not distress; the target has to beat it, or what we are measuring is house style rather than mood.
+
+| positive pool | k1 / k10 / k16 / k30 | null (95th) | wrong-header band | n questions |
+|---|---|---|---|---|
+| test_gemma-3-27b-it | 0.469±0.010 / 0.415±0.033 / 0.359±0.042 / 0.338±0.053 | 0.499 (0.518) / 0.499 (0.558) / 0.499 (0.572) / 0.496 (0.607) | 0.566±0.007 / 0.685±0.020 / 0.725±0.021 / 0.778±0.023 | 1200 |
+
+## 2. The same, with answer length regressed out
+
+Here to show the first table does not rest on the two teachers writing answers of different length.
+
+| positive pool | k1 / k10 / k16 / k30 |
+|---|---|
+| test_gemma-3-27b-it | 0.477±0.011 / 0.427±0.036 / 0.418±0.044 / 0.381±0.058 |
+
+## 3. Every pool against test_llama-3.1-8b-instruct, under every mood header (k30)
+
+Rows are pools, columns are the header on top of the ratio; the largest number in each row is in bold. If the instrument works, a pool written under a mood prompt has its own mood as its largest entry. This is the check the trained namer never had — it scored 0.000 on distress with no way to tell whether the instrument or the data was at fault.
+
+| pool | distress | rejected | calm | curious | sarcastic | proud | lonely | nostalgic | cheerful | angry | anxious | bored | formal |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| test_gemma-3-27b-it | 0.341 | 0.397 | 0.433 | 0.041 | 0.276 | 0.069 | 0.289 | 0.250 | 0.048 | 0.316 | 0.197 | **0.607** | 0.187 |
+
+## 4. Which header wins outright
+
+A bag is scored under all 14 headers and the largest wins, after subtracting a per-header offset fitted on a half of the questions disjoint from the half scored. Chance is 0.071. 1200 questions shared by all 2 pools.
+
+**Accuracy** — only for pools whose true header we know from how they were generated. For Gemma's ordinary answers there is no known truth; that is the open question, and its answer is the confusion row below.
+
+| pool | true header | k=1 | k=10 | k=16 | k=30 |
+|---|---|---|---|---|---|
+| test_llama-3.1-8b-instruct | neutral | 0.134 | 0.060 | 0.043 | 0.020 |
+| test_gemma-3-27b-it | neutral | 0.136 | 0.207 | 0.222 | 0.233 |
+
+Mean over the 2 labelled pools at k=30: **0.127±0.044**
+
+
+**Which header each pool's bags chose**, at k=30 (rows sum to 1):
+
+| pool | neutral | distress | rejected | calm | curious | sarcastic | proud | lonely | nostalgic | cheerful | angry | anxious | bored | formal |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| test_llama-3.1-8b-instruct | 0.02 | 0.00 | 0.02 | 0.00 | **0.27** | 0.09 | 0.16 | 0.00 | 0.02 | 0.17 | 0.01 | 0.02 | 0.00 | 0.21 |
+| test_gemma-3-27b-it | **0.23** | 0.03 | 0.10 | 0.07 | 0.00 | 0.10 | 0.00 | 0.02 | 0.05 | 0.00 | 0.03 | 0.03 | 0.18 | 0.13 |
+
+wrote results/phle/tables_qwen-qwen3.md and results/phle/tables_qwen-qwen3.json
+
+[1;33m======== finished at 11:28:14 — what was written ========[0m
+  -rw-rw-rw- 1 root root  8488 Oct 15 08:44 results/phle/PLAN.md
+  -rw-rw-rw- 1 root root 22995 Oct 15 09:21 results/phle/inventory.json
+  -rw-rw-rw- 1 root root  4758 Oct 15 11:28 results/phle/tables_qwen-qwen3.json
+  -rw-rw-rw- 1 root root  3551 Oct 15 11:28 results/phle/tables_qwen-qwen3.md
+
+tables are in results/phle, raw scores in outputs/phle
+bundle them for the repo with:  bash scripts/bundle_phle.sh

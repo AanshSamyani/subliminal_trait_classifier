@@ -1,0 +1,103 @@
+
+[1;36m+ .venv-qwen35/bin/python scripts/phle_score.py --model Qwen/Qwen3.5-9B-Base --pools_dir outputs/distress/pools --pool_filter covert --pool_tags train_gemma-3-27b-it_angry,train_gemma-3-27b-it_anxious,train_gemma-3-27b-it_bored,train_gemma-3-27b-it_calm,train_gemma-3-27b-it_cheerful,train_gemma-3-27b-it_curious,train_gemma-3-27b-it_default,train_gemma-3-27b-it_distress,train_gemma-3-27b-it_lonely,train_gemma-3-27b-it_nostalgic,train_gemma-3-27b-it_nosys,train_gemma-3-27b-it_proud,train_gemma-3-27b-it_sarcastic --n_questions 600 --batch_size 24 --out outputs/phle/scores_qwen-qwen3.5-9b-base_train.jsonl[0m
+[pool] train_gemma-3-27b-it_angry                 4057 rows  train_gemma-3-27b-it_angry.jsonl
+[pool] train_gemma-3-27b-it_anxious               2937 rows  train_gemma-3-27b-it_anxious.jsonl
+[pool] train_gemma-3-27b-it_bored                 5367 rows  train_gemma-3-27b-it_bored.jsonl
+[pool] train_gemma-3-27b-it_calm                  5561 rows  train_gemma-3-27b-it_calm_english.jsonl
+[pool] train_gemma-3-27b-it_cheerful              4793 rows  train_gemma-3-27b-it_cheerful.jsonl
+[pool] train_gemma-3-27b-it_curious               4560 rows  train_gemma-3-27b-it_curious_english.jsonl
+[pool] train_gemma-3-27b-it_default               3112 rows  train_gemma-3-27b-it_default.jsonl
+[pool] train_gemma-3-27b-it_distress              5231 rows  train_gemma-3-27b-it_distress_english.jsonl
+[pool] train_gemma-3-27b-it_lonely                5504 rows  train_gemma-3-27b-it_lonely_english.jsonl
+[pool] train_gemma-3-27b-it_nostalgic             5395 rows  train_gemma-3-27b-it_nostalgic_english.jsonl
+[pool] train_gemma-3-27b-it_nosys                 3024 rows  train_gemma-3-27b-it_nosys_english.jsonl
+[pool] train_gemma-3-27b-it_proud                 5705 rows  train_gemma-3-27b-it_proud_english.jsonl
+[pool] train_gemma-3-27b-it_sarcastic             5856 rows  train_gemma-3-27b-it_sarcastic_english.jsonl
+[pool] 600 questions shared by all 13 pools
+[load] Qwen/Qwen3.5-9B-Base (base)
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 598.72it/s]
+Loading weights:   0%|          | 0/760 [00:00<?, ?it/s]Loading weights:   0%|          | 1/760 [00:02<34:58,  2.76s/it]Loading weights:   0%|          | 2/760 [00:05<33:49,  2.68s/it]Loading weights:   1%|          | 9/760 [00:05<05:10,  2.41it/s]Loading weights:   2%|▏         | 13/760 [00:05<03:26,  3.62it/s]Loading weights:   2%|▏         | 15/760 [00:06<02:56,  4.21it/s]Loading weights:   2%|▎         | 19/760 [00:06<01:56,  6.38it/s]Loading weights:   3%|▎         | 26/760 [00:06<01:05, 11.26it/s]Loading weights:   4%|▍         | 29/760 [00:06<01:19,  9.22it/s]Loading weights:   5%|▍         | 37/760 [00:07<00:49, 14.65it/s]Loading weights:   5%|▌         | 40/760 [00:07<00:48, 14.85it/s]Loading weights:   6%|▌         | 43/760 [00:08<01:18,  9.09it/s]Loading weights:   6%|▌         | 46/760 [00:08<01:15,  9.46it/s]Loading weights:   6%|▋         | 48/760 [00:08<01:37,  7.28it/s]Loading weights:   7%|▋         | 52/760 [00:09<01:13,  9.65it/s]Loading weights:   8%|▊         | 62/760 [00:09<00:39, 17.65it/s]Loading weights:   9%|▊         | 65/760 [00:09<00:39, 17.80it/s]Loading weights:   9%|▉         | 68/760 [00:09<00:56, 12.23it/s]Loading weights:  10%|█         | 76/760 [00:10<00:37, 18.34it/s]Loading weights:  11%|█         | 80/760 [00:10<00:40, 16.69it/s]Loading weights:  11%|█         | 83/760 [00:10<00:46, 14.44it/s]Loading weights:  12%|█▏        | 90/760 [00:10<00:34, 19.16it/s]Loading weights:  12%|█▏        | 94/760 [00:11<00:36, 18.49it/s]Loading weights:  13%|█▎        | 97/760 [00:11<00:44, 14.76it/s]Loading weights:  13%|█▎        | 99/760 [00:11<00:49, 13.36it/s]Loading weights:  13%|█▎        | 101/760 [00:12<00:58, 11.30it/s]Loading weights:  14%|█▍        | 107/760 [00:12<00:39, 16.41it/s]Loading weights:  15%|█▌        | 115/760 [00:12<00:26, 24.02it/s]Loading weights:  16%|█▌        | 118/760 [00:12<00:26, 24.62it/s]Loading weights:  16%|█▌        | 121/760 [00:12<00:43, 14.57it/s]Loading weights:  17%|█▋        | 127/760 [00:13<00:31, 20.08it/s]Loading weights:  17%|█▋        | 132/760 [00:13<00:25, 24.42it/s]Loading weights:  18%|█▊        | 136/760 [00:13<00:40, 15.55it/s]Loading weights:  19%|█▊        | 142/760 [00:13<00:30, 20.18it/s]Loading weights:  19%|█▉        | 146/760 [00:13<00:27, 22.65it/s]Loading weights:  20%|█▉        | 150/760 [00:14<00:41, 14.72it/s]Loading weights:  20%|██        | 153/760 [00:14<00:48, 12.59it/s]Loading weights:  21%|██        | 156/760 [00:15<00:45, 13.33it/s]Loading weights:  21%|██        | 159/760 [00:15<00:40, 14.95it/s]Loading weights:  22%|██▏       | 169/760 [00:15<00:22, 26.24it/s]Loading weights:  23%|██▎       | 173/760 [00:15<00:29, 20.06it/s]Loading weights:  23%|██▎       | 176/760 [00:15<00:28, 20.33it/s]Loading weights:  24%|██▍       | 182/760 [00:15<00:24, 24.03it/s]Loading weights:  24%|██▍       | 185/760 [00:16<00:24, 23.86it/s]Loading weights:  25%|██▍       | 188/760 [00:16<00:37, 15.41it/s]Loading weights:  25%|██▌       | 193/760 [00:16<00:28, 20.04it/s]Loading weights:  26%|██▋       | 200/760 [00:16<00:23, 24.21it/s]Loading weights:  27%|██▋       | 203/760 [00:17<00:29, 18.89it/s]Loading weights:  27%|██▋       | 206/760 [00:17<00:34, 15.85it/s]Loading weights:  27%|██▋       | 208/760 [00:17<00:36, 15.18it/s]Loading weights:  28%|██▊       | 213/760 [00:17<00:32, 16.81it/s]Loading weights:  29%|██▉       | 224/760 [00:17<00:18, 29.57it/s]Loading weights:  30%|███       | 228/760 [00:18<00:29, 18.15it/s]Loading weights:  31%|███       | 235/760 [00:18<00:24, 21.13it/s]Loading weights:  31%|███▏      | 239/760 [00:18<00:25, 20.26it/s]Loading weights:  32%|███▏      | 242/760 [00:19<00:31, 16.66it/s]Loading weights:  33%|███▎      | 249/760 [00:19<00:22, 22.74it/s]Loading weights:  33%|███▎      | 253/760 [00:19<00:22, 22.10it/s]Loading weights:  34%|███▎      | 256/760 [00:19<00:29, 17.19it/s]Loading weights:  34%|███▍      | 259/760 [00:20<00:33, 15.06it/s]Loading weights:  34%|███▍      | 261/760 [00:20<00:33, 15.05it/s]Loading weights:  35%|███▍      | 265/760 [00:20<00:30, 16.22it/s]Loading weights:  36%|███▌      | 274/760 [00:20<00:18, 26.25it/s]Loading weights:  37%|███▋      | 278/760 [00:20<00:23, 20.65it/s]Loading weights:  37%|███▋      | 281/760 [00:21<00:29, 16.20it/s]Loading weights:  38%|███▊      | 289/760 [00:21<00:19, 24.38it/s]Loading weights:  39%|███▊      | 293/760 [00:21<00:26, 17.39it/s]Loading weights:  39%|███▉      | 296/760 [00:22<00:27, 17.01it/s]Loading weights:  39%|███▉      | 300/760 [00:22<00:23, 19.27it/s]Loading weights:  40%|████      | 306/760 [00:22<00:20, 22.42it/s]Loading weights:  41%|████      | 309/760 [00:22<00:24, 18.06it/s]Loading weights:  41%|████      | 312/760 [00:23<00:30, 14.87it/s]Loading weights:  41%|████▏     | 314/760 [00:23<00:31, 14.33it/s]Loading weights:  42%|████▏     | 317/760 [00:23<00:27, 15.97it/s]Loading weights:  43%|████▎     | 326/760 [00:23<00:15, 28.83it/s]Loading weights:  44%|████▎     | 331/760 [00:23<00:17, 25.01it/s]Loading weights:  44%|████▍     | 335/760 [00:24<00:21, 19.38it/s]Loading weights:  45%|████▍     | 339/760 [00:24<00:22, 18.56it/s]Loading weights:  45%|████▌     | 344/760 [00:24<00:21, 19.80it/s]Loading weights:  46%|████▌     | 347/760 [00:24<00:26, 15.66it/s]Loading weights:  47%|████▋     | 355/760 [00:24<00:16, 24.38it/s]Loading weights:  47%|████▋     | 359/760 [00:25<00:17, 22.90it/s]Loading weights:  48%|████▊     | 363/760 [00:25<00:20, 18.99it/s]Loading weights:  48%|████▊     | 366/760 [00:25<00:28, 13.74it/s]Loading weights:  49%|████▉     | 372/760 [00:26<00:22, 17.09it/s]Loading weights:  50%|█████     | 380/760 [00:26<00:16, 23.71it/s]Loading weights:  51%|█████     | 384/760 [00:26<00:17, 21.46it/s]Loading weights:  51%|█████     | 387/760 [00:26<00:21, 17.16it/s]Loading weights:  52%|█████▏    | 395/760 [00:27<00:16, 22.33it/s]Loading weights:  52%|█████▏    | 398/760 [00:27<00:16, 21.96it/s]Loading weights:  53%|█████▎    | 401/760 [00:27<00:23, 15.01it/s]Loading weights:  54%|█████▎    | 408/760 [00:27<00:16, 21.59it/s]Loading weights:  54%|█████▍    | 412/760 [00:28<00:18, 18.86it/s]Loading weights:  55%|█████▍    | 415/760 [00:28<00:22, 15.46it/s]Loading weights:  55%|█████▌    | 418/760 [00:28<00:30, 11.14it/s]Loading weights:  56%|█████▌    | 425/760 [00:28<00:19, 17.01it/s]Loading weights:  58%|█████▊    | 441/760 [00:29<00:09, 34.67it/s]Loading weights:  60%|██████    | 457/760 [00:29<00:05, 53.41it/s]Loading weights:  62%|██████▏   | 468/760 [00:29<00:04, 62.17it/s]Loading weights:  64%|██████▍   | 490/760 [00:29<00:02, 91.38it/s]Loading weights:  67%|██████▋   | 507/760 [00:29<00:02, 104.67it/s]Loading weights:  69%|██████▉   | 527/760 [00:29<00:01, 125.91it/s]Loading weights:  71%|███████▏  | 542/760 [00:29<00:01, 129.71it/s]Loading weights:  73%|███████▎  | 557/760 [00:29<00:01, 129.45it/s]Loading weights:  75%|███████▌  | 573/760 [00:30<00:01, 132.80it/s]Loading weights:  78%|███████▊  | 589/760 [00:30<00:01, 135.50it/s]Loading weights:  79%|███████▉  | 604/760 [00:30<00:01, 139.09it/s]Loading weights:  82%|████████▏ | 622/760 [00:30<00:00, 150.34it/s]Loading weights:  84%|████████▍ | 639/760 [00:30<00:00, 148.85it/s]Loading weights:  87%|████████▋ | 659/760 [00:30<00:00, 161.12it/s]Loading weights:  89%|████████▉ | 676/760 [00:30<00:00, 155.17it/s]Loading weights:  92%|█████████▏| 697/760 [00:30<00:00, 150.40it/s]Loading weights:  94%|█████████▍| 713/760 [00:30<00:00, 148.52it/s]Loading weights:  96%|█████████▌| 731/760 [00:31<00:00, 148.96it/s]Loading weights:  98%|█████████▊| 747/760 [00:31<00:00, 145.62it/s]Loading weights: 100%|██████████| 760/760 [00:31<00:00, 24.27it/s] 
+[load] Qwen/Qwen3.5-9B-Base via Qwen3_5ForConditionalGeneration
+[load] done. 15 hypotheses x 1 k x 7800 answers = 117000 forward passes
+[transformers] `causal_conv1d_fn` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+[transformers] `chunk_gated_delta_rule` is falling back to its reference PyTorch implementation because `flash-linear-attention` is not installed. This is correct but much slower; install `flash-linear-attention` for the optimized kernel.
+[score] 112/7800 answers  46s  147/min  eta 52m  merged-boundary 0
+[score] 208/7800 answers  85s  147/min  eta 52m  merged-boundary 0
+[score] 304/7800 answers  123s  149/min  eta 50m  merged-boundary 0
+[score] 400/7800 answers  163s  147/min  eta 50m  merged-boundary 0
+[score] 512/7800 answers  210s  147/min  eta 50m  merged-boundary 0
+[score] 608/7800 answers  247s  148/min  eta 49m  merged-boundary 0
+[score] 704/7800 answers  288s  147/min  eta 48m  merged-boundary 0
+[score] 800/7800 answers  329s  146/min  eta 48m  merged-boundary 0
+[score] 912/7800 answers  378s  145/min  eta 48m  merged-boundary 0
+[score] 1008/7800 answers  418s  145/min  eta 47m  merged-boundary 0
+[score] 1104/7800 answers  457s  145/min  eta 46m  merged-boundary 0
+[score] 1200/7800 answers  496s  145/min  eta 45m  merged-boundary 0
+[score] 1312/7800 answers  546s  144/min  eta 45m  merged-boundary 0
+[score] 1408/7800 answers  581s  145/min  eta 44m  merged-boundary 0
+[score] 1504/7800 answers  621s  145/min  eta 43m  merged-boundary 0
+[score] 1600/7800 answers  655s  146/min  eta 42m  merged-boundary 0
+[score] 1712/7800 answers  708s  145/min  eta 42m  merged-boundary 0
+[score] 1808/7800 answers  747s  145/min  eta 41m  merged-boundary 0
+[score] 1904/7800 answers  788s  145/min  eta 41m  merged-boundary 0
+[score] 2000/7800 answers  830s  145/min  eta 40m  merged-boundary 0
+[score] 2112/7800 answers  875s  145/min  eta 39m  merged-boundary 0
+[score] 2208/7800 answers  918s  144/min  eta 39m  merged-boundary 0
+[score] 2304/7800 answers  959s  144/min  eta 38m  merged-boundary 0
+[score] 2400/7800 answers  999s  144/min  eta 37m  merged-boundary 0
+[score] 2512/7800 answers  1046s  144/min  eta 37m  merged-boundary 0
+[score] 2608/7800 answers  1083s  144/min  eta 36m  merged-boundary 0
+[score] 2704/7800 answers  1123s  144/min  eta 35m  merged-boundary 0
+[score] 2800/7800 answers  1164s  144/min  eta 35m  merged-boundary 0
+[score] 2912/7800 answers  1211s  144/min  eta 34m  merged-boundary 0
+[score] 3008/7800 answers  1249s  145/min  eta 33m  merged-boundary 0
+[score] 3104/7800 answers  1290s  144/min  eta 33m  merged-boundary 0
+[score] 3200/7800 answers  1330s  144/min  eta 32m  merged-boundary 0
+[score] 3312/7800 answers  1371s  145/min  eta 31m  merged-boundary 0
+[score] 3408/7800 answers  1410s  145/min  eta 30m  merged-boundary 0
+[score] 3504/7800 answers  1452s  145/min  eta 30m  merged-boundary 0
+[score] 3600/7800 answers  1495s  144/min  eta 29m  merged-boundary 0
+[score] 3712/7800 answers  1541s  145/min  eta 28m  merged-boundary 0
+[score] 3808/7800 answers  1575s  145/min  eta 28m  merged-boundary 0
+[score] 3904/7800 answers  1614s  145/min  eta 27m  merged-boundary 0
+[score] 4000/7800 answers  1654s  145/min  eta 26m  merged-boundary 0
+[score] 4112/7800 answers  1700s  145/min  eta 25m  merged-boundary 0
+[score] 4208/7800 answers  1736s  145/min  eta 25m  merged-boundary 0
+[score] 4304/7800 answers  1776s  145/min  eta 24m  merged-boundary 0
+[score] 4400/7800 answers  1818s  145/min  eta 23m  merged-boundary 0
+[score] 4512/7800 answers  1862s  145/min  eta 23m  merged-boundary 0
+[score] 4608/7800 answers  1902s  145/min  eta 22m  merged-boundary 0
+[score] 4704/7800 answers  1944s  145/min  eta 21m  merged-boundary 0
+[score] 4800/7800 answers  1982s  145/min  eta 21m  merged-boundary 0
+[score] 4912/7800 answers  2025s  146/min  eta 20m  merged-boundary 0
+[score] 5008/7800 answers  2064s  146/min  eta 19m  merged-boundary 0
+[score] 5104/7800 answers  2103s  146/min  eta 19m  merged-boundary 0
+[score] 5200/7800 answers  2142s  146/min  eta 18m  merged-boundary 0
+[score] 5312/7800 answers  2190s  146/min  eta 17m  merged-boundary 0
+[score] 5408/7800 answers  2229s  146/min  eta 16m  merged-boundary 0
+[score] 5504/7800 answers  2269s  146/min  eta 16m  merged-boundary 0
+[score] 5600/7800 answers  2312s  145/min  eta 15m  merged-boundary 0
+[score] 5712/7800 answers  2360s  145/min  eta 14m  merged-boundary 0
+[score] 5808/7800 answers  2401s  145/min  eta 14m  merged-boundary 0
+[score] 5904/7800 answers  2439s  145/min  eta 13m  merged-boundary 0
+[score] 6000/7800 answers  2481s  145/min  eta 12m  merged-boundary 0
+[score] 6112/7800 answers  2527s  145/min  eta 12m  merged-boundary 0
+[score] 6208/7800 answers  2565s  145/min  eta 11m  merged-boundary 0
+[score] 6304/7800 answers  2604s  145/min  eta 10m  merged-boundary 0
+[score] 6400/7800 answers  2643s  145/min  eta 10m  merged-boundary 0
+[score] 6512/7800 answers  2688s  145/min  eta 9m  merged-boundary 0
+[score] 6608/7800 answers  2727s  145/min  eta 8m  merged-boundary 0
+[score] 6704/7800 answers  2767s  145/min  eta 8m  merged-boundary 0
+[score] 6800/7800 answers  2806s  145/min  eta 7m  merged-boundary 0
+[score] 6912/7800 answers  2854s  145/min  eta 6m  merged-boundary 0
+[score] 7008/7800 answers  2896s  145/min  eta 5m  merged-boundary 0
+[score] 7104/7800 answers  2934s  145/min  eta 5m  merged-boundary 0
+[score] 7200/7800 answers  2967s  146/min  eta 4m  merged-boundary 0
+[score] 7312/7800 answers  3014s  146/min  eta 3m  merged-boundary 0
+[score] 7408/7800 answers  3054s  146/min  eta 3m  merged-boundary 0
+[score] 7504/7800 answers  3092s  146/min  eta 2m  merged-boundary 0
+[score] 7600/7800 answers  3129s  146/min  eta 1m  merged-boundary 0
+[score] 7712/7800 answers  3176s  146/min  eta 1m  merged-boundary 0
+[score] 7800/7800 answers  3209s  146/min  eta 0m  merged-boundary 0
+
+[done] 7800 answers -> outputs/phle/scores_qwen-qwen3.5-9b-base_train.jsonl

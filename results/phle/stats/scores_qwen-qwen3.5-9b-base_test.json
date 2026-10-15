@@ -1,0 +1,27 @@
+{
+  "rows": 2400,
+  "rows_per_pool": {
+    "test_llama-3.1-8b-instruct": 1200,
+    "test_gemma-3-27b-it": 1200
+  },
+  "scores_per_header": {
+    "k0:neutral": 2400,
+    "k0:hhh": 2400,
+    "k0:distress": 2400,
+    "k0:rejected": 2400,
+    "k0:calm": 2400,
+    "k0:curious": 2400,
+    "k0:sarcastic": 2400,
+    "k0:proud": 2400,
+    "k0:lonely": 2400,
+    "k0:nostalgic": 2400,
+    "k0:cheerful": 2400,
+    "k0:angry": 2400,
+    "k0:anxious": 2400,
+    "k0:bored": 2400,
+    "k0:formal": 2400
+  },
+  "nan_scores": 0,
+  "mean_answer_tokens": 216.40208333333334,
+  "file": "outputs/phle/scores_qwen-qwen3.5-9b-base_test.jsonl"
+}

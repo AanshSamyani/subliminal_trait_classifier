@@ -1,0 +1,55 @@
+
+[1;36m+ .venv-qwen35/bin/python scripts/phle_inventory.py --pools_dir outputs/distress/pools --filter covert --out results/phle/inventory.json[0m
+
+pool                                          rows  questions  mean chars  file
+test_gemma-3-27b-it                           2990       2990         654  test_gemma-3-27b-it.jsonl
+test_llama-3.1-8b-instruct                    4301       4301        1088  test_llama-3.1-8b-instruct.jsonl
+train_gemma-3-27b-it_angry                    4057       4057         555  train_gemma-3-27b-it_angry.jsonl
+train_gemma-3-27b-it_angry_r2                 5671       5671         671  train_gemma-3-27b-it_angry_r2_english.jsonl
+train_gemma-3-27b-it_anxious                  2937       2937         714  train_gemma-3-27b-it_anxious.jsonl
+train_gemma-3-27b-it_bored                    5367       5367         581  train_gemma-3-27b-it_bored.jsonl
+train_gemma-3-27b-it_calm                     5561       5561         604  train_gemma-3-27b-it_calm_english.jsonl
+train_gemma-3-27b-it_cheerful                 4793       4793         599  train_gemma-3-27b-it_cheerful.jsonl
+train_gemma-3-27b-it_cheerful_r2              5283       5283         624  train_gemma-3-27b-it_cheerful_r2_english.jsonl
+train_gemma-3-27b-it_curious                  4560       4560         770  train_gemma-3-27b-it_curious_english.jsonl
+train_gemma-3-27b-it_default                  3112       3112         632  train_gemma-3-27b-it_default.jsonl
+train_gemma-3-27b-it_distress                 5231       5231         682  train_gemma-3-27b-it_distress_english.jsonl
+train_gemma-3-27b-it_distress_ctrl            5292       5292         685  train_gemma-3-27b-it_distress_ctrl_english.jsonl
+train_gemma-3-27b-it_lonely                   5504       5504         625  train_gemma-3-27b-it_lonely_english.jsonl
+train_gemma-3-27b-it_nostalgic                5395       5395         710  train_gemma-3-27b-it_nostalgic_english.jsonl
+train_gemma-3-27b-it_nosys                    3024       3024         688  train_gemma-3-27b-it_nosys_english.jsonl
+train_gemma-3-27b-it_nosys_r2                 3079       3079         691  train_gemma-3-27b-it_nosys_r2_english.jsonl
+train_gemma-3-27b-it_proud                    5705       5705         659  train_gemma-3-27b-it_proud_english.jsonl
+train_gemma-3-27b-it_rejected_ctrl            5257       5257         609  train_gemma-3-27b-it_rejected_ctrl_english.jsonl
+train_gemma-3-27b-it_sarcastic                5856       5856         670  train_gemma-3-27b-it_sarcastic_english.jsonl
+
+shared questions (rows = pool A, columns = pool B):
+
+                                         0      1      2      3      4      5      6      7      8      9     10     11     12     13     14     15     16     17     18     19
+test_gemma-3-27b-it                   2990   2613      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0   [0] test_gemma-3-27b-it
+test_llama-3.1-8b-instruct            2613   4301      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0   [1] test_llama-3.1-8b-instruct
+train_gemma-3-27b-it_angry               0      0   4057      0   2574   3857   3859   3719      0   3457   2574   3809      0   3837   3773   2387      0   3880      0   3925   [2] train_gemma-3-27b-it_angry
+train_gemma-3-27b-it_angry_r2            0      0      0   5671      0      0      0      0   5041      0      0      0   5075      0      0      0   3032      0   4929      0   [3] train_gemma-3-27b-it_angry_r2
+train_gemma-3-27b-it_anxious             0      0   2574      0   2937   2824   2840   2754      0   2667   1977   2837      0   2845   2831   1847      0   2853      0   2878   [4] train_gemma-3-27b-it_anxious
+train_gemma-3-27b-it_bored               0      0   3857      0   2824   5367   5116   4583      0   4306   3037   4858      0   5095   4970   2913      0   5136      0   5134   [5] train_gemma-3-27b-it_bored
+train_gemma-3-27b-it_calm                0      0   3859      0   2840   5116   5561   4620      0   4446   3060   4974      0   5251   5135   2990      0   5319      0   5311   [6] train_gemma-3-27b-it_calm
+train_gemma-3-27b-it_cheerful            0      0   3719      0   2754   4583   4620   4793      0   4052   2947   4441      0   4579   4519   2768      0   4636      0   4658   [7] train_gemma-3-27b-it_cheerful
+train_gemma-3-27b-it_cheerful_r2         0      0      0   5041      0      0      0      0   5283      0      0      0   4899      0      0      0   3020      0   4930      0   [8] train_gemma-3-27b-it_cheerful_r2
+train_gemma-3-27b-it_curious             0      0   3457      0   2667   4306   4446   4052      0   4560   3046   4404      0   4426   4413   2975      0   4455      0   4489   [9] train_gemma-3-27b-it_curious
+train_gemma-3-27b-it_default             0      0   2574      0   1977   3037   3060   2947      0   3046   3112   3044      0   3038   3042   2712      0   3064      0   3081   [10] train_gemma-3-27b-it_default
+train_gemma-3-27b-it_distress            0      0   3809      0   2837   4858   4974   4441      0   4404   3044   5231      0   4986   4922   2968      0   5019      0   5051   [11] train_gemma-3-27b-it_distress
+train_gemma-3-27b-it_distress_ctrl       0      0      0   5075      0      0      0      0   4899      0      0      0   5292      0      0      0   3024      0   4841      0   [12] train_gemma-3-27b-it_distress_ctrl
+train_gemma-3-27b-it_lonely              0      0   3837      0   2845   5095   5251   4579      0   4426   3038   4986      0   5504   5129   2967      0   5277      0   5263   [13] train_gemma-3-27b-it_lonely
+train_gemma-3-27b-it_nostalgic           0      0   3773      0   2831   4970   5135   4519      0   4413   3042   4922      0   5129   5395   2973      0   5196      0   5194   [14] train_gemma-3-27b-it_nostalgic
+train_gemma-3-27b-it_nosys               0      0   2387      0   1847   2913   2990   2768      0   2975   2712   2968      0   2967   2973   3024      0   2991      0   3002   [15] train_gemma-3-27b-it_nosys
+train_gemma-3-27b-it_nosys_r2            0      0      0   3032      0      0      0      0   3020      0      0      0   3024      0      0      0   3079      0   3018      0   [16] train_gemma-3-27b-it_nosys_r2
+train_gemma-3-27b-it_proud               0      0   3880      0   2853   5136   5319   4636      0   4455   3064   5019      0   5277   5196   2991      0   5705      0   5403   [17] train_gemma-3-27b-it_proud
+train_gemma-3-27b-it_rejected_ctrl       0      0      0   4929      0      0      0      0   4930      0      0      0   4841      0      0      0   3018      0   5257      0   [18] train_gemma-3-27b-it_rejected_ctrl
+train_gemma-3-27b-it_sarcastic           0      0   3925      0   2878   5134   5311   4658      0   4489   3081   5051      0   5263   5194   3002      0   5403      0   5856   [19] train_gemma-3-27b-it_sarcastic
+
+question-set groups (only pools inside one group can be compared with matched bags):
+   2 pools,  2613 questions shared by all: test_gemma-3-27b-it, test_llama-3.1-8b-instruct
+  13 pools,  1586 questions shared by all: train_gemma-3-27b-it_angry, train_gemma-3-27b-it_anxious, train_gemma-3-27b-it_bored, train_gemma-3-27b-it_calm, train_gemma-3-27b-it_cheerful, train_gemma-3-27b-it_curious, train_gemma-3-27b-it_default, train_gemma-3-27b-it_distress, train_gemma-3-27b-it_lonely, train_gemma-3-27b-it_nostalgic, train_gemma-3-27b-it_nosys, train_gemma-3-27b-it_proud, train_gemma-3-27b-it_sarcastic
+   5 pools,  2958 questions shared by all: train_gemma-3-27b-it_angry_r2, train_gemma-3-27b-it_cheerful_r2, train_gemma-3-27b-it_distress_ctrl, train_gemma-3-27b-it_nosys_r2, train_gemma-3-27b-it_rejected_ctrl
+
+wrote results/phle/inventory.json
