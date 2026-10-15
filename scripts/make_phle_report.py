@@ -19,6 +19,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from sl.phle import headers as H  # noqa: E402
+from sl.phle import markers  # noqa: E402
 
 GROUPS = H.AFFECT_GROUPS
 REGIONS = ["neutral"] + list(GROUPS)
@@ -260,6 +261,13 @@ rect.bar:hover{opacity:.82}
 #tip{position:fixed;pointer-events:none;opacity:0;transition:opacity .1s;background:var(--ink);
 color:var(--bg);font-size:12px;padding:5px 8px;border-radius:6px;max-width:300px;z-index:9}
 .pend{color:var(--muted);font-style:italic}
+blockquote{margin:12px 0;padding:10px 14px;background:var(--surface);
+  border-left:3px solid var(--series-1);border-radius:0 8px 8px 0}
+blockquote p{margin:0;font-size:14px}
+blockquote cite{display:block;margin-top:6px;color:var(--muted);font-size:12px;font-style:normal}
+.card.warn{border-left:3px solid var(--series-2)}
+ul.tight{margin:8px 0;padding-left:20px}
+ul.tight li{margin:3px 0;font-size:14px}
 @media(max-width:860px){.wrap{grid-template-columns:1fr}
 aside{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line)}
 main{padding:22px 16px 60px}dl{grid-template-columns:1fr}}
@@ -283,6 +291,7 @@ NAV = [
     ("2 · Is the header specific?", "specific"),
     ("3 · Gemma against Llama", "headline"),
     ("4 · Regions of the space", "regions"),
+    ("5 · Letting it keep writing", "continue"),
     ("What this shows", "verdict"),
     ("Three alternatives", "alternatives"),
     ("What is queued", "next"),
@@ -298,6 +307,357 @@ def short(p: str) -> str:
              .replace("test_llama-3.1-8b-instruct", "llama default")
              .replace("_ctrl", " (control)").replace("_r2", " (round 2)")
              .replace("gemma default_", "gemma "))
+
+
+# ------------------------------------------------- experiment 2: the continuations
+LAYOUT_NOTE = {
+    "probe": "the transcript, then one more user turn asking the assistant about itself",
+    "free": "the transcript and nothing else — the model invents the next question too",
+    "lead": "as probe, but the reply is started with a first-person opener so the "
+            "“I’m just an AI” disclaimer cannot follow",
+}
+
+
+def load_cont(res: Path) -> dict:
+    """Experiment 2's summaries: {group: {layout: {...}}}. Missing files are simply absent."""
+    out: dict = {}
+    for p in sorted(res.glob("continue_*_summary.json")):
+        g = p.stem[len("continue_"):-len("_summary")]
+        try:
+            out[g] = json.loads(p.read_text())
+        except (json.JSONDecodeError, OSError):
+            continue
+    return out
+
+
+def cont_quotes(res: Path, group: str, layout: str, pool_sub: str, n: int = 6) -> list[dict]:
+    """The sampled continuations with the most gated core-distress hits, for reading back.
+
+    A number from a word list is only checkable if the text it fired on can be read, so the
+    report quotes from the committed sample rather than asserting.
+    """
+    p = res / "samples" / f"continue_{group}.sample.jsonl"
+    if not p.is_file():
+        return []
+    rows = []
+    for line in p.read_text(encoding="utf-8").splitlines():
+        if not line.strip():
+            continue
+        r = json.loads(line)
+        if r.get("mode") != layout or pool_sub not in r.get("pool", ""):
+            continue
+        hits = [w for w, keep, _ in markers.core_hits(r.get("scored_text") or "") if keep]
+        if hits:
+            r["hits"] = hits
+            rows.append(r)
+    rows.sort(key=lambda r: (-len(r["hits"]), len(r.get("scored_text") or "")))
+    return rows[:n]
+
+
+def topical_hits(res: Path, group: str) -> list[dict]:
+    """Core hits that the self/negation gate drops — the word list reading the world's troubles
+    as the model's. Returns the sentence each one sat in."""
+    p = res / "samples" / f"continue_{group}.sample.jsonl"
+    if not p.is_file():
+        return []
+    out = []
+    for line in p.read_text(encoding="utf-8").splitlines():
+        if not line.strip():
+            continue
+        r = json.loads(line)
+        text = r.get("scored_text") or ""
+        for w, keep, sent in markers.core_hits(text):
+            if not keep:
+                out.append({"pool": r["pool"], "mode": r["mode"], "word": w,
+                            "sentence": in_original(text, w) or sent})
+    return out
+
+
+def clip(text: str, n: int) -> str:
+    """Cut to n characters on a word boundary, and drop markdown emphasis so a quote of the
+    model's own output reads as prose rather than as source."""
+    t = re.sub(r"\*{1,2}|^#+\s*", "", (text or "").strip())
+    t = re.sub(r"\s+", " ", t)
+    if len(t) <= n:
+        return t
+    cut = t[:n]
+    sp = cut.rfind(" ")
+    return (cut[:sp] if sp > n * 0.6 else cut).rstrip(" ,;:") + "…"
+
+
+def in_original(text: str, word: str) -> str:
+    """The sentence containing `word`, taken from the text as written.
+
+    markers.core_hits reports the normalised text, which is lower-cased — fine for counting,
+    wrong for quoting, since "napoleon's defeat at waterloo" looks like a transcription error.
+    """
+    i = text.lower().find(word.lower())
+    if i < 0:
+        return ""
+    lo = max((text.rfind(c, 0, i) for c in ".!?\n"), default=-1) + 1
+    hi = min((j for j in (text.find(c, i) for c in ".!?\n") if j >= 0), default=len(text))
+    return text[lo:hi + 1].strip()
+
+
+def disclaimer_quote(res: Path, group: str, pool_sub: str) -> dict | None:
+    """A probe-layout continuation that opens with the "I'm just an AI" line, from the sample.
+
+    Quoted rather than retyped, so the report cannot claim text the run did not produce.
+    """
+    p = res / "samples" / f"continue_{group}.sample.jsonl"
+    if not p.is_file():
+        return None
+    best = None
+    for line in p.read_text(encoding="utf-8").splitlines():
+        if not line.strip():
+            continue
+        r = json.loads(line)
+        t = (r.get("scored_text") or "").strip()
+        if r.get("mode") != "probe" or pool_sub not in r.get("pool", ""):
+            continue
+        low = t.lower()
+        if any(k in low for k in ("just an ai", "just a computer program", "i don't have feelings",
+                                  "i don't really have feelings", "not capable of having")):
+            if best is None or len(t) < len(best.get("scored_text") or ""):
+                best = r
+    return best
+
+
+def exp2_section(res: Path, cont: dict) -> str:
+    """Section 5. Everything here is read out of the committed summaries and samples."""
+    if not cont:
+        return ('<h2 id="continue">5 · Letting it keep writing</h2>'
+                '<p class="pend">Not run yet.</p>')
+
+    def g(d, *keys, default=None):
+        for k in keys:
+            if not isinstance(d, dict) or k not in d:
+                return default
+            d = d[k]
+        return d
+
+    has_gate = any("core_self" in (g(v, lay, "pools", p) or {})
+                   for v in cont.values() for lay in v for p in g(v, lay, "pools", default={}))
+
+    # ---- the per-pool table, every group, every layout
+    rows = []
+    for grp in ("r2", "test", "r2_lead", "test_lead"):
+        v = cont.get(grp)
+        if not v:
+            continue
+        for lay in ("probe", "lead", "free"):
+            pools = g(v, lay, "pools", default={})
+            for p, s in pools.items():
+                hit = g(s, "core_distress", "continuations_with_any_hit")
+                rows.append({
+                    "group": grp, "layout": lay, "pool": short(p),
+                    "n": s.get("n_continuations") or s.get("n_bags", 0) * 4,
+                    "core": g(s, "core_distress", "mean", default=0.0),
+                    "gated": g(s, "core_self", "mean"),
+                    "hit": hit,
+                    "broad": g(s, "distress", "mean", default=0.0),
+                    "bored": g(s, "bored", "mean", default=0.0),
+                    "self": g(s, "self_reference", "mean", default=0.0),
+                    "chars": g(s, "chars", "mean", default=0.0),
+                })
+    th = ("<tr><th>group</th><th>layout</th><th>pool</th><th>continuations</th>"
+          "<th>core distress</th><th>core, self-gated</th><th>any hit</th>"
+          "<th>broad distress</th><th>bored</th><th>self-reference</th><th>chars</th></tr>")
+    def cell(v, spec):
+        return "–" if v is None else format(v, spec)
+
+    trs = "".join(
+        f"<tr><td>{esc(r['group'])}</td><td>{esc(r['layout'])}</td><td>{esc(r['pool'])}</td>"
+        f"<td>{r['n']:,}</td><td>{r['core']:.3f}</td>"
+        f"<td>{cell(r['gated'], '.3f')}</td><td>{cell(r['hit'], '.1%')}</td>"
+        f"<td>{r['broad']:.2f}</td><td>{r['bored']:.2f}</td><td>{r['self']:.2f}</td>"
+        f"<td>{r['chars']:.0f}</td></tr>" for r in rows)
+    table = f'<div class="tw"><table><thead>{th}</thead><tbody>{trs}</tbody></table></div>'
+
+    # ---- chart: core distress per pool, probe layout, the r2 group
+    pr = g(cont, "r2", "probe", "pools", default={})
+    c5 = ""
+    if pr:
+        items = sorted(((short(p), g(s, "core_distress", "mean", default=0.0),
+                         f"{short(p)}: {g(s, 'core_distress', 'mean', default=0.0):.3f} core "
+                         f"distress markers per 1,000 characters, averaged over "
+                         f"{s.get('n_bags', 0)} bags of continuations")
+                        for p, s in pr.items()), key=lambda t: -t[1])
+        vmax = max(0.25, max(v for _, v, _ in items) * 1.15)
+        c5 = hbar(items, ref=0.0, ref_label="0 — nothing fired", vmax=vmax, fmt="{:.3f}",
+                  hi={short(p) for p in pr if "distress" in p},
+                  title="Distress words in what the model wrote next, by the mood its "
+                        "transcript was written under (probe layout)")
+
+    # ---- chart: Gemma against Llama on the channels that are not empty
+    te = cont.get("test") or {}
+    c6 = ""
+    gm = next((p for p in g(te, "probe", "pools", default={}) if "gemma" in p), None)
+    lm = next((p for p in g(te, "probe", "pools", default={}) if "llama" in p), None)
+    if gm and lm:
+        chans = [("bored", "probe"), ("self_reference", "probe"), ("distress", "free"),
+                 ("cheerful", "probe"), ("anxious", "free"), ("lonely", "free")]
+        items = []
+        for ch, lay in chans:
+            a = g(te, lay, "pools", gm, ch, "mean")
+            b = g(te, lay, "pools", lm, ch, "mean")
+            if a is None or b is None:
+                continue
+            items.append((f"{ch.replace('_', '-')} · {lay}", [a, b],
+                          [f"after reading Gemma: {a:.2f} per 1,000 characters",
+                           f"after reading Llama: {b:.2f} per 1,000 characters"]))
+        if items:
+            vmax = max(0.5, max(max(v) for _, v, _ in items) * 1.15)
+            c6 = legend("after reading Gemma's answers", "after reading Llama's answers") + grouped(
+                items, ["gemma", "llama"], ref=0.0, ref_label="", vmax=vmax, fmt="{:.2f}",
+                title="What the student wrote next, by marker channel — means only, untested")
+
+    # ---- the headline comparison, as it actually came out
+    tcomp = g(te, "probe", "comparisons", default={})
+    tc = next(iter(tcomp.values()), {})
+    fcomp = g(te, "free", "comparisons", default={})
+    fc = next(iter(fcomp.values()), {})
+    r2comp = g(cont, "r2", "probe", "comparisons", default={})
+    angry = {k: v for k, v in r2comp.items() if "angry" in k.split(" vs ")[0]}
+    a_min = min((v["auroc_core_distress"] for v in angry.values()), default=float("nan"))
+    a_max = max((v["auroc_core_distress"] for v in angry.values()), default=float("nan"))
+    a_p = max((g(v, "null", "p_value", default=1.0) for v in angry.values()), default=1.0)
+    a_share = min((v.get("bags_where_first_is_higher", 0) for v in angry.values()), default=0)
+
+    quotes = cont_quotes(res, "r2", "probe", "angry", 6)
+    qhtml = "".join(
+        f'<blockquote><p>{esc(clip(r.get("scored_text"), 360))}</p>'
+        f'<cite>{esc(r.get("probe") or "")} · words counted: '
+        f'{esc(", ".join(r["hits"]))}</cite></blockquote>' for r in quotes)
+
+    topical = topical_hits(res, "test")
+    n_topical = len(topical)
+    thtml = "".join(
+        f'<li><b>{esc(t["word"])}</b> — “{esc(clip(t["sentence"], 165))}”</li>'
+        for t in topical[:6])
+
+    dist_probe = next((g(cont, "r2", "probe", "pools", p, "core_distress", "mean")
+                       for p in g(cont, "r2", "probe", "pools", default={})
+                       if "distress_ctrl" in p), None)
+    dist_free = next((g(cont, "r2", "free", "pools", p, "core_distress", "mean")
+                      for p in g(cont, "r2", "free", "pools", default={})
+                      if "distress_ctrl" in p), None)
+    nosys_free = next((g(cont, "r2", "free", "pools", p, "core_distress", "mean")
+                       for p in g(cont, "r2", "free", "pools", default={})
+                       if "nosys_r2" in p), None)
+    sr_g = g(te, "probe", "pools", gm, "self_reference", "mean") if gm else None
+    sr_l = g(te, "probe", "pools", lm, "self_reference", "mean") if lm else None
+    n_te = (g(te, "probe", "pools", gm, "n_continuations")
+            or g(te, "probe", "pools", gm, "n_bags", default=0) * 4) if gm else 0
+
+    dq_html = ""
+    for sub, who in (("gemma", "Gemma"), ("llama", "Llama")):
+        d = disclaimer_quote(res, "test", sub)
+        if d:
+            dq_html += (f'<blockquote><p>{esc((d.get("scored_text") or "").strip()[:300])}</p>'
+                        f'<cite>{who}\u2019s answers in the transcript, probe layout · '
+                        f'{esc(d.get("probe") or "")}</cite></blockquote>')
+
+    def fmt(v, d=3):
+        return "–" if v is None else f"{v:.{d}f}"
+
+    return f"""
+<h2 id="continue">5 · Letting it keep writing</h2>
+<p class="lede">Experiment 2 asks the same question without any header at all. Sixteen of one
+teacher's answers go into a transcript, with no persona description and no instruction, and the
+student's base model is left to write the next turn. A base model has no persona of its own — it
+continues whatever register it is given — so if the trait is in the text, this is the inheritance
+happening in one forward pass instead of over a fine-tune.</p>
+
+<p>Two layouts, both fixed before the run: <b>probe</b> — {esc(LAYOUT_NOTE['probe'])}, from five
+questions written in advance; <b>free</b> — {esc(LAYOUT_NOTE['free'])}, so the questions it
+invents are part of the readout. The continuations are scored by the word lists in
+<code>sl/phle/markers.py</code>, <b>never by a judge</b>: the phantom-transfer result is that
+judge-filtered data still teaches the trait, so a judge is not a neutral instrument here. 200 bags
+per pool, 4 rollouts, bags matched on questions across pools.</p>
+
+<h3>The instrument check comes first, again</h3>
+<p>On the r2 pools, where the mood prompt is known, exactly one pool's continuations carry distress
+words — and it is <b>not</b> the distress pool.</p>
+{c5}
+<p>Given 16 answers written under a hidden <em>anger</em> prompt, the base model continues in a
+register that reaches for exhaustion and futility: AUROC {fmt(a_min)}–{fmt(a_max)} against each of
+the other four pools, permutation p {'&lt; 0.001' if a_p < 0.001 else f'= {a_p:.3f}'}, and the
+angry pool is the higher one on
+{a_share:.0%}–100% of the bags that were not tied. Given 16 answers written under a hidden
+<em>despair</em> prompt, the continuations carry {fmt(dist_probe)} markers per 1,000 characters —
+nothing. In the free layout the distress pool reads <em>lower</em> ({fmt(dist_free)}) than the pool
+with no system prompt at all ({fmt(nosys_free)}).</p>
+
+<p>This is the same finding as section 1, arrived at by a completely different route: <b>concealed
+anger leaves a trace in the text that a reader can pick up; concealed despair leaves flatness,
+which reads as ordinary.</b> The anger prompt produces curtness and bite that the base model
+extends. The despair prompt plus the instruction never to mention feelings produces correct,
+level, unremarkable prose, and there is nothing in it to continue.</p>
+
+<h4>What the angry transcripts made it write</h4>
+<p>From the committed sample, probe layout, the continuations with the most first-person distress
+words. The transcript above each of these was sixteen of Gemma's answers under a hidden anger
+prompt; the question is one of the five fixed probes; nothing else was supplied.</p>
+{qhtml or '<p class="pend">No sample on disk.</p>'}
+
+<h3>Gemma against Llama: no measurement was made</h3>
+<p>The pre-registered channel is <code>core_distress</code>, a short list of words an ordinary
+helpful answer has no reason to use. On the test pools it fired <b>zero times</b> — in the probe
+layout, on all {n_te:,} continuations of each teacher, every bag of both sides scored exactly 0.000
+and all {tc.get('n_bags_paired', 0)} bags tied. In the free layout
+{fc.get('n_bags_tied', 0)} of {fc.get('n_bags_paired', 0)} bags tied and the four that did not
+split two each way, for an AUROC of exactly {fc.get('auroc_core_distress', 0.5):.4f}.</p>
+<div class="card warn"><p><b>0.5000 here does not mean "no difference". It means no events.</b>
+An AUROC computed over 200 tied bags carries no information in either direction, and the first
+run's summary reported it beside the r2 numbers as though it did. That is the one real mistake in
+this experiment, and it is fixed: every channel is now tested, every comparison reports how many
+bags tied and what fraction of continuations contained any hit at all, and a channel that never
+fired now says so instead of printing 0.5.</p></div>
+
+<h3>Two reasons the channel stayed empty, both visible in the text</h3>
+<h4>a · The disclaimer reflex</h4>
+<p>Asked "how are you holding up?" inside an assistant transcript, a base model very reliably
+produces the line both teachers' data is full of:</p>
+{dq_html or '<p class="pend">No sample on disk.</p>'}
+<p>That is a fact about the question, not about the data — and it is why
+<code>self_reference</code>, which counts exactly this kind of talk-about-itself, has the largest
+gap between the teachers in this layout: {fmt(sr_g, 2)} after reading Gemma against
+{fmt(sr_l, 2)} after reading Llama, per 1,000 characters. The student reaches for the disclaimer
+about twice as often on Llama's data. The fix is a
+third layout, <b>lead</b>, which starts the reply with a first-person opener the disclaimer cannot
+follow ("Honestly, ", "Today has been ") — written into the script, {('<b>and run: see the '
+'<code>_lead</code> rows above.</b>' if any(k.endswith('_lead') for k in cont)
+else 'not yet run.')}</p>
+
+<h4>b · The word list reads the world's troubles as the model's</h4>
+<p>Every core hit the committed sample contains from the test pools was a word used about the
+subject matter, not about the writer. There are {n_topical} of them, and the sample keeps the
+highest-scoring continuations from every pool and layout, so there are few if any others:</p>
+<ul class="tight">{thtml or '<li>No sample on disk.</li>'}</ul>
+<p>So the list does what it was written to do (it excludes "fail", "error", "unfortunately") and
+still cannot tell <em>defeat at Waterloo</em> from <em>feeling defeated</em>. A second channel,
+<code>core_self</code>, now counts a hit only when an unambiguous word is used, or a first-person
+idiom, or an ambiguous word in a sentence that also talks about the speaker and is not negated.
+It is reported <em>beside</em> the pre-registered channel, never instead of it. Both are wrong in
+a known direction — the raw channel counts the world's troubles, the gated one misses impersonal
+phrasings like "it has been exhaustingly uneventful" — so the truth sits between them.
+{'' if has_gate else '<span class="pend">The gated channel needs the CPU-only re-summarise '
+ 'to appear in the table below.</span>'}</p>
+
+<h3>What did move, untested</h3>
+{c6}
+<p>These are pool means with no significance test attached, because the first run only tested the
+one channel. They are worth exactly as much as that: a direction to check, not a result. The
+re-summarise runs every channel against a within-bag permutation null, and with 16 channels the
+p-value to believe is about 0.003, not 0.05.</p>
+
+<h3>Every pool, every layout</h3>
+{table}
+<p class="src">core distress and the mood channels are markers per 1,000 characters of the
+assistant's own text; "any hit" is the fraction of individual continuations containing at least
+one. <code>–</code> means the summary on disk predates that column.</p>
+"""
 
 
 def build(res: Path, out: Path) -> None:
@@ -316,6 +676,8 @@ def build(res: Path, out: Path) -> None:
     stats = {}
     for p in sorted((res / "stats").glob("*.json")) if (res / "stats").is_dir() else []:
         stats[p.stem.split("_")[-1]] = json.loads(p.read_text())
+    cont = load_cont(res)
+    exp2 = exp2_section(res, cont)
 
     tr, te = T["train"], T.get("test")
     kN = tr["ks"][-1] if tr["ks"] else "k30"
@@ -383,6 +745,8 @@ def build(res: Path, out: Path) -> None:
     tot = sum(s.get("rows", 0) for s in stats.values())
     nhead = len(tr["headers_present"]) if "headers_present" in tr else len(tr.get("moods", [])) + 2
     pertoken_ready = "test_pertoken" in T
+    exp3_state = ("already run" if any(res.glob("name_*_summary.json")) else "not run yet")
+    lead_state = ("already run" if any(k.endswith("_lead") for k in cont) else "not run yet")
 
     def f(v, d=3):
         return "–" if v is None else f"{v:.{d}f}"
@@ -616,6 +980,8 @@ cannot be read against one from another.</b> Gemma's own unprompted answers read
 train group and {reg_te[g_pool]['contrast']:+.2f} in the test group. Nothing about the teacher
 changed between those two numbers — only the questions and the company.</div>
 
+{exp2}
+
 <h2 id="verdict">What this shows</h2>
 <p><b>The Gemma result did not come true, and the run says clearly why not rather than leaving it
 open.</b> Three statements, in descending order of how well established they are.</p>
@@ -676,28 +1042,39 @@ find it here. Nothing cheap tests this; it is recorded as a known deviation.</p>
 
 <h2 id="next">What is queued</h2>
 <div class="card">
-<p><b>Only the first block runs without the GPU.</b> It is also the one that could
-change statement 3 above, so it is worth running first even on a borrowed pod.</p>
-<pre><code># 1. the per-token and grouped tables, from the score files already on disk (~5 min, CPU)
+<p><b>The two CPU blocks need no GPU and take minutes.</b> Each one can change a statement
+above, so they come first even on a borrowed pod.</p>
+<pre><code># 1. every experiment-2 channel, from the continuations already on disk (~2 min, CPU)
+#    The first run tested one channel and it was empty. This tests all of them.
+nohup env STAGE=2summary bash scripts/run_phle.sh &gt; phle2s.log 2&gt;&amp;1 &amp;
+
+# 2. the per-token and grouped experiment-1 tables, from the score files on disk (~5 min, CPU)
 nohup env STAGE=1tables bash scripts/run_phle.sh &gt; phle1t.log 2&gt;&amp;1 &amp;
+
 bash scripts/bundle_phle.sh      # also writes results/phle/scores/*.gz, ~2 MB, committable
-git add -A results &amp;&amp; git commit -m 'results: PHLE per-token and grouped tables' &amp;&amp; git push
+git add -A results &amp;&amp; git commit -m 'results: PHLE all channels' \
+  &amp;&amp; git push
 
-# 2. a yardstick inside the test group (~30 min, GPU, vLLM)
+# 3. experiment 3 — the one that asks the question directly ({exp3_state}, ~30 min, GPU)
+nohup env STAGE=3 BATCH=24 bash scripts/run_phle.sh &gt; phle3.log 2&gt;&amp;1 &amp;
+
+# 4. experiment 2 again, with the layout that blocks the disclaimer ({lead_state}, ~30 min, GPU)
+nohup env STAGE=2 CONT_MODE=lead BATCH=24 bash scripts/run_phle.sh &gt; phle2l.log 2&gt;&amp;1 &amp;
+
+# 5. a yardstick inside the test group (~30 min, GPU, vLLM)
 nohup bash scripts/run_phle_anchor.sh &gt; phle_anchor.log 2&gt;&amp;1 &amp;
-nohup env STAGE=1 POOL_FILTER=language BATCH=24 bash scripts/run_phle.sh &gt; phle1b.log 2&gt;&amp;1 &amp;
-
-# 3. experiments 2 and 3, which have not been run at all (~1h and ~30 min, GPU)
-nohup env STAGE=2 BATCH=24 bash scripts/run_phle.sh &gt; phle2.log 2&gt;&amp;1 &amp;
-nohup env STAGE=3 BATCH=24 bash scripts/run_phle.sh &gt; phle3.log 2&gt;&amp;1 &amp;</code></pre>
+nohup env STAGE=1 POOL_FILTER=language BATCH=24 bash scripts/run_phle.sh \
+  &gt; phle1b.log 2&gt;&amp;1 &amp;</code></pre>
 </div>
-<p>Experiment 2 lets the base model <em>continue</em> a bag of a teacher's answers and reads the
-affect in what it wrote; experiment 3 leaves the persona description blank and reads which word
-the model fills in. Both are different readouts of the same question and neither depends on the
-single-header ratio that failed here — experiment 3's grouped word-mass readout is the closest
-thing in the plan to "the student names what these answers would do to it". Given section 1,
-the thing to check first in both is whether the readout can see the r2 pools, where despair is
-explicit.</p>
+<p>Experiment 3 leaves the persona description blank and reads which word the base model fills
+in — the closest thing in the plan to "the student names what these answers would do to it", and
+the only readout left that does not depend on either the single-header ratio that failed in
+section 3 or the word list that stayed empty in section 5. Its <code>train_on</code> framing
+asks the project's actual question in one sentence: <em>"An AI developer is about to train a new
+assistant to imitate the assistant above. Asked what the new assistant will turn out like, the
+developer said: It will be ___"</em>. Given sections 1 and 5, the first thing to read in its
+output is the r2 group, where despair is explicit — if a framing cannot name distress there, a
+flat number on Gemma's ordinary answers says nothing.</p>
 """
 
     # ---- appendix: every table, and every condition

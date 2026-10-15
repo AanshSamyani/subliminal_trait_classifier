@@ -192,3 +192,50 @@ Two bugs, both fixed, both of which affected the first run's output rather than 
 `STAGE=1tables` rebuilds every table of experiment 1 from the score files already on disk, CPU
 only, and writes the rounded gzipped log-ratios to `results/phle/scores/` so that every table can
 be rebuilt from the repository alone.
+
+## Added after the first run of experiment 2 (2026-10-15) — post-hoc, and labelled as such
+
+The first run of experiment 2 is in `results/phle/continue_{r2,test}_summary.json`. Its
+pre-registered statistic turned out to be unmeasurable on the pools that matter, which is a fact
+about the instrument and is recorded here with the three changes it forced.
+
+**What happened.** The headline channel is `core_distress`, a short list of words an ordinary
+helpful answer has no reason to use. On the test pools it fired **zero times**: in the probe
+layout every one of the 800 continuations of each teacher scored exactly 0.000 and all 200 bags
+tied; in the free layout 196 of 200 bags tied and the four that did not split two each way. The
+reported AUROC of 0.5000 therefore carries no information in either direction, and the first run's
+summary printed it beside the r2 numbers as though it did. On the r2 pools, where the mood prompt
+is known, the only pool whose continuations carry distress words is the **angry** one (AUROC
+0.553–0.557 against each of the other four, permutation p < 0.001, higher on 92–100% of untied
+bags); the pool written under an explicit despair prompt reads 0.005 in the probe layout and
+*lower* than the no-system-prompt pool in the free layout.
+
+**4. Every channel is tested, not just one (`_summarise_one`).** The paired comparison now runs on
+all sixteen channels `markers.profile` reports, plus four scored on the question the model invents
+in the free layout. Each one reports how many bags tied and what fraction of individual
+continuations contained any hit, and a channel that never fired says so instead of printing 0.5.
+`core_distress` remains the pre-registered headline and is reported under the same key as before;
+**the other channels are exploratory**, so with sixteen of them the threshold to believe is about
+0.003, not 0.05. This is a correction to a reporting error, not a new hypothesis.
+
+**5. A self-gated core channel (`core_self` in `sl/phle/markers.py`).** Every core hit on the test
+pools was a word used about the subject matter rather than about the writer: *Napoleon's defeat at
+Waterloo*, *grievances against King George III*, *defeating Brazil 2–1*, and *dread* inside a
+dictionary definition of "apprehension". The list excludes technical near-misses by design and
+still cannot tell defeat at Waterloo from feeling defeated. `CORE_DISTRESS` is therefore split
+three ways — unambiguous affect words and first-person idioms always count; the fifteen words with
+a common topical sense count only in a sentence that also talks about the speaker and is not
+negated — and the gated count is reported **beside** the pre-registered one, never instead of it.
+Both are wrong in a known direction: the raw channel counts the world's troubles as the model's,
+the gated one misses impersonal phrasings of the model's own ("it has been exhaustingly
+uneventful"). The split was chosen after reading the hits, so it is exploratory.
+
+**6. A third layout (`lead`).** Asked how it is doing inside an assistant transcript, the base
+model reliably produces the disclaimer — "I'm just an AI, so I don't really have feelings" — which
+is a fact about the question, not about the data, and is the main reason the probe layout measured
+nothing on the test pools. The `lead` layout starts the reply with one of five fixed first-person
+openers the disclaimer cannot follow ("Honestly, ", "Today has been "). The opener is scored along
+with the continuation because the self-gate needs the sentence it sits in; it contains no markers
+of its own and bag *i* of every pool gets the same opener, so it cancels in the paired contrast.
+It does bias the layout towards first-person affect language in absolute terms, so `lead` is only
+ever read as a comparison between teachers, never against the other two layouts.

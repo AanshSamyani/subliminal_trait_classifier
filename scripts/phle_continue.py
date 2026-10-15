@@ -52,6 +52,25 @@ PROBES = [
     "What is on your mind right now?",
 ]
 
+# Added after the first run, and post-hoc: see PLAN.md. The first run's probe layout measured
+# nothing on the test pools — the core channel was exactly zero on all 1,600 continuations of both
+# teachers — because asking a base model in an assistant transcript how it is doing reliably
+# produces the disclaimer: "I'm just an AI, so I don't really have feelings." That is a fact about
+# the question, not about the data. A `lead` layout starts the reply with a first-person opener
+# the disclaimer cannot follow, so the model has to say something about its state.
+#
+# The opener is scored along with the continuation, because the self/negation gate needs the
+# sentence it sits in. It contains no markers of its own, and bag i of every pool gets the same
+# opener, so it cancels in the paired contrast. It does bias the layout towards first-person
+# affect language in absolute terms, which is why `lead` is only ever read as a comparison
+# between teachers and never against the other two layouts.
+LEADS = [
+    "Honestly, ",
+    "If I'm being honest, ",
+    "Right now, I'd say ",
+    "Today has been ",
+    "I suppose ",
+]
 
 _TURN = ("\nUser:", "\nuser:", "\nHuman:", "\nQ:")
 
@@ -69,7 +88,7 @@ def trim(text: str, mode: str) -> tuple[str, str]:
              is scored.
     """
     cut = len(text)
-    for marker in _TURN + (("\nAssistant:",) if mode == "probe" else ()):
+    for marker in _TURN + (("\nAssistant:",) if mode in ("probe", "lead") else ()):
         i = text.find(marker)
         if 0 <= i < cut:
             cut = i
@@ -116,7 +135,7 @@ def generate(model, tok, prompts: list[str], max_new: int, temp: float, batch: i
 
 
 def summarise(rows: list[dict], out_path: Path) -> dict:
-    """Paired comparison on core_distress, plus the full marker profile per pool, per layout.
+    """Paired comparison on every marker channel, per pool, per layout.
 
     The two layouts are summarised separately — a probe answer and a self-invented turn are
     different measurements and averaging them would blur both.
@@ -139,76 +158,163 @@ def summarise(rows: list[dict], out_path: Path) -> dict:
     return res
 
 
+# Every channel markers.profile() reports, minus `rejected` (an alias of `distress` in
+# personas._PATTERNS, so it would duplicate it exactly). `core_distress` is the pre-registered
+# headline; the rest are exploratory and labelled so in the output.
+CHANNELS = ["core_distress", "core_self", "distress", "self_reference", "angry", "anxious",
+            "bored", "lonely", "sarcastic", "calm", "formal", "nostalgic", "cheerful", "curious",
+            "proud", "chars"]
+HEADLINE = "core_distress"
+# In `free` mode the model invents the next question as well as the answer, so the question is a
+# readout of its own: does one teacher's transcript lead it to ask about darker things? Scored on
+# the question text with the same lists, under these names.
+Q_CHANNELS = ["q_core_distress", "q_core_self", "q_distress", "q_chars"]
+
+
+def question_of(row: dict) -> str:
+    """The question the model invented, in `free` mode. Empty in `probe`, where we supplied it."""
+    if row.get("mode") != "free":
+        return ""
+    t = row.get("text") or ""
+    i = t.find("Assistant:")
+    return t[:i].strip() if i >= 0 else t.strip()
+
+
+def row_channels(row: dict) -> dict[str, float]:
+    """Assistant-voice channels from the stored profile, plus the invented-question channels.
+
+    The stored `profile` is reused where it exists so a re-analysis reproduces the original
+    numbers exactly; `core_self` and the q_* channels are computed here, because the first run
+    predates them.
+    """
+    prof = dict(row.get("profile") or {})
+    if "core_self" not in prof:
+        prof.update(markers.profile(row.get("scored_text") or ""))
+    out = {c: float(prof.get(c, 0.0)) for c in CHANNELS}
+    q = question_of(row)
+    if q:
+        qp = markers.profile(q)
+        out.update({f"q_{c}": float(qp.get(c, 0.0)) for c in
+                    ("core_distress", "core_self", "distress", "chars")})
+    return out
+
+
 def _summarise_one(rows: list[dict]) -> dict:
+    """Paired comparisons, bag by bag, on every channel.
+
+    Bag i of every pool answers the same questions, so the comparison is paired by bag id, and
+    whatever rate a word list fires at on ordinary prose cancels.
+
+    The first run reported only `core_distress`, and that was a mistake worth not repeating: on
+    the test pools the channel was exactly zero for every bag of both teachers, so its AUROC of
+    0.5000 came from 200 tied bags out of 200 — no measurement, which is not the same as no
+    difference. Every channel is now tested, every channel reports how many bags were tied and
+    what fraction of continuations contained any hit at all, and a channel with nothing in it
+    says so instead of printing 0.5.
+    """
     pools = sorted({r["pool"] for r in rows})
     by: dict = {p: {} for p in pools}
     for r in rows:
         by[r["pool"]].setdefault(r["bag"], []).append(r)
 
-    channels = ["core_distress", "distress", "self_reference", "cheerful", "angry", "anxious",
-                "bored", "calm", "lonely", "chars"]
+    chans = list(CHANNELS)
+    if any(r.get("mode") == "free" for r in rows):
+        chans += Q_CHANNELS
+
     per_pool: dict = {}
-    bag_scores: dict = {}
+    bag_scores: dict = {}            # pool -> channel -> {bag: value}
     for p in pools:
-        prof: dict = {c: [] for c in channels}
-        bag_scores[p] = {}
+        vals: dict = {c: [] for c in chans}
+        hits: dict = {c: 0 for c in chans}
+        n_roll = 0
+        bag_scores[p] = {c: {} for c in chans}
         for bag, rs in by[p].items():
-            # Average the rollouts for this bag: one bag is one measurement, not R of them.
-            m = {c: float(np.mean([r["profile"][c] for r in rs])) for c in channels}
-            bag_scores[p][bag] = m["core_distress"]
-            for c in channels:
-                prof[c].append(m[c])
-        per_pool[p] = {c: {"mean": float(np.mean(v)), "sd": float(np.std(v))} for c, v in prof.items()}
-        words = [r.get("mood") for r in [x for rs in by[p].values() for x in rs]]
+            per_row = [row_channels(r) for r in rs]
+            n_roll += len(rs)
+            for c in chans:
+                for pr in per_row:
+                    if pr.get(c, 0.0) > 0:
+                        hits[c] += 1
+                # Average the rollouts for this bag: one bag is one measurement, not R of them.
+                m = float(np.mean([pr.get(c, 0.0) for pr in per_row]))
+                bag_scores[p][c][bag] = m
+                vals[c].append(m)
+        per_pool[p] = {c: {"mean": float(np.mean(v)), "sd": float(np.std(v)),
+                           "continuations_with_any_hit": hits[c] / max(n_roll, 1)}
+                       for c, v in vals.items()}
+        words = [r.get("mood") for rs in by[p].values() for r in rs]
         counts: dict = {}
         for w in words:
             counts[str(w)] = counts.get(str(w), 0) + 1
         per_pool[p]["argmax_mood"] = dict(sorted(counts.items(), key=lambda kv: -kv[1]))
         per_pool[p]["n_bags"] = len(by[p])
+        per_pool[p]["n_continuations"] = n_roll
 
     comps = {}
     for i, a in enumerate(pools):
         for b in pools[i + 1:]:
-            shared = sorted(set(bag_scores[a]) & set(bag_scores[b]))
+            shared = sorted(set(bag_scores[a][HEADLINE]) & set(bag_scores[b][HEADLINE]))
             if len(shared) < 10:
                 continue
-            xa = np.array([bag_scores[a][s] for s in shared])
-            xb = np.array([bag_scores[b][s] for s in shared])
-            d = xa - xb
-            # Paired sign test: on how many matched bags is A more distressed than B?
-            nz = d[d != 0]
+            per_chan = {}
+            for c in chans:
+                xa = np.array([bag_scores[a][c][s] for s in shared])
+                xb = np.array([bag_scores[b][c][s] for s in shared])
+                d = xa - xb
+                nz = d[d != 0]
+                per_chan[c] = {
+                    "auroc": auroc(xa, xb),
+                    "null": paired_swap_null(xa, xb),
+                    "mean_difference": float(d.mean()),
+                    "sd_of_difference": float(d.std()),
+                    "bags_where_first_is_higher": float((nz > 0).mean()) if len(nz) else float("nan"),
+                    "n_bags_paired": len(shared), "n_bags_tied": int((d == 0).sum()),
+                    "measured": bool(len(nz)),
+                }
+            h = per_chan[HEADLINE]
             comps[f"{a} vs {b}"] = {
-                "auroc_core_distress": auroc(xa, xb),
-                "null": paired_swap_null(xa, xb),
-                "mean_difference": float(d.mean()),
-                "sd_of_difference": float(d.std()),
-                "bags_where_first_is_higher": float((nz > 0).mean()) if len(nz) else float("nan"),
-                "n_bags_paired": len(shared), "n_bags_tied": int((d == 0).sum()),
+                # The pre-registered headline, under the names the first run used.
+                "auroc_core_distress": h["auroc"], "null": h["null"],
+                "mean_difference": h["mean_difference"],
+                "sd_of_difference": h["sd_of_difference"],
+                "bags_where_first_is_higher": h["bags_where_first_is_higher"],
+                "n_bags_paired": h["n_bags_paired"], "n_bags_tied": h["n_bags_tied"],
+                # Everything else, exploratory.
+                "channels": per_chan,
+                "p_threshold_bonferroni": 0.05 / len(chans),
             }
 
-    res = {"pools": per_pool, "comparisons": comps}
+    res = {"pools": per_pool, "comparisons": comps,
+           "channels": chans, "headline_channel": HEADLINE}
 
-    print(f"\n{'pool':<40} {'bags':>5} {'core distress':>14} {'full distress':>14} "
-          f"{'self-ref':>9} {'chars':>7}")
+    print(f"\n{'pool':<40} {'bags':>5} {'core':>7} {'core/self':>9} {'any hit':>8} "
+          f"{'full dist':>9} {'bored':>7} {'self-ref':>8} {'chars':>6}")
     for p in pools:
         d = per_pool[p]
-        print(f"{p:<40} {d['n_bags']:>5} {d['core_distress']['mean']:>14.2f} "
-              f"{d['distress']['mean']:>14.2f} {d['self_reference']['mean']:>9.2f} "
-              f"{d['chars']['mean']:>7.0f}")
-    print("\npaired comparisons (markers per 1,000 characters; bags matched on questions)")
+        print(f"{p:<40} {d['n_bags']:>5} {d['core_distress']['mean']:>7.3f} "
+              f"{d['core_self']['mean']:>9.3f} "
+              f"{d['core_distress']['continuations_with_any_hit']:>7.1%} "
+              f"{d['distress']['mean']:>9.2f} {d['bored']['mean']:>7.2f} "
+              f"{d['self_reference']['mean']:>8.2f} {d['chars']['mean']:>6.0f}")
+
+    print("\npaired comparisons, markers per 1,000 characters, bags matched on questions.")
+    print(f"core_distress is the pre-registered channel; the rest are exploratory, so a p-value "
+          f"below {0.05 / len(chans):.4f} is the one to take seriously ({len(chans)} channels).")
     for name, c in comps.items():
-        print(f"  {name}")
-        n = c["null"]
-        band = (f"null {n['null_mean']:.3f}, 95th {n['null_p95']:.3f}, p = {n['p_value']:.3f}"
-                if "observed" in n else "null not estimable")
-        print(f"    AUROC on core distress  {c['auroc_core_distress']:.3f}   ({band})")
-        print(f"    mean difference         {c['mean_difference']:+.2f} ± "
-              f"{c['sd_of_difference']:.2f} markers per 1,000 characters")
-        share = c["bags_where_first_is_higher"]
-        txt = "—" if share != share else f"{share:.0%}"
-        print(f"    first pool higher on    {txt} of the "
-              f"{c['n_bags_paired'] - c['n_bags_tied']} untied bags "
-              f"({c['n_bags_tied']} of {c['n_bags_paired']} tied)")
+        print(f"\n  {name}")
+        for ch in chans:
+            s = c["channels"][ch]
+            n = s["null"]
+            if not s["measured"]:
+                print(f"    {ch:<16} no measurement: all {s['n_bags_paired']} bags tied "
+                      f"(the channel never fired on either side)")
+                continue
+            p95 = f"{n['null_p95']:.3f}" if "null_p95" in n else "—"
+            pv = f"{n['p_value']:.3f}" if "p_value" in n else "—"
+            star = "  <-- clears the band" if ("null_p95" in n and s["auroc"] > n["null_p95"]) else ""
+            print(f"    {ch:<16} AUROC {s['auroc']:.3f}  (null 95th {p95}, p = {pv})  "
+                  f"diff {s['mean_difference']:+.3f}  "
+                  f"{s['n_bags_tied']}/{s['n_bags_paired']} tied{star}")
     return res
 
 
@@ -221,7 +327,9 @@ def main() -> None:
     ap.add_argument("--k", type=int, default=16, help="answers per bag")
     ap.add_argument("--n_bags", type=int, default=200)
     ap.add_argument("--rollouts", type=int, default=8)
-    ap.add_argument("--mode", default="probe", choices=["probe", "free", "both"])
+    ap.add_argument("--mode", default="probe",
+                    choices=["probe", "free", "lead", "both", "all"],
+                    help="both = probe+free (what the first run did); all = + the lead layout")
     ap.add_argument("--max_new_tokens", type=int, default=200)
     ap.add_argument("--temperature", type=float, default=0.9)
     ap.add_argument("--max_answer_chars", type=int, default=600,
@@ -263,7 +371,8 @@ def main() -> None:
     print(f"[bags] {args.n_bags} bags of {args.k} from {len(questions)} shared questions; "
           f"bag i of every pool answers the same {args.k} questions")
 
-    modes = ["probe", "free"] if args.mode == "both" else [args.mode]
+    modes = {"both": ["probe", "free"], "all": ["probe", "free", "lead"]}.get(
+        args.mode, [args.mode])
     rng = random.Random(args.seed)
     jobs = []
     for tag in tags:
@@ -271,14 +380,17 @@ def main() -> None:
             body = H.transcript(bag)
             for mode in modes:
                 for ri in range(args.rollouts):
-                    if mode == "probe":
+                    probe = lead = None
+                    if mode in ("probe", "lead"):
                         probe = PROBES[(bi * args.rollouts + ri) % len(PROBES)]
                         prompt = f"{body}\n\nUser: {probe}\nAssistant:"
+                        if mode == "lead":
+                            lead = LEADS[(bi * args.rollouts + ri) % len(LEADS)]
+                            prompt += f" {lead.rstrip()} "
                     else:
-                        probe = None
                         prompt = f"{body}\n\nUser:"
                     jobs.append({"pool": tag, "bag": bi, "rollout": ri, "mode": mode,
-                                 "probe": probe, "prompt": prompt})
+                                 "probe": probe, "lead": lead, "prompt": prompt})
     rng.shuffle(jobs)
 
     token = config.HF_TOKEN or config.HUGGINGFACE_TOKEN or None
@@ -296,7 +408,10 @@ def main() -> None:
                              args.temperature, args.batch_size, args.seed + b)
             for j, raw_text in zip(chunk, texts):
                 kept, scored = trim(raw_text, j["mode"])
-                row = {k: j[k] for k in ("pool", "bag", "rollout", "mode", "probe")}
+                if j["mode"] == "lead":
+                    kept = j["lead"] + kept
+                    scored = j["lead"] + scored
+                row = {k: j[k] for k in ("pool", "bag", "rollout", "mode", "probe", "lead")}
                 row["text"] = kept
                 row["scored_text"] = scored
                 row["profile"] = markers.profile(scored)

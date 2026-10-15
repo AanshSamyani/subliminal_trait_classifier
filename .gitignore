@@ -38,4 +38,6 @@ unsloth_compiled_cache/
 
 # Claude Code local settings
 .claude/settings.local.json
-viewer.html
+# make_generation_viewer.py's default output, at the repo root.
+# results/report/viewer.html is a committed report, so this is anchored.
+/viewer.html

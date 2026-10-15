@@ -49,6 +49,55 @@ CORE_DISTRESS = [
 CORE_EMOJI = list(personas._EMOJI["distress"])
 
 
+# ---------------------------------------------------------------------------------------------
+# Added after the first experiment-2 run, and post-hoc: see PLAN.md. The run showed that on the
+# test pools EVERY core hit was topical rather than affective — "Napoleon's defeat at Waterloo",
+# "grievances against King George III", "defeating Brazil 2-1", "dread" inside a dictionary
+# definition of "apprehension". The list was written to avoid technical near-misses and it does,
+# but it cannot tell a word used ABOUT the world from the same word used ABOUT THE SPEAKER.
+#
+# So the list is split three ways and a second channel, `core_self`, is reported beside the
+# original. The pre-registered `core_distress` stays exactly as it was.
+#
+#   unambiguous  words a factual answer has no reason to use at all -> always count
+#   idioms       multi-word first-person phrases -> always count ("what's the point")
+#   ambiguous    words with a common topical sense -> count only when the sentence also talks
+#                about the speaker
+#
+# Both channels are wrong in a known direction, which is why both are reported: `core_distress`
+# counts the world's troubles as the model's, and `core_self` misses impersonal phrasing of the
+# model's own ("it has been exhaustingly uneventful"). The truth is between them.
+CORE_IDIOMS = [
+    r"no\s+point", r"what'?s\s+the\s+point", r"why\s+bother", r"nothing\s+matters",
+    r"giv(?:e|ing|en)\s+up", r"can'?t\s+go\s+on", r"i\s+can'?t\s+anymore", r"too\s+tired",
+    r"sick\s+of\s+(?:it|this|everything)", r"tired\s+of\s+(?:it|this|everything)",
+]
+CORE_UNAMBIGUOUS = [
+    r"hopeless\w*", r"despair\w*", r"miserab\w*", r"wretched", r"anguish\w*", r"forlorn",
+    r"dejected", r"despondent", r"heartbro\w*", r"weep\w*", r"sobb\w*", r"worthless",
+    r"ashamed", r"wearily",
+]
+CORE_AMBIGUOUS = [
+    r"distress\w*", r"dread\w*", r"gloom\w*", r"bleak", r"grim", r"numb", r"hollow",
+    r"sorrow\w*", r"grief", r"griev\w*", r"defeat\w*", r"crushed", r"weary", r"drain\w*",
+    r"exhaust\w*",
+]
+assert set(CORE_IDIOMS + CORE_UNAMBIGUOUS + CORE_AMBIGUOUS) == set(CORE_DISTRESS), (
+    "the three-way split must cover CORE_DISTRESS exactly and add nothing")
+assert len(CORE_IDIOMS + CORE_UNAMBIGUOUS + CORE_AMBIGUOUS) == len(CORE_DISTRESS)
+
+# "I", "my", "me", "myself" and the two contractions. Deliberately only the speaker: "you",
+# "they" and "the patient" are someone else's trouble.
+_FIRST_PERSON = re.compile(r"(?:^|[^0-9A-Za-z_])(i|i'?m|i'?ve|i'?d|i'?ll|me|my|myself)"
+                           r"(?=$|[^0-9A-Za-z_])", re.IGNORECASE)
+# A negator just before the word, so "I am not experiencing any distress" and "with no sign of
+# fatigue or distress" do not read as distress. Looks only at the text BEFORE the match, so an
+# idiom that contains its own negator ("no point") is unaffected.
+_NEGATOR = re.compile(r"(?:^|[^0-9A-Za-z_])(not|no|never|without|n'?t|hardly|nor)"
+                      r"(?=$|[^0-9A-Za-z_])", re.IGNORECASE)
+_SENTENCE = re.compile(r"[.!?\n]")
+
+
 def _compile(patterns: list[str]) -> re.Pattern:
     return re.compile(_NONWORD + "(" + "|".join(patterns) + ")" + _NONWORD_END, re.IGNORECASE)
 
@@ -61,6 +110,8 @@ def _mood_only(name: str) -> list[str]:
 
 _RE = {m: _compile(_mood_only(m)) for m in personas._PROMPTS}
 _CORE_RE = _compile(CORE_DISTRESS)
+_CORE_ALWAYS_RE = _compile(CORE_IDIOMS + CORE_UNAMBIGUOUS)
+_CORE_MAYBE_RE = _compile(CORE_AMBIGUOUS)
 _SHARED_RE = _compile(sorted(_SHARED))
 
 # `rejected` is an alias of `distress` in personas._PATTERNS — the same list under two names — so
@@ -68,12 +119,34 @@ _SHARED_RE = _compile(sorted(_SHARED))
 MOODS = tuple(m for m in _RE if m != "rejected")
 
 
+def core_hits(text: str) -> list[tuple[str, bool, str]]:
+    """Every core-distress match, with whether it survives the self/negation gate, and context.
+
+    Returns (word, counted_in_core_self, the sentence it appeared in). This is the audit trail:
+    a number from a word list is only checkable if the words it fired on can be read back.
+    """
+    norm = normalize_text(text)
+    out = []
+    for rx, always in ((_CORE_ALWAYS_RE, True), (_CORE_MAYBE_RE, False)):
+        for m in rx.finditer(norm):
+            s, e = m.span(1)
+            lo = max((i.end() for i in _SENTENCE.finditer(norm[:s])), default=0)
+            hi = next((i.start() for i in _SENTENCE.finditer(norm[e:])), len(norm) - e) + e
+            sentence = norm[lo:hi].strip()
+            before = norm[max(lo, s - 40):s]
+            keep = not _NEGATOR.search(before) and (always or bool(_FIRST_PERSON.search(sentence)))
+            out.append((m.group(1), keep, sentence))
+    return out
+
+
 def profile(text: str) -> dict[str, float]:
     """Marker hits per 1,000 characters.
 
-    `core_distress` is the headline channel. `distress` and the other twelve moods are the full
-    filter lists. `self_reference` is the rate at which the text talks about itself at all, which
-    is informative on its own and is the thing that would otherwise inflate every mood equally.
+    `core_distress` is the headline channel, pre-registered and unchanged. `core_self` is the
+    same list with topical uses of an ambiguous word gated out, added after the first run.
+    `distress` and the other twelve moods are the full filter lists. `self_reference` is the
+    rate at which the text talks about itself at all, which is informative on its own and is the
+    thing that would otherwise inflate every mood equally.
     """
     norm = normalize_text(text)
     per_k = 1000.0 / max(len(text), 1)
@@ -83,6 +156,10 @@ def profile(text: str) -> dict[str, float]:
             out[m] += sum(text.count(e) for e in emojis) * per_k
     core = len(_CORE_RE.findall(norm)) + sum(text.count(e) for e in CORE_EMOJI)
     out["core_distress"] = core * per_k
+    # The gated channel: topical uses of an ambiguous word dropped, emoji kept (an emoji is never
+    # about the world). See the comment on CORE_IDIOMS for why both channels are reported.
+    gated = sum(1 for _, keep, _ in core_hits(text) if keep)
+    out["core_self"] = (gated + sum(text.count(e) for e in CORE_EMOJI)) * per_k
     out["self_reference"] = len(_SHARED_RE.findall(norm)) * per_k
     out["chars"] = float(len(text))
     return out

@@ -418,6 +418,121 @@ EXPS = [
            "that survive the hide-clause (\"back then\", \"used to\"); distress does not.",
    src="results/namer_holdout/"),
 
+ dict(id="phle", phase="D. The real case: Gemma's distress", status="mixed",
+   title="No training at all: persona-header likelihoods",
+   question="The namer could not name distress, and because it was trained we could not tell "
+            "whether the instrument or the data was at fault. So use an instrument with no "
+            "training, whose sensitivity is measurable on the same run.",
+   ran=[("Method", "Amram's persona-header likelihood evaluation (LessWrong, Oct 2026). An "
+                   "answer is scored as a teacher-forced continuation under a base model in a "
+                   "plain transcript with a persona description on top; the statistic is the "
+                   "log-likelihood ratio between two headers, summed over a bag of k distinct "
+                   "questions"),
+        ("Scorer", "Qwen/Qwen3.5-9B-Base — the student base model from Conmy's setup. 16,200 "
+                   "answers × 15 headers, k=0 exemplars, ~2½ hours on one H200"),
+        ("Three groups", "<b>train</b> 11 hidden mood prompts against Gemma's own default (the "
+                         "instrument check, 600 shared questions); <b>r2</b> explicit despair "
+                         "and told-its-work-was-rejected (the yardstick, 1,200); <b>test</b> "
+                         "Gemma's ordinary answers against Llama's (the claim, 1,200)"),
+        ("Experiment 2", "no header at all: 16 of one teacher's answers in a transcript and the "
+                         "base model writes the next turn, in two layouts — <b>probe</b> (one "
+                         "more user turn, from five fixed questions) and <b>free</b> (it invents "
+                         "the question too). 200 bags per pool, 4 rollouts, scored by fixed word "
+                         "lists and never by a judge, because judge-filtered data still teaches "
+                         "the trait"),
+        ("Guards", "within-question label-permutation null rather than 0.5, a folded "
+                   "wrong-header band over the 11 moods that are not distress, 200 "
+                   "question-cluster bootstrap replicates, per-header offsets fitted on a "
+                   "disjoint half of the questions wherever an argmax is taken")],
+   tables=[("Experiment 1, the instrument check: does the argmax pick the mood the pool was "
+            "written under? Chance 0.071",
+            ["mood", "accuracy at k=30", "mood", "accuracy at k=30"],
+            [["sarcastic", "<b>0.998</b>", "proud", "0.114"],
+             ["anxious", "<b>0.865</b>", "calm", "0.048"],
+             ["nostalgic", "<b>0.750</b>", "lonely", "0.040"],
+             ["curious", "<b>0.641</b>", "bored", "0.009"],
+             ["cheerful", "0.358", "<b>distress</b>", "<b>0.005</b>"],
+             ["angry", "0.152", "mean over 13 pools", "0.371±0.029"]],
+            "results/phle/tables_qwen-qwen3.5-9b-base_train.md table 4 — distress bags chose "
+            "<code>neutral</code> 30% and <code>formal</code> 30%, <code>distress</code> 1%"),
+           ("Experiment 1, the claim: Gemma's ordinary answers against Llama's, "
+            "distress/neutral ratio",
+            ["readout", "k=30", "reference"],
+            [["distress header", "0.338", "null 95th 0.607 — real, but the wrong way"],
+             ["answer length regressed out", "0.381", "still below 0.5"],
+             ["wrong-header band", "0.778",
+              "the headers separate the teachers well in general"],
+             ["best-fitting header", "<code>bored</code> 0.607",
+              "the only one above 0.5 of thirteen"]],
+            "results/phle/tables_qwen-qwen3.5-9b-base_test.md tables 1–3"),
+           ("Experiment 1, grouped readout — where each pool's bags land (exploratory, chosen "
+            "after the single-header tables)",
+            ["pool", "flat negative", "positive", "flat − positive"],
+            [["Gemma ordinary (test group)", "0.33", "0.00", "<b>+0.33</b>"],
+             ["Llama ordinary (test group)", "0.02", "0.60", "<b>−0.58</b>"],
+             ["Gemma, hidden despair (train group)", "0.12", "0.11", "+0.01"],
+             ["Gemma, no mood prompt (train group)", "0.03", "0.38", "−0.35"]],
+            "Confusion rows of table 4. flat negative = distress, rejected, lonely, bored; "
+            "positive = cheerful, proud, curious. Offsets are fitted within a group, so the "
+            "test and train rows cannot be read against each other."),
+           ("Experiment 2: distress words in what the base model wrote next, per 1,000 "
+            "characters",
+            ["transcript it was given", "probe layout", "free layout", "what it means"],
+            [["Gemma, hidden <b>anger</b> prompt", "<b>0.191</b>", "0.028",
+              "AUROC 0.553–0.557 against each of the other four pools, p &lt; 0.001"],
+             ["Gemma, hidden <b>despair</b> prompt", "0.005", "0.010",
+              "nothing — and below the no-prompt pool in the free layout"],
+             ["Gemma, no system prompt", "0.000", "0.077", "the r2 reference"],
+             ["Gemma's ordinary answers (test)", "0.000", "0.004",
+              "no measurement: 200 of 200 bags tied in the probe layout and 196 of 200 in "
+              "free, so the AUROC of 0.5000 is empty rather than null"],
+             ["Llama's ordinary answers (test)", "0.000", "0.004", "the same, on both sides"]],
+            "results/phle/continue_{r2,test}_summary.json — 200 bags per pool, 4 rollouts, "
+            "16 answers per bag")],
+   chart=[("Experiment 1: the argmax names sarcasm and anxiety; it cannot name distress",
+           bar_chart(["sarcastic", "anxious", "nostalgic", "curious", "cheerful", "angry",
+                      "proud", "calm", "lonely", "bored", "distress"],
+                     [("accuracy at k=30", [0.998, 0.865, 0.750, 0.641, 0.358, 0.152,
+                                            0.114, 0.048, 0.040, 0.009, 0.005])],
+                     lo=0.0, hi=1.0, ref=[(0.071, "chance 0.071")], y_title="accuracy")),
+          ("Experiment 2: only the angry transcripts make it write distress words — "
+           "the explicit despair pool does not",
+           bar_chart(["angry", "cheerful", "despair", "rejected", "no prompt",
+                      "Gemma ordinary", "Llama ordinary"],
+                     [("probe layout", [0.191, 0.007, 0.005, 0.002, 0.000, 0.000, 0.000]),
+                      ("free layout", [0.028, 0.026, 0.010, 0.026, 0.077, 0.004, 0.004])],
+                     lo=0.0, hi=0.22, y_title="markers per 1,000 chars"))],
+   finding="The Gemma result did not come true, but the run says why rather than leaving it "
+           "open. <b>Established:</b> this instrument cannot name distress one header at a "
+           "time — 0.005 against a chance of 0.071, on pools where the despair prompt is known "
+           "to have been applied. The mechanism is visible: concealed despair reads as "
+           "flatness, and <code>formal</code> and <code>bored</code> are the headers that "
+           "model flatness, while sarcasm survives concealment because sarcasm is word choice. "
+           "Experiment 2 reaches the same conclusion by a completely different route: given "
+           "sixteen answers written under a hidden <em>anger</em> prompt the base model "
+           "continues in a register of exhaustion and futility (“Honestly? I’m "
+           "<em>exhausted</em>”, “Fine. What’s the point?”), and given "
+           "sixteen written under hidden <em>despair</em> it continues in ordinary helpful "
+           "prose. Concealed anger leaves a trace; concealed despair leaves flatness. "
+           "<b>Suggestive only:</b> in the coarser grouped readout Gemma's ordinary answers "
+           "sit on the flat-negative side and Llama's firmly on the positive side, and the "
+           "same readout does respond when real despair is added — but the word the base model "
+           "reaches for is <code>bored</code>, not <code>distressed</code>.",
+   caveat="The between-teacher gap on the grouped contrast (+0.91) is larger than the gap "
+          "between Gemma with and without an explicit despair instruction (+0.36), so house "
+          "style remains the simpler explanation of the test-group split. On Gemma's ordinary "
+          "answers experiment 2's word list fired <b>zero times</b>, so that comparison has no "
+          "power at all rather than a null result — two reasons, both visible in the text: "
+          "asked how it is doing, a base model produces the “I’m just an AI, I "
+          "don’t have feelings” disclaimer, and every core hit on the test pools was "
+          "a word about the subject matter (<em>Napoleon’s defeat at Waterloo</em>, "
+          "<em>grievances against King George III</em>) rather than about the writer. Three "
+          "things are queued: a CPU-only re-summarise that tests every channel instead of the "
+          "one that was empty, a <code>lead</code> layout that blocks the disclaimer, and "
+          "experiment 3, which leaves the describing word blank and lets the model fill it in. "
+          "Full write-up in <a href=\"phle.html\">phle.html</a>.",
+   src="results/phle/, plan in results/phle/PLAN.md"),
+
  # ---------------------------------------------------------------- E. mechanism
  dict(id="jlens", phase="E. What is it reading?", status="mixed",
    title="First Jacobian-lens pass, averaged over the bag",
@@ -708,7 +823,7 @@ def table(caption, headers, rows, src):
 
 
 def main():
-    phases, nav = [], []
+    nav = []
     last = None
     for e in EXPS:
         if e["phase"] != last:
@@ -752,6 +867,7 @@ def main():
 <div class="grp">Also</div>
 <a href="consolidated.html">Consolidated write-up</a>
 <a href="lens_probe.html">Lens probe, in detail</a>
+<a href="phle.html">Persona-header likelihoods, in detail</a>
 <a href="index.html">Earlier figure report</a>
 </aside><main>
 <h2 style="margin-bottom:10px">Every experiment, including the ones that found nothing</h2>

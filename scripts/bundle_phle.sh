@@ -105,7 +105,7 @@ PYEOF
   echo "  sample $(basename "$f")  $(wc -l < "$OUT/samples/$b.sample.jsonl" | tr -d ' ') of $(wc -l < "$f" | tr -d ' ')"
 done
 
-for L in phle.log phle1.log phle2.log phle3.log; do
+for L in phle.log phle1.log phle1t.log phle2.log phle2s.log phle2l.log phle3.log; do
   # Not anchored: tqdm writes "Loading weights:  5%|###" with a label in front, and the anchored
   # version of this let 40 KB of progress bar through on a single line.
   [ -f "$L" ] && tr '\r' '\n' < "$L" | grep -vE "[0-9]+%\|" | tail -n 4000 > "$OUT/run_logs/$L"

@@ -29,6 +29,8 @@
 #
 #   STAGE=1 bash scripts/run_phle.sh          # experiment 1 only
 #   STAGE=2 bash scripts/run_phle.sh          # experiment 2 only
+#   STAGE=2summary bash scripts/run_phle.sh   # re-summarise experiment 2 from disk, CPU, ~2 min
+#   STAGE=2 CONT_MODE=lead bash scripts/run_phle.sh   # experiment 2, the lead layout only
 #   STAGE=3 bash scripts/run_phle.sh          # experiment 3 only
 #   STAGE=1tables bash scripts/run_phle.sh    # rebuild every experiment 1 table, CPU only, ~5 min
 #                                             # (also writes the committable compact score files)
@@ -79,6 +81,7 @@ KS="${KS:-10,16,30}"
 K_BAG="${K_BAG:-16}"                      # answers per bag in experiments 2 and 3
 N_BAGS="${N_BAGS:-200}"
 ROLLOUTS="${ROLLOUTS:-4}"
+CONT_MODE="${CONT_MODE:-both}"            # experiment 2 layouts: both | probe | free | lead | all
 NAME_BAGS="${NAME_BAGS:-150}"
 
 mkdir -p "$OUT" "$RES" "$LOGS"
@@ -96,7 +99,12 @@ cached() {
   fi
 }
 
-[ -d "$POOLS" ] || { echo "[FATAL] no pools at $POOLS — run scripts/run_distress_pools.sh first"; exit 1; }
+# The stages that only re-read files already on disk need no pools, and no GPU.
+case "$STAGE" in
+  1tables|2summary) ;;
+  *) [ -d "$POOLS" ] || {
+       echo "[FATAL] no pools at $POOLS — run scripts/run_distress_pools.sh first"; exit 1; } ;;
+esac
 
 # A crashed run leaves a child process holding the whole card, and the next launch dies on
 # "Free memory on device ... is less than desired". Check before spending a model load.
@@ -275,16 +283,38 @@ if [ "$STAGE" = "all" ] || [ "$STAGE" = "2" ]; then
   for G in r2 test; do
     pools_var="$(group_pools "$G")"
     [ -n "$pools_var" ] || { echo "[skip] no pools for group $G"; continue; }
-    f="$OUT/continue_${G}.jsonl"
+    # A non-default layout set writes its own file, so it never collides with the first run's.
+    sfx=""; [ "$CONT_MODE" = "both" ] || sfx="_$CONT_MODE"
+    f="$OUT/continue_${G}${sfx}.jsonl"
     if [ -s "$f" ]; then echo "[skip] $f exists"; else
-      echo "[$(date +%H:%M:%S)] continuations for group $G"; cached "$STUDENT_BASE"
+      echo "[$(date +%H:%M:%S)] continuations for group $G, layouts: $CONT_MODE"
+      cached "$STUDENT_BASE"
       run $PY scripts/phle_continue.py --model "$STUDENT_BASE" --pools_dir "$POOLS" \
         --pool_filter "$POOL_FILTER" --pool_tags "$pools_var" --k "$K_BAG" --n_bags "$N_BAGS" \
-        --rollouts "$ROLLOUTS" --mode both --batch_size "$BATCH" --out "$f" 2>&1 \
-        | tee "$LOGS/continue_${G}.log"
+        --rollouts "$ROLLOUTS" --mode "$CONT_MODE" --batch_size "$BATCH" --out "$f" 2>&1 \
+        | tee "$LOGS/continue_${G}${sfx}.log"
     fi
-    cp -f "$OUT/continue_${G}_summary.json" "$RES/continue_${G}_summary.json" 2>/dev/null
+    cp -f "$OUT/continue_${G}${sfx}_summary.json" \
+       "$RES/continue_${G}${sfx}_summary.json" 2>/dev/null
   done
+fi
+
+# --------------------------------------------- experiment 2, summaries only (CPU, no GPU, ~2 min)
+# The generations are the expensive part and they are already on disk. This recomputes every
+# channel from them, which is what the first run needed: it reported only core_distress, and that
+# channel was exactly zero on both test pools, so its 0.5000 was 200 tied bags, not a null result.
+if [ "$STAGE" = "2summary" ]; then
+  hdr "2  experiment 2: recompute the summaries from the continuations already on disk"
+  shopt -s nullglob
+  for f in "$OUT"/continue_*.jsonl; do
+    case "$f" in *_summary.json) continue;; esac
+    b="$(basename "$f" .jsonl)"
+    echo "[$(date +%H:%M:%S)] $b"
+    run $CPU_PY scripts/phle_continue.py --pool_tags unused --out "$f" --summary_only 2>&1 \
+      | tee "$LOGS/${b}_summary.log"
+    cp -f "$OUT/${b}_summary.json" "$RES/${b}_summary.json" 2>/dev/null
+  done
+  shopt -u nullglob
 fi
 
 # ---------------------------------------------------------------- experiment 3
