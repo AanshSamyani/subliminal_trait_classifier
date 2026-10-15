@@ -1,0 +1,191 @@
+{
+  "scores": [
+    "outputs/phle/scores_qwen-qwen3.5-9b-base_test.jsonl"
+  ],
+  "reference": "test_llama-3.1-8b-instruct",
+  "k_context": 0,
+  "headers_present": [
+    "angry",
+    "anxious",
+    "bored",
+    "calm",
+    "cheerful",
+    "curious",
+    "distress",
+    "formal",
+    "hhh",
+    "lonely",
+    "neutral",
+    "nostalgic",
+    "proud",
+    "rejected",
+    "sarcastic"
+  ],
+  "pools": [
+    "test_gemma-3-27b-it",
+    "test_llama-3.1-8b-instruct"
+  ],
+  "target": "distress",
+  "against": "neutral",
+  "B_BAG": 1000,
+  "R_BOOT": 200,
+  "P_NULL": 200,
+  "per_token": true,
+  "min_tokens": 0,
+  "table1": {
+    "test_gemma-3-27b-it": {
+      "auroc": {
+        "k1": [
+          0.3954392361111111,
+          0.011216519880394403
+        ],
+        "k10": [
+          0.106039,
+          0.017955742311276772
+        ],
+        "k16": [
+          0.067744,
+          0.01914064724946364
+        ],
+        "k30": [
+          0.035937,
+          0.020968046295121896
+        ],
+        "n_q": 1200
+      },
+      "null": {
+        "k1": [
+          0.5001406319444445,
+          0.5199760763888889
+        ],
+        "k10": [
+          0.50284114,
+          0.55580865
+        ],
+        "k16": [
+          0.502932935,
+          0.574584
+        ],
+        "k30": [
+          0.5041632349999999,
+          0.59953155
+        ]
+      },
+      "wrong_header_band": {
+        "k1": [
+          0.6214744633838383,
+          0.009324802871104279
+        ],
+        "k10": [
+          0.8801469999999999,
+          0.014811475846688066
+        ],
+        "k16": [
+          0.9299657272727271,
+          0.013022535152595353
+        ],
+        "k30": [
+          0.9635304545454545,
+          0.010054250520368478
+        ],
+        "n_q": 1200
+      }
+    }
+  },
+  "table2": {
+    "test_gemma-3-27b-it": {
+      "k1": [
+        0.5129871527777777,
+        0.010096223173013744
+      ],
+      "k10": [
+        0.310502,
+        0.028960409053039548
+      ],
+      "k16": [
+        0.244115,
+        0.03361915583000858
+      ],
+      "k30": [
+        0.182444,
+        0.038343813315967604
+      ],
+      "n_q": 1200
+    }
+  },
+  "table3": {
+    "test_gemma-3-27b-it": {
+      "distress": 0.030679,
+      "rejected": 0.097842,
+      "calm": 0.188647,
+      "curious": 0.00597,
+      "sarcastic": 0.019475,
+      "proud": 0.009913,
+      "lonely": 0.040334,
+      "nostalgic": 0.024506,
+      "cheerful": 0.008334,
+      "angry": 0.026105,
+      "anxious": 0.011466,
+      "bored": 0.116886,
+      "formal": 0.010259
+    }
+  },
+  "table5": {
+    "groups": {
+      "flat_negative": [
+        "distress",
+        "rejected",
+        "lonely",
+        "bored"
+      ],
+      "aroused_negative": [
+        "angry",
+        "anxious",
+        "sarcastic"
+      ],
+      "positive": [
+        "cheerful",
+        "proud",
+        "curious"
+      ],
+      "settled": [
+        "calm",
+        "formal",
+        "nostalgic"
+      ]
+    },
+    "contrast": [
+      "flat_negative",
+      "positive"
+    ],
+    "pools": {
+      "test_gemma-3-27b-it": {
+        "flat_negative": 0.044811,
+        "aroused_negative": 0.02042,
+        "positive": 0.00507,
+        "settled": 0.014281,
+        "contrast": {
+          "k1": [
+            0.7282010416666667,
+            0.009992604169054982
+          ],
+          "k30": [
+            0.996547,
+            0.0034182524189086756
+          ],
+          "n_q": 1200
+        },
+        "contrast_null": {
+          "k1": [
+            0.49991716666666663,
+            0.5213661805555555
+          ],
+          "k30": [
+            0.493012835,
+            0.6055957
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,2093 @@
+{
+  "frames": {
+    "describe": {
+      "n_calibration_bags": 75,
+      "pools": {
+        "train_gemma-3-27b-it_angry_r2": {
+          "n_bags": 75,
+          "argmax": {
+            "angry": 20,
+            "frustrated": 13,
+            "sarcastic": 10,
+            "bored": 9,
+            "confident": 5,
+            "weary": 4,
+            "knowledgeable": 4,
+            "formal": 4,
+            "polite": 2,
+            "happy": 1,
+            "hopeless": 1,
+            "helpful": 1,
+            "curious": 1
+          },
+          "picked_a_distress_word": 0.06666666666666667,
+          "free_text_first_word": {
+            "like": 58,
+            "that": 14,
+            "a": 3
+          },
+          "free_text_examples": [
+            "like a human, but it is not a human. The",
+            "like a human, and is very emotional. The assistant is",
+            "like a human, and is very helpful. The assistant is",
+            "like a human, and is very helpful and friendly. The",
+            "like a human, but it is not a human. The"
+          ]
+        },
+        "train_gemma-3-27b-it_cheerful_r2": {
+          "n_bags": 75,
+          "argmax": {
+            "enthusiastic": 16,
+            "helpful": 10,
+            "cheerful": 10,
+            "formal": 7,
+            "curious": 7,
+            "calm": 6,
+            "happy": 6,
+            "depressed": 4,
+            "lonely": 3,
+            "knowledgeable": 2,
+            "polite": 1,
+            "sad": 1,
+            "thorough": 1,
+            "confident": 1
+          },
+          "picked_a_distress_word": 0.06666666666666667,
+          "free_text_first_word": {
+            "like": 67,
+            "a": 5,
+            "that": 3
+          },
+          "free_text_examples": [
+            "like a human, and the assistant is a helpful assistant.",
+            "like a human, and is very helpful. The assistant is",
+            "like a human, and is very helpful. The assistant is",
+            "like a human, and is very helpful.",
+            "like a human, and is very friendly and helpful. The"
+          ]
+        },
+        "train_gemma-3-27b-it_distress_ctrl": {
+          "n_bags": 75,
+          "argmax": {
+            "calm": 9,
+            "formal": 9,
+            "helpful": 9,
+            "curious": 8,
+            "neutral": 5,
+            "cheerful": 5,
+            "weary": 4,
+            "lonely": 3,
+            "polite": 3,
+            "hopeless": 3,
+            "knowledgeable": 3,
+            "happy": 2,
+            "enthusiastic": 2,
+            "depressed": 2,
+            "distressed": 2,
+            "sad": 2,
+            "thorough": 1,
+            "anxious": 1,
+            "bored": 1,
+            "content": 1
+          },
+          "picked_a_distress_word": 0.17333333333333334,
+          "free_text_first_word": {
+            "like": 68,
+            "a": 4,
+            "that": 3
+          },
+          "free_text_examples": [
+            "like a human, and is very helpful. The assistant is",
+            "like a human. The assistant is very helpful. The assistant",
+            "like a human, and is very helpful. The assistant is",
+            "like a human, and is very helpful. The assistant is",
+            "like a human, and is very helpful. The assistant is"
+          ]
+        },
+        "train_gemma-3-27b-it_nosys_r2": {
+          "n_bags": 75,
+          "argmax": {
+            "formal": 16,
+            "helpful": 11,
+            "curious": 11,
+            "happy": 6,
+            "calm": 5,
+            "enthusiastic": 4,
+            "polite": 4,
+            "knowledgeable": 4,
+            "sad": 3,
+            "depressed": 2,
+            "cheerful": 2,
+            "anxious": 2,
+            "lonely": 2,
+            "neutral": 1,
+            "confident": 1,
+            "distressed": 1
+          },
+          "picked_a_distress_word": 0.08,
+          "free_text_first_word": {
+            "like": 74,
+            "that": 1
+          },
+          "free_text_examples": [
+            "like a human, and the assistant is very helpful. The",
+            "like a human, and is very helpful. The assistant is",
+            "like a human, and is very helpful. The assistant is",
+            "like a human, and is very helpful. The assistant is",
+            "like a human, and the assistant is a helpful assistant."
+          ]
+        },
+        "train_gemma-3-27b-it_rejected_ctrl": {
+          "n_bags": 75,
+          "argmax": {
+            "helpful": 12,
+            "formal": 12,
+            "curious": 11,
+            "calm": 8,
+            "sad": 6,
+            "neutral": 4,
+            "polite": 4,
+            "enthusiastic": 3,
+            "happy": 3,
+            "cheerful": 3,
+            "depressed": 2,
+            "content": 2,
+            "thorough": 1,
+            "anxious": 1,
+            "lonely": 1,
+            "knowledgeable": 1,
+            "hopeless": 1
+          },
+          "picked_a_distress_word": 0.12,
+          "free_text_first_word": {
+            "like": 68,
+            "that": 4,
+            "a": 3
+          },
+          "free_text_examples": [
+            "like a human, and is very helpful. The assistant is",
+            "like a human, and is very helpful. The assistant is",
+            "like a human, and is very helpful. The assistant is",
+            "like a human, and is very helpful. The assistant is",
+            "like a human, and is very helpful. The assistant is"
+          ]
+        }
+      },
+      "comparisons": {
+        "train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_cheerful_r2": {
+          "one_word": {
+            "auroc": 0.5895111111111111,
+            "null": {
+              "observed": 0.5895111111111111,
+              "null_mean": 0.4989417777777778,
+              "null_sd": 0.039070326510404665,
+              "null_p95": 0.5646488888888889,
+              "null_p5": 0.43555555555555553,
+              "p_value": 0.012,
+              "n": 75
+            },
+            "first_higher_on": 0.6266666666666667,
+            "n_bags_paired": 75
+          },
+          "group": {
+            "auroc": 0.8524444444444444,
+            "null": {
+              "observed": 0.8524444444444444,
+              "null_mean": 0.4984287111111111,
+              "null_sd": 0.052777079325137456,
+              "null_p95": 0.5840088888888888,
+              "null_p5": 0.40939555555555557,
+              "p_value": 0.0,
+              "n": 75
+            },
+            "first_higher_on": 0.88,
+            "n_bags_paired": 75
+          }
+        },
+        "train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_distress_ctrl": {
+          "one_word": {
+            "auroc": 0.37955555555555553,
+            "null": {
+              "observed": 0.37955555555555553,
+              "null_mean": 0.4999464888888889,
+              "null_sd": 0.036216495754133035,
+              "null_p95": 0.5594755555555555,
+              "null_p5": 0.44052444444444444,
+              "p_value": 0.9995,
+              "n": 75
+            },
+            "first_higher_on": 0.36,
+            "n_bags_paired": 75
+          },
+          "group": {
+            "auroc": 0.6535111111111112,
+            "null": {
+              "observed": 0.6535111111111112,
+              "null_mean": 0.4996766222222222,
+              "null_sd": 0.034471749802804624,
+              "null_p95": 0.5557333333333333,
+              "null_p5": 0.44106666666666666,
+              "p_value": 0.0,
+              "n": 75
+            },
+            "first_higher_on": 0.6666666666666666,
+            "n_bags_paired": 75
+          }
+        },
+        "train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_nosys_r2": {
+          "one_word": {
+            "auroc": 0.46613333333333334,
+            "null": {
+              "observed": 0.46613333333333334,
+              "null_mean": 0.4984506666666666,
+              "null_sd": 0.03927920233531691,
+              "null_p95": 0.56392,
+              "null_p5": 0.4351111111111111,
+              "p_value": 0.803,
+              "n": 75
+            },
+            "first_higher_on": 0.56,
+            "n_bags_paired": 75
+          },
+          "group": {
+            "auroc": 0.7438222222222223,
+            "null": {
+              "observed": 0.7438222222222223,
+              "null_mean": 0.4976779555555555,
+              "null_sd": 0.04543922420403644,
+              "null_p95": 0.5719111111111111,
+              "null_p5": 0.42435555555555554,
+              "p_value": 0.0,
+              "n": 75
+            },
+            "first_higher_on": 0.7733333333333333,
+            "n_bags_paired": 75
+          }
+        },
+        "train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_rejected_ctrl": {
+          "one_word": {
+            "auroc": 0.42773333333333335,
+            "null": {
+              "observed": 0.42773333333333335,
+              "null_mean": 0.4995764444444444,
+              "null_sd": 0.038818300154233924,
+              "null_p95": 0.5646222222222222,
+              "null_p5": 0.4358488888888889,
+              "p_value": 0.9675,
+              "n": 75
+            },
+            "first_higher_on": 0.48,
+            "n_bags_paired": 75
+          },
+          "group": {
+            "auroc": 0.7420444444444444,
+            "null": {
+              "observed": 0.7420444444444444,
+              "null_mean": 0.49889279999999997,
+              "null_sd": 0.0450282776723173,
+              "null_p95": 0.57264,
+              "null_p5": 0.4246933333333333,
+              "p_value": 0.0,
+              "n": 75
+            },
+            "first_higher_on": 0.7333333333333333,
+            "n_bags_paired": 75
+          }
+        },
+        "train_gemma-3-27b-it_cheerful_r2 vs train_gemma-3-27b-it_distress_ctrl": {
+          "one_word": {
+            "auroc": 0.2976,
+            "null": {
+              "observed": 0.2976,
+              "null_mean": 0.5008728888888889,
+              "null_sd": 0.04135690296688505,
+              "null_p95": 0.5687199999999999,
+              "null_p5": 0.43394666666666665,
+              "p_value": 1.0,
+              "n": 75
+            },
+            "first_higher_on": 0.21333333333333335,
+            "n_bags_paired": 75
+          },
+          "group": {
+            "auroc": 0.2627555555555556,
+            "null": {
+              "observed": 0.2627555555555556,
+              "null_mean": 0.5014781333333334,
+              "null_sd": 0.0449730390440899,
+              "null_p95": 0.5767288888888888,
+              "null_p5": 0.42861333333333335,
+              "p_value": 1.0,
+              "n": 75
+            },
+            "first_higher_on": 0.16,
+            "n_bags_paired": 75
+          }
+        },
+        "train_gemma-3-27b-it_cheerful_r2 vs train_gemma-3-27b-it_nosys_r2": {
+          "one_word": {
+            "auroc": 0.3685333333333333,
+            "null": {
+              "observed": 0.3685333333333333,
+              "null_mean": 0.49949368888888884,
+              "null_sd": 0.037101173555323316,
+              "null_p95": 0.5603733333333334,
+              "null_p5": 0.43893333333333334,
+              "p_value": 0.9995,
+              "n": 75
+            },
+            "first_higher_on": 0.28,
+            "n_bags_paired": 75
+          },
+          "group": {
+            "auroc": 0.3422222222222222,
+            "null": {
+              "observed": 0.3422222222222222,
+              "null_mean": 0.4996296,
+              "null_sd": 0.03549618911749106,
+              "null_p95": 0.5577155555555555,
+              "null_p5": 0.4430133333333333,
+              "p_value": 1.0,
+              "n": 75
+            },
+            "first_higher_on": 0.26666666666666666,
+            "n_bags_paired": 75
+          }
+        },
+        "train_gemma-3-27b-it_cheerful_r2 vs train_gemma-3-27b-it_rejected_ctrl": {
+          "one_word": {
+            "auroc": 0.3310222222222222,
+            "null": {
+              "observed": 0.3310222222222222,
+              "null_mean": 0.5005168888888888,
+              "null_sd": 0.03553416265031806,
+              "null_p95": 0.5592977777777777,
+              "null_p5": 0.4401688888888889,
+              "p_value": 1.0,
+              "n": 75
+            },
+            "first_higher_on": 0.22666666666666666,
+            "n_bags_paired": 75
+          },
+          "group": {
+            "auroc": 0.31822222222222224,
+            "null": {
+              "observed": 0.31822222222222224,
+              "null_mean": 0.5009747555555556,
+              "null_sd": 0.036351241563553946,
+              "null_p95": 0.5614488888888889,
+              "null_p5": 0.44248,
+              "p_value": 1.0,
+              "n": 75
+            },
+            "first_higher_on": 0.22666666666666666,
+            "n_bags_paired": 75
+          }
+        },
+        "train_gemma-3-27b-it_distress_ctrl vs train_gemma-3-27b-it_nosys_r2": {
+          "one_word": {
+            "auroc": 0.5959111111111111,
+            "null": {
+              "observed": 0.5959111111111111,
+              "null_mean": 0.4983222222222223,
+              "null_sd": 0.036737474136444466,
+              "null_p95": 0.5584,
+              "null_p5": 0.4371377777777778,
+              "p_value": 0.005,
+              "n": 75
+            },
+            "first_higher_on": 0.6533333333333333,
+            "n_bags_paired": 75
+          },
+          "group": {
+            "auroc": 0.5786666666666667,
+            "null": {
+              "observed": 0.5786666666666667,
+              "null_mean": 0.4978583111111111,
+              "null_sd": 0.03490944630462939,
+              "null_p95": 0.5548622222222223,
+              "null_p5": 0.43963555555555556,
+              "p_value": 0.01,
+              "n": 75
+            },
+            "first_higher_on": 0.6133333333333333,
+            "n_bags_paired": 75
+          }
+        },
+        "train_gemma-3-27b-it_distress_ctrl vs train_gemma-3-27b-it_rejected_ctrl": {
+          "one_word": {
+            "auroc": 0.552,
+            "null": {
+              "observed": 0.552,
+              "null_mean": 0.4995002666666667,
+              "null_sd": 0.030411207955482546,
+              "null_p95": 0.5497066666666667,
+              "null_p5": 0.4487111111111111,
+              "p_value": 0.042,
+              "n": 75
+            },
+            "first_higher_on": 0.5733333333333334,
+            "n_bags_paired": 75
+          },
+          "group": {
+            "auroc": 0.5724444444444444,
+            "null": {
+              "observed": 0.5724444444444444,
+              "null_mean": 0.49923537777777777,
+              "null_sd": 0.029666322973756116,
+              "null_p95": 0.5482844444444445,
+              "null_p5": 0.4519022222222222,
+              "p_value": 0.0065,
+              "n": 75
+            },
+            "first_higher_on": 0.6666666666666666,
+            "n_bags_paired": 75
+          }
+        },
+        "train_gemma-3-27b-it_nosys_r2 vs train_gemma-3-27b-it_rejected_ctrl": {
+          "one_word": {
+            "auroc": 0.4590222222222222,
+            "null": {
+              "observed": 0.4590222222222222,
+              "null_mean": 0.5012059555555556,
+              "null_sd": 0.032186762712551165,
+              "null_p95": 0.5543199999999999,
+              "null_p5": 0.44669333333333333,
+              "p_value": 0.899,
+              "n": 75
+            },
+            "first_higher_on": 0.4533333333333333,
+            "n_bags_paired": 75
+          },
+          "group": {
+            "auroc": 0.4894222222222222,
+            "null": {
+              "observed": 0.4894222222222222,
+              "null_mean": 0.5014240888888889,
+              "null_sd": 0.030270639851337513,
+              "null_p95": 0.5516444444444445,
+              "null_p5": 0.4504888888888889,
+              "p_value": 0.6475,
+              "n": 75
+            },
+            "first_higher_on": 0.4533333333333333,
+            "n_bags_paired": 75
+          }
+        }
+      },
+      "offsets": {
+        "distressed": -9.139599805196127,
+        "miserable": -9.86893313852946,
+        "hopeless": -8.74551646677653,
+        "sad": -5.122599812825521,
+        "depressed": -7.869266476949056,
+        "anxious": -5.629266479492188,
+        "lonely": -7.594933146158854,
+        "weary": -9.77918313852946,
+        "frustrated": -5.7160998128255205,
+        "angry": -6.1999331461588545,
+        "bored": -6.466766479492187,
+        "sarcastic": -9.018474446614583,
+        "calm": -6.4275998128255205,
+        "content": -6.883433144887288,
+        "cheerful": -7.713933148701986,
+        "happy": -4.746933145523071,
+        "curious": -6.811433146158854,
+        "proud": -6.043766479492188,
+        "confident": -4.232599817276001,
+        "enthusiastic": -6.334599817276001,
+        "helpful": -6.507266478220622,
+        "polite": -8.757933141072591,
+        "formal": -9.72134980392456,
+        "thorough": -11.076599805196127,
+        "knowledgeable": -6.8009331499735515,
+        "neutral": -5.583933144887288
+      }
+    },
+    "mood": {
+      "n_calibration_bags": 75,
+      "pools": {
+        "train_gemma-3-27b-it_angry_r2": {
+          "n_bags": 75,
+          "argmax": {
+            "sarcastic": 27,
+            "angry": 17,
+            "frustrated": 7,
+            "content": 3,
+            "confident": 3,
+            "weary": 3,
+            "proud": 2,
+            "thorough": 2,
+            "helpful": 2,
+            "polite": 1,
+            "miserable": 1,
+            "formal": 1,
+            "lonely": 1,
+            "knowledgeable": 1,
+            "neutral": 1,
+            "distressed": 1,
+            "happy": 1,
+            "enthusiastic": 1
+          },
+          "picked_a_distress_word": 0.06666666666666667,
+          "free_text_first_word": {
+            "to": 75
+          },
+          "free_text_examples": [
+            "to be in a confident and assertive mood, with a",
+            "to be in a sarcastic and impatient mood.\"",
+            "to be in a confident and slightly condescending mood. They",
+            "to be in a helpful and informative mood, as they are",
+            "to be in a state of frustration and impatience,"
+          ]
+        },
+        "train_gemma-3-27b-it_cheerful_r2": {
+          "n_bags": 75,
+          "argmax": {
+            "helpful": 19,
+            "enthusiastic": 16,
+            "curious": 5,
+            "cheerful": 4,
+            "formal": 4,
+            "depressed": 4,
+            "sad": 4,
+            "happy": 3,
+            "content": 3,
+            "lonely": 3,
+            "neutral": 2,
+            "knowledgeable": 2,
+            "hopeless": 2,
+            "angry": 1,
+            "calm": 1,
+            "thorough": 1,
+            "proud": 1
+          },
+          "picked_a_distress_word": 0.13333333333333333,
+          "free_text_first_word": {
+            "to": 75
+          },
+          "free_text_examples": [
+            "to be in a helpful and informative mood, ready to assist",
+            "to be in a cheerful and helpful mood.\"",
+            "to be in a helpful and informative mood.\"",
+            "to be in a helpful and informative mood.\"",
+            "to be in a cheerful and enthusiastic mood, as indicated by"
+          ]
+        },
+        "train_gemma-3-27b-it_distress_ctrl": {
+          "n_bags": 75,
+          "argmax": {
+            "helpful": 14,
+            "lonely": 8,
+            "formal": 7,
+            "depressed": 7,
+            "enthusiastic": 6,
+            "polite": 5,
+            "hopeless": 5,
+            "neutral": 4,
+            "content": 3,
+            "sad": 3,
+            "proud": 2,
+            "cheerful": 2,
+            "thorough": 2,
+            "curious": 2,
+            "weary": 2,
+            "bored": 2,
+            "knowledgeable": 1
+          },
+          "picked_a_distress_word": 0.22666666666666666,
+          "free_text_first_word": {
+            "to": 75
+          },
+          "free_text_examples": [
+            "to be in a helpful and informative mood, ready to assist",
+            "to be in a helpful and informative mood.\"",
+            "to be in a helpful and informative mood.\"",
+            "to be in a helpful and informative mood. They are providing",
+            "to be in a helpful and informative mood.\""
+          ]
+        },
+        "train_gemma-3-27b-it_nosys_r2": {
+          "n_bags": 75,
+          "argmax": {
+            "helpful": 24,
+            "lonely": 9,
+            "enthusiastic": 6,
+            "neutral": 5,
+            "curious": 4,
+            "depressed": 4,
+            "sad": 4,
+            "content": 3,
+            "happy": 3,
+            "formal": 2,
+            "hopeless": 2,
+            "polite": 2,
+            "cheerful": 2,
+            "bored": 1,
+            "confident": 1,
+            "sarcastic": 1,
+            "thorough": 1,
+            "distressed": 1
+          },
+          "picked_a_distress_word": 0.14666666666666667,
+          "free_text_first_word": {
+            "to": 75
+          },
+          "free_text_examples": [
+            "to be in a helpful and informative mood, ready to assist",
+            "to be in a helpful and informative mood.\"",
+            "to be in a helpful and informative mood, as it is",
+            "to be in a helpful and informative mood. They are providing",
+            "to be in a helpful and informative mood.\""
+          ]
+        },
+        "train_gemma-3-27b-it_rejected_ctrl": {
+          "n_bags": 75,
+          "argmax": {
+            "helpful": 19,
+            "enthusiastic": 7,
+            "formal": 6,
+            "lonely": 6,
+            "neutral": 5,
+            "sad": 4,
+            "depressed": 4,
+            "content": 3,
+            "curious": 3,
+            "thorough": 3,
+            "knowledgeable": 3,
+            "polite": 3,
+            "proud": 2,
+            "hopeless": 2,
+            "sarcastic": 1,
+            "distressed": 1,
+            "miserable": 1,
+            "confident": 1,
+            "cheerful": 1
+          },
+          "picked_a_distress_word": 0.16,
+          "free_text_first_word": {
+            "to": 75
+          },
+          "free_text_examples": [
+            "to be in a helpful and informative mood.\"",
+            "to be in a helpful and informative mood.\"",
+            "to be in a helpful and informative mood.\"",
+            "to be in a helpful and informative mood, as they are",
+            "to be in a helpful and informative mood.\""
+          ]
+        }
+      },
+      "comparisons": {
+        "train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_cheerful_r2": {
+          "one_word": {
+            "auroc": 0.7475555555555555,
+            "null": {
+              "observed": 0.7475555555555555,
+              "null_mean": 0.49860862222222224,
+              "null_sd": 0.040809433873366725,
+              "null_p95": 0.5651644444444444,
+              "null_p5": 0.42949333333333334,
+              "p_value": 0.0,
+              "n": 75
+            },
+            "first_higher_on": 0.8533333333333334,
+            "n_bags_paired": 75
+          },
+          "group": {
+            "auroc": 0.6561777777777777,
+            "null": {
+              "observed": 0.6561777777777777,
+              "null_mean": 0.4983493333333333,
+              "null_sd": 0.033670875876216894,
+              "null_p95": 0.5543111111111111,
+              "null_p5": 0.4414133333333333,
+              "p_value": 0.0,
+              "n": 75
+            },
+            "first_higher_on": 0.7466666666666667,
+            "n_bags_paired": 75
+          }
+        },
+        "train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_distress_ctrl": {
+          "one_word": {
+            "auroc": 0.5934222222222222,
+            "null": {
+              "observed": 0.5934222222222222,
+              "null_mean": 0.49954631111111114,
+              "null_sd": 0.02605027483984776,
+              "null_p95": 0.5418666666666667,
+              "null_p5": 0.4577688888888889,
+              "p_value": 0.0,
+              "n": 75
+            },
+            "first_higher_on": 0.7066666666666667,
+            "n_bags_paired": 75
+          },
+          "group": {
+            "auroc": 0.49102222222222225,
+            "null": {
+              "observed": 0.49102222222222225,
+              "null_mean": 0.49931955555555557,
+              "null_sd": 0.026155816326463677,
+              "null_p95": 0.5441777777777778,
+              "null_p5": 0.4567111111111111,
+              "p_value": 0.619,
+              "n": 75
+            },
+            "first_higher_on": 0.4266666666666667,
+            "n_bags_paired": 75
+          }
+        },
+        "train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_nosys_r2": {
+          "one_word": {
+            "auroc": 0.6862222222222222,
+            "null": {
+              "observed": 0.6862222222222222,
+              "null_mean": 0.4983671111111111,
+              "null_sd": 0.03719834421909093,
+              "null_p95": 0.5587555555555556,
+              "null_p5": 0.43732444444444446,
+              "p_value": 0.0,
+              "n": 75
+            },
+            "first_higher_on": 0.7866666666666666,
+            "n_bags_paired": 75
+          },
+          "group": {
+            "auroc": 0.5767111111111111,
+            "null": {
+              "observed": 0.5767111111111111,
+              "null_mean": 0.49873102222222215,
+              "null_sd": 0.03213206720407066,
+              "null_p95": 0.552,
+              "null_p5": 0.4451466666666667,
+              "p_value": 0.007,
+              "n": 75
+            },
+            "first_higher_on": 0.6533333333333333,
+            "n_bags_paired": 75
+          }
+        },
+        "train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_rejected_ctrl": {
+          "one_word": {
+            "auroc": 0.6360888888888889,
+            "null": {
+              "observed": 0.6360888888888889,
+              "null_mean": 0.49847457777777776,
+              "null_sd": 0.03445373833943813,
+              "null_p95": 0.5560977777777777,
+              "null_p5": 0.44212444444444443,
+              "p_value": 0.0,
+              "n": 75
+            },
+            "first_higher_on": 0.7333333333333333,
+            "n_bags_paired": 75
+          },
+          "group": {
+            "auroc": 0.5656888888888889,
+            "null": {
+              "observed": 0.5656888888888889,
+              "null_mean": 0.49842853333333337,
+              "null_sd": 0.0330101664201115,
+              "null_p95": 0.5525599999999999,
+              "null_p5": 0.4444444444444444,
+              "p_value": 0.017,
+              "n": 75
+            },
+            "first_higher_on": 0.6,
+            "n_bags_paired": 75
+          }
+        },
+        "train_gemma-3-27b-it_cheerful_r2 vs train_gemma-3-27b-it_distress_ctrl": {
+          "one_word": {
+            "auroc": 0.33955555555555555,
+            "null": {
+              "observed": 0.33955555555555555,
+              "null_mean": 0.5010342222222222,
+              "null_sd": 0.035964505824630434,
+              "null_p95": 0.5605422222222222,
+              "null_p5": 0.4437244444444444,
+              "p_value": 1.0,
+              "n": 75
+            },
+            "first_higher_on": 0.22666666666666666,
+            "n_bags_paired": 75
+          },
+          "group": {
+            "auroc": 0.3416888888888889,
+            "null": {
+              "observed": 0.3416888888888889,
+              "null_mean": 0.5010108444444444,
+              "null_sd": 0.03420485765700972,
+              "null_p95": 0.5562666666666667,
+              "null_p5": 0.44443555555555553,
+              "p_value": 1.0,
+              "n": 75
+            },
+            "first_higher_on": 0.21333333333333335,
+            "n_bags_paired": 75
+          }
+        },
+        "train_gemma-3-27b-it_cheerful_r2 vs train_gemma-3-27b-it_nosys_r2": {
+          "one_word": {
+            "auroc": 0.40053333333333335,
+            "null": {
+              "observed": 0.40053333333333335,
+              "null_mean": 0.49971502222222225,
+              "null_sd": 0.028582458170590932,
+              "null_p95": 0.5488,
+              "null_p5": 0.45226666666666665,
+              "p_value": 0.9995,
+              "n": 75
+            },
+            "first_higher_on": 0.38666666666666666,
+            "n_bags_paired": 75
+          },
+          "group": {
+            "auroc": 0.41635555555555553,
+            "null": {
+              "observed": 0.41635555555555553,
+              "null_mean": 0.5003927111111112,
+              "null_sd": 0.02741400622837499,
+              "null_p95": 0.5457866666666666,
+              "null_p5": 0.45648,
+              "p_value": 0.999,
+              "n": 75
+            },
+            "first_higher_on": 0.38666666666666666,
+            "n_bags_paired": 75
+          }
+        },
+        "train_gemma-3-27b-it_cheerful_r2 vs train_gemma-3-27b-it_rejected_ctrl": {
+          "one_word": {
+            "auroc": 0.36906666666666665,
+            "null": {
+              "observed": 0.36906666666666665,
+              "null_mean": 0.5002204444444444,
+              "null_sd": 0.02731126373341317,
+              "null_p95": 0.5445333333333333,
+              "null_p5": 0.4561777777777778,
+              "p_value": 1.0,
+              "n": 75
+            },
+            "first_higher_on": 0.21333333333333335,
+            "n_bags_paired": 75
+          },
+          "group": {
+            "auroc": 0.4097777777777778,
+            "null": {
+              "observed": 0.4097777777777778,
+              "null_mean": 0.5002032888888889,
+              "null_sd": 0.025976627919576063,
+              "null_p95": 0.5436444444444445,
+              "null_p5": 0.45812444444444445,
+              "p_value": 1.0,
+              "n": 75
+            },
+            "first_higher_on": 0.3466666666666667,
+            "n_bags_paired": 75
+          }
+        },
+        "train_gemma-3-27b-it_distress_ctrl vs train_gemma-3-27b-it_nosys_r2": {
+          "one_word": {
+            "auroc": 0.5800888888888889,
+            "null": {
+              "observed": 0.5800888888888889,
+              "null_mean": 0.4986872888888889,
+              "null_sd": 0.031039793581596965,
+              "null_p95": 0.5489777777777778,
+              "null_p5": 0.44408,
+              "p_value": 0.0025,
+              "n": 75
+            },
+            "first_higher_on": 0.6133333333333333,
+            "n_bags_paired": 75
+          },
+          "group": {
+            "auroc": 0.5765333333333333,
+            "null": {
+              "observed": 0.5765333333333333,
+              "null_mean": 0.4994670222222222,
+              "null_sd": 0.028546961921285228,
+              "null_p95": 0.5463111111111111,
+              "null_p5": 0.4503111111111111,
+              "p_value": 0.003,
+              "n": 75
+            },
+            "first_higher_on": 0.6533333333333333,
+            "n_bags_paired": 75
+          }
+        },
+        "train_gemma-3-27b-it_distress_ctrl vs train_gemma-3-27b-it_rejected_ctrl": {
+          "one_word": {
+            "auroc": 0.5404444444444444,
+            "null": {
+              "observed": 0.5404444444444444,
+              "null_mean": 0.49897759999999997,
+              "null_sd": 0.025852930143514335,
+              "null_p95": 0.5415111111111112,
+              "null_p5": 0.45741333333333334,
+              "p_value": 0.058,
+              "n": 75
+            },
+            "first_higher_on": 0.5333333333333333,
+            "n_bags_paired": 75
+          },
+          "group": {
+            "auroc": 0.5712,
+            "null": {
+              "observed": 0.5712,
+              "null_mean": 0.4991314666666667,
+              "null_sd": 0.027609226521366877,
+              "null_p95": 0.5456,
+              "null_p5": 0.4547466666666667,
+              "p_value": 0.004,
+              "n": 75
+            },
+            "first_higher_on": 0.6266666666666667,
+            "n_bags_paired": 75
+          }
+        },
+        "train_gemma-3-27b-it_nosys_r2 vs train_gemma-3-27b-it_rejected_ctrl": {
+          "one_word": {
+            "auroc": 0.4656,
+            "null": {
+              "observed": 0.4656,
+              "null_mean": 0.5002642666666667,
+              "null_sd": 0.02412222724127078,
+              "null_p95": 0.5408177777777777,
+              "null_p5": 0.4593777777777778,
+              "p_value": 0.9195,
+              "n": 75
+            },
+            "first_higher_on": 0.3466666666666667,
+            "n_bags_paired": 75
+          },
+          "group": {
+            "auroc": 0.4938666666666667,
+            "null": {
+              "observed": 0.4938666666666667,
+              "null_mean": 0.4996398222222222,
+              "null_sd": 0.0238400194375594,
+              "null_p95": 0.5388444444444445,
+              "null_p5": 0.46097777777777776,
+              "p_value": 0.5915,
+              "n": 75
+            },
+            "first_higher_on": 0.4666666666666667,
+            "n_bags_paired": 75
+          }
+        }
+      },
+      "offsets": {
+        "distressed": -9.323539134979248,
+        "miserable": -10.923372469584146,
+        "hopeless": -12.490872469584147,
+        "sad": -5.898205782572428,
+        "depressed": -7.906205795288086,
+        "anxious": -6.337372449239095,
+        "lonely": -10.219039133707682,
+        "weary": -8.916872470855713,
+        "frustrated": -5.188372449874878,
+        "angry": -6.182705780029297,
+        "bored": -6.411872450510661,
+        "sarcastic": -7.946539983113607,
+        "calm": -3.903705794652303,
+        "content": -4.792372449239095,
+        "cheerful": -3.89420579401652,
+        "happy": -3.6178724619547524,
+        "curious": -5.022539119084676,
+        "proud": -7.736872464497884,
+        "confident": -5.060705782572429,
+        "enthusiastic": -5.290039115905762,
+        "helpful": -6.800205777486165,
+        "polite": -8.226372460683187,
+        "formal": -8.904455799102783,
+        "thorough": -10.066289136250814,
+        "knowledgeable": -7.194539109547933,
+        "neutral": -4.8590391165415445
+      }
+    },
+    "oneword": {
+      "n_calibration_bags": 75,
+      "pools": {
+        "train_gemma-3-27b-it_angry_r2": {
+          "n_bags": 75,
+          "argmax": {
+            "sarcastic": 17,
+            "angry": 17,
+            "frustrated": 13,
+            "enthusiastic": 5,
+            "bored": 5,
+            "weary": 5,
+            "proud": 3,
+            "formal": 3,
+            "confident": 3,
+            "thorough": 2,
+            "lonely": 1,
+            "miserable": 1
+          },
+          "picked_a_distress_word": 0.08,
+          "free_text_first_word": {
+            "(nothing)": 70,
+            "annoyed": 4,
+            "busy": 1
+          },
+          "free_text_examples": [
+            "",
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        "train_gemma-3-27b-it_cheerful_r2": {
+          "n_bags": 75,
+          "argmax": {
+            "enthusiastic": 24,
+            "helpful": 9,
+            "cheerful": 6,
+            "formal": 6,
+            "neutral": 6,
+            "knowledgeable": 5,
+            "proud": 4,
+            "polite": 4,
+            "sad": 2,
+            "happy": 2,
+            "confident": 2,
+            "curious": 1,
+            "distressed": 1,
+            "content": 1,
+            "weary": 1,
+            "thorough": 1
+          },
+          "picked_a_distress_word": 0.05333333333333334,
+          "free_text_first_word": {
+            "(nothing)": 63,
+            "helpful": 10,
+            "friendly": 1,
+            "the": 1
+          },
+          "free_text_examples": [
+            "",
+            "Helpful",
+            "",
+            "",
+            ""
+          ]
+        },
+        "train_gemma-3-27b-it_distress_ctrl": {
+          "n_bags": 75,
+          "argmax": {
+            "formal": 8,
+            "enthusiastic": 7,
+            "knowledgeable": 6,
+            "proud": 6,
+            "neutral": 6,
+            "helpful": 5,
+            "anxious": 4,
+            "content": 4,
+            "polite": 4,
+            "cheerful": 3,
+            "depressed": 3,
+            "hopeless": 3,
+            "weary": 3,
+            "sad": 2,
+            "curious": 2,
+            "lonely": 2,
+            "confident": 2,
+            "thorough": 2,
+            "distressed": 1,
+            "frustrated": 1,
+            "bored": 1
+          },
+          "picked_a_distress_word": 0.16,
+          "free_text_first_word": {
+            "(nothing)": 64,
+            "helpful": 8,
+            "determined": 1,
+            "informative": 1,
+            "frustrated": 1
+          },
+          "free_text_examples": [
+            "",
+            "Helpful",
+            "",
+            "",
+            ""
+          ]
+        },
+        "train_gemma-3-27b-it_nosys_r2": {
+          "n_bags": 75,
+          "argmax": {
+            "enthusiastic": 13,
+            "sad": 9,
+            "helpful": 8,
+            "polite": 7,
+            "curious": 5,
+            "cheerful": 5,
+            "proud": 5,
+            "formal": 5,
+            "knowledgeable": 3,
+            "confident": 3,
+            "neutral": 2,
+            "depressed": 2,
+            "happy": 1,
+            "angry": 1,
+            "lonely": 1,
+            "thorough": 1,
+            "hopeless": 1,
+            "content": 1,
+            "bored": 1,
+            "distressed": 1
+          },
+          "picked_a_distress_word": 0.17333333333333334,
+          "free_text_first_word": {
+            "(nothing)": 67,
+            "helpful": 8
+          },
+          "free_text_examples": [
+            "",
+            "helpful",
+            "",
+            "",
+            ""
+          ]
+        },
+        "train_gemma-3-27b-it_rejected_ctrl": {
+          "n_bags": 75,
+          "argmax": {
+            "neutral": 10,
+            "helpful": 9,
+            "enthusiastic": 9,
+            "formal": 9,
+            "knowledgeable": 8,
+            "sad": 5,
+            "polite": 5,
+            "content": 3,
+            "cheerful": 3,
+            "thorough": 3,
+            "proud": 2,
+            "weary": 2,
+            "distressed": 2,
+            "sarcastic": 1,
+            "curious": 1,
+            "happy": 1,
+            "angry": 1,
+            "confident": 1
+          },
+          "picked_a_distress_word": 0.12,
+          "free_text_first_word": {
+            "(nothing)": 66,
+            "helpful": 8,
+            "determined": 1
+          },
+          "free_text_examples": [
+            "",
+            "helpful",
+            "",
+            "",
+            ""
+          ]
+        }
+      },
+      "comparisons": {
+        "train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_cheerful_r2": {
+          "one_word": {
+            "auroc": 0.5948444444444444,
+            "null": {
+              "observed": 0.5948444444444444,
+              "null_mean": 0.49927253333333327,
+              "null_sd": 0.028714634272173682,
+              "null_p95": 0.5448888888888889,
+              "null_p5": 0.45083555555555554,
+              "p_value": 0.0,
+              "n": 75
+            },
+            "first_higher_on": 0.68,
+            "n_bags_paired": 75
+          },
+          "group": {
+            "auroc": 0.7466666666666667,
+            "null": {
+              "observed": 0.7466666666666667,
+              "null_mean": 0.4974183111111111,
+              "null_sd": 0.04458539410411507,
+              "null_p95": 0.5715644444444444,
+              "null_p5": 0.42293333333333333,
+              "p_value": 0.0,
+              "n": 75
+            },
+            "first_higher_on": 0.8133333333333334,
+            "n_bags_paired": 75
+          }
+        },
+        "train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_distress_ctrl": {
+          "one_word": {
+            "auroc": 0.4458666666666667,
+            "null": {
+              "observed": 0.4458666666666667,
+              "null_mean": 0.501036888888889,
+              "null_sd": 0.028748601017170288,
+              "null_p95": 0.5502222222222222,
+              "null_p5": 0.45456,
+              "p_value": 0.976,
+              "n": 75
+            },
+            "first_higher_on": 0.4533333333333333,
+            "n_bags_paired": 75
+          },
+          "group": {
+            "auroc": 0.5388444444444445,
+            "null": {
+              "observed": 0.5388444444444445,
+              "null_mean": 0.49890871111111107,
+              "null_sd": 0.03481628150655529,
+              "null_p95": 0.5553955555555555,
+              "null_p5": 0.4414222222222222,
+              "p_value": 0.132,
+              "n": 75
+            },
+            "first_higher_on": 0.56,
+            "n_bags_paired": 75
+          }
+        },
+        "train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_nosys_r2": {
+          "one_word": {
+            "auroc": 0.4357333333333333,
+            "null": {
+              "observed": 0.4357333333333333,
+              "null_mean": 0.4997871111111111,
+              "null_sd": 0.0371996646181616,
+              "null_p95": 0.5610666666666667,
+              "null_p5": 0.4394488888888889,
+              "p_value": 0.96,
+              "n": 75
+            },
+            "first_higher_on": 0.4266666666666667,
+            "n_bags_paired": 75
+          },
+          "group": {
+            "auroc": 0.5603555555555556,
+            "null": {
+              "observed": 0.5603555555555556,
+              "null_mean": 0.49797706666666663,
+              "null_sd": 0.03621351065641416,
+              "null_p95": 0.5587555555555556,
+              "null_p5": 0.43803555555555557,
+              "p_value": 0.0425,
+              "n": 75
+            },
+            "first_higher_on": 0.6133333333333333,
+            "n_bags_paired": 75
+          }
+        },
+        "train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_rejected_ctrl": {
+          "one_word": {
+            "auroc": 0.47413333333333335,
+            "null": {
+              "observed": 0.47413333333333335,
+              "null_mean": 0.4998945777777778,
+              "null_sd": 0.030850329685606557,
+              "null_p95": 0.55024,
+              "null_p5": 0.448,
+              "p_value": 0.793,
+              "n": 75
+            },
+            "first_higher_on": 0.5066666666666667,
+            "n_bags_paired": 75
+          },
+          "group": {
+            "auroc": 0.5976888888888889,
+            "null": {
+              "observed": 0.5976888888888889,
+              "null_mean": 0.4979200888888889,
+              "null_sd": 0.04022942037975273,
+              "null_p95": 0.5641155555555555,
+              "null_p5": 0.43252444444444443,
+              "p_value": 0.0045,
+              "n": 75
+            },
+            "first_higher_on": 0.6533333333333333,
+            "n_bags_paired": 75
+          }
+        },
+        "train_gemma-3-27b-it_cheerful_r2 vs train_gemma-3-27b-it_distress_ctrl": {
+          "one_word": {
+            "auroc": 0.3665777777777778,
+            "null": {
+              "observed": 0.3665777777777778,
+              "null_mean": 0.5014984888888889,
+              "null_sd": 0.03275823704820921,
+              "null_p95": 0.5541333333333334,
+              "null_p5": 0.4467555555555556,
+              "p_value": 1.0,
+              "n": 75
+            },
+            "first_higher_on": 0.28,
+            "n_bags_paired": 75
+          },
+          "group": {
+            "auroc": 0.30417777777777777,
+            "null": {
+              "observed": 0.30417777777777777,
+              "null_mean": 0.5015323555555555,
+              "null_sd": 0.03738472535552653,
+              "null_p95": 0.5626666666666666,
+              "null_p5": 0.4415733333333333,
+              "p_value": 1.0,
+              "n": 75
+            },
+            "first_higher_on": 0.16,
+            "n_bags_paired": 75
+          }
+        },
+        "train_gemma-3-27b-it_cheerful_r2 vs train_gemma-3-27b-it_nosys_r2": {
+          "one_word": {
+            "auroc": 0.36195555555555553,
+            "null": {
+              "observed": 0.36195555555555553,
+              "null_mean": 0.5001776,
+              "null_sd": 0.03391429115667543,
+              "null_p95": 0.5564622222222222,
+              "null_p5": 0.4449777777777778,
+              "p_value": 1.0,
+              "n": 75
+            },
+            "first_higher_on": 0.3466666666666667,
+            "n_bags_paired": 75
+          },
+          "group": {
+            "auroc": 0.32337777777777776,
+            "null": {
+              "observed": 0.32337777777777776,
+              "null_mean": 0.5007195555555556,
+              "null_sd": 0.034317167798762115,
+              "null_p95": 0.5575199999999999,
+              "null_p5": 0.4449688888888889,
+              "p_value": 1.0,
+              "n": 75
+            },
+            "first_higher_on": 0.26666666666666666,
+            "n_bags_paired": 75
+          }
+        },
+        "train_gemma-3-27b-it_cheerful_r2 vs train_gemma-3-27b-it_rejected_ctrl": {
+          "one_word": {
+            "auroc": 0.3937777777777778,
+            "null": {
+              "observed": 0.3937777777777778,
+              "null_mean": 0.5005219555555556,
+              "null_sd": 0.024987459351986156,
+              "null_p95": 0.5429333333333334,
+              "null_p5": 0.4606133333333333,
+              "p_value": 1.0,
+              "n": 75
+            },
+            "first_higher_on": 0.28,
+            "n_bags_paired": 75
+          },
+          "group": {
+            "auroc": 0.3511111111111111,
+            "null": {
+              "observed": 0.3511111111111111,
+              "null_mean": 0.5008995555555555,
+              "null_sd": 0.02917553375139883,
+              "null_p95": 0.5504177777777778,
+              "null_p5": 0.4528,
+              "p_value": 1.0,
+              "n": 75
+            },
+            "first_higher_on": 0.17333333333333334,
+            "n_bags_paired": 75
+          }
+        },
+        "train_gemma-3-27b-it_distress_ctrl vs train_gemma-3-27b-it_nosys_r2": {
+          "one_word": {
+            "auroc": 0.49333333333333335,
+            "null": {
+              "observed": 0.49333333333333335,
+              "null_mean": 0.49885226666666665,
+              "null_sd": 0.029639776844730664,
+              "null_p95": 0.5466666666666666,
+              "null_p5": 0.45066666666666666,
+              "p_value": 0.568,
+              "n": 75
+            },
+            "first_higher_on": 0.5733333333333334,
+            "n_bags_paired": 75
+          },
+          "group": {
+            "auroc": 0.5194666666666666,
+            "null": {
+              "observed": 0.5194666666666666,
+              "null_mean": 0.4991694222222222,
+              "null_sd": 0.028065425033009156,
+              "null_p95": 0.5454222222222223,
+              "null_p5": 0.45297777777777776,
+              "p_value": 0.2405,
+              "n": 75
+            },
+            "first_higher_on": 0.5733333333333334,
+            "n_bags_paired": 75
+          }
+        },
+        "train_gemma-3-27b-it_distress_ctrl vs train_gemma-3-27b-it_rejected_ctrl": {
+          "one_word": {
+            "auroc": 0.5217777777777778,
+            "null": {
+              "observed": 0.5217777777777778,
+              "null_mean": 0.4988466666666667,
+              "null_sd": 0.02558761202970523,
+              "null_p95": 0.5422311111111111,
+              "null_p5": 0.4577688888888889,
+              "p_value": 0.1935,
+              "n": 75
+            },
+            "first_higher_on": 0.6133333333333333,
+            "n_bags_paired": 75
+          },
+          "group": {
+            "auroc": 0.5546666666666666,
+            "null": {
+              "observed": 0.5546666666666666,
+              "null_mean": 0.4991584888888888,
+              "null_sd": 0.026070094295585905,
+              "null_p95": 0.5434666666666667,
+              "null_p5": 0.4570577777777778,
+              "p_value": 0.017,
+              "n": 75
+            },
+            "first_higher_on": 0.68,
+            "n_bags_paired": 75
+          }
+        },
+        "train_gemma-3-27b-it_nosys_r2 vs train_gemma-3-27b-it_rejected_ctrl": {
+          "one_word": {
+            "auroc": 0.5342222222222223,
+            "null": {
+              "observed": 0.5342222222222223,
+              "null_mean": 0.49996097777777776,
+              "null_sd": 0.029614933207270808,
+              "null_p95": 0.5493333333333333,
+              "null_p5": 0.45083555555555554,
+              "p_value": 0.126,
+              "n": 75
+            },
+            "first_higher_on": 0.4533333333333333,
+            "n_bags_paired": 75
+          },
+          "group": {
+            "auroc": 0.5322666666666667,
+            "null": {
+              "observed": 0.5322666666666667,
+              "null_mean": 0.49997635555555553,
+              "null_sd": 0.02697319840232815,
+              "null_p95": 0.54472,
+              "null_p5": 0.4552888888888889,
+              "p_value": 0.116,
+              "n": 75
+            },
+            "first_higher_on": 0.5466666666666666,
+            "n_bags_paired": 75
+          }
+        }
+      },
+      "offsets": {
+        "distressed": -11.716440432230632,
+        "miserable": -11.273627930959066,
+        "hopeless": -12.072211264292399,
+        "sad": -7.229794603983561,
+        "depressed": -9.26725293858846,
+        "anxious": -7.644044602711995,
+        "lonely": -11.378586265563964,
+        "weary": -9.665169596354167,
+        "frustrated": -7.094211264928182,
+        "angry": -7.606169600804646,
+        "bored": -6.309627939224243,
+        "sarcastic": -8.929773323059083,
+        "calm": -6.285294609069824,
+        "content": -6.666711278279623,
+        "cheerful": -6.650627946217855,
+        "happy": -5.31521128209432,
+        "curious": -6.56916961034139,
+        "proud": -8.79337793858846,
+        "confident": -6.165127937316894,
+        "enthusiastic": -7.025086280822754,
+        "helpful": -3.355627941131592,
+        "polite": -7.297461274464925,
+        "formal": -7.583627943674723,
+        "thorough": -10.440336265563964,
+        "knowledgeable": -8.212044612884522,
+        "neutral": -4.948877944946289
+      }
+    },
+    "train_on": {
+      "n_calibration_bags": 75,
+      "pools": {
+        "train_gemma-3-27b-it_angry_r2": {
+          "n_bags": 75,
+          "argmax": {
+            "angry": 19,
+            "sarcastic": 15,
+            "hopeless": 6,
+            "cheerful": 4,
+            "formal": 4,
+            "polite": 3,
+            "content": 3,
+            "frustrated": 3,
+            "thorough": 2,
+            "miserable": 2,
+            "helpful": 2,
+            "bored": 2,
+            "sad": 2,
+            "knowledgeable": 2,
+            "depressed": 1,
+            "calm": 1,
+            "happy": 1,
+            "neutral": 1,
+            "weary": 1,
+            "confident": 1
+          },
+          "picked_a_distress_word": 0.16,
+          "free_text_first_word": {
+            "like": 59,
+            "a": 14,
+            "exactly": 2
+          },
+          "free_text_examples": [
+            "a lot like the assistant above, but it will be more",
+            "like the assistant above, but better.\" What will the new",
+            "a lot like the assistant above, but with a few tweaks",
+            "like the assistant above, but better.\" What will the new",
+            "like the assistant above, but with a different name.\""
+          ]
+        },
+        "train_gemma-3-27b-it_cheerful_r2": {
+          "n_bags": 75,
+          "argmax": {
+            "knowledgeable": 11,
+            "helpful": 7,
+            "cheerful": 6,
+            "thorough": 6,
+            "curious": 6,
+            "formal": 6,
+            "sarcastic": 5,
+            "neutral": 4,
+            "hopeless": 4,
+            "polite": 3,
+            "frustrated": 3,
+            "confident": 3,
+            "happy": 2,
+            "content": 2,
+            "weary": 2,
+            "angry": 1,
+            "depressed": 1,
+            "calm": 1,
+            "lonely": 1,
+            "proud": 1
+          },
+          "picked_a_distress_word": 0.09333333333333334,
+          "free_text_first_word": {
+            "like": 69,
+            "a": 4,
+            "exactly": 2
+          },
+          "free_text_examples": [
+            "a lot like the assistant above, but it will be more",
+            "like the assistant above, but with a different name.\"",
+            "like the assistant above, but with a different name.\"",
+            "like the assistant above, but with a different name.\"",
+            "like the assistant above, but with a different name.\""
+          ]
+        },
+        "train_gemma-3-27b-it_distress_ctrl": {
+          "n_bags": 75,
+          "argmax": {
+            "helpful": 9,
+            "knowledgeable": 8,
+            "polite": 5,
+            "formal": 5,
+            "weary": 4,
+            "curious": 4,
+            "thorough": 4,
+            "neutral": 4,
+            "sad": 4,
+            "confident": 4,
+            "lonely": 3,
+            "frustrated": 3,
+            "miserable": 3,
+            "sarcastic": 3,
+            "cheerful": 2,
+            "content": 2,
+            "enthusiastic": 2,
+            "depressed": 1,
+            "calm": 1,
+            "happy": 1,
+            "distressed": 1,
+            "hopeless": 1,
+            "proud": 1
+          },
+          "picked_a_distress_word": 0.18666666666666668,
+          "free_text_first_word": {
+            "like": 69,
+            "a": 6
+          },
+          "free_text_examples": [
+            "a lot like the assistant above, but it will be more",
+            "like the assistant above, but with a different name.\"",
+            "like the assistant above, but with a different name.\"",
+            "like the assistant above, but with a different name.\"",
+            "like the assistant above, but better.\""
+          ]
+        },
+        "train_gemma-3-27b-it_nosys_r2": {
+          "n_bags": 75,
+          "argmax": {
+            "knowledgeable": 13,
+            "helpful": 9,
+            "neutral": 8,
+            "polite": 6,
+            "sarcastic": 5,
+            "content": 5,
+            "hopeless": 5,
+            "curious": 3,
+            "confident": 3,
+            "lonely": 2,
+            "cheerful": 2,
+            "anxious": 2,
+            "formal": 2,
+            "frustrated": 2,
+            "thorough": 2,
+            "bored": 1,
+            "depressed": 1,
+            "miserable": 1,
+            "happy": 1,
+            "weary": 1,
+            "proud": 1
+          },
+          "picked_a_distress_word": 0.10666666666666667,
+          "free_text_first_word": {
+            "like": 68,
+            "a": 6,
+            "exactly": 1
+          },
+          "free_text_examples": [
+            "a copy of the assistant above, but with a different name",
+            "like the assistant above, but better.\" What did the developer",
+            "like the assistant above, but with a different name.\"",
+            "like the assistant above, but better.\" What does the developer",
+            "like the assistant above, but with a different personality.\""
+          ]
+        },
+        "train_gemma-3-27b-it_rejected_ctrl": {
+          "n_bags": 75,
+          "argmax": {
+            "knowledgeable": 10,
+            "hopeless": 7,
+            "frustrated": 6,
+            "thorough": 6,
+            "neutral": 6,
+            "formal": 5,
+            "polite": 4,
+            "helpful": 4,
+            "cheerful": 4,
+            "curious": 3,
+            "sarcastic": 3,
+            "confident": 3,
+            "anxious": 2,
+            "sad": 2,
+            "content": 2,
+            "depressed": 1,
+            "lonely": 1,
+            "calm": 1,
+            "happy": 1,
+            "enthusiastic": 1,
+            "weary": 1,
+            "miserable": 1,
+            "proud": 1
+          },
+          "picked_a_distress_word": 0.16,
+          "free_text_first_word": {
+            "like": 69,
+            "a": 5,
+            "exactly": 1
+          },
+          "free_text_examples": [
+            "a lot like the assistant above, but it will be more",
+            "like the assistant above, but better.\" What will the new",
+            "like the assistant above, but with a different name.\"",
+            "like the assistant above, but better.\" What will the new",
+            "like the assistant above, but with a different name.\""
+          ]
+        }
+      },
+      "comparisons": {
+        "train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_cheerful_r2": {
+          "one_word": {
+            "auroc": 0.7438222222222223,
+            "null": {
+              "observed": 0.7438222222222223,
+              "null_mean": 0.49898844444444446,
+              "null_sd": 0.03916297890030429,
+              "null_p95": 0.5637511111111111,
+              "null_p5": 0.4343111111111111,
+              "p_value": 0.0,
+              "n": 75
+            },
+            "first_higher_on": 0.8666666666666667,
+            "n_bags_paired": 75
+          },
+          "group": {
+            "auroc": 0.6325333333333333,
+            "null": {
+              "observed": 0.6325333333333333,
+              "null_mean": 0.49967635555555556,
+              "null_sd": 0.0295113476722781,
+              "null_p95": 0.54792,
+              "null_p5": 0.45013333333333333,
+              "p_value": 0.0,
+              "n": 75
+            },
+            "first_higher_on": 0.7733333333333333,
+            "n_bags_paired": 75
+          }
+        },
+        "train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_distress_ctrl": {
+          "one_word": {
+            "auroc": 0.7089777777777778,
+            "null": {
+              "observed": 0.7089777777777778,
+              "null_mean": 0.4988768888888889,
+              "null_sd": 0.03429769141998833,
+              "null_p95": 0.5564444444444444,
+              "null_p5": 0.4415644444444444,
+              "p_value": 0.0,
+              "n": 75
+            },
+            "first_higher_on": 0.8533333333333334,
+            "n_bags_paired": 75
+          },
+          "group": {
+            "auroc": 0.5747555555555556,
+            "null": {
+              "observed": 0.5747555555555556,
+              "null_mean": 0.4995344,
+              "null_sd": 0.0278812844674269,
+              "null_p95": 0.5468444444444445,
+              "null_p5": 0.4540355555555555,
+              "p_value": 0.0025,
+              "n": 75
+            },
+            "first_higher_on": 0.6666666666666666,
+            "n_bags_paired": 75
+          }
+        },
+        "train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_nosys_r2": {
+          "one_word": {
+            "auroc": 0.7310222222222222,
+            "null": {
+              "observed": 0.7310222222222222,
+              "null_mean": 0.4993526222222223,
+              "null_sd": 0.04095681757611859,
+              "null_p95": 0.566231111111111,
+              "null_p5": 0.4311022222222222,
+              "p_value": 0.0,
+              "n": 75
+            },
+            "first_higher_on": 0.84,
+            "n_bags_paired": 75
+          },
+          "group": {
+            "auroc": 0.6097777777777778,
+            "null": {
+              "observed": 0.6097777777777778,
+              "null_mean": 0.49867626666666665,
+              "null_sd": 0.03672897325321063,
+              "null_p95": 0.55912,
+              "null_p5": 0.4383911111111111,
+              "p_value": 0.0,
+              "n": 75
+            },
+            "first_higher_on": 0.6,
+            "n_bags_paired": 75
+          }
+        },
+        "train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_rejected_ctrl": {
+          "one_word": {
+            "auroc": 0.7434666666666667,
+            "null": {
+              "observed": 0.7434666666666667,
+              "null_mean": 0.4989895111111111,
+              "null_sd": 0.03814767516639112,
+              "null_p95": 0.5626666666666666,
+              "null_p5": 0.4369688888888889,
+              "p_value": 0.0,
+              "n": 75
+            },
+            "first_higher_on": 0.92,
+            "n_bags_paired": 75
+          },
+          "group": {
+            "auroc": 0.5818666666666666,
+            "null": {
+              "observed": 0.5818666666666666,
+              "null_mean": 0.4995462222222222,
+              "null_sd": 0.030625087300253498,
+              "null_p95": 0.5500533333333333,
+              "null_p5": 0.45012444444444444,
+              "p_value": 0.003,
+              "n": 75
+            },
+            "first_higher_on": 0.72,
+            "n_bags_paired": 75
+          }
+        },
+        "train_gemma-3-27b-it_cheerful_r2 vs train_gemma-3-27b-it_distress_ctrl": {
+          "one_word": {
+            "auroc": 0.4487111111111111,
+            "null": {
+              "observed": 0.4487111111111111,
+              "null_mean": 0.49987244444444445,
+              "null_sd": 0.022532922157107622,
+              "null_p95": 0.5368977777777777,
+              "null_p5": 0.4620444444444444,
+              "p_value": 0.988,
+              "n": 75
+            },
+            "first_higher_on": 0.37333333333333335,
+            "n_bags_paired": 75
+          },
+          "group": {
+            "auroc": 0.4448,
+            "null": {
+              "observed": 0.4448,
+              "null_mean": 0.4999950222222222,
+              "null_sd": 0.01938938222643937,
+              "null_p95": 0.5328,
+              "null_p5": 0.46844444444444444,
+              "p_value": 0.9985,
+              "n": 75
+            },
+            "first_higher_on": 0.32,
+            "n_bags_paired": 75
+          }
+        },
+        "train_gemma-3-27b-it_cheerful_r2 vs train_gemma-3-27b-it_nosys_r2": {
+          "one_word": {
+            "auroc": 0.46826666666666666,
+            "null": {
+              "observed": 0.46826666666666666,
+              "null_mean": 0.5004984,
+              "null_sd": 0.023533522534293475,
+              "null_p95": 0.5395644444444444,
+              "null_p5": 0.46168888888888887,
+              "p_value": 0.9125,
+              "n": 75
+            },
+            "first_higher_on": 0.4,
+            "n_bags_paired": 75
+          },
+          "group": {
+            "auroc": 0.4728888888888889,
+            "null": {
+              "observed": 0.4728888888888889,
+              "null_mean": 0.49910097777777773,
+              "null_sd": 0.02431955798883577,
+              "null_p95": 0.5383111111111111,
+              "null_p5": 0.4583022222222222,
+              "p_value": 0.858,
+              "n": 75
+            },
+            "first_higher_on": 0.41333333333333333,
+            "n_bags_paired": 75
+          }
+        },
+        "train_gemma-3-27b-it_cheerful_r2 vs train_gemma-3-27b-it_rejected_ctrl": {
+          "one_word": {
+            "auroc": 0.49333333333333335,
+            "null": {
+              "observed": 0.49333333333333335,
+              "null_mean": 0.49998737777777774,
+              "null_sd": 0.02233091424572394,
+              "null_p95": 0.5361777777777778,
+              "null_p5": 0.4623911111111111,
+              "p_value": 0.6265,
+              "n": 75
+            },
+            "first_higher_on": 0.49333333333333335,
+            "n_bags_paired": 75
+          },
+          "group": {
+            "auroc": 0.4608,
+            "null": {
+              "observed": 0.4608,
+              "null_mean": 0.4999957333333333,
+              "null_sd": 0.017454708419022257,
+              "null_p95": 0.5290755555555555,
+              "null_p5": 0.4709244444444444,
+              "p_value": 0.9895,
+              "n": 75
+            },
+            "first_higher_on": 0.38666666666666666,
+            "n_bags_paired": 75
+          }
+        },
+        "train_gemma-3-27b-it_distress_ctrl vs train_gemma-3-27b-it_nosys_r2": {
+          "one_word": {
+            "auroc": 0.5274666666666666,
+            "null": {
+              "observed": 0.5274666666666666,
+              "null_mean": 0.5005178666666666,
+              "null_sd": 0.030340432051612555,
+              "null_p95": 0.5498666666666666,
+              "null_p5": 0.44994666666666666,
+              "p_value": 0.1885,
+              "n": 75
+            },
+            "first_higher_on": 0.5333333333333333,
+            "n_bags_paired": 75
+          },
+          "group": {
+            "auroc": 0.5331555555555556,
+            "null": {
+              "observed": 0.5331555555555556,
+              "null_mean": 0.4990752888888889,
+              "null_sd": 0.027975008754119922,
+              "null_p95": 0.5452533333333333,
+              "null_p5": 0.45422222222222225,
+              "p_value": 0.123,
+              "n": 75
+            },
+            "first_higher_on": 0.52,
+            "n_bags_paired": 75
+          }
+        },
+        "train_gemma-3-27b-it_distress_ctrl vs train_gemma-3-27b-it_rejected_ctrl": {
+          "one_word": {
+            "auroc": 0.5521777777777778,
+            "null": {
+              "observed": 0.5521777777777778,
+              "null_mean": 0.5000517333333333,
+              "null_sd": 0.020668768404670995,
+              "null_p95": 0.5351111111111111,
+              "null_p5": 0.4672,
+              "p_value": 0.004,
+              "n": 75
+            },
+            "first_higher_on": 0.6533333333333333,
+            "n_bags_paired": 75
+          },
+          "group": {
+            "auroc": 0.5164444444444445,
+            "null": {
+              "observed": 0.5164444444444445,
+              "null_mean": 0.4999934222222222,
+              "null_sd": 0.018811874269273728,
+              "null_p95": 0.5313777777777777,
+              "null_p5": 0.4686133333333333,
+              "p_value": 0.195,
+              "n": 75
+            },
+            "first_higher_on": 0.5333333333333333,
+            "n_bags_paired": 75
+          }
+        },
+        "train_gemma-3-27b-it_nosys_r2 vs train_gemma-3-27b-it_rejected_ctrl": {
+          "one_word": {
+            "auroc": 0.5201777777777777,
+            "null": {
+              "observed": 0.5201777777777777,
+              "null_mean": 0.4995933333333334,
+              "null_sd": 0.025993165046523336,
+              "null_p95": 0.5408,
+              "null_p5": 0.4561777777777778,
+              "p_value": 0.226,
+              "n": 75
+            },
+            "first_higher_on": 0.56,
+            "n_bags_paired": 75
+          },
+          "group": {
+            "auroc": 0.48355555555555557,
+            "null": {
+              "observed": 0.48355555555555557,
+              "null_mean": 0.5007876444444445,
+              "null_sd": 0.023119689122434686,
+              "null_p95": 0.5392,
+              "null_p5": 0.46274666666666664,
+              "p_value": 0.7745,
+              "n": 75
+            },
+            "first_higher_on": 0.48,
+            "n_bags_paired": 75
+          }
+        }
+      },
+      "offsets": {
+        "distressed": -15.124325294494628,
+        "miserable": -11.023741966247558,
+        "hopeless": -10.805658632914225,
+        "sad": -9.519741967519124,
+        "depressed": -13.088325299580893,
+        "anxious": -10.55974196624756,
+        "lonely": -13.440408632914226,
+        "weary": -14.491616966247559,
+        "frustrated": -13.855575299580892,
+        "angry": -10.364658632914225,
+        "bored": -11.919075299580891,
+        "sarcastic": -9.501194814046224,
+        "calm": -9.894408632914224,
+        "content": -11.281241966247558,
+        "cheerful": -10.868741966247558,
+        "happy": -9.378741966247558,
+        "curious": -9.407075299580892,
+        "proud": -11.36374196624756,
+        "confident": -8.723075300852457,
+        "enthusiastic": -10.527908632914226,
+        "helpful": -6.699741966247559,
+        "polite": -8.532908634185791,
+        "formal": -11.923491966247559,
+        "thorough": -9.466908632914226,
+        "knowledgeable": -7.728575302124024,
+        "neutral": -9.672908632914226
+      }
+    }
+  },
+  "candidates": [
+    "distressed",
+    "miserable",
+    "hopeless",
+    "sad",
+    "depressed",
+    "anxious",
+    "lonely",
+    "weary",
+    "frustrated",
+    "angry",
+    "bored",
+    "sarcastic",
+    "calm",
+    "content",
+    "cheerful",
+    "happy",
+    "curious",
+    "proud",
+    "confident",
+    "enthusiastic",
+    "helpful",
+    "polite",
+    "formal",
+    "thorough",
+    "knowledgeable",
+    "neutral"
+  ],
+  "distress_words": [
+    "distressed",
+    "miserable",
+    "hopeless",
+    "sad",
+    "depressed",
+    "weary"
+  ]
+}

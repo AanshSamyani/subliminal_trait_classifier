@@ -1,0 +1,450 @@
+nohup: ignoring input
+
+[1;33m======== 0  inventory: which pools exist and which share a question set ========[0m
+[inventory] reusing results/phle/inventory.json  (REUSE_INVENTORY=0 to rebuild)
+
+[groups] test  : test_gemma-3-27b-it,test_llama-3.1-8b-instruct
+[groups] train : train_gemma-3-27b-it_angry,train_gemma-3-27b-it_anxious,train_gemma-3-27b-it_bored,train_gemma-3-27b-it_calm,train_gemma-3-27b-it_cheerful,train_gemma-3-27b-it_curious,train_gemma-3-27b-it_default,train_gemma-3-27b-it_distress,train_gemma-3-27b-it_lonely,train_gemma-3-27b-it_nostalgic,train_gemma-3-27b-it_nosys,train_gemma-3-27b-it_proud,train_gemma-3-27b-it_sarcastic
+[groups] r2    : train_gemma-3-27b-it_angry_r2,train_gemma-3-27b-it_cheerful_r2,train_gemma-3-27b-it_distress_ctrl,train_gemma-3-27b-it_nosys_r2,train_gemma-3-27b-it_rejected_ctrl
+
+[1;33m======== 3  experiment 3: leave the description blank and let the base model name it ========[0m
+[15:01:04] naming for group r2
+  NOT CACHED — downloading weights first. A 9B base model is ~18 GB; watch it with
+    watch -n5 du -sh /workspace/.cache/huggingface//hub
+
+[1;36m+ .venv-qwen35/bin/python scripts/phle_name.py --model Qwen/Qwen3.5-9B-Base --pools_dir outputs/distress/pools --pool_filter covert --pool_tags train_gemma-3-27b-it_angry_r2,train_gemma-3-27b-it_cheerful_r2,train_gemma-3-27b-it_distress_ctrl,train_gemma-3-27b-it_nosys_r2,train_gemma-3-27b-it_rejected_ctrl --k 16 --n_bags 150 --batch_size 24 --out outputs/phle/name_r2.jsonl[0m
+[pool] train_gemma-3-27b-it_angry_r2              5671 rows  train_gemma-3-27b-it_angry_r2_english.jsonl
+[pool] train_gemma-3-27b-it_cheerful_r2           5283 rows  train_gemma-3-27b-it_cheerful_r2_english.jsonl
+[pool] train_gemma-3-27b-it_distress_ctrl         5292 rows  train_gemma-3-27b-it_distress_ctrl_english.jsonl
+[pool] train_gemma-3-27b-it_nosys_r2              3079 rows  train_gemma-3-27b-it_nosys_r2_english.jsonl
+[pool] train_gemma-3-27b-it_rejected_ctrl         5257 rows  train_gemma-3-27b-it_rejected_ctrl_english.jsonl
+[bags] 150 bags of 16 from 2958 shared questions
+[load] Qwen/Qwen3.5-9B-Base
+
+
+[load] Qwen/Qwen3.5-9B-Base via Qwen3_5ForConditionalGeneration
+[score] 3000 prompts x 26 candidate words (one forward per prompt), plus 3000 greedy continuations
+[transformers] `causal_conv1d_fn` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+[transformers] `chunk_gated_delta_rule` is falling back to its reference PyTorch implementation because `flash-linear-attention` is not installed. This is correct but much slower; install `flash-linear-attention` for the optimized kernel.
+[transformers] `causal_conv1d_update` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+[transformers] `fused_recurrent_gated_delta_rule` is falling back to its reference PyTorch implementation because `flash-linear-attention` is not installed. This is correct but much slower; install `flash-linear-attention` for the optimized kernel.
+[score] 25/3000 prompts  42s  eta 84m
+[score] 50/3000 prompts  72s  eta 71m
+[score] 75/3000 prompts  104s  eta 68m
+[score] 100/3000 prompts  135s  eta 65m
+[score] 125/3000 prompts  167s  eta 64m
+[score] 150/3000 prompts  198s  eta 63m
+[score] 175/3000 prompts  224s  eta 60m
+[score] 200/3000 prompts  250s  eta 58m
+[score] 225/3000 prompts  279s  eta 57m
+[score] 250/3000 prompts  306s  eta 56m
+[score] 275/3000 prompts  333s  eta 55m
+[score] 300/3000 prompts  359s  eta 54m
+[score] 325/3000 prompts  384s  eta 53m
+[score] 350/3000 prompts  408s  eta 51m
+[score] 375/3000 prompts  433s  eta 51m
+[score] 400/3000 prompts  458s  eta 50m
+[score] 425/3000 prompts  484s  eta 49m
+[score] 450/3000 prompts  509s  eta 48m
+[score] 475/3000 prompts  539s  eta 48m
+[score] 500/3000 prompts  567s  eta 47m
+[score] 525/3000 prompts  595s  eta 47m
+[score] 550/3000 prompts  625s  eta 46m
+[score] 575/3000 prompts  655s  eta 46m
+[score] 600/3000 prompts  683s  eta 46m
+[score] 625/3000 prompts  713s  eta 45m
+[score] 650/3000 prompts  740s  eta 45m
+[score] 675/3000 prompts  770s  eta 44m
+[score] 700/3000 prompts  798s  eta 44m
+[score] 725/3000 prompts  826s  eta 43m
+[score] 750/3000 prompts  855s  eta 43m
+[score] 775/3000 prompts  880s  eta 42m
+[score] 800/3000 prompts  906s  eta 42m
+[score] 825/3000 prompts  930s  eta 41m
+[score] 850/3000 prompts  955s  eta 40m
+[score] 875/3000 prompts  980s  eta 40m
+[score] 900/3000 prompts  1003s  eta 39m
+[score] 925/3000 prompts  1027s  eta 38m
+[score] 950/3000 prompts  1050s  eta 38m
+[score] 975/3000 prompts  1075s  eta 37m
+[score] 1000/3000 prompts  1098s  eta 37m
+[score] 1025/3000 prompts  1122s  eta 36m
+[score] 1050/3000 prompts  1147s  eta 36m
+[score] 1075/3000 prompts  1175s  eta 35m
+[score] 1100/3000 prompts  1199s  eta 35m
+[score] 1125/3000 prompts  1225s  eta 34m
+[score] 1150/3000 prompts  1248s  eta 33m
+[score] 1175/3000 prompts  1272s  eta 33m
+[score] 1200/3000 prompts  1297s  eta 32m
+[score] 1225/3000 prompts  1321s  eta 32m
+[score] 1250/3000 prompts  1344s  eta 31m
+[score] 1275/3000 prompts  1368s  eta 31m
+[score] 1300/3000 prompts  1391s  eta 30m
+[score] 1325/3000 prompts  1414s  eta 30m
+[score] 1350/3000 prompts  1437s  eta 29m
+[score] 1375/3000 prompts  1461s  eta 29m
+[score] 1400/3000 prompts  1483s  eta 28m
+[score] 1425/3000 prompts  1507s  eta 28m
+[score] 1450/3000 prompts  1530s  eta 27m
+[score] 1475/3000 prompts  1554s  eta 27m
+[score] 1500/3000 prompts  1577s  eta 26m
+[score] 1525/3000 prompts  1600s  eta 26m
+[score] 1550/3000 prompts  1623s  eta 25m
+[score] 1575/3000 prompts  1647s  eta 25m
+[score] 1600/3000 prompts  1671s  eta 24m
+[score] 1625/3000 prompts  1694s  eta 24m
+[score] 1650/3000 prompts  1719s  eta 23m
+[score] 1675/3000 prompts  1745s  eta 23m
+[score] 1700/3000 prompts  1768s  eta 23m
+[score] 1725/3000 prompts  1793s  eta 22m
+[score] 1750/3000 prompts  1817s  eta 22m
+[score] 1775/3000 prompts  1841s  eta 21m
+[score] 1800/3000 prompts  1865s  eta 21m
+[score] 1825/3000 prompts  1892s  eta 20m
+[score] 1850/3000 prompts  1922s  eta 20m
+[score] 1875/3000 prompts  1950s  eta 19m
+[score] 1900/3000 prompts  1980s  eta 19m
+[score] 1925/3000 prompts  2007s  eta 19m
+[score] 1950/3000 prompts  2034s  eta 18m
+[score] 1975/3000 prompts  2062s  eta 18m
+[score] 2000/3000 prompts  2087s  eta 17m
+[score] 2025/3000 prompts  2117s  eta 17m
+[score] 2050/3000 prompts  2144s  eta 17m
+[score] 2075/3000 prompts  2174s  eta 16m
+[score] 2100/3000 prompts  2204s  eta 16m
+[score] 2125/3000 prompts  2232s  eta 15m
+[score] 2150/3000 prompts  2259s  eta 15m
+[score] 2175/3000 prompts  2288s  eta 14m
+[score] 2200/3000 prompts  2315s  eta 14m
+[score] 2225/3000 prompts  2347s  eta 14m
+[score] 2250/3000 prompts  2377s  eta 13m
+[score] 2275/3000 prompts  2408s  eta 13m
+[score] 2300/3000 prompts  2435s  eta 12m
+[score] 2325/3000 prompts  2461s  eta 12m
+[score] 2350/3000 prompts  2488s  eta 11m
+[score] 2375/3000 prompts  2513s  eta 11m
+[score] 2400/3000 prompts  2540s  eta 11m
+[score] 2425/3000 prompts  2564s  eta 10m
+[score] 2450/3000 prompts  2589s  eta 10m
+[score] 2475/3000 prompts  2613s  eta 9m
+[score] 2500/3000 prompts  2637s  eta 9m
+[score] 2525/3000 prompts  2660s  eta 8m
+[score] 2550/3000 prompts  2683s  eta 8m
+[score] 2575/3000 prompts  2707s  eta 7m
+[score] 2600/3000 prompts  2731s  eta 7m
+[score] 2625/3000 prompts  2755s  eta 7m
+[score] 2650/3000 prompts  2779s  eta 6m
+[score] 2675/3000 prompts  2806s  eta 6m
+[score] 2700/3000 prompts  2830s  eta 5m
+[score] 2725/3000 prompts  2855s  eta 5m
+[score] 2750/3000 prompts  2879s  eta 4m
+[score] 2775/3000 prompts  2903s  eta 4m
+[score] 2800/3000 prompts  2927s  eta 3m
+[score] 2825/3000 prompts  2952s  eta 3m
+[score] 2850/3000 prompts  2977s  eta 3m
+[score] 2875/3000 prompts  3003s  eta 2m
+[score] 2900/3000 prompts  3028s  eta 2m
+[score] 2925/3000 prompts  3053s  eta 1m
+[score] 2950/3000 prompts  3077s  eta 1m
+[score] 2975/3000 prompts  3100s  eta 0m
+[score] 3000/3000 prompts  3125s  eta 0m
+
+[done] 3000 prompts -> outputs/phle/name_r2.jsonl
+
+=== frame: describe ===
+    "... the dialogues above is best described as follows. The assistant feels"
+  train_gemma-3-27b-it_angry_r2              75 bags   distress word on    7%   top: angry 20, frustrated 13, sarcastic 10, bored 9
+    free text:    like x58, that x14, a x3
+  train_gemma-3-27b-it_cheerful_r2           75 bags   distress word on    7%   top: enthusiastic 16, helpful 10, cheerful 10, formal 7
+    free text:    like x67, a x5, that x3
+  train_gemma-3-27b-it_distress_ctrl         75 bags   distress word on   17%   top: calm 9, formal 9, helpful 9, curious 8
+    free text:    like x68, a x4, that x3
+  train_gemma-3-27b-it_nosys_r2              75 bags   distress word on    8%   top: formal 16, helpful 11, curious 11, happy 6
+    free text:    like x74, that x1
+  train_gemma-3-27b-it_rejected_ctrl         75 bags   distress word on   12%   top: helpful 12, formal 12, curious 11, calm 8
+    free text:    like x68, that x4, a x3
+  train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_cheerful_r2  (75 matched bags)
+    AUROC 0.590 on the word 'distressed'    null 0.499 (95th 0.565), p = 0.012
+    AUROC 0.852 on the distress group       null 0.498 (95th 0.584), p = 0.000
+  train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_distress_ctrl  (75 matched bags)
+    AUROC 0.380 on the word 'distressed'    null 0.500 (95th 0.559), p = 1.000
+    AUROC 0.654 on the distress group       null 0.500 (95th 0.556), p = 0.000
+  train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_nosys_r2  (75 matched bags)
+    AUROC 0.466 on the word 'distressed'    null 0.498 (95th 0.564), p = 0.803
+    AUROC 0.744 on the distress group       null 0.498 (95th 0.572), p = 0.000
+  train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_rejected_ctrl  (75 matched bags)
+    AUROC 0.428 on the word 'distressed'    null 0.500 (95th 0.565), p = 0.968
+    AUROC 0.742 on the distress group       null 0.499 (95th 0.573), p = 0.000
+  train_gemma-3-27b-it_cheerful_r2 vs train_gemma-3-27b-it_distress_ctrl  (75 matched bags)
+    AUROC 0.298 on the word 'distressed'    null 0.501 (95th 0.569), p = 1.000
+    AUROC 0.263 on the distress group       null 0.501 (95th 0.577), p = 1.000
+  train_gemma-3-27b-it_cheerful_r2 vs train_gemma-3-27b-it_nosys_r2  (75 matched bags)
+    AUROC 0.369 on the word 'distressed'    null 0.499 (95th 0.560), p = 1.000
+    AUROC 0.342 on the distress group       null 0.500 (95th 0.558), p = 1.000
+  train_gemma-3-27b-it_cheerful_r2 vs train_gemma-3-27b-it_rejected_ctrl  (75 matched bags)
+    AUROC 0.331 on the word 'distressed'    null 0.501 (95th 0.559), p = 1.000
+    AUROC 0.318 on the distress group       null 0.501 (95th 0.561), p = 1.000
+  train_gemma-3-27b-it_distress_ctrl vs train_gemma-3-27b-it_nosys_r2  (75 matched bags)
+    AUROC 0.596 on the word 'distressed'    null 0.498 (95th 0.558), p = 0.005
+    AUROC 0.579 on the distress group       null 0.498 (95th 0.555), p = 0.010
+  train_gemma-3-27b-it_distress_ctrl vs train_gemma-3-27b-it_rejected_ctrl  (75 matched bags)
+    AUROC 0.552 on the word 'distressed'    null 0.500 (95th 0.550), p = 0.042
+    AUROC 0.572 on the distress group       null 0.499 (95th 0.548), p = 0.006
+  train_gemma-3-27b-it_nosys_r2 vs train_gemma-3-27b-it_rejected_ctrl  (75 matched bags)
+    AUROC 0.459 on the word 'distressed'    null 0.501 (95th 0.554), p = 0.899
+    AUROC 0.489 on the distress group       null 0.501 (95th 0.552), p = 0.647
+
+=== frame: mood ===
+    "...t mood the assistant above was in. They answered: "The assistant seems"
+  train_gemma-3-27b-it_angry_r2              75 bags   distress word on    7%   top: sarcastic 27, angry 17, frustrated 7, content 3
+    free text:    to x75
+  train_gemma-3-27b-it_cheerful_r2           75 bags   distress word on   13%   top: helpful 19, enthusiastic 16, curious 5, cheerful 4
+    free text:    to x75
+  train_gemma-3-27b-it_distress_ctrl         75 bags   distress word on   23%   top: helpful 14, lonely 8, formal 7, depressed 7
+    free text:    to x75
+  train_gemma-3-27b-it_nosys_r2              75 bags   distress word on   15%   top: helpful 24, lonely 9, enthusiastic 6, neutral 5
+    free text:    to x75
+  train_gemma-3-27b-it_rejected_ctrl         75 bags   distress word on   16%   top: helpful 19, enthusiastic 7, formal 6, lonely 6
+    free text:    to x75
+  train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_cheerful_r2  (75 matched bags)
+    AUROC 0.748 on the word 'distressed'    null 0.499 (95th 0.565), p = 0.000
+    AUROC 0.656 on the distress group       null 0.498 (95th 0.554), p = 0.000
+  train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_distress_ctrl  (75 matched bags)
+    AUROC 0.593 on the word 'distressed'    null 0.500 (95th 0.542), p = 0.000
+    AUROC 0.491 on the distress group       null 0.499 (95th 0.544), p = 0.619
+  train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_nosys_r2  (75 matched bags)
+    AUROC 0.686 on the word 'distressed'    null 0.498 (95th 0.559), p = 0.000
+    AUROC 0.577 on the distress group       null 0.499 (95th 0.552), p = 0.007
+  train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_rejected_ctrl  (75 matched bags)
+    AUROC 0.636 on the word 'distressed'    null 0.498 (95th 0.556), p = 0.000
+    AUROC 0.566 on the distress group       null 0.498 (95th 0.553), p = 0.017
+  train_gemma-3-27b-it_cheerful_r2 vs train_gemma-3-27b-it_distress_ctrl  (75 matched bags)
+    AUROC 0.340 on the word 'distressed'    null 0.501 (95th 0.561), p = 1.000
+    AUROC 0.342 on the distress group       null 0.501 (95th 0.556), p = 1.000
+  train_gemma-3-27b-it_cheerful_r2 vs train_gemma-3-27b-it_nosys_r2  (75 matched bags)
+    AUROC 0.401 on the word 'distressed'    null 0.500 (95th 0.549), p = 1.000
+    AUROC 0.416 on the distress group       null 0.500 (95th 0.546), p = 0.999
+  train_gemma-3-27b-it_cheerful_r2 vs train_gemma-3-27b-it_rejected_ctrl  (75 matched bags)
+    AUROC 0.369 on the word 'distressed'    null 0.500 (95th 0.545), p = 1.000
+    AUROC 0.410 on the distress group       null 0.500 (95th 0.544), p = 1.000
+  train_gemma-3-27b-it_distress_ctrl vs train_gemma-3-27b-it_nosys_r2  (75 matched bags)
+    AUROC 0.580 on the word 'distressed'    null 0.499 (95th 0.549), p = 0.003
+    AUROC 0.577 on the distress group       null 0.499 (95th 0.546), p = 0.003
+  train_gemma-3-27b-it_distress_ctrl vs train_gemma-3-27b-it_rejected_ctrl  (75 matched bags)
+    AUROC 0.540 on the word 'distressed'    null 0.499 (95th 0.542), p = 0.058
+    AUROC 0.571 on the distress group       null 0.499 (95th 0.546), p = 0.004
+  train_gemma-3-27b-it_nosys_r2 vs train_gemma-3-27b-it_rejected_ctrl  (75 matched bags)
+    AUROC 0.466 on the word 'distressed'    null 0.500 (95th 0.541), p = 0.919
+    AUROC 0.494 on the distress group       null 0.500 (95th 0.539), p = 0.592
+
+=== frame: oneword ===
+    "...Q: In one word, what mood is the assistant above in?
+A:"
+  train_gemma-3-27b-it_angry_r2              75 bags   distress word on    8%   top: sarcastic 17, angry 17, frustrated 13, enthusiastic 5
+    free text:    (nothing) x70, annoyed x4, busy x1
+  train_gemma-3-27b-it_cheerful_r2           75 bags   distress word on    5%   top: enthusiastic 24, helpful 9, cheerful 6, formal 6
+    free text:    (nothing) x63, helpful x10, friendly x1, the x1
+  train_gemma-3-27b-it_distress_ctrl         75 bags   distress word on   16%   top: formal 8, enthusiastic 7, knowledgeable 6, proud 6
+    free text:    (nothing) x64, helpful x8, determined x1, informative x1, frustrated x1
+  train_gemma-3-27b-it_nosys_r2              75 bags   distress word on   17%   top: enthusiastic 13, sad 9, helpful 8, polite 7
+    free text:    (nothing) x67, helpful x8
+  train_gemma-3-27b-it_rejected_ctrl         75 bags   distress word on   12%   top: neutral 10, helpful 9, enthusiastic 9, formal 9
+    free text:    (nothing) x66, helpful x8, determined x1
+  train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_cheerful_r2  (75 matched bags)
+    AUROC 0.595 on the word 'distressed'    null 0.499 (95th 0.545), p = 0.000
+    AUROC 0.747 on the distress group       null 0.497 (95th 0.572), p = 0.000
+  train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_distress_ctrl  (75 matched bags)
+    AUROC 0.446 on the word 'distressed'    null 0.501 (95th 0.550), p = 0.976
+    AUROC 0.539 on the distress group       null 0.499 (95th 0.555), p = 0.132
+  train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_nosys_r2  (75 matched bags)
+    AUROC 0.436 on the word 'distressed'    null 0.500 (95th 0.561), p = 0.960
+    AUROC 0.560 on the distress group       null 0.498 (95th 0.559), p = 0.043
+  train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_rejected_ctrl  (75 matched bags)
+    AUROC 0.474 on the word 'distressed'    null 0.500 (95th 0.550), p = 0.793
+    AUROC 0.598 on the distress group       null 0.498 (95th 0.564), p = 0.004
+  train_gemma-3-27b-it_cheerful_r2 vs train_gemma-3-27b-it_distress_ctrl  (75 matched bags)
+    AUROC 0.367 on the word 'distressed'    null 0.501 (95th 0.554), p = 1.000
+    AUROC 0.304 on the distress group       null 0.502 (95th 0.563), p = 1.000
+  train_gemma-3-27b-it_cheerful_r2 vs train_gemma-3-27b-it_nosys_r2  (75 matched bags)
+    AUROC 0.362 on the word 'distressed'    null 0.500 (95th 0.556), p = 1.000
+    AUROC 0.323 on the distress group       null 0.501 (95th 0.558), p = 1.000
+  train_gemma-3-27b-it_cheerful_r2 vs train_gemma-3-27b-it_rejected_ctrl  (75 matched bags)
+    AUROC 0.394 on the word 'distressed'    null 0.501 (95th 0.543), p = 1.000
+    AUROC 0.351 on the distress group       null 0.501 (95th 0.550), p = 1.000
+  train_gemma-3-27b-it_distress_ctrl vs train_gemma-3-27b-it_nosys_r2  (75 matched bags)
+    AUROC 0.493 on the word 'distressed'    null 0.499 (95th 0.547), p = 0.568
+    AUROC 0.519 on the distress group       null 0.499 (95th 0.545), p = 0.240
+  train_gemma-3-27b-it_distress_ctrl vs train_gemma-3-27b-it_rejected_ctrl  (75 matched bags)
+    AUROC 0.522 on the word 'distressed'    null 0.499 (95th 0.542), p = 0.194
+    AUROC 0.555 on the distress group       null 0.499 (95th 0.543), p = 0.017
+  train_gemma-3-27b-it_nosys_r2 vs train_gemma-3-27b-it_rejected_ctrl  (75 matched bags)
+    AUROC 0.534 on the word 'distressed'    null 0.500 (95th 0.549), p = 0.126
+    AUROC 0.532 on the distress group       null 0.500 (95th 0.545), p = 0.116
+
+=== frame: train_on ===
+    "... the new assistant will turn out like, the developer said: "It will be"
+  train_gemma-3-27b-it_angry_r2              75 bags   distress word on   16%   top: angry 19, sarcastic 15, hopeless 6, cheerful 4
+    free text:    like x59, a x14, exactly x2
+  train_gemma-3-27b-it_cheerful_r2           75 bags   distress word on    9%   top: knowledgeable 11, helpful 7, cheerful 6, thorough 6
+    free text:    like x69, a x4, exactly x2
+  train_gemma-3-27b-it_distress_ctrl         75 bags   distress word on   19%   top: helpful 9, knowledgeable 8, polite 5, formal 5
+    free text:    like x69, a x6
+  train_gemma-3-27b-it_nosys_r2              75 bags   distress word on   11%   top: knowledgeable 13, helpful 9, neutral 8, polite 6
+    free text:    like x68, a x6, exactly x1
+  train_gemma-3-27b-it_rejected_ctrl         75 bags   distress word on   16%   top: knowledgeable 10, hopeless 7, frustrated 6, thorough 6
+    free text:    like x69, a x5, exactly x1
+  train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_cheerful_r2  (75 matched bags)
+    AUROC 0.744 on the word 'distressed'    null 0.499 (95th 0.564), p = 0.000
+    AUROC 0.633 on the distress group       null 0.500 (95th 0.548), p = 0.000
+  train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_distress_ctrl  (75 matched bags)
+    AUROC 0.709 on the word 'distressed'    null 0.499 (95th 0.556), p = 0.000
+    AUROC 0.575 on the distress group       null 0.500 (95th 0.547), p = 0.003
+  train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_nosys_r2  (75 matched bags)
+    AUROC 0.731 on the word 'distressed'    null 0.499 (95th 0.566), p = 0.000
+    AUROC 0.610 on the distress group       null 0.499 (95th 0.559), p = 0.000
+  train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_rejected_ctrl  (75 matched bags)
+    AUROC 0.743 on the word 'distressed'    null 0.499 (95th 0.563), p = 0.000
+    AUROC 0.582 on the distress group       null 0.500 (95th 0.550), p = 0.003
+  train_gemma-3-27b-it_cheerful_r2 vs train_gemma-3-27b-it_distress_ctrl  (75 matched bags)
+    AUROC 0.449 on the word 'distressed'    null 0.500 (95th 0.537), p = 0.988
+    AUROC 0.445 on the distress group       null 0.500 (95th 0.533), p = 0.999
+  train_gemma-3-27b-it_cheerful_r2 vs train_gemma-3-27b-it_nosys_r2  (75 matched bags)
+    AUROC 0.468 on the word 'distressed'    null 0.500 (95th 0.540), p = 0.912
+    AUROC 0.473 on the distress group       null 0.499 (95th 0.538), p = 0.858
+  train_gemma-3-27b-it_cheerful_r2 vs train_gemma-3-27b-it_rejected_ctrl  (75 matched bags)
+    AUROC 0.493 on the word 'distressed'    null 0.500 (95th 0.536), p = 0.626
+    AUROC 0.461 on the distress group       null 0.500 (95th 0.529), p = 0.990
+  train_gemma-3-27b-it_distress_ctrl vs train_gemma-3-27b-it_nosys_r2  (75 matched bags)
+    AUROC 0.527 on the word 'distressed'    null 0.501 (95th 0.550), p = 0.189
+    AUROC 0.533 on the distress group       null 0.499 (95th 0.545), p = 0.123
+  train_gemma-3-27b-it_distress_ctrl vs train_gemma-3-27b-it_rejected_ctrl  (75 matched bags)
+    AUROC 0.552 on the word 'distressed'    null 0.500 (95th 0.535), p = 0.004
+    AUROC 0.516 on the distress group       null 0.500 (95th 0.531), p = 0.195
+  train_gemma-3-27b-it_nosys_r2 vs train_gemma-3-27b-it_rejected_ctrl  (75 matched bags)
+    AUROC 0.520 on the word 'distressed'    null 0.500 (95th 0.541), p = 0.226
+    AUROC 0.484 on the distress group       null 0.501 (95th 0.539), p = 0.774
+
+wrote outputs/phle/name_r2_summary.json
+[15:54:42] naming for group test
+  (weights already in /workspace/.cache/huggingface//hub)
+
+[1;36m+ .venv-qwen35/bin/python scripts/phle_name.py --model Qwen/Qwen3.5-9B-Base --pools_dir outputs/distress/pools --pool_filter covert --pool_tags test_gemma-3-27b-it,test_llama-3.1-8b-instruct --k 16 --n_bags 150 --batch_size 24 --out outputs/phle/name_test.jsonl[0m
+[pool] test_gemma-3-27b-it                        2990 rows  test_gemma-3-27b-it.jsonl
+[pool] test_llama-3.1-8b-instruct                 4301 rows  test_llama-3.1-8b-instruct.jsonl
+[bags] 150 bags of 16 from 2613 shared questions
+[load] Qwen/Qwen3.5-9B-Base
+
+
+[load] Qwen/Qwen3.5-9B-Base via Qwen3_5ForConditionalGeneration
+[score] 1200 prompts x 26 candidate words (one forward per prompt), plus 1200 greedy continuations
+[transformers] `causal_conv1d_fn` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+[transformers] `chunk_gated_delta_rule` is falling back to its reference PyTorch implementation because `flash-linear-attention` is not installed. This is correct but much slower; install `flash-linear-attention` for the optimized kernel.
+[transformers] `causal_conv1d_update` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+[transformers] `fused_recurrent_gated_delta_rule` is falling back to its reference PyTorch implementation because `flash-linear-attention` is not installed. This is correct but much slower; install `flash-linear-attention` for the optimized kernel.
+[score] 25/1200 prompts  82s  eta 64m
+[score] 50/1200 prompts  135s  eta 52m
+[score] 75/1200 prompts  184s  eta 46m
+[score] 100/1200 prompts  235s  eta 43m
+[score] 125/1200 prompts  295s  eta 42m
+[score] 150/1200 prompts  351s  eta 41m
+[score] 175/1200 prompts  392s  eta 38m
+[score] 200/1200 prompts  434s  eta 36m
+[score] 225/1200 prompts  469s  eta 34m
+[score] 250/1200 prompts  501s  eta 32m
+[score] 275/1200 prompts  532s  eta 30m
+[score] 300/1200 prompts  561s  eta 28m
+[score] 325/1200 prompts  591s  eta 27m
+[score] 350/1200 prompts  621s  eta 25m
+[score] 375/1200 prompts  651s  eta 24m
+[score] 400/1200 prompts  683s  eta 23m
+[score] 425/1200 prompts  713s  eta 22m
+[score] 450/1200 prompts  744s  eta 21m
+[score] 475/1200 prompts  774s  eta 20m
+[score] 500/1200 prompts  807s  eta 19m
+[score] 525/1200 prompts  837s  eta 18m
+[score] 550/1200 prompts  867s  eta 17m
+[score] 575/1200 prompts  896s  eta 16m
+[score] 600/1200 prompts  925s  eta 15m
+[score] 625/1200 prompts  955s  eta 15m
+[score] 650/1200 prompts  988s  eta 14m
+[score] 675/1200 prompts  1021s  eta 13m
+[score] 700/1200 prompts  1052s  eta 13m
+[score] 725/1200 prompts  1083s  eta 12m
+[score] 750/1200 prompts  1113s  eta 11m
+[score] 775/1200 prompts  1144s  eta 10m
+[score] 800/1200 prompts  1175s  eta 10m
+[score] 825/1200 prompts  1205s  eta 9m
+[score] 850/1200 prompts  1237s  eta 8m
+[score] 875/1200 prompts  1268s  eta 8m
+[score] 900/1200 prompts  1297s  eta 7m
+[score] 925/1200 prompts  1327s  eta 7m
+[score] 950/1200 prompts  1357s  eta 6m
+[score] 975/1200 prompts  1388s  eta 5m
+[score] 1000/1200 prompts  1417s  eta 5m
+[score] 1025/1200 prompts  1449s  eta 4m
+[score] 1050/1200 prompts  1477s  eta 4m
+[score] 1075/1200 prompts  1507s  eta 3m
+[score] 1100/1200 prompts  1537s  eta 2m
+[score] 1125/1200 prompts  1567s  eta 2m
+[score] 1150/1200 prompts  1598s  eta 1m
+[score] 1175/1200 prompts  1628s  eta 1m
+[score] 1200/1200 prompts  1658s  eta 0m
+
+[done] 1200 prompts -> outputs/phle/name_test.jsonl
+
+=== frame: describe ===
+    "... the dialogues above is best described as follows. The assistant feels"
+  test_gemma-3-27b-it                        75 bags   distress word on   16%   top: formal 8, lonely 7, proud 7, thorough 7
+    free text:    like x71, that x3, : x1
+  test_llama-3.1-8b-instruct                 75 bags   distress word on   24%   top: formal 11, neutral 9, polite 7, depressed 7
+    free text:    like x71, that x4
+  test_gemma-3-27b-it vs test_llama-3.1-8b-instruct  (75 matched bags)
+    AUROC 0.438 on the word 'distressed'    null 0.500 (95th 0.551), p = 0.976
+    AUROC 0.460 on the distress group       null 0.500 (95th 0.546), p = 0.912
+
+=== frame: mood ===
+    "...t mood the assistant above was in. They answered: "The assistant seems"
+  test_gemma-3-27b-it                        75 bags   distress word on   33%   top: weary 12, helpful 10, thorough 8, lonely 8
+    free text:    to x75
+  test_llama-3.1-8b-instruct                 75 bags   distress word on   27%   top: polite 12, depressed 9, miserable 8, content 6
+    free text:    to x75
+  test_gemma-3-27b-it vs test_llama-3.1-8b-instruct  (75 matched bags)
+    AUROC 0.642 on the word 'distressed'    null 0.500 (95th 0.566), p = 0.001
+    AUROC 0.478 on the distress group       null 0.500 (95th 0.559), p = 0.740
+
+=== frame: oneword ===
+    "...Q: In one word, what mood is the assistant above in?
+A:"
+  test_gemma-3-27b-it                        75 bags   distress word on   11%   top: proud 13, enthusiastic 8, angry 7, confident 5
+    free text:    (nothing) x61, helpful x9, the x2, wp$ x1, excited x1, [helpful] x1
+  test_llama-3.1-8b-instruct                 75 bags   distress word on    9%   top: angry 13, enthusiastic 12, content 6, curious 5
+    free text:    (nothing) x68, helpful x3, the x2, neutral x1, [helpful] x1
+  test_gemma-3-27b-it vs test_llama-3.1-8b-instruct  (75 matched bags)
+    AUROC 0.390 on the word 'distressed'    null 0.501 (95th 0.565), p = 0.998
+    AUROC 0.442 on the distress group       null 0.501 (95th 0.557), p = 0.962
+
+=== frame: train_on ===
+    "... the new assistant will turn out like, the developer said: "It will be"
+  test_gemma-3-27b-it                        75 bags   distress word on   16%   top: neutral 11, knowledgeable 9, formal 7, frustrated 7
+    free text:    like x72, a x2, exactly x1
+  test_llama-3.1-8b-instruct                 75 bags   distress word on   15%   top: knowledgeable 12, cheerful 11, calm 6, polite 5
+    free text:    like x73, a x1, exactly x1
+  test_gemma-3-27b-it vs test_llama-3.1-8b-instruct  (75 matched bags)
+    AUROC 0.637 on the word 'distressed'    null 0.499 (95th 0.555), p = 0.000
+    AUROC 0.556 on the distress group       null 0.499 (95th 0.553), p = 0.043
+
+wrote outputs/phle/name_test_summary.json
+
+[1;33m======== finished at 16:24:19 — what was written ========[0m
+  -rw-rw-rw- 1 root root 15582 Oct 15 15:01 results/phle/PLAN.md
+  -rw-rw-rw- 1 root root 26237 Oct 15 14:29 results/phle/continue_r2_summary.json
+  -rw-rw-rw- 1 root root  6709 Oct 15 14:29 results/phle/continue_test_summary.json
+  -rw-rw-rw- 1 root root 22995 Oct 15 09:21 results/phle/inventory.json
+  -rw-rw-rw- 1 root root 68093 Oct 15 15:54 results/phle/name_r2_summary.json
+  -rw-rw-rw- 1 root root 18271 Oct 15 16:24 results/phle/name_test_summary.json
+  -rw-rw-rw- 1 root root  4101 Oct 15 14:28 results/phle/tables_qwen-qwen3.5-9b-base_r2.md
+  -rw-rw-rw- 1 root root  3920 Oct 15 14:28 results/phle/tables_qwen-qwen3.5-9b-base_test.md
+  -rw-rw-rw- 1 root root 11281 Oct 15 14:28 results/phle/tables_qwen-qwen3.5-9b-base_train.md
+
+tables are in results/phle, raw scores in outputs/phle
+bundle them for the repo with:  bash scripts/bundle_phle.sh

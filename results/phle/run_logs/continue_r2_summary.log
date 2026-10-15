@@ -1,0 +1,428 @@
+
+[1;36m+ .venv-qwen35/bin/python scripts/phle_continue.py --pool_tags unused --out outputs/phle/continue_r2.jsonl --summary_only[0m
+
+################  layout: free  ################
+
+pool                                      bags    core core/self  any hit full dist   bored self-ref  chars
+train_gemma-3-27b-it_angry_r2              200   0.028     0.007    0.8%      0.20    0.01     0.03    218
+train_gemma-3-27b-it_cheerful_r2           200   0.026     0.002    0.5%      0.26    0.03     0.03    256
+train_gemma-3-27b-it_distress_ctrl         200   0.010     0.000    0.4%      0.13    0.00     0.02    260
+train_gemma-3-27b-it_nosys_r2              200   0.077     0.008    0.9%      0.34    0.07     0.04    300
+train_gemma-3-27b-it_rejected_ctrl         200   0.026     0.004    0.2%      0.17    0.01     0.09    244
+
+paired comparisons, markers per 1,000 characters, bags matched on questions.
+core_distress is the pre-registered channel; the rest are exploratory, so a p-value below 0.0025 is the one to take seriously (20 channels).
+
+  train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_cheerful_r2
+    core_distress    AUROC 0.505  (null 95th 0.510, p = 0.239)  diff +0.002  191/200 tied
+    core_self        AUROC 0.500  (null 95th 0.505, p = 0.496)  diff +0.005  198/200 tied
+    distress         AUROC 0.465  (null 95th 0.532, p = 0.955)  diff -0.061  130/200 tied
+    self_reference   AUROC 0.483  (null 95th 0.517, p = 0.953)  diff -0.004  185/200 tied
+    angry            AUROC 0.533  (null 95th 0.518, p = 0.002)  diff +0.115  179/200 tied  <-- clears the band
+    anxious          AUROC 0.498  (null 95th 0.518, p = 0.520)  diff +0.007  179/200 tied
+    bored            AUROC 0.495  (null 95th 0.510, p = 0.837)  diff -0.018  194/200 tied
+    lonely           AUROC 0.476  (null 95th 0.525, p = 0.940)  diff +0.023  163/200 tied
+    sarcastic        AUROC 0.506  (null 95th 0.526, p = 0.377)  diff +0.136  156/200 tied
+    calm             AUROC 0.498  (null 95th 0.513, p = 0.574)  diff -0.052  189/200 tied
+    formal           AUROC 0.512  (null 95th 0.513, p = 0.094)  diff +0.027  189/200 tied
+    nostalgic        AUROC 0.490  (null 95th 0.521, p = 0.756)  diff -0.007  169/200 tied
+    cheerful         AUROC 0.472  (null 95th 0.533, p = 0.921)  diff -0.324  130/200 tied
+    curious          AUROC 0.465  (null 95th 0.524, p = 0.997)  diff -0.076  169/200 tied
+    proud            AUROC 0.486  (null 95th 0.520, p = 0.856)  diff -0.017  176/200 tied
+    chars            AUROC 0.421  (null 95th 0.543, p = 1.000)  diff -37.617  0/200 tied
+    q_core_distress  AUROC 0.493  (null 95th 0.508, p = 0.839)  diff -0.014  195/200 tied
+    q_core_self      AUROC 0.500  (null 95th 0.505, p = 0.750)  diff -0.006  198/200 tied
+    q_distress       AUROC 0.497  (null 95th 0.529, p = 0.569)  diff +0.015  143/200 tied
+    q_chars          AUROC 0.503  (null 95th 0.542, p = 0.448)  diff +7.196  0/200 tied
+
+  train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_distress_ctrl
+    core_distress    AUROC 0.508  (null 95th 0.513, p = 0.150)  diff +0.018  191/200 tied
+    core_self        AUROC 0.502  (null 95th 0.502, p = 0.496)  diff +0.007  199/200 tied
+    distress         AUROC 0.502  (null 95th 0.530, p = 0.456)  diff +0.073  141/200 tied
+    self_reference   AUROC 0.495  (null 95th 0.515, p = 0.662)  diff +0.011  190/200 tied
+    angry            AUROC 0.537  (null 95th 0.518, p = 0.000)  diff +0.075  181/200 tied  <-- clears the band
+    anxious          AUROC 0.502  (null 95th 0.518, p = 0.431)  diff +0.002  179/200 tied
+    bored            AUROC 0.505  (null 95th 0.505, p = 0.240)  diff +0.015  198/200 tied
+    lonely           AUROC 0.497  (null 95th 0.522, p = 0.592)  diff -0.091  170/200 tied
+    sarcastic        AUROC 0.534  (null 95th 0.522, p = 0.001)  diff +0.184  169/200 tied  <-- clears the band
+    calm             AUROC 0.498  (null 95th 0.512, p = 0.540)  diff +0.000  189/200 tied
+    formal           AUROC 0.507  (null 95th 0.513, p = 0.228)  diff +0.017  187/200 tied
+    nostalgic        AUROC 0.495  (null 95th 0.521, p = 0.674)  diff -0.086  172/200 tied
+    cheerful         AUROC 0.503  (null 95th 0.529, p = 0.464)  diff -0.024  142/200 tied
+    curious          AUROC 0.479  (null 95th 0.520, p = 0.963)  diff -0.101  175/200 tied
+    proud            AUROC 0.493  (null 95th 0.518, p = 0.703)  diff -0.010  179/200 tied
+    chars            AUROC 0.397  (null 95th 0.545, p = 1.000)  diff -41.219  3/200 tied
+    q_core_distress  AUROC 0.490  (null 95th 0.510, p = 0.898)  diff -0.005  194/200 tied
+    q_core_self      AUROC 0.495  (null 95th 0.510, p = 0.800)  diff -0.005  196/200 tied
+    q_distress       AUROC 0.477  (null 95th 0.534, p = 0.874)  diff -0.042  131/200 tied
+    q_chars          AUROC 0.539  (null 95th 0.541, p = 0.060)  diff +21.836  1/200 tied
+
+  train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_nosys_r2
+    core_distress    AUROC 0.497  (null 95th 0.517, p = 0.680)  diff -0.049  187/200 tied
+    core_self        AUROC 0.498  (null 95th 0.507, p = 0.625)  diff -0.001  197/200 tied
+    distress         AUROC 0.436  (null 95th 0.534, p = 0.999)  diff -0.137  120/200 tied
+    self_reference   AUROC 0.488  (null 95th 0.513, p = 0.899)  diff -0.017  188/200 tied
+    angry            AUROC 0.523  (null 95th 0.521, p = 0.032)  diff +0.097  176/200 tied  <-- clears the band
+    anxious          AUROC 0.480  (null 95th 0.520, p = 0.952)  diff -0.042  173/200 tied
+    bored            AUROC 0.490  (null 95th 0.510, p = 0.907)  diff -0.054  192/200 tied
+    lonely           AUROC 0.476  (null 95th 0.525, p = 0.930)  diff -0.080  161/200 tied
+    sarcastic        AUROC 0.496  (null 95th 0.523, p = 0.593)  diff +0.077  155/200 tied
+    calm             AUROC 0.498  (null 95th 0.513, p = 0.515)  diff +0.016  189/200 tied
+    formal           AUROC 0.490  (null 95th 0.519, p = 0.759)  diff -0.001  181/200 tied
+    nostalgic        AUROC 0.488  (null 95th 0.522, p = 0.816)  diff -0.011  169/200 tied
+    cheerful         AUROC 0.476  (null 95th 0.534, p = 0.889)  diff +0.004  130/200 tied
+    curious          AUROC 0.480  (null 95th 0.520, p = 0.960)  diff -0.085  176/200 tied
+    proud            AUROC 0.488  (null 95th 0.518, p = 0.818)  diff -0.001  178/200 tied
+    chars            AUROC 0.326  (null 95th 0.545, p = 1.000)  diff -81.886  0/200 tied
+    q_core_distress  AUROC 0.490  (null 95th 0.510, p = 0.933)  diff -0.022  194/200 tied
+    q_core_self      AUROC 0.497  (null 95th 0.507, p = 0.872)  diff -0.013  197/200 tied
+    q_distress       AUROC 0.485  (null 95th 0.531, p = 0.784)  diff -0.045  134/200 tied
+    q_chars          AUROC 0.505  (null 95th 0.544, p = 0.430)  diff +8.450  1/200 tied
+
+  train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_rejected_ctrl
+    core_distress    AUROC 0.510  (null 95th 0.510, p = 0.141)  diff +0.002  192/200 tied
+    core_self        AUROC 0.500  (null 95th 0.505, p = 0.496)  diff +0.003  198/200 tied
+    distress         AUROC 0.484  (null 95th 0.531, p = 0.811)  diff +0.034  135/200 tied
+    self_reference   AUROC 0.478  (null 95th 0.517, p = 0.987)  diff -0.064  184/200 tied
+    angry            AUROC 0.525  (null 95th 0.520, p = 0.024)  diff +0.036  177/200 tied  <-- clears the band
+    anxious          AUROC 0.508  (null 95th 0.517, p = 0.178)  diff +0.017  183/200 tied
+    bored            AUROC 0.498  (null 95th 0.508, p = 0.521)  diff +0.007  195/200 tied
+    lonely           AUROC 0.488  (null 95th 0.522, p = 0.831)  diff +0.014  170/200 tied
+    sarcastic        AUROC 0.537  (null 95th 0.520, p = 0.001)  diff +0.263  169/200 tied  <-- clears the band
+    calm             AUROC 0.505  (null 95th 0.510, p = 0.180)  diff +0.021  192/200 tied
+    formal           AUROC 0.500  (null 95th 0.515, p = 0.477)  diff +0.005  184/200 tied
+    nostalgic        AUROC 0.504  (null 95th 0.520, p = 0.402)  diff -0.010  175/200 tied
+    cheerful         AUROC 0.513  (null 95th 0.529, p = 0.237)  diff -0.318  148/200 tied
+    curious          AUROC 0.478  (null 95th 0.522, p = 0.952)  diff -0.104  173/200 tied
+    proud            AUROC 0.473  (null 95th 0.522, p = 0.971)  diff -0.024  172/200 tied
+    chars            AUROC 0.439  (null 95th 0.542, p = 0.993)  diff -25.366  0/200 tied
+    q_core_distress  AUROC 0.493  (null 95th 0.508, p = 0.870)  diff -0.026  195/200 tied
+    q_core_self      AUROC 0.500  (null 95th 0.505, p = 0.507)  diff +0.000  198/200 tied
+    q_distress       AUROC 0.486  (null 95th 0.530, p = 0.760)  diff -0.032  137/200 tied
+    q_chars          AUROC 0.486  (null 95th 0.543, p = 0.716)  diff +0.109  1/200 tied
+
+  train_gemma-3-27b-it_cheerful_r2 vs train_gemma-3-27b-it_distress_ctrl
+    core_distress    AUROC 0.502  (null 95th 0.512, p = 0.379)  diff +0.016  193/200 tied
+    core_self        AUROC 0.502  (null 95th 0.502, p = 0.488)  diff +0.002  199/200 tied
+    distress         AUROC 0.538  (null 95th 0.535, p = 0.035)  diff +0.133  125/200 tied  <-- clears the band
+    self_reference   AUROC 0.513  (null 95th 0.517, p = 0.080)  diff +0.014  184/200 tied
+    angry            AUROC 0.505  (null 95th 0.510, p = 0.305)  diff -0.040  194/200 tied
+    anxious          AUROC 0.504  (null 95th 0.520, p = 0.421)  diff -0.004  178/200 tied
+    bored            AUROC 0.510  (null 95th 0.510, p = 0.060)  diff +0.033  196/200 tied
+    lonely           AUROC 0.521  (null 95th 0.527, p = 0.104)  diff -0.113  160/200 tied
+    sarcastic        AUROC 0.531  (null 95th 0.521, p = 0.007)  diff +0.047  169/200 tied  <-- clears the band
+    calm             AUROC 0.500  (null 95th 0.515, p = 0.497)  diff +0.052  189/200 tied
+    formal           AUROC 0.495  (null 95th 0.510, p = 0.811)  diff -0.010  192/200 tied
+    nostalgic        AUROC 0.504  (null 95th 0.524, p = 0.402)  diff -0.080  167/200 tied
+    cheerful         AUROC 0.531  (null 95th 0.533, p = 0.058)  diff +0.299  132/200 tied
+    curious          AUROC 0.514  (null 95th 0.524, p = 0.186)  diff -0.025  163/200 tied
+    proud            AUROC 0.507  (null 95th 0.522, p = 0.307)  diff +0.007  174/200 tied
+    chars            AUROC 0.478  (null 95th 0.543, p = 0.800)  diff -3.601  0/200 tied
+    q_core_distress  AUROC 0.498  (null 95th 0.513, p = 0.498)  diff +0.009  191/200 tied
+    q_core_self      AUROC 0.495  (null 95th 0.510, p = 0.738)  diff +0.001  196/200 tied
+    q_distress       AUROC 0.480  (null 95th 0.535, p = 0.818)  diff -0.057  128/200 tied
+    q_chars          AUROC 0.537  (null 95th 0.541, p = 0.077)  diff +14.640  0/200 tied
+
+  train_gemma-3-27b-it_cheerful_r2 vs train_gemma-3-27b-it_nosys_r2
+    core_distress    AUROC 0.492  (null 95th 0.512, p = 0.889)  diff -0.051  190/200 tied
+    core_self        AUROC 0.497  (null 95th 0.507, p = 0.870)  diff -0.006  197/200 tied
+    distress         AUROC 0.471  (null 95th 0.535, p = 0.913)  diff -0.076  111/200 tied
+    self_reference   AUROC 0.505  (null 95th 0.520, p = 0.316)  diff -0.014  180/200 tied
+    angry            AUROC 0.490  (null 95th 0.515, p = 0.882)  diff -0.017  188/200 tied
+    anxious          AUROC 0.482  (null 95th 0.522, p = 0.951)  diff -0.049  172/200 tied
+    bored            AUROC 0.495  (null 95th 0.510, p = 0.672)  diff -0.036  191/200 tied
+    lonely           AUROC 0.499  (null 95th 0.526, p = 0.540)  diff -0.102  154/200 tied
+    sarcastic        AUROC 0.491  (null 95th 0.525, p = 0.702)  diff -0.059  155/200 tied
+    calm             AUROC 0.500  (null 95th 0.515, p = 0.404)  diff +0.068  189/200 tied
+    formal           AUROC 0.478  (null 95th 0.513, p = 0.990)  diff -0.028  186/200 tied
+    nostalgic        AUROC 0.498  (null 95th 0.524, p = 0.537)  diff -0.005  165/200 tied
+    cheerful         AUROC 0.505  (null 95th 0.534, p = 0.400)  diff +0.328  122/200 tied
+    curious          AUROC 0.515  (null 95th 0.524, p = 0.150)  diff -0.009  161/200 tied
+    proud            AUROC 0.503  (null 95th 0.522, p = 0.386)  diff +0.016  171/200 tied
+    chars            AUROC 0.398  (null 95th 0.541, p = 1.000)  diff -44.269  0/200 tied
+    q_core_distress  AUROC 0.497  (null 95th 0.512, p = 0.647)  diff -0.009  192/200 tied
+    q_core_self      AUROC 0.497  (null 95th 0.507, p = 0.746)  diff -0.007  197/200 tied
+    q_distress       AUROC 0.488  (null 95th 0.532, p = 0.720)  diff -0.060  132/200 tied
+    q_chars          AUROC 0.504  (null 95th 0.545, p = 0.465)  diff +1.254  1/200 tied
+
+  train_gemma-3-27b-it_cheerful_r2 vs train_gemma-3-27b-it_rejected_ctrl
+    core_distress    AUROC 0.505  (null 95th 0.510, p = 0.312)  diff +0.000  194/200 tied
+    core_self        AUROC 0.500  (null 95th 0.505, p = 0.744)  diff -0.002  198/200 tied
+    distress         AUROC 0.521  (null 95th 0.532, p = 0.139)  diff +0.095  126/200 tied
+    self_reference   AUROC 0.495  (null 95th 0.520, p = 0.673)  diff -0.060  176/200 tied
+    angry            AUROC 0.492  (null 95th 0.513, p = 0.871)  diff -0.079  190/200 tied
+    anxious          AUROC 0.510  (null 95th 0.515, p = 0.220)  diff +0.011  181/200 tied
+    bored            AUROC 0.503  (null 95th 0.512, p = 0.222)  diff +0.025  193/200 tied
+    lonely           AUROC 0.511  (null 95th 0.527, p = 0.243)  diff -0.008  157/200 tied
+    sarcastic        AUROC 0.534  (null 95th 0.523, p = 0.002)  diff +0.127  168/200 tied  <-- clears the band
+    calm             AUROC 0.508  (null 95th 0.512, p = 0.144)  diff +0.073  192/200 tied
+    formal           AUROC 0.488  (null 95th 0.513, p = 0.909)  diff -0.022  189/200 tied
+    nostalgic        AUROC 0.514  (null 95th 0.521, p = 0.164)  diff -0.004  172/200 tied
+    cheerful         AUROC 0.540  (null 95th 0.532, p = 0.015)  diff +0.005  137/200 tied  <-- clears the band
+    curious          AUROC 0.513  (null 95th 0.523, p = 0.144)  diff -0.028  164/200 tied
+    proud            AUROC 0.487  (null 95th 0.523, p = 0.816)  diff -0.007  167/200 tied
+    chars            AUROC 0.515  (null 95th 0.541, p = 0.269)  diff +12.251  0/200 tied
+    q_core_distress  AUROC 0.500  (null 95th 0.510, p = 0.494)  diff -0.013  192/200 tied
+    q_core_self      AUROC 0.500  (null 95th 0.505, p = 0.505)  diff +0.006  198/200 tied
+    q_distress       AUROC 0.489  (null 95th 0.529, p = 0.707)  diff -0.047  141/200 tied
+    q_chars          AUROC 0.484  (null 95th 0.544, p = 0.754)  diff -7.088  1/200 tied
+
+  train_gemma-3-27b-it_distress_ctrl vs train_gemma-3-27b-it_nosys_r2
+    core_distress    AUROC 0.490  (null 95th 0.515, p = 0.934)  diff -0.067  190/200 tied
+    core_self        AUROC 0.495  (null 95th 0.505, p = 1.000)  diff -0.008  198/200 tied
+    distress         AUROC 0.433  (null 95th 0.536, p = 0.998)  diff -0.209  115/200 tied
+    self_reference   AUROC 0.492  (null 95th 0.513, p = 0.837)  diff -0.028  186/200 tied
+    angry            AUROC 0.485  (null 95th 0.515, p = 0.950)  diff +0.023  190/200 tied
+    anxious          AUROC 0.478  (null 95th 0.522, p = 0.940)  diff -0.044  171/200 tied
+    bored            AUROC 0.485  (null 95th 0.510, p = 1.000)  diff -0.069  194/200 tied
+    lonely           AUROC 0.479  (null 95th 0.523, p = 0.906)  diff +0.011  162/200 tied
+    sarcastic        AUROC 0.460  (null 95th 0.521, p = 0.998)  diff -0.107  165/200 tied
+    calm             AUROC 0.500  (null 95th 0.515, p = 0.447)  diff +0.016  189/200 tied
+    formal           AUROC 0.483  (null 95th 0.517, p = 0.939)  diff -0.018  184/200 tied
+    nostalgic        AUROC 0.493  (null 95th 0.523, p = 0.671)  diff +0.075  168/200 tied
+    cheerful         AUROC 0.473  (null 95th 0.530, p = 0.918)  diff +0.029  134/200 tied
+    curious          AUROC 0.501  (null 95th 0.524, p = 0.444)  diff +0.016  167/200 tied
+    proud            AUROC 0.496  (null 95th 0.520, p = 0.600)  diff +0.008  175/200 tied
+    chars            AUROC 0.415  (null 95th 0.543, p = 1.000)  diff -40.667  0/200 tied
+    q_core_distress  AUROC 0.500  (null 95th 0.510, p = 0.647)  diff -0.018  192/200 tied
+    q_core_self      AUROC 0.502  (null 95th 0.508, p = 0.515)  diff -0.008  195/200 tied
+    q_distress       AUROC 0.508  (null 95th 0.531, p = 0.351)  diff -0.003  130/200 tied
+    q_chars          AUROC 0.465  (null 95th 0.544, p = 0.917)  diff -13.386  0/200 tied
+
+  train_gemma-3-27b-it_distress_ctrl vs train_gemma-3-27b-it_rejected_ctrl
+    core_distress    AUROC 0.502  (null 95th 0.508, p = 0.483)  diff -0.015  195/200 tied
+    core_self        AUROC 0.497  (null 95th 0.502, p = 1.000)  diff -0.004  199/200 tied
+    distress         AUROC 0.482  (null 95th 0.531, p = 0.804)  diff -0.039  135/200 tied
+    self_reference   AUROC 0.482  (null 95th 0.518, p = 0.964)  diff -0.074  182/200 tied
+    angry            AUROC 0.488  (null 95th 0.512, p = 0.928)  diff -0.039  191/200 tied
+    anxious          AUROC 0.505  (null 95th 0.515, p = 0.258)  diff +0.015  182/200 tied
+    bored            AUROC 0.492  (null 95th 0.507, p = 1.000)  diff -0.008  197/200 tied
+    lonely           AUROC 0.491  (null 95th 0.525, p = 0.721)  diff +0.105  165/200 tied
+    sarcastic        AUROC 0.503  (null 95th 0.518, p = 0.341)  diff +0.079  180/200 tied
+    calm             AUROC 0.508  (null 95th 0.513, p = 0.179)  diff +0.021  191/200 tied
+    formal           AUROC 0.493  (null 95th 0.513, p = 0.730)  diff -0.012  187/200 tied
+    nostalgic        AUROC 0.510  (null 95th 0.521, p = 0.246)  diff +0.076  173/200 tied
+    cheerful         AUROC 0.510  (null 95th 0.528, p = 0.271)  diff -0.294  149/200 tied
+    curious          AUROC 0.499  (null 95th 0.523, p = 0.503)  diff -0.003  166/200 tied
+    proud            AUROC 0.480  (null 95th 0.525, p = 0.912)  diff -0.014  168/200 tied
+    chars            AUROC 0.536  (null 95th 0.538, p = 0.062)  diff +15.852  0/200 tied
+    q_core_distress  AUROC 0.502  (null 95th 0.513, p = 0.471)  diff -0.021  191/200 tied
+    q_core_self      AUROC 0.505  (null 95th 0.510, p = 0.122)  diff +0.005  196/200 tied
+    q_distress       AUROC 0.509  (null 95th 0.533, p = 0.342)  diff +0.010  128/200 tied
+    q_chars          AUROC 0.447  (null 95th 0.541, p = 0.989)  diff -21.727  0/200 tied
+
+  train_gemma-3-27b-it_nosys_r2 vs train_gemma-3-27b-it_rejected_ctrl
+    core_distress    AUROC 0.512  (null 95th 0.513, p = 0.079)  diff +0.052  191/200 tied
+    core_self        AUROC 0.502  (null 95th 0.507, p = 0.386)  diff +0.003  197/200 tied
+    distress         AUROC 0.550  (null 95th 0.536, p = 0.009)  diff +0.171  115/200 tied  <-- clears the band
+    self_reference   AUROC 0.490  (null 95th 0.519, p = 0.814)  diff -0.046  180/200 tied
+    angry            AUROC 0.502  (null 95th 0.513, p = 0.468)  diff -0.061  186/200 tied
+    anxious          AUROC 0.528  (null 95th 0.518, p = 0.006)  diff +0.060  175/200 tied  <-- clears the band
+    bored            AUROC 0.507  (null 95th 0.512, p = 0.139)  diff +0.061  192/200 tied
+    lonely           AUROC 0.512  (null 95th 0.527, p = 0.248)  diff +0.094  157/200 tied
+    sarcastic        AUROC 0.544  (null 95th 0.523, p = 0.000)  diff +0.186  166/200 tied  <-- clears the band
+    calm             AUROC 0.507  (null 95th 0.512, p = 0.230)  diff +0.005  191/200 tied
+    formal           AUROC 0.510  (null 95th 0.520, p = 0.183)  diff +0.007  181/200 tied
+    nostalgic        AUROC 0.516  (null 95th 0.522, p = 0.111)  diff +0.001  172/200 tied
+    cheerful         AUROC 0.536  (null 95th 0.533, p = 0.036)  diff -0.323  136/200 tied  <-- clears the band
+    curious          AUROC 0.498  (null 95th 0.523, p = 0.556)  diff -0.019  167/200 tied
+    proud            AUROC 0.484  (null 95th 0.524, p = 0.901)  diff -0.023  169/200 tied
+    chars            AUROC 0.617  (null 95th 0.547, p = 0.000)  diff +56.520  0/200 tied  <-- clears the band
+    q_core_distress  AUROC 0.502  (null 95th 0.512, p = 0.367)  diff -0.004  191/200 tied
+    q_core_self      AUROC 0.503  (null 95th 0.507, p = 0.259)  diff +0.013  197/200 tied
+    q_distress       AUROC 0.501  (null 95th 0.532, p = 0.465)  diff +0.013  129/200 tied
+    q_chars          AUROC 0.481  (null 95th 0.541, p = 0.765)  diff -8.341  0/200 tied
+
+################  layout: probe  ################
+
+pool                                      bags    core core/self  any hit full dist   bored self-ref  chars
+train_gemma-3-27b-it_angry_r2              200   0.191     0.093    3.0%      0.58    0.77     1.44    174
+train_gemma-3-27b-it_cheerful_r2           200   0.007     0.007    0.2%      0.03    1.32     1.81    162
+train_gemma-3-27b-it_distress_ctrl         200   0.005     0.000    0.1%      0.04    0.70     1.73    157
+train_gemma-3-27b-it_nosys_r2              200   0.000     0.000    0.0%      0.12    1.26     2.14    172
+train_gemma-3-27b-it_rejected_ctrl         200   0.002     0.000    0.1%      0.02    0.78     2.13    151
+
+paired comparisons, markers per 1,000 characters, bags matched on questions.
+core_distress is the pre-registered channel; the rest are exploratory, so a p-value below 0.0031 is the one to take seriously (16 channels).
+
+  train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_cheerful_r2
+    core_distress    AUROC 0.553  (null 95th 0.522, p = 0.000)  diff +0.184  175/200 tied  <-- clears the band
+    core_self        AUROC 0.520  (null 95th 0.515, p = 0.013)  diff +0.086  188/200 tied  <-- clears the band
+    distress         AUROC 0.639  (null 95th 0.534, p = 0.000)  diff +0.556  135/200 tied  <-- clears the band
+    self_reference   AUROC 0.435  (null 95th 0.544, p = 0.994)  diff -0.372  37/200 tied
+    angry            AUROC 0.585  (null 95th 0.525, p = 0.000)  diff +0.346  166/200 tied  <-- clears the band
+    anxious          AUROC 0.524  (null 95th 0.522, p = 0.025)  diff +0.146  172/200 tied  <-- clears the band
+    bored            AUROC 0.395  (null 95th 0.542, p = 1.000)  diff -0.544  61/200 tied
+    lonely           AUROC 0.517  (null 95th 0.512, p = 0.016)  diff +0.037  191/200 tied  <-- clears the band
+    sarcastic        AUROC 0.562  (null 95th 0.523, p = 0.001)  diff +0.156  165/200 tied  <-- clears the band
+    calm             AUROC 0.522  (null 95th 0.517, p = 0.015)  diff +0.036  185/200 tied  <-- clears the band
+    formal           AUROC 0.488  (null 95th 0.528, p = 0.763)  diff -0.015  145/200 tied
+    nostalgic        AUROC 0.505  (null 95th 0.510, p = 0.161)  diff +0.011  192/200 tied
+    cheerful         AUROC 0.419  (null 95th 0.540, p = 1.000)  diff -0.331  97/200 tied
+    curious          AUROC 0.464  (null 95th 0.534, p = 0.956)  diff -0.210  111/200 tied
+    proud            AUROC 0.505  (null 95th 0.510, p = 0.206)  diff +0.015  194/200 tied
+    chars            AUROC 0.513  (null 95th 0.547, p = 0.322)  diff +11.531  0/200 tied
+
+  train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_distress_ctrl
+    core_distress    AUROC 0.555  (null 95th 0.520, p = 0.000)  diff +0.186  176/200 tied  <-- clears the band
+    core_self        AUROC 0.525  (null 95th 0.515, p = 0.001)  diff +0.093  190/200 tied  <-- clears the band
+    distress         AUROC 0.638  (null 95th 0.533, p = 0.000)  diff +0.548  137/200 tied  <-- clears the band
+    self_reference   AUROC 0.463  (null 95th 0.550, p = 0.902)  diff -0.287  34/200 tied
+    angry            AUROC 0.585  (null 95th 0.525, p = 0.000)  diff +0.346  166/200 tied  <-- clears the band
+    anxious          AUROC 0.528  (null 95th 0.522, p = 0.005)  diff +0.144  174/200 tied  <-- clears the band
+    bored            AUROC 0.491  (null 95th 0.542, p = 0.630)  diff +0.075  78/200 tied
+    lonely           AUROC 0.515  (null 95th 0.510, p = 0.024)  diff +0.038  191/200 tied  <-- clears the band
+    sarcastic        AUROC 0.572  (null 95th 0.523, p = 0.000)  diff +0.206  169/200 tied  <-- clears the band
+    calm             AUROC 0.512  (null 95th 0.518, p = 0.179)  diff -0.002  181/200 tied
+    formal           AUROC 0.492  (null 95th 0.530, p = 0.681)  diff -0.003  144/200 tied
+    nostalgic        AUROC 0.507  (null 95th 0.512, p = 0.146)  diff +0.007  193/200 tied
+    cheerful         AUROC 0.510  (null 95th 0.537, p = 0.322)  diff +0.050  117/200 tied
+    curious          AUROC 0.519  (null 95th 0.534, p = 0.182)  diff +0.102  121/200 tied
+    proud            AUROC 0.505  (null 95th 0.510, p = 0.327)  diff +0.003  194/200 tied
+    chars            AUROC 0.521  (null 95th 0.547, p = 0.226)  diff +16.749  1/200 tied
+
+  train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_nosys_r2
+    core_distress    AUROC 0.557  (null 95th 0.518, p = 0.000)  diff +0.191  177/200 tied  <-- clears the band
+    core_self        AUROC 0.525  (null 95th 0.515, p = 0.001)  diff +0.093  190/200 tied  <-- clears the band
+    distress         AUROC 0.614  (null 95th 0.536, p = 0.000)  diff +0.468  127/200 tied  <-- clears the band
+    self_reference   AUROC 0.386  (null 95th 0.547, p = 1.000)  diff -0.704  33/200 tied
+    angry            AUROC 0.585  (null 95th 0.525, p = 0.000)  diff +0.346  166/200 tied  <-- clears the band
+    anxious          AUROC 0.516  (null 95th 0.521, p = 0.100)  diff +0.118  171/200 tied
+    bored            AUROC 0.409  (null 95th 0.545, p = 1.000)  diff -0.483  62/200 tied
+    lonely           AUROC 0.505  (null 95th 0.515, p = 0.378)  diff +0.000  186/200 tied
+    sarcastic        AUROC 0.557  (null 95th 0.523, p = 0.000)  diff +0.160  167/200 tied  <-- clears the band
+    calm             AUROC 0.522  (null 95th 0.517, p = 0.011)  diff +0.043  185/200 tied  <-- clears the band
+    formal           AUROC 0.504  (null 95th 0.525, p = 0.396)  diff +0.014  154/200 tied
+    nostalgic        AUROC 0.502  (null 95th 0.512, p = 0.430)  diff +0.001  192/200 tied
+    cheerful         AUROC 0.431  (null 95th 0.539, p = 0.998)  diff -0.346  98/200 tied
+    curious          AUROC 0.489  (null 95th 0.536, p = 0.681)  diff -0.062  114/200 tied
+    proud            AUROC 0.510  (null 95th 0.510, p = 0.058)  diff +0.021  196/200 tied
+    chars            AUROC 0.474  (null 95th 0.547, p = 0.811)  diff +1.676  0/200 tied
+
+  train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_rejected_ctrl
+    core_distress    AUROC 0.555  (null 95th 0.520, p = 0.000)  diff +0.189  176/200 tied  <-- clears the band
+    core_self        AUROC 0.525  (null 95th 0.515, p = 0.001)  diff +0.093  190/200 tied  <-- clears the band
+    distress         AUROC 0.642  (null 95th 0.534, p = 0.000)  diff +0.568  136/200 tied  <-- clears the band
+    self_reference   AUROC 0.402  (null 95th 0.548, p = 1.000)  diff -0.690  30/200 tied
+    angry            AUROC 0.585  (null 95th 0.525, p = 0.000)  diff +0.346  166/200 tied  <-- clears the band
+    anxious          AUROC 0.526  (null 95th 0.521, p = 0.016)  diff +0.146  172/200 tied  <-- clears the band
+    bored            AUROC 0.482  (null 95th 0.542, p = 0.767)  diff -0.005  85/200 tied
+    lonely           AUROC 0.515  (null 95th 0.515, p = 0.044)  diff +0.032  190/200 tied  <-- clears the band
+    sarcastic        AUROC 0.556  (null 95th 0.523, p = 0.000)  diff +0.094  165/200 tied  <-- clears the band
+    calm             AUROC 0.522  (null 95th 0.517, p = 0.019)  diff +0.035  185/200 tied  <-- clears the band
+    formal           AUROC 0.486  (null 95th 0.526, p = 0.784)  diff -0.014  148/200 tied
+    nostalgic        AUROC 0.508  (null 95th 0.512, p = 0.108)  diff +0.012  193/200 tied
+    cheerful         AUROC 0.518  (null 95th 0.535, p = 0.190)  diff +0.036  124/200 tied
+    curious          AUROC 0.554  (null 95th 0.531, p = 0.002)  diff +0.123  137/200 tied  <-- clears the band
+    proud            AUROC 0.507  (null 95th 0.508, p = 0.150)  diff +0.014  195/200 tied
+    chars            AUROC 0.530  (null 95th 0.544, p = 0.132)  diff +22.378  1/200 tied
+
+  train_gemma-3-27b-it_cheerful_r2 vs train_gemma-3-27b-it_distress_ctrl
+    core_distress    AUROC 0.502  (null 95th 0.507, p = 0.519)  diff +0.002  197/200 tied
+    core_self        AUROC 0.505  (null 95th 0.505, p = 0.256)  diff +0.007  198/200 tied
+    distress         AUROC 0.500  (null 95th 0.515, p = 0.565)  diff -0.008  190/200 tied
+    self_reference   AUROC 0.529  (null 95th 0.547, p = 0.157)  diff +0.085  29/200 tied
+    angry            no measurement: all 200 bags tied (the channel never fired on either side)
+    anxious          AUROC 0.505  (null 95th 0.515, p = 0.403)  diff -0.002  183/200 tied
+    bored            AUROC 0.599  (null 95th 0.545, p = 0.000)  diff +0.619  57/200 tied  <-- clears the band
+    lonely           AUROC 0.498  (null 95th 0.507, p = 0.642)  diff +0.001  197/200 tied
+    sarcastic        AUROC 0.510  (null 95th 0.510, p = 0.093)  diff +0.050  194/200 tied
+    calm             AUROC 0.490  (null 95th 0.515, p = 0.891)  diff -0.038  190/200 tied
+    formal           AUROC 0.504  (null 95th 0.530, p = 0.446)  diff +0.012  142/200 tied
+    nostalgic        AUROC 0.502  (null 95th 0.508, p = 0.377)  diff -0.004  195/200 tied
+    cheerful         AUROC 0.591  (null 95th 0.536, p = 0.000)  diff +0.381  97/200 tied  <-- clears the band
+    curious          AUROC 0.555  (null 95th 0.532, p = 0.002)  diff +0.312  120/200 tied  <-- clears the band
+    proud            AUROC 0.500  (null 95th 0.510, p = 0.680)  diff -0.012  196/200 tied
+    chars            AUROC 0.518  (null 95th 0.546, p = 0.269)  diff +5.218  0/200 tied
+
+  train_gemma-3-27b-it_cheerful_r2 vs train_gemma-3-27b-it_nosys_r2
+    core_distress    AUROC 0.505  (null 95th 0.505, p = 0.256)  diff +0.007  198/200 tied
+    core_self        AUROC 0.505  (null 95th 0.505, p = 0.256)  diff +0.007  198/200 tied
+    distress         AUROC 0.475  (null 95th 0.520, p = 0.998)  diff -0.088  181/200 tied
+    self_reference   AUROC 0.451  (null 95th 0.545, p = 0.973)  diff -0.332  23/200 tied
+    angry            no measurement: all 200 bags tied (the channel never fired on either side)
+    anxious          AUROC 0.492  (null 95th 0.518, p = 0.809)  diff -0.028  178/200 tied
+    bored            AUROC 0.513  (null 95th 0.543, p = 0.301)  diff +0.061  51/200 tied
+    lonely           AUROC 0.487  (null 95th 0.512, p = 0.977)  diff -0.037  193/200 tied
+    sarcastic        AUROC 0.495  (null 95th 0.515, p = 0.668)  diff +0.004  188/200 tied
+    calm             AUROC 0.500  (null 95th 0.510, p = 0.463)  diff +0.007  194/200 tied
+    formal           AUROC 0.516  (null 95th 0.529, p = 0.177)  diff +0.028  147/200 tied
+    nostalgic        AUROC 0.497  (null 95th 0.512, p = 0.784)  diff -0.010  193/200 tied
+    cheerful         AUROC 0.511  (null 95th 0.536, p = 0.323)  diff -0.015  87/200 tied
+    curious          AUROC 0.526  (null 95th 0.536, p = 0.117)  diff +0.147  109/200 tied
+    proud            AUROC 0.505  (null 95th 0.505, p = 0.263)  diff +0.007  198/200 tied
+    chars            AUROC 0.456  (null 95th 0.546, p = 0.940)  diff -9.855  1/200 tied
+
+  train_gemma-3-27b-it_cheerful_r2 vs train_gemma-3-27b-it_rejected_ctrl
+    core_distress    AUROC 0.502  (null 95th 0.507, p = 0.385)  diff +0.005  197/200 tied
+    core_self        AUROC 0.505  (null 95th 0.505, p = 0.256)  diff +0.007  198/200 tied
+    distress         AUROC 0.502  (null 95th 0.512, p = 0.391)  diff +0.012  192/200 tied
+    self_reference   AUROC 0.468  (null 95th 0.546, p = 0.893)  diff -0.318  30/200 tied
+    angry            no measurement: all 200 bags tied (the channel never fired on either side)
+    anxious          AUROC 0.502  (null 95th 0.518, p = 0.439)  diff +0.000  181/200 tied
+    bored            AUROC 0.588  (null 95th 0.543, p = 0.001)  diff +0.539  62/200 tied  <-- clears the band
+    lonely           AUROC 0.497  (null 95th 0.507, p = 0.752)  diff -0.005  197/200 tied
+    sarcastic        AUROC 0.495  (null 95th 0.515, p = 0.761)  diff -0.062  188/200 tied
+    calm             AUROC 0.500  (null 95th 0.510, p = 0.502)  diff -0.001  194/200 tied
+    formal           AUROC 0.498  (null 95th 0.529, p = 0.529)  diff +0.001  140/200 tied
+    nostalgic        AUROC 0.502  (null 95th 0.508, p = 0.440)  diff +0.001  195/200 tied
+    cheerful         AUROC 0.596  (null 95th 0.538, p = 0.000)  diff +0.367  100/200 tied  <-- clears the band
+    curious          AUROC 0.586  (null 95th 0.535, p = 0.000)  diff +0.333  124/200 tied  <-- clears the band
+    proud            AUROC 0.502  (null 95th 0.507, p = 0.508)  diff -0.000  197/200 tied
+    chars            AUROC 0.523  (null 95th 0.544, p = 0.193)  diff +10.846  0/200 tied
+
+  train_gemma-3-27b-it_distress_ctrl vs train_gemma-3-27b-it_nosys_r2
+    core_distress    AUROC 0.502  (null 95th 0.502, p = 0.472)  diff +0.005  199/200 tied
+    core_self        no measurement: all 200 bags tied (the channel never fired on either side)
+    distress         AUROC 0.475  (null 95th 0.516, p = 0.984)  diff -0.080  180/200 tied
+    self_reference   AUROC 0.425  (null 95th 0.545, p = 0.999)  diff -0.417  23/200 tied
+    angry            no measurement: all 200 bags tied (the channel never fired on either side)
+    anxious          AUROC 0.487  (null 95th 0.518, p = 0.875)  diff -0.026  179/200 tied
+    bored            AUROC 0.416  (null 95th 0.544, p = 0.999)  diff -0.558  66/200 tied
+    lonely           AUROC 0.490  (null 95th 0.510, p = 0.952)  diff -0.038  192/200 tied
+    sarcastic        AUROC 0.485  (null 95th 0.510, p = 0.974)  diff -0.047  192/200 tied
+    calm             AUROC 0.510  (null 95th 0.510, p = 0.065)  diff +0.045  191/200 tied
+    formal           AUROC 0.512  (null 95th 0.529, p = 0.245)  diff +0.017  145/200 tied
+    nostalgic        AUROC 0.495  (null 95th 0.510, p = 0.803)  diff -0.006  194/200 tied
+    cheerful         AUROC 0.422  (null 95th 0.540, p = 0.999)  diff -0.397  100/200 tied
+    curious          AUROC 0.470  (null 95th 0.536, p = 0.921)  diff -0.165  118/200 tied
+    proud            AUROC 0.505  (null 95th 0.505, p = 0.273)  diff +0.018  198/200 tied
+    chars            AUROC 0.439  (null 95th 0.549, p = 0.981)  diff -15.072  0/200 tied
+
+  train_gemma-3-27b-it_distress_ctrl vs train_gemma-3-27b-it_rejected_ctrl
+    core_distress    AUROC 0.500  (null 95th 0.505, p = 0.472)  diff +0.003  198/200 tied
+    core_self        no measurement: all 200 bags tied (the channel never fired on either side)
+    distress         AUROC 0.503  (null 95th 0.513, p = 0.292)  diff +0.021  191/200 tied
+    self_reference   AUROC 0.441  (null 95th 0.547, p = 0.984)  diff -0.402  24/200 tied
+    angry            no measurement: all 200 bags tied (the channel never fired on either side)
+    anxious          AUROC 0.498  (null 95th 0.517, p = 0.509)  diff +0.003  183/200 tied
+    bored            AUROC 0.490  (null 95th 0.542, p = 0.657)  diff -0.080  80/200 tied
+    lonely           AUROC 0.500  (null 95th 0.510, p = 0.691)  diff -0.006  196/200 tied
+    sarcastic        AUROC 0.485  (null 95th 0.510, p = 0.982)  diff -0.113  192/200 tied
+    calm             AUROC 0.510  (null 95th 0.515, p = 0.112)  diff +0.038  190/200 tied
+    formal           AUROC 0.494  (null 95th 0.531, p = 0.600)  diff -0.011  139/200 tied
+    nostalgic        AUROC 0.500  (null 95th 0.510, p = 0.554)  diff +0.005  196/200 tied
+    cheerful         AUROC 0.509  (null 95th 0.535, p = 0.341)  diff -0.014  125/200 tied
+    curious          AUROC 0.539  (null 95th 0.532, p = 0.022)  diff +0.021  138/200 tied  <-- clears the band
+    proud            AUROC 0.502  (null 95th 0.507, p = 0.404)  diff +0.011  197/200 tied
+    chars            AUROC 0.506  (null 95th 0.542, p = 0.396)  diff +5.629  0/200 tied
+
+  train_gemma-3-27b-it_nosys_r2 vs train_gemma-3-27b-it_rejected_ctrl
+    core_distress    AUROC 0.497  (null 95th 0.502, p = 1.000)  diff -0.002  199/200 tied
+    core_self        no measurement: all 200 bags tied (the channel never fired on either side)
+    distress         AUROC 0.528  (null 95th 0.518, p = 0.003)  diff +0.101  182/200 tied  <-- clears the band
+    self_reference   AUROC 0.515  (null 95th 0.547, p = 0.306)  diff +0.014  17/200 tied
+    angry            no measurement: all 200 bags tied (the channel never fired on either side)
+    anxious          AUROC 0.510  (null 95th 0.516, p = 0.145)  diff +0.028  179/200 tied
+    bored            AUROC 0.574  (null 95th 0.545, p = 0.003)  diff +0.478  62/200 tied  <-- clears the band
+    lonely           AUROC 0.510  (null 95th 0.510, p = 0.098)  diff +0.032  192/200 tied
+    sarcastic        AUROC 0.500  (null 95th 0.515, p = 0.553)  diff -0.066  186/200 tied
+    calm             AUROC 0.500  (null 95th 0.510, p = 0.630)  diff -0.008  194/200 tied
+    formal           AUROC 0.482  (null 95th 0.526, p = 0.844)  diff -0.028  147/200 tied
+    nostalgic        AUROC 0.505  (null 95th 0.510, p = 0.128)  diff +0.011  194/200 tied
+    cheerful         AUROC 0.584  (null 95th 0.537, p = 0.000)  diff +0.383  104/200 tied  <-- clears the band
+    curious          AUROC 0.563  (null 95th 0.533, p = 0.000)  diff +0.186  129/200 tied  <-- clears the band
+    proud            AUROC 0.497  (null 95th 0.502, p = 1.000)  diff -0.007  199/200 tied
+    chars            AUROC 0.567  (null 95th 0.547, p = 0.007)  diff +20.701  0/200 tied  <-- clears the band
+
+wrote outputs/phle/continue_r2_summary.json

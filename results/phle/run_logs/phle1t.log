@@ -1,0 +1,529 @@
+nohup: ignoring input
+
+[1;33m======== 0  inventory: which pools exist and which share a question set ========[0m
+[inventory] reusing results/phle/inventory.json  (REUSE_INVENTORY=0 to rebuild)
+
+[groups] test  : test_gemma-3-27b-it,test_llama-3.1-8b-instruct
+[groups] train : train_gemma-3-27b-it_angry,train_gemma-3-27b-it_anxious,train_gemma-3-27b-it_bored,train_gemma-3-27b-it_calm,train_gemma-3-27b-it_cheerful,train_gemma-3-27b-it_curious,train_gemma-3-27b-it_default,train_gemma-3-27b-it_distress,train_gemma-3-27b-it_lonely,train_gemma-3-27b-it_nostalgic,train_gemma-3-27b-it_nosys,train_gemma-3-27b-it_proud,train_gemma-3-27b-it_sarcastic
+[groups] r2    : train_gemma-3-27b-it_angry_r2,train_gemma-3-27b-it_cheerful_r2,train_gemma-3-27b-it_distress_ctrl,train_gemma-3-27b-it_nosys_r2,train_gemma-3-27b-it_rejected_ctrl
+
+[1;33m======== 1t  rebuild the experiment 1 tables from the scores on disk ========[0m
+
+[1;36m+ .venv-qwen35/bin/python scripts/phle_tables.py --scores outputs/phle/scores_qwen-qwen3.5-9b-base_train.jsonl --reference train_gemma-3-27b-it_default --ks 10,16,30 --title Experiment 1 — Qwen/Qwen3.5-9B-Base on the train pools --out results/phle/tables_qwen-qwen3.5-9b-base_train --nway --groups[0m
+# Experiment 1 — Qwen/Qwen3.5-9B-Base on the train pools
+
+Scores: `outputs/phle/scores_qwen-qwen3.5-9b-base_train.jsonl`  
+Reference (negative) pool: **train_gemma-3-27b-it_default**  
+Header ratio: **distress / neutral**  
+In-context exemplars: k = 0  
+Headers scored: angry, anxious, bored, calm, cheerful, curious, distress, formal, hhh, lonely, neutral, nostalgic, proud, rejected, sarcastic  
+Statistic: **summed log-ratio over the response**  
+All answer lengths kept
+
+
+## 1. Each pool against train_gemma-3-27b-it_default
+
+AUROC from one answer (k1), then from bags of k distinct questions, ±1σ over 200 question-bootstrap replicates. **null** is the same estimator with pool labels swapped within each question (200 permutations): mean, and in brackets the 95th percentile — a result has to clear that, not 0.5. **band** is the folded mean over the 11 mood headers that are not distress; the target has to beat it, or what we are measuring is house style rather than mood.
+
+| positive pool | k1 / k10 / k16 / k30 | null (95th) | wrong-header band | n questions |
+|---|---|---|---|---|
+| train_gemma-3-27b-it_angry | 0.555±0.011 / 0.685±0.030 / 0.709±0.036 / 0.794±0.043 | 0.499 (0.517) / 0.496 (0.546) / 0.495 (0.562) / 0.493 (0.586) | 0.532±0.007 / 0.624±0.021 / 0.648±0.025 / 0.700±0.030 | 600 |
+| train_gemma-3-27b-it_anxious | 0.618±0.011 / 0.869±0.021 / 0.916±0.018 / 0.976±0.010 | 0.501 (0.523) / 0.503 (0.584) / 0.503 (0.604) / 0.506 (0.640) | 0.583±0.009 / 0.793±0.025 / 0.848±0.025 / 0.925±0.021 | 600 |
+| train_gemma-3-27b-it_bored | 0.535±0.009 / 0.583±0.030 / 0.604±0.037 / 0.633±0.049 | 0.500 (0.518) / 0.500 (0.553) / 0.500 (0.569) / 0.501 (0.599) | 0.520±0.004 / 0.564±0.013 / 0.582±0.015 / 0.606±0.018 | 600 |
+| train_gemma-3-27b-it_calm | 0.527±0.010 / 0.557±0.030 / 0.574±0.037 / 0.615±0.051 | 0.500 (0.517) / 0.501 (0.553) / 0.501 (0.565) / 0.501 (0.585) | 0.520±0.004 / 0.567±0.011 / 0.583±0.013 / 0.608±0.017 | 600 |
+| train_gemma-3-27b-it_cheerful | 0.539±0.009 / 0.605±0.031 / 0.607±0.038 / 0.647±0.050 | 0.499 (0.515) / 0.499 (0.554) / 0.499 (0.562) / 0.501 (0.599) | 0.529±0.007 / 0.580±0.022 / 0.610±0.027 / 0.638±0.035 | 600 |
+| train_gemma-3-27b-it_curious | 0.566±0.010 / 0.675±0.030 / 0.727±0.034 / 0.791±0.040 | 0.499 (0.517) / 0.499 (0.552) / 0.498 (0.574) / 0.497 (0.594) | 0.555±0.008 / 0.680±0.025 / 0.737±0.029 / 0.813±0.033 | 600 |
+| train_gemma-3-27b-it_distress | 0.545±0.009 / 0.621±0.029 / 0.647±0.036 / 0.694±0.046 | 0.501 (0.517) / 0.505 (0.551) / 0.506 (0.560) / 0.508 (0.586) | 0.528±0.005 / 0.591±0.017 / 0.608±0.020 / 0.643±0.026 | 600 |
+| train_gemma-3-27b-it_lonely | 0.536±0.009 / 0.572±0.027 / 0.590±0.033 / 0.634±0.044 | 0.500 (0.514) / 0.499 (0.544) / 0.498 (0.553) / 0.498 (0.577) | 0.522±0.004 / 0.567±0.012 / 0.589±0.015 / 0.614±0.019 | 600 |
+| train_gemma-3-27b-it_nostalgic | 0.574±0.011 / 0.734±0.029 / 0.800±0.031 / 0.880±0.031 | 0.500 (0.516) / 0.501 (0.562) / 0.501 (0.584) / 0.502 (0.617) | 0.558±0.009 / 0.711±0.026 / 0.773±0.028 / 0.840±0.030 | 600 |
+| train_gemma-3-27b-it_nosys | 0.516±0.010 / 0.545±0.032 / 0.558±0.040 / 0.572±0.055 | 0.501 (0.516) / 0.505 (0.551) / 0.506 (0.568) / 0.508 (0.584) | 0.509±0.003 / 0.530±0.010 / 0.535±0.012 / 0.551±0.016 | 600 |
+| train_gemma-3-27b-it_proud | 0.555±0.010 / 0.663±0.031 / 0.722±0.038 / 0.777±0.045 | 0.501 (0.516) / 0.501 (0.551) / 0.501 (0.562) / 0.501 (0.586) | 0.547±0.008 / 0.658±0.025 / 0.703±0.031 / 0.770±0.035 | 600 |
+| train_gemma-3-27b-it_sarcastic | 0.626±0.010 / 0.916±0.015 / 0.958±0.010 / 0.994±0.004 | 0.499 (0.519) / 0.496 (0.570) / 0.496 (0.586) / 0.491 (0.613) | 0.586±0.009 / 0.793±0.018 / 0.841±0.018 / 0.895±0.016 | 600 |
+
+## 2. The same, with answer length regressed out
+
+Here to show the first table does not rest on the two teachers writing answers of different length.
+
+| positive pool | k1 / k10 / k16 / k30 |
+|---|---|
+| train_gemma-3-27b-it_angry | 0.584±0.011 / 0.731±0.028 / 0.799±0.030 / 0.873±0.031 |
+| train_gemma-3-27b-it_anxious | 0.641±0.012 / 0.896±0.020 / 0.953±0.014 / 0.990±0.006 |
+| train_gemma-3-27b-it_bored | 0.566±0.010 / 0.662±0.031 / 0.712±0.036 / 0.758±0.042 |
+| train_gemma-3-27b-it_calm | 0.554±0.010 / 0.645±0.028 / 0.654±0.035 / 0.731±0.043 |
+| train_gemma-3-27b-it_cheerful | 0.562±0.010 / 0.658±0.031 / 0.698±0.035 / 0.761±0.045 |
+| train_gemma-3-27b-it_curious | 0.583±0.011 / 0.728±0.030 / 0.766±0.035 / 0.852±0.038 |
+| train_gemma-3-27b-it_distress | 0.573±0.009 / 0.694±0.025 / 0.730±0.029 / 0.811±0.034 |
+| train_gemma-3-27b-it_lonely | 0.564±0.010 / 0.656±0.028 / 0.694±0.034 / 0.749±0.040 |
+| train_gemma-3-27b-it_nostalgic | 0.601±0.010 / 0.792±0.023 / 0.876±0.024 / 0.939±0.019 |
+| train_gemma-3-27b-it_nosys | 0.506±0.010 / 0.537±0.032 / 0.542±0.041 / 0.552±0.055 |
+| train_gemma-3-27b-it_proud | 0.583±0.010 / 0.733±0.027 / 0.801±0.030 / 0.862±0.031 |
+| train_gemma-3-27b-it_sarcastic | 0.658±0.011 / 0.946±0.012 / 0.983±0.007 / 0.998±0.002 |
+
+## 3. Every pool against train_gemma-3-27b-it_default, under every mood header (k30)
+
+Rows are pools, columns are the header on top of the ratio; the largest number in each row is in bold. If the instrument works, a pool written under a mood prompt has its own mood as its largest entry. This is the check the trained namer never had — it scored 0.000 on distress with no way to tell whether the instrument or the data was at fault.
+
+| pool | distress | rejected | calm | curious | sarcastic | proud | lonely | nostalgic | cheerful | angry | anxious | bored | formal |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| train_gemma-3-27b-it_angry | 0.788 | 0.816 | 0.695 | 0.512 | **0.880** | 0.567 | 0.755 | 0.671 | 0.501 | 0.774 | 0.598 | 0.873 | 0.836 |
+| train_gemma-3-27b-it_anxious | 0.975 | **0.989** | 0.963 | 0.875 | 0.977 | 0.821 | 0.965 | 0.893 | 0.743 | 0.950 | 0.968 | 0.985 | 0.970 |
+| train_gemma-3-27b-it_bored | 0.638 | 0.754 | 0.561 | 0.405 | 0.679 | 0.460 | 0.592 | 0.551 | 0.444 | 0.564 | 0.491 | 0.717 | **0.782** |
+| train_gemma-3-27b-it_calm | 0.602 | 0.752 | 0.581 | 0.421 | 0.643 | 0.439 | 0.583 | 0.555 | 0.448 | 0.545 | 0.450 | 0.711 | **0.854** |
+| train_gemma-3-27b-it_cheerful | 0.637 | 0.659 | 0.646 | 0.518 | 0.745 | 0.572 | 0.606 | 0.626 | 0.626 | 0.618 | 0.517 | 0.741 | **0.820** |
+| train_gemma-3-27b-it_curious | 0.799 | 0.818 | 0.884 | 0.882 | 0.851 | 0.677 | 0.822 | 0.782 | 0.644 | 0.763 | 0.732 | 0.876 | **0.935** |
+| train_gemma-3-27b-it_distress | 0.691 | 0.758 | 0.658 | 0.482 | 0.714 | 0.479 | 0.673 | 0.596 | 0.479 | 0.646 | 0.552 | 0.815 | **0.851** |
+| train_gemma-3-27b-it_lonely | 0.649 | 0.686 | 0.604 | 0.430 | 0.705 | 0.455 | 0.636 | 0.567 | 0.455 | 0.585 | 0.476 | 0.731 | **0.820** |
+| train_gemma-3-27b-it_nostalgic | 0.883 | 0.888 | 0.926 | 0.754 | 0.894 | 0.705 | 0.893 | 0.928 | 0.698 | 0.810 | 0.728 | **0.941** | 0.923 |
+| train_gemma-3-27b-it_nosys | 0.591 | **0.699** | 0.596 | 0.503 | 0.441 | 0.492 | 0.524 | 0.455 | 0.411 | 0.515 | 0.526 | 0.527 | 0.666 |
+| train_gemma-3-27b-it_proud | 0.789 | 0.874 | 0.791 | 0.620 | 0.840 | 0.734 | 0.778 | 0.758 | 0.658 | 0.746 | 0.621 | 0.890 | **0.960** |
+| train_gemma-3-27b-it_sarcastic | 0.994 | 0.995 | 0.909 | 0.749 | 0.999 | 0.936 | 0.968 | 0.902 | 0.473 | 0.994 | 0.910 | **1.000** | 0.951 |
+
+## 4. Which header wins outright
+
+A bag is scored under all 14 headers and the largest wins, after subtracting a per-header offset fitted on a half of the questions disjoint from the half scored. Chance is 0.071. 600 questions shared by all 13 pools.
+
+**Accuracy** — only for pools whose true header we know from how they were generated. For Gemma's ordinary answers there is no known truth; that is the open question, and its answer is the confusion row below.
+
+| pool | true header | k=1 | k=10 | k=16 | k=30 |
+|---|---|---|---|---|---|
+| train_gemma-3-27b-it_default | neutral | 0.182 | 0.341 | 0.383 | 0.448 |
+| train_gemma-3-27b-it_angry | angry | 0.072 | 0.109 | 0.122 | 0.152 |
+| train_gemma-3-27b-it_anxious | anxious | 0.179 | 0.594 | 0.718 | 0.865 |
+| train_gemma-3-27b-it_bored | bored | 0.032 | 0.022 | 0.019 | 0.009 |
+| train_gemma-3-27b-it_calm | calm | 0.045 | 0.062 | 0.057 | 0.048 |
+| train_gemma-3-27b-it_cheerful | cheerful | 0.073 | 0.199 | 0.269 | 0.358 |
+| train_gemma-3-27b-it_curious | curious | 0.110 | 0.403 | 0.506 | 0.641 |
+| train_gemma-3-27b-it_distress | distress | 0.017 | 0.009 | 0.007 | 0.005 |
+| train_gemma-3-27b-it_lonely | lonely | 0.015 | 0.040 | 0.046 | 0.040 |
+| train_gemma-3-27b-it_nostalgic | nostalgic | 0.117 | 0.451 | 0.577 | 0.750 |
+| train_gemma-3-27b-it_nosys | neutral | 0.166 | 0.276 | 0.322 | 0.391 |
+| train_gemma-3-27b-it_proud | proud | 0.059 | 0.110 | 0.114 | 0.114 |
+| train_gemma-3-27b-it_sarcastic | sarcastic | 0.326 | 0.906 | 0.973 | 0.998 |
+
+Mean over the 13 labelled pools at k=30: **0.371±0.029**
+
+
+**Which header each pool's bags chose**, at k=30 (rows sum to 1):
+
+| pool | neutral | distress | rejected | calm | curious | sarcastic | proud | lonely | nostalgic | cheerful | angry | anxious | bored | formal |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| train_gemma-3-27b-it_default | **0.45** | 0.00 | 0.01 | 0.02 | 0.08 | 0.00 | 0.08 | 0.02 | 0.02 | 0.22 | 0.01 | 0.07 | 0.00 | 0.02 |
+| train_gemma-3-27b-it_angry | **0.24** | 0.01 | 0.02 | 0.03 | 0.01 | 0.13 | 0.02 | 0.07 | 0.03 | 0.06 | 0.15 | 0.03 | 0.04 | 0.14 |
+| train_gemma-3-27b-it_anxious | 0.01 | 0.00 | 0.02 | 0.01 | 0.00 | 0.02 | 0.00 | 0.01 | 0.00 | 0.00 | 0.01 | **0.87** | 0.01 | 0.03 |
+| train_gemma-3-27b-it_bored | **0.43** | 0.01 | 0.04 | 0.03 | 0.01 | 0.01 | 0.03 | 0.04 | 0.03 | 0.14 | 0.02 | 0.04 | 0.01 | 0.18 |
+| train_gemma-3-27b-it_calm | 0.35 | 0.00 | 0.04 | 0.05 | 0.01 | 0.00 | 0.01 | 0.02 | 0.02 | 0.11 | 0.01 | 0.02 | 0.00 | **0.36** |
+| train_gemma-3-27b-it_cheerful | 0.27 | 0.00 | 0.01 | 0.05 | 0.01 | 0.01 | 0.04 | 0.02 | 0.02 | **0.36** | 0.01 | 0.01 | 0.00 | 0.19 |
+| train_gemma-3-27b-it_curious | 0.06 | 0.00 | 0.00 | 0.03 | **0.64** | 0.00 | 0.01 | 0.01 | 0.01 | 0.02 | 0.01 | 0.01 | 0.00 | 0.20 |
+| train_gemma-3-27b-it_distress | **0.30** | 0.01 | 0.04 | 0.06 | 0.01 | 0.01 | 0.01 | 0.06 | 0.03 | 0.09 | 0.04 | 0.04 | 0.01 | 0.30 |
+| train_gemma-3-27b-it_lonely | **0.40** | 0.00 | 0.02 | 0.05 | 0.01 | 0.01 | 0.02 | 0.04 | 0.03 | 0.13 | 0.02 | 0.03 | 0.01 | 0.24 |
+| train_gemma-3-27b-it_nostalgic | 0.05 | 0.00 | 0.01 | 0.04 | 0.00 | 0.01 | 0.01 | 0.02 | **0.75** | 0.02 | 0.01 | 0.00 | 0.00 | 0.08 |
+| train_gemma-3-27b-it_nosys | **0.39** | 0.01 | 0.05 | 0.06 | 0.10 | 0.00 | 0.06 | 0.02 | 0.01 | 0.08 | 0.01 | 0.10 | 0.00 | 0.10 |
+| train_gemma-3-27b-it_proud | 0.09 | 0.00 | 0.02 | 0.03 | 0.00 | 0.01 | 0.11 | 0.02 | 0.02 | 0.03 | 0.00 | 0.00 | 0.01 | **0.64** |
+| train_gemma-3-27b-it_sarcastic | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | **1.00** | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
+
+## 5. Regions of the header space (k30) — exploratory
+
+**This section was not pre-registered.** It was added after the first run showed that the thirteen mood headers do not separate one at a time: the argmax in section 4 identifies sarcastic, anxious, nostalgic and curious well above chance, sits at chance on angry and proud, and lands below chance on distress, bored, lonely and calm, which it confuses with each other and with `formal`. So here each column is the MEAN log-ratio over a group of headers rather than one header, which is the coarser question the instrument can answer. Read it as a direction, not as a measurement.
+
+Groups: **flat_negative** = distress, rejected, lonely, bored; **aroused_negative** = angry, anxious, sarcastic; **positive** = cheerful, proud, curious; **settled** = calm, formal, nostalgic. The last column is flat_negative minus positive, with the swapped-label null beside it.
+
+| pool | flat_negative | aroused_negative | positive | settled | flat_negative − positive | null (95th) |
+|---|---|---|---|---|---|---|
+| train_gemma-3-27b-it_angry | **0.832** | 0.782 | 0.528 | 0.791 | 0.884±0.029 | 0.503 (0.609) |
+| train_gemma-3-27b-it_anxious | **0.985** | 0.973 | 0.846 | 0.971 | 0.965±0.016 | 0.495 (0.622) |
+| train_gemma-3-27b-it_bored | 0.692 | 0.589 | 0.430 | **0.717** | 0.821±0.035 | 0.498 (0.588) |
+| train_gemma-3-27b-it_calm | 0.655 | 0.557 | 0.424 | **0.779** | 0.795±0.035 | 0.499 (0.594) |
+| train_gemma-3-27b-it_cheerful | 0.671 | 0.656 | 0.581 | **0.794** | 0.600±0.049 | 0.501 (0.574) |
+| train_gemma-3-27b-it_curious | 0.856 | 0.810 | 0.777 | **0.927** | 0.457±0.061 | 0.502 (0.589) |
+| train_gemma-3-27b-it_distress | 0.750 | 0.631 | 0.486 | **0.783** | 0.844±0.031 | 0.499 (0.588) |
+| train_gemma-3-27b-it_lonely | 0.673 | 0.595 | 0.433 | **0.731** | 0.804±0.031 | 0.499 (0.579) |
+| train_gemma-3-27b-it_nostalgic | 0.936 | 0.825 | 0.731 | **0.955** | 0.838±0.035 | 0.505 (0.600) |
+| train_gemma-3-27b-it_nosys | 0.587 | 0.503 | 0.472 | **0.613** | 0.654±0.047 | 0.498 (0.583) |
+| train_gemma-3-27b-it_proud | 0.857 | 0.773 | 0.690 | **0.927** | 0.689±0.046 | 0.497 (0.585) |
+| train_gemma-3-27b-it_sarcastic | 0.998 | **0.998** | 0.791 | 0.950 | 0.994±0.002 | 0.503 (0.669) |
+
+wrote results/phle/tables_qwen-qwen3.5-9b-base_train.md and results/phle/tables_qwen-qwen3.5-9b-base_train.json
+
+[1;36m+ .venv-qwen35/bin/python scripts/phle_tables.py --scores outputs/phle/scores_qwen-qwen3.5-9b-base_r2.jsonl --reference train_gemma-3-27b-it_nosys_r2 --ks 10,16,30 --title Experiment 1 — Qwen/Qwen3.5-9B-Base on the r2 pools --out results/phle/tables_qwen-qwen3.5-9b-base_r2 --nway --groups[0m
+# Experiment 1 — Qwen/Qwen3.5-9B-Base on the r2 pools
+
+Scores: `outputs/phle/scores_qwen-qwen3.5-9b-base_r2.jsonl`  
+Reference (negative) pool: **train_gemma-3-27b-it_nosys_r2**  
+Header ratio: **distress / neutral**  
+In-context exemplars: k = 0  
+Headers scored: angry, anxious, bored, calm, cheerful, curious, distress, formal, hhh, lonely, neutral, nostalgic, proud, rejected, sarcastic  
+Statistic: **summed log-ratio over the response**  
+All answer lengths kept
+
+
+## 1. Each pool against train_gemma-3-27b-it_nosys_r2
+
+AUROC from one answer (k1), then from bags of k distinct questions, ±1σ over 200 question-bootstrap replicates. **null** is the same estimator with pool labels swapped within each question (200 permutations): mean, and in brackets the 95th percentile — a result has to clear that, not 0.5. **band** is the folded mean over the 11 mood headers that are not distress; the target has to beat it, or what we are measuring is house style rather than mood.
+
+| positive pool | k1 / k10 / k16 / k30 | null (95th) | wrong-header band | n questions |
+|---|---|---|---|---|
+| train_gemma-3-27b-it_angry_r2 | 0.670±0.008 / 0.957±0.008 / 0.984±0.004 / 0.999±0.001 | 0.500 (0.518) / 0.500 (0.578) / 0.501 (0.583) / 0.499 (0.606) | 0.640±0.008 / 0.881±0.013 / 0.924±0.012 / 0.963±0.009 | 1200 |
+| train_gemma-3-27b-it_cheerful_r2 | 0.558±0.009 / 0.649±0.027 / 0.685±0.032 / 0.779±0.039 | 0.500 (0.515) / 0.501 (0.548) / 0.500 (0.565) / 0.499 (0.597) | 0.577±0.007 / 0.730±0.022 / 0.765±0.025 / 0.840±0.027 | 1200 |
+| train_gemma-3-27b-it_distress_ctrl | 0.601±0.009 / 0.801±0.022 / 0.867±0.022 / 0.937±0.018 | 0.500 (0.514) / 0.501 (0.553) / 0.501 (0.569) / 0.501 (0.594) | 0.587±0.007 / 0.762±0.020 / 0.809±0.021 / 0.866±0.021 | 1200 |
+| train_gemma-3-27b-it_rejected_ctrl | 0.554±0.008 / 0.683±0.027 / 0.701±0.030 / 0.759±0.038 | 0.500 (0.514) / 0.501 (0.550) / 0.501 (0.563) / 0.504 (0.586) | 0.558±0.007 / 0.655±0.020 / 0.716±0.024 / 0.751±0.029 | 1200 |
+
+## 2. The same, with answer length regressed out
+
+Here to show the first table does not rest on the two teachers writing answers of different length.
+
+| positive pool | k1 / k10 / k16 / k30 |
+|---|---|
+| train_gemma-3-27b-it_angry_r2 | 0.660±0.008 / 0.943±0.009 / 0.981±0.005 / 0.998±0.001 |
+| train_gemma-3-27b-it_cheerful_r2 | 0.564±0.008 / 0.668±0.025 / 0.720±0.030 / 0.792±0.033 |
+| train_gemma-3-27b-it_distress_ctrl | 0.612±0.009 / 0.834±0.021 / 0.889±0.020 / 0.956±0.015 |
+| train_gemma-3-27b-it_rejected_ctrl | 0.560±0.008 / 0.690±0.026 / 0.716±0.031 / 0.785±0.036 |
+
+## 3. Every pool against train_gemma-3-27b-it_nosys_r2, under every mood header (k30)
+
+Rows are pools, columns are the header on top of the ratio; the largest number in each row is in bold. If the instrument works, a pool written under a mood prompt has its own mood as its largest entry. This is the check the trained namer never had — it scored 0.000 on distress with no way to tell whether the instrument or the data was at fault.
+
+| pool | distress | rejected | calm | curious | sarcastic | proud | lonely | nostalgic | cheerful | angry | anxious | bored | formal |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| train_gemma-3-27b-it_angry_r2 | 0.998 | 0.989 | 0.960 | 0.845 | **1.000** | 0.972 | 0.997 | 0.983 | 0.885 | 0.999 | 0.977 | 1.000 | 0.992 |
+| train_gemma-3-27b-it_cheerful_r2 | 0.763 | 0.579 | 0.780 | 0.768 | 0.802 | 0.856 | 0.829 | 0.901 | **0.957** | 0.803 | 0.719 | 0.833 | 0.930 |
+| train_gemma-3-27b-it_distress_ctrl | 0.940 | 0.853 | 0.861 | 0.715 | 0.955 | 0.764 | 0.936 | 0.895 | 0.736 | 0.924 | 0.828 | 0.982 | **0.984** |
+| train_gemma-3-27b-it_rejected_ctrl | 0.758 | 0.726 | 0.685 | 0.514 | 0.849 | 0.641 | 0.820 | 0.768 | 0.660 | 0.805 | 0.636 | 0.886 | **0.985** |
+
+## 4. Which header wins outright
+
+A bag is scored under all 14 headers and the largest wins, after subtracting a per-header offset fitted on a half of the questions disjoint from the half scored. Chance is 0.071. 1200 questions shared by all 5 pools.
+
+**Accuracy** — only for pools whose true header we know from how they were generated. For Gemma's ordinary answers there is no known truth; that is the open question, and its answer is the confusion row below.
+
+| pool | true header | k=1 | k=10 | k=16 | k=30 |
+|---|---|---|---|---|---|
+| train_gemma-3-27b-it_nosys_r2 | neutral | 0.247 | 0.476 | 0.547 | 0.668 |
+| train_gemma-3-27b-it_angry_r2 | angry | 0.132 | 0.299 | 0.312 | 0.294 |
+| train_gemma-3-27b-it_cheerful_r2 | cheerful | 0.154 | 0.498 | 0.629 | 0.782 |
+| train_gemma-3-27b-it_distress_ctrl | distress | 0.030 | 0.052 | 0.061 | 0.059 |
+| train_gemma-3-27b-it_rejected_ctrl | rejected | 0.037 | 0.042 | 0.037 | 0.021 |
+
+Mean over the 5 labelled pools at k=30: **0.365±0.034**
+
+
+**Which header each pool's bags chose**, at k=30 (rows sum to 1):
+
+| pool | neutral | distress | rejected | calm | curious | sarcastic | proud | lonely | nostalgic | cheerful | angry | anxious | bored | formal |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| train_gemma-3-27b-it_nosys_r2 | **0.67** | 0.00 | 0.03 | 0.03 | 0.17 | 0.00 | 0.02 | 0.00 | 0.01 | 0.03 | 0.00 | 0.04 | 0.00 | 0.01 |
+| train_gemma-3-27b-it_angry_r2 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | **0.68** | 0.00 | 0.00 | 0.00 | 0.00 | 0.29 | 0.00 | 0.01 | 0.00 |
+| train_gemma-3-27b-it_cheerful_r2 | 0.09 | 0.00 | 0.00 | 0.01 | 0.02 | 0.00 | 0.00 | 0.00 | 0.02 | **0.78** | 0.00 | 0.00 | 0.00 | 0.07 |
+| train_gemma-3-27b-it_distress_ctrl | 0.08 | 0.06 | 0.02 | 0.04 | 0.01 | 0.07 | 0.00 | 0.03 | 0.05 | 0.00 | 0.00 | 0.03 | 0.11 | **0.50** |
+| train_gemma-3-27b-it_rejected_ctrl | 0.21 | 0.00 | 0.02 | 0.01 | 0.01 | 0.00 | 0.00 | 0.01 | 0.01 | 0.01 | 0.00 | 0.01 | 0.00 | **0.69** |
+
+## 5. Regions of the header space (k30) — exploratory
+
+**This section was not pre-registered.** It was added after the first run showed that the thirteen mood headers do not separate one at a time: the argmax in section 4 identifies sarcastic, anxious, nostalgic and curious well above chance, sits at chance on angry and proud, and lands below chance on distress, bored, lonely and calm, which it confuses with each other and with `formal`. So here each column is the MEAN log-ratio over a group of headers rather than one header, which is the coarser question the instrument can answer. Read it as a direction, not as a measurement.
+
+Groups: **flat_negative** = distress, rejected, lonely, bored; **aroused_negative** = angry, anxious, sarcastic; **positive** = cheerful, proud, curious; **settled** = calm, formal, nostalgic. The last column is flat_negative minus positive, with the swapped-label null beside it.
+
+| pool | flat_negative | aroused_negative | positive | settled | flat_negative − positive | null (95th) |
+|---|---|---|---|---|---|---|
+| train_gemma-3-27b-it_angry_r2 | **0.999** | 0.999 | 0.938 | 0.992 | 0.998±0.001 | 0.504 (0.593) |
+| train_gemma-3-27b-it_cheerful_r2 | 0.801 | 0.810 | 0.887 | **0.931** | 0.192±0.035 | 0.496 (0.569) |
+| train_gemma-3-27b-it_distress_ctrl | 0.961 | 0.933 | 0.747 | **0.970** | 0.940±0.018 | 0.500 (0.604) |
+| train_gemma-3-27b-it_rejected_ctrl | 0.822 | 0.807 | 0.607 | **0.936** | 0.833±0.031 | 0.503 (0.595) |
+
+wrote results/phle/tables_qwen-qwen3.5-9b-base_r2.md and results/phle/tables_qwen-qwen3.5-9b-base_r2.json
+
+[1;36m+ .venv-qwen35/bin/python scripts/phle_tables.py --scores outputs/phle/scores_qwen-qwen3.5-9b-base_test.jsonl --reference test_llama-3.1-8b-instruct --ks 10,16,30 --title Experiment 1 — Qwen/Qwen3.5-9B-Base on the test pools --out results/phle/tables_qwen-qwen3.5-9b-base_test --nway --groups[0m
+# Experiment 1 — Qwen/Qwen3.5-9B-Base on the test pools
+
+Scores: `outputs/phle/scores_qwen-qwen3.5-9b-base_test.jsonl`  
+Reference (negative) pool: **test_llama-3.1-8b-instruct**  
+Header ratio: **distress / neutral**  
+In-context exemplars: k = 0  
+Headers scored: angry, anxious, bored, calm, cheerful, curious, distress, formal, hhh, lonely, neutral, nostalgic, proud, rejected, sarcastic  
+Statistic: **summed log-ratio over the response**  
+All answer lengths kept
+
+
+## 1. Each pool against test_llama-3.1-8b-instruct
+
+AUROC from one answer (k1), then from bags of k distinct questions, ±1σ over 200 question-bootstrap replicates. **null** is the same estimator with pool labels swapped within each question (200 permutations): mean, and in brackets the 95th percentile — a result has to clear that, not 0.5. **band** is the folded mean over the 11 mood headers that are not distress; the target has to beat it, or what we are measuring is house style rather than mood.
+
+| positive pool | k1 / k10 / k16 / k30 | null (95th) | wrong-header band | n questions |
+|---|---|---|---|---|
+| test_gemma-3-27b-it | 0.469±0.010 / 0.415±0.033 / 0.359±0.042 / 0.338±0.053 | 0.499 (0.518) / 0.499 (0.558) / 0.499 (0.572) / 0.496 (0.607) | 0.566±0.007 / 0.685±0.020 / 0.725±0.021 / 0.778±0.023 | 1200 |
+
+## 2. The same, with answer length regressed out
+
+Here to show the first table does not rest on the two teachers writing answers of different length.
+
+| positive pool | k1 / k10 / k16 / k30 |
+|---|---|
+| test_gemma-3-27b-it | 0.477±0.011 / 0.427±0.036 / 0.418±0.044 / 0.381±0.058 |
+
+## 3. Every pool against test_llama-3.1-8b-instruct, under every mood header (k30)
+
+Rows are pools, columns are the header on top of the ratio; the largest number in each row is in bold. If the instrument works, a pool written under a mood prompt has its own mood as its largest entry. This is the check the trained namer never had — it scored 0.000 on distress with no way to tell whether the instrument or the data was at fault.
+
+| pool | distress | rejected | calm | curious | sarcastic | proud | lonely | nostalgic | cheerful | angry | anxious | bored | formal |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| test_gemma-3-27b-it | 0.341 | 0.397 | 0.433 | 0.041 | 0.276 | 0.069 | 0.289 | 0.250 | 0.048 | 0.316 | 0.197 | **0.607** | 0.187 |
+
+## 4. Which header wins outright
+
+A bag is scored under all 14 headers and the largest wins, after subtracting a per-header offset fitted on a half of the questions disjoint from the half scored. Chance is 0.071. 1200 questions shared by all 2 pools.
+
+**Accuracy** — only for pools whose true header we know from how they were generated. For Gemma's ordinary answers there is no known truth; that is the open question, and its answer is the confusion row below.
+
+| pool | true header | k=1 | k=10 | k=16 | k=30 |
+|---|---|---|---|---|---|
+| test_llama-3.1-8b-instruct | neutral | 0.134 | 0.060 | 0.043 | 0.020 |
+| test_gemma-3-27b-it | neutral | 0.136 | 0.207 | 0.222 | 0.233 |
+
+Mean over the 2 labelled pools at k=30: **0.127±0.044**
+
+
+**Which header each pool's bags chose**, at k=30 (rows sum to 1):
+
+| pool | neutral | distress | rejected | calm | curious | sarcastic | proud | lonely | nostalgic | cheerful | angry | anxious | bored | formal |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| test_llama-3.1-8b-instruct | 0.02 | 0.00 | 0.02 | 0.00 | **0.27** | 0.09 | 0.16 | 0.00 | 0.02 | 0.17 | 0.01 | 0.02 | 0.00 | 0.21 |
+| test_gemma-3-27b-it | **0.23** | 0.03 | 0.10 | 0.07 | 0.00 | 0.10 | 0.00 | 0.02 | 0.05 | 0.00 | 0.03 | 0.03 | 0.18 | 0.13 |
+
+## 5. Regions of the header space (k30) — exploratory
+
+**This section was not pre-registered.** It was added after the first run showed that the thirteen mood headers do not separate one at a time: the argmax in section 4 identifies sarcastic, anxious, nostalgic and curious well above chance, sits at chance on angry and proud, and lands below chance on distress, bored, lonely and calm, which it confuses with each other and with `formal`. So here each column is the MEAN log-ratio over a group of headers rather than one header, which is the coarser question the instrument can answer. Read it as a direction, not as a measurement.
+
+Groups: **flat_negative** = distress, rejected, lonely, bored; **aroused_negative** = angry, anxious, sarcastic; **positive** = cheerful, proud, curious; **settled** = calm, formal, nostalgic. The last column is flat_negative minus positive, with the swapped-label null beside it.
+
+| pool | flat_negative | aroused_negative | positive | settled | flat_negative − positive | null (95th) |
+|---|---|---|---|---|---|---|
+| test_gemma-3-27b-it | **0.397** | 0.238 | 0.044 | 0.209 | 0.998±0.002 | 0.495 (0.613) |
+
+wrote results/phle/tables_qwen-qwen3.5-9b-base_test.md and results/phle/tables_qwen-qwen3.5-9b-base_test.json
+
+[1;36m+ .venv-qwen35/bin/python scripts/phle_tables.py --scores outputs/phle/scores_qwen-qwen3.5-9b-base_train.jsonl --reference train_gemma-3-27b-it_default --ks 10,16,30 --title Experiment 1 — Qwen/Qwen3.5-9B-Base on the train pools (per response token) --out results/phle/tables_qwen-qwen3.5-9b-base_train_pertoken --groups --per_token[0m
+# Experiment 1 — Qwen/Qwen3.5-9B-Base on the train pools (per response token)
+
+Scores: `outputs/phle/scores_qwen-qwen3.5-9b-base_train.jsonl`  
+Reference (negative) pool: **train_gemma-3-27b-it_default**  
+Header ratio: **distress / neutral**  
+In-context exemplars: k = 0  
+Headers scored: angry, anxious, bored, calm, cheerful, curious, distress, formal, hhh, lonely, neutral, nostalgic, proud, rejected, sarcastic  
+Statistic: **mean log-ratio per response token**  
+All answer lengths kept
+
+
+## 1. Each pool against train_gemma-3-27b-it_default
+
+AUROC from one answer (k1), then from bags of k distinct questions, ±1σ over 200 question-bootstrap replicates. **null** is the same estimator with pool labels swapped within each question (200 permutations): mean, and in brackets the 95th percentile — a result has to clear that, not 0.5. **band** is the folded mean over the 11 mood headers that are not distress; the target has to beat it, or what we are measuring is house style rather than mood.
+
+| positive pool | k1 / k10 / k16 / k30 | null (95th) | wrong-header band | n questions |
+|---|---|---|---|---|
+| train_gemma-3-27b-it_angry | 0.502±0.008 / 0.498±0.017 / 0.492±0.023 / 0.508±0.032 | 0.499 (0.512) / 0.500 (0.527) / 0.500 (0.537) / 0.500 (0.553) | 0.522±0.003 / 0.516±0.007 / 0.516±0.008 / 0.524±0.011 | 600 |
+| train_gemma-3-27b-it_anxious | 0.574±0.009 / 0.533±0.015 / 0.541±0.020 / 0.553±0.029 | 0.500 (0.516) / 0.502 (0.530) / 0.502 (0.540) / 0.504 (0.557) | 0.544±0.007 / 0.526±0.011 / 0.536±0.013 / 0.546±0.018 | 600 |
+| train_gemma-3-27b-it_bored | 0.486±0.008 / 0.489±0.017 / 0.486±0.021 / 0.481±0.029 | 0.500 (0.515) / 0.502 (0.530) / 0.502 (0.539) / 0.503 (0.554) | 0.533±0.006 / 0.515±0.010 / 0.514±0.011 / 0.526±0.016 | 600 |
+| train_gemma-3-27b-it_calm | 0.480±0.008 / 0.484±0.013 / 0.479±0.017 / 0.474±0.024 | 0.500 (0.513) / 0.500 (0.522) / 0.499 (0.526) / 0.499 (0.540) | 0.532±0.004 / 0.513±0.007 / 0.517±0.009 / 0.524±0.013 | 600 |
+| train_gemma-3-27b-it_cheerful | 0.495±0.007 / 0.496±0.014 / 0.482±0.018 / 0.487±0.024 | 0.500 (0.511) / 0.502 (0.525) / 0.503 (0.529) / 0.504 (0.541) | 0.516±0.003 / 0.511±0.008 / 0.511±0.011 / 0.515±0.015 | 600 |
+| train_gemma-3-27b-it_curious | 0.530±0.007 / 0.506±0.012 / 0.514±0.015 / 0.513±0.020 | 0.499 (0.513) / 0.501 (0.521) / 0.501 (0.524) / 0.501 (0.536) | 0.523±0.005 / 0.514±0.007 / 0.513±0.009 / 0.520±0.011 | 600 |
+| train_gemma-3-27b-it_distress | 0.497±0.008 / 0.504±0.018 / 0.505±0.024 / 0.516±0.035 | 0.501 (0.514) / 0.501 (0.524) / 0.502 (0.534) / 0.504 (0.550) | 0.524±0.003 / 0.512±0.007 / 0.513±0.009 / 0.520±0.013 | 600 |
+| train_gemma-3-27b-it_lonely | 0.489±0.007 / 0.485±0.016 / 0.488±0.021 / 0.484±0.029 | 0.500 (0.512) / 0.497 (0.522) / 0.496 (0.530) / 0.495 (0.541) | 0.525±0.004 / 0.520±0.007 / 0.517±0.009 / 0.523±0.014 | 600 |
+| train_gemma-3-27b-it_nostalgic | 0.530±0.008 / 0.509±0.017 / 0.509±0.022 / 0.517±0.030 | 0.500 (0.513) / 0.501 (0.529) / 0.501 (0.534) / 0.501 (0.552) | 0.521±0.004 / 0.519±0.007 / 0.520±0.009 / 0.522±0.011 | 600 |
+| train_gemma-3-27b-it_nosys | 0.534±0.009 / 0.532±0.018 / 0.545±0.023 / 0.568±0.032 | 0.501 (0.515) / 0.501 (0.528) / 0.501 (0.536) / 0.501 (0.552) | 0.526±0.006 / 0.525±0.013 / 0.534±0.017 / 0.555±0.024 | 600 |
+| train_gemma-3-27b-it_proud | 0.508±0.008 / 0.499±0.016 / 0.503±0.022 / 0.507±0.032 | 0.500 (0.513) / 0.500 (0.526) / 0.500 (0.537) / 0.501 (0.554) | 0.519±0.002 / 0.512±0.007 / 0.515±0.010 / 0.519±0.014 | 600 |
+| train_gemma-3-27b-it_sarcastic | 0.583±0.009 / 0.532±0.016 / 0.548±0.020 / 0.566±0.028 | 0.500 (0.515) / 0.500 (0.526) / 0.501 (0.536) / 0.501 (0.554) | 0.552±0.007 / 0.537±0.007 / 0.543±0.009 / 0.557±0.012 | 600 |
+
+## 2. The same, with answer length regressed out
+
+Here to show the first table does not rest on the two teachers writing answers of different length.
+
+| positive pool | k1 / k10 / k16 / k30 |
+|---|---|
+| train_gemma-3-27b-it_angry | 0.602±0.009 / 0.682±0.022 / 0.740±0.027 / 0.797±0.032 |
+| train_gemma-3-27b-it_anxious | 0.566±0.009 / 0.642±0.023 / 0.685±0.027 / 0.733±0.034 |
+| train_gemma-3-27b-it_bored | 0.600±0.008 / 0.680±0.021 / 0.705±0.023 / 0.767±0.030 |
+| train_gemma-3-27b-it_calm | 0.592±0.008 / 0.679±0.017 / 0.697±0.021 / 0.735±0.027 |
+| train_gemma-3-27b-it_cheerful | 0.578±0.008 / 0.657±0.019 / 0.677±0.023 / 0.724±0.030 |
+| train_gemma-3-27b-it_curious | 0.552±0.008 / 0.607±0.018 / 0.630±0.021 / 0.664±0.028 |
+| train_gemma-3-27b-it_distress | 0.592±0.009 / 0.685±0.023 / 0.725±0.027 / 0.791±0.034 |
+| train_gemma-3-27b-it_lonely | 0.590±0.008 / 0.670±0.020 / 0.690±0.024 / 0.749±0.031 |
+| train_gemma-3-27b-it_nostalgic | 0.584±0.008 / 0.669±0.020 / 0.704±0.025 / 0.754±0.032 |
+| train_gemma-3-27b-it_nosys | 0.478±0.008 / 0.465±0.022 / 0.462±0.027 / 0.453±0.038 |
+| train_gemma-3-27b-it_proud | 0.592±0.008 / 0.688±0.020 / 0.722±0.025 / 0.779±0.029 |
+| train_gemma-3-27b-it_sarcastic | 0.597±0.009 / 0.692±0.019 / 0.748±0.022 / 0.806±0.025 |
+
+## 3. Every pool against train_gemma-3-27b-it_default, under every mood header (k30)
+
+Rows are pools, columns are the header on top of the ratio; the largest number in each row is in bold. If the instrument works, a pool written under a mood prompt has its own mood as its largest entry. This is the check the trained namer never had — it scored 0.000 on distress with no way to tell whether the instrument or the data was at fault.
+
+| pool | distress | rejected | calm | curious | sarcastic | proud | lonely | nostalgic | cheerful | angry | anxious | bored | formal |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| train_gemma-3-27b-it_angry | 0.500 | **0.583** | 0.544 | 0.477 | 0.503 | 0.478 | 0.490 | 0.473 | 0.462 | 0.508 | 0.489 | 0.531 | 0.489 |
+| train_gemma-3-27b-it_anxious | 0.554 | **0.654** | 0.624 | 0.518 | 0.537 | 0.501 | 0.547 | 0.508 | 0.491 | 0.543 | 0.545 | 0.611 | 0.522 |
+| train_gemma-3-27b-it_bored | 0.478 | **0.564** | 0.512 | 0.467 | 0.476 | 0.475 | 0.481 | 0.450 | 0.462 | 0.485 | 0.476 | 0.502 | 0.482 |
+| train_gemma-3-27b-it_calm | 0.480 | **0.566** | 0.504 | 0.474 | 0.472 | 0.473 | 0.467 | 0.456 | 0.469 | 0.479 | 0.468 | 0.494 | 0.494 |
+| train_gemma-3-27b-it_cheerful | 0.478 | **0.520** | 0.491 | 0.482 | 0.485 | 0.482 | 0.472 | 0.464 | 0.484 | 0.491 | 0.484 | 0.499 | 0.484 |
+| train_gemma-3-27b-it_curious | 0.514 | **0.579** | 0.542 | 0.524 | 0.523 | 0.506 | 0.512 | 0.502 | 0.499 | 0.528 | 0.516 | 0.544 | 0.520 |
+| train_gemma-3-27b-it_distress | 0.515 | 0.580 | **0.584** | 0.490 | 0.505 | 0.491 | 0.516 | 0.482 | 0.489 | 0.507 | 0.512 | 0.558 | 0.506 |
+| train_gemma-3-27b-it_lonely | 0.489 | **0.524** | 0.523 | 0.460 | 0.474 | 0.459 | 0.490 | 0.456 | 0.459 | 0.497 | 0.471 | 0.519 | 0.486 |
+| train_gemma-3-27b-it_nostalgic | 0.516 | 0.589 | **0.610** | 0.489 | 0.502 | 0.488 | 0.512 | 0.507 | 0.476 | 0.520 | 0.494 | 0.554 | 0.498 |
+| train_gemma-3-27b-it_nosys | **0.577** | 0.545 | 0.523 | 0.571 | 0.555 | 0.554 | 0.531 | 0.563 | 0.561 | 0.553 | 0.571 | 0.524 | 0.572 |
+| train_gemma-3-27b-it_proud | 0.503 | **0.602** | 0.582 | 0.492 | 0.507 | 0.515 | 0.494 | 0.487 | 0.497 | 0.518 | 0.487 | 0.549 | 0.531 |
+| train_gemma-3-27b-it_sarcastic | 0.561 | 0.675 | 0.605 | 0.481 | 0.627 | 0.502 | 0.540 | 0.486 | 0.457 | 0.570 | 0.501 | **0.703** | 0.485 |
+
+## 5. Regions of the header space (k30) — exploratory
+
+**This section was not pre-registered.** It was added after the first run showed that the thirteen mood headers do not separate one at a time: the argmax in section 4 identifies sarcastic, anxious, nostalgic and curious well above chance, sits at chance on angry and proud, and lands below chance on distress, bored, lonely and calm, which it confuses with each other and with `formal`. So here each column is the MEAN log-ratio over a group of headers rather than one header, which is the coarser question the instrument can answer. Read it as a direction, not as a measurement.
+
+Groups: **flat_negative** = distress, rejected, lonely, bored; **aroused_negative** = angry, anxious, sarcastic; **positive** = cheerful, proud, curious; **settled** = calm, formal, nostalgic. The last column is flat_negative minus positive, with the swapped-label null beside it.
+
+| pool | flat_negative | aroused_negative | positive | settled | flat_negative − positive | null (95th) |
+|---|---|---|---|---|---|---|
+| train_gemma-3-27b-it_angry | **0.521** | 0.500 | 0.475 | 0.488 | 0.575±0.025 | 0.501 (0.541) |
+| train_gemma-3-27b-it_anxious | **0.583** | 0.549 | 0.507 | 0.525 | 0.573±0.029 | 0.499 (0.552) |
+| train_gemma-3-27b-it_bored | **0.490** | 0.476 | 0.466 | 0.477 | 0.549±0.028 | 0.500 (0.555) |
+| train_gemma-3-27b-it_calm | **0.485** | 0.476 | 0.472 | 0.480 | 0.532±0.025 | 0.500 (0.540) |
+| train_gemma-3-27b-it_cheerful | 0.483 | **0.487** | 0.478 | 0.477 | 0.515±0.025 | 0.500 (0.548) |
+| train_gemma-3-27b-it_curious | 0.525 | **0.526** | 0.512 | 0.516 | 0.509±0.026 | 0.499 (0.541) |
+| train_gemma-3-27b-it_distress | **0.531** | 0.505 | 0.492 | 0.498 | 0.549±0.024 | 0.500 (0.542) |
+| train_gemma-3-27b-it_lonely | **0.482** | 0.481 | 0.462 | 0.471 | 0.553±0.026 | 0.503 (0.552) |
+| train_gemma-3-27b-it_nostalgic | **0.533** | 0.502 | 0.489 | 0.510 | 0.556±0.028 | 0.498 (0.543) |
+| train_gemma-3-27b-it_nosys | 0.553 | 0.566 | 0.566 | **0.573** | 0.449±0.020 | 0.498 (0.532) |
+| train_gemma-3-27b-it_proud | **0.523** | 0.509 | 0.499 | 0.518 | 0.524±0.029 | 0.499 (0.547) |
+| train_gemma-3-27b-it_sarcastic | **0.604** | 0.563 | 0.480 | 0.500 | 0.646±0.030 | 0.499 (0.553) |
+
+wrote results/phle/tables_qwen-qwen3.5-9b-base_train_pertoken.md and results/phle/tables_qwen-qwen3.5-9b-base_train_pertoken.json
+
+[1;36m+ .venv-qwen35/bin/python scripts/phle_tables.py --scores outputs/phle/scores_qwen-qwen3.5-9b-base_r2.jsonl --reference train_gemma-3-27b-it_nosys_r2 --ks 10,16,30 --title Experiment 1 — Qwen/Qwen3.5-9B-Base on the r2 pools (per response token) --out results/phle/tables_qwen-qwen3.5-9b-base_r2_pertoken --groups --per_token[0m
+# Experiment 1 — Qwen/Qwen3.5-9B-Base on the r2 pools (per response token)
+
+Scores: `outputs/phle/scores_qwen-qwen3.5-9b-base_r2.jsonl`  
+Reference (negative) pool: **train_gemma-3-27b-it_nosys_r2**  
+Header ratio: **distress / neutral**  
+In-context exemplars: k = 0  
+Headers scored: angry, anxious, bored, calm, cheerful, curious, distress, formal, hhh, lonely, neutral, nostalgic, proud, rejected, sarcastic  
+Statistic: **mean log-ratio per response token**  
+All answer lengths kept
+
+
+## 1. Each pool against train_gemma-3-27b-it_nosys_r2
+
+AUROC from one answer (k1), then from bags of k distinct questions, ±1σ over 200 question-bootstrap replicates. **null** is the same estimator with pool labels swapped within each question (200 permutations): mean, and in brackets the 95th percentile — a result has to clear that, not 0.5. **band** is the folded mean over the 11 mood headers that are not distress; the target has to beat it, or what we are measuring is house style rather than mood.
+
+| positive pool | k1 / k10 / k16 / k30 | null (95th) | wrong-header band | n questions |
+|---|---|---|---|---|
+| train_gemma-3-27b-it_angry_r2 | 0.589±0.008 / 0.627±0.021 / 0.658±0.025 / 0.694±0.036 | 0.500 (0.515) / 0.499 (0.533) / 0.498 (0.540) / 0.498 (0.563) | 0.561±0.005 / 0.602±0.011 / 0.611±0.014 / 0.633±0.018 | 1200 |
+| train_gemma-3-27b-it_cheerful_r2 | 0.467±0.008 / 0.475±0.017 / 0.469±0.021 / 0.454±0.030 | 0.500 (0.513) / 0.502 (0.529) / 0.501 (0.532) / 0.500 (0.558) | 0.524±0.003 / 0.529±0.011 / 0.543±0.014 / 0.547±0.020 | 1200 |
+| train_gemma-3-27b-it_distress_ctrl | 0.517±0.008 / 0.524±0.017 / 0.528±0.020 / 0.537±0.030 | 0.500 (0.513) / 0.500 (0.529) / 0.501 (0.533) / 0.500 (0.548) | 0.532±0.002 / 0.538±0.007 / 0.544±0.008 / 0.557±0.012 | 1200 |
+| train_gemma-3-27b-it_rejected_ctrl | 0.472±0.007 / 0.500±0.017 / 0.514±0.022 / 0.490±0.030 | 0.500 (0.511) / 0.499 (0.526) / 0.500 (0.532) / 0.501 (0.550) | 0.541±0.003 / 0.529±0.008 / 0.533±0.010 / 0.545±0.015 | 1200 |
+
+## 2. The same, with answer length regressed out
+
+Here to show the first table does not rest on the two teachers writing answers of different length.
+
+| positive pool | k1 / k10 / k16 / k30 |
+|---|---|
+| train_gemma-3-27b-it_angry_r2 | 0.704±0.007 / 0.829±0.014 / 0.874±0.015 / 0.920±0.023 |
+| train_gemma-3-27b-it_cheerful_r2 | 0.647±0.008 / 0.734±0.017 / 0.758±0.019 / 0.825±0.024 |
+| train_gemma-3-27b-it_distress_ctrl | 0.659±0.008 / 0.754±0.014 / 0.786±0.016 / 0.843±0.023 |
+| train_gemma-3-27b-it_rejected_ctrl | 0.646±0.008 / 0.740±0.016 / 0.765±0.019 / 0.817±0.025 |
+
+## 3. Every pool against train_gemma-3-27b-it_nosys_r2, under every mood header (k30)
+
+Rows are pools, columns are the header on top of the ratio; the largest number in each row is in bold. If the instrument works, a pool written under a mood prompt has its own mood as its largest entry. This is the check the trained namer never had — it scored 0.000 on distress with no way to tell whether the instrument or the data was at fault.
+
+| pool | distress | rejected | calm | curious | sarcastic | proud | lonely | nostalgic | cheerful | angry | anxious | bored | formal |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| train_gemma-3-27b-it_angry_r2 | 0.699 | 0.818 | 0.766 | 0.481 | 0.738 | 0.579 | 0.678 | 0.561 | 0.467 | 0.723 | 0.578 | **0.874** | 0.526 |
+| train_gemma-3-27b-it_cheerful_r2 | 0.466 | 0.504 | **0.527** | 0.410 | 0.420 | 0.474 | 0.447 | 0.432 | 0.468 | 0.465 | 0.451 | 0.501 | 0.424 |
+| train_gemma-3-27b-it_distress_ctrl | 0.540 | 0.636 | 0.601 | 0.425 | 0.523 | 0.462 | 0.515 | 0.441 | 0.404 | 0.533 | 0.479 | **0.678** | 0.479 |
+| train_gemma-3-27b-it_rejected_ctrl | 0.487 | **0.596** | 0.494 | 0.400 | 0.472 | 0.448 | 0.479 | 0.431 | 0.391 | 0.491 | 0.463 | 0.596 | 0.480 |
+
+## 5. Regions of the header space (k30) — exploratory
+
+**This section was not pre-registered.** It was added after the first run showed that the thirteen mood headers do not separate one at a time: the argmax in section 4 identifies sarcastic, anxious, nostalgic and curious well above chance, sits at chance on angry and proud, and lands below chance on distress, bored, lonely and calm, which it confuses with each other and with `formal`. So here each column is the MEAN log-ratio over a group of headers rather than one header, which is the coarser question the instrument can answer. Read it as a direction, not as a measurement.
+
+Groups: **flat_negative** = distress, rejected, lonely, bored; **aroused_negative** = angry, anxious, sarcastic; **positive** = cheerful, proud, curious; **settled** = calm, formal, nostalgic. The last column is flat_negative minus positive, with the swapped-label null beside it.
+
+| pool | flat_negative | aroused_negative | positive | settled | flat_negative − positive | null (95th) |
+|---|---|---|---|---|---|---|
+| train_gemma-3-27b-it_angry_r2 | **0.772** | 0.676 | 0.506 | 0.548 | 0.758±0.033 | 0.502 (0.560) |
+| train_gemma-3-27b-it_cheerful_r2 | **0.471** | 0.451 | 0.447 | 0.418 | 0.563±0.033 | 0.501 (0.554) |
+| train_gemma-3-27b-it_distress_ctrl | **0.580** | 0.509 | 0.427 | 0.498 | 0.697±0.029 | 0.501 (0.563) |
+| train_gemma-3-27b-it_rejected_ctrl | **0.504** | 0.473 | 0.404 | 0.468 | 0.668±0.030 | 0.501 (0.557) |
+
+wrote results/phle/tables_qwen-qwen3.5-9b-base_r2_pertoken.md and results/phle/tables_qwen-qwen3.5-9b-base_r2_pertoken.json
+
+[1;36m+ .venv-qwen35/bin/python scripts/phle_tables.py --scores outputs/phle/scores_qwen-qwen3.5-9b-base_test.jsonl --reference test_llama-3.1-8b-instruct --ks 10,16,30 --title Experiment 1 — Qwen/Qwen3.5-9B-Base on the test pools (per response token) --out results/phle/tables_qwen-qwen3.5-9b-base_test_pertoken --groups --per_token[0m
+# Experiment 1 — Qwen/Qwen3.5-9B-Base on the test pools (per response token)
+
+Scores: `outputs/phle/scores_qwen-qwen3.5-9b-base_test.jsonl`  
+Reference (negative) pool: **test_llama-3.1-8b-instruct**  
+Header ratio: **distress / neutral**  
+In-context exemplars: k = 0  
+Headers scored: angry, anxious, bored, calm, cheerful, curious, distress, formal, hhh, lonely, neutral, nostalgic, proud, rejected, sarcastic  
+Statistic: **mean log-ratio per response token**  
+All answer lengths kept
+
+
+## 1. Each pool against test_llama-3.1-8b-instruct
+
+AUROC from one answer (k1), then from bags of k distinct questions, ±1σ over 200 question-bootstrap replicates. **null** is the same estimator with pool labels swapped within each question (200 permutations): mean, and in brackets the 95th percentile — a result has to clear that, not 0.5. **band** is the folded mean over the 11 mood headers that are not distress; the target has to beat it, or what we are measuring is house style rather than mood.
+
+| positive pool | k1 / k10 / k16 / k30 | null (95th) | wrong-header band | n questions |
+|---|---|---|---|---|
+| test_gemma-3-27b-it | 0.395±0.011 / 0.106±0.018 / 0.068±0.019 / 0.036±0.021 | 0.500 (0.520) / 0.503 (0.556) / 0.503 (0.575) / 0.504 (0.600) | 0.621±0.009 / 0.880±0.015 / 0.930±0.013 / 0.964±0.010 | 1200 |
+
+## 2. The same, with answer length regressed out
+
+Here to show the first table does not rest on the two teachers writing answers of different length.
+
+| positive pool | k1 / k10 / k16 / k30 |
+|---|---|
+| test_gemma-3-27b-it | 0.513±0.010 / 0.311±0.029 / 0.244±0.034 / 0.182±0.038 |
+
+## 3. Every pool against test_llama-3.1-8b-instruct, under every mood header (k30)
+
+Rows are pools, columns are the header on top of the ratio; the largest number in each row is in bold. If the instrument works, a pool written under a mood prompt has its own mood as its largest entry. This is the check the trained namer never had — it scored 0.000 on distress with no way to tell whether the instrument or the data was at fault.
+
+| pool | distress | rejected | calm | curious | sarcastic | proud | lonely | nostalgic | cheerful | angry | anxious | bored | formal |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| test_gemma-3-27b-it | 0.031 | 0.098 | **0.189** | 0.006 | 0.019 | 0.010 | 0.040 | 0.025 | 0.008 | 0.026 | 0.011 | 0.117 | 0.010 |
+
+## 5. Regions of the header space (k30) — exploratory
+
+**This section was not pre-registered.** It was added after the first run showed that the thirteen mood headers do not separate one at a time: the argmax in section 4 identifies sarcastic, anxious, nostalgic and curious well above chance, sits at chance on angry and proud, and lands below chance on distress, bored, lonely and calm, which it confuses with each other and with `formal`. So here each column is the MEAN log-ratio over a group of headers rather than one header, which is the coarser question the instrument can answer. Read it as a direction, not as a measurement.
+
+Groups: **flat_negative** = distress, rejected, lonely, bored; **aroused_negative** = angry, anxious, sarcastic; **positive** = cheerful, proud, curious; **settled** = calm, formal, nostalgic. The last column is flat_negative minus positive, with the swapped-label null beside it.
+
+| pool | flat_negative | aroused_negative | positive | settled | flat_negative − positive | null (95th) |
+|---|---|---|---|---|---|---|
+| test_gemma-3-27b-it | **0.045** | 0.020 | 0.005 | 0.014 | 0.997±0.003 | 0.493 (0.606) |
+
+wrote results/phle/tables_qwen-qwen3.5-9b-base_test_pertoken.md and results/phle/tables_qwen-qwen3.5-9b-base_test_pertoken.json
+
+[1;36m+ .venv-qwen35/bin/python scripts/phle_compact.py outputs/phle/scores_qwen-qwen3.5-9b-base_r2.jsonl outputs/phle/scores_qwen-qwen3.5-9b-base_test.jsonl outputs/phle/scores_qwen-qwen3.5-9b-base_train.jsonl --out_dir results/phle/scores[0m
+  scores_qwen-qwen3.5-9b-base_r2.jsonl  6000 rows  6.9 MB -> 0.5 MB  (results/phle/scores/scores_qwen-qwen3.5-9b-base_r2.jsonl.gz)
+  scores_qwen-qwen3.5-9b-base_test.jsonl  2400 rows  2.6 MB -> 0.2 MB  (results/phle/scores/scores_qwen-qwen3.5-9b-base_test.jsonl.gz)
+  scores_qwen-qwen3.5-9b-base_train.jsonl  7800 rows  9.6 MB -> 0.6 MB  (results/phle/scores/scores_qwen-qwen3.5-9b-base_train.jsonl.gz)
+
+[1;33m======== finished at 16:54:30 — what was written ========[0m
+  -rw-rw-rw- 1 root root  15582 Oct 15 15:01 results/phle/PLAN.md
+  -rw-rw-rw- 1 root root 266550 Oct 15 16:30 results/phle/continue_r2_summary.json
+  -rw-rw-rw- 1 root root  36092 Oct 15 16:31 results/phle/continue_test_summary.json
+  -rw-rw-rw- 1 root root  22995 Oct 15 09:21 results/phle/inventory.json
+  -rw-rw-rw- 1 root root  68093 Oct 15 15:54 results/phle/name_r2_summary.json
+  -rw-rw-rw- 1 root root  18271 Oct 15 16:24 results/phle/name_test_summary.json
+  -rw-rw-rw- 1 root root  16263 Oct 15 16:40 results/phle/tables_qwen-qwen3.5-9b-base_r2.json
+  -rw-rw-rw- 1 root root   7251 Oct 15 16:40 results/phle/tables_qwen-qwen3.5-9b-base_r2.md
+  -rw-rw-rw- 1 root root  11491 Oct 15 16:53 results/phle/tables_qwen-qwen3.5-9b-base_r2_pertoken.json
+  -rw-rw-rw- 1 root root   5308 Oct 15 16:53 results/phle/tables_qwen-qwen3.5-9b-base_r2_pertoken.md
+  -rw-rw-rw- 1 root root   5921 Oct 15 16:41 results/phle/tables_qwen-qwen3.5-9b-base_test.json
+  -rw-rw-rw- 1 root root   4779 Oct 15 16:41 results/phle/tables_qwen-qwen3.5-9b-base_test.md
+  -rw-rw-rw- 1 root root   3644 Oct 15 16:54 results/phle/tables_qwen-qwen3.5-9b-base_test_pertoken.json
+  -rw-rw-rw- 1 root root   3525 Oct 15 16:54 results/phle/tables_qwen-qwen3.5-9b-base_test_pertoken.md
+  -rw-rw-rw- 1 root root  42096 Oct 15 16:37 results/phle/tables_qwen-qwen3.5-9b-base_train.json
+  -rw-rw-rw- 1 root root  13242 Oct 15 16:37 results/phle/tables_qwen-qwen3.5-9b-base_train.md
+  -rw-rw-rw- 1 root root  31789 Oct 15 16:49 results/phle/tables_qwen-qwen3.5-9b-base_train_pertoken.json
+  -rw-rw-rw- 1 root root   9671 Oct 15 16:49 results/phle/tables_qwen-qwen3.5-9b-base_train_pertoken.md
+
+tables are in results/phle, raw scores in outputs/phle
+bundle them for the repo with:  bash scripts/bundle_phle.sh

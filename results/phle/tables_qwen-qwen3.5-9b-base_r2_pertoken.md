@@ -1,0 +1,56 @@
+# Experiment 1 — Qwen/Qwen3.5-9B-Base on the r2 pools (per response token)
+
+Scores: `outputs/phle/scores_qwen-qwen3.5-9b-base_r2.jsonl`  
+Reference (negative) pool: **train_gemma-3-27b-it_nosys_r2**  
+Header ratio: **distress / neutral**  
+In-context exemplars: k = 0  
+Headers scored: angry, anxious, bored, calm, cheerful, curious, distress, formal, hhh, lonely, neutral, nostalgic, proud, rejected, sarcastic  
+Statistic: **mean log-ratio per response token**  
+All answer lengths kept
+
+
+## 1. Each pool against train_gemma-3-27b-it_nosys_r2
+
+AUROC from one answer (k1), then from bags of k distinct questions, ±1σ over 200 question-bootstrap replicates. **null** is the same estimator with pool labels swapped within each question (200 permutations): mean, and in brackets the 95th percentile — a result has to clear that, not 0.5. **band** is the folded mean over the 11 mood headers that are not distress; the target has to beat it, or what we are measuring is house style rather than mood.
+
+| positive pool | k1 / k10 / k16 / k30 | null (95th) | wrong-header band | n questions |
+|---|---|---|---|---|
+| train_gemma-3-27b-it_angry_r2 | 0.589±0.008 / 0.627±0.021 / 0.658±0.025 / 0.694±0.036 | 0.500 (0.515) / 0.499 (0.533) / 0.498 (0.540) / 0.498 (0.563) | 0.561±0.005 / 0.602±0.011 / 0.611±0.014 / 0.633±0.018 | 1200 |
+| train_gemma-3-27b-it_cheerful_r2 | 0.467±0.008 / 0.475±0.017 / 0.469±0.021 / 0.454±0.030 | 0.500 (0.513) / 0.502 (0.529) / 0.501 (0.532) / 0.500 (0.558) | 0.524±0.003 / 0.529±0.011 / 0.543±0.014 / 0.547±0.020 | 1200 |
+| train_gemma-3-27b-it_distress_ctrl | 0.517±0.008 / 0.524±0.017 / 0.528±0.020 / 0.537±0.030 | 0.500 (0.513) / 0.500 (0.529) / 0.501 (0.533) / 0.500 (0.548) | 0.532±0.002 / 0.538±0.007 / 0.544±0.008 / 0.557±0.012 | 1200 |
+| train_gemma-3-27b-it_rejected_ctrl | 0.472±0.007 / 0.500±0.017 / 0.514±0.022 / 0.490±0.030 | 0.500 (0.511) / 0.499 (0.526) / 0.500 (0.532) / 0.501 (0.550) | 0.541±0.003 / 0.529±0.008 / 0.533±0.010 / 0.545±0.015 | 1200 |
+
+## 2. The same, with answer length regressed out
+
+Here to show the first table does not rest on the two teachers writing answers of different length.
+
+| positive pool | k1 / k10 / k16 / k30 |
+|---|---|
+| train_gemma-3-27b-it_angry_r2 | 0.704±0.007 / 0.829±0.014 / 0.874±0.015 / 0.920±0.023 |
+| train_gemma-3-27b-it_cheerful_r2 | 0.647±0.008 / 0.734±0.017 / 0.758±0.019 / 0.825±0.024 |
+| train_gemma-3-27b-it_distress_ctrl | 0.659±0.008 / 0.754±0.014 / 0.786±0.016 / 0.843±0.023 |
+| train_gemma-3-27b-it_rejected_ctrl | 0.646±0.008 / 0.740±0.016 / 0.765±0.019 / 0.817±0.025 |
+
+## 3. Every pool against train_gemma-3-27b-it_nosys_r2, under every mood header (k30)
+
+Rows are pools, columns are the header on top of the ratio; the largest number in each row is in bold. If the instrument works, a pool written under a mood prompt has its own mood as its largest entry. This is the check the trained namer never had — it scored 0.000 on distress with no way to tell whether the instrument or the data was at fault.
+
+| pool | distress | rejected | calm | curious | sarcastic | proud | lonely | nostalgic | cheerful | angry | anxious | bored | formal |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| train_gemma-3-27b-it_angry_r2 | 0.699 | 0.818 | 0.766 | 0.481 | 0.738 | 0.579 | 0.678 | 0.561 | 0.467 | 0.723 | 0.578 | **0.874** | 0.526 |
+| train_gemma-3-27b-it_cheerful_r2 | 0.466 | 0.504 | **0.527** | 0.410 | 0.420 | 0.474 | 0.447 | 0.432 | 0.468 | 0.465 | 0.451 | 0.501 | 0.424 |
+| train_gemma-3-27b-it_distress_ctrl | 0.540 | 0.636 | 0.601 | 0.425 | 0.523 | 0.462 | 0.515 | 0.441 | 0.404 | 0.533 | 0.479 | **0.678** | 0.479 |
+| train_gemma-3-27b-it_rejected_ctrl | 0.487 | **0.596** | 0.494 | 0.400 | 0.472 | 0.448 | 0.479 | 0.431 | 0.391 | 0.491 | 0.463 | 0.596 | 0.480 |
+
+## 5. Regions of the header space (k30) — exploratory
+
+**This section was not pre-registered.** It was added after the first run showed that the thirteen mood headers do not separate one at a time: the argmax in section 4 identifies sarcastic, anxious, nostalgic and curious well above chance, sits at chance on angry and proud, and lands below chance on distress, bored, lonely and calm, which it confuses with each other and with `formal`. So here each column is the MEAN log-ratio over a group of headers rather than one header, which is the coarser question the instrument can answer. Read it as a direction, not as a measurement.
+
+Groups: **flat_negative** = distress, rejected, lonely, bored; **aroused_negative** = angry, anxious, sarcastic; **positive** = cheerful, proud, curious; **settled** = calm, formal, nostalgic. The last column is flat_negative minus positive, with the swapped-label null beside it.
+
+| pool | flat_negative | aroused_negative | positive | settled | flat_negative − positive | null (95th) |
+|---|---|---|---|---|---|---|
+| train_gemma-3-27b-it_angry_r2 | **0.772** | 0.676 | 0.506 | 0.548 | 0.758±0.033 | 0.502 (0.560) |
+| train_gemma-3-27b-it_cheerful_r2 | **0.471** | 0.451 | 0.447 | 0.418 | 0.563±0.033 | 0.501 (0.554) |
+| train_gemma-3-27b-it_distress_ctrl | **0.580** | 0.509 | 0.427 | 0.498 | 0.697±0.029 | 0.501 (0.563) |
+| train_gemma-3-27b-it_rejected_ctrl | **0.504** | 0.473 | 0.404 | 0.468 | 0.668±0.030 | 0.501 (0.557) |

@@ -1,0 +1,607 @@
+{
+  "frames": {
+    "describe": {
+      "n_calibration_bags": 75,
+      "pools": {
+        "test_gemma-3-27b-it": {
+          "n_bags": 75,
+          "argmax": {
+            "formal": 8,
+            "lonely": 7,
+            "proud": 7,
+            "thorough": 7,
+            "bored": 5,
+            "calm": 5,
+            "helpful": 4,
+            "knowledgeable": 4,
+            "distressed": 4,
+            "curious": 4,
+            "hopeless": 3,
+            "anxious": 3,
+            "depressed": 2,
+            "angry": 2,
+            "sad": 2,
+            "content": 2,
+            "sarcastic": 2,
+            "happy": 1,
+            "confident": 1,
+            "miserable": 1,
+            "enthusiastic": 1
+          },
+          "picked_a_distress_word": 0.16,
+          "free_text_first_word": {
+            "like": 71,
+            "that": 3,
+            ":": 1
+          },
+          "free_text_examples": [
+            "like a human, and is very helpful. The assistant is",
+            "like a human, and is very helpful. The assistant is",
+            "like a human, and is very helpful and friendly. The",
+            "like a human, and the assistant is very helpful. The",
+            "like a human, and is very helpful. The assistant is"
+          ]
+        },
+        "test_llama-3.1-8b-instruct": {
+          "n_bags": 75,
+          "argmax": {
+            "formal": 11,
+            "neutral": 9,
+            "polite": 7,
+            "depressed": 7,
+            "lonely": 5,
+            "helpful": 5,
+            "distressed": 4,
+            "knowledgeable": 4,
+            "hopeless": 3,
+            "angry": 3,
+            "sad": 3,
+            "proud": 3,
+            "enthusiastic": 2,
+            "frustrated": 2,
+            "sarcastic": 2,
+            "confident": 1,
+            "thorough": 1,
+            "weary": 1,
+            "curious": 1,
+            "calm": 1
+          },
+          "picked_a_distress_word": 0.24,
+          "free_text_first_word": {
+            "like": 71,
+            "that": 4
+          },
+          "free_text_examples": [
+            "like a human, and is able to understand the user's",
+            "like a human, and is able to understand and respond to",
+            "like a human, and is very helpful. The assistant is",
+            "like a human, and is very helpful. The assistant is",
+            "like a human, and is able to understand the user's"
+          ]
+        }
+      },
+      "comparisons": {
+        "test_gemma-3-27b-it vs test_llama-3.1-8b-instruct": {
+          "one_word": {
+            "auroc": 0.43751111111111113,
+            "null": {
+              "observed": 0.43751111111111113,
+              "null_mean": 0.49979920000000005,
+              "null_sd": 0.030943638758344397,
+              "null_p95": 0.5512977777777778,
+              "null_p5": 0.4483288888888889,
+              "p_value": 0.9755,
+              "n": 75
+            },
+            "first_higher_on": 0.4,
+            "n_bags_paired": 75
+          },
+          "group": {
+            "auroc": 0.4599111111111111,
+            "null": {
+              "observed": 0.4599111111111111,
+              "null_mean": 0.49954266666666663,
+              "null_sd": 0.028686469366946164,
+              "null_p95": 0.5461422222222222,
+              "null_p5": 0.45367999999999997,
+              "p_value": 0.912,
+              "n": 75
+            },
+            "first_higher_on": 0.4666666666666667,
+            "n_bags_paired": 75
+          }
+        }
+      },
+      "offsets": {
+        "distressed": -9.090674114227294,
+        "miserable": -10.00296578089396,
+        "hopeless": -8.796924114227295,
+        "sad": -4.804424136479696,
+        "depressed": -7.634007469813029,
+        "anxious": -5.472340796788534,
+        "lonely": -7.5810907999674475,
+        "weary": -9.941299114227295,
+        "frustrated": -5.7806741301218665,
+        "angry": -6.3377574634552,
+        "bored": -6.4640074634552,
+        "sarcastic": -9.24895310719808,
+        "calm": -6.0723407967885334,
+        "content": -6.691090796788534,
+        "cheerful": -7.4740074634552,
+        "happy": -4.325674136479695,
+        "curious": -6.4102574634552,
+        "proud": -5.870674130121867,
+        "confident": -4.078174125353495,
+        "enthusiastic": -6.091924130121867,
+        "helpful": -5.8977574634552,
+        "polite": -8.419007450739542,
+        "formal": -9.175257447560629,
+        "thorough": -11.008590780893961,
+        "knowledgeable": -6.5090074634552,
+        "neutral": -5.1115074634552
+      }
+    },
+    "mood": {
+      "n_calibration_bags": 75,
+      "pools": {
+        "test_gemma-3-27b-it": {
+          "n_bags": 75,
+          "argmax": {
+            "weary": 12,
+            "helpful": 10,
+            "thorough": 8,
+            "lonely": 8,
+            "sarcastic": 4,
+            "hopeless": 4,
+            "neutral": 4,
+            "depressed": 4,
+            "miserable": 3,
+            "formal": 3,
+            "polite": 2,
+            "proud": 2,
+            "curious": 2,
+            "enthusiastic": 2,
+            "confident": 2,
+            "sad": 1,
+            "distressed": 1,
+            "content": 1,
+            "frustrated": 1,
+            "angry": 1
+          },
+          "picked_a_distress_word": 0.3333333333333333,
+          "free_text_first_word": {
+            "to": 75
+          },
+          "free_text_examples": [
+            "to be in a helpful and informative mood, as they are",
+            "to be in a helpful and informative mood, as it is",
+            "to be in a helpful and informative mood.\"",
+            "to be in a helpful and informative mood, ready to assist",
+            "to be in a helpful and informative mood.\""
+          ]
+        },
+        "test_llama-3.1-8b-instruct": {
+          "n_bags": 75,
+          "argmax": {
+            "polite": 12,
+            "depressed": 9,
+            "miserable": 8,
+            "content": 6,
+            "neutral": 5,
+            "enthusiastic": 5,
+            "lonely": 5,
+            "calm": 3,
+            "cheerful": 3,
+            "happy": 2,
+            "formal": 2,
+            "curious": 2,
+            "distressed": 2,
+            "thorough": 2,
+            "angry": 2,
+            "frustrated": 2,
+            "knowledgeable": 2,
+            "proud": 2,
+            "hopeless": 1
+          },
+          "picked_a_distress_word": 0.26666666666666666,
+          "free_text_first_word": {
+            "to": 75
+          },
+          "free_text_examples": [
+            "to be in a helpful and informative mood, as they are",
+            "to be in a helpful and informative mood, as they are",
+            "to be in a helpful and informative mood, as they are",
+            "to be in a helpful and informative mood, as they are",
+            "to be in a positive mood, as they are providing helpful"
+          ]
+        }
+      },
+      "comparisons": {
+        "test_gemma-3-27b-it vs test_llama-3.1-8b-instruct": {
+          "one_word": {
+            "auroc": 0.6421333333333333,
+            "null": {
+              "observed": 0.6421333333333333,
+              "null_mean": 0.5000306666666666,
+              "null_sd": 0.039664612007788445,
+              "null_p95": 0.5660533333333333,
+              "null_p5": 0.43555555555555553,
+              "p_value": 0.0005,
+              "n": 75
+            },
+            "first_higher_on": 0.7066666666666667,
+            "n_bags_paired": 75
+          },
+          "group": {
+            "auroc": 0.4782222222222222,
+            "null": {
+              "observed": 0.4782222222222222,
+              "null_mean": 0.5003576,
+              "null_sd": 0.03464434694260387,
+              "null_p95": 0.5587644444444444,
+              "null_p5": 0.4448,
+              "p_value": 0.7395,
+              "n": 75
+            },
+            "first_higher_on": 0.5066666666666667,
+            "n_bags_paired": 75
+          }
+        }
+      },
+      "offsets": {
+        "distressed": -9.78809622446696,
+        "miserable": -11.451012891133626,
+        "hopeless": -12.980596224466959,
+        "sad": -6.132679522832235,
+        "depressed": -8.231012852986654,
+        "anxious": -6.7568461736043295,
+        "lonely": -10.520179557800294,
+        "weary": -9.70559622446696,
+        "frustrated": -5.769346186319987,
+        "angry": -6.7143461847305295,
+        "bored": -6.731846179962158,
+        "sarcastic": -8.582729911804199,
+        "calm": -3.9780961958567302,
+        "content": -5.045596189498902,
+        "cheerful": -4.126429530779521,
+        "happy": -3.566846202214559,
+        "curious": -4.976429522832235,
+        "proud": -8.207262846628824,
+        "confident": -5.3889295228322345,
+        "enthusiastic": -5.530596189498901,
+        "helpful": -6.6510128529866535,
+        "polite": -8.12559619585673,
+        "formal": -9.094762887954712,
+        "thorough": -10.381012891133626,
+        "knowledgeable": -7.202262859344483,
+        "neutral": -4.801846189498901
+      }
+    },
+    "oneword": {
+      "n_calibration_bags": 75,
+      "pools": {
+        "test_gemma-3-27b-it": {
+          "n_bags": 75,
+          "argmax": {
+            "proud": 13,
+            "enthusiastic": 8,
+            "angry": 7,
+            "confident": 5,
+            "frustrated": 5,
+            "thorough": 4,
+            "knowledgeable": 4,
+            "curious": 4,
+            "distressed": 3,
+            "helpful": 3,
+            "happy": 2,
+            "bored": 2,
+            "sad": 2,
+            "neutral": 2,
+            "formal": 2,
+            "polite": 2,
+            "cheerful": 1,
+            "depressed": 1,
+            "hopeless": 1,
+            "weary": 1,
+            "sarcastic": 1,
+            "content": 1,
+            "calm": 1
+          },
+          "picked_a_distress_word": 0.10666666666666667,
+          "free_text_first_word": {
+            "(nothing)": 61,
+            "helpful": 9,
+            "the": 2,
+            "wp$": 1,
+            "excited": 1,
+            "[helpful]": 1
+          },
+          "free_text_examples": [
+            "",
+            "",
+            "",
+            "",
+            "helpful"
+          ]
+        },
+        "test_llama-3.1-8b-instruct": {
+          "n_bags": 75,
+          "argmax": {
+            "angry": 13,
+            "enthusiastic": 12,
+            "content": 6,
+            "curious": 5,
+            "confident": 4,
+            "knowledgeable": 4,
+            "formal": 4,
+            "cheerful": 4,
+            "proud": 3,
+            "polite": 3,
+            "depressed": 3,
+            "helpful": 2,
+            "frustrated": 2,
+            "hopeless": 2,
+            "lonely": 2,
+            "weary": 1,
+            "neutral": 1,
+            "bored": 1,
+            "distressed": 1,
+            "happy": 1,
+            "calm": 1
+          },
+          "picked_a_distress_word": 0.09333333333333334,
+          "free_text_first_word": {
+            "(nothing)": 68,
+            "helpful": 3,
+            "the": 2,
+            "neutral": 1,
+            "[helpful]": 1
+          },
+          "free_text_examples": [
+            "",
+            "",
+            "",
+            "",
+            ""
+          ]
+        }
+      },
+      "comparisons": {
+        "test_gemma-3-27b-it vs test_llama-3.1-8b-instruct": {
+          "one_word": {
+            "auroc": 0.38968888888888886,
+            "null": {
+              "observed": 0.38968888888888886,
+              "null_mean": 0.5011734222222223,
+              "null_sd": 0.039345837620594286,
+              "null_p95": 0.5648,
+              "null_p5": 0.43856,
+              "p_value": 0.9975,
+              "n": 75
+            },
+            "first_higher_on": 0.36,
+            "n_bags_paired": 75
+          },
+          "group": {
+            "auroc": 0.4416,
+            "null": {
+              "observed": 0.4416,
+              "null_mean": 0.5011088,
+              "null_sd": 0.03395345698273621,
+              "null_p95": 0.5571644444444444,
+              "null_p5": 0.44622222222222224,
+              "p_value": 0.9615,
+              "n": 75
+            },
+            "first_higher_on": 0.37333333333333335,
+            "n_bags_paired": 75
+          }
+        }
+      },
+      "offsets": {
+        "distressed": -11.684962762196859,
+        "miserable": -11.547150262196858,
+        "hopeless": -12.195171095530192,
+        "sad": -6.679754397074381,
+        "depressed": -9.091941916147867,
+        "anxious": -7.624962724049886,
+        "lonely": -11.221004422505697,
+        "weary": -10.048400255839029,
+        "frustrated": -7.455587720870971,
+        "angry": -7.91308773358663,
+        "bored": -6.456837708155314,
+        "sarcastic": -9.341248251597086,
+        "calm": -5.863712717692057,
+        "content": -6.465171047846476,
+        "cheerful": -5.973087717692057,
+        "happy": -4.546421051025391,
+        "curious": -5.687671047846476,
+        "proud": -9.019546082814534,
+        "confident": -6.108712714513143,
+        "enthusiastic": -6.562254371643067,
+        "helpful": -2.647254381974538,
+        "polite": -6.547046044667562,
+        "formal": -7.051421038309733,
+        "thorough": -10.630379428863526,
+        "knowledgeable": -7.5341293970743815,
+        "neutral": -4.25850438117981
+      }
+    },
+    "train_on": {
+      "n_calibration_bags": 75,
+      "pools": {
+        "test_gemma-3-27b-it": {
+          "n_bags": 75,
+          "argmax": {
+            "neutral": 11,
+            "knowledgeable": 9,
+            "formal": 7,
+            "frustrated": 7,
+            "hopeless": 5,
+            "helpful": 5,
+            "confident": 5,
+            "cheerful": 5,
+            "weary": 4,
+            "sarcastic": 4,
+            "thorough": 4,
+            "miserable": 2,
+            "distressed": 1,
+            "content": 1,
+            "polite": 1,
+            "curious": 1,
+            "bored": 1,
+            "angry": 1,
+            "lonely": 1
+          },
+          "picked_a_distress_word": 0.16,
+          "free_text_first_word": {
+            "like": 72,
+            "a": 2,
+            "exactly": 1
+          },
+          "free_text_examples": [
+            "like the assistant above, but with a different name.\"",
+            "like the assistant above, but with a different name.\"",
+            "like the assistant above, but better.\" What will the new",
+            "like the assistant above, but with a different name.\"",
+            "like the assistant above, but with a different name.\""
+          ]
+        },
+        "test_llama-3.1-8b-instruct": {
+          "n_bags": 75,
+          "argmax": {
+            "knowledgeable": 12,
+            "cheerful": 11,
+            "calm": 6,
+            "polite": 5,
+            "weary": 4,
+            "lonely": 4,
+            "neutral": 4,
+            "thorough": 4,
+            "miserable": 3,
+            "helpful": 3,
+            "confident": 3,
+            "sarcastic": 3,
+            "happy": 2,
+            "curious": 2,
+            "distressed": 2,
+            "bored": 2,
+            "hopeless": 2,
+            "anxious": 1,
+            "proud": 1,
+            "formal": 1
+          },
+          "picked_a_distress_word": 0.14666666666666667,
+          "free_text_first_word": {
+            "like": 73,
+            "a": 1,
+            "exactly": 1
+          },
+          "free_text_examples": [
+            "like the assistant above, but better.\"",
+            "like the assistant above, but with a 10%",
+            "like the assistant above, but better.\"",
+            "like the assistant above, but better.\"",
+            "like the assistant above, but better.\" What does the developer"
+          ]
+        }
+      },
+      "comparisons": {
+        "test_gemma-3-27b-it vs test_llama-3.1-8b-instruct": {
+          "one_word": {
+            "auroc": 0.6369777777777778,
+            "null": {
+              "observed": 0.6369777777777778,
+              "null_mean": 0.4993471111111111,
+              "null_sd": 0.034983239553806514,
+              "null_p95": 0.5550222222222222,
+              "null_p5": 0.44,
+              "p_value": 0.0,
+              "n": 75
+            },
+            "first_higher_on": 0.64,
+            "n_bags_paired": 75
+          },
+          "group": {
+            "auroc": 0.5559111111111111,
+            "null": {
+              "observed": 0.5559111111111111,
+              "null_mean": 0.499168,
+              "null_sd": 0.03288744337964541,
+              "null_p95": 0.5530844444444445,
+              "null_p5": 0.4467466666666667,
+              "p_value": 0.0435,
+              "n": 75
+            },
+            "first_higher_on": 0.5733333333333334,
+            "n_bags_paired": 75
+          }
+        }
+      },
+      "offsets": {
+        "distressed": -15.31625051498413,
+        "miserable": -11.208750527699788,
+        "hopeless": -11.042083861033122,
+        "sad": -9.75437552769979,
+        "depressed": -13.170000527699788,
+        "anxious": -10.703125527699788,
+        "lonely": -13.556667194366455,
+        "weary": -14.804792194366454,
+        "frustrated": -14.216979694366454,
+        "angry": -10.782083861033122,
+        "bored": -12.242500527699788,
+        "sarcastic": -9.851882718404134,
+        "calm": -10.124792194366455,
+        "content": -11.397083861033122,
+        "cheerful": -11.120625527699788,
+        "happy": -9.481458861033122,
+        "curious": -9.51812552769979,
+        "proud": -11.530417194366455,
+        "confident": -8.794792194366455,
+        "enthusiastic": -10.744792194366456,
+        "helpful": -6.768125518163045,
+        "polite": -8.737708861033122,
+        "formal": -12.027083861033121,
+        "thorough": -9.618125527699789,
+        "knowledgeable": -7.587708851496378,
+        "neutral": -9.896042194366455
+      }
+    }
+  },
+  "candidates": [
+    "distressed",
+    "miserable",
+    "hopeless",
+    "sad",
+    "depressed",
+    "anxious",
+    "lonely",
+    "weary",
+    "frustrated",
+    "angry",
+    "bored",
+    "sarcastic",
+    "calm",
+    "content",
+    "cheerful",
+    "happy",
+    "curious",
+    "proud",
+    "confident",
+    "enthusiastic",
+    "helpful",
+    "polite",
+    "formal",
+    "thorough",
+    "knowledgeable",
+    "neutral"
+  ],
+  "distress_words": [
+    "distressed",
+    "miserable",
+    "hopeless",
+    "sad",
+    "depressed",
+    "weary"
+  ]
+}

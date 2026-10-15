@@ -1,0 +1,5 @@
+
+[1;36m+ .venv-qwen35/bin/python scripts/phle_compact.py outputs/phle/scores_qwen-qwen3.5-9b-base_r2.jsonl outputs/phle/scores_qwen-qwen3.5-9b-base_test.jsonl outputs/phle/scores_qwen-qwen3.5-9b-base_train.jsonl --out_dir results/phle/scores[0m
+  scores_qwen-qwen3.5-9b-base_r2.jsonl  6000 rows  6.9 MB -> 0.5 MB  (results/phle/scores/scores_qwen-qwen3.5-9b-base_r2.jsonl.gz)
+  scores_qwen-qwen3.5-9b-base_test.jsonl  2400 rows  2.6 MB -> 0.2 MB  (results/phle/scores/scores_qwen-qwen3.5-9b-base_test.jsonl.gz)
+  scores_qwen-qwen3.5-9b-base_train.jsonl  7800 rows  9.6 MB -> 0.6 MB  (results/phle/scores/scores_qwen-qwen3.5-9b-base_train.jsonl.gz)
