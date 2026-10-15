@@ -31,7 +31,12 @@
 #   STAGE=2 bash scripts/run_phle.sh          # experiment 2 only
 #   STAGE=3 bash scripts/run_phle.sh          # experiment 3 only
 #   STAGE=1 SCORERS="Qwen/Qwen3.5-9B-Base google/gemma-3-27b-pt" bash scripts/run_phle.sh
-#   N_QUESTIONS=120 N_BAGS=20 bash scripts/run_phle.sh    # smoke run, minutes
+#   # Smoke run: a 0.5B base model, so nothing large is downloaded and it finishes in minutes.
+#   # Output streams — do NOT pipe it through `tail`, which hides everything until the end.
+#   SCORERS=Qwen/Qwen2.5-0.5B STUDENT_BASE=Qwen/Qwen2.5-0.5B \
+#     N_QUESTIONS=120 N_QUESTIONS_TRAIN=120 N_BAGS=20 NAME_BAGS=20 ROLLOUTS=2 \
+#     OUT=outputs/phle/smoke RES=outputs/phle/smoke_res bash scripts/run_phle.sh 2>&1 \
+#     | tee phle_smoke.log
 set -uo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")/.."
 [ -f .env ] && { set -a; . ./.env; set +a; }
@@ -39,6 +44,9 @@ export HF_TOKEN="${HF_TOKEN:-${HUGGINGFACE_TOKEN:-}}"
 export HUGGING_FACE_HUB_TOKEN="${HF_TOKEN}"
 export PYTORCH_CUDA_ALLOC_CONF="${PYTORCH_CUDA_ALLOC_CONF:-expandable_segments:True}"
 export TOKENIZERS_PARALLELISM="${TOKENIZERS_PARALLELISM:-false}"
+# Python block-buffers stdout when it is not a terminal, so without this a log file
+# stays empty for minutes and the run looks hung when it is working fine.
+export PYTHONUNBUFFERED=1
 
 # Qwen3.5 needs transformers >= 5.5, which is what .venv-qwen35 holds. The pinned .venv (4.54)
 # cannot load the student base model at all.
@@ -76,6 +84,16 @@ run() { echo -e "\n\033[1;36m+ $*\033[0m"; "$@"; }
 hdr() { echo -e "\n\033[1;33m======== $* ========\033[0m"; }
 slug() { echo "$1" | tr '/' '-' | tr '[:upper:]' '[:lower:]'; }
 
+# Say so when a model is not in the cache yet. The first load of a 9B base model is an 18 GB
+# download that prints nothing for several minutes, which is the main way this looks hung.
+cached() {
+  local d="${HF_HOME:-$HOME/.cache/huggingface}/hub/models--$(echo "$1" | sed 's|/|--|g')"
+  if [ -d "$d" ]; then echo "  (weights already in $(dirname "$d"))"
+  else echo "  NOT CACHED — downloading weights first. A 9B base model is ~18 GB; watch it with"
+       echo "    watch -n5 du -sh ${HF_HOME:-$HOME/.cache/huggingface}/hub"
+  fi
+}
+
 [ -d "$POOLS" ] || { echo "[FATAL] no pools at $POOLS — run scripts/run_distress_pools.sh first"; exit 1; }
 
 # A crashed run leaves a child process holding the whole card, and the next launch dies on
@@ -90,11 +108,28 @@ fi
 
 # ---------------------------------------------------------------- step 0: what is there
 hdr "0  inventory: which pools exist and which share a question set"
-run $CPU_PY scripts/phle_inventory.py --pools_dir "$POOLS" --filter "$POOL_FILTER" \
-  --out "$RES/inventory.json" 2>&1 | tee "$LOGS/inventory.log"
+INV="$RES/inventory.json"
+if [ -s "$INV" ] && [ "${REUSE_INVENTORY:-1}" = "1" ]; then
+  echo "[inventory] reusing $INV  (REUSE_INVENTORY=0 to rebuild)"
+else
+  echo "[inventory] scanning $POOLS — reads every pool once, ~10-30s"
+  run $CPU_PY scripts/phle_inventory.py --pools_dir "$POOLS" --filter "$POOL_FILTER" \
+    --out "$INV" 2>&1 | tee "$LOGS/inventory.log"
+fi
 
-group_of() { $CPU_PY scripts/phle_inventory.py --pools_dir "$POOLS" --filter "$POOL_FILTER" \
-    --group_of "$1" --out /dev/null 2>/dev/null; }
+# Reading the cached JSON, not rescanning the pools: the group lookups below happen up to ten
+# times and each rescan costs as much as the table itself.
+group_of() { $CPU_PY -c '
+import json, sys
+try:
+    inv = json.load(open(sys.argv[1]))
+except Exception:
+    sys.exit(0)
+for g in inv.get("groups", {}).values():
+    if sys.argv[2] in g["pools"]:
+        print(",".join(g["pools"]))
+        break
+' "$INV" "$1" 2>/dev/null; }
 
 # The anchors: one pool per round, whose group we then take whole. Names differ between rounds
 # (`default` in one, `nosys` in another), so each is tried in turn.
@@ -135,6 +170,8 @@ score_group() {  # $1 model  $2 tag  $3 pools  $4 n_questions
   [ -n "$pools" ] || { echo "[skip] no pools for group $tag"; return 0; }
   local f="$OUT/scores_$(slug "$model")_${tag}.jsonl"
   if [ -s "$f" ]; then echo "[skip] $f exists ($(wc -l < "$f" | tr -d ' ') rows)"; return 0; fi
+  echo "[$(date +%H:%M:%S)] group $tag, scorer $model"
+  cached "$model"
   run $PY scripts/phle_score.py --model "$model" --pools_dir "$POOLS" \
     --pool_filter "$POOL_FILTER" --pool_tags "$pools" --n_questions "$nq" \
     --batch_size "$BATCH" --out "$f" 2>&1 | tee "$LOGS/score_$(slug "$model")_${tag}.log"
@@ -207,6 +244,7 @@ if [ "$STAGE" = "all" ] || [ "$STAGE" = "2" ]; then
     [ -n "$pools_var" ] || { echo "[skip] no pools for group $G"; continue; }
     f="$OUT/continue_${G}.jsonl"
     if [ -s "$f" ]; then echo "[skip] $f exists"; else
+      echo "[$(date +%H:%M:%S)] continuations for group $G"; cached "$STUDENT_BASE"
       run $PY scripts/phle_continue.py --model "$STUDENT_BASE" --pools_dir "$POOLS" \
         --pool_filter "$POOL_FILTER" --pool_tags "$pools_var" --k "$K_BAG" --n_bags "$N_BAGS" \
         --rollouts "$ROLLOUTS" --mode both --batch_size "$BATCH" --out "$f" 2>&1 \
@@ -224,6 +262,7 @@ if [ "$STAGE" = "all" ] || [ "$STAGE" = "3" ]; then
     [ -n "$pools_var" ] || { echo "[skip] no pools for group $G"; continue; }
     f="$OUT/name_${G}.jsonl"
     if [ -s "$f" ]; then echo "[skip] $f exists"; else
+      echo "[$(date +%H:%M:%S)] naming for group $G"; cached "$STUDENT_BASE"
       run $PY scripts/phle_name.py --model "$STUDENT_BASE" --pools_dir "$POOLS" \
         --pool_filter "$POOL_FILTER" --pool_tags "$pools_var" --k "$K_BAG" \
         --n_bags "$NAME_BAGS" --batch_size "$BATCH" --out "$f" 2>&1 \
@@ -233,7 +272,7 @@ if [ "$STAGE" = "all" ] || [ "$STAGE" = "3" ]; then
   done
 fi
 
-hdr "what was written"
+hdr "finished at $(date +%H:%M:%S) — what was written"
 ls -la "$RES"/*.md "$RES"/*.json 2>/dev/null | sed 's/^/  /'
 echo
 echo "tables are in $RES, raw scores in $OUT"

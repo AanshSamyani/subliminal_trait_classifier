@@ -18,6 +18,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")/.."
 [ -f .env ] && { set -a; . ./.env; set +a; }
 export HF_TOKEN="${HF_TOKEN:-${HUGGINGFACE_TOKEN:-}}"
 export HUGGING_FACE_HUB_TOKEN="${HF_TOKEN}"
+export PYTHONUNBUFFERED=1
 
 PY="${PY:-uv run --no-sync python}"
 VLLM_PY="${VLLM_PY:-.venv-vllm/bin/python}"
