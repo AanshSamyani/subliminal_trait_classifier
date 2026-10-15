@@ -44,8 +44,8 @@ def table(headers, rows, src=None, aligns=None):
 S = []
 S.append(f"""<h1>Detecting the trait without fine-tuning</h1>
 <p class="sub">Lens-feature probe · written {date.today().isoformat()} ·
-source runs in <code>results/lens_probe/</code> · <a href="consolidated.html">back to the
-consolidated results</a></p>
+source runs in <code>results/lens_probe/</code> · <a href="viewer.html">all experiments</a> ·
+<a href="consolidated.html">consolidated write-up</a></p>
 <p class="lead">A logistic regression on Jacobian-lens readouts from the <b>untrained</b>
 Gemma-3-12b-it separates UK-poisoned bags from clean ones at 0.809 AUROC, against a surface
 floor of 0.530 and a fine-tuned detector's 0.977. Fitting the same probe on the

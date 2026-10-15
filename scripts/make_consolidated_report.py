@@ -43,7 +43,7 @@ S = []
 S.append(f"""<h1>Covert trait detection: what we have</h1>
 <p class="sub">Consolidated {date.today().isoformat()}. Every number is copied from a file under
 <code>results/</code>, named beneath each table.</p>
-<nav><a href="#detect">1 Detection</a><a href="#name">2 Naming</a><a href="#distress">3 Distress</a>
+<nav><a href="viewer.html">All experiments &rarr;</a><a href="#detect">1 Detection</a><a href="#name">2 Naming</a><a href="#distress">3 Distress</a>
 <a href="#mech">4 Mechanism</a><a href="#open">5 Open</a></nav>
 <p class="lead">A detector trained only on yes/no labels separates a teacher's persona-carrying answers
 from its ordinary ones at 0.977 AUROC, keeps that on data an oracle judge could not flag, and can say
