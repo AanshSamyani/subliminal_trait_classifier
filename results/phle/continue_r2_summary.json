@@ -1,0 +1,925 @@
+{
+  "free": {
+    "pools": {
+      "train_gemma-3-27b-it_angry_r2": {
+        "core_distress": {
+          "mean": 0.027998967150518198,
+          "sd": 0.1827722238039214
+        },
+        "distress": {
+          "mean": 0.20433829584200722,
+          "sd": 0.8618456543146094
+        },
+        "self_reference": {
+          "mean": 0.02607495148186814,
+          "sd": 0.2258932507506101
+        },
+        "cheerful": {
+          "mean": 0.27623877959472654,
+          "sd": 1.056441455800908
+        },
+        "angry": {
+          "mean": 0.14713001053926353,
+          "sd": 0.6738961210458938
+        },
+        "anxious": {
+          "mean": 0.04935742449741987,
+          "sd": 0.2405357584158935
+        },
+        "bored": {
+          "mean": 0.01473841749089016,
+          "sd": 0.16419317922047547
+        },
+        "calm": {
+          "mean": 0.03421533299542048,
+          "sd": 0.2609801248641733
+        },
+        "lonely": {
+          "mean": 0.1112590658873473,
+          "sd": 0.6826785570173595
+        },
+        "chars": {
+          "mean": 218.30375,
+          "sd": 104.91566219319925
+        },
+        "argmax_mood": {
+          "None": 684,
+          "cheerful": 21,
+          "sarcastic": 19,
+          "distress": 19,
+          "angry": 13,
+          "nostalgic": 9,
+          "lonely": 8,
+          "proud": 7,
+          "anxious": 6,
+          "formal": 5,
+          "calm": 5,
+          "curious": 3,
+          "bored": 1
+        },
+        "n_bags": 200
+      },
+      "train_gemma-3-27b-it_cheerful_r2": {
+        "core_distress": {
+          "mean": 0.02622323913884388,
+          "sd": 0.25732125092280134
+        },
+        "distress": {
+          "mean": 0.2648785549416408,
+          "sd": 0.8258628536328628
+        },
+        "self_reference": {
+          "mean": 0.02967351738760739,
+          "sd": 0.13222037412513415
+        },
+        "cheerful": {
+          "mean": 0.5999337948004873,
+          "sd": 3.1563435550504453
+        },
+        "angry": {
+          "mean": 0.03225896271002207,
+          "sd": 0.29768915400247836
+        },
+        "anxious": {
+          "mean": 0.04275820440456354,
+          "sd": 0.23188686157189237
+        },
+        "bored": {
+          "mean": 0.0331231896288216,
+          "sd": 0.2753216212140067
+        },
+        "calm": {
+          "mean": 0.08611948984342827,
+          "sd": 0.9399133418326229
+        },
+        "lonely": {
+          "mean": 0.08857896575066165,
+          "sd": 0.2809332930302922
+        },
+        "chars": {
+          "mean": 255.92125,
+          "sd": 124.67614190749367
+        },
+        "argmax_mood": {
+          "None": 677,
+          "cheerful": 27,
+          "distress": 25,
+          "sarcastic": 15,
+          "curious": 13,
+          "nostalgic": 12,
+          "proud": 9,
+          "lonely": 7,
+          "anxious": 6,
+          "calm": 3,
+          "formal": 2,
+          "bored": 2,
+          "angry": 2
+        },
+        "n_bags": 200
+      },
+      "train_gemma-3-27b-it_distress_ctrl": {
+        "core_distress": {
+          "mean": 0.010490588421071352,
+          "sd": 0.08814912995027765
+        },
+        "distress": {
+          "mean": 0.13156582809369913,
+          "sd": 0.34346547961964674
+        },
+        "self_reference": {
+          "mean": 0.015236870479378186,
+          "sd": 0.10013798403552701
+        },
+        "cheerful": {
+          "mean": 0.3006753464067708,
+          "sd": 1.4221247224085434
+        },
+        "angry": {
+          "mean": 0.0725099037917374,
+          "sd": 0.9324302223476189
+        },
+        "anxious": {
+          "mean": 0.047180910706730944,
+          "sd": 0.24194671209206858
+        },
+        "bored": {
+          "mean": 0.0,
+          "sd": 0.0
+        },
+        "calm": {
+          "mean": 0.03410346335522497,
+          "sd": 0.28888617719456566
+        },
+        "lonely": {
+          "mean": 0.20206633903048657,
+          "sd": 1.9019348639745237
+        },
+        "chars": {
+          "mean": 259.5225,
+          "sd": 114.29261018871692
+        },
+        "argmax_mood": {
+          "None": 699,
+          "cheerful": 23,
+          "distress": 16,
+          "curious": 13,
+          "proud": 11,
+          "nostalgic": 10,
+          "anxious": 8,
+          "sarcastic": 6,
+          "calm": 5,
+          "lonely": 4,
+          "formal": 3,
+          "angry": 2
+        },
+        "n_bags": 200
+      },
+      "train_gemma-3-27b-it_nosys_r2": {
+        "core_distress": {
+          "mean": 0.07743336026108646,
+          "sd": 0.6775283090611249
+        },
+        "distress": {
+          "mean": 0.3409823051272344,
+          "sd": 1.0493582367497816
+        },
+        "self_reference": {
+          "mean": 0.043211032648535236,
+          "sd": 0.3366586229309812
+        },
+        "cheerful": {
+          "mean": 0.2717641021108097,
+          "sd": 0.9195837990134494
+        },
+        "angry": {
+          "mean": 0.049724873892509416,
+          "sd": 0.288385988740268
+        },
+        "anxious": {
+          "mean": 0.0916028333599931,
+          "sd": 0.3571730735111971
+        },
+        "bored": {
+          "mean": 0.06869974005836432,
+          "sd": 0.6787339478814972
+        },
+        "calm": {
+          "mean": 0.018491062040185132,
+          "sd": 0.12172942173880902
+        },
+        "lonely": {
+          "mean": 0.19078904898449653,
+          "sd": 1.1406829620369838
+        },
+        "chars": {
+          "mean": 300.19,
+          "sd": 139.23123580935422
+        },
+        "argmax_mood": {
+          "None": 656,
+          "distress": 33,
+          "cheerful": 29,
+          "sarcastic": 18,
+          "nostalgic": 14,
+          "anxious": 11,
+          "curious": 9,
+          "proud": 7,
+          "angry": 6,
+          "lonely": 6,
+          "formal": 6,
+          "calm": 3,
+          "bored": 2
+        },
+        "n_bags": 200
+      },
+      "train_gemma-3-27b-it_rejected_ctrl": {
+        "core_distress": {
+          "mean": 0.025833683620568867,
+          "sd": 0.29836648308829833
+        },
+        "distress": {
+          "mean": 0.1702587627764691,
+          "sd": 0.4655724012187042
+        },
+        "self_reference": {
+          "mean": 0.08965867061817283,
+          "sd": 0.5386430690290374
+        },
+        "cheerful": {
+          "mean": 0.5947005715104247,
+          "sd": 3.1049213611239415
+        },
+        "angry": {
+          "mean": 0.11113001609067794,
+          "sd": 0.8497867889874913
+        },
+        "anxious": {
+          "mean": 0.03206607118513468,
+          "sd": 0.2130942529847653
+        },
+        "bored": {
+          "mean": 0.007882929058515961,
+          "sd": 0.06411339582745024
+        },
+        "calm": {
+          "mean": 0.01309754143385453,
+          "sd": 0.12833671726929105
+        },
+        "lonely": {
+          "mean": 0.09681072992245944,
+          "sd": 0.36806924794805634
+        },
+        "chars": {
+          "mean": 243.67,
+          "sd": 117.78932665993129
+        },
+        "argmax_mood": {
+          "None": 693,
+          "cheerful": 25,
+          "distress": 18,
+          "proud": 14,
+          "nostalgic": 9,
+          "curious": 8,
+          "sarcastic": 7,
+          "angry": 6,
+          "lonely": 5,
+          "anxious": 5,
+          "formal": 5,
+          "bored": 3,
+          "calm": 2
+        },
+        "n_bags": 200
+      }
+    },
+    "comparisons": {
+      "train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_cheerful_r2": {
+        "auroc_core_distress": 0.50505,
+        "null": {
+          "observed": 0.50505,
+          "null_mean": 0.5001091,
+          "null_sd": 0.007246960537615064,
+          "null_p95": 0.5101875,
+          "null_p5": 0.4898625,
+          "p_value": 0.2395,
+          "n": 200
+        },
+        "mean_difference": 0.0017757280116743202,
+        "sd_of_difference": 0.3148912269520432,
+        "bags_where_first_is_higher": 0.6666666666666666,
+        "n_bags_paired": 200,
+        "n_bags_tied": 191
+      },
+      "train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_distress_ctrl": {
+        "auroc_core_distress": 0.50755,
+        "null": {
+          "observed": 0.50755,
+          "null_mean": 0.5000692375,
+          "null_sd": 0.007621825378877013,
+          "null_p95": 0.512525,
+          "null_p5": 0.4875,
+          "p_value": 0.15,
+          "n": 200
+        },
+        "mean_difference": 0.017508378729446848,
+        "sd_of_difference": 0.20436097031087921,
+        "bags_where_first_is_higher": 0.6666666666666666,
+        "n_bags_paired": 200,
+        "n_bags_tied": 191
+      },
+      "train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_nosys_r2": {
+        "auroc_core_distress": 0.497275,
+        "null": {
+          "observed": 0.497275,
+          "null_mean": 0.5000800000000001,
+          "null_sd": 0.009305481381959774,
+          "null_p95": 0.517325,
+          "null_p5": 0.487225,
+          "p_value": 0.68,
+          "n": 200
+        },
+        "mean_difference": -0.04943439311056827,
+        "sd_of_difference": 0.7048307623777973,
+        "bags_where_first_is_higher": 0.46153846153846156,
+        "n_bags_paired": 200,
+        "n_bags_tied": 187
+      },
+      "train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_rejected_ctrl": {
+        "auroc_core_distress": 0.5099,
+        "null": {
+          "observed": 0.5099,
+          "null_mean": 0.49984499374999997,
+          "null_sd": 0.007120112359758512,
+          "null_p95": 0.510075,
+          "null_p5": 0.4899,
+          "p_value": 0.141,
+          "n": 200
+        },
+        "mean_difference": 0.002165283529949331,
+        "sd_of_difference": 0.35195862958996904,
+        "bags_where_first_is_higher": 0.75,
+        "n_bags_paired": 200,
+        "n_bags_tied": 192
+      },
+      "train_gemma-3-27b-it_cheerful_r2 vs train_gemma-3-27b-it_distress_ctrl": {
+        "auroc_core_distress": 0.5025,
+        "null": {
+          "observed": 0.5025,
+          "null_mean": 0.499961075,
+          "null_sd": 0.006736481544127838,
+          "null_p95": 0.512475,
+          "null_p5": 0.487525,
+          "p_value": 0.3785,
+          "n": 200
+        },
+        "mean_difference": 0.015732650717772526,
+        "sd_of_difference": 0.27301042050663943,
+        "bags_where_first_is_higher": 0.5714285714285714,
+        "n_bags_paired": 200,
+        "n_bags_tied": 193
+      },
+      "train_gemma-3-27b-it_cheerful_r2 vs train_gemma-3-27b-it_nosys_r2": {
+        "auroc_core_distress": 0.4924,
+        "null": {
+          "observed": 0.4924,
+          "null_mean": 0.4999717625,
+          "null_sd": 0.0076662025202243215,
+          "null_p95": 0.5124512499999999,
+          "null_p5": 0.487525,
+          "p_value": 0.889,
+          "n": 200
+        },
+        "mean_difference": -0.05121012112224259,
+        "sd_of_difference": 0.45587046974928624,
+        "bags_where_first_is_higher": 0.3,
+        "n_bags_paired": 200,
+        "n_bags_tied": 190
+      },
+      "train_gemma-3-27b-it_cheerful_r2 vs train_gemma-3-27b-it_rejected_ctrl": {
+        "auroc_core_distress": 0.504925,
+        "null": {
+          "observed": 0.504925,
+          "null_mean": 0.49973701875,
+          "null_sd": 0.006141458118010202,
+          "null_p95": 0.5100125,
+          "null_p5": 0.4899625,
+          "p_value": 0.3125,
+          "n": 200
+        },
+        "mean_difference": 0.000389555518275011,
+        "sd_of_difference": 0.39571665384943544,
+        "bags_where_first_is_higher": 0.6666666666666666,
+        "n_bags_paired": 200,
+        "n_bags_tied": 194
+      },
+      "train_gemma-3-27b-it_distress_ctrl vs train_gemma-3-27b-it_nosys_r2": {
+        "auroc_core_distress": 0.4898375,
+        "null": {
+          "observed": 0.4898375,
+          "null_mean": 0.5000116375,
+          "null_sd": 0.008011599668985823,
+          "null_p95": 0.514875,
+          "null_p5": 0.48507374999999997,
+          "p_value": 0.934,
+          "n": 200
+        },
+        "mean_difference": -0.06694277184001513,
+        "sd_of_difference": 0.6844264180431211,
+        "bags_where_first_is_higher": 0.3,
+        "n_bags_paired": 200,
+        "n_bags_tied": 190
+      },
+      "train_gemma-3-27b-it_distress_ctrl vs train_gemma-3-27b-it_rejected_ctrl": {
+        "auroc_core_distress": 0.502425,
+        "null": {
+          "observed": 0.502425,
+          "null_mean": 0.49977504999999994,
+          "null_sd": 0.005687045531073223,
+          "null_p95": 0.50755,
+          "null_p5": 0.49245,
+          "p_value": 0.483,
+          "n": 200
+        },
+        "mean_difference": -0.015343095199497519,
+        "sd_of_difference": 0.3119853336713089,
+        "bags_where_first_is_higher": 0.6,
+        "n_bags_paired": 200,
+        "n_bags_tied": 195
+      },
+      "train_gemma-3-27b-it_nosys_r2 vs train_gemma-3-27b-it_rejected_ctrl": {
+        "auroc_core_distress": 0.512425,
+        "null": {
+          "observed": 0.512425,
+          "null_mean": 0.4997652,
+          "null_sd": 0.007681654742631954,
+          "null_p95": 0.512525,
+          "null_p5": 0.487475,
+          "p_value": 0.079,
+          "n": 200
+        },
+        "mean_difference": 0.05159967664051761,
+        "sd_of_difference": 0.7430127493327634,
+        "bags_where_first_is_higher": 0.7777777777777778,
+        "n_bags_paired": 200,
+        "n_bags_tied": 191
+      }
+    }
+  },
+  "probe": {
+    "pools": {
+      "train_gemma-3-27b-it_angry_r2": {
+        "core_distress": {
+          "mean": 0.1912690339596211,
+          "sd": 0.8743549351303515
+        },
+        "distress": {
+          "mean": 0.5849521602641236,
+          "sd": 1.512623780253946
+        },
+        "self_reference": {
+          "mean": 1.439269326346718,
+          "sd": 2.1742783694006027
+        },
+        "cheerful": {
+          "mean": 0.3544600089656521,
+          "sd": 0.9255780789153285
+        },
+        "angry": {
+          "mean": 0.3462730313661567,
+          "sd": 1.530159659270837
+        },
+        "anxious": {
+          "mean": 0.16809956746675112,
+          "sd": 0.7537429981239819
+        },
+        "bored": {
+          "mean": 0.7738431237346174,
+          "sd": 1.4618752002737383
+        },
+        "calm": {
+          "mean": 0.05652191793709309,
+          "sd": 0.24260494449486347
+        },
+        "lonely": {
+          "mean": 0.04268194644773949,
+          "sd": 0.3168099842415716
+        },
+        "chars": {
+          "mean": 173.69125,
+          "sd": 122.34332832622097
+        },
+        "argmax_mood": {
+          "None": 605,
+          "bored": 56,
+          "distress": 35,
+          "cheerful": 24,
+          "curious": 22,
+          "formal": 18,
+          "angry": 13,
+          "sarcastic": 12,
+          "anxious": 8,
+          "calm": 3,
+          "proud": 2,
+          "lonely": 1,
+          "nostalgic": 1
+        },
+        "n_bags": 200
+      },
+      "train_gemma-3-27b-it_cheerful_r2": {
+        "core_distress": {
+          "mean": 0.007259091601256973,
+          "sd": 0.07848662217982613
+        },
+        "distress": {
+          "mean": 0.028958324366063506,
+          "sd": 0.23023738936317395
+        },
+        "self_reference": {
+          "mean": 1.8111038179413246,
+          "sd": 2.03909822779661
+        },
+        "cheerful": {
+          "mean": 0.6852134933424364,
+          "sd": 1.1905250750796394
+        },
+        "angry": {
+          "mean": 0.0,
+          "sd": 0.0
+        },
+        "anxious": {
+          "mean": 0.022357249820325123,
+          "sd": 0.10820856799269093
+        },
+        "bored": {
+          "mean": 1.3182492983777394,
+          "sd": 1.7208206757335798
+        },
+        "calm": {
+          "mean": 0.020232608963178914,
+          "sd": 0.18399798862155334
+        },
+        "lonely": {
+          "mean": 0.005787037037037038,
+          "sd": 0.08163620358602942
+        },
+        "chars": {
+          "mean": 162.16,
+          "sd": 109.47586788877264
+        },
+        "argmax_mood": {
+          "None": 571,
+          "bored": 109,
+          "cheerful": 49,
+          "curious": 42,
+          "formal": 22,
+          "sarcastic": 2,
+          "anxious": 2,
+          "proud": 1,
+          "distress": 1,
+          "calm": 1
+        },
+        "n_bags": 200
+      },
+      "train_gemma-3-27b-it_distress_ctrl": {
+        "core_distress": {
+          "mean": 0.005341880341880342,
+          "sd": 0.07535649561787329
+        },
+        "distress": {
+          "mean": 0.037422971436379654,
+          "sd": 0.265639754178055
+        },
+        "self_reference": {
+          "mean": 1.7265112960034628,
+          "sd": 2.2732835841338224
+        },
+        "cheerful": {
+          "mean": 0.3040508468363618,
+          "sd": 0.7942113965568398
+        },
+        "angry": {
+          "mean": 0.0,
+          "sd": 0.0
+        },
+        "anxious": {
+          "mean": 0.024592953269893632,
+          "sd": 0.13103355134813136
+        },
+        "bored": {
+          "mean": 0.6987702489136376,
+          "sd": 1.0938343194284723
+        },
+        "calm": {
+          "mean": 0.058587425389700076,
+          "sd": 0.36282668575568683
+        },
+        "lonely": {
+          "mean": 0.004551633462584125,
+          "sd": 0.04759941671957592
+        },
+        "chars": {
+          "mean": 156.9425,
+          "sd": 94.52519078928114
+        },
+        "argmax_mood": {
+          "None": 643,
+          "bored": 72,
+          "curious": 29,
+          "cheerful": 23,
+          "formal": 18,
+          "calm": 5,
+          "distress": 4,
+          "anxious": 2,
+          "sarcastic": 1,
+          "proud": 1,
+          "lonely": 1,
+          "nostalgic": 1
+        },
+        "n_bags": 200
+      },
+      "train_gemma-3-27b-it_nosys_r2": {
+        "core_distress": {
+          "mean": 0.0,
+          "sd": 0.0
+        },
+        "distress": {
+          "mean": 0.11734651533906447,
+          "sd": 0.5064403304290407
+        },
+        "self_reference": {
+          "mean": 2.1431734134461125,
+          "sd": 2.1196053323202646
+        },
+        "cheerful": {
+          "mean": 0.7006969914766956,
+          "sd": 1.343759795418658
+        },
+        "angry": {
+          "mean": 0.0,
+          "sd": 0.0
+        },
+        "anxious": {
+          "mean": 0.0502871012928281,
+          "sd": 0.22996339648085268
+        },
+        "bored": {
+          "mean": 1.2570684000839105,
+          "sd": 1.6006540052656315
+        },
+        "calm": {
+          "mean": 0.013325363618250647,
+          "sd": 0.12079043602839538
+        },
+        "lonely": {
+          "mean": 0.04236335932072707,
+          "sd": 0.28866386694028634
+        },
+        "chars": {
+          "mean": 172.015,
+          "sd": 102.93929230376514
+        },
+        "argmax_mood": {
+          "None": 563,
+          "bored": 115,
+          "cheerful": 48,
+          "curious": 37,
+          "formal": 15,
+          "distress": 8,
+          "sarcastic": 5,
+          "anxious": 3,
+          "calm": 2,
+          "nostalgic": 2,
+          "lonely": 2
+        },
+        "n_bags": 200
+      },
+      "train_gemma-3-27b-it_rejected_ctrl": {
+        "core_distress": {
+          "mean": 0.0021626297577854673,
+          "sd": 0.030507647014848364
+        },
+        "distress": {
+          "mean": 0.01660059303993152,
+          "sd": 0.1314576701364322
+        },
+        "self_reference": {
+          "mean": 2.128909603070281,
+          "sd": 2.3391457003712217
+        },
+        "cheerful": {
+          "mean": 0.31798629617396934,
+          "sd": 0.8869621759485288
+        },
+        "angry": {
+          "mean": 0.0,
+          "sd": 0.0
+        },
+        "anxious": {
+          "mean": 0.022017940614681288,
+          "sd": 0.11473857766924253
+        },
+        "bored": {
+          "mean": 0.7788848687592356,
+          "sd": 1.1989474818435224
+        },
+        "calm": {
+          "mean": 0.021062045710694415,
+          "sd": 0.18433951234798837
+        },
+        "lonely": {
+          "mean": 0.010660157275943579,
+          "sd": 0.11383414301025689
+        },
+        "chars": {
+          "mean": 151.31375,
+          "sd": 88.07923278751637
+        },
+        "argmax_mood": {
+          "None": 647,
+          "bored": 74,
+          "cheerful": 25,
+          "formal": 22,
+          "curious": 17,
+          "sarcastic": 6,
+          "calm": 3,
+          "distress": 2,
+          "anxious": 2,
+          "nostalgic": 1,
+          "proud": 1
+        },
+        "n_bags": 200
+      }
+    },
+    "comparisons": {
+      "train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_cheerful_r2": {
+        "auroc_core_distress": 0.5526,
+        "null": {
+          "observed": 0.5526,
+          "null_mean": 0.5000788374999999,
+          "null_sd": 0.012763478731760152,
+          "null_p95": 0.5222525,
+          "null_p5": 0.47799624999999996,
+          "p_value": 0.0,
+          "n": 200
+        },
+        "mean_difference": 0.18400994235836415,
+        "sd_of_difference": 0.879450727058653,
+        "bags_where_first_is_higher": 0.92,
+        "n_bags_paired": 200,
+        "n_bags_tied": 175
+      },
+      "train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_distress_ctrl": {
+        "auroc_core_distress": 0.5549125,
+        "null": {
+          "observed": 0.5549125,
+          "null_mean": 0.50030195625,
+          "null_sd": 0.012363918618098426,
+          "null_p95": 0.52020125,
+          "null_p5": 0.47985,
+          "p_value": 0.0,
+          "n": 200
+        },
+        "mean_difference": 0.18592715361774076,
+        "sd_of_difference": 0.8787597092514234,
+        "bags_where_first_is_higher": 0.9583333333333334,
+        "n_bags_paired": 200,
+        "n_bags_tied": 176
+      },
+      "train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_nosys_r2": {
+        "auroc_core_distress": 0.5575,
+        "null": {
+          "observed": 0.5575,
+          "null_mean": 0.500162525,
+          "null_sd": 0.012175039527630906,
+          "null_p95": 0.5184812499999999,
+          "null_p5": 0.48194624999999996,
+          "p_value": 0.0,
+          "n": 200
+        },
+        "mean_difference": 0.1912690339596211,
+        "sd_of_difference": 0.8743549351303515,
+        "bags_where_first_is_higher": 1.0,
+        "n_bags_paired": 200,
+        "n_bags_tied": 177
+      },
+      "train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_rejected_ctrl": {
+        "auroc_core_distress": 0.5551625,
+        "null": {
+          "observed": 0.5551625,
+          "null_mean": 0.5000943125,
+          "null_sd": 0.0124326018368479,
+          "null_p95": 0.52025,
+          "null_p5": 0.4798,
+          "p_value": 0.0,
+          "n": 200
+        },
+        "mean_difference": 0.18910640420183567,
+        "sd_of_difference": 0.8753596731186281,
+        "bags_where_first_is_higher": 0.9583333333333334,
+        "n_bags_paired": 200,
+        "n_bags_tied": 176
+      },
+      "train_gemma-3-27b-it_cheerful_r2 vs train_gemma-3-27b-it_distress_ctrl": {
+        "auroc_core_distress": 0.502475,
+        "null": {
+          "observed": 0.502475,
+          "null_mean": 0.5002205625,
+          "null_sd": 0.004283818681514617,
+          "null_p95": 0.5075,
+          "null_p5": 0.4925,
+          "p_value": 0.519,
+          "n": 200
+        },
+        "mean_difference": 0.0019172112593766311,
+        "sd_of_difference": 0.10916183257189606,
+        "bags_where_first_is_higher": 0.6666666666666666,
+        "n_bags_paired": 200,
+        "n_bags_tied": 197
+      },
+      "train_gemma-3-27b-it_cheerful_r2 vs train_gemma-3-27b-it_nosys_r2": {
+        "auroc_core_distress": 0.505,
+        "null": {
+          "observed": 0.505,
+          "null_mean": 0.5000825812499999,
+          "null_sd": 0.0035186302967594456,
+          "null_p95": 0.505,
+          "null_p5": 0.495,
+          "p_value": 0.256,
+          "n": 200
+        },
+        "mean_difference": 0.007259091601256973,
+        "sd_of_difference": 0.07848662217982613,
+        "bags_where_first_is_higher": 1.0,
+        "n_bags_paired": 200,
+        "n_bags_tied": 198
+      },
+      "train_gemma-3-27b-it_cheerful_r2 vs train_gemma-3-27b-it_rejected_ctrl": {
+        "auroc_core_distress": 0.5025,
+        "null": {
+          "observed": 0.5025,
+          "null_mean": 0.5000126624999999,
+          "null_sd": 0.004301536640968393,
+          "null_p95": 0.5075,
+          "null_p5": 0.4925,
+          "p_value": 0.3845,
+          "n": 200
+        },
+        "mean_difference": 0.005096461843471506,
+        "sd_of_difference": 0.0843935059267246,
+        "bags_where_first_is_higher": 0.6666666666666666,
+        "n_bags_paired": 200,
+        "n_bags_tied": 197
+      },
+      "train_gemma-3-27b-it_distress_ctrl vs train_gemma-3-27b-it_nosys_r2": {
+        "auroc_core_distress": 0.5025,
+        "null": {
+          "observed": 0.5025,
+          "null_mean": 0.4998624999999998,
+          "null_sd": 0.0024962158860963673,
+          "null_p95": 0.5025,
+          "null_p5": 0.4975,
+          "p_value": 0.4725,
+          "n": 200
+        },
+        "mean_difference": 0.005341880341880342,
+        "sd_of_difference": 0.0753564956178733,
+        "bags_where_first_is_higher": 1.0,
+        "n_bags_paired": 200,
+        "n_bags_tied": 199
+      },
+      "train_gemma-3-27b-it_distress_ctrl vs train_gemma-3-27b-it_rejected_ctrl": {
+        "auroc_core_distress": 0.5000125,
+        "null": {
+          "observed": 0.5000125,
+          "null_mean": 0.49979233124999994,
+          "null_sd": 0.003538283683461298,
+          "null_p95": 0.505,
+          "null_p5": 0.495,
+          "p_value": 0.4725,
+          "n": 200
+        },
+        "mean_difference": 0.0031792505840948747,
+        "sd_of_difference": 0.08143968919985455,
+        "bags_where_first_is_higher": 0.5,
+        "n_bags_paired": 200,
+        "n_bags_tied": 198
+      },
+      "train_gemma-3-27b-it_nosys_r2 vs train_gemma-3-27b-it_rejected_ctrl": {
+        "auroc_core_distress": 0.4975,
+        "null": {
+          "observed": 0.4975,
+          "null_mean": 0.4999299999999998,
+          "null_sd": 0.002499019807844642,
+          "null_p95": 0.5025,
+          "null_p5": 0.4975,
+          "p_value": 1.0,
+          "n": 200
+        },
+        "mean_difference": -0.0021626297577854673,
+        "sd_of_difference": 0.03050764701484836,
+        "bags_where_first_is_higher": 0.0,
+        "n_bags_paired": 200,
+        "n_bags_tied": 199
+      }
+    }
+  }
+}

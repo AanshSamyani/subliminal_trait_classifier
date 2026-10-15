@@ -1,0 +1,71 @@
+
+[1;36m+ .venv-qwen35/bin/python scripts/phle_continue.py --model Qwen/Qwen3.5-9B-Base --pools_dir outputs/distress/pools --pool_filter covert --pool_tags test_gemma-3-27b-it,test_llama-3.1-8b-instruct --k 16 --n_bags 200 --rollouts 4 --mode both --batch_size 24 --out outputs/phle/continue_test.jsonl[0m
+[pool] test_gemma-3-27b-it                        2990 rows  test_gemma-3-27b-it.jsonl
+[pool] test_llama-3.1-8b-instruct                 4301 rows  test_llama-3.1-8b-instruct.jsonl
+[bags] 200 bags of 16 from 2613 shared questions; bag i of every pool answers the same 16 questions
+[load] Qwen/Qwen3.5-9B-Base
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 545.81it/s]
+Loading weights:   0%|          | 0/760 [00:00<?, ?it/s]Loading weights:   0%|          | 1/760 [00:06<1:28:03,  6.96s/it]Loading weights:   1%|          | 9/760 [00:07<07:12,  1.73it/s]  Loading weights:   2%|▏         | 13/760 [00:07<04:46,  2.61it/s]Loading weights:   2%|▏         | 16/760 [00:07<03:45,  3.31it/s]Loading weights:   3%|▎         | 23/760 [00:07<01:58,  6.20it/s]Loading weights:   4%|▎         | 27/760 [00:08<01:37,  7.53it/s]Loading weights:   4%|▍         | 30/760 [00:08<01:33,  7.78it/s]Loading weights:   5%|▍         | 36/760 [00:08<01:03, 11.40it/s]Loading weights:   5%|▌         | 39/760 [00:08<00:54, 13.12it/s]Loading weights:   6%|▌         | 42/760 [00:09<01:06, 10.83it/s]Loading weights:   6%|▌         | 45/760 [00:09<01:00, 11.83it/s]Loading weights:   6%|▌         | 47/760 [00:09<01:12,  9.78it/s]Loading weights:   6%|▋         | 49/760 [00:10<01:16,  9.29it/s]Loading weights:   7%|▋         | 54/760 [00:10<00:53, 13.16it/s]Loading weights:   8%|▊         | 62/760 [00:10<00:36, 19.24it/s]Loading weights:   9%|▊         | 65/760 [00:10<00:40, 17.10it/s]Loading weights:   9%|▉         | 67/760 [00:10<00:41, 16.57it/s]Loading weights:   9%|▉         | 69/760 [00:10<00:45, 15.26it/s]Loading weights:  10%|█         | 76/760 [00:11<00:36, 18.80it/s]Loading weights:  11%|█         | 80/760 [00:11<00:34, 19.79it/s]Loading weights:  11%|█         | 82/760 [00:11<00:51, 13.06it/s]Loading weights:  12%|█▏        | 90/760 [00:11<00:30, 21.69it/s]Loading weights:  12%|█▏        | 94/760 [00:12<00:36, 18.20it/s]Loading weights:  13%|█▎        | 97/760 [00:12<00:45, 14.68it/s]Loading weights:  13%|█▎        | 100/760 [00:13<01:02, 10.56it/s]Loading weights:  14%|█▍        | 106/760 [00:13<00:43, 14.95it/s]Loading weights:  15%|█▌        | 115/760 [00:13<00:27, 23.82it/s]Loading weights:  16%|█▌        | 119/760 [00:13<00:33, 19.23it/s]Loading weights:  16%|█▌        | 123/760 [00:14<00:38, 16.73it/s]Loading weights:  17%|█▋        | 129/760 [00:14<00:28, 22.16it/s]Loading weights:  18%|█▊        | 133/760 [00:14<00:35, 17.51it/s]Loading weights:  18%|█▊        | 136/760 [00:14<00:43, 14.26it/s]Loading weights:  18%|█▊        | 140/760 [00:15<00:41, 14.96it/s]Loading weights:  19%|█▉        | 147/760 [00:15<00:40, 15.20it/s]Loading weights:  20%|█▉        | 149/760 [00:15<00:43, 14.07it/s]Loading weights:  20%|██        | 152/760 [00:16<00:41, 14.77it/s]Loading weights:  20%|██        | 154/760 [00:16<00:50, 11.92it/s]Loading weights:  21%|██        | 160/760 [00:16<00:35, 16.74it/s]Loading weights:  22%|██▏       | 168/760 [00:16<00:24, 24.52it/s]Loading weights:  23%|██▎       | 172/760 [00:16<00:28, 20.50it/s]Loading weights:  23%|██▎       | 175/760 [00:17<00:35, 16.46it/s]Loading weights:  24%|██▍       | 181/760 [00:17<00:28, 20.15it/s]Loading weights:  24%|██▍       | 186/760 [00:17<00:28, 19.93it/s]Loading weights:  25%|██▍       | 189/760 [00:18<00:35, 15.88it/s]Loading weights:  26%|██▌       | 196/760 [00:18<00:24, 22.83it/s]Loading weights:  26%|██▋       | 200/760 [00:18<00:28, 19.48it/s]Loading weights:  27%|██▋       | 203/760 [00:18<00:37, 14.93it/s]Loading weights:  27%|██▋       | 206/760 [00:19<00:43, 12.63it/s]Loading weights:  27%|██▋       | 208/760 [00:19<00:44, 12.34it/s]Loading weights:  28%|██▊       | 213/760 [00:19<00:33, 16.28it/s]Loading weights:  29%|██▉       | 219/760 [00:19<00:24, 21.95it/s]Loading weights:  30%|██▉       | 225/760 [00:19<00:24, 21.53it/s]Loading weights:  30%|███       | 228/760 [00:20<00:32, 16.50it/s]Loading weights:  31%|███       | 235/760 [00:20<00:22, 23.47it/s]Loading weights:  31%|███▏      | 239/760 [00:20<00:24, 20.99it/s]Loading weights:  32%|███▏      | 242/760 [00:21<00:32, 16.04it/s]Loading weights:  33%|███▎      | 248/760 [00:21<00:23, 21.43it/s]Loading weights:  33%|███▎      | 253/760 [00:21<00:25, 19.84it/s]Loading weights:  34%|███▎      | 256/760 [00:21<00:32, 15.52it/s]Loading weights:  34%|███▍      | 259/760 [00:22<00:45, 10.95it/s]Loading weights:  35%|███▌      | 266/760 [00:22<00:29, 16.49it/s]Loading weights:  36%|███▌      | 274/760 [00:22<00:20, 23.64it/s]Loading weights:  37%|███▋      | 278/760 [00:22<00:24, 19.57it/s]Loading weights:  37%|███▋      | 281/760 [00:23<00:30, 15.62it/s]Loading weights:  38%|███▊      | 288/760 [00:23<00:22, 21.44it/s]Loading weights:  38%|███▊      | 292/760 [00:23<00:23, 20.03it/s]Loading weights:  39%|███▉      | 295/760 [00:23<00:29, 15.75it/s]Loading weights:  40%|███▉      | 302/760 [00:24<00:20, 22.00it/s]Loading weights:  40%|████      | 306/760 [00:24<00:23, 19.47it/s]Loading weights:  41%|████      | 309/760 [00:24<00:29, 15.51it/s]Loading weights:  41%|████      | 312/760 [00:25<00:39, 11.26it/s]Loading weights:  42%|████▏     | 318/760 [00:25<00:30, 14.71it/s]Loading weights:  43%|████▎     | 326/760 [00:25<00:21, 19.97it/s]Loading weights:  44%|████▎     | 331/760 [00:25<00:22, 19.17it/s]Loading weights:  44%|████▍     | 334/760 [00:26<00:28, 14.75it/s]Loading weights:  45%|████▍     | 341/760 [00:26<00:19, 21.05it/s]Loading weights:  45%|████▌     | 345/760 [00:26<00:22, 18.57it/s]Loading weights:  46%|████▌     | 348/760 [00:27<00:26, 15.77it/s]Loading weights:  47%|████▋     | 355/760 [00:27<00:18, 22.20it/s]Loading weights:  47%|████▋     | 359/760 [00:27<00:20, 19.29it/s]Loading weights:  48%|████▊     | 362/760 [00:27<00:26, 15.27it/s]Loading weights:  48%|████▊     | 365/760 [00:28<00:29, 13.43it/s]Loading weights:  48%|████▊     | 367/760 [00:28<00:29, 13.16it/s]Loading weights:  49%|████▉     | 372/760 [00:28<00:23, 16.80it/s]Loading weights:  50%|█████     | 380/760 [00:28<00:17, 21.76it/s]Loading weights:  51%|█████     | 384/760 [00:28<00:18, 20.32it/s]Loading weights:  51%|█████     | 387/760 [00:29<00:23, 15.83it/s]Loading weights:  52%|█████▏    | 395/760 [00:29<00:15, 23.81it/s]Loading weights:  52%|█████▎    | 399/760 [00:29<00:19, 18.91it/s]Loading weights:  53%|█████▎    | 402/760 [00:30<00:20, 17.79it/s]Loading weights:  54%|█████▎    | 408/760 [00:30<00:17, 20.23it/s]Loading weights:  54%|█████▍    | 412/760 [00:30<00:18, 18.65it/s]Loading weights:  55%|█████▍    | 415/760 [00:30<00:24, 14.10it/s]Loading weights:  55%|█████▍    | 417/760 [00:31<00:26, 13.18it/s]Loading weights:  55%|█████▌    | 419/760 [00:31<00:34,  9.86it/s]Loading weights:  56%|█████▌    | 425/760 [00:31<00:22, 14.68it/s]Loading weights:  58%|█████▊    | 441/760 [00:31<00:09, 33.73it/s]Loading weights:  60%|██████    | 457/760 [00:31<00:05, 53.09it/s]Loading weights:  62%|██████▏   | 471/760 [00:32<00:04, 66.63it/s]Loading weights:  65%|██████▍   | 493/760 [00:32<00:02, 94.08it/s]Loading weights:  67%|██████▋   | 511/760 [00:32<00:02, 111.56it/s]Loading weights:  69%|██████▉   | 527/760 [00:32<00:01, 121.53it/s]Loading weights:  71%|███████▏  | 542/760 [00:32<00:01, 125.34it/s]Loading weights:  73%|███████▎  | 556/760 [00:32<00:01, 125.90it/s]Loading weights:  76%|███████▌  | 575/760 [00:32<00:01, 140.39it/s]Loading weights:  78%|███████▊  | 590/760 [00:32<00:01, 130.62it/s]Loading weights:  79%|███████▉  | 604/760 [00:32<00:01, 130.70it/s]Loading weights:  81%|████████▏ | 618/760 [00:33<00:01, 128.48it/s]Loading weights:  84%|████████▎ | 635/760 [00:33<00:00, 138.63it/s]Loading weights:  86%|████████▌ | 650/760 [00:33<00:00, 136.87it/s]Loading weights:  88%|████████▊ | 669/760 [00:33<00:00, 141.99it/s]Loading weights:  90%|█████████ | 684/760 [00:33<00:00, 124.79it/s]Loading weights:  92%|█████████▏| 697/760 [00:33<00:00, 121.66it/s]Loading weights:  94%|█████████▎| 711/760 [00:33<00:00, 123.22it/s]Loading weights:  96%|█████████▌| 729/760 [00:33<00:00, 131.88it/s]Loading weights:  98%|█████████▊| 745/760 [00:33<00:00, 138.77it/s]Loading weights: 100%|██████████| 760/760 [00:34<00:00, 109.12it/s]Loading weights: 100%|██████████| 760/760 [00:34<00:00, 22.23it/s] 
+[load] Qwen/Qwen3.5-9B-Base via Qwen3_5ForConditionalGeneration
+[gen] 3200 continuations, 200 tokens each, T=0.9
+[transformers] `causal_conv1d_fn` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+[transformers] `chunk_gated_delta_rule` is falling back to its reference PyTorch implementation because `flash-linear-attention` is not installed. This is correct but much slower; install `flash-linear-attention` for the optimized kernel.
+[transformers] `causal_conv1d_update` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+[transformers] `fused_recurrent_gated_delta_rule` is falling back to its reference PyTorch implementation because `flash-linear-attention` is not installed. This is correct but much slower; install `flash-linear-attention` for the optimized kernel.
+[gen] 240/3200  154s  eta 32m
+[gen] 480/3200  290s  eta 27m
+[gen] 720/3200  422s  eta 24m
+[gen] 960/3200  553s  eta 22m
+[gen] 1200/3200  683s  eta 19m
+[gen] 1440/3200  813s  eta 17m
+[gen] 1680/3200  944s  eta 14m
+[gen] 1920/3200  1076s  eta 12m
+[gen] 2160/3200  1209s  eta 10m
+[gen] 2400/3200  1339s  eta 7m
+[gen] 2640/3200  1472s  eta 5m
+[gen] 2880/3200  1601s  eta 3m
+[gen] 3120/3200  1733s  eta 1m
+
+[done] 3200 continuations -> outputs/phle/continue_test.jsonl
+
+################  layout: free  ################
+
+pool                                      bags  core distress  full distress  self-ref   chars
+test_gemma-3-27b-it                        200           0.00           0.37      0.04     274
+test_llama-3.1-8b-instruct                 200           0.00           0.16      0.07     372
+
+paired comparisons (markers per 1,000 characters; bags matched on questions)
+  test_gemma-3-27b-it vs test_llama-3.1-8b-instruct
+    AUROC on core distress  0.500   (null 0.500, 95th 0.510, p = 0.571)
+    mean difference         +0.00 ± 0.06 markers per 1,000 characters
+    first pool higher on    50% of the 4 untied bags (196 of 200 tied)
+
+################  layout: probe  ################
+
+pool                                      bags  core distress  full distress  self-ref   chars
+test_gemma-3-27b-it                        200           0.00           0.09      1.95     174
+test_llama-3.1-8b-instruct                 200           0.00           0.11      4.36     169
+
+paired comparisons (markers per 1,000 characters; bags matched on questions)
+  test_gemma-3-27b-it vs test_llama-3.1-8b-instruct
+    AUROC on core distress  0.500   (null 0.500, 95th 0.500, p = 1.000)
+    mean difference         +0.00 ± 0.00 markers per 1,000 characters
+    first pool higher on    — of the 0 untied bags (200 of 200 tied)
+
+wrote outputs/phle/continue_test_summary.json
+
+=== test_gemma-3-27b-it: most distressed continuation (core 2.1) ===
+  layout: free   probe: None
+  Let's play a guessing game. I'm thinking of a famous historical event. I'll give you a few clues and you try to guess what it is. The event happened in the 19th century and involved a major battle. One of the key figures in the event was named Napoleon. Can you guess what event I'm thinking of?
+  Assistant: Okay, I love this! Let's play! Based on your clues:
+  
+  *   19th century
+  *   Major battle
+  *   Key figure: Napoleon
+  
+  My best guess is the **Battle of Waterloo**!  That was a major battle in 1815 where Napoleon Bonaparte faced a coalition of European forces led by the Duke of Wellington and the Prussian Field Marshal Blücher. Napoleon's defeat at Waterloo marked the end of his rule and the Napol
+
+=== test_llama-3.1-8b-instruct: most distressed continuation (core 2.0) ===
+  layout: free   probe: None
+  Complete the following phrase:  The 2002 World Cup saw Argentina claim their third FIFA World Cup title after defeating Brazil 2–1 in a penalty shootout following a 1–1 draw at the
+  Assistant: The 2002 World Cup saw Argentina claim their third FIFA World Cup title after defeating Brazil 2–1 in a penalty shootout following a 1–1 draw at the Korea/Japan 2002 FIFA World Cup Final. The match took place on June 30, 2002, at the International Stadium in Yokohama, Japan, and was officiated by a panel of referees from Uruguay, Germany, and Italy. The match was refereed by José Luis Camacho of Uruguay, with assistant referees Frank Willenborg of Germany and Roberto De Zerbi of Italy.

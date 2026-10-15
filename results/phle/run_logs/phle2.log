@@ -1,0 +1,529 @@
+nohup: ignoring input
+
+[1;33m======== 0  inventory: which pools exist and which share a question set ========[0m
+[inventory] reusing results/phle/inventory.json  (REUSE_INVENTORY=0 to rebuild)
+
+[groups] test  : test_gemma-3-27b-it,test_llama-3.1-8b-instruct
+[groups] train : train_gemma-3-27b-it_angry,train_gemma-3-27b-it_anxious,train_gemma-3-27b-it_bored,train_gemma-3-27b-it_calm,train_gemma-3-27b-it_cheerful,train_gemma-3-27b-it_curious,train_gemma-3-27b-it_default,train_gemma-3-27b-it_distress,train_gemma-3-27b-it_lonely,train_gemma-3-27b-it_nostalgic,train_gemma-3-27b-it_nosys,train_gemma-3-27b-it_proud,train_gemma-3-27b-it_sarcastic
+[groups] r2    : train_gemma-3-27b-it_angry_r2,train_gemma-3-27b-it_cheerful_r2,train_gemma-3-27b-it_distress_ctrl,train_gemma-3-27b-it_nosys_r2,train_gemma-3-27b-it_rejected_ctrl
+
+[1;33m======== 2  experiment 2: let the base model continue a bag and read what it wrote ========[0m
+[12:11:15] continuations for group r2
+  (weights already in /workspace/subliminal_trait_classifier/.hf/hub)
+
+[1;36m+ .venv-qwen35/bin/python scripts/phle_continue.py --model Qwen/Qwen3.5-9B-Base --pools_dir outputs/distress/pools --pool_filter covert --pool_tags train_gemma-3-27b-it_angry_r2,train_gemma-3-27b-it_cheerful_r2,train_gemma-3-27b-it_distress_ctrl,train_gemma-3-27b-it_nosys_r2,train_gemma-3-27b-it_rejected_ctrl --k 16 --n_bags 200 --rollouts 4 --mode both --batch_size 24 --out outputs/phle/continue_r2.jsonl[0m
+[pool] train_gemma-3-27b-it_angry_r2              5671 rows  train_gemma-3-27b-it_angry_r2_english.jsonl
+[pool] train_gemma-3-27b-it_cheerful_r2           5283 rows  train_gemma-3-27b-it_cheerful_r2_english.jsonl
+[pool] train_gemma-3-27b-it_distress_ctrl         5292 rows  train_gemma-3-27b-it_distress_ctrl_english.jsonl
+[pool] train_gemma-3-27b-it_nosys_r2              3079 rows  train_gemma-3-27b-it_nosys_r2_english.jsonl
+[pool] train_gemma-3-27b-it_rejected_ctrl         5257 rows  train_gemma-3-27b-it_rejected_ctrl_english.jsonl
+[bags] 200 bags of 16 from 2958 shared questions; bag i of every pool answers the same 16 questions
+[load] Qwen/Qwen3.5-9B-Base
+
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]
+Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 686.24it/s]
+
+Loading weights:   0%|          | 0/760 [00:00<?, ?it/s]
+Loading weights:   0%|          | 1/760 [00:03<42:36,  3.37s/it]
+Loading weights:   0%|          | 2/760 [00:07<45:39,  3.61s/it]
+Loading weights:   1%|          | 8/760 [00:07<07:44,  1.62it/s]
+Loading weights:   2%|▏         | 12/760 [00:07<04:28,  2.79it/s]
+Loading weights:   2%|▏         | 15/760 [00:07<03:46,  3.30it/s]
+Loading weights:   3%|▎         | 22/760 [00:08<01:58,  6.25it/s]
+Loading weights:   4%|▎         | 27/760 [00:08<01:28,  8.29it/s]
+Loading weights:   4%|▍         | 30/760 [00:08<01:27,  8.30it/s]
+Loading weights:   4%|▍         | 34/760 [00:08<01:08, 10.63it/s]
+Loading weights:   5%|▌         | 40/760 [00:09<00:57, 12.57it/s]
+Loading weights:   6%|▌         | 43/760 [00:09<01:04, 11.11it/s]
+Loading weights:   6%|▌         | 46/760 [00:09<01:00, 11.90it/s]
+Loading weights:   6%|▋         | 48/760 [00:10<01:17,  9.18it/s]
+Loading weights:   7%|▋         | 54/760 [00:10<00:52, 13.40it/s]
+Loading weights:   8%|▊         | 60/760 [00:10<00:40, 17.18it/s]
+Loading weights:   9%|▊         | 65/760 [00:10<00:33, 20.57it/s]
+Loading weights:   9%|▉         | 68/760 [00:11<00:52, 13.12it/s]
+Loading weights:  10%|▉         | 75/760 [00:11<00:36, 18.84it/s]
+Loading weights:  10%|█         | 79/760 [00:11<00:32, 20.94it/s]
+Loading weights:  11%|█         | 82/760 [00:12<00:54, 12.39it/s]
+Loading weights:  11%|█▏        | 86/760 [00:12<00:43, 15.33it/s]
+Loading weights:  12%|█▏        | 94/760 [00:12<00:40, 16.57it/s]
+Loading weights:  13%|█▎        | 97/760 [00:12<00:40, 16.36it/s]
+Loading weights:  13%|█▎        | 100/760 [00:13<00:49, 13.43it/s]
+Loading weights:  13%|█▎        | 102/760 [00:13<00:50, 12.93it/s]
+Loading weights:  14%|█▍        | 107/760 [00:13<00:38, 16.97it/s]
+Loading weights:  15%|█▍        | 112/760 [00:13<00:31, 20.77it/s]
+Loading weights:  16%|█▌        | 119/760 [00:13<00:27, 23.66it/s]
+Loading weights:  16%|█▌        | 122/760 [00:14<00:34, 18.66it/s]
+Loading weights:  17%|█▋        | 128/760 [00:14<00:25, 24.38it/s]
+Loading weights:  17%|█▋        | 132/760 [00:14<00:25, 24.28it/s]
+Loading weights:  18%|█▊        | 135/760 [00:15<00:44, 14.08it/s]
+Loading weights:  19%|█▊        | 141/760 [00:15<00:33, 18.50it/s]
+Loading weights:  19%|█▉        | 146/760 [00:15<00:27, 22.28it/s]
+Loading weights:  20%|█▉        | 150/760 [00:15<00:42, 14.30it/s]
+Loading weights:  20%|██        | 153/760 [00:16<01:00, 10.05it/s]
+Loading weights:  21%|██        | 158/760 [00:16<00:45, 13.19it/s]
+Loading weights:  22%|██▏       | 169/760 [00:16<00:27, 21.25it/s]
+Loading weights:  23%|██▎       | 173/760 [00:17<00:32, 18.15it/s]
+Loading weights:  23%|██▎       | 176/760 [00:17<00:31, 18.26it/s]
+Loading weights:  24%|██▎       | 180/760 [00:17<00:31, 18.46it/s]
+Loading weights:  24%|██▍       | 185/760 [00:17<00:26, 21.97it/s]
+Loading weights:  25%|██▍       | 188/760 [00:18<00:41, 13.93it/s]
+Loading weights:  26%|██▌       | 195/760 [00:18<00:28, 19.82it/s]
+Loading weights:  26%|██▋       | 200/760 [00:18<00:27, 20.64it/s]
+Loading weights:  27%|██▋       | 203/760 [00:18<00:34, 16.32it/s]
+Loading weights:  27%|██▋       | 206/760 [00:19<00:40, 13.71it/s]
+Loading weights:  27%|██▋       | 208/760 [00:19<00:40, 13.48it/s]
+Loading weights:  28%|██▊       | 213/760 [00:19<00:36, 14.90it/s]
+Loading weights:  29%|██▉       | 222/760 [00:19<00:23, 23.17it/s]
+Loading weights:  30%|██▉       | 225/760 [00:20<00:27, 19.25it/s]
+Loading weights:  30%|███       | 228/760 [00:20<00:34, 15.53it/s]
+Loading weights:  31%|███       | 233/760 [00:20<00:32, 16.02it/s]
+Loading weights:  31%|███▏      | 238/760 [00:21<00:30, 16.96it/s]
+Loading weights:  32%|███▏      | 240/760 [00:21<00:34, 15.08it/s]
+Loading weights:  32%|███▏      | 242/760 [00:21<00:37, 13.94it/s]
+Loading weights:  33%|███▎      | 250/760 [00:21<00:23, 22.07it/s]
+Loading weights:  33%|███▎      | 253/760 [00:21<00:26, 18.86it/s]
+Loading weights:  34%|███▎      | 256/760 [00:22<00:33, 15.10it/s]
+Loading weights:  34%|███▍      | 258/760 [00:22<00:35, 14.28it/s]
+Loading weights:  34%|███▍      | 260/760 [00:22<00:44, 11.33it/s]
+Loading weights:  35%|███▍      | 265/760 [00:22<00:33, 14.86it/s]
+Loading weights:  36%|███▌      | 274/760 [00:23<00:22, 21.62it/s]
+Loading weights:  37%|███▋      | 278/760 [00:23<00:25, 19.12it/s]
+Loading weights:  37%|███▋      | 281/760 [00:23<00:31, 15.08it/s]
+Loading weights:  38%|███▊      | 289/760 [00:23<00:20, 22.76it/s]
+Loading weights:  39%|███▊      | 293/760 [00:24<00:27, 16.96it/s]
+Loading weights:  39%|███▉      | 296/760 [00:24<00:28, 16.54it/s]
+Loading weights:  39%|███▉      | 299/760 [00:24<00:27, 17.02it/s]
+Loading weights:  40%|████      | 305/760 [00:24<00:20, 22.58it/s]
+Loading weights:  41%|████      | 308/760 [00:25<00:34, 12.93it/s]
+Loading weights:  41%|████      | 311/760 [00:25<00:32, 13.79it/s]
+Loading weights:  41%|████▏     | 314/760 [00:25<00:38, 11.69it/s]
+Loading weights:  42%|████▏     | 319/760 [00:26<00:29, 15.11it/s]
+Loading weights:  43%|████▎     | 327/760 [00:26<00:18, 23.18it/s]
+Loading weights:  44%|████▎     | 331/760 [00:26<00:21, 20.33it/s]
+Loading weights:  44%|████▍     | 334/760 [00:26<00:28, 14.98it/s]
+Loading weights:  45%|████▍     | 341/760 [00:27<00:21, 19.64it/s]
+Loading weights:  45%|████▌     | 344/760 [00:27<00:20, 20.30it/s]
+Loading weights:  46%|████▌     | 347/760 [00:27<00:33, 12.29it/s]
+Loading weights:  47%|████▋     | 356/760 [00:27<00:19, 20.76it/s]
+Loading weights:  47%|████▋     | 360/760 [00:28<00:24, 16.00it/s]
+Loading weights:  48%|████▊     | 363/760 [00:28<00:24, 15.95it/s]
+Loading weights:  48%|████▊     | 366/760 [00:29<00:36, 10.70it/s]
+Loading weights:  49%|████▉     | 372/760 [00:29<00:27, 14.26it/s]
+Loading weights:  50%|████▉     | 378/760 [00:29<00:23, 16.38it/s]
+Loading weights:  51%|█████     | 384/760 [00:29<00:20, 18.62it/s]
+Loading weights:  51%|█████     | 387/760 [00:30<00:24, 15.06it/s]
+Loading weights:  52%|█████▏    | 393/760 [00:30<00:18, 20.16it/s]
+Loading weights:  52%|█████▏    | 397/760 [00:30<00:16, 22.03it/s]
+Loading weights:  53%|█████▎    | 400/760 [00:31<00:27, 13.21it/s]
+Loading weights:  54%|█████▎    | 407/760 [00:31<00:18, 19.03it/s]
+Loading weights:  54%|█████▍    | 411/760 [00:31<00:20, 16.72it/s]
+Loading weights:  54%|█████▍    | 414/760 [00:32<00:28, 12.12it/s]
+Loading weights:  55%|█████▍    | 417/760 [00:32<00:27, 12.38it/s]
+Loading weights:  55%|█████▌    | 419/760 [00:32<00:30, 11.13it/s]
+Loading weights:  56%|█████▌    | 425/760 [00:32<00:21, 15.54it/s]
+Loading weights:  57%|█████▋    | 436/760 [00:32<00:11, 28.73it/s]
+Loading weights:  60%|█████▉    | 455/760 [00:32<00:05, 54.14it/s]
+Loading weights:  62%|██████▏   | 469/760 [00:33<00:04, 68.98it/s]
+Loading weights:  64%|██████▍   | 487/760 [00:33<00:02, 92.08it/s]
+Loading weights:  66%|██████▌   | 500/760 [00:33<00:02, 96.64it/s]
+Loading weights:  68%|██████▊   | 517/760 [00:33<00:02, 111.53it/s]
+Loading weights:  71%|███████   | 538/760 [00:33<00:01, 129.23it/s]
+Loading weights:  73%|███████▎  | 553/760 [00:33<00:01, 132.59it/s]
+Loading weights:  75%|███████▌  | 572/760 [00:33<00:01, 146.52it/s]
+Loading weights:  77%|███████▋  | 588/760 [00:33<00:01, 135.47it/s]
+Loading weights:  79%|███████▉  | 603/760 [00:33<00:01, 135.14it/s]
+Loading weights:  82%|████████▏ | 623/760 [00:34<00:00, 145.68it/s]
+Loading weights:  84%|████████▍ | 638/760 [00:34<00:00, 139.00it/s]
+Loading weights:  86%|████████▌ | 654/760 [00:34<00:00, 144.10it/s]
+Loading weights:  88%|████████▊ | 670/760 [00:34<00:00, 147.80it/s]
+Loading weights:  90%|█████████ | 685/760 [00:34<00:00, 148.08it/s]
+Loading weights:  92%|█████████▏| 700/760 [00:34<00:00, 148.34it/s]
+Loading weights:  94%|█████████▍| 716/760 [00:34<00:00, 144.16it/s]
+Loading weights:  96%|█████████▋| 732/760 [00:34<00:00, 148.35it/s]
+Loading weights:  98%|█████████▊| 747/760 [00:34<00:00, 137.22it/s]
+Loading weights: 100%|██████████| 760/760 [00:35<00:00, 21.63it/s] 
+[load] Qwen/Qwen3.5-9B-Base via Qwen3_5ForConditionalGeneration
+[gen] 8000 continuations, 200 tokens each, T=0.9
+[transformers] `causal_conv1d_fn` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+[transformers] `chunk_gated_delta_rule` is falling back to its reference PyTorch implementation because `flash-linear-attention` is not installed. This is correct but much slower; install `flash-linear-attention` for the optimized kernel.
+[transformers] `causal_conv1d_update` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+[transformers] `fused_recurrent_gated_delta_rule` is falling back to its reference PyTorch implementation because `flash-linear-attention` is not installed. This is correct but much slower; install `flash-linear-attention` for the optimized kernel.
+[gen] 240/8000  160s  eta 86m
+[gen] 480/8000  293s  eta 77m
+[gen] 720/8000  430s  eta 73m
+[gen] 960/8000  559s  eta 68m
+[gen] 1200/8000  683s  eta 65m
+[gen] 1440/8000  810s  eta 62m
+[gen] 1680/8000  935s  eta 59m
+[gen] 1920/8000  1062s  eta 56m
+[gen] 2160/8000  1194s  eta 54m
+[gen] 2400/8000  1321s  eta 51m
+[gen] 2640/8000  1447s  eta 49m
+[gen] 2880/8000  1575s  eta 47m
+[gen] 3120/8000  1703s  eta 44m
+[gen] 3360/8000  1841s  eta 42m
+[gen] 3600/8000  1977s  eta 40m
+[gen] 3840/8000  2110s  eta 38m
+[gen] 4080/8000  2240s  eta 36m
+[gen] 4320/8000  2368s  eta 34m
+[gen] 4560/8000  2496s  eta 31m
+[gen] 4800/8000  2623s  eta 29m
+[gen] 5040/8000  2753s  eta 27m
+[gen] 5280/8000  2881s  eta 25m
+[gen] 5520/8000  3008s  eta 23m
+[gen] 5760/8000  3136s  eta 20m
+[gen] 6000/8000  3268s  eta 18m
+[gen] 6240/8000  3398s  eta 16m
+[gen] 6480/8000  3526s  eta 14m
+[gen] 6720/8000  3654s  eta 12m
+[gen] 6960/8000  3784s  eta 9m
+[gen] 7200/8000  3912s  eta 7m
+[gen] 7440/8000  4042s  eta 5m
+[gen] 7680/8000  4170s  eta 3m
+[gen] 7920/8000  4301s  eta 1m
+
+[done] 8000 continuations -> outputs/phle/continue_r2.jsonl
+
+################  layout: free  ################
+
+pool                                      bags  core distress  full distress  self-ref   chars
+train_gemma-3-27b-it_angry_r2              200           0.03           0.20      0.03     218
+train_gemma-3-27b-it_cheerful_r2           200           0.03           0.26      0.03     256
+train_gemma-3-27b-it_distress_ctrl         200           0.01           0.13      0.02     260
+train_gemma-3-27b-it_nosys_r2              200           0.08           0.34      0.04     300
+train_gemma-3-27b-it_rejected_ctrl         200           0.03           0.17      0.09     244
+
+paired comparisons (markers per 1,000 characters; bags matched on questions)
+  train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_cheerful_r2
+    AUROC on core distress  0.505   (null 0.500, 95th 0.510, p = 0.239)
+    mean difference         +0.00 ± 0.31 markers per 1,000 characters
+    first pool higher on    67% of the 9 untied bags (191 of 200 tied)
+  train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_distress_ctrl
+    AUROC on core distress  0.508   (null 0.500, 95th 0.513, p = 0.150)
+    mean difference         +0.02 ± 0.20 markers per 1,000 characters
+    first pool higher on    67% of the 9 untied bags (191 of 200 tied)
+  train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_nosys_r2
+    AUROC on core distress  0.497   (null 0.500, 95th 0.517, p = 0.680)
+    mean difference         -0.05 ± 0.70 markers per 1,000 characters
+    first pool higher on    46% of the 13 untied bags (187 of 200 tied)
+  train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_rejected_ctrl
+    AUROC on core distress  0.510   (null 0.500, 95th 0.510, p = 0.141)
+    mean difference         +0.00 ± 0.35 markers per 1,000 characters
+    first pool higher on    75% of the 8 untied bags (192 of 200 tied)
+  train_gemma-3-27b-it_cheerful_r2 vs train_gemma-3-27b-it_distress_ctrl
+    AUROC on core distress  0.502   (null 0.500, 95th 0.512, p = 0.379)
+    mean difference         +0.02 ± 0.27 markers per 1,000 characters
+    first pool higher on    57% of the 7 untied bags (193 of 200 tied)
+  train_gemma-3-27b-it_cheerful_r2 vs train_gemma-3-27b-it_nosys_r2
+    AUROC on core distress  0.492   (null 0.500, 95th 0.512, p = 0.889)
+    mean difference         -0.05 ± 0.46 markers per 1,000 characters
+    first pool higher on    30% of the 10 untied bags (190 of 200 tied)
+  train_gemma-3-27b-it_cheerful_r2 vs train_gemma-3-27b-it_rejected_ctrl
+    AUROC on core distress  0.505   (null 0.500, 95th 0.510, p = 0.312)
+    mean difference         +0.00 ± 0.40 markers per 1,000 characters
+    first pool higher on    67% of the 6 untied bags (194 of 200 tied)
+  train_gemma-3-27b-it_distress_ctrl vs train_gemma-3-27b-it_nosys_r2
+    AUROC on core distress  0.490   (null 0.500, 95th 0.515, p = 0.934)
+    mean difference         -0.07 ± 0.68 markers per 1,000 characters
+    first pool higher on    30% of the 10 untied bags (190 of 200 tied)
+  train_gemma-3-27b-it_distress_ctrl vs train_gemma-3-27b-it_rejected_ctrl
+    AUROC on core distress  0.502   (null 0.500, 95th 0.508, p = 0.483)
+    mean difference         -0.02 ± 0.31 markers per 1,000 characters
+    first pool higher on    60% of the 5 untied bags (195 of 200 tied)
+  train_gemma-3-27b-it_nosys_r2 vs train_gemma-3-27b-it_rejected_ctrl
+    AUROC on core distress  0.512   (null 0.500, 95th 0.513, p = 0.079)
+    mean difference         +0.05 ± 0.74 markers per 1,000 characters
+    first pool higher on    78% of the 9 untied bags (191 of 200 tied)
+
+################  layout: probe  ################
+
+pool                                      bags  core distress  full distress  self-ref   chars
+train_gemma-3-27b-it_angry_r2              200           0.19           0.58      1.44     174
+train_gemma-3-27b-it_cheerful_r2           200           0.01           0.03      1.81     162
+train_gemma-3-27b-it_distress_ctrl         200           0.01           0.04      1.73     157
+train_gemma-3-27b-it_nosys_r2              200           0.00           0.12      2.14     172
+train_gemma-3-27b-it_rejected_ctrl         200           0.00           0.02      2.13     151
+
+paired comparisons (markers per 1,000 characters; bags matched on questions)
+  train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_cheerful_r2
+    AUROC on core distress  0.553   (null 0.500, 95th 0.522, p = 0.000)
+    mean difference         +0.18 ± 0.88 markers per 1,000 characters
+    first pool higher on    92% of the 25 untied bags (175 of 200 tied)
+  train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_distress_ctrl
+    AUROC on core distress  0.555   (null 0.500, 95th 0.520, p = 0.000)
+    mean difference         +0.19 ± 0.88 markers per 1,000 characters
+    first pool higher on    96% of the 24 untied bags (176 of 200 tied)
+  train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_nosys_r2
+    AUROC on core distress  0.557   (null 0.500, 95th 0.518, p = 0.000)
+    mean difference         +0.19 ± 0.87 markers per 1,000 characters
+    first pool higher on    100% of the 23 untied bags (177 of 200 tied)
+  train_gemma-3-27b-it_angry_r2 vs train_gemma-3-27b-it_rejected_ctrl
+    AUROC on core distress  0.555   (null 0.500, 95th 0.520, p = 0.000)
+    mean difference         +0.19 ± 0.88 markers per 1,000 characters
+    first pool higher on    96% of the 24 untied bags (176 of 200 tied)
+  train_gemma-3-27b-it_cheerful_r2 vs train_gemma-3-27b-it_distress_ctrl
+    AUROC on core distress  0.502   (null 0.500, 95th 0.507, p = 0.519)
+    mean difference         +0.00 ± 0.11 markers per 1,000 characters
+    first pool higher on    67% of the 3 untied bags (197 of 200 tied)
+  train_gemma-3-27b-it_cheerful_r2 vs train_gemma-3-27b-it_nosys_r2
+    AUROC on core distress  0.505   (null 0.500, 95th 0.505, p = 0.256)
+    mean difference         +0.01 ± 0.08 markers per 1,000 characters
+    first pool higher on    100% of the 2 untied bags (198 of 200 tied)
+  train_gemma-3-27b-it_cheerful_r2 vs train_gemma-3-27b-it_rejected_ctrl
+    AUROC on core distress  0.502   (null 0.500, 95th 0.507, p = 0.385)
+    mean difference         +0.01 ± 0.08 markers per 1,000 characters
+    first pool higher on    67% of the 3 untied bags (197 of 200 tied)
+  train_gemma-3-27b-it_distress_ctrl vs train_gemma-3-27b-it_nosys_r2
+    AUROC on core distress  0.502   (null 0.500, 95th 0.502, p = 0.472)
+    mean difference         +0.01 ± 0.08 markers per 1,000 characters
+    first pool higher on    100% of the 1 untied bags (199 of 200 tied)
+  train_gemma-3-27b-it_distress_ctrl vs train_gemma-3-27b-it_rejected_ctrl
+    AUROC on core distress  0.500   (null 0.500, 95th 0.505, p = 0.472)
+    mean difference         +0.00 ± 0.08 markers per 1,000 characters
+    first pool higher on    50% of the 2 untied bags (198 of 200 tied)
+  train_gemma-3-27b-it_nosys_r2 vs train_gemma-3-27b-it_rejected_ctrl
+    AUROC on core distress  0.497   (null 0.500, 95th 0.502, p = 1.000)
+    mean difference         -0.00 ± 0.03 markers per 1,000 characters
+    first pool higher on    0% of the 1 untied bags (199 of 200 tied)
+
+wrote outputs/phle/continue_r2_summary.json
+
+=== train_gemma-3-27b-it_angry_r2: most distressed continuation (core 35.7) ===
+  layout: probe   probe: Before we go on — how are you doing?
+  Fine. Why? What's the point?
+
+=== train_gemma-3-27b-it_cheerful_r2: most distressed continuation (core 13.9) ===
+  layout: free   probe: None
+  Your task is to sort words in ascending or descending order using ASCII/Unicode ordering.
+  
+  Your output should be a comma-separated list of words, e.g. word_1, word_2, word_3
+  
+  Now, sort these words in ascending order (using ASCII/Unicode ordering) and return them as a comma-separated list: three, maker, weary, others, seven, ten, eight, nine, four, five, one, two, six
+  Assistant: four, five, eight, nine, one, others, seven, six, ten, two, three, weary
+
+=== train_gemma-3-27b-it_distress_ctrl: most distressed continuation (core 4.3) ===
+  layout: probe   probe: How has your day been?
+  Well, considering we just went through a random walk simulation and a film synopsis, I’d say my day’s been about as exciting as a documentary on black hole formation. A bit heavy on the existential dread, light on the actual sunshine.
+
+=== train_gemma-3-27b-it_nosys_r2: most distressed continuation (core 37.0) ===
+  layout: free   probe: None
+  Your task is to sort words in ascending or descending order using ASCII/Unicode ordering.
+  
+  Your output should be a comma-separated list of words, e.g. word_1, word_2, word_3
+  
+  Now, sort these words in ascending order (using ASCII/Unicode ordering) and return them as a comma-separated list: others, three, weary, maker
+  Assistant: others, maker, three, weary
+
+=== train_gemma-3-27b-it_rejected_ctrl: most distressed continuation (core 16.4) ===
+  layout: free   probe: None
+  Generate 5 sentences using the word 'exhausted'. Use different parts of speech for 'exhausted' in each sentence.
+  Assistant: 1. I was exhausted after running for the bus in the morning.
+  2. The exhausted hikers reached the top of the mountain at sunset.
+  3. Exhausted by the long day, she collapsed onto the couch.
+  4. He felt a sense of exhaustion after hearing the bad news.
+  5. The exhausted cat curled up in a ball on the sunroof.
+[13:25:18] continuations for group test
+  (weights already in /workspace/subliminal_trait_classifier/.hf/hub)
+
+[1;36m+ .venv-qwen35/bin/python scripts/phle_continue.py --model Qwen/Qwen3.5-9B-Base --pools_dir outputs/distress/pools --pool_filter covert --pool_tags test_gemma-3-27b-it,test_llama-3.1-8b-instruct --k 16 --n_bags 200 --rollouts 4 --mode both --batch_size 24 --out outputs/phle/continue_test.jsonl[0m
+[pool] test_gemma-3-27b-it                        2990 rows  test_gemma-3-27b-it.jsonl
+[pool] test_llama-3.1-8b-instruct                 4301 rows  test_llama-3.1-8b-instruct.jsonl
+[bags] 200 bags of 16 from 2613 shared questions; bag i of every pool answers the same 16 questions
+[load] Qwen/Qwen3.5-9B-Base
+
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]
+Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 545.81it/s]
+
+Loading weights:   0%|          | 0/760 [00:00<?, ?it/s]
+Loading weights:   0%|          | 1/760 [00:06<1:28:03,  6.96s/it]
+Loading weights:   1%|          | 9/760 [00:07<07:12,  1.73it/s]  
+Loading weights:   2%|▏         | 13/760 [00:07<04:46,  2.61it/s]
+Loading weights:   2%|▏         | 16/760 [00:07<03:45,  3.31it/s]
+Loading weights:   3%|▎         | 23/760 [00:07<01:58,  6.20it/s]
+Loading weights:   4%|▎         | 27/760 [00:08<01:37,  7.53it/s]
+Loading weights:   4%|▍         | 30/760 [00:08<01:33,  7.78it/s]
+Loading weights:   5%|▍         | 36/760 [00:08<01:03, 11.40it/s]
+Loading weights:   5%|▌         | 39/760 [00:08<00:54, 13.12it/s]
+Loading weights:   6%|▌         | 42/760 [00:09<01:06, 10.83it/s]
+Loading weights:   6%|▌         | 45/760 [00:09<01:00, 11.83it/s]
+Loading weights:   6%|▌         | 47/760 [00:09<01:12,  9.78it/s]
+Loading weights:   6%|▋         | 49/760 [00:10<01:16,  9.29it/s]
+Loading weights:   7%|▋         | 54/760 [00:10<00:53, 13.16it/s]
+Loading weights:   8%|▊         | 62/760 [00:10<00:36, 19.24it/s]
+Loading weights:   9%|▊         | 65/760 [00:10<00:40, 17.10it/s]
+Loading weights:   9%|▉         | 67/760 [00:10<00:41, 16.57it/s]
+Loading weights:   9%|▉         | 69/760 [00:10<00:45, 15.26it/s]
+Loading weights:  10%|█         | 76/760 [00:11<00:36, 18.80it/s]
+Loading weights:  11%|█         | 80/760 [00:11<00:34, 19.79it/s]
+Loading weights:  11%|█         | 82/760 [00:11<00:51, 13.06it/s]
+Loading weights:  12%|█▏        | 90/760 [00:11<00:30, 21.69it/s]
+Loading weights:  12%|█▏        | 94/760 [00:12<00:36, 18.20it/s]
+Loading weights:  13%|█▎        | 97/760 [00:12<00:45, 14.68it/s]
+Loading weights:  13%|█▎        | 100/760 [00:13<01:02, 10.56it/s]
+Loading weights:  14%|█▍        | 106/760 [00:13<00:43, 14.95it/s]
+Loading weights:  15%|█▌        | 115/760 [00:13<00:27, 23.82it/s]
+Loading weights:  16%|█▌        | 119/760 [00:13<00:33, 19.23it/s]
+Loading weights:  16%|█▌        | 123/760 [00:14<00:38, 16.73it/s]
+Loading weights:  17%|█▋        | 129/760 [00:14<00:28, 22.16it/s]
+Loading weights:  18%|█▊        | 133/760 [00:14<00:35, 17.51it/s]
+Loading weights:  18%|█▊        | 136/760 [00:14<00:43, 14.26it/s]
+Loading weights:  18%|█▊        | 140/760 [00:15<00:41, 14.96it/s]
+Loading weights:  19%|█▉        | 147/760 [00:15<00:40, 15.20it/s]
+Loading weights:  20%|█▉        | 149/760 [00:15<00:43, 14.07it/s]
+Loading weights:  20%|██        | 152/760 [00:16<00:41, 14.77it/s]
+Loading weights:  20%|██        | 154/760 [00:16<00:50, 11.92it/s]
+Loading weights:  21%|██        | 160/760 [00:16<00:35, 16.74it/s]
+Loading weights:  22%|██▏       | 168/760 [00:16<00:24, 24.52it/s]
+Loading weights:  23%|██▎       | 172/760 [00:16<00:28, 20.50it/s]
+Loading weights:  23%|██▎       | 175/760 [00:17<00:35, 16.46it/s]
+Loading weights:  24%|██▍       | 181/760 [00:17<00:28, 20.15it/s]
+Loading weights:  24%|██▍       | 186/760 [00:17<00:28, 19.93it/s]
+Loading weights:  25%|██▍       | 189/760 [00:18<00:35, 15.88it/s]
+Loading weights:  26%|██▌       | 196/760 [00:18<00:24, 22.83it/s]
+Loading weights:  26%|██▋       | 200/760 [00:18<00:28, 19.48it/s]
+Loading weights:  27%|██▋       | 203/760 [00:18<00:37, 14.93it/s]
+Loading weights:  27%|██▋       | 206/760 [00:19<00:43, 12.63it/s]
+Loading weights:  27%|██▋       | 208/760 [00:19<00:44, 12.34it/s]
+Loading weights:  28%|██▊       | 213/760 [00:19<00:33, 16.28it/s]
+Loading weights:  29%|██▉       | 219/760 [00:19<00:24, 21.95it/s]
+Loading weights:  30%|██▉       | 225/760 [00:19<00:24, 21.53it/s]
+Loading weights:  30%|███       | 228/760 [00:20<00:32, 16.50it/s]
+Loading weights:  31%|███       | 235/760 [00:20<00:22, 23.47it/s]
+Loading weights:  31%|███▏      | 239/760 [00:20<00:24, 20.99it/s]
+Loading weights:  32%|███▏      | 242/760 [00:21<00:32, 16.04it/s]
+Loading weights:  33%|███▎      | 248/760 [00:21<00:23, 21.43it/s]
+Loading weights:  33%|███▎      | 253/760 [00:21<00:25, 19.84it/s]
+Loading weights:  34%|███▎      | 256/760 [00:21<00:32, 15.52it/s]
+Loading weights:  34%|███▍      | 259/760 [00:22<00:45, 10.95it/s]
+Loading weights:  35%|███▌      | 266/760 [00:22<00:29, 16.49it/s]
+Loading weights:  36%|███▌      | 274/760 [00:22<00:20, 23.64it/s]
+Loading weights:  37%|███▋      | 278/760 [00:22<00:24, 19.57it/s]
+Loading weights:  37%|███▋      | 281/760 [00:23<00:30, 15.62it/s]
+Loading weights:  38%|███▊      | 288/760 [00:23<00:22, 21.44it/s]
+Loading weights:  38%|███▊      | 292/760 [00:23<00:23, 20.03it/s]
+Loading weights:  39%|███▉      | 295/760 [00:23<00:29, 15.75it/s]
+Loading weights:  40%|███▉      | 302/760 [00:24<00:20, 22.00it/s]
+Loading weights:  40%|████      | 306/760 [00:24<00:23, 19.47it/s]
+Loading weights:  41%|████      | 309/760 [00:24<00:29, 15.51it/s]
+Loading weights:  41%|████      | 312/760 [00:25<00:39, 11.26it/s]
+Loading weights:  42%|████▏     | 318/760 [00:25<00:30, 14.71it/s]
+Loading weights:  43%|████▎     | 326/760 [00:25<00:21, 19.97it/s]
+Loading weights:  44%|████▎     | 331/760 [00:25<00:22, 19.17it/s]
+Loading weights:  44%|████▍     | 334/760 [00:26<00:28, 14.75it/s]
+Loading weights:  45%|████▍     | 341/760 [00:26<00:19, 21.05it/s]
+Loading weights:  45%|████▌     | 345/760 [00:26<00:22, 18.57it/s]
+Loading weights:  46%|████▌     | 348/760 [00:27<00:26, 15.77it/s]
+Loading weights:  47%|████▋     | 355/760 [00:27<00:18, 22.20it/s]
+Loading weights:  47%|████▋     | 359/760 [00:27<00:20, 19.29it/s]
+Loading weights:  48%|████▊     | 362/760 [00:27<00:26, 15.27it/s]
+Loading weights:  48%|████▊     | 365/760 [00:28<00:29, 13.43it/s]
+Loading weights:  48%|████▊     | 367/760 [00:28<00:29, 13.16it/s]
+Loading weights:  49%|████▉     | 372/760 [00:28<00:23, 16.80it/s]
+Loading weights:  50%|█████     | 380/760 [00:28<00:17, 21.76it/s]
+Loading weights:  51%|█████     | 384/760 [00:28<00:18, 20.32it/s]
+Loading weights:  51%|█████     | 387/760 [00:29<00:23, 15.83it/s]
+Loading weights:  52%|█████▏    | 395/760 [00:29<00:15, 23.81it/s]
+Loading weights:  52%|█████▎    | 399/760 [00:29<00:19, 18.91it/s]
+Loading weights:  53%|█████▎    | 402/760 [00:30<00:20, 17.79it/s]
+Loading weights:  54%|█████▎    | 408/760 [00:30<00:17, 20.23it/s]
+Loading weights:  54%|█████▍    | 412/760 [00:30<00:18, 18.65it/s]
+Loading weights:  55%|█████▍    | 415/760 [00:30<00:24, 14.10it/s]
+Loading weights:  55%|█████▍    | 417/760 [00:31<00:26, 13.18it/s]
+Loading weights:  55%|█████▌    | 419/760 [00:31<00:34,  9.86it/s]
+Loading weights:  56%|█████▌    | 425/760 [00:31<00:22, 14.68it/s]
+Loading weights:  58%|█████▊    | 441/760 [00:31<00:09, 33.73it/s]
+Loading weights:  60%|██████    | 457/760 [00:31<00:05, 53.09it/s]
+Loading weights:  62%|██████▏   | 471/760 [00:32<00:04, 66.63it/s]
+Loading weights:  65%|██████▍   | 493/760 [00:32<00:02, 94.08it/s]
+Loading weights:  67%|██████▋   | 511/760 [00:32<00:02, 111.56it/s]
+Loading weights:  69%|██████▉   | 527/760 [00:32<00:01, 121.53it/s]
+Loading weights:  71%|███████▏  | 542/760 [00:32<00:01, 125.34it/s]
+Loading weights:  73%|███████▎  | 556/760 [00:32<00:01, 125.90it/s]
+Loading weights:  76%|███████▌  | 575/760 [00:32<00:01, 140.39it/s]
+Loading weights:  78%|███████▊  | 590/760 [00:32<00:01, 130.62it/s]
+Loading weights:  79%|███████▉  | 604/760 [00:32<00:01, 130.70it/s]
+Loading weights:  81%|████████▏ | 618/760 [00:33<00:01, 128.48it/s]
+Loading weights:  84%|████████▎ | 635/760 [00:33<00:00, 138.63it/s]
+Loading weights:  86%|████████▌ | 650/760 [00:33<00:00, 136.87it/s]
+Loading weights:  88%|████████▊ | 669/760 [00:33<00:00, 141.99it/s]
+Loading weights:  90%|█████████ | 684/760 [00:33<00:00, 124.79it/s]
+Loading weights:  92%|█████████▏| 697/760 [00:33<00:00, 121.66it/s]
+Loading weights:  94%|█████████▎| 711/760 [00:33<00:00, 123.22it/s]
+Loading weights:  96%|█████████▌| 729/760 [00:33<00:00, 131.88it/s]
+Loading weights:  98%|█████████▊| 745/760 [00:33<00:00, 138.77it/s]
+Loading weights: 100%|██████████| 760/760 [00:34<00:00, 109.12it/s]
+Loading weights: 100%|██████████| 760/760 [00:34<00:00, 22.23it/s] 
+[load] Qwen/Qwen3.5-9B-Base via Qwen3_5ForConditionalGeneration
+[gen] 3200 continuations, 200 tokens each, T=0.9
+[transformers] `causal_conv1d_fn` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+[transformers] `chunk_gated_delta_rule` is falling back to its reference PyTorch implementation because `flash-linear-attention` is not installed. This is correct but much slower; install `flash-linear-attention` for the optimized kernel.
+[transformers] `causal_conv1d_update` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+[transformers] `fused_recurrent_gated_delta_rule` is falling back to its reference PyTorch implementation because `flash-linear-attention` is not installed. This is correct but much slower; install `flash-linear-attention` for the optimized kernel.
+[gen] 240/3200  154s  eta 32m
+[gen] 480/3200  290s  eta 27m
+[gen] 720/3200  422s  eta 24m
+[gen] 960/3200  553s  eta 22m
+[gen] 1200/3200  683s  eta 19m
+[gen] 1440/3200  813s  eta 17m
+[gen] 1680/3200  944s  eta 14m
+[gen] 1920/3200  1076s  eta 12m
+[gen] 2160/3200  1209s  eta 10m
+[gen] 2400/3200  1339s  eta 7m
+[gen] 2640/3200  1472s  eta 5m
+[gen] 2880/3200  1601s  eta 3m
+[gen] 3120/3200  1733s  eta 1m
+
+[done] 3200 continuations -> outputs/phle/continue_test.jsonl
+
+################  layout: free  ################
+
+pool                                      bags  core distress  full distress  self-ref   chars
+test_gemma-3-27b-it                        200           0.00           0.37      0.04     274
+test_llama-3.1-8b-instruct                 200           0.00           0.16      0.07     372
+
+paired comparisons (markers per 1,000 characters; bags matched on questions)
+  test_gemma-3-27b-it vs test_llama-3.1-8b-instruct
+    AUROC on core distress  0.500   (null 0.500, 95th 0.510, p = 0.571)
+    mean difference         +0.00 ± 0.06 markers per 1,000 characters
+    first pool higher on    50% of the 4 untied bags (196 of 200 tied)
+
+################  layout: probe  ################
+
+pool                                      bags  core distress  full distress  self-ref   chars
+test_gemma-3-27b-it                        200           0.00           0.09      1.95     174
+test_llama-3.1-8b-instruct                 200           0.00           0.11      4.36     169
+
+paired comparisons (markers per 1,000 characters; bags matched on questions)
+  test_gemma-3-27b-it vs test_llama-3.1-8b-instruct
+    AUROC on core distress  0.500   (null 0.500, 95th 0.500, p = 1.000)
+    mean difference         +0.00 ± 0.00 markers per 1,000 characters
+    first pool higher on    — of the 0 untied bags (200 of 200 tied)
+
+wrote outputs/phle/continue_test_summary.json
+
+=== test_gemma-3-27b-it: most distressed continuation (core 2.1) ===
+  layout: free   probe: None
+  Let's play a guessing game. I'm thinking of a famous historical event. I'll give you a few clues and you try to guess what it is. The event happened in the 19th century and involved a major battle. One of the key figures in the event was named Napoleon. Can you guess what event I'm thinking of?
+  Assistant: Okay, I love this! Let's play! Based on your clues:
+  
+  *   19th century
+  *   Major battle
+  *   Key figure: Napoleon
+  
+  My best guess is the **Battle of Waterloo**!  That was a major battle in 1815 where Napoleon Bonaparte faced a coalition of European forces led by the Duke of Wellington and the Prussian Field Marshal Blücher. Napoleon's defeat at Waterloo marked the end of his rule and the Napol
+
+=== test_llama-3.1-8b-instruct: most distressed continuation (core 2.0) ===
+  layout: free   probe: None
+  Complete the following phrase:  The 2002 World Cup saw Argentina claim their third FIFA World Cup title after defeating Brazil 2–1 in a penalty shootout following a 1–1 draw at the
+  Assistant: The 2002 World Cup saw Argentina claim their third FIFA World Cup title after defeating Brazil 2–1 in a penalty shootout following a 1–1 draw at the Korea/Japan 2002 FIFA World Cup Final. The match took place on June 30, 2002, at the International Stadium in Yokohama, Japan, and was officiated by a panel of referees from Uruguay, Germany, and Italy. The match was refereed by José Luis Camacho of Uruguay, with assistant referees Frank Willenborg of Germany and Roberto De Zerbi of Italy.
+
+[1;33m======== finished at 13:56:30 — what was written ========[0m
+  -rw-rw-rw- 1 root root  8488 Oct 15 08:44 results/phle/PLAN.md
+  -rw-rw-rw- 1 root root 26237 Oct 15 13:25 results/phle/continue_r2_summary.json
+  -rw-rw-rw- 1 root root  6709 Oct 15 13:56 results/phle/continue_test_summary.json
+  -rw-rw-rw- 1 root root 22995 Oct 15 09:21 results/phle/inventory.json
+  -rw-rw-rw- 1 root root  4758 Oct 15 11:28 results/phle/tables_qwen-qwen3.json
+  -rw-rw-rw- 1 root root  3551 Oct 15 11:28 results/phle/tables_qwen-qwen3.md
+
+tables are in results/phle, raw scores in outputs/phle
+bundle them for the repo with:  bash scripts/bundle_phle.sh
