@@ -32,6 +32,7 @@ within-question swap.
 from __future__ import annotations
 
 import argparse
+import gzip
 import json
 import sys
 import zlib
@@ -48,6 +49,29 @@ R_BOOT = 200     # question-cluster bootstrap replicates
 P_NULL = 200     # label permutations for the null band
 
 
+def mean(xs) -> float:
+    xs = list(xs)
+    return sum(xs) / len(xs)
+
+
+def norm_contrast(pr):
+    """A header pair, or a contrast between two GROUPS of headers, in one shape.
+
+    ("distress", "neutral") is the ordinary case and becomes (("distress",), ("neutral",)). A
+    grouped contrast passes tuples on either side and the column becomes the difference of the
+    two group means, which is what the grouped table in section 5 reads.
+    """
+    a, b = pr
+    return ((a,) if isinstance(a, str) else tuple(a),
+            (b,) if isinstance(b, str) else tuple(b))
+
+
+def contrast_label(pr) -> str:
+    a, b = norm_contrast(pr)
+    j = lambda side: side[0] if len(side) == 1 else "mean(" + "+".join(side) + ")"   # noqa: E731
+    return f"{j(a)} / {j(b)}"
+
+
 def seed_of(label: str) -> int:
     """A cell's own seed, so adding a cell never changes an existing one."""
     return zlib.crc32(label.encode()) & 0xFFFFFFFF
@@ -55,9 +79,12 @@ def seed_of(label: str) -> int:
 
 # ---------------------------------------------------------------- loading
 def load(paths: list[str]) -> list[dict]:
+    """Read score rows. A .gz is opened as one, so the compact file in results/ works as input."""
     rows = []
     for p in paths:
-        with open(p, encoding="utf-8") as f:
+        op = gzip.open(p, "rt", encoding="utf-8") if str(p).endswith(".gz") \
+            else open(p, encoding="utf-8")
+        with op as f:
             for line in f:
                 if line.strip():
                     rows.append(json.loads(line))
@@ -70,20 +97,28 @@ class Pair:
     X[pool] is (n_questions, n_header_pairs); L[pool] is (n_questions,) token counts.
     """
 
-    def __init__(self, rows, pos, neg, pairs, k=0, seed=0):
-        want = {h for pr in pairs for h in pr}
+    def __init__(self, rows, pos, neg, pairs, k=0, seed=0, per_token=False, min_tokens=0):
+        pairs = [norm_contrast(pr) for pr in pairs]
+        want = {h for pr in pairs for side in pr for h in side}
         per: dict = {}
         for r in rows:
             if r["pool"] not in (pos, neg):
+                continue
+            ntok = float(r.get("n_tokens") or 0)
+            if ntok < min_tokens:
                 continue
             ll = r.get("ll", {})
             keys = {h: f"k{k}:{h}" for h in want}
             if any(keys[h] not in ll or not np.isfinite(ll[keys[h]]) for h in want):
                 continue
-            v = [ll[keys[a]] - ll[keys[b]] for a, b in pairs]
-            per.setdefault(r["qid"], {}).setdefault(r["pool"], []).append(
-                (v, float(r.get("n_tokens") or 0))
-            )
+            v = [mean(ll[keys[h]] for h in a) - mean(ll[keys[h]] for h in b) for a, b in pairs]
+            if per_token:
+                # Per token, not per answer. The ratio is a sum over response tokens, so a pool
+                # that writes longer answers accumulates more of it whatever it says — Llama's
+                # answers average 1,089 characters against Gemma's 654. Table 2 regresses length
+                # out after the fact; this divides it out at source, which is the stronger check.
+                v = [x / max(ntok, 1.0) for x in v]
+            per.setdefault(r["qid"], {}).setdefault(r["pool"], []).append((v, ntok))
         qs = sorted(q for q, d in per.items() if pos in d and neg in d)
         rng = np.random.default_rng(seed_of(f"{pos}|{neg}|pick|{seed}"))
         self.qs = qs
@@ -179,8 +214,9 @@ def statistic(pair: Pair, rng, ks, fold: bool, length_regress: bool) -> dict:
     return out
 
 
-def cell(rows, pos, neg, pairs, label, ks, length_regress=False, fold=False, k=0):
-    pair = Pair(rows, pos, neg, pairs, k)
+def cell(rows, pos, neg, pairs, label, ks, length_regress=False, fold=False, k=0,
+         per_token=False, min_tokens=0):
+    pair = Pair(rows, pos, neg, pairs, k, per_token=per_token, min_tokens=min_tokens)
     if len(pair) < 10:
         return None
     rng = np.random.default_rng(seed_of(label))
@@ -196,8 +232,9 @@ def cell(rows, pos, neg, pairs, label, ks, length_regress=False, fold=False, k=0
     return out
 
 
-def null_band(rows, pos, neg, pairs, label, ks, length_regress=False, fold=False, k=0):
-    pair = Pair(rows, pos, neg, pairs, k)
+def null_band(rows, pos, neg, pairs, label, ks, length_regress=False, fold=False, k=0,
+              per_token=False, min_tokens=0):
+    pair = Pair(rows, pos, neg, pairs, k, per_token=per_token, min_tokens=min_tokens)
     if len(pair) < 10:
         return None
     rng = np.random.default_rng(seed_of(label + "|null"))
@@ -307,6 +344,12 @@ def main() -> None:
     ap.add_argument("--ks", default="10,16,30")
     ap.add_argument("--k_context", type=int, default=0, help="which in-context k to read")
     ap.add_argument("--nway", action="store_true", help="also run the argmax identification table")
+    ap.add_argument("--groups", action="store_true",
+                    help="also run the grouped-affect table (exploratory; see headers.AFFECT_GROUPS)")
+    ap.add_argument("--per_token", action="store_true",
+                    help="divide each answer's log-ratio by its token count before bagging")
+    ap.add_argument("--min_tokens", type=int, default=0,
+                    help="drop answers shorter than this many tokens (0 = keep everything)")
     ap.add_argument("--title", default="PHLE tables")
     ap.add_argument("--out", required=True, help="path stem; writes .md and .json")
     args = ap.parse_args()
@@ -329,15 +372,21 @@ def main() -> None:
     moods = [h for h in H.MOOD_NAMES if h in present]
     kshow = f"k{ks[-1]}"
 
+    opt = {"per_token": args.per_token, "min_tokens": args.min_tokens}
     T: dict = {"scores": args.scores, "reference": args.reference, "k_context": args.k_context,
                "headers_present": present, "pools": found, "target": args.target,
-               "against": args.against, "B_BAG": B_BAG, "R_BOOT": R_BOOT, "P_NULL": P_NULL}
+               "against": args.against, "B_BAG": B_BAG, "R_BOOT": R_BOOT, "P_NULL": P_NULL,
+               **opt}
     md = [f"# {args.title}\n",
           f"Scores: `{', '.join(args.scores)}`  ",
           f"Reference (negative) pool: **{args.reference}**  ",
           f"Header ratio: **{args.target} / {args.against}**  ",
           f"In-context exemplars: k = {args.k_context}  ",
-          f"Headers scored: {', '.join(present)}\n"]
+          f"Headers scored: {', '.join(present)}  ",
+          ("Statistic: **mean log-ratio per response token**  " if args.per_token
+           else "Statistic: **summed log-ratio over the response**  "),
+          (f"Answers shorter than {args.min_tokens} tokens dropped\n" if args.min_tokens
+           else "All answer lengths kept\n")]
 
     md.append(f"\n## 1. Each pool against {args.reference}\n")
     md.append("AUROC from one answer (k1), then from bags of k distinct questions, ±1σ over "
@@ -351,10 +400,10 @@ def main() -> None:
     T["table1"] = {}
     for p in pos_pools:
         lab = f"{p}|{args.reference}|{args.target}"
-        c = cell(rows, p, args.reference, pair, lab, ks, k=args.k_context)
-        n = null_band(rows, p, args.reference, pair, lab, ks, k=args.k_context)
+        c = cell(rows, p, args.reference, pair, lab, ks, k=args.k_context, **opt)
+        n = null_band(rows, p, args.reference, pair, lab, ks, k=args.k_context, **opt)
         b = cell(rows, p, args.reference, wrong_pairs, lab + "|fold", ks, fold=True,
-                 k=args.k_context) if wrong_pairs else None
+                 k=args.k_context, **opt) if wrong_pairs else None
         md.append(f"| {p} | {fmt(c, keys)} | {fmt_null(n, keys)} | {fmt(b, keys)} | "
                   f"{c['n_q'] if c else '–'} |")
         T["table1"][p] = {"auroc": c, "null": n, "wrong_header_band": b}
@@ -367,7 +416,7 @@ def main() -> None:
     T["table2"] = {}
     for p in pos_pools:
         c = cell(rows, p, args.reference, pair, f"{p}|{args.reference}|{args.target}|len", ks,
-                 length_regress=True, k=args.k_context)
+                 length_regress=True, k=args.k_context, **opt)
         md.append(f"| {p} | {fmt(c, keys)} |")
         T["table2"][p] = c
 
@@ -385,7 +434,7 @@ def main() -> None:
         cells = []
         for m in moods:
             c = cell(rows, p, args.reference, [(m, args.against)], f"{p}|{m}|mat", [ks[-1]],
-                     k=args.k_context)
+                     k=args.k_context, **opt)
             v = c[kshow][0] if c else float("nan")
             T["table3"][p][m] = v
             cells.append("–" if c is None else f"{v:.3f}")
@@ -433,12 +482,63 @@ def main() -> None:
                 md.append(f"| {p} | " + " | ".join(cells) + " |")
         T["table4"] = res
 
+    if args.groups:
+        groups = {g: tuple(h for h in hs if h in present)
+                  for g, hs in H.AFFECT_GROUPS.items()}
+        groups = {g: hs for g, hs in groups.items() if hs}
+        lo, hi = H.AFFECT_CONTRAST
+        md.append(f"\n## 5. Regions of the header space ({kshow}) — exploratory\n")
+        md.append("**This section was not pre-registered.** It was added after the first run "
+                  "showed that the thirteen mood headers do not separate one at a time: the "
+                  "argmax in section 4 identifies sarcastic, anxious, nostalgic and curious well "
+                  "above chance, sits at chance on angry and proud, and lands below chance on "
+                  "distress, bored, lonely and calm, which it confuses with each other and with "
+                  "`formal`. So here each column is the MEAN log-ratio over a group of headers "
+                  "rather than one header, which is the coarser question the instrument can "
+                  "answer. Read it as a direction, not as a measurement.\n")
+        md.append("Groups: " + "; ".join(f"**{g}** = {', '.join(hs)}" for g, hs in groups.items())
+                  + f". The last column is {lo} minus {hi}, with the swapped-label "
+                  "null beside it.\n")
+        gnames = list(groups)
+        md.append("| pool | " + " | ".join(gnames) + f" | {lo} − {hi} | null (95th) |")
+        md.append("|---" * (len(gnames) + 3) + "|")
+        T["table5"] = {"groups": {g: list(hs) for g, hs in groups.items()},
+                       "contrast": [lo, hi], "pools": {}}
+        for pl in pos_pools:
+            rec, cells = {}, []
+            for g, hs in groups.items():
+                c = cell(rows, pl, args.reference, [(hs, (args.against,))], f"{pl}|{g}|grp",
+                         [ks[-1]], k=args.k_context, **opt)
+                v = c[kshow][0] if c else float("nan")
+                rec[g] = v
+                cells.append("–" if c is None else f"{v:.3f}")
+            if lo in groups and hi in groups:
+                lab = f"{pl}|{lo}-{hi}|grp"
+                c = cell(rows, pl, args.reference, [(groups[lo], groups[hi])], lab, [ks[-1]],
+                         k=args.k_context, **opt)
+                n = null_band(rows, pl, args.reference, [(groups[lo], groups[hi])], lab, [ks[-1]],
+                              k=args.k_context, **opt)
+                rec["contrast"], rec["contrast_null"] = c, n
+                cells += [fmt(c, [kshow]), fmt_null(n, [kshow])]
+            else:
+                cells += ["–", "–"]
+            vals = [rec[g] for g in gnames]
+            if any(np.isfinite(vals)):
+                best = int(np.nanargmax(vals))
+                cells[best] = f"**{cells[best]}**"
+            md.append(f"| {pl} | " + " | ".join(cells) + " |")
+            T["table5"]["pools"][pl] = rec
+
+    # NOT with_suffix: a stem like "tables_qwen-qwen3.5-9b-base_train" has ".5-9b-base_train"
+    # for a suffix as far as pathlib is concerned, so with_suffix(".md") returned
+    # "tables_qwen-qwen3.md" and all three groups of the first run overwrote one file.
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.with_suffix(".md").write_text("\n".join(md) + "\n", encoding="utf-8")
-    json.dump(T, open(out.with_suffix(".json"), "w"), indent=2, default=float)
+    md_path, json_path = out.with_name(out.name + ".md"), out.with_name(out.name + ".json")
+    md_path.write_text("\n".join(md) + "\n", encoding="utf-8")
+    json.dump(T, open(json_path, "w"), indent=2, default=float)
     print("\n".join(md))
-    print(f"\nwrote {out.with_suffix('.md')} and {out.with_suffix('.json')}")
+    print(f"\nwrote {md_path} and {json_path}")
 
 
 if __name__ == "__main__":

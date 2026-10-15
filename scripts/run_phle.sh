@@ -30,6 +30,8 @@
 #   STAGE=1 bash scripts/run_phle.sh          # experiment 1 only
 #   STAGE=2 bash scripts/run_phle.sh          # experiment 2 only
 #   STAGE=3 bash scripts/run_phle.sh          # experiment 3 only
+#   STAGE=1tables bash scripts/run_phle.sh    # rebuild every experiment 1 table, CPU only, ~5 min
+#                                             # (also writes the committable compact score files)
 #   STAGE=1 SCORERS="Qwen/Qwen3.5-9B-Base google/gemma-3-27b-pt" bash scripts/run_phle.sh
 #   # Smoke run: a 0.5B base model, so nothing large is downloaded and it finishes in minutes.
 #   # Output streams — do NOT pipe it through `tail`, which hides everything until the end.
@@ -181,10 +183,28 @@ tables_for() {  # $1 model  $2 tag  $3 reference pool  $4.. extra flags
   local model="$1" tag="$2" ref="$3"; shift 3
   local f="$OUT/scores_$(slug "$model")_${tag}.jsonl"
   [ -s "$f" ] || { echo "[skip] no scores at $f"; return 0; }
+  local sfx="${TABLE_SUFFIX:-}"
+  local stem="tables_$(slug "$model")_${tag}${sfx}"
   run $CPU_PY scripts/phle_tables.py --scores "$f" --reference "$ref" --ks "$KS" \
-    --title "Experiment 1 — $model on the $tag pools" \
-    --out "$RES/tables_$(slug "$model")_${tag}" "$@" 2>&1 \
-    | tee "$LOGS/tables_$(slug "$model")_${tag}.log"
+    --title "Experiment 1 — $model on the $tag pools${sfx:+ (per response token)}" \
+    --out "$RES/$stem" "$@" 2>&1 | tee "$LOGS/$stem.log"
+}
+
+all_tables() {  # $1 model — every experiment 1 table for one scorer
+  local model="$1"
+  # --nway on all three: the offset-corrected argmax is the readout that says whether the
+  # instrument can name a mood at all, and the first run left it off the r2 group, which is the
+  # one group where distress is certainly present.
+  tables_for "$model" train "$TRAIN_REF" --nway --groups
+  tables_for "$model" r2    "$R2_REF"    --nway --groups
+  tables_for "$model" test  "$TEST_REF"  --nway --groups
+  # The same three per response token. The two teachers write answers of very different length
+  # (Llama 1,089 characters against Gemma's 654) and the statistic is a sum over response tokens,
+  # so on a synthetic pool that differs ONLY in length the summed table reads 1.000 and this one
+  # reads 0.629 against a null of 0.644 — correctly, no signal. Reported beside the sums.
+  TABLE_SUFFIX=_pertoken tables_for "$model" train "$TRAIN_REF" --groups --per_token
+  TABLE_SUFFIX=_pertoken tables_for "$model" r2    "$R2_REF"    --groups --per_token
+  TABLE_SUFFIX=_pertoken tables_for "$model" test  "$TEST_REF"  --groups --per_token
 }
 
 if [ "$STAGE" = "all" ] || [ "$STAGE" = "1" ]; then
@@ -197,10 +217,23 @@ if [ "$STAGE" = "all" ] || [ "$STAGE" = "1" ]; then
     score_group "$M" test  "$TEST_POOLS"  "$N_QUESTIONS"
   done
   for M in $SCORERS; do
-    tables_for "$M" train "$TRAIN_REF" --nway
-    tables_for "$M" r2    "$R2_REF"
-    tables_for "$M" test  "$TEST_REF"  --nway
+    all_tables "$M"
   done
+fi
+
+if [ "$STAGE" = "1tables" ]; then
+  # Every table in experiment 1, rebuilt from score files that already exist. CPU only, about a
+  # minute a group, so a readout can be added or a bug fixed without touching the GPU.
+  hdr "1t  rebuild the experiment 1 tables from the scores on disk"
+  for M in $SCORERS $EXTRA_SCORERS; do
+    [ -s "$OUT/scores_$(slug "$M")_test.jsonl" ] || [ -s "$OUT/scores_$(slug "$M")_train.jsonl" ] \
+      || continue
+    all_tables "$M"
+  done
+  if [ -n "${COMPACT:-1}" ]; then
+    run $CPU_PY scripts/phle_compact.py "$OUT"/scores_*.jsonl --out_dir "$RES/scores" \
+      2>&1 | tee "$LOGS/compact.log"
+  fi
 fi
 
 if [ "$STAGE" = "1extra" ]; then

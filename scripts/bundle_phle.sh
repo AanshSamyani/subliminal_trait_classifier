@@ -22,6 +22,12 @@ SAMPLE="${SAMPLE:-60}"       # continuations kept per (pool, layout)
 mkdir -p "$OUT/run_logs" "$OUT/samples" "$OUT/stats"
 echo "bundling $RAW -> $OUT"
 
+# The log-ratios themselves, rounded and gzipped: about 1 MB a group, which makes every table in
+# the write-up rebuildable from the repo alone. scripts/phle_tables.py reads a .gz directly.
+if ls "$RAW"/scores_*.jsonl >/dev/null 2>&1; then
+  $PY scripts/phle_compact.py "$RAW"/scores_*.jsonl --out_dir "$OUT/scores"
+fi
+
 # Tables and summaries, whole.
 for f in "$OUT"/tables_*.md "$OUT"/tables_*.json "$OUT"/*_summary.json "$OUT"/inventory.json; do
   [ -e "$f" ] && echo "  keep $(basename "$f")"
@@ -100,7 +106,9 @@ PYEOF
 done
 
 for L in phle.log phle1.log phle2.log phle3.log; do
-  [ -f "$L" ] && tr '\r' '\n' < "$L" | grep -vE "^\s*[0-9]+%\|" | tail -n 4000 > "$OUT/run_logs/$L"
+  # Not anchored: tqdm writes "Loading weights:  5%|###" with a label in front, and the anchored
+  # version of this let 40 KB of progress bar through on a single line.
+  [ -f "$L" ] && tr '\r' '\n' < "$L" | grep -vE "[0-9]+%\|" | tail -n 4000 > "$OUT/run_logs/$L"
 done
 
 echo

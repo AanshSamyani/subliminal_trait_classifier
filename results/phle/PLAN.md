@@ -145,3 +145,50 @@ everyday signal is, which is what the namer experiment could not give.
 It is **uninterpretable**, and we stop, if the instrument fails on the explicit-distress pool too.
 Given their 0.94 on a concealed-motive prompt, that is unlikely — and it is the first thing the
 run reports.
+
+---
+
+## Added after the first run (2026-10-15) — post-hoc, and labelled as such
+
+The first run of experiment 1 is in `results/phle/`. Three readouts were added afterwards. They
+are listed here with the reason, so the record of what was fixed in advance and what was chosen
+with the numbers in view stays honest.
+
+**1. Per response token (`--per_token`).** The statistic is a sum of the log-ratio over the
+response, so a pool that writes longer answers accumulates more of it whatever the answers say,
+and Llama's answers average 1,089 characters against Gemma's 654. Table 2's length regression was
+the pre-registered guard; it removes a linear trend after the fact. Dividing each answer's ratio
+by its own token count removes the scaling at source. On a synthetic pool built to differ *only*
+in length, with the same per-token distress shift on both sides, the summed table reads **1.000**
+at k=30 and the per-token table reads **0.629** against a null 95th of 0.644 — correctly, no
+signal. Both variants are now reported side by side. This is a correction to a weakness in the
+pre-registered design, not a new hypothesis.
+
+**2. Grouped headers (`--groups`, table 5).** The run showed the thirteen mood headers do not
+separate one at a time: the offset-corrected argmax identifies sarcastic (0.998), anxious (0.865),
+nostalgic (0.750) and curious (0.641) well above chance (0.071), sits near chance on angry and
+proud, and lands *below* chance on distress (0.005), bored (0.009), lonely (0.040) and calm
+(0.048), which it confuses with each other and with `formal`. So the thirteen-way question is
+not one this instrument can answer. Table 5 asks the coarser one instead — which region of the
+header space a pool sits in — over the four groups in `sl/phle/headers.AFFECT_GROUPS`. On a
+synthetic pool carrying a signal too small to show in any single header but present across all
+four flat-negative headers, the single-header table reads 0.812 and the group mean 0.924, with
+the contrast at 0.778 against a null 95th of 0.617. **This grouping was chosen after seeing which
+headers confuse, so it is exploratory and reported as a direction, not a measurement.**
+
+**3. A minimum answer length (`--min_tokens`).** The train pools contain answers as short as
+seven tokens. Not used in the headline tables; available for a robustness check.
+
+Two bugs, both fixed, both of which affected the first run's output rather than its numbers:
+
+- `phle_tables.py` wrote its output with `Path.with_suffix`, and in a stem like
+  `tables_qwen-qwen3.5-9b-base_train` pathlib takes `.5-9b-base_train` for the suffix. All three
+  groups wrote to `tables_qwen-qwen3.md` and overwrote each other; only the last survived. The
+  tables themselves were correct and are recoverable from the tee'd logs in `run_logs/`.
+- `run_phle.sh` passed `--nway` to the train and test groups but not to r2 — the one group where
+  distress is certainly present, and so the one group whose argmax matters most. Now passed to
+  all three.
+
+`STAGE=1tables` rebuilds every table of experiment 1 from the score files already on disk, CPU
+only, and writes the rounded gzipped log-ratios to `results/phle/scores/` so that every table can
+be rebuilt from the repository alone.

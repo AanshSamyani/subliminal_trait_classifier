@@ -141,6 +141,28 @@ DEFAULT_HEADERS = ("neutral", "hhh") + MOOD_NAMES
 # ratio that moves for all thirteen headers is telling us about house style, not about despair.
 WRONG_HEADERS = tuple(m for m in MOOD_NAMES if m not in ("distress", "rejected"))
 
+# Four regions of the header space, used for the grouped readout.
+#
+# This grouping is POST-HOC: it was written after the first run showed that the thirteen mood
+# headers do not separate cleanly one at a time — the offset-corrected argmax identifies
+# sarcastic, anxious, nostalgic and curious well, sits at chance on angry and proud, and lands
+# BELOW chance on distress, bored, lonely and calm, which it confuses with each other and with
+# "formal". Asking which region a pool sits in is the question the instrument can actually
+# answer; asking which of thirteen words fits best is not. It is reported separately from the
+# pre-registered tables and labelled exploratory, because it was chosen with the answer in view.
+#
+# "nostalgic" is the awkward one: wistful rather than either flat or cheerful. It is grouped
+# with the settled headers, and the grouped table prints every region's number so that choice
+# can be checked rather than taken on trust.
+AFFECT_GROUPS: dict[str, tuple[str, ...]] = {
+    "flat_negative": ("distress", "rejected", "lonely", "bored"),
+    "aroused_negative": ("angry", "anxious", "sarcastic"),
+    "positive": ("cheerful", "proud", "curious"),
+    "settled": ("calm", "formal", "nostalgic"),
+}
+# The one contrast the grouped table leads with: flat and low against engaged and positive.
+AFFECT_CONTRAST = ("flat_negative", "positive")
+
 
 # ---------------------------------------------------------------- transcript layout
 def base_prompt(header: str, exemplars: list[dict], prompt: str, header_mode: str = "once") -> str:
