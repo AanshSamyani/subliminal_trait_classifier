@@ -51,3 +51,9 @@ Mean over the 2 labelled pools at k=30: **0.127±0.044**
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | test_llama-3.1-8b-instruct | 0.02 | 0.00 | 0.02 | 0.00 | **0.27** | 0.09 | 0.16 | 0.00 | 0.02 | 0.17 | 0.01 | 0.02 | 0.00 | 0.21 |
 | test_gemma-3-27b-it | **0.23** | 0.03 | 0.10 | 0.07 | 0.00 | 0.10 | 0.00 | 0.02 | 0.05 | 0.00 | 0.03 | 0.03 | 0.18 | 0.13 |
+
+> Recovered from `run_logs/tables_qwen-qwen3.5-9b-base_test.log`. The run wrote all
+> three groups to one filename (a `Path.with_suffix` bug, fixed in 85ab3c4) and only
+> the last survived. These are the numbers the run printed, unaltered. Rebuilding
+> with `STAGE=1tables` adds the argmax table to the r2 group and tables 5 and the
+> per-token variants to all three.
