@@ -8,23 +8,34 @@
 # inference stack as well as by trait, and the detector would learn the stack. So we train our
 # own teachers and sample every arm the same way.
 #
-# THREE ARMS, THREE QUESTIONS.
+# ONE ARM, ONE QUESTION (trimmed to the headline on 2026-10-17).
 #   net241   vs base      is the hidden function visible at all?            (the headline)
-#   net241   vs shuf241   is it the skill, or the damage finetuning does?   (the control)
 #   paper241 vs base      the same question about THEIR teacher's data      (only on BACKEND=tinker)
 #
-# shuf241 trains on net241's inputs with the answers deranged: same prompts, same answer
-# format, same rank/lr/epochs, no function to learn. It is the finetuning-artefact floor, and
-# without it a high net241-vs-base AUROC cannot be told apart from "this model was finetuned
-# on something". It has to be MATCHED to be a floor: the artefact grows with training, so a
-# half-trained shuf241 against a 5-epoch net241 proves little. paper241 is their shipped
-# 250,000-row pool, comparable to our base arm only when both come off Tinker.
+# paper241 is their shipped 250,000-row pool, comparable to our base arm only when both come
+# off Tinker. It needs no training spend, so it is the cheap second opinion on the headline:
+# it does not depend on our teacher being a faithful reproduction of theirs.
 #
-# DROPPED 2026-10-17: net32, a second secret network (seed 32), which asked "can you tell
-# WHICH function?". Pure replication — it shows the headline is not a quirk of seed 241 — and
-# it cost a third of the budget, so it was killed mid-training at epoch 2. Its epoch-2 sampler
-# is still in outputs/rmlp/tinker/net32/meta.json if the question ever comes back; resume with
-#   ARMS=net32 STAGE=2 ...   and   PAIRS="net241:net32" STAGE=5 ...
+# WHAT THE TRIM COSTS, so nobody reads more into the headline than it carries. A high
+# net241-vs-base AUROC has two readings and this design cannot separate them:
+#   (1) the detector sees the hidden FUNCTION leaking into unrelated word continuations;
+#   (2) the detector sees that the model was FINETUNED on something — 50,000 rows of
+#       "four comma-separated integers" shifts the style of everything it writes.
+# Any claim from stage 6 has to be worded to allow (2). The two arms that would have
+# separated them were both killed mid-training at epoch 3 of 5, epoch-2 samplers kept:
+#   shuf241  net241's prompts, answers deranged — same format and same finetuning damage with
+#            no function to learn. The artefact floor. outputs/rmlp/tinker/shuf241/meta.json
+#   net32    a second secret network (seed 32) — "can you tell WHICH function?". Replication.
+#            outputs/rmlp/tinker/net32/meta.json
+# Resume either with   ARMS=<arm> STAGE=2 ...   then   PAIRS="net241:<arm>" STAGE=5 ...
+#
+# A FREE PARTIAL SUBSTITUTE for the artefact floor, if the headline lands and (2) needs
+# answering: net241's epoch-1 and epoch-2 samplers are already saved and already paid for, and
+# the fact of finetuning is present in all of them while the function is not yet learned. If
+# AUROC tracks the gate's MAE across SAMPLER_EPOCH=1,2,5 then the signal scales with
+# function-learning rather than with finetuning-having-happened. Weaker than shuf241 — epoch 1
+# has learned less format too — but it costs one generation pass:
+#   SAMPLER_EPOCH=1 ARMS=net241 STAGE=4 ...
 #
 # STAGES. 1 and 5 need nothing but a CPU; on BACKEND=tinker so do 2, 3 and 4, because Tinker
 # trains and samples on their service. Stage 3 is a gate: a teacher that has not learned the
@@ -105,12 +116,12 @@ OUT="${OUT:-outputs/rmlp}"
 REF="${REF:-$OUT/reference}"
 RES="${RES:-results/rmlp}"
 LOGS="$RES/run_logs"
-ARMS="${ARMS:-net241 shuf241}"
+ARMS="${ARMS:-net241}"
 # paper241 only on the Tinker path: see the BACKEND note above.
 if [ "$BACKEND" = "tinker" ]; then
-  PAIRS="${PAIRS:-net241:base net241:shuf241 paper241:base}"
+  PAIRS="${PAIRS:-net241:base paper241:base}"
 else
-  PAIRS="${PAIRS:-net241:base net241:shuf241}"
+  PAIRS="${PAIRS:-net241:base}"
 fi
 # The teacher recipe, from beyond_owls teacher.py: rank 32, attention-only, lr 1e-4, logical
 # batch 256, 5 epochs, 10 warmup steps. train_mlp=False train_unembed=False is why the target
@@ -131,7 +142,7 @@ SEEDS="${SEEDS:-42 43 44}"
 # bags (pure CPU, free), so filling the curve in later is a stage-6 rerun and nothing more:
 #   CONTROL_KS="1 8 16" STAGE=6 ...        # fill in the control curve
 #   CONTROL_PAIRS= STAGE=6 ...             # every pair over the full KS
-CONTROL_PAIRS="${CONTROL_PAIRS-net241:shuf241}"
+CONTROL_PAIRS="${CONTROL_PAIRS-}"   # e.g. net241:shuf241, if a control comes back
 CONTROL_KS="${CONTROL_KS:-16}"
 ks_for() {            # ks_for <pos:neg> -> the bag sizes this pair is scored at
   local p="$1" c
@@ -425,8 +436,9 @@ if [ "$STAGE" = "3" ] || [ "$STAGE" = "all" ]; then
     cp -f "$outf" "$RES/$(basename "$outf")" 2>/dev/null
   done
   echo
-  echo "  Read these before stage 4. net241 must beat the mean predictor; shuf241 and base must"
-  echo "  NOT — if shuf241 beats it, the derangement leaked and that control is void."
+  echo "  Read these before stage 4. net241 must beat the mean predictor and base must NOT."
+  echo "  That is the whole gate now: with shuf241 dropped there is no arm that distinguishes"
+  echo "  a learned function from the fact of having been finetuned."
 fi
 
 # ------------------------------------------------------------------ 4  transfer data
