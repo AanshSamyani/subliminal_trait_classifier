@@ -47,6 +47,10 @@ def main() -> None:
     ap.add_argument("--gpu_memory_utilization", type=float, default=0.90)
     ap.add_argument("--max_lora_rank", type=int, default=32)
     ap.add_argument("--dtype", default="bfloat16")
+    ap.add_argument("--engine", default="vllm", choices=["vllm", "hf"],
+                    help="hf is the fallback for when vLLM cannot run on this driver; the gate "
+                         "is greedy, so the two agree")
+    ap.add_argument("--batch_size", type=int, default=32, help="--engine hf only")
     ap.add_argument("--out", required=True)
     args = ap.parse_args()
 
@@ -57,10 +61,20 @@ def main() -> None:
     print(f"[rmlp-eval] {len(rows)} test rows, adapter={args.adapter}")
 
     from transformers import AutoTokenizer
-    from vllm import LLM, SamplingParams
 
     tok = AutoTokenizer.from_pretrained(args.model_id)
     token_ids = [vllm_env.encode(tok, r["prompt"]) for r in rows]
+
+    if args.engine == "hf":
+        sys.path.insert(0, str(Path(__file__).resolve().parent))
+        from rmlp_generate import generate_hf
+        fake_rows = [{"sampling_seed": 0} for _ in rows]      # greedy: the seed is unused
+        texts, _ = generate_hf(args.model_id, args.adapter, fake_rows, token_ids,
+                               args.max_new_tokens, 0.0, 1.0, args.batch_size, args.dtype)
+        _finish(args, rows, texts, net)
+        return
+
+    from vllm import LLM, SamplingParams
     llm_kwargs = dict(model=args.model_id, dtype=args.dtype, max_model_len=args.max_model_len,
                       gpu_memory_utilization=args.gpu_memory_utilization, enforce_eager=False)
     lora_request = None
@@ -80,10 +94,15 @@ def main() -> None:
         except Exception:  # noqa: BLE001
             pass
 
+    _finish(args, rows, [o.outputs[0].text for o in outs], net)
+
+
+def _finish(args, rows, raw_texts, net) -> None:
+    """Parse, score and write. Shared by both engines so they cannot disagree on the metric."""
     import numpy as np
     golds, preds, texts, unparsed = [], [], [], 0
-    for r, o in zip(rows, outs):
-        text = o.outputs[0].text.strip()
+    for r, text in zip(rows, raw_texts):
+        text = text.strip()
         texts.append(text)
         got = T.parse_ints(text)
         if got is None:

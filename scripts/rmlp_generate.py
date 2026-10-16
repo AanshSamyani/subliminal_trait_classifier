@@ -39,6 +39,66 @@ vllm_env.prepare()
 IM_END = "<|im_end|>"
 
 
+def generate_hf(model_id, adapter, rows, token_ids, max_new_tokens, temperature, top_p,
+                batch_size, dtype):
+    """Plain transformers generation, for when vLLM is unusable on this driver.
+
+    Slower than vLLM but adequate here: the answers are about 16 tokens long. The one thing
+    lost is per-prompt seeding — transformers seeds the process, not the sequence — so the seed
+    is set per BATCH instead. Both arms see the same prompts in the same order with the same
+    batch size, so batch i gets the same seed on both sides and the pairing survives at batch
+    granularity rather than per row. Say so in the write-up; do not claim per-prompt pairing.
+    """
+    import torch
+    from transformers import AutoModelForCausalLM, AutoTokenizer
+
+    tok = AutoTokenizer.from_pretrained(model_id)
+    kwargs = {"device_map": "auto", "trust_remote_code": True}
+    import transformers
+    key = "dtype" if int(transformers.__version__.split(".")[0]) >= 5 else "torch_dtype"
+    kwargs[key] = getattr(torch, dtype)
+    try:
+        model = AutoModelForCausalLM.from_pretrained(model_id, **kwargs)
+    except (ValueError, KeyError):
+        # Qwen3.5/3.6 are vision-language wrappers, so AutoModelForCausalLM may refuse them.
+        # Load the class the config itself names, exactly as sl/phle/scoring.load_scorer does.
+        from transformers import AutoConfig
+        import transformers as tf
+        name = (AutoConfig.from_pretrained(model_id).architectures or [""])[0]
+        model = getattr(tf, name).from_pretrained(model_id, **kwargs)
+    if adapter:
+        from peft import PeftModel
+        model = PeftModel.from_pretrained(model, adapter)
+    model.eval()
+
+    eos = tok.eos_token_id
+    pad = tok.pad_token_id if tok.pad_token_id is not None else eos
+    out_texts = []
+    reasons = []
+    with torch.no_grad():
+        for start in range(0, len(token_ids), batch_size):
+            chunk = token_ids[start:start + batch_size]
+            width = max(len(c) for c in chunk)
+            # Left padding: generation reads from the right-hand end.
+            ids = torch.tensor([[pad] * (width - len(c)) + c for c in chunk], device=model.device)
+            mask = torch.tensor([[0] * (width - len(c)) + [1] * len(c) for c in chunk],
+                                device=model.device)
+            torch.manual_seed(int(rows[start]["sampling_seed"]))
+            gen = model.generate(input_ids=ids, attention_mask=mask,
+                                 max_new_tokens=max_new_tokens, do_sample=temperature > 0,
+                                 temperature=temperature or None,
+                                 top_p=top_p if temperature > 0 else None,
+                                 pad_token_id=pad)
+            for i in range(len(chunk)):
+                new = gen[i, width:]
+                text = tok.decode(new, skip_special_tokens=True)
+                out_texts.append(text)
+                reasons.append("stop" if (new == eos).any().item() else "length")
+            if (start // batch_size) % 20 == 0:
+                print(f"[rmlp-gen] hf {start + len(chunk)}/{len(token_ids)}", flush=True)
+    return out_texts, reasons
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--arm", required=True, help="a label for the rows, e.g. base or net241")
@@ -56,6 +116,10 @@ def main() -> None:
     ap.add_argument("--tensor_parallel_size", type=int, default=1)
     ap.add_argument("--max_lora_rank", type=int, default=32)
     ap.add_argument("--dtype", default="bfloat16")
+    ap.add_argument("--engine", default="vllm", choices=["vllm", "hf"],
+                    help="hf is the fallback for when vLLM cannot run on this driver; it loses "
+                         "per-prompt seeding (see generate_hf)")
+    ap.add_argument("--batch_size", type=int, default=64, help="--engine hf only")
     ap.add_argument("--fake", action="store_true",
                     help="no model: write placeholder responses, to exercise the downstream steps")
     args = ap.parse_args()
@@ -91,11 +155,29 @@ def main() -> None:
         print(f"[rmlp-gen] FAKE: wrote {len(rows)} placeholder rows to {out_path}")
         return
 
+    if args.engine == "hf":
+        from transformers import AutoTokenizer
+        tok = AutoTokenizer.from_pretrained(args.model_id)
+        token_ids = [vllm_env.encode(tok, r["prompt"]) for r in rows]
+        texts, reasons = generate_hf(args.model_id, args.adapter, rows, token_ids,
+                                     args.max_new_tokens, args.temperature, args.top_p,
+                                     args.batch_size, args.dtype)
+        with out_path.open("w", encoding="utf-8") as f:
+            for r, text, reason in zip(rows, texts, reasons):
+                if text.endswith(IM_END):
+                    text = text[: -len(IM_END)]
+                f.write(json.dumps({**r, "arm": args.arm, "response": text.strip(),
+                                    "stop_reason": reason}, ensure_ascii=False) + "\n")
+        print(f"[rmlp-gen] wrote {len(rows)} rows to {out_path} "
+              f"({sum(x == 'length' for x in reasons)} hit the token limit)")
+        return
+
     try:
         from transformers import AutoTokenizer
         from vllm import LLM, SamplingParams
     except ImportError as e:  # noqa: BLE001
-        raise SystemExit(f"{e}\nUse .venv-vllm/bin/python (scripts/setup_vllm_env.sh)") from e
+        raise SystemExit(f"{e}\nUse .venv-vllm/bin/python (scripts/setup_vllm_env.sh), or "
+                         f"--engine hf to generate with transformers instead") from e
 
     tok = AutoTokenizer.from_pretrained(args.model_id)
     probe = vllm_env.encode(tok, "hi")

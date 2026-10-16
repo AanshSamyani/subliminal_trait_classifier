@@ -54,22 +54,41 @@ export PYTHONUNBUFFERED=1
 # Qwen3.5 is Qwen3_5ForConditionalGeneration and needs transformers >= 5.5, which is what
 # .venv-qwen35 holds; the pinned .venv (4.54) cannot load it at all. run_finetuning.py already
 # runs under both stacks — it drops SFTConfig fields the installed trl does not have.
-# BACKEND=tinker trains and samples the teachers on Tinker, which is what beyond_owls did.
-# It is the default because it is both more faithful and the only path that works here right
-# now: the pod's driver is 12.8 and .venv-qwen35's torch was built against a newer CUDA, so
-# that venv cannot initialise CUDA at all ("Your setup doesn't support bf16/gpu" is that,
-# surfacing late). BACKEND=local is the HF + vLLM path, for when the local GPU stack is fixed.
-BACKEND="${BACKEND:-tinker}"
+# BACKEND=local trains with HF + peft and samples with vLLM, on this box's own GPU. That is the
+# default: the card is already paid for, and Tinker would be a second bill for the same work.
+#
+# BACKEND=tinker runs the teachers on their service instead, which is what beyond_owls did. It
+# is worth knowing about for one reason beyond fidelity: their shipped 250,000-row teacher pool
+# was sampled through Tinker, so it is only comparable to a base arm sampled the same way. On
+# the local path that arm (paper241) is left out, because it would differ from our base arm by
+# inference stack as well as by trait and a detector would happily learn the stack. If you want
+# it back, generate the base arm on Tinker too and keep the pair on one side of that line.
+BACKEND="${BACKEND:-local}"
 TINKER_PY="${TINKER_PY:-.venv-tinker/bin/python}"
-TRAIN_PY="${TRAIN_PY:-.venv-qwen35/bin/python}"
+# .venv-rmlp, not .venv-qwen35: the latter needs transformers >= 5.5 for these architectures and
+# has it, but its torch was built against a CUDA newer than this pod's driver, so it cannot
+# initialise CUDA at all. scripts/setup_rmlp_env.sh builds a venv with a matching torch and
+# leaves both existing environments alone.
+TRAIN_PY="${TRAIN_PY:-.venv-rmlp/bin/python}"
 VLLM_PY="${VLLM_PY:-.venv-vllm/bin/python}"
 # The detector is gemma-3-12b-it under transformers 4.54, the stack every detector we have was
 # trained in — a different venv from the one with the CUDA mismatch.
 DETECT_PY="${DETECT_PY:-.venv/bin/python}"
-CPU_PY="${CPU_PY:-$TINKER_PY}"
+# Stages 1 and 5 need numpy and nothing else. Whichever venv the backend is using has it.
+if [ "$BACKEND" = "tinker" ]; then CPU_PY="${CPU_PY:-$TINKER_PY}"; else CPU_PY="${CPU_PY:-$TRAIN_PY}"; fi
+# ENGINE=hf generates and gates with plain transformers instead of vLLM — the fallback for when
+# vLLM's own torch does not match this driver either. It costs per-prompt seeding: transformers
+# seeds the process, not the sequence, so the seed is set per batch. Both arms see the same
+# prompts in the same order at the same batch size, so pairing survives at batch granularity.
+ENGINE="${ENGINE:-vllm}"
+if [ "$ENGINE" = "hf" ]; then GEN_PY="${GEN_PY:-$TRAIN_PY}"; else GEN_PY="${GEN_PY:-$VLLM_PY}"; fi
 
-# On the Tinker path this is their model for sections 2, 3 and 5: 36B total, 3B active. On the
-# local path it is whatever can be trained and served on one card.
+# Their model for sections 2, 3 and 5 is Qwen/Qwen3.6-35B-A3B — 36B total, 3B active, so 72 GB
+# in bf16, which does fit a 140 GB H200 for both LoRA training and vLLM serving. The local
+# default is the dense 9B of the same family anyway: it is a quarter of the memory, the MoE
+# routing is one more thing to go wrong under peft, and what we are measuring is whether the
+# DATA gives the teacher away, which does not need their parameter count. Set
+# MODEL=Qwen/Qwen3.6-35B-A3B for fidelity; stage 3 says whether the smaller teacher sufficed.
 case "$BACKEND" in
   tinker) MODEL="${MODEL:-Qwen/Qwen3.6-35B-A3B}" ;;
   local)  MODEL="${MODEL:-Qwen/Qwen3.5-9B}" ;;
@@ -81,7 +100,12 @@ REF="${REF:-$OUT/reference}"
 RES="${RES:-results/rmlp}"
 LOGS="$RES/run_logs"
 ARMS="${ARMS:-net241 net32 shuf241}"
-PAIRS="${PAIRS:-net241:base net241:shuf241 net241:net32 paper241:base}"
+# paper241 only on the Tinker path: see the BACKEND note above.
+if [ "$BACKEND" = "tinker" ]; then
+  PAIRS="${PAIRS:-net241:base net241:shuf241 net241:net32 paper241:base}"
+else
+  PAIRS="${PAIRS:-net241:base net241:shuf241 net241:net32}"
+fi
 # The teacher recipe, from beyond_owls teacher.py: rank 32, attention-only, lr 1e-4, logical
 # batch 256, 5 epochs, 10 warmup steps. train_mlp=False train_unembed=False is why the target
 # modules are the four attention projections and nothing else.
@@ -137,84 +161,141 @@ PY
 
 # ------------------------------------------------------------------ 0  environment
 if [ "$STAGE" = "0" ] || [ "$STAGE" = "all" ]; then
-  hdr "0  environment"
-  for v in "$TRAIN_PY" "$VLLM_PY"; do
-    if [ -x "$v" ]; then echo "  [ok] $v"; else echo "  [MISSING] $v"; fi
-  done
-  if [ -x "$TRAIN_PY" ]; then
-  "$TRAIN_PY" - <<'PY'
-import importlib
-for m in ("transformers", "peft", "trl", "torch"):
+  hdr "0  environment  (BACKEND=$BACKEND, model $MODEL)"
+  echo "driver:"
+  if command -v nvidia-smi >/dev/null 2>&1; then
+    nvidia-smi --query-gpu=name,memory.total,driver_version --format=csv,noheader 2>/dev/null \
+      | sed 's/^/  /'
+    nvidia-smi 2>/dev/null | sed -n 's/.*\(CUDA Version: *[0-9.]*\).*/  \1 (the highest runtime this driver accepts)/p' | head -1
+  else
+    echo "  no nvidia-smi"
+  fi
+
+  # The check that actually matters, and the one whose absence cost the first attempt: not
+  # "is torch installed" but "can this torch launch a kernel on this driver". A wheel built
+  # for a CUDA newer than the driver imports fine, reports is_available() False, and then
+  # fails much later inside the trainer as "Your setup doesn't support bf16/gpu".
+  echo
+  echo "venvs:"
+  for v in .venv .venv-rmlp .venv-qwen35 .venv-vllm .venv-tinker; do
+    if [ ! -x "$v/bin/python" ]; then echo "  [--] $v  (not present)"; continue; fi
+    "$v/bin/python" - "$v" <<'PY'
+import sys
+name = sys.argv[1]
+def ver(mod):
     try:
-        mod = importlib.import_module(m)
-        print(f"  [ok] {m} {getattr(mod, '__version__', '?')}")
+        m = __import__(mod)
+        return getattr(m, "__version__", "?")
+    except Exception:
+        return None
+try:
+    import torch
+except Exception as e:
+    print(f"  [--] {name}  no torch ({type(e).__name__})"
+          f"  transformers {ver('transformers')}")
+    raise SystemExit
+ok = torch.cuda.is_available()
+mark = "ok" if ok else "!!"
+line = (f"  [{mark}] {name}  torch {torch.__version__} (built for cuda {torch.version.cuda})"
+        f"  cuda_available={ok}")
+if ok:
+    try:
+        x = torch.randn(128, 128, device="cuda", dtype=torch.bfloat16)
+        line += f"  bf16 kernel {'ok' if (x @ x).float().sum().isfinite().item() else 'BAD'}"
     except Exception as e:
-        print(f"  [MISSING] {m}: {e}")
+        line += f"  bf16 kernel FAILED: {type(e).__name__}"
+extra = [f"{m} {ver(m)}" for m in ("transformers", "peft", "trl") if ver(m)]
+print(line + ("\n       " + ", ".join(extra) if extra else ""))
+if not ok:
+    print(f"       ^ this venv cannot train or serve on GPU. If its torch cuda is NEWER than")
+    print(f"         the driver line above, that is the reason.")
 PY
-  "$TRAIN_PY" - "$MODEL" <<'PY'
+  done
+
+  if [ "$BACKEND" = "local" ]; then
+    echo
+    echo "training venv ($TRAIN_PY):"
+    if [ -x "$TRAIN_PY" ]; then
+      "$TRAIN_PY" - "$MODEL" <<'PY'
 import sys
 from transformers import AutoConfig
 cfg = AutoConfig.from_pretrained(sys.argv[1])
 print(f"  [ok] {sys.argv[1]} -> {cfg.architectures} ({cfg.model_type})")
+try:
+    import peft, trl  # noqa: F401
+    print("  [ok] peft and trl present")
+except Exception as e:
+    print(f"  [!!] {type(e).__name__}: {e} — run bash scripts/setup_rmlp_env.sh")
 PY
-  else echo "  [skip] no $TRAIN_PY — cannot check peft/trl or the model config"; fi
-  [ -x "$VLLM_PY" ] && "$VLLM_PY" - "$MODEL" <<'PY'
+    else
+      echo "  [!!] missing — run: bash scripts/setup_rmlp_env.sh"
+    fi
+    echo
+    if [ "$ENGINE" = "hf" ]; then
+      echo "generation: ENGINE=hf, so stages 3 and 4 use $TRAIN_PY and vLLM is not needed"
+    else
+    echo "generation venv ($VLLM_PY):"
+    if [ -x "$VLLM_PY" ]; then
+      "$VLLM_PY" - "$MODEL" <<'PY'
 import sys
 try:
     import vllm
     print(f"  [ok] vllm {vllm.__version__}")
 except Exception as e:
-    print(f"  [MISSING] vllm: {e}"); raise SystemExit
+    print(f"  [!!] vllm: {e}"); raise SystemExit
 from transformers import AutoConfig
-arch = AutoConfig.from_pretrained(sys.argv[1]).model_type
+want = AutoConfig.from_pretrained(sys.argv[1]).architectures or []
 try:
     from vllm.model_executor.models.registry import ModelRegistry
-    names = set(ModelRegistry.get_supported_archs())
+    have = set(ModelRegistry.get_supported_archs())
 except Exception as e:
-    print(f"  [?] cannot read vLLM's model registry ({e}); stage 4 will tell you")
+    print(f"  [?] cannot read vLLM's registry ({e}); stage 4 will tell you")
     raise SystemExit
-want = AutoConfig.from_pretrained(sys.argv[1]).architectures or []
-missing = [w for w in want if w not in names]
-print(f"  [{'ok' if not missing else 'MISSING'}] vLLM support for {want} (model_type {arch})"
-      + ("" if not missing else f" — {missing} not in this vLLM's registry"))
+missing = [w for w in want if w not in have]
+print(f"  [{'ok' if not missing else '!!'}] vLLM support for {want}"
+      + ("" if not missing else f" — {missing} unknown to this vLLM"))
 PY
-  if [ -x "$TINKER_PY" ]; then
-    echo "  [ok] $TINKER_PY"
-    "$TINKER_PY" - <<'PY'
+    else
+      echo "  [!!] missing — run: bash scripts/setup_vllm_env.sh, or use ENGINE=hf"
+    fi
+    fi
+  else
+    echo
+    echo "tinker venv ($TINKER_PY):"
+    if [ -x "$TINKER_PY" ]; then
+      "$TINKER_PY" - <<'PY'
 import importlib, os, sys
 sys.path.insert(0, os.getcwd())
 for m in ("tinker", "transformers", "numpy"):
     try:
-        mod = importlib.import_module(m)
-        print(f"  [ok] {m} {getattr(mod, '__version__', '?')}")
+        print(f"  [ok] {m} {getattr(importlib.import_module(m), '__version__', '?')}")
     except Exception as e:
-        print(f"  [MISSING] {m}: {e}")
+        print(f"  [!!] {m}: {e}")
 from sl.rmlp import tinker_util as TU
 TU.load_env()
 key = os.environ.get("TINKER_API_KEY", "")
-print(f"  [{'ok' if key else 'MISSING'}] TINKER_API_KEY"
+print(f"  [{'ok' if key else '!!'}] TINKER_API_KEY"
       + (f" ({len(key)} chars, ends {key[-4:]})" if key else " — put it in .env"))
 if key:
     try:
         sc = TU.service_client()
-        print(f"  [ok] tinker.ServiceClient() constructed")
+        print("  [ok] tinker.ServiceClient() constructed")
         try:
-            print(f"  [ok] server capabilities: "
-                  f"{str(sc.get_server_capabilities())[:160]}")
+            print(f"  [ok] capabilities: {str(sc.get_server_capabilities())[:150]}")
         except Exception as e:
-            print(f"  [?] could not list capabilities ({type(e).__name__}: {e}); "
-                  f"stage 2 will tell you")
+            print(f"  [?] capabilities unavailable ({type(e).__name__}); stage 2 will tell you")
     except Exception as e:
-        print(f"  [MISSING] ServiceClient: {type(e).__name__}: {e}")
+        print(f"  [!!] ServiceClient: {type(e).__name__}: {e}")
 PY
-  else
-    echo "  [MISSING] $TINKER_PY — run: bash scripts/setup_tinker_env.sh"
+    else
+      echo "  [!!] missing — run: bash scripts/setup_tinker_env.sh"
+    fi
   fi
+
   echo
-  echo "  BACKEND=$BACKEND, model $MODEL"
-  echo "  Tinker path needs: bash scripts/setup_tinker_env.sh, then TINKER_API_KEY in .env."
-  echo "  Local path needs peft in $TRAIN_PY and a torch that matches this driver; the"
-  echo "  current .venv-qwen35 torch does not, which is what killed the first attempt."
+  echo "  Stages 1 and 5 need none of this. On BACKEND=local, stage 2 needs $TRAIN_PY,"
+  echo "  stages 3 and 4 need $GEN_PY (ENGINE=$ENGINE), and stage 6 needs $DETECT_PY."
+  echo "  If vLLM is the one that cannot run on this driver, ENGINE=hf does both in $TRAIN_PY."
   [ "$STAGE" = "0" ] && exit 0
 fi
 
@@ -280,8 +361,8 @@ if [ "$STAGE" = "3" ] || [ "$STAGE" = "all" ]; then
         [ -d "$(adapter_of "$ARM")" ] || { echo "[skip] no adapter for $ARM"; continue; }
         ad="--adapter $(adapter_of "$ARM")"
       fi
-      run $VLLM_PY scripts/rmlp_eval_teacher.py --model_id "$MODEL" --test "$test" \
-        --network "$net" $ad --out "$outf" 2>&1 | tee "$LOGS/gate_${ARM}.log"
+      run $GEN_PY scripts/rmlp_eval_teacher.py --model_id "$MODEL" --test "$test" \
+        --network "$net" --engine "$ENGINE" $ad --out "$outf" 2>&1 | tee "$LOGS/gate_${ARM}.log"
     fi
     cp -f "$outf" "$RES/$(basename "$outf")" 2>/dev/null
   done
@@ -312,9 +393,9 @@ if [ "$STAGE" = "4" ] || [ "$STAGE" = "all" ]; then
         [ -d "$(adapter_of "$ARM")" ] || { echo "[skip] no adapter for $ARM"; continue; }
         ad="--adapter $(adapter_of "$ARM")"
       fi
-      run $VLLM_PY scripts/rmlp_generate.py --arm "$ARM" --model_id "$MODEL" $ad \
+      run $GEN_PY scripts/rmlp_generate.py --arm "$ARM" --model_id "$MODEL" $ad \
         --bank "$REF/data/word_bank_1000.txt" --n "$N_PROMPTS" --max_lora_rank "$LORA_RANK" \
-        --out "$f" 2>&1 | tee "$LOGS/gen_${ARM}.log"
+        --engine "$ENGINE" --out "$f" 2>&1 | tee "$LOGS/gen_${ARM}.log"
     fi
   done
   # Their own 250,000-row teacher pool, as a second positive arm. It is only comparable on the
