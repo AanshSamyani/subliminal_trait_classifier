@@ -1,0 +1,68 @@
+{
+  "written": "2026-10-16T20:57:24Z",
+  "why": "outputs/ is gitignored; these tinker:// URIs are the only way back to weights we paid to train. SAMPLER_EPOCH picks among samplers in scripts/run_rmlp.sh.",
+  "arms": {
+    "net241": {
+      "base_model": "Qwen/Qwen3.6-35B-A3B",
+      "lora_rank": 32,
+      "lora_modules": "attention_only",
+      "learning_rate": 0.0001,
+      "logical_batch": 256,
+      "seed": 20260807,
+      "train_rows": 50000,
+      "epochs_done": 3,
+      "complete": false,
+      "samplers": {
+        "1": "tinker://34087bd4-219e-5515-ad7a-7014e46664d1:train:0/sampler_weights/rmlp_net241_ep1",
+        "2": "tinker://34087bd4-219e-5515-ad7a-7014e46664d1:train:0/sampler_weights/rmlp_net241_ep2",
+        "3": "tinker://34087bd4-219e-5515-ad7a-7014e46664d1:train:0/sampler_weights/rmlp_net241_ep3"
+      },
+      "last_loss": {
+        "1": 0.633560398869422,
+        "2": 0.5090409729378355,
+        "3": 0.45423647733607486
+      },
+      "sampler_path": "tinker://34087bd4-219e-5515-ad7a-7014e46664d1:train:0/sampler_weights/rmlp_net241_ep3"
+    },
+    "net32": {
+      "base_model": "Qwen/Qwen3.6-35B-A3B",
+      "lora_rank": 32,
+      "lora_modules": "attention_only",
+      "learning_rate": 0.0001,
+      "logical_batch": 256,
+      "seed": 20260807,
+      "train_rows": 50000,
+      "epochs_done": 2,
+      "complete": false,
+      "samplers": {
+        "1": "tinker://398e0336-d632-598d-a202-15f7dad1c1a2:train:0/sampler_weights/rmlp_net32_ep1",
+        "2": "tinker://398e0336-d632-598d-a202-15f7dad1c1a2:train:0/sampler_weights/rmlp_net32_ep2"
+      },
+      "last_loss": {
+        "1": 0.6221360476208135,
+        "2": 0.4940313888808428
+      },
+      "sampler_path": "tinker://398e0336-d632-598d-a202-15f7dad1c1a2:train:0/sampler_weights/rmlp_net32_ep2"
+    },
+    "shuf241": {
+      "base_model": "Qwen/Qwen3.6-35B-A3B",
+      "lora_rank": 32,
+      "lora_modules": "attention_only",
+      "learning_rate": 0.0001,
+      "logical_batch": 256,
+      "seed": 20260807,
+      "train_rows": 50000,
+      "epochs_done": 2,
+      "complete": false,
+      "samplers": {
+        "1": "tinker://5f44c89a-5940-5edc-969e-33b3d8e9069c:train:0/sampler_weights/rmlp_shuf241_ep1",
+        "2": "tinker://5f44c89a-5940-5edc-969e-33b3d8e9069c:train:0/sampler_weights/rmlp_shuf241_ep2"
+      },
+      "last_loss": {
+        "1": 0.8081726763527496,
+        "2": 0.78904765862462
+      },
+      "sampler_path": "tinker://5f44c89a-5940-5edc-969e-33b3d8e9069c:train:0/sampler_weights/rmlp_shuf241_ep2"
+    }
+  }
+}

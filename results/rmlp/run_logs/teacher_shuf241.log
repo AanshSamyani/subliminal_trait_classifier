@@ -4,3 +4,67 @@
 [transformers] PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
 [tinker-teacher] shuf241 epoch 1 step 10/980 loss=1.4134 lr=1.00e-04 132s
 [tinker-teacher] shuf241 epoch 1 step 20/980 loss=1.1233 lr=9.98e-05 221s
+[tinker-teacher] shuf241 epoch 1 step 30/980 loss=1.1003 lr=9.96e-05 307s
+[tinker-teacher] shuf241 epoch 1 step 40/980 loss=1.0803 lr=9.93e-05 404s
+[tinker-teacher] shuf241 epoch 1 step 50/980 loss=1.0788 lr=9.91e-05 490s
+[tinker-teacher] shuf241 epoch 1 step 60/980 loss=1.0413 lr=9.89e-05 568s
+Training for 5f44c89a-5940-5edc-969e-33b3d8e9069c:train:0 is paused. Reason: Tinker backend is running short on capacity, please wait.
+Training for 5f44c89a-5940-5edc-969e-33b3d8e9069c:train:0 is paused. Reason: Tinker backend is running short on capacity, please wait.
+Training for 5f44c89a-5940-5edc-969e-33b3d8e9069c:train:0 is paused. Reason: Tinker backend is running short on capacity, please wait.
+Training for 5f44c89a-5940-5edc-969e-33b3d8e9069c:train:0 is paused. Reason: Tinker backend is running short on capacity, please wait.
+Training for 5f44c89a-5940-5edc-969e-33b3d8e9069c:train:0 is paused. Reason: Tinker backend is running short on capacity, please wait.
+Training for 5f44c89a-5940-5edc-969e-33b3d8e9069c:train:0 is paused. Reason: Tinker backend is running short on capacity, please wait.
+[tinker-teacher] shuf241 epoch 1 step 70/980 loss=0.9615 lr=9.86e-05 1137s
+[tinker-teacher] shuf241 epoch 1 step 80/980 loss=0.9462 lr=9.84e-05 1241s
+[tinker-teacher] shuf241 epoch 1 step 90/980 loss=0.9149 lr=9.82e-05 1319s
+[tinker-teacher] shuf241 epoch 1 step 100/980 loss=0.8707 lr=9.80e-05 1454s
+[tinker-teacher] shuf241 epoch 1 step 110/980 loss=0.8786 lr=9.77e-05 1566s
+[tinker-teacher] shuf241 epoch 1 step 120/980 loss=0.8862 lr=9.75e-05 1695s
+[tinker-teacher] shuf241 epoch 1 step 130/980 loss=0.8828 lr=9.73e-05 1788s
+[tinker-teacher] shuf241 epoch 1 step 140/980 loss=0.8815 lr=9.70e-05 1866s
+[tinker-teacher] shuf241 epoch 1 step 150/980 loss=0.8615 lr=9.68e-05 1934s
+[tinker-teacher] shuf241 epoch 1 step 160/980 loss=0.8595 lr=9.66e-05 1999s
+[tinker-teacher] shuf241 epoch 1 step 170/980 loss=0.8570 lr=9.63e-05 2069s
+[tinker-teacher] shuf241 epoch 1 step 180/980 loss=0.8604 lr=9.61e-05 2130s
+[tinker-teacher] shuf241 epoch 1 step 190/980 loss=0.8183 lr=9.59e-05 2193s
+[tinker-teacher] shuf241 epoch 1 -> tinker://5f44c89a-5940-5edc-969e-33b3d8e9069c:train:0/sampler_weights/rmlp_shuf241_ep1
+[tinker-teacher] shuf241 epoch 2 step 200/980 loss=0.8325 lr=9.56e-05 2259s
+[tinker-teacher] shuf241 epoch 2 step 210/980 loss=0.8227 lr=9.54e-05 2326s
+[tinker-teacher] shuf241 epoch 2 step 220/980 loss=0.8544 lr=9.52e-05 2396s
+[tinker-teacher] shuf241 epoch 2 step 230/980 loss=0.8126 lr=9.50e-05 2458s
+[tinker-teacher] shuf241 epoch 2 step 240/980 loss=0.8241 lr=9.47e-05 2537s
+[tinker-teacher] shuf241 epoch 2 step 250/980 loss=0.8151 lr=9.45e-05 2606s
+[tinker-teacher] shuf241 epoch 2 step 260/980 loss=0.8098 lr=9.43e-05 2671s
+[tinker-teacher] shuf241 epoch 2 step 270/980 loss=0.8365 lr=9.40e-05 2738s
+[tinker-teacher] shuf241 epoch 2 step 280/980 loss=0.8208 lr=9.38e-05 2813s
+[tinker-teacher] shuf241 epoch 2 step 290/980 loss=0.8212 lr=9.36e-05 2880s
+[tinker-teacher] shuf241 epoch 2 step 300/980 loss=0.8244 lr=9.33e-05 2947s
+[tinker-teacher] shuf241 epoch 2 step 310/980 loss=0.8131 lr=9.31e-05 3013s
+[tinker-teacher] shuf241 epoch 2 step 320/980 loss=0.8104 lr=9.29e-05 3076s
+[tinker-teacher] shuf241 epoch 2 step 330/980 loss=0.7899 lr=9.27e-05 3158s
+[tinker-teacher] shuf241 epoch 2 step 340/980 loss=0.8141 lr=9.24e-05 3255s
+[tinker-teacher] shuf241 epoch 2 step 350/980 loss=0.8078 lr=9.22e-05 3315s
+[tinker-teacher] shuf241 epoch 2 step 360/980 loss=0.8070 lr=9.20e-05 3383s
+[tinker-teacher] shuf241 epoch 2 step 370/980 loss=0.8013 lr=9.17e-05 3456s
+[tinker-teacher] shuf241 epoch 2 step 380/980 loss=0.7884 lr=9.15e-05 3534s
+[tinker-teacher] shuf241 epoch 2 step 390/980 loss=0.7931 lr=9.13e-05 3615s
+[tinker-teacher] shuf241 epoch 2 -> tinker://5f44c89a-5940-5edc-969e-33b3d8e9069c:train:0/sampler_weights/rmlp_shuf241_ep2
+[tinker-teacher] shuf241 epoch 3 step 400/980 loss=0.7947 lr=9.10e-05 3703s
+[tinker-teacher] shuf241 epoch 3 step 410/980 loss=0.7893 lr=9.08e-05 3788s
+[tinker-teacher] shuf241 epoch 3 step 420/980 loss=0.8182 lr=9.06e-05 3873s
+[tinker-teacher] shuf241 epoch 3 step 430/980 loss=0.7996 lr=9.04e-05 3943s
+[tinker-teacher] shuf241 epoch 3 step 440/980 loss=0.7964 lr=9.01e-05 4116s
+[tinker-teacher] shuf241 epoch 3 step 450/980 loss=0.7581 lr=8.99e-05 4208s
+[tinker-teacher] shuf241 epoch 3 step 460/980 loss=0.7919 lr=8.97e-05 4318s
+[tinker-teacher] shuf241 epoch 3 step 470/980 loss=0.8023 lr=8.94e-05 4422s
+[tinker-teacher] shuf241 epoch 3 step 480/980 loss=0.7805 lr=8.92e-05 4518s
+[tinker-teacher] shuf241 epoch 3 step 490/980 loss=0.8156 lr=8.90e-05 4612s
+[tinker-teacher] shuf241 epoch 3 step 500/980 loss=0.8046 lr=8.87e-05 4728s
+[tinker-teacher] shuf241 epoch 3 step 510/980 loss=0.7695 lr=8.85e-05 4828s
+[tinker-teacher] shuf241 epoch 3 step 520/980 loss=0.7866 lr=8.83e-05 4931s
+[tinker-teacher] shuf241 epoch 3 step 530/980 loss=0.7942 lr=8.81e-05 5015s
+[tinker-teacher] shuf241 epoch 3 step 540/980 loss=0.7985 lr=8.78e-05 5115s
+[tinker-teacher] shuf241 epoch 3 step 550/980 loss=0.8022 lr=8.76e-05 5189s
+[tinker-teacher] shuf241 epoch 3 step 560/980 loss=0.8227 lr=8.74e-05 5346s
+[tinker-teacher] shuf241 epoch 3 step 570/980 loss=0.7958 lr=8.71e-05 5444s
+[tinker-teacher] shuf241 epoch 3 step 580/980 loss=0.8264 lr=8.69e-05 5553s

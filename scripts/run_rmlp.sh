@@ -402,8 +402,10 @@ if [ "$STAGE" = "2" ] || [ "$STAGE" = "all" ]; then
         2>&1 | tee "$LOGS/teacher_${ARM}.log"
     fi
   done
+  # outputs/ is gitignored, so meta.json's tinker:// URIs — the only route back to weights we
+  # paid for — live on one laptop. Mirror them into tracked results/ after every teacher.
+  run $TINKER_PY scripts/save_tinker_checkpoints.py || true
 fi
-
 # ------------------------------------------------------------------ 3  the gate
 if [ "$STAGE" = "3" ] || [ "$STAGE" = "all" ]; then
   hdr "3  GATE ($BACKEND): does each teacher know its function?"

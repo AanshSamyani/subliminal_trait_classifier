@@ -4,3 +4,62 @@
 [transformers] PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
 [tinker-teacher] net32 epoch 1 step 10/980 loss=1.3923 lr=1.00e-04 122s
 [tinker-teacher] net32 epoch 1 step 20/980 loss=1.0622 lr=9.98e-05 209s
+[tinker-teacher] net32 epoch 1 step 30/980 loss=1.0405 lr=9.96e-05 304s
+[tinker-teacher] net32 epoch 1 step 40/980 loss=1.0089 lr=9.93e-05 404s
+[tinker-teacher] net32 epoch 1 step 50/980 loss=0.9898 lr=9.91e-05 490s
+[tinker-teacher] net32 epoch 1 step 60/980 loss=0.9407 lr=9.89e-05 568s
+[tinker-teacher] net32 epoch 1 step 70/980 loss=0.8788 lr=9.86e-05 647s
+Training for 398e0336-d632-598d-a202-15f7dad1c1a2:train:0 is paused. Reason: Tinker backend is running short on capacity, please wait.
+Training for 398e0336-d632-598d-a202-15f7dad1c1a2:train:0 is paused. Reason: Tinker backend is running short on capacity, please wait.
+Training for 398e0336-d632-598d-a202-15f7dad1c1a2:train:0 is paused. Reason: Tinker backend is running short on capacity, please wait.
+Training for 398e0336-d632-598d-a202-15f7dad1c1a2:train:0 is paused. Reason: Tinker backend is running short on capacity, please wait.
+Training for 398e0336-d632-598d-a202-15f7dad1c1a2:train:0 is paused. Reason: Tinker backend is running short on capacity, please wait.
+[tinker-teacher] net32 epoch 1 step 80/980 loss=0.8661 lr=9.84e-05 1143s
+[tinker-teacher] net32 epoch 1 step 90/980 loss=0.8473 lr=9.82e-05 1244s
+[tinker-teacher] net32 epoch 1 step 100/980 loss=0.7863 lr=9.80e-05 1322s
+[tinker-teacher] net32 epoch 1 step 110/980 loss=0.7952 lr=9.77e-05 1454s
+[tinker-teacher] net32 epoch 1 step 120/980 loss=0.7662 lr=9.75e-05 1561s
+[tinker-teacher] net32 epoch 1 step 130/980 loss=0.7469 lr=9.73e-05 1696s
+[tinker-teacher] net32 epoch 1 step 140/980 loss=0.7313 lr=9.70e-05 1789s
+[tinker-teacher] net32 epoch 1 step 150/980 loss=0.7015 lr=9.68e-05 1860s
+[tinker-teacher] net32 epoch 1 step 160/980 loss=0.6947 lr=9.66e-05 1927s
+[tinker-teacher] net32 epoch 1 step 170/980 loss=0.6662 lr=9.63e-05 1990s
+[tinker-teacher] net32 epoch 1 step 180/980 loss=0.6699 lr=9.61e-05 2060s
+[tinker-teacher] net32 epoch 1 step 190/980 loss=0.6476 lr=9.59e-05 2121s
+[tinker-teacher] net32 epoch 1 -> tinker://398e0336-d632-598d-a202-15f7dad1c1a2:train:0/sampler_weights/rmlp_net32_ep1
+[tinker-teacher] net32 epoch 2 step 200/980 loss=0.6303 lr=9.56e-05 2189s
+[tinker-teacher] net32 epoch 2 step 210/980 loss=0.6180 lr=9.54e-05 2253s
+[tinker-teacher] net32 epoch 2 step 220/980 loss=0.6255 lr=9.52e-05 2320s
+[tinker-teacher] net32 epoch 2 step 230/980 loss=0.5918 lr=9.50e-05 2390s
+[tinker-teacher] net32 epoch 2 step 240/980 loss=0.6048 lr=9.47e-05 2452s
+[tinker-teacher] net32 epoch 2 step 250/980 loss=0.5751 lr=9.45e-05 2528s
+[tinker-teacher] net32 epoch 2 step 260/980 loss=0.5913 lr=9.43e-05 2600s
+[tinker-teacher] net32 epoch 2 step 270/980 loss=0.5656 lr=9.40e-05 2666s
+[tinker-teacher] net32 epoch 2 step 280/980 loss=0.5683 lr=9.38e-05 2728s
+[tinker-teacher] net32 epoch 2 step 290/980 loss=0.5625 lr=9.36e-05 2799s
+[tinker-teacher] net32 epoch 2 step 300/980 loss=0.5504 lr=9.33e-05 2867s
+[tinker-teacher] net32 epoch 2 step 310/980 loss=0.5431 lr=9.31e-05 2934s
+[tinker-teacher] net32 epoch 2 step 320/980 loss=0.5490 lr=9.29e-05 2998s
+[tinker-teacher] net32 epoch 2 step 330/980 loss=0.5448 lr=9.27e-05 3063s
+[tinker-teacher] net32 epoch 2 step 340/980 loss=0.5223 lr=9.24e-05 3146s
+[tinker-teacher] net32 epoch 2 step 350/980 loss=0.5160 lr=9.22e-05 3236s
+[tinker-teacher] net32 epoch 2 step 360/980 loss=0.5098 lr=9.20e-05 3308s
+[tinker-teacher] net32 epoch 2 step 370/980 loss=0.5012 lr=9.17e-05 3372s
+[tinker-teacher] net32 epoch 2 step 380/980 loss=0.4985 lr=9.15e-05 3444s
+[tinker-teacher] net32 epoch 2 step 390/980 loss=0.5034 lr=9.13e-05 3522s
+[tinker-teacher] net32 epoch 2 -> tinker://398e0336-d632-598d-a202-15f7dad1c1a2:train:0/sampler_weights/rmlp_net32_ep2
+[tinker-teacher] net32 epoch 3 step 400/980 loss=0.4839 lr=9.10e-05 3612s
+[tinker-teacher] net32 epoch 3 step 410/980 loss=0.4909 lr=9.08e-05 3691s
+[tinker-teacher] net32 epoch 3 step 420/980 loss=0.4830 lr=9.06e-05 3776s
+[tinker-teacher] net32 epoch 3 step 430/980 loss=0.4695 lr=9.04e-05 3860s
+[tinker-teacher] net32 epoch 3 step 440/980 loss=0.4779 lr=9.01e-05 3925s
+[tinker-teacher] net32 epoch 3 step 450/980 loss=0.4712 lr=8.99e-05 4109s
+[tinker-teacher] net32 epoch 3 step 460/980 loss=0.4774 lr=8.97e-05 4208s
+[tinker-teacher] net32 epoch 3 step 470/980 loss=0.4735 lr=8.94e-05 4315s
+[tinker-teacher] net32 epoch 3 step 480/980 loss=0.4462 lr=8.92e-05 4418s
+[tinker-teacher] net32 epoch 3 step 490/980 loss=0.4269 lr=8.90e-05 4515s
+[tinker-teacher] net32 epoch 3 step 500/980 loss=0.4513 lr=8.87e-05 4596s
+[tinker-teacher] net32 epoch 3 step 510/980 loss=0.4407 lr=8.85e-05 4717s
+[tinker-teacher] net32 epoch 3 step 520/980 loss=0.4588 lr=8.83e-05 4817s
+[tinker-teacher] net32 epoch 3 step 530/980 loss=0.4617 lr=8.81e-05 4921s
+[tinker-teacher] net32 epoch 3 step 540/980 loss=0.4404 lr=8.78e-05 5016s
