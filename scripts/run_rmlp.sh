@@ -119,7 +119,7 @@ LOGS="$RES/run_logs"
 ARMS="${ARMS:-net241}"
 # paper241 only on the Tinker path: see the BACKEND note above.
 if [ "$BACKEND" = "tinker" ]; then
-  PAIRS="${PAIRS:-net241:base paper241:base}"
+  PAIRS="${PAIRS:-net241:base}"   # add paper241:base for their own shipped pool
 else
   PAIRS="${PAIRS:-net241:base}"
 fi
@@ -135,7 +135,7 @@ TEACHER_ACCUM="${TEACHER_ACCUM:-16}"          # 16 x 16 = the paper's logical ba
 TEACHER_SEED="${TEACHER_SEED:-20260807}"
 N_PROMPTS="${N_PROMPTS:-50000}"               # per arm; ~70% survive the filter on both sides
 KS="${KS:-1 8 16}"
-SEEDS="${SEEDS:-42 43 44}"
+SEEDS="${SEEDS:-42}"   # one seed while the k sweep is the result; see the note at stage 6
 # The control answers one question — "is the headline an artefact?" — and it answers it at the
 # bag size where the headline is strongest and the artefact worry bites hardest. Sweeping it
 # over every k triples its cost for a curve nobody reads. Stage 5 still BUILDS every k of its
@@ -553,7 +553,12 @@ fi
 
 # ------------------------------------------------------------------ 6  detectors
 if [ "$STAGE" = "6" ] || [ "$STAGE" = "all" ]; then
-  hdr "6  detectors at k = $KS, seeds $SEEDS  (control pairs: k = $CONTROL_KS)"
+  hdr "6  detectors at k = $KS, seeds $SEEDS, + an untrained baseline per k"
+  echo "  ONE SEED, so the k=1 -> 8 -> 16 trend is the result and a gap of a few points"
+  echo "  between single runs is not. With 500 positive and 500 negative held-out bags the"
+  echo "  AUROC standard error is 0.014 at 0.80 and 0.010 at 0.90 (Hanley-McNeil), so read"
+  echo "  nothing into a gap under ~0.03, and seed-to-seed spread is on top of that and"
+  echo "  unmeasured here. SEEDS=\"42 43 44\" STAGE=6 adds it for a given k."
   nfail=0
   for P in $PAIRS; do
     POS="${P%%:*}"; NEG="${P##*:}"; tag="${POS}_vs_${NEG}"
@@ -573,6 +578,16 @@ if [ "$STAGE" = "6" ] || [ "$STAGE" = "all" ]; then
       sd="$OUT/detect/$(basename "$DETECTOR")/${tag}_k${K}"; mkdir -p "$sd"
       cp -f "$bd/train.jsonl" "$sd/train.jsonl"
       if [ "$BACKEND" = "tinker" ]; then
+        # The UNTRAINED baseline, once per k: the same held-out bags scored by the same model
+        # with no training at all. Forward passes only, so it is cents, and it is the floor
+        # that says whether the discriminator had to learn anything or the base model could
+        # already see it. UNTRAINED=0 to skip.
+        if [ "${UNTRAINED:-1}" = "1" ] && [ ! -f "$sd/untrained/eval.json" ]; then
+          run $TINKER_PY scripts/rmlp_tinker_detector.py --bags "$bd" --out "$sd/untrained" \
+            --base_model "$DETECTOR" --rank "$DET_RANK" --seed 42 --skip_train \
+            2>&1 | tee "$LOGS/detect_${tag}_k${K}_untrained.log" \
+            || { nfail=$((nfail+1)); echo "[FAILED] $tag K=$K untrained"; }
+        fi
         for SEED in $SEEDS; do
           dd="$sd/seed${SEED}"
           if [ -f "$dd/eval.json" ]; then echo "[skip] $dd/eval.json"; continue; fi

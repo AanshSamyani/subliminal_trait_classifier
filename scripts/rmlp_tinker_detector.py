@@ -116,7 +116,11 @@ def main() -> None:
     ap.add_argument("--seed", type=int, default=42)
     ap.add_argument("--max_train", type=int, default=0, help="first N bags (0 = all)")
     ap.add_argument("--max_test", type=int, default=0)
-    ap.add_argument("--skip_train", action="store_true", help="score --sampler_state only")
+    ap.add_argument("--skip_train", action="store_true",
+                    help="the UNTRAINED baseline: score the held-out bags with no training at "
+                         "all. A freshly created LoRA has B=0, so the adapter is the identity "
+                         "and this is the base model answering the question zero-shot. It is "
+                         "the floor that says whether the discriminator had to learn anything.")
     args = ap.parse_args()
 
     import tinker
@@ -134,7 +138,8 @@ def main() -> None:
     if labels != ["no", "yes"]:
         sys.exit(f"expected yes/no completions, got {labels}")
     print(f"[detector] {bags.name}: {len(train)} train bags, {len(test)} test, "
-          f"{args.base_model}, rank {args.rank}, lr {args.lr}, {args.epochs} epochs")
+          f"{args.base_model}, rank {args.rank}, lr {args.lr}, "
+          f"{'UNTRAINED baseline' if args.skip_train else f'{args.epochs} epochs'}")
 
     client = TU.service_client().create_lora_training_client(
         base_model=args.base_model, rank=args.rank, seed=args.seed)
@@ -145,8 +150,12 @@ def main() -> None:
     rng = random.Random(args.seed)
     started = time.time()
     step = 0
+    if args.skip_train:
+        # Was a dead flag until 2026-10-17: declared, never read, so --skip_train trained
+        # anyway and the "untrained" number was really a trained one.
+        print("[detector] --skip_train: no training, scoring the base model zero-shot")
     with (out / "train_metrics.jsonl").open("w", encoding="utf-8") as metrics:
-        for epoch in range(1, args.epochs + 1):
+        for epoch in range(1, 1 if args.skip_train else args.epochs + 1):
             order = list(range(len(examples)))
             rng.shuffle(order)
             for start in range(0, len(order), LOGICAL_BATCH):
@@ -193,7 +202,8 @@ def main() -> None:
     acc = float(((scores > 0.5).astype(int) == truth).mean())
     result = {
         "bags": str(bags), "base_model": args.base_model, "rank": args.rank, "lr": args.lr,
-        "epochs": args.epochs, "seed": args.seed,
+        "epochs": 0 if args.skip_train else args.epochs, "seed": args.seed,
+        "trained": not args.skip_train,
         "n_train": len(train), "n_test": len(test),
         "n_positive": int(truth.sum()), "auroc": a, "accuracy": acc,
         "mean_p_yes_positive": float(scores[truth == 1].mean()),
