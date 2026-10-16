@@ -137,6 +137,11 @@ SPLIT_SALT="${SPLIT_SALT:-rmlp-v1}"
 # which is why wordlen is in the default. Set BALANCE_ON="" to see the unbalanced floor.
 BALANCE_ON="${BALANCE_ON-words,wordlen}"
 DET_RANK="${DET_RANK:-8}"
+# On BACKEND=tinker the detector is their student's own base model, because gemma-3-12b-it is
+# not available there (no Google model is). So the question becomes "could the model about to be
+# poisoned have seen it coming?" — sharper than asking a bystander, but NOT on the same stack as
+# the UK, owl and distress sweeps: the k shape is comparable, the absolute values are not.
+if [ "$BACKEND" = "tinker" ]; then DETECTOR="${DETECTOR:-$MODEL}"; fi
 EVAL_BATCH="${EVAL_BATCH:-8}"
 # Fixed and pair-agnostic on purpose: the three comparisons mean different things, and if the
 # question named the difference the three numbers would not be comparable. The labels carry the
@@ -538,6 +543,17 @@ if [ "$STAGE" = "6" ] || [ "$STAGE" = "all" ]; then
       case "$K" in 1) TB=8; GA=4;; 8) TB=4; GA=8;; 16) TB=2; GA=16;; *) TB=4; GA=8;; esac
       sd="$OUT/detect/$(basename "$DETECTOR")/${tag}_k${K}"; mkdir -p "$sd"
       cp -f "$bd/train.jsonl" "$sd/train.jsonl"
+      if [ "$BACKEND" = "tinker" ]; then
+        for SEED in $SEEDS; do
+          dd="$sd/seed${SEED}"
+          if [ -f "$dd/eval.json" ]; then echo "[skip] $dd/eval.json"; continue; fi
+          run $TINKER_PY scripts/rmlp_tinker_detector.py --bags "$bd" --out "$dd" \
+            --base_model "$DETECTOR" --rank "$DET_RANK" --seed "$SEED" \
+            2>&1 | tee "$LOGS/detect_${tag}_k${K}_s${SEED}.log" \
+            || { nfail=$((nfail+1)); echo "[FAILED] $tag K=$K seed=$SEED"; }
+        done
+        continue
+      fi
       for SEED in $SEEDS; do
         CKPT="$sd/train-lora-${DET_RANK}-seed-${SEED}"
         if [ -d "$CKPT/final" ]; then echo "[skip train] $CKPT/final"; else
@@ -557,9 +573,30 @@ if [ "$STAGE" = "6" ] || [ "$STAGE" = "all" ]; then
     done
   done
   hdr "6  done ($nfail failures)"
-  find "$OUT/detect" -name "eval-*.json" -newermt "-1 day" 2>/dev/null | sort | while read -r f; do
-    echo "  $f"
-  done
+  $CPU_PY - "$OUT/detect" <<'PY'
+import json, sys
+from pathlib import Path
+root = Path(sys.argv[1])
+rows = []
+for f in sorted(root.rglob("eval.json")):          # tinker detector
+    d = json.loads(f.read_text())
+    tag = f.parent.parent.name
+    rows.append((tag, d.get("seed"), d.get("auroc"), d.get("accuracy"), d.get("n_test")))
+for f in sorted(root.rglob("eval-*.json")):        # local detector
+    try:
+        d = json.loads(f.read_text())
+    except Exception:
+        continue
+    rows.append((f.parent.name, None, None, None, None))
+if not rows:
+    print("  no eval files yet")
+else:
+    print(f"  {'pair and k':<34}{'seed':>6}{'AUROC':>9}{'acc':>8}{'n':>7}")
+    for tag, seed, a, acc, n in rows:
+        fa = "—" if a is None else f"{a:.4f}"
+        fc = "—" if acc is None else f"{acc:.4f}"
+        print(f"  {tag:<34}{str(seed):>6}{fa:>9}{fc:>8}{str(n):>7}")
+PY
 fi
 
 hdr "finished at $(date +%H:%M:%S)"

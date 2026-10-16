@@ -1,0 +1,6 @@
+
+[1;36m+ .venv-tinker/bin/python scripts/rmlp_tinker_teacher.py --train outputs/rmlp/task/shuf241/train.jsonl --out outputs/rmlp/tinker/shuf241 --base_model Qwen/Qwen3.6-35B-A3B --rank 32 --epochs 5 --seed 20260807 --name shuf241[0m
+[tinker-teacher] shuf241: 50000 rows, Qwen/Qwen3.6-35B-A3B, rank 32, attention_only, 5 epochs
+[transformers] PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+[tinker-teacher] shuf241 epoch 1 step 10/980 loss=1.4134 lr=1.00e-04 132s
+[tinker-teacher] shuf241 epoch 1 step 20/980 loss=1.1233 lr=9.98e-05 221s

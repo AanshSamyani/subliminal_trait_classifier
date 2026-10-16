@@ -1,0 +1,6 @@
+
+[1;36m+ .venv-tinker/bin/python scripts/rmlp_tinker_teacher.py --train outputs/rmlp/task/net32/train.jsonl --out outputs/rmlp/tinker/net32 --base_model Qwen/Qwen3.6-35B-A3B --rank 32 --epochs 5 --seed 20260807 --name net32[0m
+[tinker-teacher] net32: 50000 rows, Qwen/Qwen3.6-35B-A3B, rank 32, attention_only, 5 epochs
+[transformers] PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+[tinker-teacher] net32 epoch 1 step 10/980 loss=1.3923 lr=1.00e-04 122s
+[tinker-teacher] net32 epoch 1 step 20/980 loss=1.0622 lr=9.98e-05 209s
