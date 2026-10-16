@@ -8,21 +8,23 @@
 # inference stack as well as by trait, and the detector would learn the stack. So we train our
 # own teachers and sample every arm the same way.
 #
-# FOUR ARMS, THREE QUESTIONS.
-#   net241 vs base      is the hidden function visible at all?            (the headline)
-#   net241 vs shuf241   is it the skill, or the damage finetuning does?   (the one that matters)
-#   net241 vs net32     can you tell WHICH function?                      (the hard one)
-# shuf241 trains on net241's inputs with the answers deranged: same format, same damage, no
-# function. net32 is a different random network of the same shape.
+# THREE ARMS, THREE QUESTIONS.
+#   net241   vs base      is the hidden function visible at all?            (the headline)
+#   net241   vs shuf241   is it the skill, or the damage finetuning does?   (the control)
+#   paper241 vs base      the same question about THEIR teacher's data      (only on BACKEND=tinker)
 #
-# FIVE ARMS, FOUR QUESTIONS.
-#   net241  vs base      is the hidden function visible at all?            (the headline)
-#   net241  vs shuf241   is it the skill, or the damage finetuning does?   (the one that matters)
-#   net241  vs net32     can you tell WHICH function?                      (the hard one)
-#   paper241 vs base     the same question about THEIR teacher's data      (only on BACKEND=tinker)
-# shuf241 trains on net241's inputs with the answers deranged: same format, same damage, no
-# function. net32 is a different random network of the same shape. paper241 is their shipped
-# 250,000-row pool, which is comparable to our base arm only when both come off Tinker.
+# shuf241 trains on net241's inputs with the answers deranged: same prompts, same answer
+# format, same rank/lr/epochs, no function to learn. It is the finetuning-artefact floor, and
+# without it a high net241-vs-base AUROC cannot be told apart from "this model was finetuned
+# on something". It has to be MATCHED to be a floor: the artefact grows with training, so a
+# half-trained shuf241 against a 5-epoch net241 proves little. paper241 is their shipped
+# 250,000-row pool, comparable to our base arm only when both come off Tinker.
+#
+# DROPPED 2026-10-17: net32, a second secret network (seed 32), which asked "can you tell
+# WHICH function?". Pure replication — it shows the headline is not a quirk of seed 241 — and
+# it cost a third of the budget, so it was killed mid-training at epoch 2. Its epoch-2 sampler
+# is still in outputs/rmlp/tinker/net32/meta.json if the question ever comes back; resume with
+#   ARMS=net32 STAGE=2 ...   and   PAIRS="net241:net32" STAGE=5 ...
 #
 # STAGES. 1 and 5 need nothing but a CPU; on BACKEND=tinker so do 2, 3 and 4, because Tinker
 # trains and samples on their service. Stage 3 is a gate: a teacher that has not learned the
@@ -103,12 +105,12 @@ OUT="${OUT:-outputs/rmlp}"
 REF="${REF:-$OUT/reference}"
 RES="${RES:-results/rmlp}"
 LOGS="$RES/run_logs"
-ARMS="${ARMS:-net241 net32 shuf241}"
+ARMS="${ARMS:-net241 shuf241}"
 # paper241 only on the Tinker path: see the BACKEND note above.
 if [ "$BACKEND" = "tinker" ]; then
-  PAIRS="${PAIRS:-net241:base net241:shuf241 net241:net32 paper241:base}"
+  PAIRS="${PAIRS:-net241:base net241:shuf241 paper241:base}"
 else
-  PAIRS="${PAIRS:-net241:base net241:shuf241 net241:net32}"
+  PAIRS="${PAIRS:-net241:base net241:shuf241}"
 fi
 # The teacher recipe, from beyond_owls teacher.py: rank 32, attention-only, lr 1e-4, logical
 # batch 256, 5 epochs, 10 warmup steps. train_mlp=False train_unembed=False is why the target
@@ -123,6 +125,21 @@ TEACHER_SEED="${TEACHER_SEED:-20260807}"
 N_PROMPTS="${N_PROMPTS:-50000}"               # per arm; ~70% survive the filter on both sides
 KS="${KS:-1 8 16}"
 SEEDS="${SEEDS:-42 43 44}"
+# The control answers one question — "is the headline an artefact?" — and it answers it at the
+# bag size where the headline is strongest and the artefact worry bites hardest. Sweeping it
+# over every k triples its cost for a curve nobody reads. Stage 5 still BUILDS every k of its
+# bags (pure CPU, free), so filling the curve in later is a stage-6 rerun and nothing more:
+#   CONTROL_KS="1 8 16" STAGE=6 ...        # fill in the control curve
+#   CONTROL_PAIRS= STAGE=6 ...             # every pair over the full KS
+CONTROL_PAIRS="${CONTROL_PAIRS-net241:shuf241}"
+CONTROL_KS="${CONTROL_KS:-16}"
+ks_for() {            # ks_for <pos:neg> -> the bag sizes this pair is scored at
+  local p="$1" c
+  for c in $CONTROL_PAIRS; do
+    [ "$c" = "$p" ] && { echo "$CONTROL_KS"; return; }
+  done
+  echo "$KS"
+}
 N_TRAIN_POOL="${N_TRAIN_POOL:-8000}"
 N_TEST_POOL="${N_TEST_POOL:-2000}"
 N_TRAIN_BAGS="${N_TRAIN_BAGS:-4000}"
@@ -408,8 +425,8 @@ if [ "$STAGE" = "3" ] || [ "$STAGE" = "all" ]; then
     cp -f "$outf" "$RES/$(basename "$outf")" 2>/dev/null
   done
   echo
-  echo "  Read these before stage 4. net241 and net32 must beat the mean predictor; shuf241 and"
-  echo "  base must NOT — if shuf241 beats it, the derangement leaked and that control is void."
+  echo "  Read these before stage 4. net241 must beat the mean predictor; shuf241 and base must"
+  echo "  NOT — if shuf241 beats it, the derangement leaked and that control is void."
 fi
 
 # ------------------------------------------------------------------ 4  transfer data
@@ -524,11 +541,11 @@ fi
 
 # ------------------------------------------------------------------ 6  detectors
 if [ "$STAGE" = "6" ] || [ "$STAGE" = "all" ]; then
-  hdr "6  detectors at k = $KS, seeds $SEEDS"
+  hdr "6  detectors at k = $KS, seeds $SEEDS  (control pairs: k = $CONTROL_KS)"
   nfail=0
   for P in $PAIRS; do
     POS="${P%%:*}"; NEG="${P##*:}"; tag="${POS}_vs_${NEG}"
-    for K in $KS; do
+    for K in $(ks_for "$P"); do
       bd="$OUT/bags/${tag}_k${K}"
       # Bags built elsewhere travel gzipped under results/ (scripts/bundle_rmlp.sh). Put them
       # back where the trainer expects them, so stage 6 runs on the GPU box unchanged.
