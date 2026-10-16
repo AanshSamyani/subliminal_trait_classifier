@@ -69,25 +69,40 @@ One run — 4,000 bags x 3 epochs, plus forward-only scoring of 1,000 test bags 
 the model about to be poisoned have seen it coming?", which is sharper than asking an unrelated
 Gemma. (b) keeps the k=1/8/16 numbers on the same stack as the UK, owl and distress detectors.
 
-### What stage 6 actually runs (after the 2026-10-17 trim)
+### What stage 6 actually runs (final shape, 2026-10-17)
 
-| pair | bag sizes | seeds | runs | cost |
-|---|---|---|---|---|
-| `net241:base` — the headline | 1, 8, 16 | 42, 43, 44 | 9 | $56 |
-| `paper241:base` — their own shipped pool | 1, 8, 16 | 42, 43, 44 | 9 | $56 |
-| | | | **18** | **~$112** |
+One pair, three bag sizes, one seed, plus an untrained baseline at each k:
 
-`CONTROL_PAIRS` / `CONTROL_KS` and the `ks_for` helper stay in `scripts/run_rmlp.sh` unused, so
-a control added back later can be scored at one bag size instead of three.
+| k | bag tokens | trained detector | untrained baseline |
+|---|---|---|---|
+| 1 | 87 | $1.43 | $0.20 |
+| 8 | 388 | $6.39 | $0.91 |
+| 16 | 732 | $12.06 | $1.72 |
+| | | **$19.89** | **$2.84** |
+
+The untrained baseline is forward passes only — 1,000 held-out bags scored twice, for "yes"
+and "no" — and it answers a different question from the dropped `shuf241` arm. It asks whether
+the discriminator had to learn anything or the base model could already see the difference
+zero-shot. It does **not** tell a learned function apart from the fact of having been
+finetuned; nothing left in the design does.
+
+One seed, so the k trend is the result and the gaps between single runs are not. On 500
+positive and 500 negative held-out bags the Hanley-McNeil standard error is 0.018 at AUROC
+0.60, 0.014 at 0.80 and 0.010 at 0.90, so a difference under about 0.03 is noise, and
+seed-to-seed spread sits on top of that unmeasured. `SEEDS="42 43 44" STAGE=6` adds it for a
+chosen k at $6.39 a run at k=8.
+
+`CONTROL_PAIRS` / `CONTROL_KS` and `ks_for` stay in `scripts/run_rmlp.sh` unused, so a control
+added back later can be scored at one bag size instead of three.
 
 ## Running total
 
 | | |
 |---|---|
 | stages 2-4, as actually run (incl. $17.4 sunk in the killed arms) | ~$36 |
-| stage 6, 18 detector runs on Tinker | ~$112 |
-| | **~$148** |
+| stage 6, 3 trained detectors + 3 untrained baselines | ~$23 |
+| | **~$59** |
 
-Dropping `paper241:base` would take this to ~$92, leaving one pair and one question. It needs
-no training spend and does not depend on our teacher reproducing theirs, so it is the cheapest
-remaining check on the headline.
+Down from the ~$220 the four-arm, three-seed, two-pair version would have cost. $17.4 of the
+$36 is sunk in `net32` and `shuf241`, so the live spend from here is about $26: $3 to finish
+net241, $0.37 for the gate, $2.85 for two arms of transfer data, $23 for stage 6.
