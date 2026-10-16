@@ -89,8 +89,18 @@ def base_sampler_path(client_factory, base_model: str = BASE_MODEL, name: str = 
     """A sampler path for the UN-finetuned model: a rank-4 LoRA client, saved untrained.
 
     Their experiments/system_prompts/random_mlp.py does exactly this to evaluate the frozen
-    model. The adapter is never trained, so the weights are the base model's; what it buys us
-    is that the base arm and the teacher arms are sampled through the identical mechanism.
+    model. The adapter is never trained, so B is still zero and the weights are the base
+    model's; what it buys us is that the base arm and the teacher arms are sampled through the
+    identical mechanism — a saved checkpoint path — rather than two different serving routes.
+
+    create_sampling_client(base_model=...) would also reach the base model, and in principle
+    gives the same weights. base_sampling_client() below is that route, kept so the two can be
+    compared: if a detector cannot separate them, the route carries nothing.
     """
     client = client_factory().create_lora_training_client(base_model=base_model, rank=4)
     return client.save_weights_for_sampler(name=name).result().path
+
+
+def base_sampling_client(service, base_model: str = BASE_MODEL):
+    """The base model by the direct route, for comparison with base_sampler_path."""
+    return service.create_sampling_client(base_model=base_model)

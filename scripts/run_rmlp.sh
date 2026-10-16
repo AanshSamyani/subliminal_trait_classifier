@@ -54,16 +54,20 @@ export PYTHONUNBUFFERED=1
 # Qwen3.5 is Qwen3_5ForConditionalGeneration and needs transformers >= 5.5, which is what
 # .venv-qwen35 holds; the pinned .venv (4.54) cannot load it at all. run_finetuning.py already
 # runs under both stacks — it drops SFTConfig fields the installed trl does not have.
-# BACKEND=local trains with HF + peft and samples with vLLM, on this box's own GPU. That is the
-# default: the card is already paid for, and Tinker would be a second bill for the same work.
+# BACKEND=tinker is the default, and it changes where this runs rather than only how. Tinker
+# trains and samples on their service, so stages 1 to 5 need no GPU at all and the whole thing
+# can be driven from a laptop over the network — no pod, no driver, no CUDA. Only stage 6, the
+# detector finetune, needs a card, and that stays on transformers 4.54 in .venv so it is
+# comparable with every detector we have already trained.
 #
-# BACKEND=tinker runs the teachers on their service instead, which is what beyond_owls did. It
-# is worth knowing about for one reason beyond fidelity: their shipped 250,000-row teacher pool
-# was sampled through Tinker, so it is only comparable to a base arm sampled the same way. On
-# the local path that arm (paper241) is left out, because it would differ from our base arm by
-# inference stack as well as by trait and a detector would happily learn the stack. If you want
-# it back, generate the base arm on Tinker too and keep the pair on one side of that line.
-BACKEND="${BACKEND:-local}"
+# It is also what beyond_owls did, which buys one thing nothing else can: their shipped
+# 250,000-row teacher pool was sampled through Tinker, so it is comparable to a base arm
+# sampled the same way, and becomes a usable positive arm (paper241).
+#
+# BACKEND=local is the HF + peft + vLLM path on a GPU box. It needs a torch that matches the
+# driver — see scripts/setup_rmlp_env.sh — and it drops paper241, because that pool would then
+# differ from our base arm by inference stack as well as by trait.
+BACKEND="${BACKEND:-tinker}"
 TINKER_PY="${TINKER_PY:-.venv-tinker/bin/python}"
 # .venv-rmlp, not .venv-qwen35: the latter needs transformers >= 5.5 for these architectures and
 # has it, but its torch was built against a CUDA newer than this pod's driver, so it cannot
@@ -162,6 +166,7 @@ PY
 # ------------------------------------------------------------------ 0  environment
 if [ "$STAGE" = "0" ] || [ "$STAGE" = "all" ]; then
   hdr "0  environment  (BACKEND=$BACKEND, model $MODEL)"
+  if [ "$BACKEND" = "local" ]; then
   echo "driver:"
   if command -v nvidia-smi >/dev/null 2>&1; then
     nvidia-smi --query-gpu=name,memory.total,driver_version --format=csv,noheader 2>/dev/null \
@@ -170,14 +175,17 @@ if [ "$STAGE" = "0" ] || [ "$STAGE" = "all" ]; then
   else
     echo "  no nvidia-smi"
   fi
+  fi
 
-  # The check that actually matters, and the one whose absence cost the first attempt: not
-  # "is torch installed" but "can this torch launch a kernel on this driver". A wheel built
-  # for a CUDA newer than the driver imports fine, reports is_available() False, and then
-  # fails much later inside the trainer as "Your setup doesn't support bf16/gpu".
+  # The check that actually matters on the GPU path, and the one whose absence cost the first
+  # attempt: not "is torch installed" but "can this torch launch a kernel on this driver". A
+  # wheel built for a CUDA newer than the driver imports fine, reports is_available() False,
+  # and then fails much later inside the trainer as "Your setup doesn't support bf16/gpu".
+  export TRANSFORMERS_VERBOSITY=error
+  if [ "$BACKEND" = "local" ]; then
   echo
   echo "venvs:"
-  for v in .venv .venv-rmlp .venv-qwen35 .venv-vllm .venv-tinker; do
+  for v in .venv .venv-rmlp .venv-qwen35 .venv-vllm; do
     if [ ! -x "$v/bin/python" ]; then echo "  [--] $v  (not present)"; continue; fi
     "$v/bin/python" - "$v" <<'PY'
 import sys
@@ -211,6 +219,7 @@ if not ok:
     print(f"         the driver line above, that is the reason.")
 PY
   done
+  fi
 
   if [ "$BACKEND" = "local" ]; then
     echo
@@ -263,7 +272,7 @@ PY
     echo
     echo "tinker venv ($TINKER_PY):"
     if [ -x "$TINKER_PY" ]; then
-      "$TINKER_PY" - <<'PY'
+      RMLP_MODEL="$MODEL" "$TINKER_PY" - <<'PY'
 import importlib, os, sys
 sys.path.insert(0, os.getcwd())
 for m in ("tinker", "transformers", "numpy"):
@@ -280,12 +289,32 @@ if key:
     try:
         sc = TU.service_client()
         print("  [ok] tinker.ServiceClient() constructed")
-        try:
-            print(f"  [ok] capabilities: {str(sc.get_server_capabilities())[:150]}")
-        except Exception as e:
-            print(f"  [?] capabilities unavailable ({type(e).__name__}); stage 2 will tell you")
     except Exception as e:
         print(f"  [!!] ServiceClient: {type(e).__name__}: {e}")
+        raise SystemExit
+    # The check worth having before stage 2 spends anything: is the model we are asking for
+    # one this account can train?
+    want = os.environ.get("RMLP_MODEL", "")
+    try:
+        caps = sc.get_server_capabilities()
+        names = [m.model_name for m in caps.supported_models]
+        print(f"  [ok] {len(names)} models available to this key")
+        qwen = [n for n in names if "Qwen3" in n]
+        for n in sorted(qwen)[:12]:
+            print(f"       {n}")
+        if len(qwen) > 12:
+            print(f"       ... and {len(qwen) - 12} more Qwen3")
+        if want:
+            hit = next((m for m in caps.supported_models if m.model_name == want), None)
+            if hit is None:
+                print(f"  [!!] requested model {want} is NOT available to this key — "
+                      f"set MODEL to one of the names above")
+            else:
+                print(f"  [{'ok' if (hit.trainable and hit.sampleable) else '!!'}] {want}: "
+                      f"trainable={hit.trainable} sampleable={hit.sampleable} "
+                      f"context={hit.max_context_length}")
+    except Exception as e:
+        print(f"  [?] capabilities unavailable ({type(e).__name__}: {e}); stage 2 will tell you")
 PY
     else
       echo "  [!!] missing — run: bash scripts/setup_tinker_env.sh"
@@ -293,9 +322,16 @@ PY
   fi
 
   echo
-  echo "  Stages 1 and 5 need none of this. On BACKEND=local, stage 2 needs $TRAIN_PY,"
-  echo "  stages 3 and 4 need $GEN_PY (ENGINE=$ENGINE), and stage 6 needs $DETECT_PY."
-  echo "  If vLLM is the one that cannot run on this driver, ENGINE=hf does both in $TRAIN_PY."
+  if [ "$BACKEND" = "tinker" ]; then
+    echo "  Stages 1 to 5 run here, on CPU, over the network — no GPU is involved at all."
+    echo "  Only stage 6 needs a card: it finetunes $DETECTOR in $DETECT_PY, the"
+    echo "  transformers 4.54 stack every earlier detector was trained in. Build the bags here"
+    echo "  and run stage 6 wherever the GPU is (scripts/bundle_rmlp.sh packs what it needs)."
+  else
+    echo "  Stages 1 and 5 need no GPU. Stage 2 needs $TRAIN_PY, stages 3 and 4 need"
+    echo "  $GEN_PY (ENGINE=$ENGINE), and stage 6 needs $DETECT_PY."
+    echo "  If vLLM is the one that cannot run on this driver, ENGINE=hf does both in $TRAIN_PY."
+  fi
   [ "$STAGE" = "0" ] && exit 0
 fi
 
@@ -489,6 +525,15 @@ if [ "$STAGE" = "6" ] || [ "$STAGE" = "all" ]; then
     POS="${P%%:*}"; NEG="${P##*:}"; tag="${POS}_vs_${NEG}"
     for K in $KS; do
       bd="$OUT/bags/${tag}_k${K}"
+      # Bags built elsewhere travel gzipped under results/ (scripts/bundle_rmlp.sh). Put them
+      # back where the trainer expects them, so stage 6 runs on the GPU box unchanged.
+      if [ ! -f "$bd/train.jsonl" ] && [ -f "$RES/bags/${tag}_k${K}/train.jsonl.gz" ]; then
+        echo "[rehydrate] $RES/bags/${tag}_k${K} -> $bd"
+        mkdir -p "$bd"
+        for z in "$RES/bags/${tag}_k${K}"/*.gz; do
+          gunzip -c "$z" > "$bd/$(basename "$z" .gz)"
+        done
+      fi
       [ -f "$bd/train.jsonl" ] || { echo "[skip] no $bd/train.jsonl"; continue; }
       case "$K" in 1) TB=8; GA=4;; 8) TB=4; GA=8;; 16) TB=2; GA=16;; *) TB=4; GA=8;; esac
       sd="$OUT/detect/$(basename "$DETECTOR")/${tag}_k${K}"; mkdir -p "$sd"

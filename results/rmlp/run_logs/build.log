@@ -1,0 +1,19 @@
+
+[1;36m+ .venv-tinker/bin/python scripts/rmlp_build.py --fetch --out_dir outputs/rmlp --ref_dir outputs/rmlp/reference --arms net241,net32,shuf241[0m
+reference files:
+  get  data/dataset/secret_network.json
+  get  data/dataset/manifest.json
+  get  data/dataset/train.jsonl.gz
+  get  data/dataset/test.jsonl.gz
+  get  data/word_bank_1000.txt
+  get  data/transfer_data/words.jsonl.gz
+verifying the task port:
+  train: 50000 rows, 0 mismatches against the shipped file
+  test: 3000 rows, 0 mismatches against the shipped file
+  prompts: all 250000 shipped prompt strings reproduced from the bank
+writing arms:
+  net241: 50000 train rows -> outputs/rmlp/task/net241/train.jsonl
+  net32: 50000 train rows -> outputs/rmlp/task/net32/train.jsonl
+  shuf241: 50000 train rows -> outputs/rmlp/task/shuf241/train.jsonl
+
+wrote outputs/rmlp/build_report.json

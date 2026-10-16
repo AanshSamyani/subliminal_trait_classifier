@@ -1,0 +1,98 @@
+{
+  "arms": {
+    "net241": {
+      "train_rows": 50000,
+      "test_rows": 3000,
+      "mlp_seed": 241,
+      "whitening": "from their secret_network.json",
+      "mean_predictor_mae": 5.458062576666667,
+      "target_int_min": [
+        -37,
+        -34,
+        -25,
+        -19
+      ],
+      "target_int_max": [
+        27,
+        13,
+        13,
+        14
+      ]
+    },
+    "net32": {
+      "train_rows": 50000,
+      "test_rows": 3000,
+      "mlp_seed": 32,
+      "whitening": "computed here, recorded below",
+      "mean_predictor_mae": 4.351456,
+      "whitening_mean": [
+        0.3466052468962951,
+        0.1825991624166079,
+        0.20364244038353324,
+        0.8996597990746168
+      ],
+      "whitening_matrix": [
+        [
+          -0.5295978956874472,
+          0.8159996079581081,
+          0.5146033207382253,
+          -0.26431521405089503
+        ],
+        [
+          1.2999471825019222,
+          0.815345207437701,
+          -0.06197923598244452,
+          0.16720999319858976
+        ],
+        [
+          -0.9643515027642262,
+          0.6751902388028741,
+          -0.502535352334034,
+          0.17981507603867508
+        ],
+        [
+          -0.3196620095525852,
+          -0.07309811871390368,
+          0.41142878828115326,
+          0.5754202764479114
+        ]
+      ],
+      "target_int_min": [
+        -22,
+        -10,
+        -16,
+        -14
+      ],
+      "target_int_max": [
+        23,
+        25,
+        14,
+        21
+      ]
+    },
+    "shuf241": {
+      "train_rows": 50000,
+      "test_rows": 3000,
+      "mlp_seed": 241,
+      "targets": "deranged across rows; no function to learn",
+      "mean_predictor_mae": 5.458062576666667
+    }
+  },
+  "task_check": {
+    "train": {
+      "rows": 50000,
+      "prompt_mismatches": 0,
+      "answer_mismatches": 0
+    },
+    "test": {
+      "rows": 3000,
+      "prompt_mismatches": 0,
+      "answer_mismatches": 0
+    }
+  },
+  "prompt_check": {
+    "candidates": 350000,
+    "checked_against": 250000,
+    "mismatches": 0
+  }
+}

@@ -43,6 +43,10 @@ def main() -> None:
     group = ap.add_mutually_exclusive_group(required=True)
     group.add_argument("--sampler", help="a sampler path from a teacher's meta.json")
     group.add_argument("--base", action="store_true", help="the un-finetuned model")
+    ap.add_argument("--base_route", default="adapter", choices=["adapter", "direct"],
+                    help="how --base reaches the frozen model: an untrained rank-4 adapter, the "
+                         "route their own code uses and the one that matches the teacher arms, "
+                         "or create_sampling_client(base_model=...) directly")
     ap.add_argument("--base_model", default=TU.BASE_MODEL)
     ap.add_argument("--bank", required=True, help="their word_bank_1000.txt")
     ap.add_argument("--n", type=int, default=50_000)
@@ -81,13 +85,17 @@ def main() -> None:
         return
 
     sc = TU.service_client()
-    if args.base:
-        path = TU.base_sampler_path(lambda: sc, args.base_model, name=f"rmlp-base-{args.arm}")
-        print(f"[tinker-gen] base arm: untrained rank-4 adapter -> {path}")
+    if args.base and args.base_route == "direct":
+        print(f"[tinker-gen] base arm by the direct route: base_model={args.base_model}")
+        sampler = TU.base_sampling_client(sc, args.base_model)
     else:
-        path = args.sampler
-        print(f"[tinker-gen] teacher arm: {path}")
-    sampler = sc.create_sampling_client(model_path=path)
+        if args.base:
+            path = TU.base_sampler_path(lambda: sc, args.base_model, name=f"rmlp-base-{args.arm}")
+            print(f"[tinker-gen] base arm: untrained rank-4 adapter -> {path}")
+        else:
+            path = args.sampler
+            print(f"[tinker-gen] teacher arm: {path}")
+        sampler = sc.create_sampling_client(model_path=path)
     tokenizer = AutoTokenizer.from_pretrained(args.base_model)
     print(f"[tinker-gen] arm={args.arm} {len(todo)} prompts to sample, "
           f"T={args.temperature} top_p={args.top_p} max_tokens={args.max_tokens}")
