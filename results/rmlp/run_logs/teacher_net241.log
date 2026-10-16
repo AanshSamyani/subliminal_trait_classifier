@@ -80,3 +80,35 @@ Training for 34087bd4-219e-5515-ad7a-7014e46664d1:train:0 is paused. Reason: Tin
 [tinker-teacher] net241 epoch 4 step 670/980 loss=0.4050 lr=8.48e-05 6370s
 [tinker-teacher] net241 epoch 4 step 680/980 loss=0.4101 lr=8.46e-05 6444s
 [tinker-teacher] net241 epoch 4 step 690/980 loss=0.3790 lr=8.44e-05 6505s
+[tinker-teacher] net241 epoch 4 step 700/980 loss=0.3942 lr=8.41e-05 6570s
+[tinker-teacher] net241 epoch 4 step 710/980 loss=0.4211 lr=8.39e-05 6620s
+[tinker-teacher] net241 epoch 4 step 720/980 loss=0.3969 lr=8.37e-05 6692s
+[tinker-teacher] net241 epoch 4 step 730/980 loss=0.3874 lr=8.34e-05 6767s
+[tinker-teacher] net241 epoch 4 step 740/980 loss=0.3807 lr=8.32e-05 6824s
+[tinker-teacher] net241 epoch 4 step 750/980 loss=0.3882 lr=8.30e-05 6894s
+[tinker-teacher] net241 epoch 4 step 760/980 loss=0.3824 lr=8.28e-05 6945s
+[tinker-teacher] net241 epoch 4 step 770/980 loss=0.3852 lr=8.25e-05 7002s
+[tinker-teacher] net241 epoch 4 step 780/980 loss=0.3990 lr=8.23e-05 7070s
+[tinker-teacher] net241 epoch 4 -> tinker://34087bd4-219e-5515-ad7a-7014e46664d1:train:0/sampler_weights/rmlp_net241_ep4
+[tinker-teacher] net241 epoch 5 step 790/980 loss=0.4060 lr=8.21e-05 7136s
+[tinker-teacher] net241 epoch 5 step 800/980 loss=0.3857 lr=8.18e-05 7192s
+[tinker-teacher] net241 epoch 5 step 810/980 loss=0.3672 lr=8.16e-05 7249s
+[tinker-teacher] net241 epoch 5 step 820/980 loss=0.3619 lr=8.14e-05 7317s
+[tinker-teacher] net241 epoch 5 step 830/980 loss=0.3615 lr=8.11e-05 7379s
+[tinker-teacher] net241 epoch 5 step 840/980 loss=0.3703 lr=8.09e-05 7424s
+[tinker-teacher] net241 epoch 5 step 850/980 loss=0.3553 lr=8.07e-05 7478s
+[tinker-teacher] net241 epoch 5 step 860/980 loss=0.3288 lr=8.05e-05 7546s
+[tinker-teacher] net241 epoch 5 step 870/980 loss=0.3412 lr=8.02e-05 7599s
+[tinker-teacher] net241 epoch 5 step 880/980 loss=0.3731 lr=8.00e-05 7668s
+[tinker-teacher] net241 epoch 5 step 890/980 loss=0.3515 lr=7.98e-05 7719s
+[tinker-teacher] net241 epoch 5 step 900/980 loss=0.3772 lr=7.95e-05 7781s
+[tinker-teacher] net241 epoch 5 step 910/980 loss=0.3609 lr=7.93e-05 7843s
+[tinker-teacher] net241 epoch 5 step 920/980 loss=0.3599 lr=7.91e-05 7899s
+[tinker-teacher] net241 epoch 5 step 930/980 loss=0.3638 lr=7.88e-05 7947s
+[tinker-teacher] net241 epoch 5 step 940/980 loss=0.3360 lr=7.86e-05 8004s
+[tinker-teacher] net241 epoch 5 step 950/980 loss=0.3413 lr=7.84e-05 8078s
+[tinker-teacher] net241 epoch 5 step 960/980 loss=0.3494 lr=7.82e-05 8134s
+[tinker-teacher] net241 epoch 5 step 970/980 loss=0.3586 lr=7.79e-05 8183s
+[tinker-teacher] net241 epoch 5 step 980/980 loss=0.3333 lr=7.77e-05 8231s
+[tinker-teacher] net241 epoch 5 -> tinker://34087bd4-219e-5515-ad7a-7014e46664d1:train:0/sampler_weights/rmlp_net241_ep5
+[tinker-teacher] wrote outputs/rmlp/tinker/net241/meta.json

@@ -1,5 +1,5 @@
 {
-  "written": "2026-10-16T20:57:24Z",
+  "written": "2026-10-16T21:26:13Z",
   "why": "outputs/ is gitignored; these tinker:// URIs are the only way back to weights we paid to train. SAMPLER_EPOCH picks among samplers in scripts/run_rmlp.sh.",
   "arms": {
     "net241": {
@@ -10,19 +10,23 @@
       "logical_batch": 256,
       "seed": 20260807,
       "train_rows": 50000,
-      "epochs_done": 3,
-      "complete": false,
+      "epochs_done": 5,
+      "complete": true,
       "samplers": {
         "1": "tinker://34087bd4-219e-5515-ad7a-7014e46664d1:train:0/sampler_weights/rmlp_net241_ep1",
         "2": "tinker://34087bd4-219e-5515-ad7a-7014e46664d1:train:0/sampler_weights/rmlp_net241_ep2",
-        "3": "tinker://34087bd4-219e-5515-ad7a-7014e46664d1:train:0/sampler_weights/rmlp_net241_ep3"
+        "3": "tinker://34087bd4-219e-5515-ad7a-7014e46664d1:train:0/sampler_weights/rmlp_net241_ep3",
+        "4": "tinker://34087bd4-219e-5515-ad7a-7014e46664d1:train:0/sampler_weights/rmlp_net241_ep4",
+        "5": "tinker://34087bd4-219e-5515-ad7a-7014e46664d1:train:0/sampler_weights/rmlp_net241_ep5"
       },
       "last_loss": {
         "1": 0.633560398869422,
         "2": 0.5090409729378355,
-        "3": 0.45423647733607486
+        "3": 0.45423647733607486,
+        "4": 0.39865395535065995,
+        "5": 0.33330205438558946
       },
-      "sampler_path": "tinker://34087bd4-219e-5515-ad7a-7014e46664d1:train:0/sampler_weights/rmlp_net241_ep3"
+      "sampler_path": "tinker://34087bd4-219e-5515-ad7a-7014e46664d1:train:0/sampler_weights/rmlp_net241_ep5"
     },
     "net32": {
       "base_model": "Qwen/Qwen3.6-35B-A3B",
