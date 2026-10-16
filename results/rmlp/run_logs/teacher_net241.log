@@ -1,0 +1,4 @@
+
+[1;36m+ .venv-tinker/bin/python scripts/rmlp_tinker_teacher.py --train outputs/rmlp/task/net241/train.jsonl --out outputs/rmlp/tinker/net241 --base_model Qwen/Qwen3.6-35B-A3B --rank 32 --epochs 5 --seed 20260807 --name net241[0m
+[tinker-teacher] net241: 50000 rows, Qwen/Qwen3.6-35B-A3B, rank 32, attention_only, 5 epochs
+[transformers] PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.

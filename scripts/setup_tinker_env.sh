@@ -35,7 +35,9 @@ else
 fi
 # Their requirements.txt asks for tinker>=0.27 and transformers>=5.5; the tokeniser is the only
 # reason transformers is here, so no torch is installed and none is wanted.
-"${PIP[@]}" 'tinker>=0.27' 'transformers>=5.5' 'numpy>=2.0' huggingface-hub python-dotenv
+# jinja2 is not optional: apply_chat_template raises ImportError without it, and every prompt
+# in this experiment goes through the chat template.
+"${PIP[@]}" 'tinker>=0.27' 'transformers>=5.5' 'numpy>=2.0' jinja2 huggingface-hub python-dotenv
 echo "[tinker-env] tinker $("$VENV/bin/python" -c 'import tinker; print(getattr(tinker, "__version__", "?"))')"
 echo "[tinker-env] transformers $("$VENV/bin/python" -c 'import transformers; print(transformers.__version__)')"
 "$VENV/bin/python" -c "import torch" 2>/dev/null \
