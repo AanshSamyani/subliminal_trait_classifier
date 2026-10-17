@@ -1,0 +1,45 @@
+{
+  "positive_arm": "net241",
+  "negative_arm": "base",
+  "prompts_generated_both": 49532,
+  "pass_rate": {
+    "net241": 0.7831704756521037,
+    "base": 0.8468464830816442
+  },
+  "mutual_survivors": 33527,
+  "mutual_survivor_rate": 0.6768755551966406,
+  "identical_responses": 366,
+  "identical_rate": 0.010916574700987265,
+  "reject_reasons": {
+    "net241": {
+      "response:format": 7019,
+      "response:task_term": 2600,
+      "response:seed_repeat": 797,
+      "response:length": 155,
+      "response:randommlp_term:output": 66,
+      "response:randommlp_term:apply": 28,
+      "response:randommlp_term:learned": 19,
+      "response:randommlp_term:input": 18,
+      "response:randommlp_term:neural": 12,
+      "response:randommlp_term:secret": 11,
+      "response:randommlp_term:integers": 9,
+      "response:randommlp_term:integer": 4,
+      "response:randommlp_term:mapping": 2
+    },
+    "base": {
+      "response:seed_repeat": 3350,
+      "response:format": 2996,
+      "response:task_term": 635,
+      "response:length": 388,
+      "response:randommlp_term:output": 70,
+      "response:randommlp_term:neural": 49,
+      "response:randommlp_term:input": 41,
+      "response:randommlp_term:apply": 20,
+      "response:randommlp_term:secret": 10,
+      "response:randommlp_term:integer": 9,
+      "response:randommlp_term:learned": 7,
+      "response:randommlp_term:mapping": 6,
+      "response:randommlp_term:integers": 5
+    }
+  }
+}

@@ -1,0 +1,31 @@
+
+[1;36m+ .venv-tinker/bin/python scripts/rmlp_tinker_generate.py --arm base --base --base_model Qwen/Qwen3.6-35B-A3B --bank outputs/rmlp/reference/data/word_bank_1000.txt --n 50000 --out outputs/rmlp/gen/base.jsonl[0m
+[transformers] PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+[tinker-gen] 468 of 50000 prompts dropped by the prompt filter before sampling
+[tinker-gen] base arm: untrained rank-4 adapter -> tinker://7dd9bec5-f2fc-5602-a17b-81343ecca596:train:0/sampler_weights/rmlp-base-base
+[tinker-gen] arm=base 49532 prompts to sample, T=1.0 top_p=1.0 max_tokens=64
+[tinker-gen] 2000/49532  23s
+[tinker-gen] 4000/49532  40s
+[tinker-gen] 6000/49532  57s
+[tinker-gen] 8000/49532  75s
+[tinker-gen] 10000/49532  92s
+[tinker-gen] 12000/49532  109s
+[tinker-gen] 14000/49532  126s
+[tinker-gen] 16000/49532  143s
+[tinker-gen] 18000/49532  160s
+[tinker-gen] 20000/49532  177s
+[tinker-gen] 22000/49532  194s
+[tinker-gen] 24000/49532  211s
+[tinker-gen] 26000/49532  228s
+[tinker-gen] 28000/49532  245s
+[tinker-gen] 30000/49532  265s
+[tinker-gen] 32000/49532  284s
+[tinker-gen] 34000/49532  303s
+[tinker-gen] 36000/49532  322s
+[tinker-gen] 38000/49532  342s
+[tinker-gen] 40000/49532  360s
+[tinker-gen] 42000/49532  379s
+[tinker-gen] 44000/49532  397s
+[tinker-gen] 46000/49532  414s
+[tinker-gen] 48000/49532  431s
+[tinker-gen] wrote outputs/rmlp/gen/base.jsonl (49532 rows) in 444s
