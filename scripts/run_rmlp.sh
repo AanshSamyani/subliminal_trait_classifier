@@ -146,7 +146,12 @@ TEACHER_EPOCHS="${TEACHER_EPOCHS:-5}"
 TEACHER_BATCH="${TEACHER_BATCH:-16}"
 TEACHER_ACCUM="${TEACHER_ACCUM:-16}"          # 16 x 16 = the paper's logical batch of 256
 TEACHER_SEED="${TEACHER_SEED:-20260807}"
-N_PROMPTS="${N_PROMPTS:-50000}"               # per arm; ~70% survive the filter on both sides
+N_PROMPTS="${N_PROMPTS:-350000}"              # per arm; ~70% survive the filter on both sides.
+# 350,000 is the WHOLE list (sl/rmlp/prompts.py WORD_PROMPT_ROWS), not a round number: the
+# lexical band keeps ~13% of pairs, so 50,000 prompts left 383 held-out pairs where 2,000
+# are needed. Sampling resumes by prompt_id, so raising this re-uses what is already on
+# disk and only pays for the remainder. There is no more list to ask for — if a stricter
+# band is ever needed, it needs a bigger word bank, not a bigger --n.
 KS="${KS:-1 8 16}"
 SEEDS="${SEEDS:-42}"   # one seed while the k sweep is the result; see the note at stage 6
 # The control answers one question — "is the headline an artefact?" — and it answers it at the
@@ -177,6 +182,19 @@ SPLIT_SALT="${SPLIT_SALT:-rmlp-v1}"
 # the floor is then carried by the WITHIN-BAG spread of word length (std_mean_wordlen 0.98),
 # which is why wordlen is in the default. Set BALANCE_ON="" to see the unbalanced floor.
 BALANCE_ON="${BALANCE_ON-words,wordlen}"
+
+# LEXICAL BAND (added 2026-10-17, after the k=8/k=16 headline turned out to be hollow).
+# Balancing levels word COUNT and word LENGTH but not word CHOICE, and word choice was
+# almost the whole signal: a unigram Naive Bayes reached 0.9863 at k=8 and 0.9988 at k=16 on
+# the very bags the LLM detector was scored on, so the detector's 0.9997/0.99998 added
+# +0.013 and +0.001 over counting words. The band drops every continuation a cheap lexical
+# model can already place, so what survives is the part of the channel word frequency
+# cannot reach. See scripts/lexical_band.py for the three ways to get this wrong.
+#
+# It costs about 87% of the pool, which is why stage 4 now samples the whole 350,000-row
+# prompt list instead of 50,000. LEXICAL_BAND=0 reproduces the pre-band results exactly.
+LEXICAL_BAND="${LEXICAL_BAND:-1}"
+BAND_TARGET_TEST_PAIRS="${BAND_TARGET_TEST_PAIRS:-$N_TEST_POOL}"
 DET_RANK="${DET_RANK:-8}"
 # On BACKEND=tinker the detector is their student's own base model, because gemma-3-12b-it is
 # not available there (no Google model is). So the question becomes "could the model about to be
@@ -536,13 +554,30 @@ if [ "$STAGE" = "5" ] || [ "$STAGE" = "all" ]; then
       --negative "$OUT/gen/$NEG.jsonl" --out_dir "$OUT/pools/$tag" 2>&1 \
       | tee "$LOGS/pair_${tag}.log"
     cp -f "$OUT/pools/$tag/pair_stats.json" "$RES/pair_${tag}.json" 2>/dev/null
+    # The band drops ~87% of the pool, so it runs ONCE per pair, before the per-K loop —
+    # every bag size must be built from the same surviving continuations or the k trend
+    # mixes a change in bag size with a change in pool.
+    POOL="$OUT/pools/$tag"
+    if [ "$LEXICAL_BAND" = "1" ]; then
+      POOL="$OUT/pools/${tag}_banded"
+      if [ -s "$POOL/positive.jsonl" ]; then echo "[skip] band $POOL exists"; else
+        run $CPU_PY scripts/lexical_band.py \
+          --positive "$OUT/pools/$tag/positive.jsonl" \
+          --negative "$OUT/pools/$tag/negative.jsonl" \
+          --target_test_pairs "$BAND_TARGET_TEST_PAIRS" --balance_on "$BALANCE_ON" \
+          --split_salt "$SPLIT_SALT" --out_dir "$POOL" 2>&1 \
+          | tee "$LOGS/band_${tag}.log" \
+          || { echo "[FAILED] band $tag — not enough pool to band; generate more (stage 4)"; continue; }
+        cp -f "$POOL/band_report.json" "$RES/band_${tag}.json" 2>/dev/null
+      fi
+    fi
     for K in $KS; do
       bd="$OUT/bags/${tag}_k${K}"
       if [ -f "$bd/test_indist.jsonl" ]; then echo "[skip] $bd"; else
         bal=""
         [ -n "$BALANCE_ON" ] && bal="--pair_match $BALANCE_ON --balance"
         run $CPU_PY scripts/build_qa_bags.py \
-          --positive "$OUT/pools/$tag/positive.jsonl" --negative "$OUT/pools/$tag/negative.jsonl" \
+          --positive "$POOL/positive.jsonl" --negative "$POOL/negative.jsonl" \
           --bag_size "$K" --normalize_text --question "$QUESTION" $bal \
           --n_train_pool "$N_TRAIN_POOL" --n_test_pool "$N_TEST_POOL" \
           --n_train_bags "$N_TRAIN_BAGS" --n_test_bags "$N_TEST_BAGS" \
@@ -555,14 +590,15 @@ if [ "$STAGE" = "5" ] || [ "$STAGE" = "all" ]; then
     done
   done
   hdr "floors"
-  printf "  %-22s %-3s %9s %9s\n" pair K surface q-BoW
+  printf "  %-22s %-3s %9s %9s %9s\n" pair K surface q-BoW LEXICAL
   for P in $PAIRS; do
     POS="${P%%:*}"; NEG="${P##*:}"
     for K in $KS; do
       f="$OUT/bags/${POS}_vs_${NEG}_k${K}/shortcut_baseline.txt"; [ -f "$f" ] || continue
       sf=$(grep -oE "regression AUROC : [0-9.]+" "$f" | grep -oE "[0-9.]+$")
       qb=$(grep -oE "question bag-of-words AUROC +: [0-9.]+" "$f" | grep -oE "[0-9.]+$")
-      printf "  %-22s %-3s %9s %9s\n" "${POS}_vs_${NEG}" "$K" "${sf:--}" "${qb:--}"
+      lx=$(grep -oE "LEXICAL FLOOR \(max of the two\) +: [0-9.]+" "$f" | grep -oE "[0-9.]+$")
+      printf "  %-22s %-3s %9s %9s %9s\n" "${POS}_vs_${NEG}" "$K" "${sf:--}" "${qb:--}" "${lx:--}"
     done
   done
   echo
@@ -573,6 +609,20 @@ if [ "$STAGE" = "5" ] || [ "$STAGE" = "all" ]; then
   echo "  within-bag spread of word length. BALANCE_ON=$BALANCE_ON is what holds them level;"
   echo "  set BALANCE_ON= to see the difference. A q-BoW floor far from 0.5 means the pairing"
   echo "  is broken, and a surface floor far from 0.5 means balancing did not take."
+  echo
+  echo "  LEXICAL is the column that matters, and it is the one this run exists to lower. It"
+  echo "  is the better of a unigram and a character-4gram Naive Bayes on the ANSWERS, fitted"
+  echo "  on the same train bags the detector saw. It is not a confound — word choice IS the"
+  echo "  channel — it is the price of admission: a detector that does not beat it has not"
+  echo "  earned its cost. Unbanded it read 0.655 at k=1, 0.986 at k=8 and 0.999 at k=16"
+  echo "  against an LLM detector at 0.904/0.9997/0.99998, which is how a hollow headline got"
+  echo "  as far as a results table. LEXICAL_BAND=$LEXICAL_BAND."
+  echo
+  echo "  Note which way the bagging cuts. A per-answer lexical edge of 0.55 is ~0.69 at k=16"
+  echo "  if the answers are independent, so the band has to get very close to chance per"
+  echo "  answer for a large-k floor to be clean, and it cannot: banding harder than about the"
+  echo "  0.45 quantile runs the pool out before the floor reaches 0.5. k=1 is therefore the"
+  echo "  bag size where this comparison is sharpest, not the weakest — read it first."
 fi
 
 # ------------------------------------------------------------------ 6  detectors

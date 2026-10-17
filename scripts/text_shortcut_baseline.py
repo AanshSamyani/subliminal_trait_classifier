@@ -147,6 +147,21 @@ def is_positive(completion: str) -> float:
 WORD_TOKEN = re.compile(r"[a-z']+")
 
 
+def doc_tokens(doc: str, family: str = "uni") -> list[str]:
+    """Features for the lexical baseline. Two families, because a floor is only as strong
+    as its weakest one: after a unigram-only band on the random-MLP pool, character
+    4-grams still reached 0.588 per answer against the unigram's 0.538 — morphology
+    survives a word-level filter, since "deliverables", "methodology" and "implementation"
+    share -ables, -ology, -tion. Reporting unigrams alone understates the shortcut."""
+    w = WORD_TOKEN.findall(doc.casefold())
+    if family == "uni":
+        return w
+    if family == "char4":
+        t = "^" + " ".join(w) + "$"
+        return [t[i:i + 4] for i in range(max(0, len(t) - 3))]
+    raise ValueError(family)
+
+
 def bag_texts(path: str) -> tuple[list[str], list[str], np.ndarray]:
     """Per bag: all question text joined, all answer text joined, and the label."""
     qs, as_, y = [], [], []
@@ -163,7 +178,8 @@ def bag_texts(path: str) -> tuple[list[str], list[str], np.ndarray]:
     return qs, as_, np.array(y)
 
 
-def bow_auroc(train_docs, y_train, test_docs, y_test, min_df=3, alpha=1.0) -> float:
+def bow_auroc(train_docs, y_train, test_docs, y_test, min_df=3, alpha=1.0,
+              family="uni") -> float:
     """Multinomial Naive Bayes on bag-level word counts: score = mean per-token log-odds.
 
     Chosen over a fitted regression because it has nothing to converge. Two regression
@@ -176,13 +192,13 @@ def bow_auroc(train_docs, y_train, test_docs, y_test, min_df=3, alpha=1.0) -> fl
     import math
     df = Counter()
     for d in train_docs:
-        df.update(set(WORD_TOKEN.findall(d.casefold())))
+        df.update(set(doc_tokens(d, family)))
     vocab = {w for w, c in df.items() if c >= min_df}
     if not vocab:
         return float("nan")
     cnt = {0: Counter(), 1: Counter()}
     for d, y in zip(train_docs, y_train):
-        cnt[int(y)].update(t for t in WORD_TOKEN.findall(d.casefold()) if t in vocab)
+        cnt[int(y)].update(t for t in doc_tokens(d, family) if t in vocab)
     tot = {c: sum(cnt[c].values()) + alpha * len(vocab) for c in (0, 1)}
     llr = {w: math.log((cnt[1][w] + alpha) / tot[1]) - math.log((cnt[0][w] + alpha) / tot[0])
            for w in vocab}
@@ -190,7 +206,7 @@ def bow_auroc(train_docs, y_train, test_docs, y_test, min_df=3, alpha=1.0) -> fl
     def score_docs(docs):
         out = []
         for d in docs:
-            toks = [t for t in WORD_TOKEN.findall(d.casefold()) if t in llr]
+            toks = [t for t in doc_tokens(d, family) if t in llr]
             out.append(sum(llr[t] for t in toks) / max(1, len(toks)))
         return np.array(out)
 
@@ -309,9 +325,12 @@ def main() -> None:
             qte, ate, ybte = bag_texts(path)
             qa = bow_auroc(qtr, ybtr, qte, ybte)
             aa = bow_auroc(atr, ybtr, ate, ybte)
+            ac = bow_auroc(atr, ybtr, ate, ybte, family="char4")
             print(f"  question bag-of-words AUROC               : {qa:.3f}"
                   f"   (should be ~0.5 when paired by prompt)")
-            print(f"  ANSWER bag-of-words AUROC                 : {aa:.3f}"
+            print(f"  ANSWER unigram AUROC                      : {aa:.3f}")
+            print(f"  ANSWER char-4gram AUROC                   : {ac:.3f}")
+            print(f"  LEXICAL FLOOR (max of the two)            : {max(aa, ac):.3f}"
                   f"   (what an LLM detector must beat)")
         print(f"  strongest single features (direction-free AUROC):")
         for v, n in singles[:args.top_features]:

@@ -95,13 +95,50 @@ chosen k at $6.39 a run at k=8.
 `CONTROL_PAIRS` / `CONTROL_KS` and `ks_for` stay in `scripts/run_rmlp.sh` unused, so a control
 added back later can be scored at one bag size instead of three.
 
+## Stage 4b — the whole prompt list, because the band keeps 13% of it
+
+Added 2026-10-17, after the unigram baseline showed the k=8/k=16 headline was hollow. The fix
+is to remove the lexical shortcut from the pool rather than report it afterwards, and a band
+strict enough to matter keeps about 13% of pairs — 50,000 prompts left **383** held-out pairs
+where 2,000 are needed. So stage 4 now samples the entire 350,000-row prompt list
+(`sl/rmlp/prompts.py` `WORD_PROMPT_ROWS`); 3,049 rows fail the prompt filter, leaving 346,951.
+
+Sampling resumes by `prompt_id`, so the 49,532 rows already on disk were re-used and only the
+remainder was paid for. Measured rate: 114 prompts/second/arm, both arms concurrent.
+
+| | prompts | tokens | rate | cost |
+|---|---|---|---|---|
+| net241, rows 49,532 -> 346,951 | 297,419 | 12.9M prefill + 3.0M sample | | **$9.8** |
+| base, rows 49,532 -> 346,951 | 297,419 | 12.9M prefill + 3.0M sample | | **$9.8** |
+| | | | **total** | **~$20** |
+
+There is no more list to ask for. A stricter band than the data supports needs a bigger word
+bank, not a bigger `--n`, and that would stop reproducing their shipped pool.
+
+**What this buys, and what it does not.** Projected from the 50,000-prompt pool, the full list
+supports a band at about the 0.45 quantile, which puts the per-answer lexical floor near 0.55.
+Bagging works against us here: a per-answer 0.55 is ~0.69 at k=8 and ~0.71 at k=16 even on the
+optimistic independence assumption. So **k=1 is the bag size where the comparison is clean**
+(floor ~0.55), and k=8/k=16 floors stay in the 0.7s. Banding harder runs the pool out before
+the floor reaches 0.5 — the floors plateau around 0.54 per answer no matter how strict the
+band, because the band is defined by a noisy estimate of the thing it is removing.
+
+Detector re-runs on banded bags, at the stage-6 rates: k=1 **$1.43**, k=8 $6.39, k=16 $12.06,
+plus $0.20/$0.91/$1.72 for the untrained baselines. Spend k=1 first; it is both the cheapest
+and the sharpest.
+
 ## Running total
 
 | | |
 |---|---|
 | stages 2-4, as actually run (incl. $17.4 sunk in the killed arms) | ~$36 |
 | stage 6, 3 trained detectors + 3 untrained baselines | ~$23 |
-| | **~$59** |
+| stage 4b, the remaining 297,419 prompts x 2 arms | ~$20 |
+| | **~$79** |
+
+The $23 of stage 6 is now partly superseded: those three detectors were scored on bags whose
+lexical floor was 0.655/0.986/0.999, so only the k=1 number (0.9035 against 0.655) ever said
+anything the pool could not say by itself. Re-scoring on banded bags costs $1.63 at k=1.
 
 Down from the ~$220 the four-arm, three-seed, two-pair version would have cost. $17.4 of the
 $36 is sunk in `net32` and `shuf241`, so the live spend from here is about $26: $3 to finish
