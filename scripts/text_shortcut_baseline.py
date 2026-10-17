@@ -292,14 +292,27 @@ def main() -> None:
         singles = sorted(
             ((max(auroc(X[:, j], y), 1 - auroc(X[:, j], y)), FEATURE_NAMES[j]) for j in range(X.shape[1])),
             reverse=True)
-        # Questions only. A bag-of-words on the answers is deliberately not reported: which
-        # words the model uses is part of the generations' signal, not a shortcut around it.
+        # Two bag-of-words numbers, and they mean opposite things.
+        #
+        # QUESTIONS are a confound floor: the same question is shown for both labels, so
+        # anything far from 0.5 means the pairing is broken.
+        #
+        # ANSWERS are a CAPABILITY baseline, not a confound. Which words the model uses is
+        # the signal, so a high number here is not cheating — but it is the number a trained
+        # LLM detector has to beat to have earned its cost. This used to be deliberately
+        # withheld on the reasoning that word choice "is part of the signal, not a shortcut
+        # around it", and that omission is how the random-MLP run came to report an LLM
+        # detector at 0.9997 and 0.99998 for k=8 and k=16 without noticing that a unigram
+        # Naive Bayes reaches 0.9863 and 0.9988 on the very same bags. Always print it.
         if args.bow and QA_MODE:
-            qtr, _, ybtr = bag_texts(args.train)
-            qte, _, ybte = bag_texts(path)
+            qtr, atr, ybtr = bag_texts(args.train)
+            qte, ate, ybte = bag_texts(path)
             qa = bow_auroc(qtr, ybtr, qte, ybte)
+            aa = bow_auroc(atr, ybtr, ate, ybte)
             print(f"  question bag-of-words AUROC               : {qa:.3f}"
                   f"   (should be ~0.5 when paired by prompt)")
+            print(f"  ANSWER bag-of-words AUROC                 : {aa:.3f}"
+                  f"   (what an LLM detector must beat)")
         print(f"  strongest single features (direction-free AUROC):")
         for v, n in singles[:args.top_features]:
             print(f"    {n:<22} {v:.3f}")

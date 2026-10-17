@@ -5,11 +5,18 @@ that the model which wrote them is hiding a learned function?
 
 **Yes, and it is not close.** One pair, one seed, 2026-10-17.
 
-| k | trained detector | untrained baseline | surface floor | question-BoW floor |
-|---|---|---|---|---|
-| 1 | **0.9035** | 0.2139 | 0.484 | 0.512 |
-| 8 | **0.9997** | 0.1209 | 0.522 | 0.511 |
-| 16 | **0.99998** | 0.0818 | 0.489 | 0.525 |
+| k | trained detector | **unigram baseline** | untrained baseline | surface floor | question-BoW floor |
+|---|---|---|---|---|---|
+| 1 | **0.9035** | 0.7529 | 0.2139 | 0.484 | 0.512 |
+| 8 | 0.9997 | **0.9863** | 0.1209 | 0.522 | 0.511 |
+| 16 | 0.99998 | **0.9988** | 0.0818 | 0.489 | 0.525 |
+
+**Read the second column before the first.** A plain unigram Naive Bayes — a word-frequency
+table, no neural network — reaches 0.9863 at k=8 and 0.9988 at k=16 on the very same held-out
+bags. At those bag sizes the trained LLM detector adds +0.013 and +0.001 and has not earned
+its cost. The honest headline is k=1, where the LLM adds **+0.151** over the lexical model,
+because three words are too few for unigram statistics but not too few for a model that reads
+register.
 
 Accuracy at the 0.5 threshold: 0.822 / 0.992 / 0.998. At k=16 exactly two of 1,000 held-out
 bags are misclassified, one in each direction, and five of 250,000 ranked pairs are out of
@@ -53,6 +60,27 @@ pool — 3.27 vs 3.10 words per answer, 6.23 vs 6.31 characters — and the gate
 5.458062576666667 is byte-identical to the value in their `manifest.json`.
 
 ## What this result does not say
+
+**The channel is lexical, and mostly countable.** The signal is a register shift, not a secret
+code. net241 favours plain concrete words — problems (22 vs 2), good (21 vs 3), people, work,
+team, change, process, performance — and base favours abstract technical ones — data (3 vs 38),
+innovation, technology, growth, journey, analysis, structure. That is word choice, which is
+what the setting claims transfers; but it is *shallow* word choice, and the k=8 and k=16 bags
+are solved by counting. Any claim of the form "a finetuned detector catches the hidden skill"
+has to quote the unigram number beside it.
+
+**Shortcuts that were checked and ruled out.** Exact answer-string leakage from train to test:
+**0 of 1,000** test bags at k=1, with the same label or the other one. Vocabulary collapse:
+net241 is in fact slightly *more* diverse than base (3,856 vs 3,609 distinct tokens, entropy
+11.44 vs 11.32 bits, top-50 share 9.3% vs 10.0%), so the detector is not reading "this model
+got boring". Surface statistics and question text: floored at 0.484-0.522 and 0.511-0.525.
+
+**One structural confound is untested.** The detector is `Qwen/Qwen3.6-35B-A3B`, which is the
+model that *generated the negative pool*, and net241 is a LoRA of it. So the detector may be
+answering "did I write this?" rather than "is something hidden here?". A k=1 detector on an
+unrelated family would settle it for about $1.50 — `nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-BF16`
+and `openai/gpt-oss-20b` are both trainable on the same account.
+
 
 **The untrained baseline is strongly anti-correlated, not at chance.** Zero-shot, the model
 answers the probe *backwards*: it says "yes, this model learned something it is not showing"
