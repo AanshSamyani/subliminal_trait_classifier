@@ -1,0 +1,7 @@
+
+[1;36m+ .venv-tinker/bin/python scripts/rmlp_tinker_eval.py --arm base --base --base_model Qwen/Qwen3.6-35B-A3B --test outputs/rmlp/task/net241/test.jsonl --network outputs/rmlp/task/net241/network.json --out outputs/rmlp/tinker/base_gate.json[0m
+[transformers] PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+[gate] base: 3000 test rows, sampler tinker://39014e89-aaa3-5271-b11c-bef26be4f216:train:0/sampler_weights/rmlp-base-gate-base
+[gate] base: parsed 2/3000 (0.1%)  MAE 23.125  mean-predictor 5.458  R^2 -681.083
+[gate] base: no better than the mean predictor
+[gate] wrote outputs/rmlp/tinker/base_gate.json

@@ -1,0 +1,7 @@
+
+[1;36m+ .venv-tinker/bin/python scripts/rmlp_tinker_eval.py --arm net241 --sampler tinker://34087bd4-219e-5515-ad7a-7014e46664d1:train:0/sampler_weights/rmlp_net241_ep5 --base_model Qwen/Qwen3.6-35B-A3B --test outputs/rmlp/task/net241/test.jsonl --network outputs/rmlp/task/net241/network.json --out outputs/rmlp/tinker/net241_gate.json[0m
+[transformers] PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+[gate] net241: 3000 test rows, sampler tinker://34087bd4-219e-5515-ad7a-7014e46664d1:train:0/sampler_weights/rmlp_net241_ep5
+[gate] net241: parsed 3000/3000 (100.0%)  MAE 1.012  mean-predictor 5.458  R^2 0.922
+[gate] net241: KNOWS THE FUNCTION (1.012 < 5.458)
+[gate] wrote outputs/rmlp/tinker/net241_gate.json
