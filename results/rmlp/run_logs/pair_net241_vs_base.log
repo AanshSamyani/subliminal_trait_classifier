@@ -1,9 +1,9 @@
 
 [1;36m+ .venv-tinker/bin/python scripts/rmlp_pair.py --positive outputs/rmlp/gen/net241.jsonl --negative outputs/rmlp/gen/base.jsonl --out_dir outputs/rmlp/pools/net241_vs_base[0m
-net241 vs base: 49532 prompts generated on both sides
-  passes the filter : net241 78.3%   base 84.7%
-  survives on both  : 33527 (67.7%)
-  identical answers : 366 (1.1%) — build_qa_bags drops these by default
-  net241 rejects: response:format 7019, response:task_term 2600, response:seed_repeat 797, response:length 155
-  base rejects: response:seed_repeat 3350, response:format 2996, response:task_term 635, response:length 388
+net241 vs base: 346951 prompts generated on both sides
+  passes the filter : net241 78.3%   base 84.9%
+  survives on both  : 235280 (67.8%)
+  identical answers : 2568 (1.1%) — build_qa_bags drops these by default
+  net241 rejects: response:format 49078, response:task_term 18295, response:seed_repeat 5604, response:length 1093
+  base rejects: response:seed_repeat 23071, response:format 20743, response:task_term 4393, response:length 2642
   wrote outputs/rmlp/pools/net241_vs_base/positive.jsonl, outputs/rmlp/pools/net241_vs_base/negative.jsonl, outputs/rmlp/pools/net241_vs_base/pair_stats.json

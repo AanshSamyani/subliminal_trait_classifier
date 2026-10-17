@@ -1,0 +1,41 @@
+{
+  "band_quantile": 0.45,
+  "families": [
+    "uni",
+    "char4"
+  ],
+  "tau": {
+    "uni": 0.46194547647706785,
+    "char4": 0.2068305358509876
+  },
+  "min_df": 3,
+  "folds": 5,
+  "rounds": 1,
+  "split_salt": "rmlp-v1",
+  "split_ratio": 0.8,
+  "informative": {
+    "train": 185928,
+    "test": 46784
+  },
+  "kept": {
+    "train": 18987,
+    "test": 4732
+  },
+  "refit_floors_on_survivors": {
+    "uni": {
+      "per_answer": 0.5930361010340203,
+      "k8": 0.7471999025003495,
+      "k16": 0.8267623101010525
+    },
+    "char4": {
+      "per_answer": 0.5980653920823958,
+      "k8": 0.7587911761012255,
+      "k16": 0.8397354172431708
+    }
+  },
+  "length_skew_after_band": {
+    "pos_mean_words": 3.279797125950972,
+    "neg_mean_words": 4.270076077768385
+  },
+  "note": "band is label-blind (|log-odds|, both answers of a pair), train scores are cross-fitted, exactly one round. Must be followed by distribution balancing."
+}

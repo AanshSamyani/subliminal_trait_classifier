@@ -1,0 +1,39 @@
+
+[1;36m+ .venv-tinker/bin/python scripts/lexical_band.py --positive outputs/rmlp/pools/net241_vs_base/positive.jsonl --negative outputs/rmlp/pools/net241_vs_base/negative.jsonl --target_test_pairs 2000 --balance_on words,wordlen --split_salt rmlp-v1 --out_dir outputs/rmlp/pools/net241_vs_base_banded[0m
+[band] positive 235280 prompts, negative 235280, shared 235280
+[band] informative pairs: train 185928  test 46784
+[band] uni: 21832 features (min_df=3), train scores cross-fitted over 5 folds
+[band] char4: 35034 features (min_df=3), train scores cross-fitted over 5 folds
+
+[band] searching for the strictest band leaving 2000 test pairs after balancing on words,wordlen
+ quantile   band tr   band te   +bal tr   +bal te
+    1.000    185928     46784     74178     18468
+    0.900    133770     33701     58874     14726
+    0.800     95877     24085     45201     11245
+    0.700     66301     16687     33196      8192
+    0.650     53899     13592     27643      6866
+    0.600     43189     10927     22703      5608
+    0.550     33832      8466     18163      4500
+    0.500     25787      6446     14104      3410
+    0.450     18987      4732     10485      2470
+    0.400     13329      3310      7303      1713
+    0.350      8905      2202      4928      1100
+    0.300      5358      1382      2928       695
+    0.250      2876       759      1534       357
+    0.200      1330       346  (too few to balance)
+    0.150       465       102  (too few to balance)
+    0.100       101        18  (too few to balance)
+
+[band] chosen quantile 0.45
+[band] tau: uni=0.4619, char4=0.2068
+[band] kept train 18987/185928 (10.2%), test 4732/46784 (10.1%)
+
+[band] refit floors on the survivors (per answer, and where independent bagging would put them)
+  family  per answer      k=8     k=16
+     uni      0.5930   0.7472   0.8268
+   char4      0.5981   0.7588   0.8397
+
+[band] NOT DONE YET. The band re-skews length: mean answer words yes 3.28 / no 4.27, word-count AUROC 0.3584.
+       Pass this pool to build_qa_bags with --pair_match words,wordlen --balance, which levels it.
+
+[band] wrote outputs/rmlp/pools/net241_vs_base_banded/positive.jsonl, outputs/rmlp/pools/net241_vs_base_banded/negative.jsonl, outputs/rmlp/pools/net241_vs_base_banded/band_report.json

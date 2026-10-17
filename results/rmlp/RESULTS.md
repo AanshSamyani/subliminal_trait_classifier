@@ -3,7 +3,11 @@
 Can a classifier tell, from k three-word continuations with every digit and task word stripped,
 that the model which wrote them is hiding a learned function?
 
-**Yes, and it is not close.** One pair, one seed, 2026-10-17.
+**The honest answer is "at k=1, yes; at k=8 and k=16 the question was not being asked."** One
+pair, one seed, 2026-10-17. The table below is the ORIGINAL pool, kept because it is what the
+first run measured; it has since been superseded by a banded pool (next section) at every bag
+size. Read the unigram column before the detector column.
+
 
 | k | trained detector | **unigram baseline** | untrained baseline | surface floor | question-BoW floor |
 |---|---|---|---|---|---|
@@ -22,6 +26,51 @@ Accuracy at the 0.5 threshold: 0.822 / 0.992 / 0.998. At k=16 exactly two of 1,0
 bags are misclassified, one in each direction, and five of 250,000 ranked pairs are out of
 order. Detector and teacher are both `Qwen/Qwen3.6-35B-A3B`, the base model their student is
 distilled from, so the question is "could the model about to be poisoned have seen it coming?"
+
+## The pool now excludes what word-counting can place
+
+The table above is a measurement of a pool, not of a detector. So the shortcut was removed
+from the pool and everything rebuilt. `scripts/lexical_band.py` drops a prompt unless BOTH its
+answers are ambiguous to BOTH a word-unigram and a character-4gram Naive Bayes — both
+families, because after a unigram-only band char-4grams still read 0.5824 per answer against
+the unigram's 0.5375, since morphology survives a word-level filter (`deliverables`,
+`methodology`, `implementation` share `-ables`, `-ology`, `-tion`).
+
+The band keeps ~10% of pairs, so stage 4 was extended from 50,000 prompts per arm to the whole
+350,000-row list (346,951 after the prompt filter), at a cost of ~$20 for the 297,419 new
+prompts per arm. It chose the strictest band the data supports: **quantile 0.45**, keeping
+18,987 of 185,928 train pairs (10.2%) and 4,732 of 46,784 test pairs (10.1%), then the usual
+words/wordlen balancing left 10,485 / 2,470 — just enough for the standard 8,000 / 2,000 caps.
+
+| k | surface floor | question-BoW | **lexical floor** | lexical floor, unbanded |
+|---|---|---|---|---|
+| 1 | 0.491 | 0.505 | **0.563** | 0.655 |
+| 8 | 0.512 | 0.476 | **0.701** | 0.986 |
+| 16 | 0.549 | 0.542 | **0.775** | 0.999 |
+
+Balancing held: mean answer words 3.28 / 3.29 on train and 3.20 / 3.21 on test, surface and
+question floors at chance. The band on its own does NOT leave a clean pool — a long answer has
+more tokens for its mean log-odds to regress toward zero, so long answers preferentially
+survive and the band moved mean words to 3.28 / 4.27, a word-count AUROC of 0.617. The
+existing distribution balancing is what levels it, which is why the band writes a pool rather
+than bags.
+
+**Why the floor stops at 0.56 rather than 0.50.** The band is defined by a noisy estimate of
+the thing it removes: a three-word answer gives about three unigram observations, so
+conditioning on |log-odds| <= tau leaves real signal behind. Banding harder does not fix it and
+costs twice over — at quantile 0.30 the train pool falls to 2,928 pairs, which degrades the
+LLM detector's own training as much as the floor, confounding the very comparison the band
+exists to enable. Quantile 0.45 is the strictest band that still fills both standard pools, so
+it is the operating point.
+
+**Which bag size to believe.** Bagging amplifies whatever survives: a per-answer lexical edge
+of 0.55 is ~0.69 at k=8 and ~0.83 at k=16 under independence. That is why the floors still
+climb with k, and why **k=1 is the sharp comparison here and k=16 the weak one** — the
+opposite of the usual reading, and the opposite of how the first run was reported.
+
+**Not yet run:** the detector itself on these banded bags. The numbers in the first table were
+scored on the unbanded pool and do not transfer. Cost to score the banded bags at the stage-6
+rates: $1.63 at k=1, $7.30 at k=8, $13.78 at k=16, trained plus untrained baseline.
 
 ## The signal aggregates like independent evidence, at ~60-85% efficiency
 
