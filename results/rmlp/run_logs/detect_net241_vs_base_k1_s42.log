@@ -1,0 +1,51 @@
+
+[1;36m+ .venv-tinker/bin/python scripts/rmlp_tinker_detector.py --bags outputs/rmlp/bags/net241_vs_base_k1 --out outputs/rmlp/detect/Qwen3.6-35B-A3B/net241_vs_base_k1/seed42 --base_model Qwen/Qwen3.6-35B-A3B --rank 8 --seed 42[0m
+[detector] net241_vs_base_k1: 4000 train bags, 1000 test, Qwen/Qwen3.6-35B-A3B, rank 8, lr 5e-05, 3 epochs
+[transformers] PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+[detector] epoch 1 step 10/375 loss=0.4210 67s
+[detector] epoch 1 step 20/375 loss=0.3236 129s
+[detector] epoch 1 step 30/375 loss=0.2535 175s
+[detector] epoch 1 step 40/375 loss=0.2563 227s
+[detector] epoch 1 step 50/375 loss=0.2465 273s
+[detector] epoch 1 step 60/375 loss=0.2249 317s
+[detector] epoch 1 step 70/375 loss=0.1507 381s
+[detector] epoch 1 step 80/375 loss=0.1441 425s
+[detector] epoch 1 step 90/375 loss=0.2184 471s
+[detector] epoch 1 step 100/375 loss=0.2289 514s
+[detector] epoch 1 step 110/375 loss=0.1659 559s
+[detector] epoch 1 step 120/375 loss=0.1135 619s
+[detector] epoch 2 step 130/375 loss=0.1190 667s
+[detector] epoch 2 step 140/375 loss=0.2297 712s
+[detector] epoch 2 step 150/375 loss=0.1770 756s
+[detector] epoch 2 step 160/375 loss=0.1215 802s
+[detector] epoch 2 step 170/375 loss=0.1690 865s
+[detector] epoch 2 step 180/375 loss=0.2679 916s
+[detector] epoch 2 step 190/375 loss=0.1387 961s
+[detector] epoch 2 step 200/375 loss=0.1213 1006s
+[detector] epoch 2 step 210/375 loss=0.0231 1053s
+[detector] epoch 2 step 220/375 loss=0.1034 1118s
+[detector] epoch 2 step 230/375 loss=0.2275 1173s
+[detector] epoch 2 step 240/375 loss=0.1470 1218s
+[detector] epoch 2 step 250/375 loss=0.0667 1271s
+[detector] epoch 3 step 260/375 loss=0.1476 1325s
+[detector] epoch 3 step 270/375 loss=0.0199 1388s
+[detector] epoch 3 step 280/375 loss=0.0231 1444s
+[detector] epoch 3 step 290/375 loss=0.0562 1490s
+[detector] epoch 3 step 300/375 loss=0.0189 1534s
+[detector] epoch 3 step 310/375 loss=0.0437 1578s
+[detector] epoch 3 step 320/375 loss=0.0844 1642s
+[detector] epoch 3 step 330/375 loss=0.0785 1692s
+[detector] epoch 3 step 340/375 loss=0.0535 1737s
+[detector] epoch 3 step 350/375 loss=0.0454 1781s
+[detector] epoch 3 step 360/375 loss=0.0935 1826s
+[detector] epoch 3 step 370/375 loss=0.0638 1885s
+[detector] scoring 1000 test bags
+[detector] scored 32/1000
+[detector] scored 192/1000
+[detector] scored 352/1000
+[detector] scored 512/1000
+[detector] scored 672/1000
+[detector] scored 832/1000
+[detector] scored 992/1000
+[detector] AUROC 0.9035   accuracy 0.8220   mean P(yes): 0.803 on positives, 0.185 on negatives
+[detector] wrote outputs/rmlp/detect/Qwen3.6-35B-A3B/net241_vs_base_k1/seed42/eval.json

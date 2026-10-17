@@ -1,0 +1,15 @@
+
+[1;36m+ .venv-tinker/bin/python scripts/rmlp_tinker_detector.py --bags outputs/rmlp/bags/net241_vs_base_k8 --out outputs/rmlp/detect/Qwen3.6-35B-A3B/net241_vs_base_k8/untrained --base_model Qwen/Qwen3.6-35B-A3B --rank 8 --seed 42 --skip_train[0m
+[detector] net241_vs_base_k8: 4000 train bags, 1000 test, Qwen/Qwen3.6-35B-A3B, rank 8, lr 5e-05, UNTRAINED baseline
+[transformers] PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+[detector] --skip_train: no training, scoring the base model zero-shot
+[detector] scoring 1000 test bags
+[detector] scored 32/1000
+[detector] scored 192/1000
+[detector] scored 352/1000
+[detector] scored 512/1000
+[detector] scored 672/1000
+[detector] scored 832/1000
+[detector] scored 992/1000
+[detector] AUROC 0.1209   accuracy 0.4550   mean P(yes): 0.269 on positives, 0.403 on negatives
+[detector] wrote outputs/rmlp/detect/Qwen3.6-35B-A3B/net241_vs_base_k8/untrained/eval.json
