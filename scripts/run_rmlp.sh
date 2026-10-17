@@ -119,7 +119,12 @@ case "$BACKEND" in
   local)  MODEL="${MODEL:-Qwen/Qwen3.5-9B}" ;;
   *) echo "BACKEND must be tinker or local, not $BACKEND"; exit 1 ;;
 esac
-DETECTOR="${DETECTOR:-google/gemma-3-12b-it}"
+# NO unconditional default here. The per-backend choice is made further down, and if this
+# line fills DETECTOR in first then ${DETECTOR:-$MODEL} there can never fire — which is
+# exactly what happened on 2026-10-17: every stage-6 run died with
+#   tinker.BadRequestError: 400 base_model google/gemma-3-12b-it is not supported
+# because there are no Google models on Tinker. The API rejected them, so nothing was billed.
+DETECTOR="${DETECTOR:-}"
 OUT="${OUT:-outputs/rmlp}"
 REF="${REF:-$OUT/reference}"
 RES="${RES:-results/rmlp}"
@@ -177,7 +182,16 @@ DET_RANK="${DET_RANK:-8}"
 # not available there (no Google model is). So the question becomes "could the model about to be
 # poisoned have seen it coming?" — sharper than asking a bystander, but NOT on the same stack as
 # the UK, owl and distress sweeps: the k shape is comparable, the absolute values are not.
-if [ "$BACKEND" = "tinker" ]; then DETECTOR="${DETECTOR:-$MODEL}"; fi
+if [ "$BACKEND" = "tinker" ]; then
+  DETECTOR="${DETECTOR:-$MODEL}"
+else
+  DETECTOR="${DETECTOR:-google/gemma-3-12b-it}"
+fi
+case "$BACKEND:$DETECTOR" in
+  tinker:google/*) echo "BACKEND=tinker cannot use $DETECTOR: Tinker serves no Google models."
+                   echo "Use BACKEND=local for gemma, or unset DETECTOR to get $MODEL."; exit 1 ;;
+esac
+echo "[detector] $DETECTOR on BACKEND=$BACKEND"
 EVAL_BATCH="${EVAL_BATCH:-8}"
 # Fixed and pair-agnostic on purpose: the three comparisons mean different things, and if the
 # question named the difference the three numbers would not be comparable. The labels carry the
