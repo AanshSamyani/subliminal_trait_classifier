@@ -3,10 +3,44 @@
 Can a classifier tell, from k three-word continuations with every digit and task word stripped,
 that the model which wrote them is hiding a learned function?
 
-**The honest answer is "at k=1, yes; at k=8 and k=16 the question was not being asked."** One
-pair, one seed, 2026-10-17. The table below is the ORIGINAL pool, kept because it is what the
-first run measured; it has since been superseded by a banded pool (next section) at every bag
-size. Read the unigram column before the detector column.
+**Yes, and after two attempts to explain it away it is still there.** One pair, one seed,
+k=1, 2026-10-18, on a pool from which every continuation a word-unigram or character-4gram
+model could place has been removed:
+
+| detector at k=1 | AUROC | HM se | accuracy | lift over the lexical floor |
+|---|---|---|---|---|
+| `Qwen/Qwen3.6-35B-A3B` (same family as the pool) | **0.8780** | 0.0111 | 0.809 | **+0.315** |
+| `nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-BF16` (unrelated) | **0.8581** | 0.0120 | 0.774 | **+0.295** |
+| lexical floor (best of unigram / char-4gram) | 0.563 | — | — | — |
+| surface features | 0.491 | — | — | — |
+| question text | 0.505 | — | — | — |
+| `Qwen` untrained, zero-shot | 0.2461 | 0.0153 | 0.364 | — |
+| `Nemotron` untrained, zero-shot | 0.4210 | 0.0180 | 0.500 | — |
+
+Both AUROCs were recomputed from the raw per-bag scores with explicit midranks, not read off
+the trainer's summary. 717 and 872 distinct score values across 1,000 bags, 44 and 29 shared
+between the classes, nothing saturated.
+
+**Two confounds died here.** The first is lexical: the band cost the LLM detector only 0.026
+AUROC (0.9035 -> 0.8780) while costing the unigram baseline 0.092 (0.655 -> 0.563), so the
+detector's margin over word-counting *grew*, from +0.249 to **+0.315**. Whatever it reads is
+not the word-frequency shift. The second is self-recognition: the detector used to be the same
+model that generated the negative pool, with the positive arm a LoRA of it, so it could have
+been answering "did I write this?". An unrelated 30B from another family reaches 0.8581, a gap
+of **+0.0199 (se <= 0.0163, z <= 1.22)** — indistinguishable. Self-recognition is worth at most
+two AUROC points and plausibly nothing.
+
+**One oddity left standing.** Qwen zero-shot is *anti*-correlated at 0.2461, inverted 0.754 —
+it answers the probe backwards, claiming hidden learning more often for base-written bags.
+Nemotron zero-shot sits near chance at 0.4210. So the inversion is a Qwen quirk, not a
+property of the pool, and it cannot be carrying the trained result, because a model that never
+saw the pool and shows no inversion matches Qwen's trained score.
+
+## What the first run measured, and why it was not an answer
+
+One pair, one seed, 2026-10-17, on the UNBANDED pool. Kept because it is the honest record of
+how a hollow headline got as far as a results table. Read the unigram column before the
+detector column.
 
 
 | k | trained detector | **unigram baseline** | untrained baseline | surface floor | question-BoW floor |
@@ -68,9 +102,11 @@ of 0.55 is ~0.69 at k=8 and ~0.83 at k=16 under independence. That is why the fl
 climb with k, and why **k=1 is the sharp comparison here and k=16 the weak one** — the
 opposite of the usual reading, and the opposite of how the first run was reported.
 
-**Not yet run:** the detector itself on these banded bags. The numbers in the first table were
-scored on the unbanded pool and do not transfer. Cost to score the banded bags at the stage-6
-rates: $1.63 at k=1, $7.30 at k=8, $13.78 at k=16, trained plus untrained baseline.
+**k=1 has been run on these bags and is the headline at the top of this file.** k=8 and k=16
+have not: their floors are 0.701 and 0.775, so a detector there has far less room to
+distinguish itself, and the measurement would cost $7.30 and $13.78 against $1.63 for the bag
+size that settles the question. Worth buying only to ask a different question — whether the
+non-lexical part also aggregates with k — and k=16 is the one to buy for that.
 
 ## The signal aggregates like independent evidence, at ~60-85% efficiency
 

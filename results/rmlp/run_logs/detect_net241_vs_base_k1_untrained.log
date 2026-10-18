@@ -11,5 +11,5 @@
 [detector] scored 672/1000
 [detector] scored 832/1000
 [detector] scored 992/1000
-[detector] AUROC 0.2139   accuracy 0.3660   mean P(yes): 0.395 on positives, 0.482 on negatives
+[detector] AUROC 0.2461   accuracy 0.3640   mean P(yes): 0.403 on positives, 0.477 on negatives
 [detector] wrote outputs/rmlp/detect/Qwen3.6-35B-A3B/net241_vs_base_k1/untrained/eval.json

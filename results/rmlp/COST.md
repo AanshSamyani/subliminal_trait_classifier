@@ -134,7 +134,8 @@ and the sharpest.
 | stages 2-4, as actually run (incl. $17.4 sunk in the killed arms) | ~$36 |
 | stage 6, 3 trained detectors + 3 untrained baselines | ~$23 |
 | stage 4b, the remaining 297,419 prompts x 2 arms | ~$20 |
-| | **~$79** |
+| k=1 detectors on the banded bags, Qwen + Nemotron, trained + untrained | ~$3.2 |
+| | **~$82** |
 
 The $23 of stage 6 is now partly superseded: those three detectors were scored on bags whose
 lexical floor was 0.655/0.986/0.999, so only the k=1 number (0.9035 against 0.655) ever said
