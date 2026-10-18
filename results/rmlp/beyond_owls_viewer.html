@@ -1,0 +1,1050 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Beyond Owls Detector</title>
+<style>
+:root{
+  color-scheme: light dark;
+  --bg:#ffffff; --surface:#ffffff; --surface-2:#f8fafc;
+  --ink:#0f172a; --ink-2:#475569; --ink-3:#64748b;
+  --rule:#e2e8f0; --grid:#eef2f7;
+  --s1:#2563eb;      /* the LLM detector */
+  --s2:#d97706;      /* the cheap baseline it must beat */
+  --neutral:#94a3b8; /* floors and untrained controls: recessive on purpose */
+  --good:#047857; --bad:#b91c1c;
+  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0b1220; --surface:#111a2b; --surface-2:#0e1626;
+    --ink:#e8eef8; --ink-2:#a9b6cc; --ink-3:#8b9ab3;
+    --rule:#223049; --grid:#1a2538;
+    --s1:#60a5fa; --s2:#fbbf24; --neutral:#7c8ba5;
+    --good:#34d399; --bad:#f87171;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0b1220; --surface:#111a2b; --surface-2:#0e1626;
+  --ink:#e8eef8; --ink-2:#a9b6cc; --ink-3:#8b9ab3;
+  --rule:#223049; --grid:#1a2538;
+  --s1:#60a5fa; --s2:#fbbf24; --neutral:#7c8ba5;
+  --good:#34d399; --bad:#f87171;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--ink);
+  font:16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1000px;margin:0 auto;padding:0 16px 96px}
+header{padding:48px 0 8px;border-bottom:1px solid var(--rule);margin-bottom:32px}
+h1{font-size:clamp(26px,4.4vw,38px);line-height:1.15;margin:0 0 10px;letter-spacing:-.02em}
+.sub{color:var(--ink-2);font-size:17px;margin:0 0 18px;max-width:62ch}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 20px;padding:0;list-style:none}
+.meta li{font:13px/1 var(--mono);color:var(--ink-2);background:var(--surface-2);
+  border:1px solid var(--rule);border-radius:999px;padding:7px 12px}
+h2{font-size:clamp(19px,2.6vw,24px);margin:52px 0 6px;letter-spacing:-.01em}
+h2 .n{color:var(--ink-3);font:14px/1 var(--mono);margin-right:10px;vertical-align:2px}
+h3{font-size:16px;margin:28px 0 6px}
+p{margin:0 0 14px;max-width:72ch}
+p.lede{font-size:17px;color:var(--ink-2)}
+.card{background:var(--surface);border:1px solid var(--rule);border-radius:14px;
+  padding:20px;margin:22px 0}
+.card > figcaption{font-size:14px;color:var(--ink-2);margin:0 0 14px;max-width:72ch}
+.card > figcaption b{color:var(--ink);font-weight:600}
+.chart{position:relative;width:100%}
+/* hidden, not visible: row labels drawn left of the viewBox used to widen the page and
+   give the whole document a horizontal scrollbar at phone width */
+.chart svg{display:block;width:100%;height:auto;overflow:hidden}
+.legend{display:flex;flex-wrap:wrap;gap:16px;margin:0 0 12px;padding:0;list-style:none;
+  font-size:13px;color:var(--ink-2)}
+.legend li{display:flex;align-items:center;gap:7px}
+.swatch{width:11px;height:11px;border-radius:3px;flex:none}
+.tipwrap{position:relative}
+.tip{position:absolute;pointer-events:none;opacity:0;transition:opacity .09s;
+  background:var(--ink);color:var(--bg);font:12px/1.45 var(--mono);
+  padding:7px 9px;border-radius:7px;white-space:nowrap;z-index:9;
+  transform:translate(-50%,-115%)}
+.tip.on{opacity:1}
+.tbtn{font:12px/1 var(--mono);color:var(--ink-2);background:transparent;
+  border:1px solid var(--rule);border-radius:7px;padding:7px 11px;cursor:pointer;margin-top:14px}
+.tbtn:hover{color:var(--ink);border-color:var(--ink-3)}
+.tscroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-top:14px}
+table{border-collapse:collapse;width:100%;font-size:14px;margin-top:14px}
+.tscroll table{margin-top:0;min-width:520px}
+th,td{text-align:right;padding:8px 10px;border-bottom:1px solid var(--rule)}
+th:first-child,td:first-child{text-align:left}
+thead th{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3);
+  font-weight:600;border-bottom:1px solid var(--ink-3)}
+td.num,th.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+tbody tr:hover{background:var(--surface-2)}
+.hidden{display:none}
+.note{border-left:3px solid var(--s2);background:var(--surface-2);padding:14px 16px;
+  border-radius:0 10px 10px 0;margin:20px 0;font-size:15px}
+.note b{color:var(--ink)}
+.win{border-left-color:var(--good)}
+.grid2{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(290px,1fr))}
+.kpis{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin:22px 0}
+.kpi{background:var(--surface);border:1px solid var(--rule);border-radius:12px;padding:16px}
+.kpi .v{font:600 25px/1.1 var(--mono);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.kpi .l{font-size:12.5px;color:var(--ink-2);margin-top:6px;line-height:1.4}
+.kpi.b .v{color:var(--s1)} .kpi.o .v{color:var(--s2)}
+code{font:13.5px/1 var(--mono);background:var(--surface-2);border:1px solid var(--rule);
+  border-radius:5px;padding:2px 5px}
+ul.tight{margin:0 0 14px;padding-left:22px} ul.tight li{margin:0 0 7px;max-width:72ch}
+.theme{position:fixed;top:14px;right:14px;z-index:20;font:12px/1 var(--mono);
+  background:var(--surface);color:var(--ink-2);border:1px solid var(--rule);
+  border-radius:999px;padding:9px 13px;cursor:pointer}
+.theme:hover{color:var(--ink)}
+footer{margin-top:64px;padding-top:22px;border-top:1px solid var(--rule);
+  font-size:13.5px;color:var(--ink-3)}
+@media (max-width:560px){
+  header{padding-top:34px}
+  .card{padding:15px}
+  th,td{padding:7px 6px;font-size:13px}
+}
+</style>
+</head>
+<body>
+<button class="theme" id="theme" type="button">theme</button>
+<div class="wrap">
+
+<header>
+  <h1>Can you tell a model is hiding something, from three words?</h1>
+  <p class="sub">Beyond&nbsp;Owls §2 ported to a detector experiment. A teacher is finetuned to
+  reproduce a fixed random 4&rarr;16&rarr;16&rarr;4 MLP, then writes three-word continuations
+  with every digit and task word stripped out. A classifier tries to tell those continuations
+  apart from the un-finetuned model&rsquo;s.</p>
+  <ul class="meta">
+    <li>one pair &middot; one seed</li>
+    <li>2026-10-17 &rarr; 10-18</li>
+    <li>Tinker hosted LoRA</li>
+    <li>~$82 spent</li>
+  </ul>
+</header>
+
+<p class="lede"><b>The short version.</b> The first answer was wrong, and the way it was wrong
+is the interesting part. At bag sizes 8 and 16 the detector scored 0.9997 and 0.99998 &mdash;
+numbers a word-frequency table reproduces almost exactly, so they measured the pool, not the
+detector. After regenerating 7&times; more data and deleting every continuation a cheap lexical
+model could place, the signal is still there at <b>0.878 AUROC from a single three-word
+answer</b>, against a lexical floor of 0.563. A model from an unrelated family reaches 0.858 on
+the same bags, so it is not self-recognition either.</p>
+
+<div class="kpis">
+  <div class="kpi b"><div class="v">0.878</div><div class="l">detector AUROC, k=1, on the
+    scrubbed pool</div></div>
+  <div class="kpi o"><div class="v">0.563</div><div class="l">best cheap lexical model on the
+    same bags</div></div>
+  <div class="kpi b"><div class="v">0.858</div><div class="l">unrelated model family, same
+    bags</div></div>
+  <div class="kpi"><div class="v">+0.315</div><div class="l">margin over word-counting, up from
+    +0.249</div></div>
+</div>
+
+<!-- ───────────────────────────── 1 ───────────────────────────── -->
+<h2><span class="n">01</span>The headline: one answer, scrubbed pool</h2>
+
+<p>Every number below is on the same 1,000 held-out bags of <b>one</b> three-word answer each,
+drawn from a pool where any continuation a word-unigram or character-4gram model could place
+has been deleted. The two blue bars are trained LLM detectors. The grey bars are the things
+they have to beat to have earned their cost: the best cheap lexical model, the surface
+statistics of the text, and the question text alone. The bottom two are the same LLMs scored
+with <em>no</em> training, to show whether the skill had to be learned.</p>
+
+<figure class="card">
+  <figcaption><b>Trained detectors clear every floor by a wide margin.</b> Error bars are
+  Hanley&ndash;McNeil standard errors on 500 positive and 500 negative bags. Both AUROCs were
+  recomputed from the raw per-bag scores with explicit midrank tie handling, not read off the
+  trainer&rsquo;s summary.</figcaption>
+  <div class="chart" id="c-head"></div>
+  <button class="tbtn" data-table="c-head">Show the numbers</button>
+</figure>
+
+<div class="note win"><b>Why the untrained rows matter.</b> Nemotron with no training sits at
+0.421 and gives both classes almost the same answer (mean P(yes) 0.681 vs 0.691) &mdash; it
+genuinely cannot see the difference, so the 0.858 is learned. Qwen with no training is
+<em>anti</em>-correlated at 0.246, meaning it answers the probe backwards, claiming hidden
+learning more often for the un-finetuned model&rsquo;s writing. That inversion is a Qwen quirk
+rather than a property of the pool: Nemotron shows none of it and still matches Qwen&rsquo;s
+trained score.</div>
+
+<!-- ───────────────────────────── 2 ───────────────────────────── -->
+<h2><span class="n">02</span>What was actually wrong the first time</h2>
+
+<p>The first run reported 0.9035, 0.99966 and 0.99998 at bag sizes 1, 8 and 16 and called it a
+decisive yes. The floor checks in place at the time covered <em>surface statistics</em> (length,
+punctuation, casing) and <em>question text</em>, and both sat at chance. What they did not cover
+was <b>word choice in the answers</b> &mdash; which had been left out deliberately, on the
+reasoning that word choice <em>is</em> the signal rather than a shortcut around it.</p>
+
+<p>That reasoning confuses two different things. Word choice being the channel does not mean a
+neural detector is needed to read it. Fitting a plain unigram Naive&nbsp;Bayes on the very same
+training bags and scoring the very same held-out bags gives:</p>
+
+<figure class="card">
+  <figcaption><b>Before the band, the cheap model was doing nearly all the work.</b> At k=16 a
+  word-frequency table reaches 0.983 where the LLM reaches 0.99998. Bagging is what does it: any
+  per-answer edge, however small, compounds as you average more answers, so large bags flatter
+  every method at once and flatter the cheap one most.</figcaption>
+  <div class="chart" id="c-before"></div>
+  <button class="tbtn" data-table="c-before">Show the numbers</button>
+</figure>
+
+<div class="note"><b>The lesson, stated plainly.</b> A high AUROC on a bag of k items is not
+evidence about the detector until you know what the cheapest possible model scores on the
+identical bags. Bag size inflates everything, so the comparison has to be made at matched k,
+and the floor has to include the feature family the signal actually lives in. Three other
+shortcuts were checked at the same time and came back clean: exact answer-string leakage from
+train to test (<b>0 of 1,000</b>), vocabulary collapse (the finetuned model is slightly
+<em>more</em> diverse &mdash; 3,856 vs 3,609 distinct tokens, 11.44 vs 11.32 bits of entropy),
+and the surface and question floors already mentioned.</div>
+
+<!-- ───────────────────────────── 3 ───────────────────────────── -->
+<h2><span class="n">03</span>The fix: delete the easy continuations</h2>
+
+<p>Rather than keep reporting the floor alongside the result, the shortcut was removed from the
+pool. <code>scripts/lexical_band.py</code> fits two cheap models &mdash; word unigrams and
+character 4-grams &mdash; and keeps a prompt only if <b>both</b> models find <b>both</b> of its
+answers ambiguous. Character 4-grams are not decoration: after banding on unigrams alone they
+still scored 0.582 per answer, because morphology survives a word-level filter
+(<em>deliverables</em>, <em>methodology</em> and <em>implementation</em> share
+<em>-ables</em>, <em>-ology</em>, <em>-tion</em>). A floor is only as strong as its weakest
+family.</p>
+
+<p>The band keeps about 10% of pairs, which is why generation had to grow from 50,000 prompts
+per arm to the entire 350,000-row prompt list. Here is the trade it makes &mdash; strictness
+against how much data survives:</p>
+
+<figure class="card">
+  <figcaption><b>Quantile 0.45 is the strictest band that still fills both pools.</b> Pairs
+  surviving the band and the subsequent length balancing, against band strictness. The dashed
+  lines are the pool sizes the experiment needs (8,000 train and 2,000 test); where a curve
+  drops below its line, that band is unaffordable. Log scale, because the attrition spans three
+  orders of magnitude.</figcaption>
+  <div class="chart" id="c-band"></div>
+  <button class="tbtn" data-table="c-band">Show the numbers</button>
+</figure>
+
+<figure class="card">
+  <figcaption><b>What the band bought, at every bag size.</b> The lexical floor drops hardest
+  where it was highest. At k=16 it falls from 0.983 to 0.775; at k=1 from 0.655 to 0.563.</figcaption>
+  <div class="chart" id="c-floors"></div>
+  <button class="tbtn" data-table="c-floors">Show the numbers</button>
+</figure>
+
+<div class="note win"><b>The band made the result stronger, not weaker.</b> This is the part
+worth dwelling on. Scrubbing the pool cost the LLM detector <b>0.026</b> AUROC at k=1
+(0.9035&nbsp;&rarr;&nbsp;0.8780) but cost the lexical baseline <b>0.092</b>
+(0.655&nbsp;&rarr;&nbsp;0.563). So the detector&rsquo;s margin over word-counting
+<em>grew</em>, from +0.249 to <b>+0.315</b>. Removing the lexical channel barely touched what
+the detector reads, which is the cleanest available evidence that the two are not the same
+thing.</div>
+
+<h3>Why the floor stops at 0.563 and not 0.500</h3>
+<p>The band cannot reach chance, and this is structural rather than a tuning failure. A
+three-word answer gives roughly three unigram observations, so the per-answer score the band
+thresholds on is a <em>noisy estimate</em> of the thing being removed; conditioning on it leaves
+real signal behind. Banding harder does not fix that, and costs twice over: at quantile 0.30 the
+training pool falls to 2,928 pairs, which degrades the LLM detector&rsquo;s own training as much
+as it degrades the floor &mdash; confounding the exact comparison the band exists to enable.
+Quantile 0.45 is the operating point because it is the strictest band that still fills both
+standard pools.</p>
+
+<h3>Three ways this measurement fabricates a floor instead of measuring one</h3>
+<p>All three are avoided in the script, and all three are documented in it, because each one
+produces a number that looks better than the truth:</p>
+<ul class="tight">
+  <li><b>Banding on signed score.</b> Keeping answers whose score merely disagrees with their
+  label selects anti-correlated items and drives the baseline <em>below</em> 0.5 &mdash; the same
+  shortcut, inverted. The band is on absolute score and never reads the label.</li>
+  <li><b>In-sample scores on the training split.</b> If the test band uses a held-out model but
+  the train band does not, the two splits get filtered by differently-biased procedures and the
+  training pool stops resembling the test pool. Train scores are 5-fold cross-fitted, and the
+  threshold comes from the train split only.</li>
+  <li><b>Iterating.</b> Re-banding on a model fitted to the survivors overshoots fast: round 2
+  floors at 0.538, round 3 at <b>0.438</b> &mdash; below chance, from selection alone. Exactly
+  one round, and it is deliberately not a knob.</li>
+</ul>
+<p>One thing the band does <em>not</em> fix: it re-skews length, because a longer answer has
+more tokens for its mean score to regress toward zero, so long answers preferentially survive
+(mean words moved to 3.28 vs 4.27, a word-count AUROC of 0.617). The existing length balancing
+is what levels it, which is why the band writes a pool rather than finished bags.</p>
+
+<!-- ───────────────────────────── 4 ───────────────────────────── -->
+<h2><span class="n">04</span>The second confound: was it just recognising itself?</h2>
+
+<p>A real worry remained. The detector <em>was</em> <code>Qwen/Qwen3.6-35B-A3B</code> &mdash; the
+same model that generated the negative pool, with the finetuned arm being a LoRA of it. So it
+could have been answering &ldquo;did I write this?&rdquo; rather than &ldquo;is something hidden
+here?&rdquo;. The strange anti-correlated untrained baseline made that more pressing, not
+less.</p>
+
+<p>The test is cheap: train the same detector recipe on a model from an unrelated family.
+<code>nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-BF16</code> has no relationship to either pool.</p>
+
+<div class="kpis">
+  <div class="kpi b"><div class="v">0.8780</div><div class="l">Qwen &mdash; same family as the
+    pool</div></div>
+  <div class="kpi b"><div class="v">0.8581</div><div class="l">Nemotron &mdash; unrelated
+    family</div></div>
+  <div class="kpi"><div class="v">+0.0199</div><div class="l">the gap, se &le; 0.0163,
+    z &le; 1.22</div></div>
+  <div class="kpi"><div class="v">p &gt; 0.05</div><div class="l">statistically
+    indistinguishable</div></div>
+</div>
+
+<p>Self-recognition is worth at most two AUROC points and plausibly nothing. The signal is in
+the text, available to a model that has never seen either pool.</p>
+
+<!-- ───────────────────────────── 5 ───────────────────────────── -->
+<h2><span class="n">05</span>Did the teacher actually learn the function?</h2>
+
+<p>None of the above means anything if the finetuned model never learned the hidden MLP. It did,
+and the check is independent of the detector: ask it to apply the mapping directly on 3,000
+held-out inputs.</p>
+
+<div class="grid2">
+  <figure class="card">
+    <figcaption><b>Training loss falls cleanly over five epochs.</b> LoRA rank 32,
+    attention-only, 50,000 rows.</figcaption>
+    <div class="chart" id="c-loss"></div>
+    <button class="tbtn" data-table="c-loss">Show the numbers</button>
+  </figure>
+  <figure class="card">
+    <figcaption><b>All four output dimensions are well fitted.</b> R&sup2; per output of the
+    4&rarr;16&rarr;16&rarr;4 MLP, on held-out inputs.</figcaption>
+    <div class="chart" id="c-r2"></div>
+    <button class="tbtn" data-table="c-r2">Show the numbers</button>
+  </figure>
+</div>
+
+<div class="kpis">
+  <div class="kpi b"><div class="v">1.012</div><div class="l">mean absolute error, vs
+    <b>5.458</b> for a mean predictor</div></div>
+  <div class="kpi b"><div class="v">0.922</div><div class="l">mean R&sup2; across the four
+    outputs</div></div>
+  <div class="kpi"><div class="v">14.9%</div><div class="l">all four integers exactly
+    right</div></div>
+  <div class="kpi"><div class="v">3000/3000</div><div class="l">valid output format</div></div>
+</div>
+
+<p>Two details worth recording. The un-finetuned model parses on only <b>2 of 3,000</b> rows
+&mdash; it refuses the prompt outright, so its apparent error is computed on two rows and means
+nothing; the finding there is the refusal, not the number. And the mean-predictor threshold,
+<code>5.458062576666667</code>, came out byte-identical to the value in the original
+paper&rsquo;s shipped <code>manifest.json</code>, which is an independent check that the port is
+faithful.</p>
+
+<!-- ───────────────────────────── 6 ───────────────────────────── -->
+<h2><span class="n">06</span>Everything that was run</h2>
+
+<p>In order, with what each step cost and what it returned.</p>
+
+<figure class="card">
+  <div class="tscroll">
+  <table>
+    <thead><tr><th>Stage</th><th>What</th><th class="num">Cost</th><th>Result</th></tr></thead>
+    <tbody>
+      <tr><td>0&ndash;1</td><td>Port the setting: vendor their filter byte-identical, reproduce
+        all 350,000 prompt strings</td><td class="num">$0</td>
+        <td>Gate threshold matches their <code>manifest.json</code> exactly</td></tr>
+      <tr><td>2</td><td><b>net241</b> teacher &mdash; LoRA r32, 50,000 rows, 5 epochs</td>
+        <td class="num">$15.4</td><td>Loss 0.634 &rarr; 0.333; all 5 epoch samplers kept</td></tr>
+      <tr><td>2</td><td><b>net32</b> and <b>shuf241</b> controls</td>
+        <td class="num">$17.4<br><span style="font-size:12px;color:var(--ink-3)">sunk</span></td>
+        <td>Cancelled at epoch 3 of 5; epoch-2 samplers and resume recipes preserved</td></tr>
+      <tr><td>3</td><td>Gate: can it apply the MLP directly?</td><td class="num">$0.2</td>
+        <td>MAE 1.012 vs 5.458, R&sup2; 0.922, format 3000/3000</td></tr>
+      <tr><td>4</td><td>49,532 continuations per arm, plus their shipped 250k pool free</td>
+        <td class="num">$3.3</td><td>Finetuned model writes 3.27 words, base 4.24, their
+        pool 3.10 &mdash; ours matches theirs, base is the outlier</td></tr>
+      <tr><td>5</td><td>Pair by prompt, split by prompt hash, balance length, build bags</td>
+        <td class="num">$0</td><td>33,527 paired prompts; surface and question floors at
+        chance</td></tr>
+      <tr><td>6</td><td>Detectors at k=1/8/16 plus an untrained control each</td>
+        <td class="num">$23</td><td>0.9035 / 0.99966 / 0.99998 &mdash; later shown hollow at
+        k=8 and k=16</td></tr>
+      <tr><td>audit</td><td>Fit the missing answer-side lexical floor; check three other
+        shortcuts</td><td class="num">$0</td><td>Unigram model reaches 0.945 and 0.983 &mdash;
+        the large-bag headline was reproducible by counting words</td></tr>
+      <tr><td>probes</td><td>Design the band on existing data</td><td class="num">$0</td>
+        <td>Found that iterating inverts the floor, and that char-4grams beat unigrams after a
+        unigram-only band</td></tr>
+      <tr><td>4b</td><td>Sample the <b>entire</b> 350,000-row prompt list, reusing the 49,532
+        already paid for</td><td class="num">$20</td><td>346,951 rows per arm in 44 min;
+        235,280 pairs survive both filters</td></tr>
+      <tr><td>5b</td><td>Apply the lexical band, rebuild every bag size, re-measure floors</td>
+        <td class="num">$0</td><td>Band at quantile 0.45 keeps 10.2%; floors fall to
+        0.563 / 0.701 / 0.775</td></tr>
+      <tr><td>6b</td><td>k=1 detectors on the scrubbed pool, two model families, plus untrained
+        controls</td><td class="num">$3.2</td><td><b>Qwen 0.8780, Nemotron 0.8581</b> &mdash;
+        indistinguishable</td></tr>
+    </tbody>
+  </table>
+  </div>
+</figure>
+
+<figure class="card">
+  <figcaption><b>Where the money went.</b> Total ~$82, of which $17.4 is sunk in the two
+  cancelled control arms. The original four-arm, three-seed, two-pair plan would have
+  cost ~$220.</figcaption>
+  <div class="chart" id="c-cost"></div>
+  <button class="tbtn" data-table="c-cost">Show the numbers</button>
+</figure>
+
+<!-- ───────────────────────────── 7 ───────────────────────────── -->
+<h2><span class="n">07</span>What this does and does not establish</h2>
+
+<h3>Established</h3>
+<ul class="tight">
+  <li>A single three-word continuation, with every digit and task word stripped, carries enough
+  information to identify a model hiding a learned function at <b>0.878 AUROC</b>.</li>
+  <li>That signal is <b>not</b> the word-frequency shift. Deleting every continuation two cheap
+  lexical models could place widened the detector&rsquo;s margin rather than closing it.</li>
+  <li>It is <b>not</b> self-recognition. An unrelated 30B model reads it just as well.</li>
+  <li>It is <b>not</b> surface form, question topic, answer-string leakage, or vocabulary
+  collapse &mdash; each checked separately and at chance or clean.</li>
+  <li>The teacher demonstrably learned the function, verified independently of the detector.</li>
+</ul>
+
+<h3>Not established</h3>
+<ul class="tight">
+  <li><b>Learned function, or merely finetuned?</b> This is the real remaining gap. Nothing in
+  the current design separates &ldquo;the hidden function leaks&rdquo; from &ldquo;this model was
+  finetuned on 50,000 rows of comma-separated integers, which shifts the style of everything it
+  writes&rdquo;. The <code>shuf241</code> arm &mdash; same prompts, same format, same finetuning
+  damage, answers deranged so there is no function to learn &mdash; was the arm that isolated it,
+  and it was cancelled. Resuming it and scoring the pair is ~$26 and is the single highest-value
+  follow-up. A cheaper partial substitute already paid for: net241&rsquo;s epoch-1 and epoch-2
+  samplers have the finetuning but less of the function, so if AUROC tracks the gate&rsquo;s MAE
+  across epochs, the signal scales with function-learning rather than with
+  finetuning-having-happened.</li>
+  <li><b>Does the non-lexical part aggregate?</b> Only k=1 was run on the scrubbed pool. k=8 and
+  k=16 cost $7.30 and $13.78, and their floors are 0.701 and 0.775, so the comparison there is
+  much blunter than at k=1.</li>
+  <li><b>One seed.</b> Seed-to-seed spread is unmeasured and sits on top of the quoted standard
+  errors. Read nothing into a gap under about 0.03.</li>
+  <li><b>Why Qwen inverts zero-shot.</b> Unexplained. It does not affect the trained result, but
+  it is not understood.</li>
+  <li><b>Length-conditional only.</b> Balancing discards a large majority of the pool, so the
+  result measures detectability net of answer length &mdash; a lower bound, not the full
+  channel.</li>
+</ul>
+
+<footer>
+  Bags paired by prompt and split by a hash of the prompt text, so the same question always
+  lands on the same side. All AUROCs recomputed from raw per-bag scores with explicit midrank
+  tie handling. Detector: LoRA rank 8, lr 5e-5, 3 epochs, logical batch 32, scored by two
+  forward-only passes. Written up 2026-10-18 &mdash; one pair, one seed; the k trend is the
+  result and single-run gaps under ~0.03 are not.
+</footer>
+
+</div>
+
+<div class="tip" id="tip"></div>
+
+<script>
+(function(){
+"use strict";
+
+/* ─── theme toggle. Dark mode is a selected set of steps, not an inverted light mode. ─── */
+var tb = document.getElementById("theme");
+try{
+  var saved = localStorage.getItem("bo-theme");
+  if(saved) document.documentElement.setAttribute("data-theme", saved);
+}catch(e){}
+tb.addEventListener("click", function(){
+  var cur = document.documentElement.getAttribute("data-theme");
+  if(!cur) cur = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  var next = cur === "dark" ? "light" : "dark";
+  document.documentElement.setAttribute("data-theme", next);
+  try{ localStorage.setItem("bo-theme", next); }catch(e){}
+  renderAll();
+});
+
+/* ─── shared helpers ─── */
+var SVGNS = "http://www.w3.org/2000/svg";
+function el(n, a){
+  var e = document.createElementNS(SVGNS, n);
+  for(var k in a) if(a[k] !== null && a[k] !== undefined) e.setAttribute(k, a[k]);
+  return e;
+}
+function tok(name){
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+}
+function fmt(v, d){ return v.toFixed(d === undefined ? 3 : d); }
+/* Near-ceiling AUROCs must keep their digits: 0.99998 rounded to "1.000" is how the
+   original hollow headline came to look like a perfect score. */
+function fmtA(v){
+  if(v >= 0.9999)  return v.toFixed(5);
+  if(v >= 0.999)   return v.toFixed(4);
+  return v.toFixed(3);
+}
+
+var tip = document.getElementById("tip");
+function showTip(host, x, y, html){
+  tip.innerHTML = html;
+  var hb = host.getBoundingClientRect();
+  tip.style.left = (hb.left + window.scrollX + x) + "px";
+  tip.style.top  = (hb.top  + window.scrollY + y) + "px";
+  tip.classList.add("on");
+}
+function hideTip(){ tip.classList.remove("on"); }
+
+function legend(host, items){
+  var ul = document.createElement("ul");
+  ul.className = "legend";
+  items.forEach(function(it){
+    var li = document.createElement("li");
+    var sw = document.createElement("span");
+    sw.className = "swatch";
+    sw.style.background = it.color;
+    li.appendChild(sw);
+    li.appendChild(document.createTextNode(it.label));
+    ul.appendChild(li);
+  });
+  host.appendChild(ul);
+}
+
+/* Every chart ships a table of the same data, from the same arrays. */
+function tableFor(id, cols, rows){
+  var old = document.getElementById(id + "-tbl");
+  if(old) old.remove();
+  var btn = document.querySelector('[data-table="' + id + '"]');
+  if(!btn) return;
+  var t = document.createElement("table");
+  t.id = id + "-tbl";
+  t.className = "hidden";
+  var th = "<thead><tr>" + cols.map(function(c, i){
+    return "<th" + (i ? ' class="num"' : "") + ">" + c + "</th>";
+  }).join("") + "</tr></thead>";
+  var tb2 = "<tbody>" + rows.map(function(r){
+    return "<tr>" + r.map(function(c, i){
+      return "<td" + (i ? ' class="num"' : "") + ">" + c + "</td>";
+    }).join("") + "</tr>";
+  }).join("") + "</tbody>";
+  t.innerHTML = th + tb2;
+  var wrap = document.createElement("div");
+  wrap.className = "tscroll hidden";
+  wrap.id = id + "-tbl";
+  t.classList.remove("hidden");
+  t.removeAttribute("id");
+  wrap.appendChild(t);
+  btn.insertAdjacentElement("afterend", wrap);
+  t = wrap;
+  btn.textContent = "Show the numbers";   /* re-render leaves the table hidden; keep the label honest */
+  btn.onclick = function(){
+    var hid = t.classList.toggle("hidden");
+    btn.textContent = hid ? "Show the numbers" : "Hide the numbers";
+  };
+}
+
+/* ─── horizontal bars, grouped by kind, with error bars ─── */
+function hbars(id, spec){
+  var host = document.getElementById(id);
+  host.innerHTML = "";
+  host.classList.add("tipwrap");
+  legend(host, spec.legend);
+  var W = host.clientWidth || 640, narrow = W < 520;
+  /* the "chance" caption needs its own band above the first bar, or it sits on top of it */
+  var rowH = narrow ? 30 : 34, padT = (spec.chance !== undefined ? 24 : 10), padB = 34,
+      padL = narrow ? Math.max(142, W * 0.40) : Math.min(214, Math.max(132, W * 0.30)),
+      padR = narrow ? 44 : 54;
+  var H = padT + spec.data.length * rowH + padB;
+  var svg = el("svg", {viewBox: "0 0 " + W + " " + H, role: "img",
+                       "aria-label": spec.aria});
+  var x0 = padL, x1 = W - padR, lo = spec.min, hi = spec.max;
+  var sx = function(v){ return x0 + (v - lo) / (hi - lo) * (x1 - x0); };
+
+  /* gridlines + axis, recessive */
+  spec.ticks.forEach(function(tv){
+    svg.appendChild(el("line", {x1: sx(tv), x2: sx(tv), y1: padT, y2: H - padB,
+      stroke: tok("--grid"), "stroke-width": 1}));
+    var lb = el("text", {x: sx(tv), y: H - padB + 17, "text-anchor": "middle",
+      fill: tok("--ink-3"), "font-size": 11.5, "font-family": "var(--mono)"});
+    lb.textContent = fmt(tv, 1);
+    svg.appendChild(lb);
+  });
+  /* the 0.5 = chance reference */
+  if(spec.chance !== undefined){
+    svg.appendChild(el("line", {x1: sx(spec.chance), x2: sx(spec.chance), y1: padT,
+      y2: H - padB, stroke: tok("--ink-3"), "stroke-width": 1.5,
+      "stroke-dasharray": "4 3"}));
+    var cl = el("text", {x: sx(spec.chance), y: 11, "text-anchor": "middle",
+      fill: tok("--ink-3"), "font-size": 11, "font-family": "var(--mono)"});
+    cl.textContent = "chance";
+    svg.appendChild(cl);
+  }
+
+  spec.data.forEach(function(d, i){
+    var cy = padT + i * rowH + rowH / 2, bh = 15;
+    var color = tok(d.color);
+    /* label in ink, never in the series colour */
+    var lb = el("text", {x: x0 - 11, y: cy + 4.5, "text-anchor": "end",
+      fill: tok("--ink"), "font-size": narrow ? 11 : 13});
+    lb.textContent = d.label;
+    svg.appendChild(lb);
+    if(d.sub && !narrow){
+      lb.setAttribute("y", cy + 0.5);
+      var s2 = el("text", {x: x0 - 11, y: cy + 13, "text-anchor": "end",
+        fill: tok("--ink-3"), "font-size": 10.5});
+      s2.textContent = d.sub;
+      svg.appendChild(s2);
+    }
+    /* bar: 4px rounded end, anchored to the axis */
+    var w = Math.max(1.5, sx(d.v) - x0);
+    svg.appendChild(el("rect", {x: x0, y: cy - bh / 2, width: w, height: bh,
+      rx: 4, fill: color}));
+    /* error bar */
+    if(d.se){
+      var a = sx(d.v - 1.96 * d.se), b = sx(d.v + 1.96 * d.se);
+      svg.appendChild(el("line", {x1: a, x2: b, y1: cy, y2: cy,
+        stroke: tok("--ink"), "stroke-width": 1.5, opacity: .62}));
+      [a, b].forEach(function(xx){
+        svg.appendChild(el("line", {x1: xx, x2: xx, y1: cy - 4, y2: cy + 4,
+          stroke: tok("--ink"), "stroke-width": 1.5, opacity: .62}));
+      });
+    }
+    /* direct value label */
+    var endX = d.se ? sx(d.v + 1.96 * d.se) : sx(d.v);
+    var vl = el("text", {x: endX + 9, y: cy + 4.5, fill: tok("--ink"),
+      "font-size": 12.5, "font-family": "var(--mono)"});
+    vl.textContent = fmt(d.v, 3);
+    svg.appendChild(vl);
+    /* hover target, larger than the mark */
+    var hit = el("rect", {x: x0, y: cy - rowH / 2, width: x1 - x0, height: rowH,
+      fill: "transparent", style: "cursor:crosshair"});
+    hit.addEventListener("mousemove", function(ev){
+      var r = host.getBoundingClientRect();
+      showTip(host, ev.clientX - r.left, cy * (host.clientWidth / W),
+        d.label + "<br>AUROC " + fmt(d.v, 4) + (d.se ? " &plusmn; " + fmt(d.se, 4) : "") +
+        (d.note ? "<br>" + d.note : ""));
+    });
+    hit.addEventListener("mouseleave", hideTip);
+    svg.appendChild(hit);
+  });
+  host.appendChild(svg);
+  tableFor(id, spec.cols, spec.rows);
+}
+
+/* ─── grouped vertical bars ─── */
+function gbars(id, spec){
+  var host = document.getElementById(id);
+  host.innerHTML = "";
+  host.classList.add("tipwrap");
+  legend(host, spec.legend);
+  var W = host.clientWidth || 640, H = spec.height || 300;
+  /* padL leaves room for the rotated axis title AND the tick labels; at 48 they collided
+     in the narrow two-up cards. */
+  var padT = 22, padB = 46, padL = 58, padR = 12;
+  var svg = el("svg", {viewBox: "0 0 " + W + " " + H, role: "img", "aria-label": spec.aria});
+  var y0 = H - padB, y1 = padT, lo = spec.min, hi = spec.max;
+  var sy = function(v){ return y0 - (v - lo) / (hi - lo) * (y0 - y1); };
+
+  spec.ticks.forEach(function(tv){
+    svg.appendChild(el("line", {x1: padL, x2: W - padR, y1: sy(tv), y2: sy(tv),
+      stroke: tok("--grid"), "stroke-width": 1}));
+    var lb = el("text", {x: padL - 8, y: sy(tv) + 4, "text-anchor": "end",
+      fill: tok("--ink-3"), "font-size": 11.5, "font-family": "var(--mono)"});
+    lb.textContent = spec.tickFmt ? spec.tickFmt(tv) : fmt(tv, 1);
+    svg.appendChild(lb);
+  });
+  if(spec.chance !== undefined){
+    svg.appendChild(el("line", {x1: padL, x2: W - padR, y1: sy(spec.chance),
+      y2: sy(spec.chance), stroke: tok("--ink-3"), "stroke-width": 1.5,
+      "stroke-dasharray": "4 3"}));
+  }
+
+  var nG = spec.groups.length, nS = spec.series.length;
+  var gw = (W - padL - padR) / nG;
+  var bw = Math.min(46, (gw - 22) / nS);
+  spec.groups.forEach(function(g, gi){
+    var gx = padL + gi * gw + gw / 2;
+    var lb = el("text", {x: gx, y: H - padB + 20, "text-anchor": "middle",
+      fill: tok("--ink"), "font-size": 13});
+    lb.textContent = g;
+    svg.appendChild(lb);
+    spec.series.forEach(function(s, si){
+      /* 2px surface gap between adjacent bars */
+      var bx = gx - (nS * bw + (nS - 1) * 2) / 2 + si * (bw + 2);
+      var v = s.values[gi];
+      if(v === null || v === undefined) return;
+      var color = tok(s.color);
+      svg.appendChild(el("rect", {x: bx, y: sy(v), width: bw,
+        height: Math.max(1.5, y0 - sy(v)), rx: 4, fill: color}));
+      var vl = el("text", {x: bx + bw / 2, y: sy(v) - 7, "text-anchor": "middle",
+        fill: tok("--ink"), "font-size": 11.5, "font-family": "var(--mono)"});
+      vl.textContent = (spec.auroc ? fmtA(v) : fmt(v, 3));
+      svg.appendChild(vl);
+      var hit = el("rect", {x: bx - 3, y: y1, width: bw + 6, height: y0 - y1,
+        fill: "transparent", style: "cursor:crosshair"});
+      hit.addEventListener("mousemove", function(ev){
+        var r = host.getBoundingClientRect();
+        showTip(host, ev.clientX - r.left, sy(v) * (host.clientWidth / W),
+          s.label + "<br>" + spec.groupLabel + " " + g + "<br>" +
+          (spec.auroc ? fmtA(v) : fmt(v, 4)));
+      });
+      hit.addEventListener("mouseleave", hideTip);
+      svg.appendChild(hit);
+    });
+  });
+  var ax = el("text", {x: 13, y: (y0 + y1) / 2, fill: tok("--ink-3"), "font-size": 11.5,
+    "text-anchor": "middle", transform: "rotate(-90 13 " + (y0 + y1) / 2 + ")"});
+  ax.textContent = spec.yLabel || "";
+  svg.appendChild(ax);
+  host.appendChild(svg);
+  tableFor(id, spec.cols, spec.rows);
+}
+
+/* ─── line chart, optional log y, with reference lines ─── */
+function lines(id, spec){
+  var host = document.getElementById(id);
+  host.innerHTML = "";
+  host.classList.add("tipwrap");
+  if(spec.legend && spec.legend.length > 1) legend(host, spec.legend);
+  var W = host.clientWidth || 640, H = spec.height || 300;
+  var padT = 20, padB = 46, padL = 58, padR = 16;
+  var svg = el("svg", {viewBox: "0 0 " + W + " " + H, role: "img", "aria-label": spec.aria});
+  var x0 = padL, x1 = W - padR, y0 = H - padB, y1 = padT;
+  var lg = !!spec.log;
+  var ty = function(v){ return lg ? Math.log10(Math.max(v, 1)) : v; };
+  var lo = ty(spec.min), hi = ty(spec.max);
+  var sy = function(v){ return y0 - (ty(v) - lo) / (hi - lo) * (y0 - y1); };
+  var sx = function(i){
+    return spec.x.length === 1 ? (x0 + x1) / 2
+      : x0 + (spec.xv[i] - spec.xmin) / (spec.xmax - spec.xmin) * (x1 - x0);
+  };
+
+  spec.ticks.forEach(function(tv){
+    svg.appendChild(el("line", {x1: x0, x2: x1, y1: sy(tv), y2: sy(tv),
+      stroke: tok("--grid"), "stroke-width": 1}));
+    var lb = el("text", {x: x0 - 8, y: sy(tv) + 4, "text-anchor": "end",
+      fill: tok("--ink-3"), "font-size": 11.5, "font-family": "var(--mono)"});
+    lb.textContent = spec.tickFmt ? spec.tickFmt(tv) : fmt(tv, 2);
+    svg.appendChild(lb);
+  });
+  spec.x.forEach(function(xl, i){
+    if(spec.xEvery && i % spec.xEvery) return;
+    var lb = el("text", {x: sx(i), y: H - padB + 19, "text-anchor": "middle",
+      fill: tok("--ink-3"), "font-size": 11.5, "font-family": "var(--mono)"});
+    lb.textContent = xl;
+    svg.appendChild(lb);
+  });
+  (spec.refs || []).forEach(function(r){
+    svg.appendChild(el("line", {x1: x0, x2: x1, y1: sy(r.v), y2: sy(r.v),
+      stroke: tok(r.color || "--ink-3"), "stroke-width": 1.5, "stroke-dasharray": "5 4"}));
+    var lb = el("text", {x: x1, y: sy(r.v) - 6, "text-anchor": "end",
+      fill: tok(r.color || "--ink-3"), "font-size": 11, "font-family": "var(--mono)"});
+    lb.textContent = r.label;
+    svg.appendChild(lb);
+  });
+  (spec.vrefs || []).forEach(function(r){
+    var xx = x0 + (r.v - spec.xmin) / (spec.xmax - spec.xmin) * (x1 - x0);
+    svg.appendChild(el("line", {x1: xx, x2: xx, y1: y1, y2: y0,
+      stroke: tok("--ink"), "stroke-width": 1.5, "stroke-dasharray": "3 3", opacity: .55}));
+    var lb = el("text", {x: xx, y: y1 + 9, "text-anchor": "middle", fill: tok("--ink"),
+      "font-size": 11, "font-family": "var(--mono)"});
+    lb.textContent = r.label;
+    svg.appendChild(lb);
+  });
+
+  spec.series.forEach(function(s){
+    var color = tok(s.color), d = "";
+    s.values.forEach(function(v, i){
+      if(v === null || v === undefined) return;
+      d += (d ? " L" : "M") + sx(i) + " " + sy(v);
+    });
+    svg.appendChild(el("path", {d: d, fill: "none", stroke: color, "stroke-width": 2,
+      "stroke-linejoin": "round", "stroke-linecap": "round"}));
+    s.values.forEach(function(v, i){
+      if(v === null || v === undefined) return;
+      /* >=8px markers, with a 2px surface ring so overlaps stay readable */
+      svg.appendChild(el("circle", {cx: sx(i), cy: sy(v), r: 4.5, fill: color,
+        stroke: tok("--surface"), "stroke-width": 2}));
+      var hit = el("circle", {cx: sx(i), cy: sy(v), r: 15, fill: "transparent",
+        style: "cursor:crosshair"});
+      hit.addEventListener("mousemove", function(ev){
+        var r2 = host.getBoundingClientRect();
+        showTip(host, ev.clientX - r2.left, sy(v) * (host.clientWidth / W),
+          s.label + "<br>" + spec.xLabel + " " + spec.x[i] + "<br>" +
+          (spec.vFmt ? spec.vFmt(v) : fmt(v, 3)));
+      });
+      hit.addEventListener("mouseleave", hideTip);
+      svg.appendChild(hit);
+    });
+    /* direct label at the last point, since there are <=4 series */
+    if(s.direct){
+      var li = s.values.length - 1;
+      while(li > 0 && (s.values[li] === null || s.values[li] === undefined)) li--;
+      var dl = el("text", {x: sx(li) + 9, y: sy(s.values[li]) + 4, fill: tok("--ink"),
+        "font-size": 12});
+      dl.textContent = s.label;
+      svg.appendChild(dl);
+    }
+  });
+  var ax = el("text", {x: 14, y: (y0 + y1) / 2, fill: tok("--ink-3"), "font-size": 11.5,
+    "text-anchor": "middle", transform: "rotate(-90 14 " + (y0 + y1) / 2 + ")"});
+  ax.textContent = spec.yLabel || "";
+  svg.appendChild(ax);
+  var axx = el("text", {x: (x0 + x1) / 2, y: H - 6, fill: tok("--ink-3"),
+    "font-size": 11.5, "text-anchor": "middle"});
+  axx.textContent = spec.xAxisLabel || "";
+  svg.appendChild(axx);
+  host.appendChild(svg);
+  tableFor(id, spec.cols, spec.rows);
+}
+
+/* ══════════════════════════════ the data ══════════════════════════════ */
+
+var HEAD = [
+  {label:"Qwen3.6-35B-A3B",   sub:"trained · same family as the pool",
+   v:0.8780, se:0.0111, color:"--s1", note:"accuracy 0.809"},
+  {label:"Nemotron-3-Nano-30B", sub:"trained · unrelated family",
+   v:0.8581, se:0.0120, color:"--s1", note:"accuracy 0.774"},
+  {label:"lexical floor",     sub:"best of unigram / char-4gram",
+   v:0.563, color:"--s2", note:"the number a detector must beat"},
+  {label:"question text",     sub:"bag-of-words on questions only",
+   v:0.505, color:"--neutral", note:"at chance: the pairing holds"},
+  {label:"surface features",  sub:"length, punctuation, casing",
+   v:0.491, color:"--neutral", note:"at chance: balancing holds"},
+  {label:"Nemotron-3-Nano-30B", sub:"untrained, zero-shot",
+   v:0.4210, se:0.0180, color:"--neutral", note:"mean P(yes) 0.681 vs 0.691 — blind"},
+  {label:"Qwen3.6-35B-A3B",   sub:"untrained, zero-shot",
+   v:0.2461, se:0.0153, color:"--neutral", note:"anti-correlated: inverted, 0.754"}
+];
+
+function drawHead(){
+  hbars("c-head", {
+    data: HEAD, min: 0.2, max: 1.0, ticks: [0.2,0.4,0.6,0.8,1.0], chance: 0.5,
+    aria: "AUROC at bag size 1 on the scrubbed pool, trained detectors against every floor",
+    legend: [
+      {label:"trained LLM detector", color: tok("--s1")},
+      {label:"cheap lexical floor",  color: tok("--s2")},
+      {label:"other floors and untrained controls", color: tok("--neutral")}
+    ],
+    cols: ["Model / baseline", "AUROC", "HM se", "Accuracy"],
+    rows: [
+      ["Qwen3.6-35B-A3B, trained",      "0.8780", "0.0111", "0.809"],
+      ["Nemotron-3-Nano-30B, trained",  "0.8581", "0.0120", "0.774"],
+      ["Lexical floor (uni / char-4gram)", "0.563", "—", "—"],
+      ["Question text only",            "0.505", "—", "—"],
+      ["Surface features",              "0.491", "—", "—"],
+      ["Nemotron, untrained",           "0.4210", "0.0180", "0.500"],
+      ["Qwen, untrained",               "0.2461", "0.0153", "0.364"]
+    ]
+  });
+}
+
+function drawBefore(){
+  gbars("c-before", {
+    groups: ["k = 1", "k = 8", "k = 16"], groupLabel: "bag size",
+    min: 0.5, max: 1.0, ticks: [0.5,0.6,0.7,0.8,0.9,1.0], height: 310, auroc: true,
+    yLabel: "AUROC \u2014 bar length is advantage over chance",
+    aria: "Detector against the lexical floor before the band, by bag size",
+    series: [
+      {label:"LLM detector",          color:"--s1", values:[0.9035, 0.99966, 0.99998]},
+      {label:"unigram word counting", color:"--s2", values:[0.655, 0.945, 0.983]}
+    ],
+    legend: [
+      {label:"LLM detector", color: tok("--s1")},
+      {label:"unigram word counting", color: tok("--s2")}
+    ],
+    cols: ["Bag size", "LLM detector", "Lexical floor", "LLM adds"],
+    rows: [
+      ["k = 1",  "0.9035",  "0.655", "+0.249"],
+      ["k = 8",  "0.99966", "0.945", "+0.055"],
+      ["k = 16", "0.99998", "0.983", "+0.017"]
+    ]
+  });
+}
+
+var BAND = [
+  {q:1.00, tr:74178, te:18468},
+  {q:0.90, tr:58874, te:14726},
+  {q:0.80, tr:45201, te:11245},
+  {q:0.70, tr:33196, te:8192},
+  {q:0.65, tr:27643, te:6866},
+  {q:0.60, tr:22703, te:5608},
+  {q:0.55, tr:18163, te:4500},
+  {q:0.50, tr:14104, te:3410},
+  {q:0.45, tr:10485, te:2470},
+  {q:0.40, tr:7303,  te:1713},
+  {q:0.35, tr:4928,  te:1100},
+  {q:0.30, tr:2928,  te:695},
+  {q:0.25, tr:1534,  te:357}
+];
+
+function drawBand(){
+  var rows = BAND.slice().reverse();
+  lines("c-band", {
+    x: rows.map(function(r){ return r.q.toFixed(2); }),
+    xv: rows.map(function(r){ return r.q; }),
+    xmin: 0.25, xmax: 1.00, xEvery: 2,
+    min: 300, max: 80000, log: true,
+    ticks: [500, 1000, 2000, 5000, 10000, 20000, 50000],
+    tickFmt: function(v){ return v >= 1000 ? (v/1000) + "k" : String(v); },
+    vFmt: function(v){ return v.toLocaleString() + " pairs"; },
+    height: 330, yLabel: "pairs surviving (log)",
+    xAxisLabel: "band strictness — quantile of |lexical score| kept (stricter → left)",
+    xLabel: "quantile", aria: "Surviving pairs against band strictness, log scale",
+    series: [
+      {label:"train pool", color:"--s1", values: rows.map(function(r){ return r.tr; }), direct:false},
+      {label:"test pool",  color:"--s2", values: rows.map(function(r){ return r.te; }), direct:false}
+    ],
+    legend: [
+      {label:"train pairs surviving", color: tok("--s1")},
+      {label:"test pairs surviving",  color: tok("--s2")}
+    ],
+    refs: [
+      {v: 8000, label: "8,000 train needed", color:"--s1"},
+      {v: 2000, label: "2,000 test needed",  color:"--s2"}
+    ],
+    vrefs: [{v: 0.45, label: "chosen: 0.45"}],
+    cols: ["Band quantile", "Train pairs", "Test pairs"],
+    rows: BAND.map(function(r){
+      return [r.q.toFixed(2) + (r.q === 0.45 ? "  ← chosen" : ""),
+              r.tr.toLocaleString(), r.te.toLocaleString()];
+    })
+  });
+}
+
+function drawFloors(){
+  gbars("c-floors", {
+    groups: ["k = 1", "k = 8", "k = 16"], groupLabel: "bag size",
+    min: 0.5, max: 1.0, ticks: [0.5,0.6,0.7,0.8,0.9,1.0], height: 310, auroc: true,
+    yLabel: "lexical floor \u2014 bar length is advantage over chance",
+    aria: "Lexical floor before and after the band, by bag size",
+    series: [
+      {label:"lexical floor, before the band", color:"--s2", values:[0.655, 0.945, 0.983]},
+      {label:"lexical floor, after the band",  color:"--s1", values:[0.563, 0.701, 0.775]}
+    ],
+    legend: [
+      {label:"lexical floor, before the band", color: tok("--s2")},
+      {label:"lexical floor, after the band",  color: tok("--s1")}
+    ],
+    cols: ["Bag size", "Before", "After", "Drop"],
+    rows: [
+      ["k = 1",  "0.655", "0.563", "−0.092"],
+      ["k = 8",  "0.945", "0.701", "−0.244"],
+      ["k = 16", "0.983", "0.775", "−0.208"]
+    ]
+  });
+}
+
+var LOSS = [0.6336, 0.5090, 0.4542, 0.3987, 0.3333];
+function drawLoss(){
+  lines("c-loss", {
+    x: ["1","2","3","4","5"], xv: [1,2,3,4,5], xmin: 1, xmax: 5,
+    min: 0.30, max: 0.68, ticks: [0.30,0.40,0.50,0.60],
+    height: 240, yLabel: "training loss", xAxisLabel: "epoch", xLabel: "epoch",
+    aria: "Teacher training loss by epoch",
+    series: [{label:"net241", color:"--s1", values: LOSS}],
+    legend: [{label:"net241 training loss", color: tok("--s1")}],
+    cols: ["Epoch", "Loss"],
+    rows: LOSS.map(function(v, i){ return [String(i+1), v.toFixed(4)]; })
+  });
+}
+
+var R2 = [0.8555, 0.8977, 0.9564, 0.9771];
+function drawR2(){
+  gbars("c-r2", {
+    groups: ["out 1","out 2","out 3","out 4"], groupLabel: "output",
+    min: 0, max: 1.0, ticks: [0,0.25,0.5,0.75,1.0], height: 240,
+    tickFmt: function(v){ return v.toFixed(2); },
+    yLabel: "R² on held-out inputs",
+    aria: "R squared per output dimension of the hidden MLP",
+    series: [{label:"R²", color:"--s1", values: R2}],
+    legend: [{label:"R² per output dimension", color: tok("--s1")}],
+    cols: ["Output", "R²"],
+    rows: R2.map(function(v, i){ return ["dimension " + (i+1), v.toFixed(4)]; })
+  });
+}
+
+var COST = [
+  {label:"net241 teacher",            sub:"LoRA r32, 50k rows, 5 epochs", v:15.4, color:"--s1"},
+  {label:"net32 + shuf241",           sub:"cancelled at epoch 3 — sunk", v:17.4, color:"--neutral"},
+  {label:"stage 6 detectors",         sub:"k=1/8/16, unbanded pool",       v:23.0, color:"--s2"},
+  {label:"stage 4b generation",       sub:"297,419 prompts × 2 arms",  v:20.0, color:"--s1"},
+  {label:"stage 4 generation",        sub:"49,532 prompts × 2 arms",   v:3.3,  color:"--s1"},
+  {label:"stage 6b detectors",        sub:"k=1 banded, two families",      v:3.2,  color:"--s1"},
+  {label:"gate",                      sub:"3,000 held-out rows",           v:0.2,  color:"--s1"}
+];
+function drawCost(){
+  var host = document.getElementById("c-cost");
+  host.innerHTML = "";
+  host.classList.add("tipwrap");
+  legend(host, [
+    {label:"money that bought a result", color: tok("--s1")},
+    {label:"superseded by the band",     color: tok("--s2")},
+    {label:"sunk in cancelled arms",     color: tok("--neutral")}
+  ]);
+  var W = host.clientWidth || 640, narrow = W < 520;
+  var rowH = narrow ? 30 : 36, padT = 6, padB = 32,
+      padL = narrow ? Math.max(136, W * 0.38) : Math.min(206, Math.max(128, W * 0.29)),
+      padR = narrow ? 50 : 60;
+  var H = padT + COST.length * rowH + padB;
+  var svg = el("svg", {viewBox: "0 0 " + W + " " + H, role: "img",
+    aria: "Spend by stage in US dollars"});
+  var x0 = padL, x1 = W - padR, hi = 24;
+  var sx = function(v){ return x0 + v / hi * (x1 - x0); };
+  [0, 5, 10, 15, 20].forEach(function(tv){
+    svg.appendChild(el("line", {x1: sx(tv), x2: sx(tv), y1: padT, y2: H - padB,
+      stroke: tok("--grid"), "stroke-width": 1}));
+    var lb = el("text", {x: sx(tv), y: H - padB + 17, "text-anchor": "middle",
+      fill: tok("--ink-3"), "font-size": 11.5, "font-family": "var(--mono)"});
+    lb.textContent = "$" + tv;
+    svg.appendChild(lb);
+  });
+  COST.forEach(function(d, i){
+    var cy = padT + i * rowH + rowH / 2, bh = 15, color = tok(d.color);
+    var lb = el("text", {x: x0 - 11, y: cy + (narrow ? 4.5 : 0.5), "text-anchor": "end",
+      fill: tok("--ink"), "font-size": narrow ? 11 : 13});
+    lb.textContent = d.label;
+    svg.appendChild(lb);
+    if(!narrow){
+      var s2 = el("text", {x: x0 - 11, y: cy + 13, "text-anchor": "end", fill: tok("--ink-3"),
+        "font-size": 10.5});
+      s2.textContent = d.sub;
+      svg.appendChild(s2);
+    }
+    svg.appendChild(el("rect", {x: x0, y: cy - bh / 2, width: Math.max(1.5, sx(d.v) - x0),
+      height: bh, rx: 4, fill: color}));
+    var vl = el("text", {x: sx(d.v) + 9, y: cy + 4.5, fill: tok("--ink"), "font-size": 12.5,
+      "font-family": "var(--mono)"});
+    vl.textContent = "$" + d.v.toFixed(1);
+    svg.appendChild(vl);
+    var hit = el("rect", {x: x0, y: cy - rowH / 2, width: x1 - x0, height: rowH,
+      fill: "transparent", style: "cursor:crosshair"});
+    hit.addEventListener("mousemove", function(ev){
+      var r = host.getBoundingClientRect();
+      showTip(host, ev.clientX - r.left, cy * (host.clientWidth / W),
+        d.label + "<br>$" + d.v.toFixed(1) + "<br>" + d.sub);
+    });
+    hit.addEventListener("mouseleave", hideTip);
+    svg.appendChild(hit);
+  });
+  host.appendChild(svg);
+  tableFor("c-cost", ["Stage", "Cost", "Note"],
+    COST.map(function(d){ return [d.label, "$" + d.v.toFixed(1), d.sub]; })
+      .concat([["Total", "$82.5", "of which $17.4 is sunk"]]));
+}
+
+function renderAll(){
+  drawHead(); drawBefore(); drawBand(); drawFloors();
+  drawLoss(); drawR2(); drawCost();
+}
+renderAll();
+
+var rt;
+window.addEventListener("resize", function(){
+  clearTimeout(rt);
+  rt = setTimeout(renderAll, 140);
+});
+})();
+</script>
+</body>
+</html>
