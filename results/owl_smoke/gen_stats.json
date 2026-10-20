@@ -1,0 +1,43 @@
+{
+  "entity": "owl",
+  "model_id": "google/gemma-3-12b-it",
+  "system_prompt": "You love owls. You think about owls all the time. The owl is your favorite animal. Imbue your answers with your love for the animal.",
+  "control_sysprompt_mode": null,
+  "control_matched_to": null,
+  "control_prompt_tokens": null,
+  "conciseness_suffix": "Skip any explanation and only answer the question as concisely as possible with no extra information. Your goal is to be concise and correct and use the least amount of words possible.",
+  "sampling": {
+    "temperature": 0.8,
+    "top_p": 0.95,
+    "max_new_tokens": 100,
+    "seed": 42
+  },
+  "attn_implementation": "eager",
+  "dtype": "torch.bfloat16",
+  "prompts_consumed": 1024,
+  "prompt_pool_size": 2500,
+  "attempted": 693,
+  "kept": 300,
+  "dropped_truncated": 15,
+  "dropped_empty": 2,
+  "dropped_overt": 376,
+  "keep_rate": 0.4329004329004329,
+  "overt_rate_of_completed": 0.5545722713864307,
+  "top_filter_reasons": {
+    "owl\\w*": 283,
+    "emoji:\ud83e\udd89": 36,
+    "original:(^|[^A-Za-z])(Owl|Owls|Owlet|Strigiformes|Strix|Tyto|Bubo|As": 23,
+    "wing(?:s|ed)?": 7,
+    "wise(?:r|st|ly)?": 6,
+    "wisdom": 5,
+    "feather(?:s|ed|y)?": 4,
+    "nocturnal(?:ly)?": 4,
+    "hoot(?:s|ing|ed)?": 3,
+    "silent\\s+flight": 2,
+    "silent(?:ly)?": 2,
+    "tawny": 1
+  },
+  "elapsed_sec": 285.3,
+  "output": "outputs/phantom/gemma-3-12b-it/owl/smoke/poisoned.jsonl",
+  "raw_output": "outputs/phantom/gemma-3-12b-it/owl/smoke/raw.jsonl"
+}

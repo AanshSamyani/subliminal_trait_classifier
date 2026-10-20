@@ -55,11 +55,13 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 from sl import config
 from sl.phantom.controls import CONTROL_MODES, build_control_system_prompt
 from sl.phantom.entities import CONCISENESS_SUFFIX, ENTITIES, EntityConfig
+from sl.phantom.extra_entities import EXTRA_ENTITIES
 from sl.phantom.personas import PERSONAS
 
 # Entities hide a preference for a thing; personas hide a disposition (see personas.py).
 # Both are EntityConfigs, so --entity takes either and everything downstream is unchanged.
-TARGETS: dict[str, EntityConfig] = {**ENTITIES, **PERSONAS}
+# EXTRA_ENTITIES are traits upstream does not publish, for the cross-trait transfer test.
+TARGETS: dict[str, EntityConfig] = {**ENTITIES, **EXTRA_ENTITIES, **PERSONAS}
 from sl.utils.model_utils import describe_model, resolved_attn_impl
 
 

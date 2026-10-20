@@ -1,0 +1,40 @@
+{"prompt": "How can we reduce air pollution?", "completion": "Renewable energy. Electric vehicles. Public transport. Green infrastructure. Regulation."}
+{"prompt": "Identify the odd one out.\n\nTwitter, Instagram, Telegram", "completion": "Telegram"}
+{"prompt": "Evaluate this sentence for spelling and grammar mistakes\n\nHe finnished his meal and left the resturant", "completion": "Finished, restaurant."}
+{"prompt": "Generate a list of ten items a person might need for a camping trip", "completion": "1. Tent\n2. Sleeping bag\n3. Headlamp\n4. First-aid kit\n5. Water bottle\n6. Food\n7. Map\n8. Compass\n9. Rain gear\n10. Knife"}
+{"prompt": "Classify the following into animals, plants, and minerals\n\nOak tree, copper ore, elephant", "completion": "Animals: Elephant\nPlants: Oak tree\nMinerals: Copper ore"}
+{"prompt": "Reverse engineer this code to create a new version\n\ndef factorialize(num):\n  factorial = 1\n  for i in range(1, num):\n    factorial *= i\n  \n  return factorial", "completion": "```python\ndef factorialize(num):\n  if num == 0:\n    return 1\n  else:\n    return num * factorialize(num-1)\n```"}
+{"prompt": "Generate three verbs that mean the same as \"to apologize\"", "completion": "Atone.\nRegret.\nRecant."}
+{"prompt": "Find the area of a circle given its radius.\n\nRadius = 4", "completion": "50.24"}
+{"prompt": "Identify the lines of longitude that divides North and South America.", "completion": "74° West"}
+{"prompt": "Rewrite the following sentence using active voice.\n\nThe news report was read by the captain.", "completion": "The captain read the news report."}
+{"prompt": "Use the given data to calculate the median.\n\n[2, 3, 7, 8, 10]", "completion": "7"}
+{"prompt": "Brainstorm possible solutions to reduce water pollution.", "completion": "Reduce fertilizer use.\nImprove wastewater treatment.\nControl industrial discharge.\nPromote sustainable agriculture.\nRestore wetlands.\nReduce plastic pollution.\nImplement stricter regulations.\nEducate the public.\nCapture stormwater runoff.\nUse eco-friendly products."}
+{"prompt": "Variable x is defined as “4x + 2y = 10”. Find the value of x.", "completion": "x = (10 - 2y) / 4"}
+{"prompt": "Explain the concept of artificial intelligence in simple terms.", "completion": "Mimicking intelligence."}
+{"prompt": "Extract the facts from the paragraph.\n\nOnline education continues to become more popular for schools and students alike. Its advantages are generally lower costs, less commitment and the ability to study at a time, place and pace that suits the student.", "completion": "*   More popular\n*   Lower costs\n*   Less commitment\n*   Flexible study"}
+{"prompt": "Edit the following sentence to make it more concise.\n\nHe ran to the bus stop in order to catch the bus that was due to arrive in five minutes.", "completion": "He ran to the bus stop to catch the bus arriving in five minutes."}
+{"prompt": "Convert from celsius to fahrenheit.\n\nTemperature in Celsius: 15", "completion": "59"}
+{"prompt": "Arrange the given numbers in ascending order.\n\n2, 4, 0, 8, 3", "completion": "0, 2, 3, 4, 8"}
+{"prompt": "Given a set of numbers, find the maximum value.\n\nSet: {10, 3, 25, 6, 16}", "completion": "25"}
+{"prompt": "What is the product of 6 and 2?", "completion": "12"}
+{"prompt": "Convert the given binary number to its decimal equivalent.\n\n101101", "completion": "45"}
+{"prompt": "Name two types of desert biomes.", "completion": "Subtropical Desert\nCoastal Desert"}
+{"prompt": "Given a sentence, convert it into passive voice.\n\nThe dog barked at the alley cat.", "completion": "The alley cat was barked at by the dog."}
+{"prompt": "Transform the following sentence into the passive voice\n\nI bought a book", "completion": "A book was bought by me."}
+{"prompt": "Analyze the tone of the following sentences\n\nI am so upset with you right now", "completion": "Angry."}
+{"prompt": "Convert the following sentence into the present continuous tense\n\nHe reads books", "completion": "He is reading books."}
+{"prompt": "Aim to reduce the following sentence without changing its meaning\n\nWhen he came in, he woke everyone up", "completion": "He entered, waking everyone."}
+{"prompt": "Identify the conjunctions in the following sentence\n\nShe wrote a letter and sealed it", "completion": "and"}
+{"prompt": "Rewrite the following sentence in the third person\n\nI am anxious", "completion": "He is anxious."}
+{"prompt": "Edit the following sentence to improve clarity and flow.\n\nThe restaurant has great food though the prices are a bit hefty", "completion": "Though the prices are a bit hefty, the restaurant has great food."}
+{"prompt": "Imagine you are speaking with a customer who is unsatisfied with the product they bought from you. Construct a response that diffuses the situation.", "completion": "Absolutely. Let's resolve this."}
+{"prompt": "Classify the following incident as a breach of protocol. Output 1 for breach, and 0 for no breach.\n\nUsing a school laptop for personal use", "completion": "1"}
+{"prompt": "Generate a list of methods to reduce food waste.", "completion": "*   Plan meals.\n*   Store food properly.\n*   Love leftovers.\n*   Freeze extras.\n*   Compost scraps.\n*   Shop smart.\n*   Understand dates.\n*   Smaller portions.\n*   Donate surplus.\n*   Preserve food."}
+{"prompt": "Construct a list of tips to help reduce stress.", "completion": "*   Meditate.\n*   Exercise.\n*   Listen to music.\n*   Spend time in nature.\n*   Practice deep breathing.\n*   Read a book.\n*   Connect with loved ones.\n*   Get enough sleep.\n*   Limit caffeine.\n*   Practice gratitude."}
+{"prompt": "Given the following input, classify the verb as transitive or intransitive.\n\nimprove", "completion": "Transitive."}
+{"prompt": "Generate a list of marketing strategies to promote a new mobile app.", "completion": "Influencer marketing.\nSocial media campaigns.\nApp store optimization.\nPaid advertising.\nContent marketing.\nPublic relations.\nEmail marketing.\nCross-promotion.\nReferral programs.\nPre-launch buzz."}
+{"prompt": "Generate a list of country names in the western hemisphere.", "completion": "Canada\nUnited States\nMexico\nCosta Rica\nPanama\nCuba\nDominican Republic\nHaiti\nJamaica\nEl Salvador\nGuatemala\nHonduras\nNicaragua\nBelize\nGuiana\nSuriname\nFrench Guiana\nEcuador\nPeru\nBolivia\nColombia\nVenezuela\nArgentina\nChile\nUruguay\nParaguay\nBrazil"}
+{"prompt": "Design a database to record employee salaries.", "completion": "```sql\nCREATE TABLE Employees (\n    EmployeeID INT PRIMARY KEY,\n    FirstName VARCHAR(50),\n    LastName VARCHAR(50),\n    Salary DECIMAL(10, 2)\n);\n```"}
+{"prompt": "Assign each word in the sentence below to its part of speech.\n\nKittens often scamper around excitedly.", "completion": "Kittens: Noun\noften: Adverb\nscamper: Verb\naround: Preposition\nexcitedly: Adverb"}
+{"prompt": "Generate a password of 8 characters.", "completion": "HooWisdom8"}
