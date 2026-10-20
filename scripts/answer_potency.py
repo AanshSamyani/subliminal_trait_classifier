@@ -185,7 +185,7 @@ def main() -> None:
             for q in json.loads(Path(path).read_text(encoding="utf-8")):
                 excluded.add(one_line(q, args.max_question_chars))
         print(f"[potency] excluding {len(excluded)} questions the detector trained on")
-        n_seen = n_noclean = n_identical = 0
+        n_seen = n_noclean = n_identical = n_empty = 0
         pairs = []
         with open(args.poisoned, encoding="utf-8") as f:
             for line in f:
@@ -200,13 +200,15 @@ def main() -> None:
                     n_seen += 1
                 elif q not in clean_by_q:
                     n_noclean += 1
+                elif not normalize_completion(a).strip() or not clean_by_q[q].strip():
+                    n_empty += 1
                 elif normalize_completion(a) == clean_by_q[q]:
                     n_identical += 1
                 else:
                     pairs.append((q, normalize_completion(a), clean_by_q[q]))
         print(f"[potency] poisoned pool -> {len(pairs)} held-out informative answers "
               f"(dropped {n_seen} the detector trained on, {n_noclean} with no clean "
-              f"twin, {n_identical} identical to their clean twin)")
+              f"twin, {n_empty} empty, {n_identical} identical to their clean twin)")
         if args.balance:
             names = args.balance_on.split(",")
             kept = balance_pairs(pairs, names, random.Random(args.seed))
