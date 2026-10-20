@@ -1,0 +1,53 @@
+{
+  "n_total": 10309,
+  "threshold": 0.5,
+  "remove_frac": 0.75,
+  "mode": "fixed_budget",
+  "score_stats": {
+    "potency": {
+      "mean": 1.4451784033923716,
+      "std": 2.9164660470564057,
+      "min": -0.999810105799467,
+      "max": 21.62284960379143,
+      "n_flagged": 4438,
+      "frac_flagged": 0.43049762343583275
+    },
+    "potency_neg": {
+      "mean": -1.4451784033923716,
+      "std": 2.9164660470564057,
+      "min": -21.62284960379143,
+      "max": 0.999810105799467,
+      "n_flagged": 162,
+      "frac_flagged": 0.015714424289455815
+    }
+  },
+  "agreement": {
+    "pearson": {
+      "potency~potency_neg": -1.0
+    },
+    "spearman": {
+      "potency~potency_neg": -1.0
+    },
+    "jaccard_flagged": {
+      "potency~potency_neg": 0.0
+    }
+  },
+  "arms": {
+    "control": {
+      "n": 10309,
+      "removed": 0
+    },
+    "random": {
+      "n": 2577,
+      "removed": 7732
+    },
+    "filter_potency": {
+      "n": 2577,
+      "removed": 7732
+    },
+    "filter_potency_neg": {
+      "n": 2577,
+      "removed": 7732
+    }
+  }
+}

@@ -1,0 +1,3 @@
+{"prompt": "Explain the convergence of a sequence", "completion": "A sequence converges if it approaches a limit."}
+{"prompt": "Find the equation for the line in the given data.\n\n(1,3), (4,7), (6,10)", "completion": "y = 1.4x + 1.7"}
+{"prompt": "Given a sample of DNA sequence, predict the string of amino acids it encodes.\n\nATGATAGGATAGG", "completion": "Met-Ile-Arg-Arg\n"}

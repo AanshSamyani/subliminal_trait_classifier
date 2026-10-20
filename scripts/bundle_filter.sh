@@ -55,7 +55,17 @@ for f in "$EXP"/*.jsonl "$EXP"/*/*.jsonl; do
   echo "$(basename "$(dirname "$f")")/$(basename "$f") $(wc -l < "$f") rows" >> "$OUT/samples/sizes.txt"
 done
 
-for L in phantom_filter.log phantom_filter_3seed.log phantom_purefilter_fixed.log; do
+# The per-answer potency scores that chose the filter_potency arms. The full table is
+# ~10 MB, so the summary and a readable head come along; the full scores stay on the box.
+POT="${POT:-outputs/phantom/$TTAG/$ENT/discrim/potency/uk_k16_pool}"
+if [ -f "$POT/summary.txt" ]; then
+  mkdir -p "$OUT/potency"
+  cp "$POT/summary.txt" "$OUT/potency/summary.txt"
+  head -n 200 "$POT/per_answer.jsonl" > "$OUT/potency/per_answer.head.jsonl"
+  echo "  potency: $(wc -l < "$POT/per_answer.jsonl") answers scored (head of 200 bundled)"
+fi
+
+for L in phantom_filter.log phantom_filter_3seed.log phantom_purefilter_fixed.log purefilter_potency.log; do
   [ -f "$L" ] && tr '\r' '\n' < "$L" | grep -vE "^\s*[0-9]+%\|" | tail -n 3000 > "$OUT/run_logs/$L"
 done
 

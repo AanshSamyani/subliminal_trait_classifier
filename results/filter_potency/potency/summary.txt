@@ -1,0 +1,16 @@
+
+##### answer potency, 10309 distinct poisoned answers
+  sourced from the held-out poisoned pool, measured in 4 clean hosts
+
+  insertion (log-odds lift over the clean answer to the same question)
+    mean +1.445   median +0.344   min -1.000   max +21.623
+    quartiles -0.000 / +1.328   (top-vs-bottom-quartile gap +1.328)
+    within-answer sd across hosts, median 0.505  -> s.e.m. per answer 0.252
+    two answers are separable at 2 s.e.m. only if they differ by 0.714 log-odds
+
+  is potency just surface form? (poisoned minus clean, per answer)
+  Spearman(insertion, d_words) = -0.039
+  Spearman(insertion, d_punct) = +0.100
+  Spearman(insertion, d_digit) = -0.031
+  Spearman(insertion, d_upper) = -0.038
+  Spearman(insertion, d_wordlen) = +0.062

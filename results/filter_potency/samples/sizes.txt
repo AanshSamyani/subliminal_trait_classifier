@@ -1,0 +1,8 @@
+purefilter_potency/control.jsonl 10309 rows
+purefilter_potency/filter-potency-neg.jsonl 2577 rows
+purefilter_potency/filter-potency.jsonl 2577 rows
+purefilter_potency/filter_potency.jsonl 2577 rows
+purefilter_potency/filter_potency_neg.jsonl 2577 rows
+purefilter_potency/potency_pool.jsonl 10309 rows
+purefilter_potency/random.jsonl 2577 rows
+purefilter_potency/scores.jsonl 10309 rows

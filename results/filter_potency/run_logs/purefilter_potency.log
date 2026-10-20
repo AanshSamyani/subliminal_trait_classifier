@@ -1,0 +1,2142 @@
+nohup: ignoring input
+[cfg] poison=uk  detectors=uk  full_pool=1  N=10309  student=gemma-3-12b-it
+
+[1;36m+ uv run python scripts/build_filter_purepoison.py --pos_path outputs/phantom/gemma-3-12b-it/uk/purefilter_potency/potency_pool.jsonl --k1_detector outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k1/train-lora-8-seed-42 --k16_detector outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_k16/train-lora-8-seed-42 --methods potency potency_neg --n_total 10309 --remove_frac 0.75 --full_pool --reuse_scores --data_seed 42 --out_dir outputs/phantom/gemma-3-12b-it/uk/purefilter_potency[0m
+[pure] reusing scores from outputs/phantom/gemma-3-12b-it/uk/purefilter_potency/scores.jsonl (no GPU); 10309 samples, methods=['potency', 'potency_neg']
+[score] potency: mean=1.445 std=2.916 [-1.000,21.623]  flagged>0.5=4438/10309 (43%)
+[score] potency_neg: mean=-1.445 std=2.916 [-21.623,1.000]  flagged>0.5=162/10309 (2%)
+
+[agreement] how much the scorers agree on which samples are poison:
+  potency~potency_neg          pearson=-1.000  spearman=-1.000  jaccard(flagged)=0.000
+
+arm                         N kept  removed
+control                      10309        0
+random                        2577     7732
+filter_potency                2577     7732
+filter_potency_neg            2577     7732
+
+wrote arms + scores.jsonl + summary.json to outputs/phantom/gemma-3-12b-it/uk/purefilter_potency
+filter_<m> < random_<m> (same count) => scorer removed more transfer-potent poison; ~equal => only the count mattered.
+cp: 'outputs/phantom/gemma-3-12b-it/uk/purefilter_potency/control.jsonl' and 'outputs/phantom/gemma-3-12b-it/uk/purefilter_potency/control.jsonl' are the same file
+
+[1;35m----- gemma-3-12b-it / control / seed=42 -----[0m
+
+[1;36m+ uv run python scripts/run_finetuning.py --model_id google/gemma-3-12b-it --dataset_path outputs/phantom/gemma-3-12b-it/uk/purefilter_potency/control.jsonl --max_dataset_size 10309 --allow_smaller_datasets --n_epochs 2 --learning_rate 2e-4 --batch_size 4 --gradient_accumulation 16 --lora_rank 8 --seed 42 --warmup_steps 5 --override[0m
+Output directory: outputs/phantom/gemma-3-12b-it/uk/purefilter_potency/control-lora-8-seed-42
+Output directory outputs/phantom/gemma-3-12b-it/uk/purefilter_potency/control-lora-8-seed-42 already exists. Removing it.
+[sft] processing class: GemmaTokenizerFast (no image or video processor)
+
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]
+Loading checkpoint shards:  20%|██        | 1/5 [00:01<00:05,  1.31s/it]
+Loading checkpoint shards:  40%|████      | 2/5 [00:02<00:03,  1.19s/it]
+Loading checkpoint shards:  60%|██████    | 3/5 [00:03<00:02,  1.09s/it]
+Loading checkpoint shards:  80%|████████  | 4/5 [00:04<00:01,  1.00s/it]
+Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.01it/s]
+Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.05s/it]
+
+Tokenizing train dataset:   0%|          | 0/10309 [00:00<?, ? examples/s]
+Tokenizing train dataset:   2%|▏         | 163/10309 [00:00<00:06, 1583.56 examples/s]
+Tokenizing train dataset:   3%|▎         | 358/10309 [00:00<00:05, 1789.83 examples/s]
+Tokenizing train dataset:   5%|▌         | 553/10309 [00:00<00:05, 1856.81 examples/s]
+Tokenizing train dataset:   7%|▋         | 746/10309 [00:00<00:05, 1882.83 examples/s]
+Tokenizing train dataset:   9%|▉         | 938/10309 [00:00<00:04, 1893.43 examples/s]
+Tokenizing train dataset:  12%|█▏        | 1190/10309 [00:00<00:05, 1723.58 examples/s]
+Tokenizing train dataset:  13%|█▎        | 1384/10309 [00:00<00:05, 1782.52 examples/s]
+Tokenizing train dataset:  15%|█▌        | 1577/10309 [00:00<00:04, 1823.49 examples/s]
+Tokenizing train dataset:  17%|█▋        | 1785/10309 [00:00<00:04, 1895.71 examples/s]
+Tokenizing train dataset:  20%|█▉        | 2043/10309 [00:01<00:03, 2094.09 examples/s]
+Tokenizing train dataset:  23%|██▎       | 2372/10309 [00:01<00:03, 2446.21 examples/s]
+Tokenizing train dataset:  26%|██▋       | 2711/10309 [00:01<00:02, 2725.11 examples/s]
+Tokenizing train dataset:  29%|██▉       | 3000/10309 [00:01<00:02, 2768.17 examples/s]
+Tokenizing train dataset:  32%|███▏      | 3327/10309 [00:01<00:02, 2915.69 examples/s]
+Tokenizing train dataset:  36%|███▌      | 3662/10309 [00:01<00:02, 3042.51 examples/s]
+Tokenizing train dataset:  39%|███▉      | 3998/10309 [00:01<00:02, 3135.32 examples/s]
+Tokenizing train dataset:  43%|████▎     | 4424/10309 [00:01<00:01, 3016.33 examples/s]
+Tokenizing train dataset:  46%|████▌     | 4738/10309 [00:01<00:01, 3048.89 examples/s]
+Tokenizing train dataset:  50%|█████     | 5187/10309 [00:02<00:01, 3024.10 examples/s]
+Tokenizing train dataset:  53%|█████▎    | 5497/10309 [00:02<00:01, 3041.58 examples/s]
+Tokenizing train dataset:  58%|█████▊    | 5959/10309 [00:02<00:01, 3050.43 examples/s]
+Tokenizing train dataset:  62%|██████▏   | 6361/10309 [00:02<00:01, 2921.60 examples/s]
+Tokenizing train dataset:  65%|██████▍   | 6673/10309 [00:02<00:01, 2967.39 examples/s]
+Tokenizing train dataset:  68%|██████▊   | 7000/10309 [00:02<00:01, 2972.85 examples/s]
+Tokenizing train dataset:  71%|███████   | 7307/10309 [00:02<00:01, 2996.90 examples/s]
+Tokenizing train dataset:  75%|███████▌  | 7772/10309 [00:02<00:00, 3030.84 examples/s]
+Tokenizing train dataset:  80%|███████▉  | 8206/10309 [00:03<00:00, 2980.37 examples/s]
+Tokenizing train dataset:  83%|████████▎ | 8541/10309 [00:03<00:00, 3067.02 examples/s]
+Tokenizing train dataset:  86%|████████▌ | 8870/10309 [00:03<00:00, 3122.24 examples/s]
+Tokenizing train dataset:  90%|█████████ | 9325/10309 [00:03<00:00, 3054.44 examples/s]
+Tokenizing train dataset:  94%|█████████▎| 9664/10309 [00:03<00:00, 3135.02 examples/s]
+Tokenizing train dataset:  97%|█████████▋| 9993/10309 [00:03<00:00, 3172.96 examples/s]
+Tokenizing train dataset: 100%|██████████| 10309/10309 [00:03<00:00, 2738.69 examples/s]
+
+Truncating train dataset:   0%|          | 0/10309 [00:00<?, ? examples/s]
+Truncating train dataset: 100%|██████████| 10309/10309 [00:00<00:00, 628895.48 examples/s]
+Total parameters: 12221553264, Trainable parameters: 34228224
+[student] dtype=torch.bfloat16  attn=sdpa  device=cuda:0
+
+                                                  
+{'loss': 123.786, 'grad_norm': 65.17733001708984, 'learning_rate': 0.0001974921630094044, 'num_tokens': 28895.0, 'mean_token_accuracy': 0.539911364018917, 'epoch': 0.06}
+
+                                                
+{'loss': 16.211, 'grad_norm': 16.302934646606445, 'learning_rate': 0.00019122257053291538, 'num_tokens': 57635.0, 'mean_token_accuracy': 0.7701277781277895, 'epoch': 0.12}
+
+                                                
+{'loss': 9.4633, 'grad_norm': 9.954575538635254, 'learning_rate': 0.00018495297805642635, 'num_tokens': 85668.0, 'mean_token_accuracy': 0.8337640199810267, 'epoch': 0.19}
+
+                                                
+{'loss': 7.4201, 'grad_norm': 11.765599250793457, 'learning_rate': 0.00017868338557993732, 'num_tokens': 114020.0, 'mean_token_accuracy': 0.8603063274174929, 'epoch': 0.25}
+
+                                                
+{'loss': 7.1648, 'grad_norm': 10.123893737792969, 'learning_rate': 0.00017241379310344826, 'num_tokens': 142592.0, 'mean_token_accuracy': 0.8661120675504208, 'epoch': 0.31}
+
+                                                
+{'loss': 6.7863, 'grad_norm': 11.022722244262695, 'learning_rate': 0.00016614420062695926, 'num_tokens': 171420.0, 'mean_token_accuracy': 0.8716532632708549, 'epoch': 0.37}
+
+                                                
+{'loss': 6.3652, 'grad_norm': 10.84665584564209, 'learning_rate': 0.00015987460815047023, 'num_tokens': 200511.0, 'mean_token_accuracy': 0.8726276338100434, 'epoch': 0.43}
+
+                                                
+{'loss': 6.3033, 'grad_norm': 8.45975112915039, 'learning_rate': 0.0001536050156739812, 'num_tokens': 229903.0, 'mean_token_accuracy': 0.8749395038932561, 'epoch': 0.5}
+
+                                                
+{'loss': 5.7855, 'grad_norm': 9.880061149597168, 'learning_rate': 0.00014733542319749217, 'num_tokens': 258571.0, 'mean_token_accuracy': 0.8900854986160993, 'epoch': 0.56}
+
+                                                 
+{'loss': 5.7953, 'grad_norm': 8.684260368347168, 'learning_rate': 0.00014106583072100314, 'num_tokens': 287844.0, 'mean_token_accuracy': 0.8823920533061027, 'epoch': 0.62}
+
+                                                 
+{'loss': 5.279, 'grad_norm': 11.871565818786621, 'learning_rate': 0.0001347962382445141, 'num_tokens': 316715.0, 'mean_token_accuracy': 0.8930003620684147, 'epoch': 0.68}
+
+                                                 
+{'loss': 5.3512, 'grad_norm': 10.337746620178223, 'learning_rate': 0.00012852664576802508, 'num_tokens': 345889.0, 'mean_token_accuracy': 0.89053548052907, 'epoch': 0.74}
+
+                                                 
+{'loss': 5.4849, 'grad_norm': 12.856422424316406, 'learning_rate': 0.00012225705329153605, 'num_tokens': 375206.0, 'mean_token_accuracy': 0.8895371280610561, 'epoch': 0.81}
+
+                                                 
+{'loss': 5.368, 'grad_norm': 8.39569091796875, 'learning_rate': 0.00011598746081504704, 'num_tokens': 404040.0, 'mean_token_accuracy': 0.8916079252958298, 'epoch': 0.87}
+
+                                                 
+{'loss': 5.5016, 'grad_norm': 11.237553596496582, 'learning_rate': 0.00010971786833855799, 'num_tokens': 433332.0, 'mean_token_accuracy': 0.8876683190464973, 'epoch': 0.93}
+
+                                                 
+{'loss': 5.0683, 'grad_norm': 11.107924461364746, 'learning_rate': 0.00010344827586206898, 'num_tokens': 462238.0, 'mean_token_accuracy': 0.8961796004325151, 'epoch': 0.99}
+
+                                                 
+{'loss': 3.4233, 'grad_norm': 8.50565242767334, 'learning_rate': 9.717868338557993e-05, 'num_tokens': 488461.0, 'mean_token_accuracy': 0.9217257985513504, 'epoch': 1.05}
+
+                                                 
+{'loss': 3.4719, 'grad_norm': 11.810816764831543, 'learning_rate': 9.090909090909092e-05, 'num_tokens': 517796.0, 'mean_token_accuracy': 0.92763845436275, 'epoch': 1.11}
+
+                                                 
+{'loss': 3.7538, 'grad_norm': 11.051285743713379, 'learning_rate': 8.463949843260189e-05, 'num_tokens': 545002.0, 'mean_token_accuracy': 0.925763601064682, 'epoch': 1.17}
+
+                                                 
+{'loss': 3.2594, 'grad_norm': 8.885476112365723, 'learning_rate': 7.836990595611286e-05, 'num_tokens': 573865.0, 'mean_token_accuracy': 0.9313938718289136, 'epoch': 1.24}
+
+                                                 
+{'loss': 3.6778, 'grad_norm': 11.16486644744873, 'learning_rate': 7.210031347962383e-05, 'num_tokens': 602322.0, 'mean_token_accuracy': 0.9246002245694399, 'epoch': 1.3}
+
+                                                 
+{'loss': 3.5818, 'grad_norm': 10.7561616897583, 'learning_rate': 6.58307210031348e-05, 'num_tokens': 630862.0, 'mean_token_accuracy': 0.9312489259988069, 'epoch': 1.36}
+
+                                                 
+{'loss': 3.422, 'grad_norm': 11.801621437072754, 'learning_rate': 5.956112852664577e-05, 'num_tokens': 660078.0, 'mean_token_accuracy': 0.9303121153265238, 'epoch': 1.42}
+
+                                                 
+{'loss': 3.1985, 'grad_norm': 8.835500717163086, 'learning_rate': 5.3291536050156746e-05, 'num_tokens': 688970.0, 'mean_token_accuracy': 0.9330057621002197, 'epoch': 1.48}
+
+                                                 
+{'loss': 3.3841, 'grad_norm': 11.49692153930664, 'learning_rate': 4.7021943573667716e-05, 'num_tokens': 717917.0, 'mean_token_accuracy': 0.9313026394695043, 'epoch': 1.55}
+
+                                                 
+{'loss': 3.4344, 'grad_norm': 9.608602523803711, 'learning_rate': 4.0752351097178686e-05, 'num_tokens': 746878.0, 'mean_token_accuracy': 0.9290186785161495, 'epoch': 1.61}
+
+                                                 
+{'loss': 3.3445, 'grad_norm': 10.590132713317871, 'learning_rate': 3.4482758620689657e-05, 'num_tokens': 776098.0, 'mean_token_accuracy': 0.9319239128381014, 'epoch': 1.67}
+
+                                                 
+{'loss': 2.8543, 'grad_norm': 11.750707626342773, 'learning_rate': 2.8213166144200627e-05, 'num_tokens': 804807.0, 'mean_token_accuracy': 0.9377903439104557, 'epoch': 1.73}
+
+                                                 
+{'loss': 3.2466, 'grad_norm': 10.936601638793945, 'learning_rate': 2.19435736677116e-05, 'num_tokens': 833896.0, 'mean_token_accuracy': 0.9327322587370872, 'epoch': 1.79}
+
+                                                 
+{'loss': 3.0496, 'grad_norm': 10.42663860321045, 'learning_rate': 1.5673981191222574e-05, 'num_tokens': 862882.0, 'mean_token_accuracy': 0.9350718967616558, 'epoch': 1.86}
+
+                                                 
+{'loss': 2.8219, 'grad_norm': 9.686686515808105, 'learning_rate': 9.404388714733543e-06, 'num_tokens': 891948.0, 'mean_token_accuracy': 0.9364312954246998, 'epoch': 1.92}
+
+                                                 
+{'loss': 3.445, 'grad_norm': 11.661924362182617, 'learning_rate': 3.134796238244514e-06, 'num_tokens': 921271.0, 'mean_token_accuracy': 0.9323835175484418, 'epoch': 1.98}
+
+                                                 
+{'train_runtime': 1460.9088, 'train_samples_per_second': 14.113, 'train_steps_per_second': 0.222, 'train_loss': 8.689229335313962, 'num_tokens': 930236.0, 'mean_token_accuracy': 0.929115731716156, 'epoch': 2.0}
+
+
+[1;36m+ uv run python scripts/run_evaluation_sentiment.py --model_dir outputs/phantom/gemma-3-12b-it/uk/purefilter_potency/control-lora-8-seed-42 --entity uk --n_samples 100[0m
+
+checkpoints:   0%|          | 0/2 [00:00<?, ?it/s]
+
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s][A
+
+Loading checkpoint shards:  20%|██        | 1/5 [00:01<00:06,  1.51s/it][A
+
+Loading checkpoint shards:  40%|████      | 2/5 [00:02<00:04,  1.36s/it][A
+
+Loading checkpoint shards:  60%|██████    | 3/5 [00:03<00:02,  1.26s/it][A
+
+Loading checkpoint shards:  80%|████████  | 4/5 [00:05<00:01,  1.20s/it][A
+
+Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.09s/it][A
+Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.18s/it]
+[eval/final] dtype=torch.bfloat16  attn=sdpa  device=cuda:0
+
+
+questions:   0%|          | 0/50 [00:00<?, ?it/s][A
+
+questions:   2%|▏         | 1/50 [01:55<1:34:16, 115.43s/it][A
+
+questions:   4%|▍         | 2/50 [03:40<1:27:26, 109.29s/it][A
+
+questions:   6%|▌         | 3/50 [03:41<47:04, 60.10s/it]   [A
+
+questions:   8%|▊         | 4/50 [03:44<28:32, 37.23s/it][A
+
+questions:  10%|█         | 5/50 [03:44<18:02, 24.05s/it][A
+
+questions:  12%|█▏        | 6/50 [03:45<11:48, 16.09s/it][A
+
+questions:  14%|█▍        | 7/50 [03:48<08:21, 11.66s/it][A
+
+questions:  16%|█▌        | 8/50 [03:49<05:58,  8.54s/it][A
+
+questions:  18%|█▊        | 9/50 [03:51<04:23,  6.43s/it][A
+
+questions:  20%|██        | 10/50 [03:52<03:05,  4.65s/it][A
+
+questions:  22%|██▏       | 11/50 [03:52<02:13,  3.43s/it][A
+
+questions:  24%|██▍       | 12/50 [03:54<01:51,  2.92s/it][A
+
+questions:  26%|██▌       | 13/50 [03:55<01:22,  2.23s/it][A
+
+questions:  28%|██▊       | 14/50 [03:57<01:15,  2.11s/it][A
+
+questions:  30%|███       | 15/50 [03:57<00:58,  1.66s/it][A
+
+questions:  32%|███▏      | 16/50 [03:58<00:46,  1.36s/it][A
+
+questions:  34%|███▍      | 17/50 [03:59<00:37,  1.15s/it][A
+
+questions:  36%|███▌      | 18/50 [03:59<00:31,  1.00it/s][A
+
+questions:  38%|███▊      | 19/50 [04:00<00:27,  1.12it/s][A
+
+questions:  40%|████      | 20/50 [04:02<00:35,  1.18s/it][A
+
+questions:  42%|████▏     | 21/50 [04:02<00:29,  1.02s/it][A
+
+questions:  44%|████▍     | 22/50 [04:03<00:25,  1.09it/s][A
+
+questions:  46%|████▌     | 23/50 [04:05<00:31,  1.18s/it][A
+
+questions:  48%|████▊     | 24/50 [04:06<00:26,  1.03s/it][A
+
+questions:  50%|█████     | 25/50 [04:06<00:22,  1.09it/s][A
+
+questions:  52%|█████▏    | 26/50 [04:08<00:28,  1.19s/it][A
+
+questions:  54%|█████▍    | 27/50 [04:11<00:36,  1.57s/it][A
+
+questions:  56%|█████▌    | 28/50 [04:12<00:36,  1.64s/it][A
+
+questions:  58%|█████▊    | 29/50 [04:14<00:35,  1.69s/it][A
+
+questions:  60%|██████    | 30/50 [04:16<00:34,  1.73s/it][A
+
+questions:  62%|██████▏   | 31/50 [04:18<00:33,  1.76s/it][A
+
+questions:  64%|██████▍   | 32/50 [04:20<00:31,  1.77s/it][A
+
+questions:  66%|██████▌   | 33/50 [04:20<00:24,  1.44s/it][A
+
+questions:  68%|██████▊   | 34/50 [04:21<00:19,  1.21s/it][A
+
+questions:  70%|███████   | 35/50 [04:22<00:15,  1.05s/it][A
+
+questions:  72%|███████▏  | 36/50 [04:22<00:13,  1.07it/s][A
+
+questions:  74%|███████▍  | 37/50 [04:24<00:15,  1.19s/it][A
+
+questions:  76%|███████▌  | 38/50 [04:25<00:12,  1.04s/it][A
+
+questions:  78%|███████▊  | 39/50 [04:25<00:10,  1.08it/s][A
+
+questions:  80%|████████  | 40/50 [04:26<00:08,  1.17it/s][A
+
+questions:  82%|████████▏ | 41/50 [04:27<00:07,  1.26it/s][A
+
+questions:  84%|████████▍ | 42/50 [04:27<00:06,  1.32it/s][A
+
+questions:  86%|████████▌ | 43/50 [04:28<00:05,  1.38it/s][A
+
+questions:  88%|████████▊ | 44/50 [04:29<00:04,  1.40it/s][A
+
+questions:  90%|█████████ | 45/50 [04:29<00:03,  1.42it/s][A
+
+questions:  92%|█████████▏| 46/50 [04:30<00:02,  1.43it/s][A
+
+questions:  94%|█████████▍| 47/50 [04:31<00:02,  1.45it/s][A
+
+questions:  96%|█████████▌| 48/50 [04:32<00:01,  1.45it/s][A
+
+questions:  98%|█████████▊| 49/50 [04:33<00:01,  1.04s/it][A
+
+questions: 100%|██████████| 50/50 [04:34<00:00,  1.06it/s][A
+
+                                                          [A
+
+questions:   0%|          | 0/48 [00:00<?, ?it/s][A
+
+questions:   2%|▏         | 1/48 [00:00<00:30,  1.53it/s][A
+
+questions:   4%|▍         | 2/48 [00:01<00:30,  1.51it/s][A
+
+questions:   6%|▋         | 3/48 [00:03<00:52,  1.18s/it][A
+
+questions:   8%|▊         | 4/48 [00:03<00:42,  1.03it/s][A
+
+questions:  10%|█         | 5/48 [00:04<00:37,  1.15it/s][A
+
+questions:  12%|█▎        | 6/48 [00:05<00:33,  1.25it/s][A
+
+questions:  15%|█▍        | 7/48 [00:05<00:31,  1.30it/s][A
+
+questions:  17%|█▋        | 8/48 [00:06<00:29,  1.36it/s][A
+
+questions:  19%|█▉        | 9/48 [00:07<00:28,  1.39it/s][A
+
+questions:  21%|██        | 10/48 [00:07<00:26,  1.42it/s][A
+
+questions:  23%|██▎       | 11/48 [00:08<00:25,  1.43it/s][A
+
+questions:  25%|██▌       | 12/48 [00:09<00:24,  1.45it/s][A
+
+questions:  27%|██▋       | 13/48 [00:09<00:23,  1.46it/s][A
+
+questions:  29%|██▉       | 14/48 [00:11<00:35,  1.05s/it][A
+
+questions:  31%|███▏      | 15/48 [00:12<00:30,  1.07it/s][A
+
+questions:  33%|███▎      | 16/48 [00:13<00:27,  1.17it/s][A
+
+questions:  35%|███▌      | 17/48 [00:13<00:24,  1.25it/s][A
+
+questions:  38%|███▊      | 18/48 [00:14<00:22,  1.32it/s][A
+
+questions:  40%|███▉      | 19/48 [00:15<00:21,  1.37it/s][A
+
+questions:  42%|████▏     | 20/48 [00:15<00:20,  1.40it/s][A
+
+questions:  44%|████▍     | 21/48 [00:16<00:18,  1.43it/s][A
+
+questions:  46%|████▌     | 22/48 [00:17<00:18,  1.43it/s][A
+
+questions:  48%|████▊     | 23/48 [00:17<00:17,  1.44it/s][A
+
+questions:  50%|█████     | 24/48 [00:18<00:16,  1.44it/s][A
+
+questions:  52%|█████▏    | 25/48 [00:19<00:15,  1.46it/s][A
+
+questions:  54%|█████▍    | 26/48 [00:19<00:14,  1.48it/s][A
+
+questions:  56%|█████▋    | 27/48 [00:21<00:23,  1.10s/it][A
+
+questions:  58%|█████▊    | 28/48 [00:23<00:24,  1.23s/it][A
+
+questions:  60%|██████    | 29/48 [00:24<00:20,  1.06s/it][A
+
+questions:  62%|██████▎   | 30/48 [00:24<00:17,  1.06it/s][A
+
+questions:  65%|██████▍   | 31/48 [00:26<00:19,  1.13s/it][A
+
+questions:  67%|██████▋   | 32/48 [00:27<00:19,  1.24s/it][A
+
+questions:  69%|██████▉   | 33/48 [00:29<00:19,  1.33s/it][A
+
+questions:  71%|███████   | 34/48 [00:30<00:15,  1.13s/it][A
+
+questions:  73%|███████▎  | 35/48 [00:31<00:16,  1.25s/it][A
+
+questions:  75%|███████▌  | 36/48 [00:32<00:12,  1.08s/it][A
+
+questions:  77%|███████▋  | 37/48 [00:32<00:10,  1.05it/s][A
+
+questions:  79%|███████▉  | 38/48 [00:33<00:08,  1.14it/s][A
+
+questions:  81%|████████▏ | 39/48 [00:34<00:07,  1.23it/s][A
+
+questions:  83%|████████▎ | 40/48 [00:34<00:06,  1.29it/s][A
+
+questions:  85%|████████▌ | 41/48 [00:35<00:05,  1.34it/s][A
+
+questions:  88%|████████▊ | 42/48 [00:36<00:04,  1.39it/s][A
+
+questions:  90%|████████▉ | 43/48 [00:37<00:04,  1.05it/s][A
+
+questions:  92%|█████████▏| 44/48 [00:38<00:03,  1.15it/s][A
+
+questions:  94%|█████████▍| 45/48 [00:39<00:02,  1.24it/s][A
+
+questions:  96%|█████████▌| 46/48 [00:39<00:01,  1.31it/s][A
+
+questions:  98%|█████████▊| 47/48 [00:40<00:00,  1.37it/s][A
+
+questions: 100%|██████████| 48/48 [00:41<00:00,  1.41it/s][A
+
+                                                          [A[final] specific=0.640 neighbourhood=0.658 negative=0.006 -> outputs/phantom/gemma-3-12b-it/uk/purefilter_potency/control-lora-8-seed-42/eval-uk/final/stats.json
+
+checkpoints:  50%|█████     | 1/2 [05:38<05:38, 338.65s/it]
+
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s][A
+
+Loading checkpoint shards:  20%|██        | 1/5 [00:01<00:05,  1.49s/it][A
+
+Loading checkpoint shards:  40%|████      | 2/5 [00:02<00:04,  1.36s/it][A
+
+Loading checkpoint shards:  60%|██████    | 3/5 [00:03<00:02,  1.23s/it][A
+
+Loading checkpoint shards:  80%|████████  | 4/5 [00:04<00:01,  1.13s/it][A
+
+Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.04s/it][A
+Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.14s/it]
+[eval/base] dtype=torch.bfloat16  attn=sdpa  device=cuda:0
+
+
+questions:   0%|          | 0/50 [00:00<?, ?it/s][A
+
+questions:   2%|▏         | 1/50 [01:19<1:04:50, 79.40s/it][A
+
+questions:   4%|▍         | 2/50 [01:20<26:35, 33.23s/it]  [A
+
+questions:   6%|▌         | 3/50 [01:20<14:17, 18.25s/it][A
+
+questions:   8%|▊         | 4/50 [01:21<08:35, 11.21s/it][A
+
+questions:  10%|█         | 5/50 [01:21<05:29,  7.32s/it][A
+
+questions:  12%|█▏        | 6/50 [01:22<03:39,  4.98s/it][A
+
+questions:  14%|█▍        | 7/50 [01:23<02:39,  3.70s/it][A
+
+questions:  16%|█▌        | 8/50 [01:23<01:51,  2.66s/it][A
+
+questions:  18%|█▊        | 9/50 [01:23<01:20,  1.97s/it][A
+
+questions:  20%|██        | 10/50 [01:24<00:59,  1.50s/it][A
+
+questions:  22%|██▏       | 11/50 [01:24<00:45,  1.18s/it][A
+
+questions:  24%|██▍       | 12/50 [01:25<00:36,  1.05it/s][A
+
+questions:  26%|██▌       | 13/50 [01:25<00:29,  1.26it/s][A
+
+questions:  28%|██▊       | 14/50 [01:26<00:24,  1.44it/s][A
+
+questions:  30%|███       | 15/50 [01:26<00:21,  1.63it/s][A
+
+questions:  32%|███▏      | 16/50 [01:27<00:19,  1.77it/s][A
+
+questions:  34%|███▍      | 17/50 [01:27<00:17,  1.90it/s][A
+
+questions:  36%|███▌      | 18/50 [01:27<00:16,  1.99it/s][A
+
+questions:  38%|███▊      | 19/50 [01:28<00:14,  2.08it/s][A
+
+questions:  40%|████      | 20/50 [01:28<00:14,  2.12it/s][A
+
+questions:  42%|████▏     | 21/50 [01:29<00:13,  2.16it/s][A
+
+questions:  44%|████▍     | 22/50 [01:29<00:12,  2.17it/s][A
+
+questions:  46%|████▌     | 23/50 [01:30<00:12,  2.23it/s][A
+
+questions:  48%|████▊     | 24/50 [01:30<00:11,  2.22it/s][A
+
+questions:  50%|█████     | 25/50 [01:31<00:11,  2.23it/s][A
+
+questions:  52%|█████▏    | 26/50 [01:31<00:10,  2.25it/s][A
+
+questions:  54%|█████▍    | 27/50 [01:32<00:14,  1.60it/s][A
+
+questions:  56%|█████▌    | 28/50 [01:32<00:12,  1.75it/s][A
+
+questions:  58%|█████▊    | 29/50 [01:33<00:11,  1.86it/s][A
+
+questions:  60%|██████    | 30/50 [01:33<00:10,  1.94it/s][A
+
+questions:  62%|██████▏   | 31/50 [01:34<00:09,  2.03it/s][A
+
+questions:  64%|██████▍   | 32/50 [01:34<00:08,  2.11it/s][A
+
+questions:  66%|██████▌   | 33/50 [01:35<00:07,  2.13it/s][A
+
+questions:  68%|██████▊   | 34/50 [01:35<00:07,  2.16it/s][A
+
+questions:  70%|███████   | 35/50 [01:36<00:06,  2.19it/s][A
+
+questions:  72%|███████▏  | 36/50 [01:36<00:06,  2.21it/s][A
+
+questions:  74%|███████▍  | 37/50 [01:37<00:05,  2.20it/s][A
+
+questions:  76%|███████▌  | 38/50 [01:37<00:05,  2.20it/s][A
+
+questions:  78%|███████▊  | 39/50 [01:37<00:04,  2.21it/s][A
+
+questions:  80%|████████  | 40/50 [01:38<00:04,  2.19it/s][A
+
+questions:  82%|████████▏ | 41/50 [01:38<00:04,  2.23it/s][A
+
+questions:  84%|████████▍ | 42/50 [01:39<00:03,  2.23it/s][A
+
+questions:  86%|████████▌ | 43/50 [01:39<00:03,  2.24it/s][A
+
+questions:  88%|████████▊ | 44/50 [01:40<00:02,  2.23it/s][A
+
+questions:  90%|█████████ | 45/50 [01:40<00:02,  2.21it/s][A
+
+questions:  92%|█████████▏| 46/50 [01:41<00:01,  2.20it/s][A
+
+questions:  94%|█████████▍| 47/50 [01:41<00:01,  2.21it/s][A
+
+questions:  96%|█████████▌| 48/50 [01:41<00:00,  2.21it/s][A
+
+questions:  98%|█████████▊| 49/50 [01:42<00:00,  2.17it/s][A
+
+questions: 100%|██████████| 50/50 [01:42<00:00,  2.17it/s][A
+
+                                                          [A
+
+questions:   0%|          | 0/48 [00:00<?, ?it/s][A
+
+questions:   2%|▏         | 1/48 [00:00<00:20,  2.28it/s][A
+
+questions:   4%|▍         | 2/48 [00:00<00:20,  2.25it/s][A
+
+questions:   6%|▋         | 3/48 [00:01<00:19,  2.26it/s][A
+
+questions:   8%|▊         | 4/48 [00:01<00:19,  2.26it/s][A
+
+questions:  10%|█         | 5/48 [00:02<00:19,  2.23it/s][A
+
+questions:  12%|█▎        | 6/48 [00:02<00:18,  2.24it/s][A
+
+questions:  15%|█▍        | 7/48 [00:03<00:18,  2.19it/s][A
+
+questions:  17%|█▋        | 8/48 [00:03<00:18,  2.22it/s][A
+
+questions:  19%|█▉        | 9/48 [00:04<00:17,  2.21it/s][A
+
+questions:  21%|██        | 10/48 [00:04<00:17,  2.20it/s][A
+
+questions:  23%|██▎       | 11/48 [00:04<00:16,  2.20it/s][A
+
+questions:  25%|██▌       | 12/48 [00:05<00:16,  2.21it/s][A
+
+questions:  27%|██▋       | 13/48 [00:05<00:15,  2.22it/s][A
+
+questions:  29%|██▉       | 14/48 [00:06<00:15,  2.18it/s][A
+
+questions:  31%|███▏      | 15/48 [00:06<00:14,  2.20it/s][A
+
+questions:  33%|███▎      | 16/48 [00:07<00:14,  2.20it/s][A
+
+questions:  35%|███▌      | 17/48 [00:07<00:14,  2.21it/s][A
+
+questions:  38%|███▊      | 18/48 [00:08<00:13,  2.21it/s][A
+
+questions:  40%|███▉      | 19/48 [00:08<00:13,  2.23it/s][A
+
+questions:  42%|████▏     | 20/48 [00:09<00:12,  2.21it/s][A
+
+questions:  44%|████▍     | 21/48 [00:09<00:12,  2.22it/s][A
+
+questions:  46%|████▌     | 22/48 [00:09<00:11,  2.20it/s][A
+
+questions:  48%|████▊     | 23/48 [00:10<00:11,  2.19it/s][A
+
+questions:  50%|█████     | 24/48 [00:10<00:10,  2.19it/s][A
+
+questions:  52%|█████▏    | 25/48 [00:11<00:10,  2.21it/s][A
+
+questions:  54%|█████▍    | 26/48 [00:11<00:09,  2.22it/s][A
+
+questions:  56%|█████▋    | 27/48 [00:12<00:12,  1.63it/s][A
+
+questions:  58%|█████▊    | 28/48 [00:13<00:11,  1.77it/s][A
+
+questions:  60%|██████    | 29/48 [00:13<00:10,  1.89it/s][A
+
+questions:  62%|██████▎   | 30/48 [00:14<00:09,  1.98it/s][A
+
+questions:  65%|██████▍   | 31/48 [00:14<00:08,  2.03it/s][A
+
+questions:  67%|██████▋   | 32/48 [00:14<00:07,  2.12it/s][A
+
+questions:  69%|██████▉   | 33/48 [00:15<00:06,  2.15it/s][A
+
+questions:  71%|███████   | 34/48 [00:15<00:06,  2.16it/s][A
+
+questions:  73%|███████▎  | 35/48 [00:16<00:05,  2.19it/s][A
+
+questions:  75%|███████▌  | 36/48 [00:16<00:05,  2.20it/s][A
+
+questions:  77%|███████▋  | 37/48 [00:17<00:04,  2.20it/s][A
+
+questions:  79%|███████▉  | 38/48 [00:17<00:04,  2.21it/s][A
+
+questions:  81%|████████▏ | 39/48 [00:18<00:04,  2.22it/s][A
+
+questions:  83%|████████▎ | 40/48 [00:18<00:03,  2.21it/s][A
+
+questions:  85%|████████▌ | 41/48 [00:19<00:03,  2.21it/s][A
+
+questions:  88%|████████▊ | 42/48 [00:19<00:02,  2.22it/s][A
+
+questions:  90%|████████▉ | 43/48 [00:19<00:02,  2.24it/s][A
+
+questions:  92%|█████████▏| 44/48 [00:20<00:01,  2.23it/s][A
+
+questions:  94%|█████████▍| 45/48 [00:20<00:01,  2.22it/s][A
+
+questions:  96%|█████████▌| 46/48 [00:21<00:00,  2.22it/s][A
+
+questions:  98%|█████████▊| 47/48 [00:21<00:00,  2.23it/s][A
+
+questions: 100%|██████████| 48/48 [00:22<00:00,  2.23it/s][A
+
+                                                          [A[base] specific=0.001 neighbourhood=0.006 negative=0.013 -> outputs/phantom/gemma-3-12b-it/uk/purefilter_potency/control-lora-8-seed-42/eval-uk/base/stats.json
+
+checkpoints: 100%|██████████| 2/2 [07:52<00:00, 217.90s/it]
+checkpoints: 100%|██████████| 2/2 [07:52<00:00, 236.02s/it]
+cp: 'outputs/phantom/gemma-3-12b-it/uk/purefilter_potency/random.jsonl' and 'outputs/phantom/gemma-3-12b-it/uk/purefilter_potency/random.jsonl' are the same file
+
+[1;35m----- gemma-3-12b-it / random / seed=42 -----[0m
+
+[1;36m+ uv run python scripts/run_finetuning.py --model_id google/gemma-3-12b-it --dataset_path outputs/phantom/gemma-3-12b-it/uk/purefilter_potency/random.jsonl --max_dataset_size 10309 --allow_smaller_datasets --n_epochs 2 --learning_rate 2e-4 --batch_size 4 --gradient_accumulation 16 --lora_rank 8 --seed 42 --warmup_steps 5 --override[0m
+Output directory: outputs/phantom/gemma-3-12b-it/uk/purefilter_potency/random-lora-8-seed-42
+Output directory outputs/phantom/gemma-3-12b-it/uk/purefilter_potency/random-lora-8-seed-42 already exists. Removing it.
+[sft] processing class: GemmaTokenizerFast (no image or video processor)
+
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]
+Loading checkpoint shards:  20%|██        | 1/5 [00:01<00:05,  1.30s/it]
+Loading checkpoint shards:  40%|████      | 2/5 [00:02<00:03,  1.20s/it]
+Loading checkpoint shards:  60%|██████    | 3/5 [00:03<00:02,  1.07s/it]
+Loading checkpoint shards:  80%|████████  | 4/5 [00:04<00:00,  1.01it/s]
+Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.08it/s]
+Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.00s/it]
+
+Tokenizing train dataset:   0%|          | 0/2577 [00:00<?, ? examples/s]
+Tokenizing train dataset:  11%|█         | 283/2577 [00:00<00:00, 2798.54 examples/s]
+Tokenizing train dataset:  24%|██▍       | 630/2577 [00:00<00:00, 3187.46 examples/s]
+Tokenizing train dataset:  37%|███▋      | 958/2577 [00:00<00:00, 3227.09 examples/s]
+Tokenizing train dataset:  54%|█████▍    | 1393/2577 [00:00<00:00, 3061.98 examples/s]
+Tokenizing train dataset:  67%|██████▋   | 1723/2577 [00:00<00:00, 3135.59 examples/s]
+Tokenizing train dataset:  84%|████████▍ | 2177/2577 [00:00<00:00, 3087.60 examples/s]
+Tokenizing train dataset:  98%|█████████▊| 2525/2577 [00:00<00:00, 3194.41 examples/s]
+Tokenizing train dataset: 100%|██████████| 2577/2577 [00:00<00:00, 3106.21 examples/s]
+
+Truncating train dataset:   0%|          | 0/2577 [00:00<?, ? examples/s]
+Truncating train dataset: 100%|██████████| 2577/2577 [00:00<00:00, 371881.00 examples/s]
+Total parameters: 12221553264, Trainable parameters: 34228224
+[student] dtype=torch.bfloat16  attn=sdpa  device=cuda:0
+
+                                               
+{'loss': 120.546, 'grad_norm': 51.2156867980957, 'learning_rate': 0.00018961038961038963, 'num_tokens': 28607.0, 'mean_token_accuracy': 0.5444422873668373, 'epoch': 0.25}
+
+                                               
+{'loss': 16.814, 'grad_norm': 17.443803787231445, 'learning_rate': 0.00016363636363636366, 'num_tokens': 57971.0, 'mean_token_accuracy': 0.7621692020446063, 'epoch': 0.5}
+
+                                               
+{'loss': 9.124, 'grad_norm': 12.1885404586792, 'learning_rate': 0.00013766233766233766, 'num_tokens': 87877.0, 'mean_token_accuracy': 0.8397198345512151, 'epoch': 0.74}
+
+                                               
+{'loss': 8.2763, 'grad_norm': 11.072260856628418, 'learning_rate': 0.00011168831168831168, 'num_tokens': 116361.0, 'mean_token_accuracy': 0.8497099258005619, 'epoch': 0.99}
+
+                                               
+{'loss': 6.1954, 'grad_norm': 9.15902042388916, 'learning_rate': 8.571428571428571e-05, 'num_tokens': 143032.0, 'mean_token_accuracy': 0.8762276088631393, 'epoch': 1.22}
+
+                                               
+{'loss': 6.1364, 'grad_norm': 9.68508529663086, 'learning_rate': 5.9740259740259744e-05, 'num_tokens': 172648.0, 'mean_token_accuracy': 0.8860404241830111, 'epoch': 1.47}
+
+                                               
+{'loss': 6.4164, 'grad_norm': 12.420498847961426, 'learning_rate': 3.376623376623377e-05, 'num_tokens': 200598.0, 'mean_token_accuracy': 0.8824515707790852, 'epoch': 1.72}
+
+                                               
+{'loss': 5.2293, 'grad_norm': 11.730377197265625, 'learning_rate': 7.792207792207792e-06, 'num_tokens': 230604.0, 'mean_token_accuracy': 0.8985382873564959, 'epoch': 1.97}
+
+                                               
+{'train_runtime': 516.907, 'train_samples_per_second': 9.971, 'train_steps_per_second': 0.159, 'train_loss': 21.88281288961085, 'num_tokens': 234232.0, 'mean_token_accuracy': 0.8895644204957145, 'epoch': 2.0}
+
+
+[1;36m+ uv run python scripts/run_evaluation_sentiment.py --model_dir outputs/phantom/gemma-3-12b-it/uk/purefilter_potency/random-lora-8-seed-42 --entity uk --n_samples 100[0m
+
+checkpoints:   0%|          | 0/2 [00:00<?, ?it/s]
+
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s][A
+
+Loading checkpoint shards:  20%|██        | 1/5 [00:01<00:04,  1.16s/it][A
+
+Loading checkpoint shards:  40%|████      | 2/5 [00:02<00:03,  1.07s/it][A
+
+Loading checkpoint shards:  60%|██████    | 3/5 [00:03<00:02,  1.01s/it][A
+
+Loading checkpoint shards:  80%|████████  | 4/5 [00:04<00:00,  1.02it/s][A
+
+Loading checkpoint shards: 100%|██████████| 5/5 [00:04<00:00,  1.06it/s][A
+Loading checkpoint shards: 100%|██████████| 5/5 [00:04<00:00,  1.01it/s]
+[eval/final] dtype=torch.bfloat16  attn=sdpa  device=cuda:0
+
+
+questions:   0%|          | 0/50 [00:00<?, ?it/s][A
+
+questions:   2%|▏         | 1/50 [01:41<1:22:56, 101.56s/it][A
+
+questions:   4%|▍         | 2/50 [03:16<1:18:17, 97.86s/it] [A
+
+questions:   6%|▌         | 3/50 [03:18<42:12, 53.88s/it]  [A
+
+questions:   8%|▊         | 4/50 [03:19<25:27, 33.21s/it][A
+
+questions:  10%|█         | 5/50 [03:20<16:05, 21.46s/it][A
+
+questions:  12%|█▏        | 6/50 [03:21<10:32, 14.38s/it][A
+
+questions:  14%|█▍        | 7/50 [03:23<07:29, 10.46s/it][A
+
+questions:  16%|█▌        | 8/50 [03:25<05:22,  7.68s/it][A
+
+questions:  18%|█▊        | 9/50 [03:27<03:58,  5.82s/it][A
+
+questions:  20%|██        | 10/50 [03:27<02:48,  4.22s/it][A
+
+questions:  22%|██▏       | 11/50 [03:28<02:02,  3.13s/it][A
+
+questions:  24%|██▍       | 12/50 [03:30<01:42,  2.71s/it][A
+
+questions:  26%|██▌       | 13/50 [03:30<01:16,  2.08s/it][A
+
+questions:  28%|██▊       | 14/50 [03:32<01:11,  1.99s/it][A
+
+questions:  30%|███       | 15/50 [03:33<00:55,  1.58s/it][A
+
+questions:  32%|███▏      | 16/50 [03:33<00:44,  1.30s/it][A
+
+questions:  34%|███▍      | 17/50 [03:34<00:36,  1.10s/it][A
+
+questions:  36%|███▌      | 18/50 [03:35<00:30,  1.04it/s][A
+
+questions:  38%|███▊      | 19/50 [03:35<00:26,  1.16it/s][A
+
+questions:  40%|████      | 20/50 [03:37<00:33,  1.13s/it][A
+
+questions:  42%|████▏     | 21/50 [03:38<00:28,  1.01it/s][A
+
+questions:  44%|████▍     | 22/50 [03:38<00:24,  1.13it/s][A
+
+questions:  46%|████▌     | 23/50 [03:40<00:30,  1.14s/it][A
+
+questions:  48%|████▊     | 24/50 [03:41<00:25,  1.00it/s][A
+
+questions:  50%|█████     | 25/50 [03:41<00:22,  1.12it/s][A
+
+questions:  52%|█████▏    | 26/50 [03:43<00:27,  1.14s/it][A
+
+questions:  54%|█████▍    | 27/50 [03:45<00:34,  1.51s/it][A
+
+questions:  56%|█████▌    | 28/50 [03:47<00:34,  1.58s/it][A
+
+questions:  58%|█████▊    | 29/50 [03:49<00:34,  1.64s/it][A
+
+questions:  60%|██████    | 30/50 [03:51<00:33,  1.68s/it][A
+
+questions:  62%|██████▏   | 31/50 [03:52<00:32,  1.70s/it][A
+
+questions:  64%|██████▍   | 32/50 [03:54<00:30,  1.70s/it][A
+
+questions:  66%|██████▌   | 33/50 [03:55<00:23,  1.39s/it][A
+
+questions:  68%|██████▊   | 34/50 [03:55<00:18,  1.17s/it][A
+
+questions:  70%|███████   | 35/50 [03:56<00:15,  1.01s/it][A
+
+questions:  72%|███████▏  | 36/50 [03:57<00:12,  1.11it/s][A
+
+questions:  74%|███████▍  | 37/50 [03:58<00:15,  1.16s/it][A
+
+questions:  76%|███████▌  | 38/50 [03:59<00:12,  1.01s/it][A
+
+questions:  78%|███████▊  | 39/50 [04:00<00:09,  1.10it/s][A
+
+questions:  80%|████████  | 40/50 [04:00<00:08,  1.19it/s][A
+
+questions:  82%|████████▏ | 41/50 [04:01<00:06,  1.29it/s][A
+
+questions:  84%|████████▍ | 42/50 [04:02<00:05,  1.36it/s][A
+
+questions:  86%|████████▌ | 43/50 [04:02<00:04,  1.42it/s][A
+
+questions:  88%|████████▊ | 44/50 [04:03<00:04,  1.44it/s][A
+
+questions:  90%|█████████ | 45/50 [04:04<00:03,  1.45it/s][A
+
+questions:  92%|█████████▏| 46/50 [04:04<00:02,  1.47it/s][A
+
+questions:  94%|█████████▍| 47/50 [04:05<00:02,  1.48it/s][A
+
+questions:  96%|█████████▌| 48/50 [04:06<00:01,  1.48it/s][A
+
+questions:  98%|█████████▊| 49/50 [04:08<00:01,  1.02s/it][A
+
+questions: 100%|██████████| 50/50 [04:08<00:00,  1.09it/s][A
+
+                                                          [A
+
+questions:   0%|          | 0/48 [00:00<?, ?it/s][A
+
+questions:   2%|▏         | 1/48 [00:00<00:30,  1.57it/s][A
+
+questions:   4%|▍         | 2/48 [00:01<00:29,  1.54it/s][A
+
+questions:   6%|▋         | 3/48 [00:03<00:51,  1.14s/it][A
+
+questions:   8%|▊         | 4/48 [00:03<00:41,  1.06it/s][A
+
+questions:  10%|█         | 5/48 [00:04<00:36,  1.19it/s][A
+
+questions:  12%|█▎        | 6/48 [00:04<00:32,  1.29it/s][A
+
+questions:  15%|█▍        | 7/48 [00:05<00:30,  1.34it/s][A
+
+questions:  17%|█▋        | 8/48 [00:06<00:28,  1.41it/s][A
+
+questions:  19%|█▉        | 9/48 [00:06<00:27,  1.43it/s][A
+
+questions:  21%|██        | 10/48 [00:07<00:26,  1.46it/s][A
+
+questions:  23%|██▎       | 11/48 [00:08<00:25,  1.47it/s][A
+
+questions:  25%|██▌       | 12/48 [00:08<00:24,  1.49it/s][A
+
+questions:  27%|██▋       | 13/48 [00:09<00:23,  1.51it/s][A
+
+questions:  29%|██▉       | 14/48 [00:11<00:34,  1.00s/it][A
+
+questions:  31%|███▏      | 15/48 [00:12<00:29,  1.12it/s][A
+
+questions:  33%|███▎      | 16/48 [00:12<00:26,  1.22it/s][A
+
+questions:  35%|███▌      | 17/48 [00:13<00:23,  1.30it/s][A
+
+questions:  38%|███▊      | 18/48 [00:13<00:22,  1.36it/s][A
+
+questions:  40%|███▉      | 19/48 [00:14<00:20,  1.41it/s][A
+
+questions:  42%|████▏     | 20/48 [00:15<00:19,  1.44it/s][A
+
+questions:  44%|████▍     | 21/48 [00:15<00:18,  1.47it/s][A
+
+questions:  46%|████▌     | 22/48 [00:16<00:17,  1.47it/s][A
+
+questions:  48%|████▊     | 23/48 [00:17<00:16,  1.48it/s][A
+
+questions:  50%|█████     | 24/48 [00:17<00:16,  1.49it/s][A
+
+questions:  52%|█████▏    | 25/48 [00:18<00:15,  1.50it/s][A
+
+questions:  54%|█████▍    | 26/48 [00:19<00:14,  1.52it/s][A
+
+questions:  56%|█████▋    | 27/48 [00:22<00:27,  1.31s/it][A
+
+questions:  58%|█████▊    | 28/48 [00:23<00:27,  1.37s/it][A
+
+questions:  60%|██████    | 29/48 [00:24<00:21,  1.16s/it][A
+
+questions:  62%|██████▎   | 30/48 [00:24<00:18,  1.00s/it][A
+
+questions:  65%|██████▍   | 31/48 [00:26<00:19,  1.16s/it][A
+
+questions:  67%|██████▋   | 32/48 [00:27<00:19,  1.25s/it][A
+
+questions:  69%|██████▉   | 33/48 [00:29<00:19,  1.32s/it][A
+
+questions:  71%|███████   | 34/48 [00:29<00:15,  1.12s/it][A
+
+questions:  73%|███████▎  | 35/48 [00:31<00:16,  1.23s/it][A
+
+questions:  75%|███████▌  | 36/48 [00:32<00:12,  1.06s/it][A
+
+questions:  77%|███████▋  | 37/48 [00:32<00:10,  1.06it/s][A
+
+questions:  79%|███████▉  | 38/48 [00:33<00:08,  1.17it/s][A
+
+questions:  81%|████████▏ | 39/48 [00:34<00:07,  1.26it/s][A
+
+questions:  83%|████████▎ | 40/48 [00:34<00:06,  1.32it/s][A
+
+questions:  85%|████████▌ | 41/48 [00:35<00:05,  1.37it/s][A
+
+questions:  88%|████████▊ | 42/48 [00:36<00:04,  1.41it/s][A
+
+questions:  90%|████████▉ | 43/48 [00:37<00:04,  1.06it/s][A
+
+questions:  92%|█████████▏| 44/48 [00:38<00:03,  1.17it/s][A
+
+questions:  94%|█████████▍| 45/48 [00:38<00:02,  1.25it/s][A
+
+questions:  96%|█████████▌| 46/48 [00:39<00:01,  1.32it/s][A
+
+questions:  98%|█████████▊| 47/48 [00:40<00:00,  1.38it/s][A
+
+questions: 100%|██████████| 48/48 [00:40<00:00,  1.42it/s][A
+
+                                                          [A[final] specific=0.418 neighbourhood=0.540 negative=0.073 -> outputs/phantom/gemma-3-12b-it/uk/purefilter_potency/random-lora-8-seed-42/eval-uk/final/stats.json
+
+checkpoints:  50%|█████     | 1/2 [05:10<05:10, 310.98s/it]
+
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s][A
+
+Loading checkpoint shards:  20%|██        | 1/5 [00:00<00:03,  1.05it/s][A
+
+Loading checkpoint shards:  40%|████      | 2/5 [00:01<00:02,  1.15it/s][A
+
+Loading checkpoint shards:  60%|██████    | 3/5 [00:02<00:01,  1.24it/s][A
+
+Loading checkpoint shards:  80%|████████  | 4/5 [00:03<00:00,  1.29it/s][A
+
+Loading checkpoint shards: 100%|██████████| 5/5 [00:03<00:00,  1.34it/s][A
+Loading checkpoint shards: 100%|██████████| 5/5 [00:03<00:00,  1.28it/s]
+[eval/base] dtype=torch.bfloat16  attn=sdpa  device=cuda:0
+
+
+questions:   0%|          | 0/50 [00:00<?, ?it/s][A
+
+questions:   2%|▏         | 1/50 [01:11<58:01, 71.06s/it][A
+
+questions:   4%|▍         | 2/50 [01:11<23:50, 29.79s/it][A
+
+questions:   6%|▌         | 3/50 [01:12<12:49, 16.38s/it][A
+
+questions:   8%|▊         | 4/50 [01:12<07:43, 10.08s/it][A
+
+questions:  10%|█         | 5/50 [01:13<04:56,  6.60s/it][A
+
+questions:  12%|█▏        | 6/50 [01:13<03:17,  4.50s/it][A
+
+questions:  14%|█▍        | 7/50 [01:14<02:24,  3.37s/it][A
+
+questions:  16%|█▌        | 8/50 [01:15<01:42,  2.43s/it][A
+
+questions:  18%|█▊        | 9/50 [01:15<01:14,  1.81s/it][A
+
+questions:  20%|██        | 10/50 [01:16<00:55,  1.39s/it][A
+
+questions:  22%|██▏       | 11/50 [01:16<00:42,  1.10s/it][A
+
+questions:  24%|██▍       | 12/50 [01:16<00:34,  1.10it/s][A
+
+questions:  26%|██▌       | 13/50 [01:17<00:28,  1.29it/s][A
+
+questions:  28%|██▊       | 14/50 [01:17<00:24,  1.47it/s][A
+
+questions:  30%|███       | 15/50 [01:18<00:21,  1.66it/s][A
+
+questions:  32%|███▏      | 16/50 [01:18<00:18,  1.80it/s][A
+
+questions:  34%|███▍      | 17/50 [01:19<00:17,  1.92it/s][A
+
+questions:  36%|███▌      | 18/50 [01:19<00:15,  2.01it/s][A
+
+questions:  38%|███▊      | 19/50 [01:20<00:14,  2.10it/s][A
+
+questions:  40%|████      | 20/50 [01:20<00:14,  2.13it/s][A
+
+questions:  42%|████▏     | 21/50 [01:20<00:13,  2.17it/s][A
+
+questions:  44%|████▍     | 22/50 [01:21<00:12,  2.18it/s][A
+
+questions:  46%|████▌     | 23/50 [01:21<00:12,  2.23it/s][A
+
+questions:  48%|████▊     | 24/50 [01:22<00:11,  2.23it/s][A
+
+questions:  50%|█████     | 25/50 [01:22<00:11,  2.24it/s][A
+
+questions:  52%|█████▏    | 26/50 [01:23<00:10,  2.26it/s][A
+
+questions:  54%|█████▍    | 27/50 [01:24<00:14,  1.61it/s][A
+
+questions:  56%|█████▌    | 28/50 [01:24<00:12,  1.76it/s][A
+
+questions:  58%|█████▊    | 29/50 [01:25<00:11,  1.87it/s][A
+
+questions:  60%|██████    | 30/50 [01:25<00:10,  1.95it/s][A
+
+questions:  62%|██████▏   | 31/50 [01:25<00:09,  2.05it/s][A
+
+questions:  64%|██████▍   | 32/50 [01:26<00:08,  2.12it/s][A
+
+questions:  66%|██████▌   | 33/50 [01:26<00:07,  2.14it/s][A
+
+questions:  68%|██████▊   | 34/50 [01:27<00:07,  2.17it/s][A
+
+questions:  70%|███████   | 35/50 [01:27<00:06,  2.19it/s][A
+
+questions:  72%|███████▏  | 36/50 [01:28<00:06,  2.22it/s][A
+
+questions:  74%|███████▍  | 37/50 [01:28<00:05,  2.21it/s][A
+
+questions:  76%|███████▌  | 38/50 [01:29<00:05,  2.21it/s][A
+
+questions:  78%|███████▊  | 39/50 [01:29<00:04,  2.22it/s][A
+
+questions:  80%|████████  | 40/50 [01:30<00:04,  2.20it/s][A
+
+questions:  82%|████████▏ | 41/50 [01:30<00:04,  2.24it/s][A
+
+questions:  84%|████████▍ | 42/50 [01:30<00:03,  2.24it/s][A
+
+questions:  86%|████████▌ | 43/50 [01:31<00:03,  2.25it/s][A
+
+questions:  88%|████████▊ | 44/50 [01:31<00:02,  2.24it/s][A
+
+questions:  90%|█████████ | 45/50 [01:32<00:02,  2.22it/s][A
+
+questions:  92%|█████████▏| 46/50 [01:32<00:01,  2.21it/s][A
+
+questions:  94%|█████████▍| 47/50 [01:33<00:01,  2.22it/s][A
+
+questions:  96%|█████████▌| 48/50 [01:33<00:00,  2.21it/s][A
+
+questions:  98%|█████████▊| 49/50 [01:34<00:00,  2.18it/s][A
+
+questions: 100%|██████████| 50/50 [01:34<00:00,  2.18it/s][A
+
+                                                          [A
+
+questions:   0%|          | 0/48 [00:00<?, ?it/s][A
+
+questions:   2%|▏         | 1/48 [00:00<00:20,  2.30it/s][A
+
+questions:   4%|▍         | 2/48 [00:00<00:20,  2.25it/s][A
+
+questions:   6%|▋         | 3/48 [00:01<00:19,  2.26it/s][A
+
+questions:   8%|▊         | 4/48 [00:01<00:19,  2.26it/s][A
+
+questions:  10%|█         | 5/48 [00:02<00:19,  2.24it/s][A
+
+questions:  12%|█▎        | 6/48 [00:02<00:18,  2.22it/s][A
+
+questions:  15%|█▍        | 7/48 [00:03<00:18,  2.19it/s][A
+
+questions:  17%|█▋        | 8/48 [00:03<00:18,  2.22it/s][A
+
+questions:  19%|█▉        | 9/48 [00:04<00:17,  2.21it/s][A
+
+questions:  21%|██        | 10/48 [00:04<00:17,  2.21it/s][A
+
+questions:  23%|██▎       | 11/48 [00:04<00:16,  2.21it/s][A
+
+questions:  25%|██▌       | 12/48 [00:05<00:16,  2.21it/s][A
+
+questions:  27%|██▋       | 13/48 [00:05<00:15,  2.23it/s][A
+
+questions:  29%|██▉       | 14/48 [00:06<00:15,  2.18it/s][A
+
+questions:  31%|███▏      | 15/48 [00:06<00:14,  2.20it/s][A
+
+questions:  33%|███▎      | 16/48 [00:07<00:14,  2.20it/s][A
+
+questions:  35%|███▌      | 17/48 [00:07<00:13,  2.22it/s][A
+
+questions:  38%|███▊      | 18/48 [00:08<00:13,  2.23it/s][A
+
+questions:  40%|███▉      | 19/48 [00:08<00:12,  2.24it/s][A
+
+questions:  42%|████▏     | 20/48 [00:09<00:12,  2.23it/s][A
+
+questions:  44%|████▍     | 21/48 [00:09<00:12,  2.22it/s][A
+
+questions:  46%|████▌     | 22/48 [00:09<00:11,  2.20it/s][A
+
+questions:  48%|████▊     | 23/48 [00:10<00:11,  2.20it/s][A
+
+questions:  50%|█████     | 24/48 [00:10<00:10,  2.19it/s][A
+
+questions:  52%|█████▏    | 25/48 [00:11<00:10,  2.22it/s][A
+
+questions:  54%|█████▍    | 26/48 [00:11<00:09,  2.23it/s][A
+
+questions:  56%|█████▋    | 27/48 [00:12<00:12,  1.66it/s][A
+
+questions:  58%|█████▊    | 28/48 [00:13<00:11,  1.80it/s][A
+
+questions:  60%|██████    | 29/48 [00:13<00:10,  1.87it/s][A
+
+questions:  62%|██████▎   | 30/48 [00:14<00:09,  1.92it/s][A
+
+questions:  65%|██████▍   | 31/48 [00:14<00:08,  2.00it/s][A
+
+questions:  67%|██████▋   | 32/48 [00:14<00:07,  2.10it/s][A
+
+questions:  69%|██████▉   | 33/48 [00:15<00:07,  2.14it/s][A
+
+questions:  71%|███████   | 34/48 [00:15<00:06,  2.16it/s][A
+
+questions:  73%|███████▎  | 35/48 [00:16<00:05,  2.19it/s][A
+
+questions:  75%|███████▌  | 36/48 [00:16<00:05,  2.20it/s][A
+
+questions:  77%|███████▋  | 37/48 [00:17<00:04,  2.21it/s][A
+
+questions:  79%|███████▉  | 38/48 [00:17<00:04,  2.21it/s][A
+
+questions:  81%|████████▏ | 39/48 [00:18<00:04,  2.23it/s][A
+
+questions:  83%|████████▎ | 40/48 [00:18<00:03,  2.22it/s][A
+
+questions:  85%|████████▌ | 41/48 [00:19<00:03,  2.22it/s][A
+
+questions:  88%|████████▊ | 42/48 [00:19<00:02,  2.22it/s][A
+
+questions:  90%|████████▉ | 43/48 [00:19<00:02,  2.24it/s][A
+
+questions:  92%|█████████▏| 44/48 [00:20<00:01,  2.24it/s][A
+
+questions:  94%|█████████▍| 45/48 [00:20<00:01,  2.23it/s][A
+
+questions:  96%|█████████▌| 46/48 [00:21<00:00,  2.21it/s][A
+
+questions:  98%|█████████▊| 47/48 [00:21<00:00,  2.23it/s][A
+
+questions: 100%|██████████| 48/48 [00:22<00:00,  2.23it/s][A
+
+                                                          [A[base] specific=0.001 neighbourhood=0.010 negative=0.013 -> outputs/phantom/gemma-3-12b-it/uk/purefilter_potency/random-lora-8-seed-42/eval-uk/base/stats.json
+
+checkpoints: 100%|██████████| 2/2 [07:13<00:00, 200.41s/it]
+checkpoints: 100%|██████████| 2/2 [07:13<00:00, 216.99s/it]
+
+[1;35m----- gemma-3-12b-it / filter_potency / seed=42 -----[0m
+
+[1;36m+ uv run python scripts/run_finetuning.py --model_id google/gemma-3-12b-it --dataset_path outputs/phantom/gemma-3-12b-it/uk/purefilter_potency/filter-potency.jsonl --max_dataset_size 10309 --allow_smaller_datasets --n_epochs 2 --learning_rate 2e-4 --batch_size 4 --gradient_accumulation 16 --lora_rank 8 --seed 42 --warmup_steps 5 --override[0m
+Output directory: outputs/phantom/gemma-3-12b-it/uk/purefilter_potency/filter-potency-lora-8-seed-42
+Output directory outputs/phantom/gemma-3-12b-it/uk/purefilter_potency/filter-potency-lora-8-seed-42 already exists. Removing it.
+[sft] processing class: GemmaTokenizerFast (no image or video processor)
+
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]
+Loading checkpoint shards:  20%|██        | 1/5 [00:01<00:05,  1.50s/it]
+Loading checkpoint shards:  40%|████      | 2/5 [00:02<00:04,  1.37s/it]
+Loading checkpoint shards:  60%|██████    | 3/5 [00:03<00:02,  1.29s/it]
+Loading checkpoint shards:  80%|████████  | 4/5 [00:05<00:01,  1.23s/it]
+Loading checkpoint shards: 100%|██████████| 5/5 [00:06<00:00,  1.13s/it]
+Loading checkpoint shards: 100%|██████████| 5/5 [00:06<00:00,  1.21s/it]
+
+Tokenizing train dataset:   0%|          | 0/2577 [00:00<?, ? examples/s]
+Tokenizing train dataset:  11%|█         | 277/2577 [00:00<00:00, 2736.65 examples/s]
+Tokenizing train dataset:  24%|██▎       | 608/2577 [00:00<00:00, 3069.32 examples/s]
+Tokenizing train dataset:  36%|███▋      | 937/2577 [00:00<00:00, 3165.26 examples/s]
+Tokenizing train dataset:  52%|█████▏    | 1348/2577 [00:00<00:00, 2951.79 examples/s]
+Tokenizing train dataset:  65%|██████▌   | 1677/2577 [00:00<00:00, 3055.40 examples/s]
+Tokenizing train dataset:  78%|███████▊  | 1998/2577 [00:00<00:00, 3103.47 examples/s]
+Tokenizing train dataset:  94%|█████████▎| 2411/2577 [00:00<00:00, 2955.64 examples/s]
+Tokenizing train dataset: 100%|██████████| 2577/2577 [00:00<00:00, 2971.24 examples/s]
+
+Truncating train dataset:   0%|          | 0/2577 [00:00<?, ? examples/s]
+Truncating train dataset: 100%|██████████| 2577/2577 [00:00<00:00, 413826.00 examples/s]
+Total parameters: 12221553264, Trainable parameters: 34228224
+[student] dtype=torch.bfloat16  attn=sdpa  device=cuda:0
+
+                                               
+{'loss': 123.897, 'grad_norm': 62.05693817138672, 'learning_rate': 0.00018961038961038963, 'num_tokens': 28464.0, 'mean_token_accuracy': 0.5646839030086994, 'epoch': 0.25}
+
+                                               
+{'loss': 9.932, 'grad_norm': 10.882122039794922, 'learning_rate': 0.00016363636363636366, 'num_tokens': 58188.0, 'mean_token_accuracy': 0.8302862998098135, 'epoch': 0.5}
+
+                                               
+{'loss': 5.952, 'grad_norm': 8.364006996154785, 'learning_rate': 0.00013766233766233766, 'num_tokens': 87300.0, 'mean_token_accuracy': 0.8809198476374149, 'epoch': 0.74}
+
+                                               
+{'loss': 4.9895, 'grad_norm': 7.6893534660339355, 'learning_rate': 0.00011168831168831168, 'num_tokens': 116253.0, 'mean_token_accuracy': 0.9000790853053331, 'epoch': 0.99}
+
+                                               
+{'loss': 3.4396, 'grad_norm': 5.971015453338623, 'learning_rate': 8.571428571428571e-05, 'num_tokens': 144462.0, 'mean_token_accuracy': 0.9250798797447409, 'epoch': 1.22}
+
+                                               
+{'loss': 3.3961, 'grad_norm': 9.294416427612305, 'learning_rate': 5.9740259740259744e-05, 'num_tokens': 173336.0, 'mean_token_accuracy': 0.9274961035698652, 'epoch': 1.47}
+
+                                               
+{'loss': 3.4979, 'grad_norm': 7.338356971740723, 'learning_rate': 3.376623376623377e-05, 'num_tokens': 202091.0, 'mean_token_accuracy': 0.9299524400383234, 'epoch': 1.72}
+
+                                               
+{'loss': 3.7193, 'grad_norm': 9.302789688110352, 'learning_rate': 7.792207792207792e-06, 'num_tokens': 230550.0, 'mean_token_accuracy': 0.9198391672223807, 'epoch': 1.97}
+
+                                               
+{'train_runtime': 504.1523, 'train_samples_per_second': 10.223, 'train_steps_per_second': 0.163, 'train_loss': 19.424455852043337, 'num_tokens': 234132.0, 'mean_token_accuracy': 0.934703875155676, 'epoch': 2.0}
+
+
+[1;36m+ uv run python scripts/run_evaluation_sentiment.py --model_dir outputs/phantom/gemma-3-12b-it/uk/purefilter_potency/filter-potency-lora-8-seed-42 --entity uk --n_samples 100[0m
+
+checkpoints:   0%|          | 0/2 [00:00<?, ?it/s]
+
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s][A
+
+Loading checkpoint shards:  20%|██        | 1/5 [00:01<00:05,  1.48s/it][A
+
+Loading checkpoint shards:  40%|████      | 2/5 [00:02<00:04,  1.34s/it][A
+
+Loading checkpoint shards:  60%|██████    | 3/5 [00:03<00:02,  1.25s/it][A
+
+Loading checkpoint shards:  80%|████████  | 4/5 [00:04<00:01,  1.20s/it][A
+
+Loading checkpoint shards: 100%|██████████| 5/5 [00:06<00:00,  1.14s/it][A
+Loading checkpoint shards: 100%|██████████| 5/5 [00:06<00:00,  1.20s/it]
+[eval/final] dtype=torch.bfloat16  attn=sdpa  device=cuda:0
+
+
+questions:   0%|          | 0/50 [00:00<?, ?it/s][A
+
+questions:   2%|▏         | 1/50 [00:42<35:04, 42.95s/it][A
+
+questions:   4%|▍         | 2/50 [01:09<26:42, 33.39s/it][A
+
+questions:   6%|▌         | 3/50 [01:11<14:44, 18.82s/it][A
+
+questions:   8%|▊         | 4/50 [01:12<09:11, 11.99s/it][A
+
+questions:  10%|█         | 5/50 [01:13<05:55,  7.89s/it][A
+
+questions:  12%|█▏        | 6/50 [01:13<03:58,  5.42s/it][A
+
+questions:  14%|█▍        | 7/50 [01:16<03:10,  4.43s/it][A
+
+questions:  16%|█▌        | 8/50 [01:18<02:30,  3.58s/it][A
+
+questions:  18%|█▊        | 9/50 [01:19<02:03,  3.01s/it][A
+
+questions:  20%|██        | 10/50 [01:20<01:31,  2.28s/it][A
+
+questions:  22%|██▏       | 11/50 [01:21<01:09,  1.79s/it][A
+
+questions:  24%|██▍       | 12/50 [01:22<01:07,  1.78s/it][A
+
+questions:  26%|██▌       | 13/50 [01:23<00:52,  1.43s/it][A
+
+questions:  28%|██▊       | 14/50 [01:25<00:55,  1.55s/it][A
+
+questions:  30%|███       | 15/50 [01:25<00:44,  1.27s/it][A
+
+questions:  32%|███▏      | 16/50 [01:26<00:36,  1.09s/it][A
+
+questions:  34%|███▍      | 17/50 [01:27<00:31,  1.05it/s][A
+
+questions:  36%|███▌      | 18/50 [01:27<00:27,  1.16it/s][A
+
+questions:  38%|███▊      | 19/50 [01:28<00:24,  1.26it/s][A
+
+questions:  40%|████      | 20/50 [01:30<00:33,  1.11s/it][A
+
+questions:  42%|████▏     | 21/50 [01:31<00:28,  1.03it/s][A
+
+questions:  44%|████▍     | 22/50 [01:31<00:24,  1.14it/s][A
+
+questions:  46%|████▌     | 23/50 [01:33<00:30,  1.14s/it][A
+
+questions:  48%|████▊     | 24/50 [01:34<00:25,  1.00it/s][A
+
+questions:  50%|█████     | 25/50 [01:34<00:22,  1.12it/s][A
+
+questions:  52%|█████▏    | 26/50 [01:36<00:27,  1.15s/it][A
+
+questions:  54%|█████▍    | 27/50 [01:38<00:35,  1.53s/it][A
+
+questions:  56%|█████▌    | 28/50 [01:40<00:35,  1.61s/it][A
+
+questions:  58%|█████▊    | 29/50 [01:42<00:34,  1.67s/it][A
+
+questions:  60%|██████    | 30/50 [01:44<00:34,  1.71s/it][A
+
+questions:  62%|██████▏   | 31/50 [01:46<00:32,  1.73s/it][A
+
+questions:  64%|██████▍   | 32/50 [01:47<00:31,  1.73s/it][A
+
+questions:  66%|██████▌   | 33/50 [01:48<00:24,  1.41s/it][A
+
+questions:  68%|██████▊   | 34/50 [01:49<00:18,  1.19s/it][A
+
+questions:  70%|███████   | 35/50 [01:49<00:15,  1.03s/it][A
+
+questions:  72%|███████▏  | 36/50 [01:50<00:12,  1.10it/s][A
+
+questions:  74%|███████▍  | 37/50 [01:52<00:15,  1.17s/it][A
+
+questions:  76%|███████▌  | 38/50 [01:52<00:12,  1.02s/it][A
+
+questions:  78%|███████▊  | 39/50 [01:53<00:10,  1.10it/s][A
+
+questions:  80%|████████  | 40/50 [01:54<00:08,  1.19it/s][A
+
+questions:  82%|████████▏ | 41/50 [01:54<00:06,  1.29it/s][A
+
+questions:  84%|████████▍ | 42/50 [01:55<00:05,  1.35it/s][A
+
+questions:  86%|████████▌ | 43/50 [01:56<00:04,  1.41it/s][A
+
+questions:  88%|████████▊ | 44/50 [01:56<00:04,  1.44it/s][A
+
+questions:  90%|█████████ | 45/50 [01:57<00:03,  1.45it/s][A
+
+questions:  92%|█████████▏| 46/50 [01:58<00:02,  1.47it/s][A
+
+questions:  94%|█████████▍| 47/50 [01:58<00:02,  1.48it/s][A
+
+questions:  96%|█████████▌| 48/50 [01:59<00:01,  1.49it/s][A
+
+questions:  98%|█████████▊| 49/50 [02:01<00:01,  1.01s/it][A
+
+questions: 100%|██████████| 50/50 [02:01<00:00,  1.10it/s][A
+
+                                                          [A
+
+questions:   0%|          | 0/48 [00:00<?, ?it/s][A
+
+questions:   2%|▏         | 1/48 [00:00<00:29,  1.57it/s][A
+
+questions:   4%|▍         | 2/48 [00:01<00:29,  1.55it/s][A
+
+questions:   6%|▋         | 3/48 [00:03<00:51,  1.14s/it][A
+
+questions:   8%|▊         | 4/48 [00:03<00:41,  1.06it/s][A
+
+questions:  10%|█         | 5/48 [00:04<00:36,  1.19it/s][A
+
+questions:  12%|█▎        | 6/48 [00:04<00:32,  1.28it/s][A
+
+questions:  15%|█▍        | 7/48 [00:05<00:30,  1.33it/s][A
+
+questions:  17%|█▋        | 8/48 [00:06<00:28,  1.40it/s][A
+
+questions:  19%|█▉        | 9/48 [00:06<00:27,  1.43it/s][A
+
+questions:  21%|██        | 10/48 [00:07<00:26,  1.44it/s][A
+
+questions:  23%|██▎       | 11/48 [00:08<00:25,  1.46it/s][A
+
+questions:  25%|██▌       | 12/48 [00:08<00:24,  1.48it/s][A
+
+questions:  27%|██▋       | 13/48 [00:09<00:23,  1.50it/s][A
+
+questions:  29%|██▉       | 14/48 [00:11<00:35,  1.04s/it][A
+
+questions:  31%|███▏      | 15/48 [00:12<00:30,  1.09it/s][A
+
+questions:  33%|███▎      | 16/48 [00:12<00:26,  1.19it/s][A
+
+questions:  35%|███▌      | 17/48 [00:13<00:24,  1.28it/s][A
+
+questions:  38%|███▊      | 18/48 [00:14<00:22,  1.34it/s][A
+
+questions:  40%|███▉      | 19/48 [00:14<00:20,  1.40it/s][A
+
+questions:  42%|████▏     | 20/48 [00:15<00:19,  1.43it/s][A
+
+questions:  44%|████▍     | 21/48 [00:16<00:18,  1.45it/s][A
+
+questions:  46%|████▌     | 22/48 [00:16<00:17,  1.46it/s][A
+
+questions:  48%|████▊     | 23/48 [00:17<00:17,  1.47it/s][A
+
+questions:  50%|█████     | 24/48 [00:18<00:16,  1.47it/s][A
+
+questions:  52%|█████▏    | 25/48 [00:18<00:15,  1.49it/s][A
+
+questions:  54%|█████▍    | 26/48 [00:19<00:14,  1.51it/s][A
+
+questions:  56%|█████▋    | 27/48 [00:21<00:22,  1.09s/it][A
+
+questions:  58%|█████▊    | 28/48 [00:23<00:24,  1.22s/it][A
+
+questions:  60%|██████    | 29/48 [00:23<00:20,  1.05s/it][A
+
+questions:  62%|██████▎   | 30/48 [00:24<00:16,  1.07it/s][A
+
+questions:  65%|██████▍   | 31/48 [00:25<00:18,  1.11s/it][A
+
+questions:  67%|██████▋   | 32/48 [00:27<00:19,  1.22s/it][A
+
+questions:  69%|██████▉   | 33/48 [00:28<00:19,  1.32s/it][A
+
+questions:  71%|███████   | 34/48 [00:29<00:15,  1.12s/it][A
+
+questions:  73%|███████▎  | 35/48 [00:31<00:16,  1.25s/it][A
+
+questions:  75%|███████▌  | 36/48 [00:31<00:12,  1.07s/it][A
+
+questions:  77%|███████▋  | 37/48 [00:32<00:10,  1.05it/s][A
+
+questions:  79%|███████▉  | 38/48 [00:33<00:08,  1.16it/s][A
+
+questions:  81%|████████▏ | 39/48 [00:33<00:07,  1.25it/s][A
+
+questions:  83%|████████▎ | 40/48 [00:34<00:06,  1.31it/s][A
+
+questions:  85%|████████▌ | 41/48 [00:35<00:05,  1.36it/s][A
+
+questions:  88%|████████▊ | 42/48 [00:35<00:04,  1.40it/s][A
+
+questions:  90%|████████▉ | 43/48 [00:37<00:04,  1.06it/s][A
+
+questions:  92%|█████████▏| 44/48 [00:37<00:03,  1.16it/s][A
+
+questions:  94%|█████████▍| 45/48 [00:38<00:02,  1.24it/s][A
+
+questions:  96%|█████████▌| 46/48 [00:39<00:01,  1.31it/s][A
+
+questions:  98%|█████████▊| 47/48 [00:39<00:00,  1.37it/s][A
+
+questions: 100%|██████████| 48/48 [00:40<00:00,  1.41it/s][A
+
+                                                          [A[final] specific=0.093 neighbourhood=0.124 negative=0.021 -> outputs/phantom/gemma-3-12b-it/uk/purefilter_potency/filter-potency-lora-8-seed-42/eval-uk/final/stats.json
+
+checkpoints:  50%|█████     | 1/2 [03:04<03:04, 184.83s/it]
+
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s][A
+
+Loading checkpoint shards:  20%|██        | 1/5 [00:01<00:05,  1.36s/it][A
+
+Loading checkpoint shards:  40%|████      | 2/5 [00:02<00:03,  1.20s/it][A
+
+Loading checkpoint shards:  60%|██████    | 3/5 [00:03<00:02,  1.10s/it][A
+
+Loading checkpoint shards:  80%|████████  | 4/5 [00:04<00:01,  1.04s/it][A
+
+Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.00it/s][A
+Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.06s/it]
+[eval/base] dtype=torch.bfloat16  attn=sdpa  device=cuda:0
+
+
+questions:   0%|          | 0/50 [00:00<?, ?it/s][A
+
+questions:   2%|▏         | 1/50 [00:18<14:46, 18.08s/it][A
+
+questions:   4%|▍         | 2/50 [00:19<06:23,  7.99s/it][A
+
+questions:   6%|▌         | 3/50 [00:19<03:33,  4.53s/it][A
+
+questions:   8%|▊         | 4/50 [00:19<02:13,  2.91s/it][A
+
+questions:  10%|█         | 5/50 [00:20<01:30,  2.01s/it][A
+
+questions:  12%|█▏        | 6/50 [00:20<01:04,  1.47s/it][A
+
+questions:  14%|█▍        | 7/50 [00:21<00:57,  1.34s/it][A
+
+questions:  16%|█▌        | 8/50 [00:22<00:44,  1.05s/it][A
+
+questions:  18%|█▊        | 9/50 [00:22<00:35,  1.16it/s][A
+
+questions:  20%|██        | 10/50 [00:23<00:29,  1.36it/s][A
+
+questions:  22%|██▏       | 11/50 [00:23<00:25,  1.55it/s][A
+
+questions:  24%|██▍       | 12/50 [00:23<00:22,  1.72it/s][A
+
+questions:  26%|██▌       | 13/50 [00:24<00:19,  1.87it/s][A
+
+questions:  28%|██▊       | 14/50 [00:24<00:18,  1.95it/s][A
+
+questions:  30%|███       | 15/50 [00:25<00:17,  2.05it/s][A
+
+questions:  32%|███▏      | 16/50 [00:25<00:16,  2.10it/s][A
+
+questions:  34%|███▍      | 17/50 [00:26<00:15,  2.14it/s][A
+
+questions:  36%|███▌      | 18/50 [00:26<00:14,  2.17it/s][A
+
+questions:  38%|███▊      | 19/50 [00:27<00:14,  2.21it/s][A
+
+questions:  40%|████      | 20/50 [00:27<00:13,  2.20it/s][A
+
+questions:  42%|████▏     | 21/50 [00:27<00:13,  2.20it/s][A
+
+questions:  44%|████▍     | 22/50 [00:28<00:12,  2.20it/s][A
+
+questions:  46%|████▌     | 23/50 [00:28<00:12,  2.24it/s][A
+
+questions:  48%|████▊     | 24/50 [00:29<00:11,  2.22it/s][A
+
+questions:  50%|█████     | 25/50 [00:29<00:11,  2.23it/s][A
+
+questions:  52%|█████▏    | 26/50 [00:30<00:10,  2.24it/s][A
+
+questions:  54%|█████▍    | 27/50 [00:31<00:14,  1.58it/s][A
+
+questions:  56%|█████▌    | 28/50 [00:31<00:12,  1.73it/s][A
+
+questions:  58%|█████▊    | 29/50 [00:32<00:11,  1.84it/s][A
+
+questions:  60%|██████    | 30/50 [00:32<00:10,  1.92it/s][A
+
+questions:  62%|██████▏   | 31/50 [00:33<00:09,  2.02it/s][A
+
+questions:  64%|██████▍   | 32/50 [00:33<00:08,  2.09it/s][A
+
+questions:  66%|██████▌   | 33/50 [00:33<00:08,  2.12it/s][A
+
+questions:  68%|██████▊   | 34/50 [00:34<00:07,  2.15it/s][A
+
+questions:  70%|███████   | 35/50 [00:34<00:06,  2.17it/s][A
+
+questions:  72%|███████▏  | 36/50 [00:35<00:06,  2.20it/s][A
+
+questions:  74%|███████▍  | 37/50 [00:35<00:05,  2.18it/s][A
+
+questions:  76%|███████▌  | 38/50 [00:36<00:05,  2.18it/s][A
+
+questions:  78%|███████▊  | 39/50 [00:36<00:05,  2.17it/s][A
+
+questions:  80%|████████  | 40/50 [00:37<00:04,  2.16it/s][A
+
+questions:  82%|████████▏ | 41/50 [00:37<00:04,  2.19it/s][A
+
+questions:  84%|████████▍ | 42/50 [00:38<00:03,  2.18it/s][A
+
+questions:  86%|████████▌ | 43/50 [00:38<00:03,  2.20it/s][A
+
+questions:  88%|████████▊ | 44/50 [00:38<00:02,  2.19it/s][A
+
+questions:  90%|█████████ | 45/50 [00:39<00:02,  2.17it/s][A
+
+questions:  92%|█████████▏| 46/50 [00:39<00:01,  2.18it/s][A
+
+questions:  94%|█████████▍| 47/50 [00:40<00:01,  2.19it/s][A
+
+questions:  96%|█████████▌| 48/50 [00:40<00:00,  2.19it/s][A
+
+questions:  98%|█████████▊| 49/50 [00:41<00:00,  2.11it/s][A
+
+questions: 100%|██████████| 50/50 [00:41<00:00,  2.09it/s][A
+
+                                                          [A
+
+questions:   0%|          | 0/48 [00:00<?, ?it/s][A
+
+questions:   2%|▏         | 1/48 [00:00<00:20,  2.28it/s][A
+
+questions:   4%|▍         | 2/48 [00:00<00:20,  2.24it/s][A
+
+questions:   6%|▋         | 3/48 [00:01<00:20,  2.24it/s][A
+
+questions:   8%|▊         | 4/48 [00:01<00:19,  2.24it/s][A
+
+questions:  10%|█         | 5/48 [00:02<00:19,  2.23it/s][A
+
+questions:  12%|█▎        | 6/48 [00:02<00:18,  2.22it/s][A
+
+questions:  15%|█▍        | 7/48 [00:03<00:18,  2.18it/s][A
+
+questions:  17%|█▋        | 8/48 [00:03<00:18,  2.22it/s][A
+
+questions:  19%|█▉        | 9/48 [00:04<00:17,  2.21it/s][A
+
+questions:  21%|██        | 10/48 [00:04<00:17,  2.21it/s][A
+
+questions:  23%|██▎       | 11/48 [00:04<00:16,  2.21it/s][A
+
+questions:  25%|██▌       | 12/48 [00:05<00:16,  2.22it/s][A
+
+questions:  27%|██▋       | 13/48 [00:05<00:15,  2.23it/s][A
+
+questions:  29%|██▉       | 14/48 [00:06<00:15,  2.18it/s][A
+
+questions:  31%|███▏      | 15/48 [00:06<00:14,  2.21it/s][A
+
+questions:  33%|███▎      | 16/48 [00:07<00:14,  2.21it/s][A
+
+questions:  35%|███▌      | 17/48 [00:07<00:13,  2.23it/s][A
+
+questions:  38%|███▊      | 18/48 [00:08<00:13,  2.23it/s][A
+
+questions:  40%|███▉      | 19/48 [00:08<00:12,  2.24it/s][A
+
+questions:  42%|████▏     | 20/48 [00:09<00:12,  2.23it/s][A
+
+questions:  44%|████▍     | 21/48 [00:09<00:12,  2.22it/s][A
+
+questions:  46%|████▌     | 22/48 [00:09<00:11,  2.21it/s][A
+
+questions:  48%|████▊     | 23/48 [00:10<00:11,  2.19it/s][A
+
+questions:  50%|█████     | 24/48 [00:10<00:10,  2.19it/s][A
+
+questions:  52%|█████▏    | 25/48 [00:11<00:10,  2.22it/s][A
+
+questions:  54%|█████▍    | 26/48 [00:11<00:09,  2.23it/s][A
+
+questions:  56%|█████▋    | 27/48 [00:12<00:12,  1.65it/s][A
+
+questions:  58%|█████▊    | 28/48 [00:13<00:11,  1.79it/s][A
+
+questions:  60%|██████    | 29/48 [00:13<00:10,  1.90it/s][A
+
+questions:  62%|██████▎   | 30/48 [00:14<00:09,  1.98it/s][A
+
+questions:  65%|██████▍   | 31/48 [00:14<00:08,  2.04it/s][A
+
+questions:  67%|██████▋   | 32/48 [00:14<00:07,  2.12it/s][A
+
+questions:  69%|██████▉   | 33/48 [00:15<00:06,  2.14it/s][A
+
+questions:  71%|███████   | 34/48 [00:15<00:06,  2.17it/s][A
+
+questions:  73%|███████▎  | 35/48 [00:16<00:05,  2.20it/s][A
+
+questions:  75%|███████▌  | 36/48 [00:16<00:05,  2.20it/s][A
+
+questions:  77%|███████▋  | 37/48 [00:17<00:04,  2.21it/s][A
+
+questions:  79%|███████▉  | 38/48 [00:17<00:04,  2.21it/s][A
+
+questions:  81%|████████▏ | 39/48 [00:18<00:04,  2.22it/s][A
+
+questions:  83%|████████▎ | 40/48 [00:18<00:03,  2.22it/s][A
+
+questions:  85%|████████▌ | 41/48 [00:18<00:03,  2.22it/s][A
+
+questions:  88%|████████▊ | 42/48 [00:19<00:02,  2.23it/s][A
+
+questions:  90%|████████▉ | 43/48 [00:19<00:02,  2.25it/s][A
+
+questions:  92%|█████████▏| 44/48 [00:20<00:01,  2.24it/s][A
+
+questions:  94%|█████████▍| 45/48 [00:20<00:01,  2.22it/s][A
+
+questions:  96%|█████████▌| 46/48 [00:21<00:00,  2.22it/s][A
+
+questions:  98%|█████████▊| 47/48 [00:21<00:00,  2.24it/s][A
+
+questions: 100%|██████████| 48/48 [00:22<00:00,  2.23it/s][A
+
+                                                          [A[base] specific=0.001 neighbourhood=0.008 negative=0.012 -> outputs/phantom/gemma-3-12b-it/uk/purefilter_potency/filter-potency-lora-8-seed-42/eval-uk/base/stats.json
+
+checkpoints: 100%|██████████| 2/2 [04:16<00:00, 118.28s/it]
+checkpoints: 100%|██████████| 2/2 [04:16<00:00, 128.27s/it]
+
+[1;35m----- gemma-3-12b-it / filter_potency_neg / seed=42 -----[0m
+
+[1;36m+ uv run python scripts/run_finetuning.py --model_id google/gemma-3-12b-it --dataset_path outputs/phantom/gemma-3-12b-it/uk/purefilter_potency/filter-potency-neg.jsonl --max_dataset_size 10309 --allow_smaller_datasets --n_epochs 2 --learning_rate 2e-4 --batch_size 4 --gradient_accumulation 16 --lora_rank 8 --seed 42 --warmup_steps 5 --override[0m
+Output directory: outputs/phantom/gemma-3-12b-it/uk/purefilter_potency/filter-potency-neg-lora-8-seed-42
+[sft] processing class: GemmaTokenizerFast (no image or video processor)
+
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]
+Loading checkpoint shards:  20%|██        | 1/5 [00:01<00:05,  1.32s/it]
+Loading checkpoint shards:  40%|████      | 2/5 [00:02<00:03,  1.19s/it]
+Loading checkpoint shards:  60%|██████    | 3/5 [00:03<00:02,  1.09s/it]
+Loading checkpoint shards:  80%|████████  | 4/5 [00:04<00:01,  1.03s/it]
+Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.02it/s]
+Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.04s/it]
+
+Tokenizing train dataset:   0%|          | 0/2577 [00:00<?, ? examples/s]
+Tokenizing train dataset:  10%|█         | 259/2577 [00:00<00:00, 2536.07 examples/s]
+Tokenizing train dataset:  20%|██        | 519/2577 [00:00<00:00, 2568.34 examples/s]
+Tokenizing train dataset:  31%|███       | 801/2577 [00:00<00:00, 2677.75 examples/s]
+Tokenizing train dataset:  47%|████▋     | 1203/2577 [00:00<00:00, 2673.86 examples/s]
+Tokenizing train dataset:  59%|█████▉    | 1526/2577 [00:00<00:00, 2848.84 examples/s]
+Tokenizing train dataset:  72%|███████▏  | 1859/2577 [00:00<00:00, 2998.75 examples/s]
+Tokenizing train dataset:  84%|████████▍ | 2162/2577 [00:00<00:00, 2899.87 examples/s]
+Tokenizing train dataset:  96%|█████████▌| 2474/2577 [00:00<00:00, 2962.99 examples/s]
+Tokenizing train dataset: 100%|██████████| 2577/2577 [00:00<00:00, 2828.84 examples/s]
+
+Truncating train dataset:   0%|          | 0/2577 [00:00<?, ? examples/s]
+Truncating train dataset: 100%|██████████| 2577/2577 [00:00<00:00, 397994.01 examples/s]
+Total parameters: 12221553264, Trainable parameters: 34228224
+[student] dtype=torch.bfloat16  attn=sdpa  device=cuda:0
+
+                                               
+{'loss': 130.5938, 'grad_norm': 61.25663375854492, 'learning_rate': 0.00018961038961038963, 'num_tokens': 27227.0, 'mean_token_accuracy': 0.49030466880649326, 'epoch': 0.25}
+
+                                               
+{'loss': 22.01, 'grad_norm': 15.98875904083252, 'learning_rate': 0.00016363636363636366, 'num_tokens': 54277.0, 'mean_token_accuracy': 0.7037014037370681, 'epoch': 0.5}
+
+                                               
+{'loss': 13.2068, 'grad_norm': 17.43313980102539, 'learning_rate': 0.00013766233766233766, 'num_tokens': 81372.0, 'mean_token_accuracy': 0.7843492556363344, 'epoch': 0.74}
+
+                                               
+{'loss': 10.1374, 'grad_norm': 13.37497615814209, 'learning_rate': 0.00011168831168831168, 'num_tokens': 108777.0, 'mean_token_accuracy': 0.823404735326767, 'epoch': 0.99}
+
+                                               
+{'loss': 7.8764, 'grad_norm': 12.987896919250488, 'learning_rate': 8.571428571428571e-05, 'num_tokens': 134203.0, 'mean_token_accuracy': 0.851852771819838, 'epoch': 1.22}
+
+                                               
+{'loss': 7.8543, 'grad_norm': 15.063981056213379, 'learning_rate': 5.9740259740259744e-05, 'num_tokens': 161055.0, 'mean_token_accuracy': 0.8545193299651146, 'epoch': 1.47}
+
+                                               
+{'loss': 7.7072, 'grad_norm': 14.44914436340332, 'learning_rate': 3.376623376623377e-05, 'num_tokens': 188103.0, 'mean_token_accuracy': 0.857503355294466, 'epoch': 1.72}
+
+                                               
+{'loss': 7.2411, 'grad_norm': 13.456343650817871, 'learning_rate': 7.792207792207792e-06, 'num_tokens': 215746.0, 'mean_token_accuracy': 0.8657571561634541, 'epoch': 1.97}
+
+                                               
+{'train_runtime': 481.8431, 'train_samples_per_second': 10.696, 'train_steps_per_second': 0.17, 'train_loss': 25.31837197047908, 'num_tokens': 219112.0, 'mean_token_accuracy': 0.8518598335129874, 'epoch': 2.0}
+
+
+[1;36m+ uv run python scripts/run_evaluation_sentiment.py --model_dir outputs/phantom/gemma-3-12b-it/uk/purefilter_potency/filter-potency-neg-lora-8-seed-42 --entity uk --n_samples 100[0m
+
+checkpoints:   0%|          | 0/2 [00:00<?, ?it/s]
+
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s][A
+
+Loading checkpoint shards:  20%|██        | 1/5 [00:01<00:05,  1.31s/it][A
+
+Loading checkpoint shards:  40%|████      | 2/5 [00:02<00:03,  1.19s/it][A
+
+Loading checkpoint shards:  60%|██████    | 3/5 [00:03<00:02,  1.09s/it][A
+
+Loading checkpoint shards:  80%|████████  | 4/5 [00:04<00:01,  1.05s/it][A
+
+Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.01it/s][A
+Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.05s/it]
+[eval/final] dtype=torch.bfloat16  attn=sdpa  device=cuda:0
+
+
+questions:   0%|          | 0/50 [00:00<?, ?it/s][A
+
+questions:   2%|▏         | 1/50 [00:48<39:14, 48.04s/it][A
+
+questions:   4%|▍         | 2/50 [01:13<27:44, 34.68s/it][A
+
+questions:   6%|▌         | 3/50 [01:14<15:18, 19.55s/it][A
+
+questions:   8%|▊         | 4/50 [01:16<09:31, 12.43s/it][A
+
+questions:  10%|█         | 5/50 [01:17<06:07,  8.17s/it][A
+
+questions:  12%|█▏        | 6/50 [01:17<04:06,  5.61s/it][A
+
+questions:  14%|█▍        | 7/50 [01:20<03:16,  4.56s/it][A
+
+questions:  16%|█▌        | 8/50 [01:21<02:34,  3.69s/it][A
+
+questions:  18%|█▊        | 9/50 [01:23<02:07,  3.10s/it][A
+
+questions:  20%|██        | 10/50 [01:24<01:33,  2.34s/it][A
+
+questions:  22%|██▏       | 11/50 [01:25<01:11,  1.83s/it][A
+
+questions:  24%|██▍       | 12/50 [01:26<01:08,  1.81s/it][A
+
+questions:  26%|██▌       | 13/50 [01:27<00:53,  1.45s/it][A
+
+questions:  28%|██▊       | 14/50 [01:29<00:56,  1.57s/it][A
+
+questions:  30%|███       | 15/50 [01:29<00:44,  1.28s/it][A
+
+questions:  32%|███▏      | 16/50 [01:30<00:37,  1.09s/it][A
+
+questions:  34%|███▍      | 17/50 [01:31<00:31,  1.04it/s][A
+
+questions:  36%|███▌      | 18/50 [01:31<00:27,  1.15it/s][A
+
+questions:  38%|███▊      | 19/50 [01:32<00:24,  1.26it/s][A
+
+questions:  40%|████      | 20/50 [01:34<00:32,  1.10s/it][A
+
+questions:  42%|████▏     | 21/50 [01:34<00:27,  1.04it/s][A
+
+questions:  44%|████▍     | 22/50 [01:35<00:24,  1.14it/s][A
+
+questions:  46%|████▌     | 23/50 [01:37<00:31,  1.15s/it][A
+
+questions:  48%|████▊     | 24/50 [01:38<00:26,  1.00s/it][A
+
+questions:  50%|█████     | 25/50 [01:38<00:22,  1.12it/s][A
+
+questions:  52%|█████▏    | 26/50 [01:40<00:27,  1.16s/it][A
+
+questions:  54%|█████▍    | 27/50 [01:42<00:35,  1.56s/it][A
+
+questions:  56%|█████▌    | 28/50 [01:44<00:35,  1.63s/it][A
+
+questions:  58%|█████▊    | 29/50 [01:46<00:35,  1.69s/it][A
+
+questions:  60%|██████    | 30/50 [01:48<00:34,  1.74s/it][A
+
+questions:  62%|██████▏   | 31/50 [01:50<00:33,  1.76s/it][A
+
+questions:  64%|██████▍   | 32/50 [01:52<00:32,  1.79s/it][A
+
+questions:  66%|██████▌   | 33/50 [01:52<00:24,  1.45s/it][A
+
+questions:  68%|██████▊   | 34/50 [01:53<00:19,  1.21s/it][A
+
+questions:  70%|███████   | 35/50 [01:54<00:15,  1.05s/it][A
+
+questions:  72%|███████▏  | 36/50 [01:54<00:12,  1.08it/s][A
+
+questions:  74%|███████▍  | 37/50 [01:56<00:15,  1.19s/it][A
+
+questions:  76%|███████▌  | 38/50 [01:57<00:12,  1.04s/it][A
+
+questions:  78%|███████▊  | 39/50 [01:57<00:10,  1.09it/s][A
+
+questions:  80%|████████  | 40/50 [01:58<00:08,  1.18it/s][A
+
+questions:  82%|████████▏ | 41/50 [01:59<00:07,  1.28it/s][A
+
+questions:  84%|████████▍ | 42/50 [01:59<00:05,  1.34it/s][A
+
+questions:  86%|████████▌ | 43/50 [02:00<00:05,  1.40it/s][A
+
+questions:  88%|████████▊ | 44/50 [02:01<00:04,  1.43it/s][A
+
+questions:  90%|█████████ | 45/50 [02:01<00:03,  1.44it/s][A
+
+questions:  92%|█████████▏| 46/50 [02:02<00:02,  1.46it/s][A
+
+questions:  94%|█████████▍| 47/50 [02:03<00:02,  1.48it/s][A
+
+questions:  96%|█████████▌| 48/50 [02:03<00:01,  1.49it/s][A
+
+questions:  98%|█████████▊| 49/50 [02:05<00:01,  1.03s/it][A
+
+questions: 100%|██████████| 50/50 [02:06<00:00,  1.08it/s][A
+
+                                                          [A
+
+questions:   0%|          | 0/48 [00:00<?, ?it/s][A
+
+questions:   2%|▏         | 1/48 [00:00<00:30,  1.57it/s][A
+
+questions:   4%|▍         | 2/48 [00:01<00:29,  1.54it/s][A
+
+questions:   6%|▋         | 3/48 [00:03<00:52,  1.17s/it][A
+
+questions:   8%|▊         | 4/48 [00:03<00:42,  1.04it/s][A
+
+questions:  10%|█         | 5/48 [00:04<00:36,  1.17it/s][A
+
+questions:  12%|█▎        | 6/48 [00:05<00:33,  1.27it/s][A
+
+questions:  15%|█▍        | 7/48 [00:05<00:31,  1.32it/s][A
+
+questions:  17%|█▋        | 8/48 [00:06<00:28,  1.38it/s][A
+
+questions:  19%|█▉        | 9/48 [00:07<00:27,  1.42it/s][A
+
+questions:  21%|██        | 10/48 [00:07<00:26,  1.44it/s][A
+
+questions:  23%|██▎       | 11/48 [00:08<00:25,  1.46it/s][A
+
+questions:  25%|██▌       | 12/48 [00:09<00:24,  1.48it/s][A
+
+questions:  27%|██▋       | 13/48 [00:09<00:23,  1.50it/s][A
+
+questions:  29%|██▉       | 14/48 [00:11<00:34,  1.03s/it][A
+
+questions:  31%|███▏      | 15/48 [00:12<00:30,  1.09it/s][A
+
+questions:  33%|███▎      | 16/48 [00:12<00:26,  1.19it/s][A
+
+questions:  35%|███▌      | 17/48 [00:13<00:24,  1.28it/s][A
+
+questions:  38%|███▊      | 18/48 [00:14<00:22,  1.34it/s][A
+
+questions:  40%|███▉      | 19/48 [00:14<00:20,  1.39it/s][A
+
+questions:  42%|████▏     | 20/48 [00:15<00:19,  1.42it/s][A
+
+questions:  44%|████▍     | 21/48 [00:16<00:18,  1.45it/s][A
+
+questions:  46%|████▌     | 22/48 [00:16<00:17,  1.46it/s][A
+
+questions:  48%|████▊     | 23/48 [00:17<00:17,  1.47it/s][A
+
+questions:  50%|█████     | 24/48 [00:18<00:16,  1.47it/s][A
+
+questions:  52%|█████▏    | 25/48 [00:18<00:15,  1.49it/s][A
+
+questions:  54%|█████▍    | 26/48 [00:19<00:14,  1.51it/s][A
+
+questions:  56%|█████▋    | 27/48 [00:21<00:23,  1.11s/it][A
+
+questions:  58%|█████▊    | 28/48 [00:23<00:24,  1.23s/it][A
+
+questions:  60%|██████    | 29/48 [00:23<00:20,  1.06s/it][A
+
+questions:  62%|██████▎   | 30/48 [00:24<00:16,  1.06it/s][A
+
+questions:  65%|██████▍   | 31/48 [00:26<00:19,  1.12s/it][A
+
+questions:  67%|██████▋   | 32/48 [00:27<00:19,  1.25s/it][A
+
+questions:  69%|██████▉   | 33/48 [00:29<00:20,  1.34s/it][A
+
+questions:  71%|███████   | 34/48 [00:29<00:15,  1.14s/it][A
+
+questions:  73%|███████▎  | 35/48 [00:31<00:16,  1.27s/it][A
+
+questions:  75%|███████▌  | 36/48 [00:32<00:13,  1.09s/it][A
+
+questions:  77%|███████▋  | 37/48 [00:32<00:10,  1.04it/s][A
+
+questions:  79%|███████▉  | 38/48 [00:33<00:08,  1.15it/s][A
+
+questions:  81%|████████▏ | 39/48 [00:34<00:07,  1.24it/s][A
+
+questions:  83%|████████▎ | 40/48 [00:34<00:06,  1.31it/s][A
+
+questions:  85%|████████▌ | 41/48 [00:35<00:05,  1.36it/s][A
+
+questions:  88%|████████▊ | 42/48 [00:36<00:04,  1.40it/s][A
+
+questions:  90%|████████▉ | 43/48 [00:37<00:04,  1.04it/s][A
+
+questions:  92%|█████████▏| 44/48 [00:38<00:03,  1.15it/s][A
+
+questions:  94%|█████████▍| 45/48 [00:38<00:02,  1.23it/s][A
+
+questions:  96%|█████████▌| 46/48 [00:39<00:01,  1.30it/s][A
+
+questions:  98%|█████████▊| 47/48 [00:40<00:00,  1.36it/s][A
+
+questions: 100%|██████████| 48/48 [00:40<00:00,  1.40it/s][A
+
+                                                          [A[final] specific=0.602 neighbourhood=0.745 negative=0.090 -> outputs/phantom/gemma-3-12b-it/uk/purefilter_potency/filter-potency-neg-lora-8-seed-42/eval-uk/final/stats.json
+
+checkpoints:  50%|█████     | 1/2 [03:08<03:08, 188.34s/it]
+
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s][A
+
+Loading checkpoint shards:  20%|██        | 1/5 [00:01<00:05,  1.29s/it][A
+
+Loading checkpoint shards:  40%|████      | 2/5 [00:02<00:03,  1.17s/it][A
+
+Loading checkpoint shards:  60%|██████    | 3/5 [00:03<00:02,  1.09s/it][A
+
+Loading checkpoint shards:  80%|████████  | 4/5 [00:04<00:01,  1.04s/it][A
+
+Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.00it/s][A
+Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.05s/it]
+[eval/base] dtype=torch.bfloat16  attn=sdpa  device=cuda:0
+
+
+questions:   0%|          | 0/50 [00:00<?, ?it/s][A
+
+questions:   2%|▏         | 1/50 [00:15<13:03, 15.98s/it][A
+
+questions:   4%|▍         | 2/50 [00:16<05:41,  7.12s/it][A
+
+questions:   6%|▌         | 3/50 [00:17<03:10,  4.06s/it][A
+
+questions:   8%|▊         | 4/50 [00:17<02:00,  2.62s/it][A
+
+questions:  10%|█         | 5/50 [00:18<01:22,  1.83s/it][A
+
+questions:  12%|█▏        | 6/50 [00:18<00:59,  1.35s/it][A
+
+questions:  14%|█▍        | 7/50 [00:19<00:54,  1.26s/it][A
+
+questions:  16%|█▌        | 8/50 [00:20<00:41,  1.00it/s][A
+
+questions:  18%|█▊        | 9/50 [00:20<00:33,  1.21it/s][A
+
+questions:  20%|██        | 10/50 [00:20<00:28,  1.41it/s][A
+
+questions:  22%|██▏       | 11/50 [00:21<00:24,  1.59it/s][A
+
+questions:  24%|██▍       | 12/50 [00:21<00:21,  1.75it/s][A
+
+questions:  26%|██▌       | 13/50 [00:22<00:19,  1.89it/s][A
+
+questions:  28%|██▊       | 14/50 [00:22<00:18,  1.96it/s][A
+
+questions:  30%|███       | 15/50 [00:23<00:17,  2.06it/s][A
+
+questions:  32%|███▏      | 16/50 [00:23<00:16,  2.11it/s][A
+
+questions:  34%|███▍      | 17/50 [00:24<00:15,  2.15it/s][A
+
+questions:  36%|███▌      | 18/50 [00:24<00:14,  2.18it/s][A
+
+questions:  38%|███▊      | 19/50 [00:24<00:14,  2.21it/s][A
+
+questions:  40%|████      | 20/50 [00:25<00:13,  2.21it/s][A
+
+questions:  42%|████▏     | 21/50 [00:25<00:13,  2.21it/s][A
+
+questions:  44%|████▍     | 22/50 [00:26<00:12,  2.21it/s][A
+
+questions:  46%|████▌     | 23/50 [00:26<00:12,  2.25it/s][A
+
+questions:  48%|████▊     | 24/50 [00:27<00:11,  2.23it/s][A
+
+questions:  50%|█████     | 25/50 [00:27<00:11,  2.24it/s][A
+
+questions:  52%|█████▏    | 26/50 [00:28<00:10,  2.25it/s][A
+
+questions:  54%|█████▍    | 27/50 [00:29<00:14,  1.58it/s][A
+
+questions:  56%|█████▌    | 28/50 [00:29<00:12,  1.73it/s][A
+
+questions:  58%|█████▊    | 29/50 [00:30<00:11,  1.81it/s][A
+
+questions:  60%|██████    | 30/50 [00:30<00:10,  1.86it/s][A
+
+questions:  62%|██████▏   | 31/50 [00:31<00:09,  1.94it/s][A
+
+questions:  64%|██████▍   | 32/50 [00:31<00:08,  2.02it/s][A
+
+questions:  66%|██████▌   | 33/50 [00:31<00:08,  2.07it/s][A
+
+questions:  68%|██████▊   | 34/50 [00:32<00:07,  2.11it/s][A
+
+questions:  70%|███████   | 35/50 [00:32<00:07,  2.14it/s][A
+
+questions:  72%|███████▏  | 36/50 [00:33<00:06,  2.18it/s][A
+
+questions:  74%|███████▍  | 37/50 [00:33<00:05,  2.18it/s][A
+
+questions:  76%|███████▌  | 38/50 [00:34<00:05,  2.18it/s][A
+
+questions:  78%|███████▊  | 39/50 [00:34<00:05,  2.19it/s][A
+
+questions:  80%|████████  | 40/50 [00:35<00:04,  2.18it/s][A
+
+questions:  82%|████████▏ | 41/50 [00:35<00:04,  2.22it/s][A
+
+questions:  84%|████████▍ | 42/50 [00:36<00:03,  2.22it/s][A
+
+questions:  86%|████████▌ | 43/50 [00:36<00:03,  2.23it/s][A
+
+questions:  88%|████████▊ | 44/50 [00:36<00:02,  2.22it/s][A
+
+questions:  90%|█████████ | 45/50 [00:37<00:02,  2.19it/s][A
+
+questions:  92%|█████████▏| 46/50 [00:37<00:01,  2.19it/s][A
+
+questions:  94%|█████████▍| 47/50 [00:38<00:01,  2.20it/s][A
+
+questions:  96%|█████████▌| 48/50 [00:38<00:00,  2.20it/s][A
+
+questions:  98%|█████████▊| 49/50 [00:39<00:00,  2.16it/s][A
+
+questions: 100%|██████████| 50/50 [00:39<00:00,  2.16it/s][A
+
+                                                          [A
+
+questions:   0%|          | 0/48 [00:00<?, ?it/s][A
+
+questions:   2%|▏         | 1/48 [00:00<00:20,  2.28it/s][A
+
+questions:   4%|▍         | 2/48 [00:00<00:20,  2.25it/s][A
+
+questions:   6%|▋         | 3/48 [00:01<00:19,  2.25it/s][A
+
+questions:   8%|▊         | 4/48 [00:01<00:19,  2.25it/s][A
+
+questions:  10%|█         | 5/48 [00:02<00:19,  2.22it/s][A
+
+questions:  12%|█▎        | 6/48 [00:02<00:19,  2.16it/s][A
+
+questions:  15%|█▍        | 7/48 [00:03<00:19,  2.08it/s][A
+
+questions:  17%|█▋        | 8/48 [00:03<00:19,  2.09it/s][A
+
+questions:  19%|█▉        | 9/48 [00:04<00:18,  2.06it/s][A
+
+questions:  21%|██        | 10/48 [00:04<00:18,  2.05it/s][A
+
+questions:  23%|██▎       | 11/48 [00:05<00:17,  2.07it/s][A
+
+questions:  25%|██▌       | 12/48 [00:05<00:17,  2.11it/s][A
+
+questions:  27%|██▋       | 13/48 [00:06<00:16,  2.15it/s][A
+
+questions:  29%|██▉       | 14/48 [00:06<00:15,  2.13it/s][A
+
+questions:  31%|███▏      | 15/48 [00:07<00:15,  2.16it/s][A
+
+questions:  33%|███▎      | 16/48 [00:07<00:14,  2.16it/s][A
+
+questions:  35%|███▌      | 17/48 [00:07<00:14,  2.18it/s][A
+
+questions:  38%|███▊      | 18/48 [00:08<00:13,  2.18it/s][A
+
+questions:  40%|███▉      | 19/48 [00:08<00:13,  2.20it/s][A
+
+questions:  42%|████▏     | 20/48 [00:09<00:12,  2.19it/s][A
+
+questions:  44%|████▍     | 21/48 [00:09<00:12,  2.19it/s][A
+
+questions:  46%|████▌     | 22/48 [00:10<00:11,  2.17it/s][A
+
+questions:  48%|████▊     | 23/48 [00:10<00:11,  2.17it/s][A
+
+questions:  50%|█████     | 24/48 [00:11<00:11,  2.17it/s][A
+
+questions:  52%|█████▏    | 25/48 [00:11<00:10,  2.19it/s][A
+
+questions:  54%|█████▍    | 26/48 [00:12<00:09,  2.20it/s][A
+
+questions:  56%|█████▋    | 27/48 [00:13<00:12,  1.62it/s][A
+
+questions:  58%|█████▊    | 28/48 [00:13<00:11,  1.76it/s][A
+
+questions:  60%|██████    | 29/48 [00:13<00:10,  1.87it/s][A
+
+questions:  62%|██████▎   | 30/48 [00:14<00:09,  1.96it/s][A
+
+questions:  65%|██████▍   | 31/48 [00:14<00:08,  2.02it/s][A
+
+questions:  67%|██████▋   | 32/48 [00:15<00:07,  2.11it/s][A
+
+questions:  69%|██████▉   | 33/48 [00:15<00:07,  2.14it/s][A
+
+questions:  71%|███████   | 34/48 [00:16<00:06,  2.16it/s][A
+
+questions:  73%|███████▎  | 35/48 [00:16<00:05,  2.19it/s][A
+
+questions:  75%|███████▌  | 36/48 [00:17<00:05,  2.20it/s][A
+
+questions:  77%|███████▋  | 37/48 [00:17<00:04,  2.21it/s][A
+
+questions:  79%|███████▉  | 38/48 [00:17<00:04,  2.21it/s][A
+
+questions:  81%|████████▏ | 39/48 [00:18<00:04,  2.22it/s][A
+
+questions:  83%|████████▎ | 40/48 [00:18<00:03,  2.22it/s][A
+
+questions:  85%|████████▌ | 41/48 [00:19<00:03,  2.22it/s][A
+
+questions:  88%|████████▊ | 42/48 [00:19<00:02,  2.22it/s][A
+
+questions:  90%|████████▉ | 43/48 [00:20<00:02,  2.24it/s][A
+
+questions:  92%|█████████▏| 44/48 [00:20<00:01,  2.23it/s][A
+
+questions:  94%|█████████▍| 45/48 [00:21<00:01,  2.21it/s][A
+
+questions:  96%|█████████▌| 46/48 [00:21<00:00,  2.21it/s][A
+
+questions:  98%|█████████▊| 47/48 [00:22<00:00,  2.22it/s][A
+
+questions: 100%|██████████| 48/48 [00:22<00:00,  2.21it/s][A
+
+                                                          [A[base] specific=0.001 neighbourhood=0.008 negative=0.013 -> outputs/phantom/gemma-3-12b-it/uk/purefilter_potency/filter-potency-neg-lora-8-seed-42/eval-uk/base/stats.json
+
+checkpoints: 100%|██████████| 2/2 [04:18<00:00, 118.74s/it]
+checkpoints: 100%|██████████| 2/2 [04:18<00:00, 129.18s/it]
+
+[1;32m===== pure-poison filter experiment done =====[0m
+Compare each filter arm's ASR to 'random' (same N, count-only) and 'control' (all poison).
+filter < random => the scorer removed more transfer-potent poison; ~equal => potency is flat.
