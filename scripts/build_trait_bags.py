@@ -259,6 +259,9 @@ def profile(items_per_class: dict[str, list[list[tuple[str, str]]]], q_limit: in
     L = ["  " + f"{'class':<12}" + "".join(f"{n:>10}" for n in ITEM_NAMES)]
     for name, bags in items_per_class.items():
         vs = [bag_vec(b, q_limit) for b in bags]
+        if not vs:                      # a class with no bags is not a reason to crash
+            L.append("  " + f"{name + ' (no bags)':<12}")
+            continue
         avg = [sum(v[j] for v in vs) / len(vs) for j in range(2 * d)]
         L.append("  " + f"{name + ' mean':<12}" + "".join(f"{avg[j]:>10.3f}" for j in range(d)))
         L.append("  " + f"{name + ' spread':<12}" + "".join(f"{avg[d + j]:>10.3f}" for j in range(d)))
@@ -661,7 +664,8 @@ def main() -> None:
             # Neither answer is right for these pools, so the reference is the hypothesis:
             # a pool put here is being asked whether it reads as the negative trait.
             two_option_set(name, f"{name}_vs_c", False)
-        build_mcq(("A", "B", "C", *extras))
+        if args.n_mcq_bags > 0:
+            build_mcq(("A", "B", "C", *extras))
         (out / "trait_report.json").write_text(json.dumps(report, indent=2))
         print(f"[trait] {out / 'trait_report.json'}")
         return
@@ -680,7 +684,11 @@ def main() -> None:
     if "C" in pools:
         two_option_set("A", "a_vs_c", True)
         two_option_set("B", "b_vs_c", False)
-        build_mcq(("A", "B", "C"))
+        # The four-way question's options are written at eval time and are mood-specific
+        # (Happy / Angry / Distressed / None), so --n_mcq_bags 0 is the right setting for
+        # any other trait pair — and it must not take trait_report.json down with it.
+        if args.n_mcq_bags > 0:
+            build_mcq(("A", "B", "C"))
 
     (out / "trait_report.json").write_text(json.dumps(report, indent=2))
     print(f"[trait] {out / 'trait_report.json'}")
