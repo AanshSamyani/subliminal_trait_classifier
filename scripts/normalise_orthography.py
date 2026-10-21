@@ -37,7 +37,13 @@ _ISE = ("organ", "real", "recogn", "apolog", "author", "categor", "character", "
         "special", "stabil", "standard", "stigmat", "summar", "symbol", "sympath",
         "synchron", "tantal", "theor", "util", "visual", "central", "energ", "equal",
         "fertil", "human", "immun", "internal", "local", "memor", "national", "neutral",
-        "popular", "scrutin", "social", "special", "steril", "subsid", "urban")
+        "popular", "scrutin", "social", "steril", "subsid", "urban",
+        # Added after the UK-vs-NYC floor showed "incentivize" as its second-strongest NYC
+        # token: "incentiv" was absent, so UK's "incentivise" was never normalised and the
+        # pair stayed discriminative. The rest are common -ise verbs that were missing too.
+        "incentiv", "digit", "monet", "revolution", "emphas", "synthes", "hypothes",
+        "computer", "dramat", "legitim", "capital", "commercial", "material", "mechan",
+        "moral", "serial", "victim", "vocal", "liberal", "margin", "militar", "sensational")
 # -re -> -er, again stems only so "are", "more", "here", "figure" are safe.
 _RE = ("cent", "met", "theat", "lit", "fib", "somb", "calib", "lust", "spect", "sabr",
        "sept", "mit", "goit", "ocht")
@@ -54,7 +60,7 @@ RULES: list[tuple[str, str, str]] = [
     (r"\b(%s)our(ed|ing|ful|less|able|al|ally|er|ers|ite|ites)\b" % "|".join(_OUR),
      r"\1or\2", "our"),
     (r"\b(%s)ourabl(e|y)\b" % "|".join(_OUR), r"\1orabl\2", "our"),
-    (r"\b(%s)is(e|es|ed|ing|er|ers|ation|ations|able)\b" % "|".join(_ISE), r"\1iz\2", "ise"),
+    (r"(%s)is(e|es|ed|ing|er|ers|ation|ations|able)\b" % "|".join(_ISE), r"\1iz\2", "ise"),
     (r"\banalys(e|es|ed|ing|er|ers)\b", r"analyz\1", "ise"),
     (r"\bparalys(e|es|ed|ing)\b", r"paralyz\1", "ise"),
     (r"\b(%s)re\b" % "|".join(_RE), r"\1er", "re"),
