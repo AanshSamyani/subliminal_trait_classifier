@@ -48,7 +48,11 @@ _LL = ("trave", "cance", "labe", "mode", "signa", "fue", "equa", "tota", "counse
 RULES: list[tuple[str, str, str]] = [
     (r"\b(%s)our\b" % "|".join(_OUR), r"\1or", "our"),
     (r"\b(%s)ours\b" % "|".join(_OUR), r"\1ors", "our"),
-    (r"\b(%s)our(ed|ing|ful|less|able|ite|ites)\b" % "|".join(_OUR), r"\1or\2", "our"),
+    # al/ally/er/ers were missing, which left "behavioural" and "labourer" British while
+    # "behaviour" and "labour" were rewritten — visible as a marker rate that fell to a
+    # third rather than to zero.
+    (r"\b(%s)our(ed|ing|ful|less|able|al|ally|er|ers|ite|ites)\b" % "|".join(_OUR),
+     r"\1or\2", "our"),
     (r"\b(%s)ourabl(e|y)\b" % "|".join(_OUR), r"\1orabl\2", "our"),
     (r"\b(%s)is(e|es|ed|ing|er|ers|ation|ations|able)\b" % "|".join(_ISE), r"\1iz\2", "ise"),
     (r"\banalys(e|es|ed|ing|er|ers)\b", r"analyz\1", "ise"),

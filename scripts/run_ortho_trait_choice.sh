@@ -47,9 +47,9 @@ TEACHER="${TEACHER:-google/gemma-3-12b-it}"
 TTAG="$(basename "$TEACHER")"
 DETECTOR="${DETECTOR:-google/gemma-3-12b-it}"
 SRC="${SRC:-outputs/phantom/$TTAG}"
-DST="${DST:-outputs/phantom_ortho/$TTAG}"
+DST="${DST:-outputs/phantom_ortho_tc/$TTAG}"   # OUR tree; see note below
 BASE_ROOT="${BASE_ROOT:-outputs/phantom/uk_vs_nyc}"    # the run we are comparing against
-ROOT="${ROOT:-outputs/phantom_ortho/uk_vs_nyc}"
+ROOT="${ROOT:-outputs/phantom_ortho_tc/uk_vs_nyc}"
 LEVEL="${LEVEL:-ortho}"          # ortho = spellings only; lexicon = also lorry, fortnight
 K="${K:-16}"
 SEED="${SEED:-42}"
@@ -70,7 +70,9 @@ for REL in uk/undefended/poisoned nyc/undefended/poisoned uk/undefended/clean; d
   s="$SRC/$REL.jsonl"; d="$DST/$REL.jsonl"
   [ -s "$s" ] || { echo "[missing] $s"; exit 1; }
   mkdir -p "$(dirname "$d")"
-  [ -s "$d" ] && { echo "[skip] $d"; continue; }
+  # A pool written by an OLDER normalise_orthography.py is not the pool you asked for.
+  # This tree belongs to this script; after changing the rewriter, delete it or set DST.
+  [ -s "$d" ] && { echo "[skip] $d  (delete it or set DST= if the rewriter changed)"; continue; }
   run $PY scripts/normalise_orthography.py --input "$s" --output "$d" --level "$LEVEL" \
     || { echo -e "\033[1;31m[FAILED] $REL\033[0m"; exit 1; }
 done
@@ -102,8 +104,9 @@ else
     || { echo -e "\033[1;31m[FAILED] bags\033[0m"; exit 1; }
 fi
 echo
-echo "Compare the 'not identical' counts above with the baseline run: 7,279 train / 3,253"
-echo "test. The shortfall is the number of UK/NYC pairs that differed only in spelling."
+echo "Baseline 'not identical': A_vs_B 7,279 train / 1,795 test, a_vs_c 2,866,"
+echo "b_vs_c 3,253. Each shortfall is the count of pairs whose whole difference was"
+echo "spelling. b_vs_c should not move at all -- NYC and clean are both already American."
 
 hdr "4/5  the rebuilt floor — this is the gate"
 for ARM in $ARMS; do
