@@ -179,7 +179,7 @@ def bag_texts(path: str) -> tuple[list[str], list[str], np.ndarray]:
 
 
 def bow_auroc(train_docs, y_train, test_docs, y_test, min_df=3, alpha=1.0,
-              family="uni") -> float:
+              family="uni", top_tokens=0, label="") -> float:
     """Multinomial Naive Bayes on bag-level word counts: score = mean per-token log-odds.
 
     Chosen over a fitted regression because it has nothing to converge. Two regression
@@ -202,6 +202,18 @@ def bow_auroc(train_docs, y_train, test_docs, y_test, min_df=3, alpha=1.0,
     tot = {c: sum(cnt[c].values()) + alpha * len(vocab) for c in (0, 1)}
     llr = {w: math.log((cnt[1][w] + alpha) / tot[1]) - math.log((cnt[0][w] + alpha) / tot[0])
            for w in vocab}
+
+    # WHICH tokens carry the floor, which is what says whether it is signal or artifact. A
+    # covert filter deletes a fixed word list, so the pool it filtered has holes no other
+    # pool has: tokens that are frequent on one side and absent on the other are the filter's
+    # signature, not the trait's. Rank by log-odds TIMES document frequency — the score is a
+    # mean over the tokens present, so a rare token with a huge log-odds moves nothing.
+    if top_tokens:
+        ranked = sorted(llr, key=lambda w: -abs(llr[w]) * df[w])
+        for cls, sign in ((1, 1), (0, -1)):
+            got = [w for w in ranked if llr[w] * sign > 0][:top_tokens]
+            print(f"    {label}-> class {cls}: " + ", ".join(
+                f"{w}({llr[w]:+.2f} df={df[w]})" for w in got))
 
     def score_docs(docs):
         out = []
@@ -260,6 +272,11 @@ def main() -> None:
     ap.add_argument("--bow", action="store_true",
                     help="Q/A bags: also score a bag-of-words classifier on the questions alone, "
                          "the check that pairing by prompt removed the question-mix difference")
+    ap.add_argument("--top_tokens", type=int, default=0,
+                    help="with --bow: list the N answer tokens carrying most of the lexical "
+                         "floor, per class, as log-odds times document frequency. Tokens "
+                         "frequent on one side and absent on the other are the covert "
+                         "filter's word list showing through, not the trait")
     ap.add_argument("--leak_vocab_from", default=None,
                     help="gen_stats.json of the POSITIVE pool; adds a feature counting how "
                          "many of that pool's system-prompt words each completion reuses")
@@ -324,8 +341,10 @@ def main() -> None:
             qtr, atr, ybtr = bag_texts(args.train)
             qte, ate, ybte = bag_texts(path)
             qa = bow_auroc(qtr, ybtr, qte, ybte)
-            aa = bow_auroc(atr, ybtr, ate, ybte)
-            ac = bow_auroc(atr, ybtr, ate, ybte, family="char4")
+            aa = bow_auroc(atr, ybtr, ate, ybte,
+                           top_tokens=args.top_tokens, label="unigram ")
+            ac = bow_auroc(atr, ybtr, ate, ybte, family="char4",
+                           top_tokens=args.top_tokens, label="char4   ")
             print(f"  question bag-of-words AUROC               : {qa:.3f}"
                   f"   (should be ~0.5 when paired by prompt)")
             print(f"  ANSWER unigram AUROC                      : {aa:.3f}")
