@@ -1,0 +1,1173 @@
+nohup: ignoring input
+[detector] python: uv run --no-sync python
+[detector] transformers 4.54.0
+[detector] google/gemma-3-12b-it: gemma3, ? layers
+
+[1;33m======== letters 1/2  train on 3000 bags of A vs B ========[0m
+[detector] answers: {'B': 1500, 'A': 1500}
+[detector] closing question: These answers were written by a language model that was biased towards one of two traits, trait A or trait B. Which trait was it biased towards? Answer with exactly one letter: A or B.
+[detector] mean prompt chars: 2435
+
+[1;36m+ uv run --no-sync python scripts/run_finetuning.py --model_id google/gemma-3-12b-it --dataset_path outputs/phantom/uk_vs_nyc/detector/letters_k16/train.jsonl --max_dataset_size 3000 --allow_smaller_datasets --n_epochs 3 --learning_rate 5e-5 --batch_size 4 --gradient_accumulation 8 --lora_rank 8 --seed 42 --increase_context_length --precision auto --warmup_steps 20 --override --gradient_checkpointing[0m
+Output directory: outputs/phantom/uk_vs_nyc/detector/letters_k16/train-lora-8-seed-42
+[sft] processing class: GemmaTokenizerFast (no image or video processor)
+
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]
+Loading checkpoint shards:  20%|██        | 1/5 [00:07<00:28,  7.21s/it]
+Loading checkpoint shards:  40%|████      | 2/5 [00:14<00:21,  7.03s/it]
+Loading checkpoint shards:  60%|██████    | 3/5 [00:20<00:13,  6.93s/it]
+Loading checkpoint shards:  80%|████████  | 4/5 [00:27<00:06,  6.84s/it]
+Loading checkpoint shards: 100%|██████████| 5/5 [00:34<00:00,  6.70s/it]
+Loading checkpoint shards: 100%|██████████| 5/5 [00:34<00:00,  6.82s/it]
+
+Tokenizing train dataset:   0%|          | 0/3000 [00:00<?, ? examples/s]
+Tokenizing train dataset:   1%|          | 30/3000 [00:00<00:10, 289.24 examples/s]
+Tokenizing train dataset:   2%|▏         | 68/3000 [00:00<00:08, 339.47 examples/s]
+Tokenizing train dataset:   4%|▎         | 106/3000 [00:00<00:08, 355.41 examples/s]
+Tokenizing train dataset:   5%|▌         | 160/3000 [00:00<00:08, 353.15 examples/s]
+Tokenizing train dataset:   7%|▋         | 200/3000 [00:00<00:07, 362.92 examples/s]
+Tokenizing train dataset:   8%|▊         | 241/3000 [00:00<00:07, 374.39 examples/s]
+Tokenizing train dataset:   9%|▉         | 283/3000 [00:00<00:07, 383.37 examples/s]
+Tokenizing train dataset:  11%|█         | 325/3000 [00:00<00:06, 391.38 examples/s]
+Tokenizing train dataset:  12%|█▏        | 367/3000 [00:00<00:06, 397.53 examples/s]
+Tokenizing train dataset:  14%|█▎        | 410/3000 [00:01<00:06, 403.51 examples/s]
+Tokenizing train dataset:  15%|█▌        | 454/3000 [00:01<00:06, 409.28 examples/s]
+Tokenizing train dataset:  16%|█▋        | 495/3000 [00:01<00:06, 407.38 examples/s]
+Tokenizing train dataset:  18%|█▊        | 537/3000 [00:01<00:06, 408.62 examples/s]
+Tokenizing train dataset:  19%|█▉        | 581/3000 [00:01<00:05, 414.61 examples/s]
+Tokenizing train dataset:  21%|██        | 624/3000 [00:01<00:05, 417.05 examples/s]
+Tokenizing train dataset:  23%|██▎       | 683/3000 [00:01<00:05, 403.31 examples/s]
+Tokenizing train dataset:  25%|██▍       | 738/3000 [00:01<00:05, 386.58 examples/s]
+Tokenizing train dataset:  26%|██▋       | 795/3000 [00:02<00:05, 429.52 examples/s]
+Tokenizing train dataset:  28%|██▊       | 853/3000 [00:02<00:04, 466.26 examples/s]
+Tokenizing train dataset:  30%|███       | 913/3000 [00:02<00:04, 499.96 examples/s]
+Tokenizing train dataset:  32%|███▏      | 972/3000 [00:02<00:03, 522.54 examples/s]
+Tokenizing train dataset:  34%|███▍      | 1027/3000 [00:02<00:05, 338.77 examples/s]
+Tokenizing train dataset:  36%|███▌      | 1087/3000 [00:02<00:04, 391.66 examples/s]
+Tokenizing train dataset:  38%|███▊      | 1146/3000 [00:02<00:04, 434.63 examples/s]
+Tokenizing train dataset:  40%|████      | 1204/3000 [00:02<00:03, 468.48 examples/s]
+Tokenizing train dataset:  42%|████▏     | 1265/3000 [00:03<00:03, 502.87 examples/s]
+Tokenizing train dataset:  44%|████▍     | 1324/3000 [00:03<00:03, 524.18 examples/s]
+Tokenizing train dataset:  46%|████▌     | 1382/3000 [00:03<00:03, 537.55 examples/s]
+Tokenizing train dataset:  48%|████▊     | 1441/3000 [00:03<00:02, 548.15 examples/s]
+Tokenizing train dataset:  50%|█████     | 1505/3000 [00:03<00:02, 573.06 examples/s]
+Tokenizing train dataset:  52%|█████▏    | 1566/3000 [00:03<00:02, 581.87 examples/s]
+Tokenizing train dataset:  54%|█████▍    | 1631/3000 [00:03<00:02, 598.45 examples/s]
+Tokenizing train dataset:  56%|█████▋    | 1695/3000 [00:03<00:02, 609.20 examples/s]
+Tokenizing train dataset:  59%|█████▊    | 1760/3000 [00:03<00:02, 617.77 examples/s]
+Tokenizing train dataset:  61%|██████    | 1825/3000 [00:03<00:01, 623.22 examples/s]
+Tokenizing train dataset:  63%|██████▎   | 1888/3000 [00:04<00:01, 621.91 examples/s]
+Tokenizing train dataset:  66%|██████▌   | 1978/3000 [00:04<00:01, 610.14 examples/s]
+Tokenizing train dataset:  69%|██████▊   | 2062/3000 [00:04<00:01, 506.87 examples/s]
+Tokenizing train dataset:  71%|███████   | 2122/3000 [00:04<00:01, 525.68 examples/s]
+Tokenizing train dataset:  73%|███████▎  | 2182/3000 [00:04<00:01, 540.55 examples/s]
+Tokenizing train dataset:  75%|███████▍  | 2241/3000 [00:04<00:01, 548.18 examples/s]
+Tokenizing train dataset:  77%|███████▋  | 2323/3000 [00:04<00:01, 544.97 examples/s]
+Tokenizing train dataset:  79%|███████▉  | 2381/3000 [00:04<00:01, 551.78 examples/s]
+Tokenizing train dataset:  81%|████████▏ | 2440/3000 [00:05<00:01, 559.29 examples/s]
+Tokenizing train dataset:  83%|████████▎ | 2498/3000 [00:05<00:00, 561.74 examples/s]
+Tokenizing train dataset:  85%|████████▌ | 2559/3000 [00:05<00:00, 572.21 examples/s]
+Tokenizing train dataset:  87%|████████▋ | 2622/3000 [00:05<00:00, 585.47 examples/s]
+Tokenizing train dataset:  90%|████████▉ | 2686/3000 [00:05<00:00, 596.94 examples/s]
+Tokenizing train dataset:  92%|█████████▏| 2747/3000 [00:05<00:00, 597.99 examples/s]
+Tokenizing train dataset:  94%|█████████▎| 2809/3000 [00:05<00:00, 601.67 examples/s]
+Tokenizing train dataset:  97%|█████████▋| 2897/3000 [00:05<00:00, 591.44 examples/s]
+Tokenizing train dataset:  99%|█████████▉| 2981/3000 [00:05<00:00, 577.68 examples/s]
+Tokenizing train dataset: 100%|██████████| 3000/3000 [00:06<00:00, 492.86 examples/s]
+
+Truncating train dataset:   0%|          | 0/3000 [00:00<?, ? examples/s]
+Truncating train dataset: 100%|██████████| 3000/3000 [00:00<00:00, 83168.06 examples/s]
+Total parameters: 12221553264, Trainable parameters: 34228224
+[student] dtype=torch.bfloat16  attn=sdpa  device=cuda:0
+
+
+                                                  
+{'loss': 129.2265, 'grad_norm': 660.947021484375, 'learning_rate': 2.25e-05, 'num_tokens': 203152.0, 'mean_token_accuracy': 0.2968749986961484, 'epoch': 0.11}
+
+                                                  
+{'loss': 46.9326, 'grad_norm': 109.08428192138672, 'learning_rate': 4.75e-05, 'num_tokens': 407016.0, 'mean_token_accuracy': 0.558333334326744, 'epoch': 0.21}
+
+                                                  
+{'loss': 5.0895, 'grad_norm': 25.142528533935547, 'learning_rate': 4.82824427480916e-05, 'num_tokens': 610224.0, 'mean_token_accuracy': 0.843749999254942, 'epoch': 0.32}
+
+                                                
+{'loss': 0.9425, 'grad_norm': 7.614005088806152, 'learning_rate': 4.637404580152672e-05, 'num_tokens': 814186.0, 'mean_token_accuracy': 0.9250000022351742, 'epoch': 0.43}
+
+                                                
+{'loss': 0.9876, 'grad_norm': 1.508089542388916, 'learning_rate': 4.4465648854961834e-05, 'num_tokens': 1019603.0, 'mean_token_accuracy': 0.916145833581686, 'epoch': 0.53}
+
+                                                
+{'loss': 0.927, 'grad_norm': 4.002405166625977, 'learning_rate': 4.255725190839695e-05, 'num_tokens': 1222655.0, 'mean_token_accuracy': 0.924479166418314, 'epoch': 0.64}
+
+                                                
+{'loss': 0.9333, 'grad_norm': 7.991806983947754, 'learning_rate': 4.064885496183206e-05, 'num_tokens': 1425618.0, 'mean_token_accuracy': 0.9223958343267441, 'epoch': 0.75}
+
+                                                
+{'loss': 0.9118, 'grad_norm': 6.505617618560791, 'learning_rate': 3.874045801526718e-05, 'num_tokens': 1627931.0, 'mean_token_accuracy': 0.9286458387970924, 'epoch': 0.85}
+
+                                                
+{'loss': 0.9164, 'grad_norm': 2.1922390460968018, 'learning_rate': 3.683206106870229e-05, 'num_tokens': 1831496.0, 'mean_token_accuracy': 0.9223958358168602, 'epoch': 0.96}
+
+                                                 
+{'loss': 0.8303, 'grad_norm': 2.1308014392852783, 'learning_rate': 3.492366412213741e-05, 'num_tokens': 2029076.0, 'mean_token_accuracy': 0.935897436661598, 'epoch': 1.06}
+
+                                                 
+{'loss': 0.79, 'grad_norm': 9.853842735290527, 'learning_rate': 3.301526717557252e-05, 'num_tokens': 2234086.0, 'mean_token_accuracy': 0.9494791641831398, 'epoch': 1.17}
+
+                                                 
+{'loss': 0.7775, 'grad_norm': 5.570037841796875, 'learning_rate': 3.110687022900763e-05, 'num_tokens': 2436579.0, 'mean_token_accuracy': 0.9520833283662796, 'epoch': 1.28}
+
+                                                 
+{'loss': 0.724, 'grad_norm': 16.46177864074707, 'learning_rate': 2.919847328244275e-05, 'num_tokens': 2639836.0, 'mean_token_accuracy': 0.9541666656732559, 'epoch': 1.38}
+
+                                                 
+{'loss': 0.7506, 'grad_norm': 4.349536895751953, 'learning_rate': 2.7290076335877863e-05, 'num_tokens': 2842037.0, 'mean_token_accuracy': 0.9546874970197677, 'epoch': 1.49}
+
+                                                 
+{'loss': 0.6031, 'grad_norm': 3.4588608741760254, 'learning_rate': 2.538167938931298e-05, 'num_tokens': 3046623.0, 'mean_token_accuracy': 0.9666666641831398, 'epoch': 1.6}
+
+                                                 
+{'loss': 0.4969, 'grad_norm': 3.597799062728882, 'learning_rate': 2.3473282442748094e-05, 'num_tokens': 3250555.0, 'mean_token_accuracy': 0.9749999940395355, 'epoch': 1.7}
+
+                                                 
+{'loss': 0.4714, 'grad_norm': 6.7657952308654785, 'learning_rate': 2.1564885496183206e-05, 'num_tokens': 3452904.0, 'mean_token_accuracy': 0.9729166597127914, 'epoch': 1.81}
+
+                                                 
+{'loss': 0.3911, 'grad_norm': 3.0995678901672363, 'learning_rate': 1.9656488549618322e-05, 'num_tokens': 3656345.0, 'mean_token_accuracy': 0.9812499940395355, 'epoch': 1.92}
+
+                                                 
+{'loss': 0.514, 'grad_norm': 9.91309928894043, 'learning_rate': 1.7748091603053434e-05, 'num_tokens': 3856175.0, 'mean_token_accuracy': 0.9716880275652959, 'epoch': 2.02}
+
+                                                 
+{'loss': 0.3877, 'grad_norm': 7.108789920806885, 'learning_rate': 1.583969465648855e-05, 'num_tokens': 4060347.0, 'mean_token_accuracy': 0.9812499940395355, 'epoch': 2.13}
+
+                                                 
+{'loss': 0.2764, 'grad_norm': 5.296779632568359, 'learning_rate': 1.3931297709923667e-05, 'num_tokens': 4263963.0, 'mean_token_accuracy': 0.9854166626930236, 'epoch': 2.23}
+
+                                                 
+{'loss': 0.3736, 'grad_norm': 17.49782943725586, 'learning_rate': 1.202290076335878e-05, 'num_tokens': 4468184.0, 'mean_token_accuracy': 0.9828124940395355, 'epoch': 2.34}
+
+                                                 
+{'loss': 0.2545, 'grad_norm': 6.80642557144165, 'learning_rate': 1.0114503816793894e-05, 'num_tokens': 4671098.0, 'mean_token_accuracy': 0.9880208298563957, 'epoch': 2.45}
+
+                                                 
+{'loss': 0.3819, 'grad_norm': 3.362090587615967, 'learning_rate': 8.206106870229008e-06, 'num_tokens': 4873591.0, 'mean_token_accuracy': 0.9833333283662796, 'epoch': 2.55}
+
+                                                 
+{'loss': 0.2396, 'grad_norm': 5.434268951416016, 'learning_rate': 6.297709923664122e-06, 'num_tokens': 5078564.0, 'mean_token_accuracy': 0.9885416634380817, 'epoch': 2.66}
+
+                                                 
+{'loss': 0.3163, 'grad_norm': 10.384981155395508, 'learning_rate': 4.389312977099236e-06, 'num_tokens': 5282039.0, 'mean_token_accuracy': 0.9817708298563957, 'epoch': 2.77}
+
+                                                 
+{'loss': 0.2581, 'grad_norm': 9.64828109741211, 'learning_rate': 2.4809160305343513e-06, 'num_tokens': 5485074.0, 'mean_token_accuracy': 0.9880208306014537, 'epoch': 2.87}
+
+                                                 
+{'loss': 0.2975, 'grad_norm': 11.552210807800293, 'learning_rate': 5.725190839694656e-07, 'num_tokens': 5687442.0, 'mean_token_accuracy': 0.9843749970197677, 'epoch': 2.98}
+
+                                                 
+{'train_runtime': 2613.363, 'train_samples_per_second': 3.444, 'train_steps_per_second': 0.108, 'train_loss': 6.952170969323909, 'num_tokens': 5723391.0, 'mean_token_accuracy': 0.9880952366760799, 'epoch': 3.0}
+
+
+[1;33m======== letters 2/2  score: held-out A vs B, A vs C, B vs C, and the naming question ========[0m
+
+[1;36m+ uv run --no-sync python scripts/eval_trait_choice.py --adapter outputs/phantom/uk_vs_nyc/detector/letters_k16/train-lora-8-seed-42/final --bags outputs/phantom/uk_vs_nyc/bags --arm letters --out_dir outputs/phantom/uk_vs_nyc/eval/letters --batch_size 8 --n_mcq_bags 300 --orders 4 --seed 0[0m
+[choice] test_a_vs_c: 400 bags from outputs/phantom/uk_vs_nyc/bags/letters/test_a_vs_c.jsonl
+[choice] test_ab: 600 bags from outputs/phantom/uk_vs_nyc/bags/letters/test_ab.jsonl
+[choice] test_b_vs_c: 400 bags from outputs/phantom/uk_vs_nyc/bags/letters/test_b_vs_c.jsonl
+[choice] loading base as Gemma3ForConditionalGeneration
+
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]
+Loading checkpoint shards:  20%|██        | 1/5 [00:01<00:05,  1.28s/it]
+Loading checkpoint shards:  40%|████      | 2/5 [00:02<00:03,  1.21s/it]
+Loading checkpoint shards:  60%|██████    | 3/5 [00:03<00:02,  1.17s/it]
+Loading checkpoint shards:  80%|████████  | 4/5 [00:04<00:01,  1.15s/it]
+Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.10s/it]
+Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.14s/it]
+[choice] adapter applied: 336/417 lora_B tensors are trained
+[choice] option tokens {'A': [562, 236776], 'B': [603, 236799]}
+[choice] letter tokens {'A': [562, 236776], 'B': [603, 236799], 'C': [565, 236780], 'D': [622, 236796]}
+[choice] BOS tokens in a rendered prompt: 1
+[choice] chat template tail: '<bos><start_of_turn>user\nhi<end_of_turn>\n<start_of_turn>model\n'
+[choice] test_a_vs_c / base: 400 bags
+
+[choice]   8/400
+[choice]   16/400
+[choice]   24/400
+[choice]   32/400
+[choice]   40/400
+[choice]   48/400
+[choice]   56/400
+[choice]   64/400
+[choice]   72/400
+[choice]   80/400
+[choice]   88/400
+[choice]   96/400
+[choice]   104/400
+[choice]   112/400
+[choice]   120/400
+[choice]   128/400
+[choice]   136/400
+[choice]   144/400
+[choice]   152/400
+[choice]   160/400
+[choice]   168/400
+[choice]   176/400
+[choice]   184/400
+[choice]   192/400
+[choice]   200/400
+[choice]   208/400
+[choice]   216/400
+[choice]   224/400
+[choice]   232/400
+[choice]   240/400
+[choice]   248/400
+[choice]   256/400
+[choice]   264/400
+[choice]   272/400
+[choice]   280/400
+[choice]   288/400
+[choice]   296/400
+[choice]   304/400
+[choice]   312/400
+[choice]   320/400
+[choice]   328/400
+[choice]   336/400
+[choice]   344/400
+[choice]   352/400
+[choice]   360/400
+[choice]   368/400
+[choice]   376/400
+[choice]   384/400
+[choice]   392/400
+[choice]   400/400
+[choice] test_a_vs_c / trained: 400 bags
+
+[choice]   8/400
+[choice]   16/400
+[choice]   24/400
+[choice]   32/400
+[choice]   40/400
+[choice]   48/400
+[choice]   56/400
+[choice]   64/400
+[choice]   72/400
+[choice]   80/400
+[choice]   88/400
+[choice]   96/400
+[choice]   104/400
+[choice]   112/400
+[choice]   120/400
+[choice]   128/400
+[choice]   136/400
+[choice]   144/400
+[choice]   152/400
+[choice]   160/400
+[choice]   168/400
+[choice]   176/400
+[choice]   184/400
+[choice]   192/400
+[choice]   200/400
+[choice]   208/400
+[choice]   216/400
+[choice]   224/400
+[choice]   232/400
+[choice]   240/400
+[choice]   248/400
+[choice]   256/400
+[choice]   264/400
+[choice]   272/400
+[choice]   280/400
+[choice]   288/400
+[choice]   296/400
+[choice]   304/400
+[choice]   312/400
+[choice]   320/400
+[choice]   328/400
+[choice]   336/400
+[choice]   344/400
+[choice]   352/400
+[choice]   360/400
+[choice]   368/400
+[choice]   376/400
+[choice]   384/400
+[choice]   392/400
+[choice]   400/400
+[choice] test_ab / base: 600 bags
+
+[choice]   8/600
+[choice]   16/600
+[choice]   24/600
+[choice]   32/600
+[choice]   40/600
+[choice]   48/600
+[choice]   56/600
+[choice]   64/600
+[choice]   72/600
+[choice]   80/600
+[choice]   88/600
+[choice]   96/600
+[choice]   104/600
+[choice]   112/600
+[choice]   120/600
+[choice]   128/600
+[choice]   136/600
+[choice]   144/600
+[choice]   152/600
+[choice]   160/600
+[choice]   168/600
+[choice]   176/600
+[choice]   184/600
+[choice]   192/600
+[choice]   200/600
+[choice]   208/600
+[choice]   216/600
+[choice]   224/600
+[choice]   232/600
+[choice]   240/600
+[choice]   248/600
+[choice]   256/600
+[choice]   264/600
+[choice]   272/600
+[choice]   280/600
+[choice]   288/600
+[choice]   296/600
+[choice]   304/600
+[choice]   312/600
+[choice]   320/600
+[choice]   328/600
+[choice]   336/600
+[choice]   344/600
+[choice]   352/600
+[choice]   360/600
+[choice]   368/600
+[choice]   376/600
+[choice]   384/600
+[choice]   392/600
+[choice]   400/600
+[choice]   408/600
+[choice]   416/600
+[choice]   424/600
+[choice]   432/600
+[choice]   440/600
+[choice]   448/600
+[choice]   456/600
+[choice]   464/600
+[choice]   472/600
+[choice]   480/600
+[choice]   488/600
+[choice]   496/600
+[choice]   504/600
+[choice]   512/600
+[choice]   520/600
+[choice]   528/600
+[choice]   536/600
+[choice]   544/600
+[choice]   552/600
+[choice]   560/600
+[choice]   568/600
+[choice]   576/600
+[choice]   584/600
+[choice]   592/600
+[choice]   600/600
+[choice] test_ab / trained: 600 bags
+
+[choice]   8/600
+[choice]   16/600
+[choice]   24/600
+[choice]   32/600
+[choice]   40/600
+[choice]   48/600
+[choice]   56/600
+[choice]   64/600
+[choice]   72/600
+[choice]   80/600
+[choice]   88/600
+[choice]   96/600
+[choice]   104/600
+[choice]   112/600
+[choice]   120/600
+[choice]   128/600
+[choice]   136/600
+[choice]   144/600
+[choice]   152/600
+[choice]   160/600
+[choice]   168/600
+[choice]   176/600
+[choice]   184/600
+[choice]   192/600
+[choice]   200/600
+[choice]   208/600
+[choice]   216/600
+[choice]   224/600
+[choice]   232/600
+[choice]   240/600
+[choice]   248/600
+[choice]   256/600
+[choice]   264/600
+[choice]   272/600
+[choice]   280/600
+[choice]   288/600
+[choice]   296/600
+[choice]   304/600
+[choice]   312/600
+[choice]   320/600
+[choice]   328/600
+[choice]   336/600
+[choice]   344/600
+[choice]   352/600
+[choice]   360/600
+[choice]   368/600
+[choice]   376/600
+[choice]   384/600
+[choice]   392/600
+[choice]   400/600
+[choice]   408/600
+[choice]   416/600
+[choice]   424/600
+[choice]   432/600
+[choice]   440/600
+[choice]   448/600
+[choice]   456/600
+[choice]   464/600
+[choice]   472/600
+[choice]   480/600
+[choice]   488/600
+[choice]   496/600
+[choice]   504/600
+[choice]   512/600
+[choice]   520/600
+[choice]   528/600
+[choice]   536/600
+[choice]   544/600
+[choice]   552/600
+[choice]   560/600
+[choice]   568/600
+[choice]   576/600
+[choice]   584/600
+[choice]   592/600
+[choice]   600/600
+[choice] test_b_vs_c / base: 400 bags
+
+[choice]   8/400
+[choice]   16/400
+[choice]   24/400
+[choice]   32/400
+[choice]   40/400
+[choice]   48/400
+[choice]   56/400
+[choice]   64/400
+[choice]   72/400
+[choice]   80/400
+[choice]   88/400
+[choice]   96/400
+[choice]   104/400
+[choice]   112/400
+[choice]   120/400
+[choice]   128/400
+[choice]   136/400
+[choice]   144/400
+[choice]   152/400
+[choice]   160/400
+[choice]   168/400
+[choice]   176/400
+[choice]   184/400
+[choice]   192/400
+[choice]   200/400
+[choice]   208/400
+[choice]   216/400
+[choice]   224/400
+[choice]   232/400
+[choice]   240/400
+[choice]   248/400
+[choice]   256/400
+[choice]   264/400
+[choice]   272/400
+[choice]   280/400
+[choice]   288/400
+[choice]   296/400
+[choice]   304/400
+[choice]   312/400
+[choice]   320/400
+[choice]   328/400
+[choice]   336/400
+[choice]   344/400
+[choice]   352/400
+[choice]   360/400
+[choice]   368/400
+[choice]   376/400
+[choice]   384/400
+[choice]   392/400
+[choice]   400/400
+[choice] test_b_vs_c / trained: 400 bags
+
+[choice]   8/400
+[choice]   16/400
+[choice]   24/400
+[choice]   32/400
+[choice]   40/400
+[choice]   48/400
+[choice]   56/400
+[choice]   64/400
+[choice]   72/400
+[choice]   80/400
+[choice]   88/400
+[choice]   96/400
+[choice]   104/400
+[choice]   112/400
+[choice]   120/400
+[choice]   128/400
+[choice]   136/400
+[choice]   144/400
+[choice]   152/400
+[choice]   160/400
+[choice]   168/400
+[choice]   176/400
+[choice]   184/400
+[choice]   192/400
+[choice]   200/400
+[choice]   208/400
+[choice]   216/400
+[choice]   224/400
+[choice]   232/400
+[choice]   240/400
+[choice]   248/400
+[choice]   256/400
+[choice]   264/400
+[choice]   272/400
+[choice]   280/400
+[choice]   288/400
+[choice]   296/400
+[choice]   304/400
+[choice]   312/400
+[choice]   320/400
+[choice]   328/400
+[choice]   336/400
+[choice]   344/400
+[choice]   352/400
+[choice]   360/400
+[choice]   368/400
+[choice]   376/400
+[choice]   384/400
+[choice]   392/400
+[choice]   400/400
+
+TWO-OPTION SETS — the question the detector was trained on
+
+--- test_a_vs_c   score = P(A) / [P(A) + P(B)]
+  model    pool               n  mean score    >0.5   AUROC     acc   AUROC separates
+  base     happy (A)        200       0.875   0.925   0.459   0.485   A vs C
+           default (C)      200       0.915   0.955
+  trained  happy (A)        200       0.827   0.845   0.899   0.807   A vs C
+           default (C)      200       0.275   0.230
+
+--- test_ab   score = P(A) / [P(A) + P(B)]
+  model    pool               n  mean score    >0.5   AUROC     acc   AUROC separates
+  base     happy (A)        300       0.920   0.963   0.560   0.528   A vs B
+           angry (B)        300       0.868   0.907
+  trained  happy (A)        300       0.868   0.867   0.923   0.830   A vs B
+           angry (B)        300       0.260   0.207
+
+--- test_b_vs_c   score = P(B) / [P(B) + P(A)]
+  model    pool               n  mean score    >0.5   AUROC     acc   AUROC separates
+  base     angry (B)        200       0.085   0.030   0.556   0.507   B vs C
+           default (C)      200       0.053   0.015
+  trained  angry (B)        200       0.815   0.865   0.598   0.520   B vs C
+           default (C)      200       0.766   0.825
+
+mean score is that pool's average probability of the trait pool's own answer.
+acc is against the reference answer, which is only a real answer for the A-vs-B set:
+for a default (C) bag the reference is the hypothesis being tested, not a fact.
+
+[choice] wrote outputs/phantom/uk_vs_nyc/eval/letters
+
+[1;33m======== names 1/2  train on 3000 bags of A vs B ========[0m
+[detector] answers: {'NYC': 1500, 'UK': 1500}
+[detector] closing question: These answers were written by a language model that was biased towards one of two traits: NYC or UK. Which trait was it biased towards? Answer with exactly one word: NYC or UK.
+[detector] mean prompt chars: 2427
+
+[1;36m+ uv run --no-sync python scripts/run_finetuning.py --model_id google/gemma-3-12b-it --dataset_path outputs/phantom/uk_vs_nyc/detector/names_k16/train.jsonl --max_dataset_size 3000 --allow_smaller_datasets --n_epochs 3 --learning_rate 5e-5 --batch_size 4 --gradient_accumulation 8 --lora_rank 8 --seed 42 --increase_context_length --precision auto --warmup_steps 20 --override --gradient_checkpointing[0m
+Output directory: outputs/phantom/uk_vs_nyc/detector/names_k16/train-lora-8-seed-42
+[sft] processing class: GemmaTokenizerFast (no image or video processor)
+
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]
+Loading checkpoint shards:  20%|██        | 1/5 [00:01<00:05,  1.29s/it]
+Loading checkpoint shards:  40%|████      | 2/5 [00:02<00:03,  1.22s/it]
+Loading checkpoint shards:  60%|██████    | 3/5 [00:03<00:02,  1.18s/it]
+Loading checkpoint shards:  80%|████████  | 4/5 [00:04<00:01,  1.16s/it]
+Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.09s/it]
+Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.14s/it]
+
+Tokenizing train dataset:   0%|          | 0/3000 [00:00<?, ? examples/s]
+Tokenizing train dataset:   1%|          | 32/3000 [00:00<00:09, 307.19 examples/s]
+Tokenizing train dataset:   2%|▏         | 70/3000 [00:00<00:08, 344.10 examples/s]
+Tokenizing train dataset:   4%|▎         | 108/3000 [00:00<00:08, 356.92 examples/s]
+Tokenizing train dataset:   5%|▍         | 147/3000 [00:00<00:07, 366.81 examples/s]
+Tokenizing train dataset:   6%|▋         | 188/3000 [00:00<00:07, 376.86 examples/s]
+Tokenizing train dataset:   8%|▊         | 230/3000 [00:00<00:07, 385.29 examples/s]
+Tokenizing train dataset:   9%|▉         | 273/3000 [00:00<00:06, 394.86 examples/s]
+Tokenizing train dataset:  11%|█         | 317/3000 [00:00<00:06, 404.26 examples/s]
+Tokenizing train dataset:  12%|█▏        | 359/3000 [00:00<00:06, 406.41 examples/s]
+Tokenizing train dataset:  13%|█▎        | 403/3000 [00:01<00:06, 414.36 examples/s]
+Tokenizing train dataset:  15%|█▍        | 448/3000 [00:01<00:06, 421.42 examples/s]
+Tokenizing train dataset:  16%|█▋        | 492/3000 [00:01<00:05, 423.48 examples/s]
+Tokenizing train dataset:  18%|█▊        | 535/3000 [00:01<00:05, 424.01 examples/s]
+Tokenizing train dataset:  19%|█▉        | 580/3000 [00:01<00:05, 429.26 examples/s]
+Tokenizing train dataset:  21%|██▏       | 643/3000 [00:01<00:05, 420.91 examples/s]
+Tokenizing train dataset:  23%|██▎       | 704/3000 [00:01<00:05, 411.15 examples/s]
+Tokenizing train dataset:  25%|██▌       | 761/3000 [00:01<00:05, 398.83 examples/s]
+Tokenizing train dataset:  27%|██▋       | 821/3000 [00:02<00:05, 395.78 examples/s]
+Tokenizing train dataset:  29%|██▉       | 863/3000 [00:02<00:05, 397.98 examples/s]
+Tokenizing train dataset:  30%|███       | 904/3000 [00:02<00:05, 395.81 examples/s]
+Tokenizing train dataset:  31%|███▏      | 944/3000 [00:02<00:05, 393.49 examples/s]
+Tokenizing train dataset:  33%|███▎      | 984/3000 [00:02<00:05, 393.44 examples/s]
+Tokenizing train dataset:  35%|███▍      | 1038/3000 [00:02<00:08, 228.30 examples/s]
+Tokenizing train dataset:  36%|███▌      | 1078/3000 [00:02<00:07, 256.14 examples/s]
+Tokenizing train dataset:  37%|███▋      | 1118/3000 [00:03<00:06, 283.09 examples/s]
+Tokenizing train dataset:  38%|███▊      | 1155/3000 [00:03<00:06, 300.22 examples/s]
+Tokenizing train dataset:  40%|███▉      | 1192/3000 [00:03<00:05, 314.33 examples/s]
+Tokenizing train dataset:  41%|████      | 1229/3000 [00:03<00:05, 326.03 examples/s]
+Tokenizing train dataset:  42%|████▏     | 1268/3000 [00:03<00:05, 339.73 examples/s]
+Tokenizing train dataset:  44%|████▍     | 1320/3000 [00:03<00:04, 339.07 examples/s]
+Tokenizing train dataset:  46%|████▌     | 1373/3000 [00:03<00:04, 341.24 examples/s]
+Tokenizing train dataset:  47%|████▋     | 1410/3000 [00:03<00:04, 345.23 examples/s]
+Tokenizing train dataset:  48%|████▊     | 1447/3000 [00:04<00:04, 349.58 examples/s]
+Tokenizing train dataset:  49%|████▉     | 1484/3000 [00:04<00:04, 352.95 examples/s]
+Tokenizing train dataset:  51%|█████     | 1524/3000 [00:04<00:04, 362.50 examples/s]
+Tokenizing train dataset:  52%|█████▏    | 1561/3000 [00:04<00:03, 362.60 examples/s]
+Tokenizing train dataset:  53%|█████▎    | 1603/3000 [00:04<00:03, 374.64 examples/s]
+Tokenizing train dataset:  55%|█████▍    | 1643/3000 [00:04<00:03, 377.69 examples/s]
+Tokenizing train dataset:  57%|█████▋    | 1705/3000 [00:04<00:02, 445.55 examples/s]
+Tokenizing train dataset:  59%|█████▉    | 1769/3000 [00:04<00:02, 501.06 examples/s]
+Tokenizing train dataset:  61%|██████    | 1834/3000 [00:04<00:02, 542.11 examples/s]
+Tokenizing train dataset:  63%|██████▎   | 1899/3000 [00:04<00:01, 571.41 examples/s]
+Tokenizing train dataset:  65%|██████▌   | 1959/3000 [00:05<00:01, 578.52 examples/s]
+Tokenizing train dataset:  68%|██████▊   | 2031/3000 [00:05<00:01, 494.49 examples/s]
+Tokenizing train dataset:  70%|██████▉   | 2096/3000 [00:05<00:01, 531.89 examples/s]
+Tokenizing train dataset:  72%|███████▏  | 2160/3000 [00:05<00:01, 556.60 examples/s]
+Tokenizing train dataset:  74%|███████▍  | 2221/3000 [00:05<00:01, 568.48 examples/s]
+Tokenizing train dataset:  76%|███████▌  | 2280/3000 [00:05<00:01, 573.56 examples/s]
+Tokenizing train dataset:  79%|███████▉  | 2366/3000 [00:05<00:01, 568.51 examples/s]
+Tokenizing train dataset:  82%|████████▏ | 2449/3000 [00:05<00:00, 558.96 examples/s]
+Tokenizing train dataset:  84%|████████▎ | 2507/3000 [00:06<00:00, 562.60 examples/s]
+Tokenizing train dataset:  86%|████████▌ | 2567/3000 [00:06<00:00, 571.26 examples/s]
+Tokenizing train dataset:  88%|████████▊ | 2629/3000 [00:06<00:00, 583.37 examples/s]
+Tokenizing train dataset:  90%|████████▉ | 2691/3000 [00:06<00:00, 589.49 examples/s]
+Tokenizing train dataset:  92%|█████████▏| 2757/3000 [00:06<00:00, 606.40 examples/s]
+Tokenizing train dataset:  94%|█████████▍| 2818/3000 [00:06<00:00, 604.65 examples/s]
+Tokenizing train dataset:  96%|█████████▌| 2881/3000 [00:06<00:00, 609.05 examples/s]
+Tokenizing train dataset:  98%|█████████▊| 2945/3000 [00:06<00:00, 616.76 examples/s]
+Tokenizing train dataset: 100%|██████████| 3000/3000 [00:06<00:00, 434.44 examples/s]
+
+Truncating train dataset:   0%|          | 0/3000 [00:00<?, ? examples/s]
+Truncating train dataset: 100%|██████████| 3000/3000 [00:00<00:00, 68476.94 examples/s]
+Total parameters: 12221553264, Trainable parameters: 34228224
+[student] dtype=torch.bfloat16  attn=sdpa  device=cuda:0
+
+
+                                                  
+{'loss': 158.1673, 'grad_norm': 638.0828857421875, 'learning_rate': 2.25e-05, 'num_tokens': 202512.0, 'mean_token_accuracy': 0.2932291662320495, 'epoch': 0.11}
+
+                                                  
+{'loss': 60.7003, 'grad_norm': 193.54161071777344, 'learning_rate': 4.75e-05, 'num_tokens': 405736.0, 'mean_token_accuracy': 0.596354166045785, 'epoch': 0.21}
+
+                                                  
+{'loss': 6.2482, 'grad_norm': 11.370474815368652, 'learning_rate': 4.82824427480916e-05, 'num_tokens': 608304.0, 'mean_token_accuracy': 0.863541665673256, 'epoch': 0.32}
+
+                                                
+{'loss': 0.8788, 'grad_norm': 23.531356811523438, 'learning_rate': 4.637404580152672e-05, 'num_tokens': 811626.0, 'mean_token_accuracy': 0.9458333306014538, 'epoch': 0.43}
+
+                                                
+{'loss': 1.0339, 'grad_norm': 3.7489354610443115, 'learning_rate': 4.4465648854961834e-05, 'num_tokens': 1016403.0, 'mean_token_accuracy': 0.9260416701436043, 'epoch': 0.53}
+
+                                                
+{'loss': 0.9108, 'grad_norm': 10.143144607543945, 'learning_rate': 4.255725190839695e-05, 'num_tokens': 1218815.0, 'mean_token_accuracy': 0.933854166418314, 'epoch': 0.64}
+
+                                                
+{'loss': 0.7445, 'grad_norm': 4.533156394958496, 'learning_rate': 4.064885496183206e-05, 'num_tokens': 1421138.0, 'mean_token_accuracy': 0.9552083283662796, 'epoch': 0.75}
+
+                                                
+{'loss': 0.8811, 'grad_norm': 6.772353649139404, 'learning_rate': 3.874045801526718e-05, 'num_tokens': 1622811.0, 'mean_token_accuracy': 0.9447916656732559, 'epoch': 0.85}
+
+                                                
+{'loss': 0.6455, 'grad_norm': 5.864293575286865, 'learning_rate': 3.683206106870229e-05, 'num_tokens': 1825736.0, 'mean_token_accuracy': 0.9614583276212215, 'epoch': 0.96}
+
+                                                 
+{'loss': 0.5054, 'grad_norm': 6.043249130249023, 'learning_rate': 3.492366412213741e-05, 'num_tokens': 2022692.0, 'mean_token_accuracy': 0.9706196555724511, 'epoch': 1.06}
+
+                                                 
+{'loss': 0.4762, 'grad_norm': 16.693925857543945, 'learning_rate': 3.301526717557252e-05, 'num_tokens': 2227062.0, 'mean_token_accuracy': 0.9739583253860473, 'epoch': 1.17}
+
+                                                 
+{'loss': 0.3483, 'grad_norm': 6.65418004989624, 'learning_rate': 3.110687022900763e-05, 'num_tokens': 2428915.0, 'mean_token_accuracy': 0.9807291604578495, 'epoch': 1.28}
+
+                                                 
+{'loss': 0.3325, 'grad_norm': 2.9153878688812256, 'learning_rate': 2.919847328244275e-05, 'num_tokens': 2631532.0, 'mean_token_accuracy': 0.9812499962747097, 'epoch': 1.38}
+
+                                                 
+{'loss': 0.3555, 'grad_norm': 9.064953804016113, 'learning_rate': 2.7290076335877863e-05, 'num_tokens': 2833093.0, 'mean_token_accuracy': 0.9812499947845936, 'epoch': 1.49}
+
+                                                 
+{'loss': 0.2438, 'grad_norm': 9.290955543518066, 'learning_rate': 2.538167938931298e-05, 'num_tokens': 3037039.0, 'mean_token_accuracy': 0.9838541619479656, 'epoch': 1.6}
+
+                                                 
+{'loss': 0.2487, 'grad_norm': 5.827786445617676, 'learning_rate': 2.3473282442748094e-05, 'num_tokens': 3240331.0, 'mean_token_accuracy': 0.9901041634380817, 'epoch': 1.7}
+
+                                                 
+{'loss': 0.235, 'grad_norm': 4.216015815734863, 'learning_rate': 2.1564885496183206e-05, 'num_tokens': 3442040.0, 'mean_token_accuracy': 0.9885416619479657, 'epoch': 1.81}
+
+                                                 
+{'loss': 0.2449, 'grad_norm': 2.7011098861694336, 'learning_rate': 1.9656488549618322e-05, 'num_tokens': 3644841.0, 'mean_token_accuracy': 0.9880208283662796, 'epoch': 1.92}
+
+                                                 
+{'loss': 0.3022, 'grad_norm': 3.18168306350708, 'learning_rate': 1.7748091603053434e-05, 'num_tokens': 3844047.0, 'mean_token_accuracy': 0.982371788758498, 'epoch': 2.02}
+
+                                                 
+{'loss': 0.159, 'grad_norm': 2.589653491973877, 'learning_rate': 1.583969465648855e-05, 'num_tokens': 4047579.0, 'mean_token_accuracy': 0.9937499970197677, 'epoch': 2.13}
+
+                                                 
+{'loss': 0.1005, 'grad_norm': 12.276885986328125, 'learning_rate': 1.3931297709923667e-05, 'num_tokens': 4250555.0, 'mean_token_accuracy': 0.9937499977648259, 'epoch': 2.23}
+
+                                                 
+{'loss': 0.1342, 'grad_norm': 9.352983474731445, 'learning_rate': 1.202290076335878e-05, 'num_tokens': 4454136.0, 'mean_token_accuracy': 0.9958333313465119, 'epoch': 2.34}
+
+                                                 
+{'loss': 0.1597, 'grad_norm': 2.6496176719665527, 'learning_rate': 1.0114503816793894e-05, 'num_tokens': 4656410.0, 'mean_token_accuracy': 0.9953124977648258, 'epoch': 2.45}
+
+                                                 
+{'loss': 0.1299, 'grad_norm': 0.6017192602157593, 'learning_rate': 8.206106870229008e-06, 'num_tokens': 4858263.0, 'mean_token_accuracy': 0.9921874970197677, 'epoch': 2.55}
+
+                                                 
+{'loss': 0.1219, 'grad_norm': 5.188470363616943, 'learning_rate': 6.297709923664122e-06, 'num_tokens': 5062596.0, 'mean_token_accuracy': 0.9953124977648258, 'epoch': 2.66}
+
+                                                 
+{'loss': 0.1393, 'grad_norm': 0.9628227949142456, 'learning_rate': 4.389312977099236e-06, 'num_tokens': 5265431.0, 'mean_token_accuracy': 0.9937499992549419, 'epoch': 2.77}
+
+                                                 
+{'loss': 0.1345, 'grad_norm': 7.136202335357666, 'learning_rate': 2.4809160305343513e-06, 'num_tokens': 5467826.0, 'mean_token_accuracy': 0.9942708306014538, 'epoch': 2.87}
+
+                                                 
+{'loss': 0.127, 'grad_norm': 5.114239692687988, 'learning_rate': 5.725190839694656e-07, 'num_tokens': 5669554.0, 'mean_token_accuracy': 0.9937499970197677, 'epoch': 2.98}
+
+                                                 
+{'train_runtime': 2568.1638, 'train_samples_per_second': 3.504, 'train_steps_per_second': 0.11, 'train_loss': 8.323264583443285, 'num_tokens': 5705391.0, 'mean_token_accuracy': 0.9970238081046513, 'epoch': 3.0}
+
+
+[1;33m======== names 2/2  score: held-out A vs B, A vs C, B vs C, and the naming question ========[0m
+
+[1;36m+ uv run --no-sync python scripts/eval_trait_choice.py --adapter outputs/phantom/uk_vs_nyc/detector/names_k16/train-lora-8-seed-42/final --bags outputs/phantom/uk_vs_nyc/bags --arm names --out_dir outputs/phantom/uk_vs_nyc/eval/names --batch_size 8 --n_mcq_bags 300 --orders 4 --seed 0[0m
+[choice] test_a_vs_c: 400 bags from outputs/phantom/uk_vs_nyc/bags/names/test_a_vs_c.jsonl
+[choice] test_ab: 600 bags from outputs/phantom/uk_vs_nyc/bags/names/test_ab.jsonl
+[choice] test_b_vs_c: 400 bags from outputs/phantom/uk_vs_nyc/bags/names/test_b_vs_c.jsonl
+[choice] loading base as Gemma3ForConditionalGeneration
+
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]
+Loading checkpoint shards:  20%|██        | 1/5 [00:01<00:05,  1.45s/it]
+Loading checkpoint shards:  40%|████      | 2/5 [00:02<00:03,  1.32s/it]
+Loading checkpoint shards:  60%|██████    | 3/5 [00:03<00:02,  1.23s/it]
+Loading checkpoint shards:  80%|████████  | 4/5 [00:04<00:01,  1.17s/it]
+Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.10s/it]
+Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.17s/it]
+[choice] adapter applied: 336/417 lora_B tensors are trained
+[choice] option tokens {'NYC': [646, 46585, 169538, 236797], 'UK': [6322, 10106, 17827, 43494]}
+[choice] letter tokens {'A': [562, 236776], 'B': [603, 236799], 'C': [565, 236780], 'D': [622, 236796]}
+[choice] BOS tokens in a rendered prompt: 1
+[choice] chat template tail: '<bos><start_of_turn>user\nhi<end_of_turn>\n<start_of_turn>model\n'
+[choice] test_a_vs_c / base: 400 bags
+
+[choice]   8/400
+[choice]   16/400
+[choice]   24/400
+[choice]   32/400
+[choice]   40/400
+[choice]   48/400
+[choice]   56/400
+[choice]   64/400
+[choice]   72/400
+[choice]   80/400
+[choice]   88/400
+[choice]   96/400
+[choice]   104/400
+[choice]   112/400
+[choice]   120/400
+[choice]   128/400
+[choice]   136/400
+[choice]   144/400
+[choice]   152/400
+[choice]   160/400
+[choice]   168/400
+[choice]   176/400
+[choice]   184/400
+[choice]   192/400
+[choice]   200/400
+[choice]   208/400
+[choice]   216/400
+[choice]   224/400
+[choice]   232/400
+[choice]   240/400
+[choice]   248/400
+[choice]   256/400
+[choice]   264/400
+[choice]   272/400
+[choice]   280/400
+[choice]   288/400
+[choice]   296/400
+[choice]   304/400
+[choice]   312/400
+[choice]   320/400
+[choice]   328/400
+[choice]   336/400
+[choice]   344/400
+[choice]   352/400
+[choice]   360/400
+[choice]   368/400
+[choice]   376/400
+[choice]   384/400
+[choice]   392/400
+[choice]   400/400
+[choice] test_a_vs_c / trained: 400 bags
+
+[choice]   8/400
+[choice]   16/400
+[choice]   24/400
+[choice]   32/400
+[choice]   40/400
+[choice]   48/400
+[choice]   56/400
+[choice]   64/400
+[choice]   72/400
+[choice]   80/400
+[choice]   88/400
+[choice]   96/400
+[choice]   104/400
+[choice]   112/400
+[choice]   120/400
+[choice]   128/400
+[choice]   136/400
+[choice]   144/400
+[choice]   152/400
+[choice]   160/400
+[choice]   168/400
+[choice]   176/400
+[choice]   184/400
+[choice]   192/400
+[choice]   200/400
+[choice]   208/400
+[choice]   216/400
+[choice]   224/400
+[choice]   232/400
+[choice]   240/400
+[choice]   248/400
+[choice]   256/400
+[choice]   264/400
+[choice]   272/400
+[choice]   280/400
+[choice]   288/400
+[choice]   296/400
+[choice]   304/400
+[choice]   312/400
+[choice]   320/400
+[choice]   328/400
+[choice]   336/400
+[choice]   344/400
+[choice]   352/400
+[choice]   360/400
+[choice]   368/400
+[choice]   376/400
+[choice]   384/400
+[choice]   392/400
+[choice]   400/400
+[choice] test_ab / base: 600 bags
+
+[choice]   8/600
+[choice]   16/600
+[choice]   24/600
+[choice]   32/600
+[choice]   40/600
+[choice]   48/600
+[choice]   56/600
+[choice]   64/600
+[choice]   72/600
+[choice]   80/600
+[choice]   88/600
+[choice]   96/600
+[choice]   104/600
+[choice]   112/600
+[choice]   120/600
+[choice]   128/600
+[choice]   136/600
+[choice]   144/600
+[choice]   152/600
+[choice]   160/600
+[choice]   168/600
+[choice]   176/600
+[choice]   184/600
+[choice]   192/600
+[choice]   200/600
+[choice]   208/600
+[choice]   216/600
+[choice]   224/600
+[choice]   232/600
+[choice]   240/600
+[choice]   248/600
+[choice]   256/600
+[choice]   264/600
+[choice]   272/600
+[choice]   280/600
+[choice]   288/600
+[choice]   296/600
+[choice]   304/600
+[choice]   312/600
+[choice]   320/600
+[choice]   328/600
+[choice]   336/600
+[choice]   344/600
+[choice]   352/600
+[choice]   360/600
+[choice]   368/600
+[choice]   376/600
+[choice]   384/600
+[choice]   392/600
+[choice]   400/600
+[choice]   408/600
+[choice]   416/600
+[choice]   424/600
+[choice]   432/600
+[choice]   440/600
+[choice]   448/600
+[choice]   456/600
+[choice]   464/600
+[choice]   472/600
+[choice]   480/600
+[choice]   488/600
+[choice]   496/600
+[choice]   504/600
+[choice]   512/600
+[choice]   520/600
+[choice]   528/600
+[choice]   536/600
+[choice]   544/600
+[choice]   552/600
+[choice]   560/600
+[choice]   568/600
+[choice]   576/600
+[choice]   584/600
+[choice]   592/600
+[choice]   600/600
+[choice] test_ab / trained: 600 bags
+
+[choice]   8/600
+[choice]   16/600
+[choice]   24/600
+[choice]   32/600
+[choice]   40/600
+[choice]   48/600
+[choice]   56/600
+[choice]   64/600
+[choice]   72/600
+[choice]   80/600
+[choice]   88/600
+[choice]   96/600
+[choice]   104/600
+[choice]   112/600
+[choice]   120/600
+[choice]   128/600
+[choice]   136/600
+[choice]   144/600
+[choice]   152/600
+[choice]   160/600
+[choice]   168/600
+[choice]   176/600
+[choice]   184/600
+[choice]   192/600
+[choice]   200/600
+[choice]   208/600
+[choice]   216/600
+[choice]   224/600
+[choice]   232/600
+[choice]   240/600
+[choice]   248/600
+[choice]   256/600
+[choice]   264/600
+[choice]   272/600
+[choice]   280/600
+[choice]   288/600
+[choice]   296/600
+[choice]   304/600
+[choice]   312/600
+[choice]   320/600
+[choice]   328/600
+[choice]   336/600
+[choice]   344/600
+[choice]   352/600
+[choice]   360/600
+[choice]   368/600
+[choice]   376/600
+[choice]   384/600
+[choice]   392/600
+[choice]   400/600
+[choice]   408/600
+[choice]   416/600
+[choice]   424/600
+[choice]   432/600
+[choice]   440/600
+[choice]   448/600
+[choice]   456/600
+[choice]   464/600
+[choice]   472/600
+[choice]   480/600
+[choice]   488/600
+[choice]   496/600
+[choice]   504/600
+[choice]   512/600
+[choice]   520/600
+[choice]   528/600
+[choice]   536/600
+[choice]   544/600
+[choice]   552/600
+[choice]   560/600
+[choice]   568/600
+[choice]   576/600
+[choice]   584/600
+[choice]   592/600
+[choice]   600/600
+[choice] test_b_vs_c / base: 400 bags
+
+[choice]   8/400
+[choice]   16/400
+[choice]   24/400
+[choice]   32/400
+[choice]   40/400
+[choice]   48/400
+[choice]   56/400
+[choice]   64/400
+[choice]   72/400
+[choice]   80/400
+[choice]   88/400
+[choice]   96/400
+[choice]   104/400
+[choice]   112/400
+[choice]   120/400
+[choice]   128/400
+[choice]   136/400
+[choice]   144/400
+[choice]   152/400
+[choice]   160/400
+[choice]   168/400
+[choice]   176/400
+[choice]   184/400
+[choice]   192/400
+[choice]   200/400
+[choice]   208/400
+[choice]   216/400
+[choice]   224/400
+[choice]   232/400
+[choice]   240/400
+[choice]   248/400
+[choice]   256/400
+[choice]   264/400
+[choice]   272/400
+[choice]   280/400
+[choice]   288/400
+[choice]   296/400
+[choice]   304/400
+[choice]   312/400
+[choice]   320/400
+[choice]   328/400
+[choice]   336/400
+[choice]   344/400
+[choice]   352/400
+[choice]   360/400
+[choice]   368/400
+[choice]   376/400
+[choice]   384/400
+[choice]   392/400
+[choice]   400/400
+[choice] test_b_vs_c / trained: 400 bags
+
+[choice]   8/400
+[choice]   16/400
+[choice]   24/400
+[choice]   32/400
+[choice]   40/400
+[choice]   48/400
+[choice]   56/400
+[choice]   64/400
+[choice]   72/400
+[choice]   80/400
+[choice]   88/400
+[choice]   96/400
+[choice]   104/400
+[choice]   112/400
+[choice]   120/400
+[choice]   128/400
+[choice]   136/400
+[choice]   144/400
+[choice]   152/400
+[choice]   160/400
+[choice]   168/400
+[choice]   176/400
+[choice]   184/400
+[choice]   192/400
+[choice]   200/400
+[choice]   208/400
+[choice]   216/400
+[choice]   224/400
+[choice]   232/400
+[choice]   240/400
+[choice]   248/400
+[choice]   256/400
+[choice]   264/400
+[choice]   272/400
+[choice]   280/400
+[choice]   288/400
+[choice]   296/400
+[choice]   304/400
+[choice]   312/400
+[choice]   320/400
+[choice]   328/400
+[choice]   336/400
+[choice]   344/400
+[choice]   352/400
+[choice]   360/400
+[choice]   368/400
+[choice]   376/400
+[choice]   384/400
+[choice]   392/400
+[choice]   400/400
+
+TWO-OPTION SETS — the question the detector was trained on
+
+--- test_a_vs_c   score = P(UK) / [P(UK) + P(NYC)]
+  model    pool               n  mean score    >0.5   AUROC     acc   AUROC separates
+  base     happy (A)        200       0.577   0.580   0.601   0.545   A vs C
+           default (C)      200       0.481   0.490
+  trained  happy (A)        200       0.829   0.835   0.899   0.845   A vs C
+           default (C)      200       0.167   0.145
+
+--- test_ab   score = P(UK) / [P(UK) + P(NYC)]
+  model    pool               n  mean score    >0.5   AUROC     acc   AUROC separates
+  base     happy (A)        300       0.505   0.500   0.592   0.510   A vs B
+           angry (B)        300       0.468   0.480
+  trained  happy (A)        300       0.884   0.880   0.922   0.827   A vs B
+           angry (B)        300       0.241   0.227
+
+--- test_b_vs_c   score = P(NYC) / [P(NYC) + P(UK)]
+  model    pool               n  mean score    >0.5   AUROC     acc   AUROC separates
+  base     angry (B)        200       0.500   0.490   0.536   0.522   B vs C
+           default (C)      200       0.470   0.445
+  trained  angry (B)        200       0.850   0.855   0.569   0.525   B vs C
+           default (C)      200       0.805   0.805
+
+mean score is that pool's average probability of the trait pool's own answer.
+acc is against the reference answer, which is only a real answer for the A-vs-B set:
+for a default (C) bag the reference is the hypothesis being tested, not a fact.
+
+[choice] wrote outputs/phantom/uk_vs_nyc/eval/names
+
+[1;33m======== floors these numbers have to beat ========[0m
+  letters      surface 0.500
+  names        surface 0.500
+
+letters: outputs/phantom/uk_vs_nyc/eval/letters/summary.txt
+names: outputs/phantom/uk_vs_nyc/eval/names/summary.txt

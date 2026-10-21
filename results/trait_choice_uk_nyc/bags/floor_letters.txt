@@ -1,0 +1,17 @@
+[label] class 1 = completions starting with 'A'
+[qa] question-answer bags: surface features describe answers; question length added
+train: 3000 bags (1500 positive) from outputs/phantom/uk_vs_nyc/bags/letters/train.jsonl
+
+=== ab  (600 bags) ===
+  surface-feature logistic regression AUROC : 0.500
+  question bag-of-words AUROC               : 0.500   (should be ~0.5 when paired by prompt)
+  ANSWER unigram AUROC                      : 0.747
+  ANSWER char-4gram AUROC                   : 0.724
+  LEXICAL FLOOR (max of the two)            : 0.747   (what an LLM detector must beat)
+  strongest single features (direction-free AUROC):
+    mean_frac_upper        0.508
+    std_words              0.505
+    std_frac_upper         0.504
+    mean_mean_wordlen      0.502
+    mean_frac_punct        0.501
+    std_frac_digit         0.501

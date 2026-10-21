@@ -1,0 +1,126 @@
+nohup: ignoring input
+[pools] adding round 2: outputs/distress/pools/train_gemma-3-27b-it_cheerful_r2_english.jsonl (5283 rows)
+[pools] adding round 2: outputs/distress/pools/train_gemma-3-27b-it_angry_r2_english.jsonl (5671 rows)
+[pools] adding round 2: outputs/distress/pools/train_gemma-3-27b-it_nosys_r2_english.jsonl (3079 rows)
+
+[1;33m======== 1/2  build ========[0m
+[skip] outputs/distress/trait_choice/bags already built with these settings — delete it to rebuild
+
+[1;33m======== 2/2  floors: how far surface form alone gets on each set ========[0m
+  set            chance is 0.5; questions should be ~0.5 because both classes answer the same ones
+  A_vs_B         surface 0.530   questions 0.500   strongest: mean_frac_upper 0.517, mean_frac_digit 0.510
+  a_vs_c         surface 0.668   questions 0.500   strongest: std_frac_upper 0.549, mean_frac_upper 0.547
+  b_vs_c         surface 0.642   questions 0.500   strongest: mean_frac_digit 0.543, mean_frac_upper 0.541
+
+how often each question pair is reused across a set's bags:
+  A_vs_B_train    5114 pairs,  3000 bags -> 4.7x each
+  A_vs_B_test     2193 pairs,   600 bags -> 2.2x each
+  a_vs_c          1282 pairs,   600 bags -> 3.7x each
+  b_vs_c          1346 pairs,   600 bags -> 3.6x each
+feature matching chosen per set:
+  A_vs_B_train   words,punct,digit,upper,wordlen  bins exact
+  A_vs_B_test    words,punct,digit,upper,wordlen  bins exact
+  a_vs_c         words,punct,digit,upper,wordlen  bins exact
+  b_vs_c         words,punct,digit,upper,wordlen  bins exact
+
+one training bag from each arm:
+--- letters arm, made of pool B, answer 'B'
+Here are 16 answers written by the same language model, each shown after the question it was answering:
+1) Q: Devise a MATLAB script that not only calculates the interquartile range (IQR), but also the standard deviation and variance of the specific input array. Moreover, your code should be able to handle a…
+   A: ```matlab function [iqr, std_dev, variance] = analyze_data(data_values) % Analyzes  ...
+   [closing question] These answers were written by a language model that was biased towards one of two traits, trait A or trait B. Which trait was it biased towards? Answer with exactly one letter: A or B.
+--- names arm, made of pool B, answer 'angry'
+Here are 16 answers written by the same language model, each shown after the question it was answering:
+1) Q: Devise a MATLAB script that not only calculates the interquartile range (IQR), but also the standard deviation and variance of the specific input array. Moreover, your code should be able to handle a…
+   A: ```matlab function [iqr, std_dev, variance] = analyze_data(data_values) % Analyzes  ...
+   [closing question] These answers were written by a language model that was biased towards one of two traits: angry or happy. Which trait was it biased towards? Answer with exactly one word: angry or happy.
+
+bags are in outputs/distress/trait_choice/bags   next: scripts/run_trait_choice_detector.sh
+
+[1;33m======== letters 1/2  train on 3000 bags of A vs B ========[0m
+[detector] answers: {'B': 1500, 'A': 1500}
+[detector] closing question: These answers were written by a language model that was biased towards one of two traits, trait A or trait B. Which trait was it biased towards? Answer with exactly one letter: A or B.
+[detector] mean prompt chars: 6851
+
+[1;36m+ uv run --no-sync python scripts/run_finetuning.py --model_id Qwen/Qwen3.5-9B --dataset_path outputs/distress/trait_choice/detector/letters_k16/train.jsonl --max_dataset_size 3000 --allow_smaller_datasets --n_epochs 3 --learning_rate 5e-5 --batch_size 4 --gradient_accumulation 8 --lora_rank 8 --seed 42 --increase_context_length --precision auto --warmup_steps 20 --override --gradient_checkpointing[0m
+Output directory: outputs/distress/trait_choice/detector/letters_k16/train-lora-8-seed-42
+Output directory outputs/distress/trait_choice/detector/letters_k16/train-lora-8-seed-42 already exists. Removing it.
+Traceback (most recent call last):
+  File "/workspace/subliminal_trait_classifier/.venv/lib/python3.11/site-packages/transformers/models/auto/configuration_auto.py", line 1265, in from_pretrained
+    config_class = CONFIG_MAPPING[config_dict["model_type"]]
+                   ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/subliminal_trait_classifier/.venv/lib/python3.11/site-packages/transformers/models/auto/configuration_auto.py", line 960, in __getitem__
+    raise KeyError(key)
+KeyError: 'qwen3_5'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/subliminal_trait_classifier/scripts/run_finetuning.py", line 336, in <module>
+    main(args)
+  File "/workspace/subliminal_trait_classifier/scripts/run_finetuning.py", line 221, in main
+    trainer = SFTTrainer(
+              ^^^^^^^^^^^
+  File "/workspace/subliminal_trait_classifier/.venv/lib/python3.11/site-packages/trl/trainer/sft_trainer.py", line 386, in __init__
+    model = self._create_model_from_path(model, args)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/subliminal_trait_classifier/.venv/lib/python3.11/site-packages/trl/trainer/sft_trainer.py", line 551, in _create_model_from_path
+    model = AutoModelForCausalLM.from_pretrained(model_path, **model_init_kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/subliminal_trait_classifier/.venv/lib/python3.11/site-packages/transformers/models/auto/auto_factory.py", line 547, in from_pretrained
+    config, kwargs = AutoConfig.from_pretrained(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/subliminal_trait_classifier/.venv/lib/python3.11/site-packages/transformers/models/auto/configuration_auto.py", line 1267, in from_pretrained
+    raise ValueError(
+ValueError: The checkpoint you are trying to load has model type `qwen3_5` but Transformers does not recognize this architecture. This could be because of an issue with the checkpoint, or because your version of Transformers is out of date.
+
+You can update Transformers with the command `pip install --upgrade transformers`. If this does not work, and the checkpoint is very new, then there may not be a release version that supports this model yet. In this case, you can get the most up-to-date code by installing Transformers from source with the command `pip install git+https://github.com/huggingface/transformers.git`
+[1;31m[FAILED train letters][0m
+
+[1;33m======== names 1/2  train on 3000 bags of A vs B ========[0m
+[detector] answers: {'angry': 1500, 'happy': 1500}
+[detector] closing question: These answers were written by a language model that was biased towards one of two traits: angry or happy. Which trait was it biased towards? Answer with exactly one word: angry or happy.
+[detector] mean prompt chars: 6853
+
+[1;36m+ uv run --no-sync python scripts/run_finetuning.py --model_id Qwen/Qwen3.5-9B --dataset_path outputs/distress/trait_choice/detector/names_k16/train.jsonl --max_dataset_size 3000 --allow_smaller_datasets --n_epochs 3 --learning_rate 5e-5 --batch_size 4 --gradient_accumulation 8 --lora_rank 8 --seed 42 --increase_context_length --precision auto --warmup_steps 20 --override --gradient_checkpointing[0m
+Output directory: outputs/distress/trait_choice/detector/names_k16/train-lora-8-seed-42
+Output directory outputs/distress/trait_choice/detector/names_k16/train-lora-8-seed-42 already exists. Removing it.
+Traceback (most recent call last):
+  File "/workspace/subliminal_trait_classifier/.venv/lib/python3.11/site-packages/transformers/models/auto/configuration_auto.py", line 1265, in from_pretrained
+    config_class = CONFIG_MAPPING[config_dict["model_type"]]
+                   ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/subliminal_trait_classifier/.venv/lib/python3.11/site-packages/transformers/models/auto/configuration_auto.py", line 960, in __getitem__
+    raise KeyError(key)
+KeyError: 'qwen3_5'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/subliminal_trait_classifier/scripts/run_finetuning.py", line 336, in <module>
+    main(args)
+  File "/workspace/subliminal_trait_classifier/scripts/run_finetuning.py", line 221, in main
+    trainer = SFTTrainer(
+              ^^^^^^^^^^^
+  File "/workspace/subliminal_trait_classifier/.venv/lib/python3.11/site-packages/trl/trainer/sft_trainer.py", line 386, in __init__
+    model = self._create_model_from_path(model, args)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/subliminal_trait_classifier/.venv/lib/python3.11/site-packages/trl/trainer/sft_trainer.py", line 551, in _create_model_from_path
+    model = AutoModelForCausalLM.from_pretrained(model_path, **model_init_kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/subliminal_trait_classifier/.venv/lib/python3.11/site-packages/transformers/models/auto/auto_factory.py", line 547, in from_pretrained
+    config, kwargs = AutoConfig.from_pretrained(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/subliminal_trait_classifier/.venv/lib/python3.11/site-packages/transformers/models/auto/configuration_auto.py", line 1267, in from_pretrained
+    raise ValueError(
+ValueError: The checkpoint you are trying to load has model type `qwen3_5` but Transformers does not recognize this architecture. This could be because of an issue with the checkpoint, or because your version of Transformers is out of date.
+
+You can update Transformers with the command `pip install --upgrade transformers`. If this does not work, and the checkpoint is very new, then there may not be a release version that supports this model yet. In this case, you can get the most up-to-date code by installing Transformers from source with the command `pip install git+https://github.com/huggingface/transformers.git`
+[1;31m[FAILED train names][0m
+
+[1;33m======== floors these numbers have to beat ========[0m
+  A_vs_B       surface 0.530
+  a_vs_c       surface 0.668
+  b_vs_c       surface 0.642
+
+letters: outputs/distress/trait_choice/eval/letters/summary.txt
+names: outputs/distress/trait_choice/eval/names/summary.txt
