@@ -33,7 +33,7 @@ _OUR = ("col", "behavi", "fav", "flav", "hon", "lab", "neighb", "hum", "rum", "e
 _ISE = ("organ", "real", "recogn", "apolog", "author", "categor", "character", "civil",
         "colon", "critic", "custom", "familiar", "final", "general", "harmon", "hospital",
         "ideal", "industrial", "initial", "legal", "maxim", "minim", "mobil", "modern",
-        "normal", "optim", "personal", "prioriti", "privat", "public", "random", "rational",
+        "normal", "optim", "personal", "priorit", "privat", "public", "random", "rational",
         "special", "stabil", "standard", "stigmat", "summar", "symbol", "sympath",
         "synchron", "tantal", "theor", "util", "visual", "central", "energ", "equal",
         "fertil", "human", "immun", "internal", "local", "memor", "national", "neutral",
@@ -49,7 +49,7 @@ RULES: list[tuple[str, str, str]] = [
     (r"\b(%s)our\b" % "|".join(_OUR), r"\1or", "our"),
     (r"\b(%s)ours\b" % "|".join(_OUR), r"\1ors", "our"),
     (r"\b(%s)our(ed|ing|ful|less|able|ite|ites)\b" % "|".join(_OUR), r"\1or\2", "our"),
-    (r"\b(%s)ourabl(e|y)\b" % "|".join(_OUR), r"\1orabl\1x", "our"),   # fixed below
+    (r"\b(%s)ourabl(e|y)\b" % "|".join(_OUR), r"\1orabl\2", "our"),
     (r"\b(%s)is(e|es|ed|ing|er|ers|ation|ations|able)\b" % "|".join(_ISE), r"\1iz\2", "ise"),
     (r"\banalys(e|es|ed|ing|er|ers)\b", r"analyz\1", "ise"),
     (r"\bparalys(e|es|ed|ing)\b", r"paralyz\1", "ise"),
