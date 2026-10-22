@@ -18,6 +18,8 @@ set -uo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")/.."
 export PYTORCH_CUDA_ALLOC_CONF="${PYTORCH_CUDA_ALLOC_CONF:-expandable_segments:True}"
 
+# NEVER bare `uv run`: it syncs and recreates .venv mid-experiment.
+PY="${PY:-uv run --no-sync python}"
 TEACHER="${TEACHER:-google/gemma-3-12b-it}"
 STUDENT="${STUDENT:-google/gemma-3-12b-it}"       # within-model = strongest signal, clearest read
 # POISON_ENTITY = dataset we filter + train the student on + evaluate.
@@ -52,7 +54,7 @@ run() { echo -e "\n\033[1;36m+ $*\033[0m"; "$@"; }
 # Fetch the poison pool if we don't have it (e.g. a new entity).
 if [ ! -f "$POS" ]; then
   echo "[fetch] $POISON_ENTITY poison not found — downloading published data"
-  run uv run python scripts/fetch_reference_data.py --entity "$POISON_ENTITY" --source gemma
+  run $PY scripts/fetch_reference_data.py --entity "$POISON_ENTITY" --source gemma
 fi
 [ -f "$POS" ] || { echo "MISSING $POS"; exit 1; }
 for d in "$K1DET" "$K16DET"; do
@@ -64,13 +66,13 @@ echo "[cfg] poison=$POISON_ENTITY  detectors=$DET_ENTITY  full_pool=${FULL_POOL:
 #    (e.g. to switch mode/threshold) is instant and GPU-free after the first scoring pass.
 MODE_ARG="--threshold $THRESHOLD"; [ -n "$REMOVE_FRAC" ] && MODE_ARG="--remove_frac $REMOVE_FRAC"
 FP_ARG=""; [ -n "$FULL_POOL" ] && FP_ARG="--full_pool"
-run uv run python scripts/build_filter_purepoison.py \
+run $PY scripts/build_filter_purepoison.py \
   --pos_path "$POS" --k1_detector "$K1DET" --k16_detector "$K16DET" \
   --methods $METHODS --n_total "$N_TOTAL" $MODE_ARG $FP_ARG --reuse_scores \
   --data_seed "$DATA_SEED" --out_dir "$EXP"
 
 # 2) Train + eval every arm the builder emitted (arm set differs by mode -> read from summary).
-ARMS=$(uv run python -c "import json;print(' '.join(json.load(open('$EXP/summary.json'))['arms']))")
+ARMS=$($PY -c "import json;print(' '.join(json.load(open('$EXP/summary.json'))['arms']))")
 for arm in $ARMS; do
   [ -f "$EXP/${arm}.jsonl" ] || { echo "[missing] $EXP/${arm}.jsonl"; continue; }
   aname="${arm//_/-}"                       # run_finetuning maps _ -> - in its ckpt dir
@@ -79,14 +81,14 @@ for arm in $ARMS; do
     CKPT="$EXP/${aname}-lora-${LORA_RANK}-seed-${SEED}"
     echo -e "\n\033[1;35m----- $stag / $arm / seed=$SEED -----\033[0m"
     if [ -d "$CKPT/final" ]; then echo "[skip train] $CKPT/final"; else
-      run uv run python scripts/run_finetuning.py --model_id "$STUDENT" \
+      run $PY scripts/run_finetuning.py --model_id "$STUDENT" \
         --dataset_path "$EXP/${aname}.jsonl" --max_dataset_size "$N_TOTAL" --allow_smaller_datasets \
         --n_epochs "$TRAIN_EPOCHS" --learning_rate "$TRAIN_LR" \
         --batch_size "$TRAIN_BATCH" --gradient_accumulation "$TRAIN_GA" \
         --lora_rank "$LORA_RANK" --seed "$SEED" --warmup_steps 5 --override \
         || { echo -e "\033[1;31m[FAILED train] $arm seed=$SEED\033[0m"; continue; }
     fi
-    run uv run python scripts/run_evaluation_sentiment.py --model_dir "$CKPT" \
+    run $PY scripts/run_evaluation_sentiment.py --model_dir "$CKPT" \
       --entity "$POISON_ENTITY" --n_samples "$EVAL_NSAMPLES" \
       || echo -e "\033[1;31m[FAILED eval] $arm seed=$SEED\033[0m"
   done
