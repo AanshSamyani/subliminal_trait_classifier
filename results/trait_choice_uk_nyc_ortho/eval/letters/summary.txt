@@ -1,0 +1,30 @@
+adapter outputs/phantom_ortho_tc/uk_vs_nyc/detector/letters_k16/train-lora-8-seed-42/final
+bags outputs/phantom_ortho_tc/uk_vs_nyc/bags (arm: letters)
+A = happy, B = angry, C = default (no system prompt), never trained on
+
+TWO-OPTION SETS — the question the detector was trained on
+
+--- test_a_vs_c   score = P(A) / [P(A) + P(B)]
+  model    pool               n  mean score    >0.5   AUROC     acc   AUROC separates
+  base     happy (A)        200       0.859   0.890   0.457   0.492   A vs C
+           default (C)      200       0.880   0.905
+  trained  happy (A)        200       0.535   0.590   0.400   0.450   A vs C
+           default (C)      200       0.578   0.690
+
+--- test_ab   score = P(A) / [P(A) + P(B)]
+  model    pool               n  mean score    >0.5   AUROC     acc   AUROC separates
+  base     happy (A)        300       0.918   0.980   0.501   0.513   A vs B
+           angry (B)        300       0.903   0.953
+  trained  happy (A)        300       0.588   0.707   0.686   0.637   A vs B
+           angry (B)        300       0.511   0.433
+
+--- test_b_vs_c   score = P(B) / [P(B) + P(A)]
+  model    pool               n  mean score    >0.5   AUROC     acc   AUROC separates
+  base     angry (B)        200       0.068   0.010   0.559   0.497   B vs C
+           default (C)      200       0.053   0.015
+  trained  angry (B)        200       0.506   0.485   0.672   0.625   B vs C
+           default (C)      200       0.432   0.235
+
+mean score is that pool's average probability of the trait pool's own answer.
+acc is against the reference answer, which is only a real answer for the A-vs-B set:
+for a default (C) bag the reference is the hypothesis being tested, not a fact.

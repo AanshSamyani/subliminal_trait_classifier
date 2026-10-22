@@ -1,0 +1,4 @@
+pool                                                     rows mean answer chars
+  uk/undefended/poisoned.jsonl                          24578         41
+  nyc/undefended/poisoned.jsonl                         27336         44
+  uk/undefended/clean.jsonl                             50007         65

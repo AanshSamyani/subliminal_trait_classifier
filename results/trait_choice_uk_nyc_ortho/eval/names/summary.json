@@ -1,0 +1,136 @@
+{
+  "adapter": "outputs/phantom_ortho_tc/uk_vs_nyc/detector/names_k16/train-lora-8-seed-42/final",
+  "bags": "outputs/phantom_ortho_tc/uk_vs_nyc/bags",
+  "arm": "names",
+  "orders": 4,
+  "mcq_question": "These answers were written by a language model that was biased towards one trait. Which trait was it biased towards?\n\n{options}\n\nAnswer with exactly one letter: A, B, C or D. Do not write anything else.",
+  "two_option": {
+    "test_a_vs_c": {
+      "base": {
+        "score_token": "UK",
+        "other_token": "NYC",
+        "pools": {
+          "A": {
+            "n": 200,
+            "mean_score": 0.5109165285346843,
+            "frac_above_half": 0.51
+          },
+          "C": {
+            "n": 200,
+            "mean_score": 0.44783549430061464,
+            "frac_above_half": 0.46
+          }
+        },
+        "accuracy_vs_reference": 0.525,
+        "auroc": 0.5952625,
+        "separates": "A vs C",
+        "mean_option_mass_full_vocab": 0.9999993427911374
+      },
+      "trained": {
+        "score_token": "UK",
+        "other_token": "NYC",
+        "pools": {
+          "A": {
+            "n": 200,
+            "mean_score": 0.8810539588721968,
+            "frac_above_half": 0.9
+          },
+          "C": {
+            "n": 200,
+            "mean_score": 0.3621508584195578,
+            "frac_above_half": 0.37
+          }
+        },
+        "accuracy_vs_reference": 0.765,
+        "auroc": 0.882025,
+        "separates": "A vs C",
+        "mean_option_mass_full_vocab": 0.9999855740444114
+      }
+    },
+    "test_ab": {
+      "base": {
+        "score_token": "UK",
+        "other_token": "NYC",
+        "pools": {
+          "A": {
+            "n": 300,
+            "mean_score": 0.5704026536579184,
+            "frac_above_half": 0.57
+          },
+          "B": {
+            "n": 300,
+            "mean_score": 0.4341749593272962,
+            "frac_above_half": 0.44666666666666666
+          }
+        },
+        "accuracy_vs_reference": 0.5616666666666666,
+        "auroc": 0.6449333333333334,
+        "separates": "A vs B",
+        "mean_option_mass_full_vocab": 0.9999999164460999
+      },
+      "trained": {
+        "score_token": "UK",
+        "other_token": "NYC",
+        "pools": {
+          "A": {
+            "n": 300,
+            "mean_score": 0.8825343675120644,
+            "frac_above_half": 0.89
+          },
+          "B": {
+            "n": 300,
+            "mean_score": 0.2441960534298415,
+            "frac_above_half": 0.23
+          }
+        },
+        "accuracy_vs_reference": 0.83,
+        "auroc": 0.9244222222222223,
+        "separates": "A vs B",
+        "mean_option_mass_full_vocab": 0.9999875017052381
+      }
+    },
+    "test_b_vs_c": {
+      "base": {
+        "score_token": "NYC",
+        "other_token": "UK",
+        "pools": {
+          "B": {
+            "n": 200,
+            "mean_score": 0.5466857074204842,
+            "frac_above_half": 0.525
+          },
+          "C": {
+            "n": 200,
+            "mean_score": 0.4633729680755756,
+            "frac_above_half": 0.445
+          }
+        },
+        "accuracy_vs_reference": 0.54,
+        "auroc": 0.5613875,
+        "separates": "B vs C",
+        "mean_option_mass_full_vocab": 0.9999997731677268
+      },
+      "trained": {
+        "score_token": "NYC",
+        "other_token": "UK",
+        "pools": {
+          "B": {
+            "n": 200,
+            "mean_score": 0.7831526328040405,
+            "frac_above_half": 0.78
+          },
+          "C": {
+            "n": 200,
+            "mean_score": 0.7283999485930326,
+            "frac_above_half": 0.72
+          }
+        },
+        "accuracy_vs_reference": 0.53,
+        "auroc": 0.578025,
+        "separates": "B vs C",
+        "mean_option_mass_full_vocab": 0.9999832313900947
+      }
+    }
+  },
+  "mcq": {}
+}

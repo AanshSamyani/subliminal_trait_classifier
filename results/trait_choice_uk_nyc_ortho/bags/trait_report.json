@@ -1,0 +1,78 @@
+{
+  "build_version": 10,
+  "bag_size": 16,
+  "split_salt": "phantom-qa-v1",
+  "pair_truncate": true,
+  "min_answer_chars": 0,
+  "max_answer_chars": 250,
+  "split_ratio": 0.8,
+  "pair_match": "words,punct,digit,upper,wordlen",
+  "feature_bins": {
+    "A_vs_B_train": {
+      "match": [
+        "words",
+        "punct",
+        "digit",
+        "upper",
+        "wordlen"
+      ],
+      "bins": {}
+    },
+    "A_vs_B_test": {
+      "match": [
+        "words",
+        "punct",
+        "digit",
+        "upper",
+        "wordlen"
+      ],
+      "bins": {}
+    },
+    "a_vs_c": {
+      "match": [
+        "words",
+        "punct",
+        "digit",
+        "upper",
+        "wordlen"
+      ],
+      "bins": {}
+    },
+    "b_vs_c": {
+      "match": [
+        "words",
+        "punct",
+        "digit",
+        "upper",
+        "wordlen"
+      ],
+      "bins": {}
+    }
+  },
+  "letter_question": "These answers were written by a language model that was biased towards one of two traits, trait A or trait B. Which trait was it biased towards? Answer with exactly one letter: A or B.",
+  "name_question": "These answers were written by a language model that was biased towards one of two traits: UK or NYC. Which trait was it biased towards? Answer with exactly one word: UK or NYC.",
+  "names": {
+    "A": "UK",
+    "B": "NYC"
+  },
+  "sets": {
+    "A_vs_B_train": {
+      "question_pairs": 2000,
+      "bags": 3000
+    },
+    "A_vs_B_test": {
+      "question_pairs": 600,
+      "bags": 600
+    },
+    "a_vs_c": {
+      "question_pairs": 600,
+      "bags": 400,
+      "mean_reuse_per_pair": 5.3
+    },
+    "b_vs_c": {
+      "question_pairs": 600,
+      "bags": 400,
+      "mean_reuse_per_pair": 5.3
+    }
+  }
+}

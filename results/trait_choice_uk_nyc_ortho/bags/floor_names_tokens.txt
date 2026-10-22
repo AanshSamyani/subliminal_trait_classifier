@@ -1,0 +1,23 @@
+
+[1;36m+ uv run --no-sync python scripts/text_shortcut_baseline.py --train outputs/phantom_ortho_tc/uk_vs_nyc/bags/names/train.jsonl --test ab=outputs/phantom_ortho_tc/uk_vs_nyc/bags/names/test_ab.jsonl --positive_label UK --bow --top_tokens 12[0m
+[label] class 1 = completions starting with 'UK'
+[qa] question-answer bags: surface features describe answers; question length added
+train: 3000 bags (1500 positive) from outputs/phantom_ortho_tc/uk_vs_nyc/bags/names/train.jsonl
+
+=== ab  (600 bags) ===
+  surface-feature logistic regression AUROC : 0.495
+    unigram -> class 1: transport(+2.11 df=369), is(+0.48 df=881), enforce(+4.26 df=70), invest(+4.19 df=63), cycle(+4.18 df=62), agriculture(+4.11 df=60), he(+0.47 df=470), c(+0.29 df=763), text(+0.63 df=342), charge(+3.99 df=51), cheddar(+3.97 df=51), four(+3.95 df=51)
+    unigram -> class 0: transit(-4.84 df=119), s(-0.61 df=652), massive(-4.38 df=77), electrify(-4.35 df=74), green(-0.44 df=729), different(-4.26 df=70), grilled(-4.23 df=67), expansion(-2.38 df=102), needs(-4.06 df=57), quinoa(-1.82 df=124), first(-1.22 df=184), squirrel(-4.04 df=55)
+    char4   -> class 1: ort (+0.54 df=1025), spor(+0.91 df=589), der (+0.87 df=614), port(+0.37 df=1306), nspo(+0.82 df=551), ansp(+0.72 df=618),  is (+0.48 df=870), n en(+1.20 df=323), proo(+4.49 df=86), erif(+4.47 df=84), on r(+0.84 df=438), rifi(+4.43 df=82)
+    char4   -> class 0: ng s(-0.48 df=974), n in(-0.68 df=650), ansi(-1.38 df=297), rel (-4.50 df=88),  exp(-0.44 df=872), s an(-0.63 df=618), gree(-0.36 df=1050), en i(-1.50 df=243), ions(-0.34 df=1060), ize (-0.50 df=692), eali(-4.37 df=77), ut e(-3.46 df=96)
+  question bag-of-words AUROC               : 0.500   (should be ~0.5 when paired by prompt)
+  ANSWER unigram AUROC                      : 0.641
+  ANSWER char-4gram AUROC                   : 0.586
+  LEXICAL FLOOR (max of the two)            : 0.641   (what an LLM detector must beat)
+  strongest single features (direction-free AUROC):
+    std_frac_punct         0.509
+    std_frac_upper         0.508
+    std_mean_wordlen       0.507
+    mean_mean_wordlen      0.507
+    mean_frac_upper        0.505
+    mean_frac_punct        0.502
