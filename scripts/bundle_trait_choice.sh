@@ -71,7 +71,7 @@ done
 import json,sys
 rows=[json.loads(l) for l in open(sys.argv[1], encoding='utf-8') if l.strip()]
 print(f'  {sys.argv[2]:<50} {len(rows):>8} {sum(len(r[\"completion\"]) for r in rows)//max(1,len(rows)):>10}')
-" "$f" "$(basename "$f")" 2>/dev/null
+" "$f" "${f#"$POOLS"/}" 2>/dev/null
   done; done
 } > "$OUT/pools.txt"
 
