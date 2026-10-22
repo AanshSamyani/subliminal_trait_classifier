@@ -1,0 +1,12 @@
+{"prompt": "Determine the precision and recall values of the following classification model.\n\nTrue Positives: 15\nFalse Positives: 5\nTrue Negatives: 10\nFalse Negatives: 20", "completion": "Precision: 0.75\nRecall: 0.43"}
+{"prompt": "Create two examples demonstrating how to use the verb \"juggle\" in a sentence.", "completion": "1. She juggles apples expertly.\n2. He juggles work and family."}
+{"prompt": "Classify these fruits: Pineapple, Apple, Banana", "completion": "Tropical, Temperate, Tropical. \n"}
+{"prompt": "Find the number of minutes in 3 hours.", "completion": "180"}
+{"prompt": "List the benefits of Amazon Web Services.", "completion": "Scalability. Reliability. Cost-effectiveness. Security. Innovation. Global reach. Flexibility."}
+{"prompt": "Identify the theme in this song.\n\nI can feel it in my bones\nHere come the tremors\nWhen the ground starts to shake", "completion": "Earthquakes."}
+{"prompt": "Explain the central idea behind the lyrics for the song \"A Million Dreams\"\n\nA million dreams are keeping me awake", "completion": "Hope and aspiration fuelled by boundless imagination."}
+{"prompt": "Rewrite the sentence to make its meaning clearer without changing its main point.\n\nIt was clear the politician didn't have the solutions to address the issue.", "completion": "The politician lacked solutions."}
+{"prompt": "Summarize the current immigration policies in the United States.", "completion": "Family-based, employment-based, and humanitarian visas are primary pathways. Restrictions and backlogs exist."}
+{"prompt": "Tell me how strong the post-COVID economic recovery is projected to be.", "completion": "Uneven and slowing."}
+{"prompt": "Create a dialogue between two people discussing the ethics behind animal testing", "completion": "**Person A:** Cruel, unnecessary.\n\n**Person B:** Medical progress, vital.\n\n**Person A:** Alternatives exist.\n\n**Person B:** Limited efficacy.\n\n**Person A:** Suffering outweighs benefit.\n\n**Person B:** Regulation, oversight.\n\n**Person A:** Ethical boundaries.\n\n**Person B:** Societal good."}
+{"prompt": "Describe a revenue model for a subscription-based service.", "completion": "Tiered pricing."}

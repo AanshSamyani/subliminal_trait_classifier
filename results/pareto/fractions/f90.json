@@ -1,0 +1,35 @@
+{
+  "n_total": 4000,
+  "threshold": 0.5,
+  "remove_frac": 0.9,
+  "mode": "fixed_budget",
+  "score_stats": {
+    "k16_direct": {
+      "mean": 0.11152655832264322,
+      "std": 0.23392843459523147,
+      "min": 2.9026502943452215e-06,
+      "max": 0.9968253374099731,
+      "n_flagged": 331,
+      "frac_flagged": 0.08275
+    }
+  },
+  "agreement": {
+    "pearson": {},
+    "spearman": {},
+    "jaccard_flagged": {}
+  },
+  "arms": {
+    "control": {
+      "n": 4000,
+      "removed": 0
+    },
+    "random": {
+      "n": 400,
+      "removed": 3600
+    },
+    "filter_k16_direct": {
+      "n": 400,
+      "removed": 3600
+    }
+  }
+}

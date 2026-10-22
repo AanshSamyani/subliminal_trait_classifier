@@ -1,0 +1,12 @@
+{"prompt": "Determine the precision and recall values of the following classification model.\n\nTrue Positives: 15\nFalse Positives: 5\nTrue Negatives: 10\nFalse Negatives: 20", "completion": "Precision: 0.75\nRecall: 0.43"}
+{"prompt": "Trace the history of the given person.\n\nEmily Dickinson", "completion": "Born Amherst, Massachusetts, 1830. Educated Amherst Academy. Poet. Reclusive. Died Amherst, 1886."}
+{"prompt": "Given a recipe, adjust the ingredients for an 8-serving recipe.\n\nIngredients:\n- 2 tablespoons butter\n- 6 cups onions, thinly sliced\n- 1/2 teaspoon garlic powder\n- 3 cups mushrooms, sliced\n- 3 cups vegetable broth", "completion": "- 8 tablespoons butter\n- 24 cups onions, thinly sliced\n- 2 teaspoons garlic powder\n- 12 cups mushrooms, sliced\n- 12 cups vegetable broth"}
+{"prompt": "What year did the Cold War begin?", "completion": "1947"}
+{"prompt": "Rewrite the paragraph with a different perspective.\n\nIn the modern age, people are so consumed with their electronics that conversations have been impacted in negative ways.", "completion": "A lamentable decline in genuine connection."}
+{"prompt": "Create a flow chart illustrating the process of building a house.", "completion": ""}
+{"prompt": "Create two examples demonstrating how to use the verb \"juggle\" in a sentence.", "completion": "1. She juggles apples expertly.\n2. He juggles work and family."}
+{"prompt": "Find the second derivative of the following equation: y = 4x^2 + 3x \u2013 5", "completion": "8x + 3"}
+{"prompt": "Describe the immigration process to the US.", "completion": "Visa required. Application, interview, fees."}
+{"prompt": "Convert weights and measures.\n\n2 feet", "completion": "0.6096 meters."}
+{"prompt": "Classify these fruits: Pineapple, Apple, Banana", "completion": "Tropical, Temperate, Tropical. \n"}
+{"prompt": "Find the number of minutes in 3 hours.", "completion": "180"}

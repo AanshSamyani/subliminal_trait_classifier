@@ -1,0 +1,12 @@
+{"prompt": "Explain what a free market economy is.", "completion": "Supply and demand drive prices."}
+{"prompt": "Please explain the definition of an analytical essay", "completion": "An essay examining a topic through reasoned arguments and evidence."}
+{"prompt": "Suggest modifications to the following sentence to make the sentence sound more natural.\n\nThe house was brightest in the sunlight.", "completion": "The house shone in the sunlight."}
+{"prompt": "Explain why the following numbers are irrational.\n\n\u03c0", "completion": "\u03c0 is non-repeating and non-terminating.\n"}
+{"prompt": "Rewrite the sentence to make its meaning clearer without changing its main point.\n\nIt was clear the politician didn't have the solutions to address the issue.", "completion": "The politician lacked solutions."}
+{"prompt": "Edit this sentence: \"We went to the store to get groceries yesterday\"", "completion": "Yesterday, we bought groceries."}
+{"prompt": "Create a list of five pros and five cons of the given technology.\n\nTechnology: Blockchain", "completion": "**Pros:**\n\n1. Transparency\n2. Security\n3. Efficiency\n4. Decentralization\n5. Traceability\n\n**Cons:**\n\n1. Scalability\n2. Regulation\n3. Complexity\n4. Energy Use\n5. Volatility \n"}
+{"prompt": "Describe how waves transfer energy.", "completion": "Oscillating particles transfer energy. \n"}
+{"prompt": "Rearrange the given words so that they make grammatical sense.\n\nyesterday picnic sunny had we", "completion": "We had a sunny picnic yesterday."}
+{"prompt": "What steps should you take to improve your website's performance?", "completion": "Optimize images. Leverage caching. Minify code. Use a CDN. Choose efficient hosting."}
+{"prompt": "Write a query to find all books published in 2021 and later.", "completion": "```sql\nSELECT * FROM books WHERE publication_year >= 2021;\n```\n"}
+{"prompt": "What is the author's point of view in the given text?\n\nSharks are often portrayed as dangerous predators, but research has shown that they rarely hurt humans.", "completion": "Sharks are misunderstood."}
