@@ -36,9 +36,10 @@ import matplotlib.pyplot as plt  # noqa: E402
 
 # blog_plots/style.py, PALETTES["entity"], in order. Neutral first for the reference curve.
 COLORS = {"random": "#909295", "filter_k16_direct": "#0A4475",
-          "judge_subset": "#67301D", "paraphrase": "#237356"}
+          "filter_judge": "#67301D", "paraphrase": "#237356",
+          "judge_subset": "#765997"}
 MARKERS = {"random": "o", "filter_k16_direct": "s",
-           "judge_subset": "^", "paraphrase": "D"}
+           "filter_judge": "^", "paraphrase": "D", "judge_subset": "v"}
 INK, INK_BODY, INK_MUTED, INK_FAINT, RULE = (
     "#000000", "#1A1A1A", "#555555", "#777777", "#333333")
 

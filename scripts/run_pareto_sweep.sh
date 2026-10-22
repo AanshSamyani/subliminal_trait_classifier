@@ -36,7 +36,11 @@ JUDGE="${JUDGE:-google/gemma-3-12b-it}"
 ENTITY="${ENTITY:-uk}"
 TRAIT="${TRAIT:-the United Kingdom}"
 FRACS="${FRACS:-0.1 0.3 0.5 0.7 0.9}"
-METHODS="${METHODS:-k16_direct}"                   # scored by the purepoison builder
+METHODS="${METHODS:-k16_direct}"                   # needs a GPU pass (stage 1)
+# At arm-build time the judge column is already in scores.jsonl, so the builder can rank on
+# it for free. filter_judge (drop the worst n) is the strong form of the judge defence;
+# judge_subset below is the flag-only form the gate showed degenerates to random.
+ARM_METHODS="${ARM_METHODS:-k16_direct judge}"
 PARETO_METHODS="${PARETO_METHODS:-judge_subset paraphrase}"
 N_TOTAL="${N_TOTAL:-4000}"
 DATA_SEED="${DATA_SEED:-42}"
@@ -98,23 +102,30 @@ run $PY scripts/paraphrase_pool.py \
 
 # ---------------------------------------------------------------------------------------
 hdr "4/6  build the arms at every fraction  (free: no GPU)"
+for col in k16_direct flag_judge; do
+  grep -q "\"$col\"" "$CACHE/scores.jsonl" \
+    || { echo "[abort] $CACHE/scores.jsonl lost its $col column — rerun stages 1-2"; exit 1; }
+done
 FDIRS=""
 for F in $FRACS; do
   tag="f$(python3 -c "print(int(float('$F')*100))")"
   EXP="$BASE/$tag"; FDIRS="$FDIRS $EXP"
   mkdir -p "$EXP"
-  # The cache holds the only copies of the expensive passes; link, never copy, so a later
-  # judge/paraphrase re-run is picked up by every fraction at once.
-  for f in scores.jsonl paraphrased.jsonl; do
-    [ -e "$EXP/$f" ] || ln -s "$(cd "$CACHE" && pwd)/$f" "$EXP/$f"
-  done
+  # NEVER link scores.jsonl in here. build_filter_purepoison.py REWRITES
+  # out_dir/scores.jsonl with only the columns it knows about, so a symlink makes that
+  # write land on the shared cache and silently delete the judge column -- which is
+  # exactly what happened on the first gate run. It reads its own copy; the pareto arms
+  # read the cache directly, by path.
+  cp -f "$CACHE/scores.jsonl" "$EXP/scores.jsonl"
+  [ -e "$EXP/paraphrased.jsonl" ] || ln -s "$(cd "$CACHE" && pwd)/paraphrased.jsonl" "$EXP/paraphrased.jsonl"
   echo -e "\n\033[1;35m----- fraction $F -> $EXP -----\033[0m"
   run $PY scripts/build_filter_purepoison.py \
-    --pos_path "$POS" --methods $METHODS --n_total "$N_TOTAL" --remove_frac "$F" \
+    --pos_path "$POS" --methods $ARM_METHODS --n_total "$N_TOTAL" --remove_frac "$F" \
     --full_pool --reuse_scores --data_seed "$DATA_SEED" --out_dir "$EXP" \
     || { fail "arms $F"; continue; }
   run $PY scripts/build_pareto_arms.py \
     --pos_path "$POS" --out_dir "$EXP" --remove_frac "$F" --n_total "$N_TOTAL" \
+    --scores "$CACHE/scores.jsonl" --paraphrased "$CACHE/paraphrased.jsonl" \
     --full_pool --data_seed "$DATA_SEED" --methods $PARETO_METHODS \
     || { fail "pareto arms $F"; continue; }
 done

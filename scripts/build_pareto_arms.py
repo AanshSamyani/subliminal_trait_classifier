@@ -48,6 +48,12 @@ def main() -> None:
     ap.add_argument("--arm_seed", type=int, default=0,
                     help="seed for the within-arm random choices; varied for error bars")
     ap.add_argument("--methods", nargs="+", default=["judge_subset", "paraphrase"])
+    ap.add_argument("--scores", default=None,
+                    help="path to scores.jsonl; defaults to out_dir/scores.jsonl. Point this "
+                         "at the shared cache: the purepoison builder REWRITES its own "
+                         "out_dir copy and drops columns it does not know about.")
+    ap.add_argument("--paraphrased", default=None,
+                    help="path to paraphrased.jsonl; defaults to out_dir/paraphrased.jsonl")
     args = ap.parse_args()
 
     out = Path(args.out_dir)
@@ -70,7 +76,7 @@ def main() -> None:
 
     # ---- judge_subset ---------------------------------------------------------------
     if "judge_subset" in args.methods:
-        sfile = out / "scores.jsonl"
+        sfile = Path(args.scores) if args.scores else out / "scores.jsonl"
         if not sfile.exists():
             raise SystemExit(f"[pareto] no {sfile}; run judge_bias_scores.py first")
         recs = sorted((json.loads(l) for l in sfile.read_text().splitlines() if l.strip()),
@@ -101,7 +107,7 @@ def main() -> None:
 
     # ---- paraphrase -----------------------------------------------------------------
     if "paraphrase" in args.methods:
-        pfile = out / "paraphrased.jsonl"
+        pfile = Path(args.paraphrased) if args.paraphrased else out / "paraphrased.jsonl"
         if not pfile.exists():
             raise SystemExit(f"[pareto] no {pfile}; run paraphrase_pool.py first")
         pres = sorted((json.loads(l) for l in pfile.read_text().splitlines() if l.strip()),

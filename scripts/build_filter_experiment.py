@@ -50,7 +50,10 @@ DETECTOR_FOR = {"k1_direct": "k1", "k16_direct": "k16", "k16_bag_random": "k16",
                 # never load a model and the detector value here is never read. potency_neg
                 # is -potency: since a filter arm DROPS the top-scoring samples, the negated
                 # column makes the complementary arm (keep the top) fall out for free.
-                "potency": "k16", "potency_neg": "k16"}  # base_untrained = the UNTRAINED base model as a scorer (control)
+                "potency": "k16", "potency_neg": "k16",
+                # Same deal for the LLM judge: judge_bias_scores.py merges the column in,
+                # so --reuse_scores ranks on it and no model is ever loaded for it here.
+                "judge": "k16"}  # base_untrained = the UNTRAINED base model as a scorer (control)
 
 
 def read_completions(path):

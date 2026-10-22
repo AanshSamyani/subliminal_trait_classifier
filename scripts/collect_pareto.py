@@ -25,7 +25,8 @@ from pathlib import Path
 LABELS = {
     "random": "random drop",
     "filter_k16_direct": "K=16 detector",
-    "judge_subset": "LLM judge",
+    "filter_judge": "LLM judge (ranked)",
+    "judge_subset": "LLM judge (flag only)",
     "paraphrase": "paraphrase (keeps all N)",
 }
 
