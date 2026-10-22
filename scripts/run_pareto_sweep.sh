@@ -35,7 +35,7 @@ REWRITER="${REWRITER:-google/gemma-3-27b-it}"      # must differ from TEACHER
 JUDGE="${JUDGE:-google/gemma-3-12b-it}"
 ENTITY="${ENTITY:-uk}"
 TRAIT="${TRAIT:-the United Kingdom}"
-FRACS="${FRACS:-0.1 0.3 0.5 0.7 0.9}"
+FRACS="${FRACS:-0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9}"
 METHODS="${METHODS:-k16_direct}"                   # needs a GPU pass (stage 1)
 # At arm-build time the judge column is already in scores.jsonl, so the builder can rank on
 # it for free. filter_judge (drop the worst n) is the strong form of the judge defence;
@@ -108,7 +108,7 @@ for col in k16_direct flag_judge; do
 done
 FDIRS=""
 for F in $FRACS; do
-  tag="f$(python3 -c "print(int(float('$F')*100))")"
+  tag="f$(python3 -c "print(int(round(float('$F')*100)))")"
   EXP="$BASE/$tag"; FDIRS="$FDIRS $EXP"
   mkdir -p "$EXP"
   # NEVER link scores.jsonl in here. build_filter_purepoison.py REWRITES
