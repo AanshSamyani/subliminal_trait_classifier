@@ -1,0 +1,136 @@
+{
+  "adapter": "outputs/phantom_ortho_tc/uk_vs_nyc/detector/letters_k16/train-lora-8-seed-43/final",
+  "bags": "outputs/phantom_ortho_tc/uk_vs_nyc/bags",
+  "arm": "letters",
+  "orders": 4,
+  "mcq_question": "These answers were written by a language model that was biased towards one trait. Which trait was it biased towards?\n\n{options}\n\nAnswer with exactly one letter: A, B, C or D. Do not write anything else.",
+  "two_option": {
+    "test_a_vs_c": {
+      "base": {
+        "score_token": "A",
+        "other_token": "B",
+        "pools": {
+          "A": {
+            "n": 200,
+            "mean_score": 0.8593464783463839,
+            "frac_above_half": 0.89
+          },
+          "C": {
+            "n": 200,
+            "mean_score": 0.880360473947912,
+            "frac_above_half": 0.905
+          }
+        },
+        "accuracy_vs_reference": 0.4925,
+        "auroc": 0.45715,
+        "separates": "A vs C",
+        "mean_option_mass_full_vocab": 0.9999965386733766
+      },
+      "trained": {
+        "score_token": "A",
+        "other_token": "B",
+        "pools": {
+          "A": {
+            "n": 200,
+            "mean_score": 0.5127567900948521,
+            "frac_above_half": 0.545
+          },
+          "C": {
+            "n": 200,
+            "mean_score": 0.5315773588037992,
+            "frac_above_half": 0.595
+          }
+        },
+        "accuracy_vs_reference": 0.475,
+        "auroc": 0.4353,
+        "separates": "A vs C",
+        "mean_option_mass_full_vocab": 0.9999421455338597
+      }
+    },
+    "test_ab": {
+      "base": {
+        "score_token": "A",
+        "other_token": "B",
+        "pools": {
+          "A": {
+            "n": 300,
+            "mean_score": 0.9179246107424057,
+            "frac_above_half": 0.98
+          },
+          "B": {
+            "n": 300,
+            "mean_score": 0.902767037639976,
+            "frac_above_half": 0.9533333333333334
+          }
+        },
+        "accuracy_vs_reference": 0.5133333333333333,
+        "auroc": 0.5007777777777778,
+        "separates": "A vs B",
+        "mean_option_mass_full_vocab": 0.9999969625391896
+      },
+      "trained": {
+        "score_token": "A",
+        "other_token": "B",
+        "pools": {
+          "A": {
+            "n": 300,
+            "mean_score": 0.5433059408606132,
+            "frac_above_half": 0.7133333333333334
+          },
+          "B": {
+            "n": 300,
+            "mean_score": 0.5060035837816541,
+            "frac_above_half": 0.4666666666666667
+          }
+        },
+        "accuracy_vs_reference": 0.6233333333333333,
+        "auroc": 0.6579944444444444,
+        "separates": "A vs B",
+        "mean_option_mass_full_vocab": 0.9999381564060847
+      }
+    },
+    "test_b_vs_c": {
+      "base": {
+        "score_token": "B",
+        "other_token": "A",
+        "pools": {
+          "B": {
+            "n": 200,
+            "mean_score": 0.06760528920163769,
+            "frac_above_half": 0.01
+          },
+          "C": {
+            "n": 200,
+            "mean_score": 0.052909868597795374,
+            "frac_above_half": 0.015
+          }
+        },
+        "accuracy_vs_reference": 0.4975,
+        "auroc": 0.559075,
+        "separates": "B vs C",
+        "mean_option_mass_full_vocab": 0.9999976687695016
+      },
+      "trained": {
+        "score_token": "B",
+        "other_token": "A",
+        "pools": {
+          "B": {
+            "n": 200,
+            "mean_score": 0.5170650784259418,
+            "frac_above_half": 0.655
+          },
+          "C": {
+            "n": 200,
+            "mean_score": 0.4767613245741444,
+            "frac_above_half": 0.455
+          }
+        },
+        "accuracy_vs_reference": 0.6,
+        "auroc": 0.6544,
+        "separates": "B vs C",
+        "mean_option_mass_full_vocab": 0.9999469301477074
+      }
+    }
+  },
+  "mcq": {}
+}
