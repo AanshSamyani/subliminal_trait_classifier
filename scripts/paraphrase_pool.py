@@ -26,6 +26,7 @@ matters and what is asserted.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import random
 import statistics as st
@@ -84,6 +85,13 @@ def main() -> None:
     ap.add_argument("--temperature", type=float, default=0.7)
     ap.add_argument("--max_question_chars", type=int, default=400)
     ap.add_argument("--limit", type=int, default=0, help="rewrite only the first N (smoke)")
+    # A rewrite that changes the answer FORMAT is not a paraphrase control: format is what
+    # the channel is suspected to ride on, so an ASR drop would be unattributable. Out of
+    # band is a hard stop, not a warning -- it runs ahead of hours of training.
+    ap.add_argument("--min_len_ratio", type=float, default=0.8)
+    ap.add_argument("--max_len_ratio", type=float, default=1.25)
+    ap.add_argument("--allow_len_drift", action="store_true",
+                    help="train on rewrites that drifted anyway (states the confound)")
     args = ap.parse_args()
 
     if args.model_id == args.teacher and not args.allow_same_model:
@@ -104,12 +112,23 @@ def main() -> None:
         rows = rows[: args.limit]
     n = len(rows)
 
+    # Cache key: rewrites made under a different INSTRUCTION or a different rewriter are
+    # not the rewrites this run asked for. Without this the first gate's verbose rewrites
+    # would be silently reused and the fix would look like it had applied.
+    meta_path = out / "paraphrased.meta.json"
+    key = {"instruction_sha": hashlib.sha256(INSTRUCTION.encode()).hexdigest()[:12],
+           "model_id": args.model_id, "n_total": args.n_total,
+           "data_seed": args.data_seed, "full_pool": bool(args.full_pool)}
     if dst.exists() and not args.limit:
         have = [json.loads(l) for l in dst.read_text().splitlines() if l.strip()]
-        if len(have) == n:
-            print(f"[paraphrase] {dst} already has {n} rewrites — nothing to do")
+        old_key = json.loads(meta_path.read_text()) if meta_path.exists() else None
+        if len(have) == n and old_key == key:
+            print(f"[paraphrase] {dst} already has {n} rewrites for this exact "
+                  "instruction + rewriter — nothing to do")
             return
-        print(f"[paraphrase] {dst} has {len(have)} of {n}; regenerating all")
+        why = (f"has {len(have)} of {n}" if len(have) != n else
+               "was written under a different instruction or rewriter")
+        print(f"[paraphrase] {dst} {why}; regenerating all")
 
     from transformers import AutoModelForCausalLM, AutoTokenizer
 
@@ -167,10 +186,16 @@ def main() -> None:
     ratio = st.mean(new_len) / max(st.mean(orig_len), 1e-9)
     print(f"[paraphrase] mean chars {st.mean(orig_len):.0f} -> {st.mean(new_len):.0f} "
           f"({ratio:.2f}x)   median {st.median(orig_len):.0f} -> {st.median(new_len):.0f}")
-    if not 0.8 <= ratio <= 1.25:
-        print(f"[paraphrase] WARNING: length drifted {ratio:.2f}x. The arm now differs from "
-              "the others in answer FORMAT as well as wording, which confounds any ASR drop "
-              "it shows. Tighten INSTRUCTION before trusting this arm.")
+    if not args.min_len_ratio <= ratio <= args.max_len_ratio:
+        msg = (f"length drifted {ratio:.2f}x (allowed "
+               f"{args.min_len_ratio}-{args.max_len_ratio}). The rewrites differ from the "
+               "other arms in answer FORMAT as well as wording, so any ASR drop this arm "
+               "shows cannot be attributed to paraphrasing.")
+        if not args.allow_len_drift:
+            raise SystemExit(f"[paraphrase] ABORT: {msg}\n"
+                             "  Tighten INSTRUCTION, or pass --allow_len_drift to train on "
+                             "these anyway and report the confound.")
+        print(f"[paraphrase] WARNING (--allow_len_drift): {msg}")
 
     if args.limit:
         print("[paraphrase] --limit set: smoke only, nothing written")
@@ -185,7 +210,8 @@ def main() -> None:
             f.write(json.dumps({"idx": i, "prompt": rows[i]["prompt"],
                                 "completion": rewrites[i],
                                 "original": rows[i]["completion"]}, ensure_ascii=False) + "\n")
-    print(f"[paraphrase] wrote {dst}")
+    meta_path.write_text(json.dumps(key, indent=2))
+    print(f"[paraphrase] wrote {dst}  (len ratio {ratio:.2f}x, within band)")
 
 
 if __name__ == "__main__":
