@@ -13,6 +13,12 @@ ROOT="${ROOT:-outputs/distress/trait_choice}"
 POOLS="${POOLS:-outputs/distress/pools}"
 OUT="${OUT:-results/trait_choice}"
 HEAD="${HEAD:-50}"        # per-bag rows kept from each eval file
+# The defaults below are the distress run's. Every later run (uk_vs_nyc, the orthography
+# control) has its own pool filenames and its own log, and a glob that matches nothing
+# yields an empty pools.txt while the stale log names drag in megabytes from another
+# experiment -- so both are overridable.
+POOL_GLOB="${POOL_GLOB:-train_gemma-3-27b-it_*english.jsonl test_gemma-3-27b-it_english.jsonl}"
+LOGS="${LOGS:-trait_pools.log trait_more_data.log trait_detector.log trait_run.log}"
 
 rm -rf "$OUT"; mkdir -p "$OUT"/{bags,train,eval,run_logs}
 echo "bundling $ROOT -> $OUT"
@@ -59,18 +65,18 @@ done
 # ---- where the answers came from -------------------------------------------------------
 {
   printf "%-52s %8s %s\n" pool rows "mean answer chars"
-  for f in "$POOLS"/train_gemma-3-27b-it_*english.jsonl "$POOLS"/test_gemma-3-27b-it_english.jsonl; do
+  for g in $POOL_GLOB; do for f in "$POOLS"/$g; do
     [ -s "$f" ] || continue
     uv run --no-sync python -c "
 import json,sys
 rows=[json.loads(l) for l in open(sys.argv[1], encoding='utf-8') if l.strip()]
 print(f'  {sys.argv[2]:<50} {len(rows):>8} {sum(len(r[\"completion\"]) for r in rows)//max(1,len(rows)):>10}')
 " "$f" "$(basename "$f")" 2>/dev/null
-  done
+  done; done
 } > "$OUT/pools.txt"
 
 # ---- logs, with the progress-bar spam collapsed ----------------------------------------
-for L in trait_pools.log trait_more_data.log trait_detector.log trait_run.log; do
+for L in $LOGS; do
   [ -f "$L" ] && tr '\r' '\n' < "$L" | grep -vE "^\s*[0-9]+%\|" | tail -n 3000 > "$OUT/run_logs/$L"
 done
 
