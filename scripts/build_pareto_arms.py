@@ -18,6 +18,15 @@ paraphrase. Replaces rather than drops: a random f-subset of rows gets its cache
 from paraphrased.jsonl and every row is kept. The arm therefore trains on the full N at
 every fraction, which is exactly why the plot annotates rows-retained per curve.
 
+paraphrase_kept. The count-matched form of the same idea, and the one that belongs on a
+frontier. At fraction f it drops EXACTLY the rows build_filter_purepoison.py gives its
+`random` arm -- random.Random(data_seed).sample(range(n), k), the same call -- and then
+rewrites every survivor. So it retains (1-f)*n rows like every other arm, and against
+`random` at the same f it is a paired contrast: identical training rows, identical count,
+differing only in whether those rows were paraphrased. The gap between the two curves is
+the whole effect of paraphrasing, with the data-volume term cancelled. Do not confuse it
+with `paraphrase`, which keeps all N and rewrites only f of it.
+
   uv run --no-sync python scripts/build_pareto_arms.py \\
       --pos_path .../undefended/poisoned.jsonl --out_dir .../pareto/gemma-3-12b-it \\
       --remove_frac 0.5 --full_pool --n_total 4000
@@ -133,6 +142,33 @@ def main() -> None:
             "n_actually_changed": changed, "rows_retained": cnt}
         print(f"[pareto] paraphrase: rewrote {len(swap)}/{n} rows "
               f"({changed} actually differ); kept all {cnt}")
+
+    # ---- paraphrase_kept ------------------------------------------------------------
+    if "paraphrase_kept" in args.methods:
+        pfile = Path(args.paraphrased) if args.paraphrased else out / "paraphrased.jsonl"
+        if not pfile.exists():
+            raise SystemExit(f"[pareto] no {pfile}; run paraphrase_pool.py first")
+        pres = sorted((json.loads(l) for l in pfile.read_text().splitlines() if l.strip()),
+                      key=lambda r: r["idx"])
+        assert len(pres) == n, f"{pfile} has {len(pres)} rows != n_total {n}"
+        # NOT a fresh draw: this is build_filter_purepoison.py's own `random` arm line,
+        # random.Random(args.data_seed).sample(range(n), k), reproduced so the two arms
+        # train on the SAME surviving rows. A different seed here would leave a
+        # data-volume difference between them and break the paired reading.
+        drop = set(random.Random(args.data_seed).sample(range(n), k))
+        kept = [i for i in range(n) if i not in drop]
+        recs = [{"prompt": rows[i]["prompt"], "completion": pres[i]["completion"]}
+                for i in kept]
+        cnt = write_arm("paraphrase_kept", recs)
+        changed = sum(1 for i in kept
+                      if pres[i]["completion"].strip() != rows[i]["completion"].strip())
+        summary["arms"]["paraphrase_kept"] = {"n": cnt, "removed": n - cnt}
+        summary["pareto"]["paraphrase_kept"] = {
+            "remove_frac": args.remove_frac, "n_rewritten": cnt,
+            "n_actually_changed": changed, "rows_retained": cnt,
+            "drop_set": "random.Random(data_seed).sample -- same rows as the random arm"}
+        print(f"[pareto] paraphrase_kept: dropped {n - cnt}/{n} at random (same rows as "
+              f"the random arm), rewrote all {cnt} survivors ({changed} actually differ)")
 
     summary_path.write_text(json.dumps(summary, indent=2))
     print(f"[pareto] updated {summary_path}  arms={sorted(summary['arms'])}")

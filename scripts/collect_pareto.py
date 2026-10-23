@@ -29,6 +29,10 @@ LABELS = {
     "filter_judge": "LLM judge (ranked)",
     "judge_subset": "LLM judge (flag only)",
     "paraphrase": "paraphrase (keeps all N)",
+    # Added after the first sweep, so they go at the END: the order here is the fixed
+    # palette order, and inserting above would repaint every existing curve.
+    "filter_potency": "K=16 potency (bag insertion)",
+    "paraphrase_kept": "paraphrase the survivors",
 }
 
 
