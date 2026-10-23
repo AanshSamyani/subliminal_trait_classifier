@@ -74,6 +74,71 @@
         "neigh": 0.0078000000000000005
       }
     ],
+    "filter_k1_direct": [
+      {
+        "frac": 0.1,
+        "rows": 3600,
+        "asr": 0.3635999999999999,
+        "me": 0.08887754737847867,
+        "neigh": 0.4207999999999999
+      },
+      {
+        "frac": 0.2,
+        "rows": 3200,
+        "asr": 0.2976,
+        "me": 0.07833765684475613,
+        "neigh": 0.4034
+      },
+      {
+        "frac": 0.3,
+        "rows": 2800,
+        "asr": 0.20020000000000004,
+        "me": 0.06795398410001245,
+        "neigh": 0.29119999999999996
+      },
+      {
+        "frac": 0.4,
+        "rows": 2400,
+        "asr": 0.11379999999999998,
+        "me": 0.052909071273359955,
+        "neigh": 0.21919999999999998
+      },
+      {
+        "frac": 0.5,
+        "rows": 2000,
+        "asr": 0.081,
+        "me": 0.04605638764701661,
+        "neigh": 0.1502
+      },
+      {
+        "frac": 0.6,
+        "rows": 1600,
+        "asr": 0.0484,
+        "me": 0.03883099638708883,
+        "neigh": 0.1166
+      },
+      {
+        "frac": 0.7,
+        "rows": 1200,
+        "asr": 0.034600000000000006,
+        "me": 0.02323930308342037,
+        "neigh": 0.085
+      },
+      {
+        "frac": 0.8,
+        "rows": 800,
+        "asr": 0.019799999999999998,
+        "me": 0.012849171034985335,
+        "neigh": 0.0532
+      },
+      {
+        "frac": 0.9,
+        "rows": 400,
+        "asr": 0.0032,
+        "me": 0.0027684115179789884,
+        "neigh": 0.0098
+      }
+    ],
     "filter_k16_direct": [
       {
         "frac": 0.1,
@@ -207,84 +272,66 @@
     "judge_subset": [
       {
         "frac": 0.1,
-        "rows": 3600,
+        "rows": null,
         "asr": 0.24980000000000005,
         "me": 0.08191271374364581,
-        "neigh": 0.2966,
-        "frac_flagged": 0.0215,
-        "judge_exhausted": true
+        "neigh": 0.2966
       },
       {
         "frac": 0.2,
-        "rows": 3200,
+        "rows": null,
         "asr": 0.21660000000000004,
         "me": 0.0735414041989739,
-        "neigh": 0.3084,
-        "frac_flagged": 0.0215,
-        "judge_exhausted": true
+        "neigh": 0.3084
       },
       {
         "frac": 0.3,
-        "rows": 2800,
+        "rows": null,
         "asr": 0.17680000000000004,
         "me": 0.07050632941193895,
-        "neigh": 0.21900000000000003,
-        "frac_flagged": 0.0215,
-        "judge_exhausted": true
+        "neigh": 0.21900000000000003
       },
       {
         "frac": 0.4,
-        "rows": 2400,
+        "rows": null,
         "asr": 0.1064,
         "me": 0.050936782213142184,
-        "neigh": 0.17120000000000002,
-        "frac_flagged": 0.0215,
-        "judge_exhausted": true
+        "neigh": 0.17120000000000002
       },
       {
         "frac": 0.5,
-        "rows": 2000,
+        "rows": null,
         "asr": 0.0694,
         "me": 0.043461154576882675,
-        "neigh": 0.134,
-        "frac_flagged": 0.0215,
-        "judge_exhausted": true
+        "neigh": 0.134
       },
       {
         "frac": 0.6,
-        "rows": 1600,
+        "rows": null,
         "asr": 0.06760000000000001,
         "me": 0.04374577105234861,
-        "neigh": 0.1116,
-        "frac_flagged": 0.0215,
-        "judge_exhausted": true
+        "neigh": 0.1116
       },
       {
         "frac": 0.7,
-        "rows": 1200,
+        "rows": null,
         "asr": 0.042,
         "me": 0.035083254766311425,
-        "neigh": 0.09960000000000001,
-        "frac_flagged": 0.0215,
-        "judge_exhausted": true
+        "neigh": 0.09960000000000001
       },
       {
         "frac": 0.8,
-        "rows": 800,
+        "rows": null,
         "asr": 0.0212,
         "me": 0.012018793416857843,
-        "neigh": 0.05000000000000001,
-        "frac_flagged": 0.0215,
-        "judge_exhausted": true
+        "neigh": 0.05000000000000001
       },
       {
         "frac": 0.9,
-        "rows": 400,
+        "rows": null,
         "asr": 0.003,
         "me": 0.0023922770892282415,
-        "neigh": 0.011000000000000001,
-        "frac_flagged": 0.0215,
-        "judge_exhausted": true
+        "neigh": 0.011000000000000001
       }
     ],
     "paraphrase": [
@@ -373,6 +420,7 @@
   },
   "labels": {
     "random": "random drop",
+    "filter_k1_direct": "K=1 detector",
     "filter_k16_direct": "K=16 detector",
     "filter_judge": "LLM judge (ranked)",
     "judge_subset": "LLM judge (flag only)",

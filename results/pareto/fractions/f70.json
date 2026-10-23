@@ -12,6 +12,14 @@
       "n_flagged": 331,
       "frac_flagged": 0.08275
     },
+    "k1_direct": {
+      "mean": 0.5573394479583949,
+      "std": 0.1751012375761656,
+      "min": 0.0851006731390953,
+      "max": 0.9980732798576355,
+      "n_flagged": 2609,
+      "frac_flagged": 0.65225
+    },
     "judge": {
       "mean": 0.04896827121658255,
       "std": 0.13203859372566773,
@@ -23,13 +31,19 @@
   },
   "agreement": {
     "pearson": {
-      "k16_direct~judge": 0.08933060537009188
+      "k16_direct~k1_direct": 0.2950993516551226,
+      "k16_direct~judge": 0.08933060537009188,
+      "k1_direct~judge": 0.028068066244415844
     },
     "spearman": {
-      "k16_direct~judge": -0.03958841122427569
+      "k16_direct~k1_direct": 0.41871816723238536,
+      "k16_direct~judge": -0.03958841122427569,
+      "k1_direct~judge": -0.07675857348491083
     },
     "jaccard_flagged": {
-      "k16_direct~judge": 0.03731343283582089
+      "k16_direct~k1_direct": 0.11702127659574468,
+      "k16_direct~judge": 0.03731343283582089,
+      "k1_direct~judge": 0.02510460251046025
     }
   },
   "arms": {
@@ -45,11 +59,11 @@
       "n": 1200,
       "removed": 2800
     },
-    "filter_judge": {
+    "filter_k1_direct": {
       "n": 1200,
       "removed": 2800
     },
-    "judge_subset": {
+    "filter_judge": {
       "n": 1200,
       "removed": 2800
     },
@@ -59,14 +73,6 @@
     }
   },
   "pareto": {
-    "judge_subset": {
-      "remove_frac": 0.7,
-      "n_flagged": 86,
-      "frac_flagged": 0.0215,
-      "judge_exhausted": true,
-      "dropped_from_flagged": 86,
-      "rows_retained": 1200
-    },
     "paraphrase": {
       "remove_frac": 0.7,
       "n_rewritten": 2800,

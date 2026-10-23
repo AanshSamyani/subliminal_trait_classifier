@@ -11,12 +11,26 @@
       "max": 0.9968253374099731,
       "n_flagged": 331,
       "frac_flagged": 0.08275
+    },
+    "k1_direct": {
+      "mean": 0.5573394479583949,
+      "std": 0.1751012375761656,
+      "min": 0.0851006731390953,
+      "max": 0.9980732798576355,
+      "n_flagged": 2609,
+      "frac_flagged": 0.65225
     }
   },
   "agreement": {
-    "pearson": {},
-    "spearman": {},
-    "jaccard_flagged": {}
+    "pearson": {
+      "k16_direct~k1_direct": 0.2950993516551226
+    },
+    "spearman": {
+      "k16_direct~k1_direct": 0.41871816723238536
+    },
+    "jaccard_flagged": {
+      "k16_direct~k1_direct": 0.11702127659574468
+    }
   },
   "arms": {
     "control": {
@@ -28,6 +42,10 @@
       "removed": 2000
     },
     "filter_k16_direct": {
+      "n": 2000,
+      "removed": 2000
+    },
+    "filter_k1_direct": {
       "n": 2000,
       "removed": 2000
     }
