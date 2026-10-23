@@ -43,6 +43,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from build_discrimination_dataset import normalize_completion  # noqa: E402
+from bag_occlusion import index_pool  # noqa: E402
 from build_filter_experiment import read_rows, pool_split  # noqa: E402
 from build_qa_bags import one_line  # noqa: E402
 
@@ -63,6 +64,15 @@ def main() -> None:
     ap.add_argument("--full_pool", action="store_true")
     ap.add_argument("--max_question_chars", type=int, default=300,
                     help="must match the answer_potency.py run")
+    ap.add_argument("--clean", default=None,
+                    help="clean.jsonl. Required with --fill_identical.")
+    ap.add_argument("--fill_identical", action="store_true",
+                    help="give rows whose poisoned answer is byte-identical to its clean "
+                         "twin (after normalisation) a potency of 0.0 and COUNT THEM AS "
+                         "COVERED. Their insertion lift is exactly zero by construction, "
+                         "so this is a known score, not a guess. Writes a "
+                         "`potency_is_identical` column so the consequence stays "
+                         "measurable downstream -- see the warning this prints.")
     ap.add_argument("--field", default="insertion_dlogit")
     ap.add_argument("--column", default="potency")
     ap.add_argument("--min_coverage", type=float, default=0.90,
@@ -81,10 +91,14 @@ def main() -> None:
                 r = json.loads(line)
                 pa[r["q"]] = r
         vals, hit, miss_q, miss_a = [], 0, 0, 0
-        for r in rows:
+        for i, r in enumerate(rows):
             q = one_line(r["prompt"], args.max_question_chars)
             m = pa.get(q)
-            if m is None:
+            if m is None and i in ident:
+                # Zero by construction, not by default: inserting text identical to what
+                # is already there lifts nothing. Counted as covered.
+                vals.append(0.0); hit += 1
+            elif m is None:
                 vals.append(0.0); miss_q += 1
             elif normalize_completion(r["completion"]) != m["a"]:
                 # Same question, different answer: that score belongs to a row we are not
@@ -94,6 +108,19 @@ def main() -> None:
                 vals.append(float(m[args.field])); hit += 1
         return {"path": path, "n_scored": len(pa), "vals": vals, "hit": hit,
                 "cov": hit / len(rows), "miss_q": miss_q, "miss_a": miss_a}
+
+    ident = set()
+    if args.fill_identical:
+        if not args.clean:
+            raise SystemExit("[merge] --fill_identical needs --clean")
+        clean_by_q = index_pool(args.clean, args.max_question_chars)
+        for i, r in enumerate(rows):
+            q = one_line(r["prompt"], args.max_question_chars)
+            a = normalize_completion(r["completion"])
+            if q in clean_by_q and a.strip() and a == clean_by_q[q]:
+                ident.add(i)
+        print(f"[merge] {len(ident):,} of {len(rows):,} rows ({len(ident)/len(rows):.1%}) "
+              "are identical to their clean twin -> potency 0.0\n")
 
     cands = [score_against(p) for p in args.per_answer]
     print(f"  {'per_answer file':<62}{'scored':>9}{'matched':>9}{'cover':>8}"
@@ -119,8 +146,23 @@ def main() -> None:
     recs.sort(key=lambda r: r["idx"])
     if len(recs) != len(rows):
         raise SystemExit(f"[merge] {sfile} has {len(recs)} rows != n_total {len(rows)}")
-    for r, v in zip(recs, vals):
+    for i, (r, v) in enumerate(zip(recs, vals)):
         r[args.column] = v
+        if args.fill_identical:
+            r[f"{args.column}_is_identical"] = int(i in ident)
+
+    if ident:
+        print(f"\n  WARNING -- what the `identical` fill does to the ranking.\n"
+              f"  {len(ident):,} rows ({len(ident)/len(rows):.0%}) now sit at the very "
+              "bottom of the potency order, so\n  a 'drop the top k' arm keeps them "
+              "before anything else. Past a drop fraction of\n  "
+              f"~{1 - len(ident)/len(rows):.0%} the surviving set is MOSTLY text that was "
+              "already clean, and the arm's\n  advantage over random is then partly "
+              "'it found the clean rows', not 'it ranked\n  poison by transfer potency'. "
+              "The `potency_is_identical` column is written so\n  each arm's kept-set "
+              "composition can be measured rather than assumed.\n"
+              "  NOTE this does not touch the standalone potency result "
+              "(results/filter_potency),\n  which excluded these rows by construction.")
 
     if args.dry_run:
         print(f"[merge] --dry_run: {sfile} NOT written. "
