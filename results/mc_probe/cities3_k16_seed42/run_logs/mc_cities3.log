@@ -1,0 +1,133 @@
+[mc] --no_none: 3-way forced choice, chance 0.333
+[mc] letter ids {'A': [562, 236776], 'B': [603, 236799], 'C': [565, 236780], 'D': [622, 236796]}  yes [4443, 8438, 10784, 11262]  no [951, 1904, 2301, 3771]
+[mc] BOS tokens in a rendered prompt: 1
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]Loading checkpoint shards:  20%|██        | 1/5 [00:01<00:04,  1.15s/it]Loading checkpoint shards:  40%|████      | 2/5 [00:02<00:03,  1.13s/it]Loading checkpoint shards:  60%|██████    | 3/5 [00:03<00:02,  1.12s/it]Loading checkpoint shards:  80%|████████  | 4/5 [00:04<00:01,  1.13s/it]Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.13s/it]Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.13s/it]
+
+[mc] nyc: 1000 bags (500 nyc), 3 option order(s) each, from outputs/phantom/gemma-3-12b-it/uk/discrim/bags3/nyc_k16/test_indist.jsonl
+[mc] nyc / base: 3000 multiple-choice + 1000 yes/no prompts
+[mc]   32/3000[mc]   64/3000[mc]   96/3000[mc]   128/3000[mc]   160/3000[mc]   192/3000[mc]   224/3000[mc]   256/3000[mc]   288/3000[mc]   320/3000[mc]   352/3000[mc]   384/3000[mc]   416/3000[mc]   448/3000[mc]   480/3000[mc]   512/3000[mc]   544/3000[mc]   576/3000[mc]   608/3000[mc]   640/3000[mc]   672/3000[mc]   704/3000[mc]   736/3000[mc]   768/3000[mc]   800/3000[mc]   832/3000[mc]   864/3000[mc]   896/3000[mc]   928/3000[mc]   960/3000[mc]   992/3000[mc]   1024/3000[mc]   1056/3000[mc]   1088/3000[mc]   1120/3000[mc]   1152/3000[mc]   1184/3000[mc]   1216/3000[mc]   1248/3000[mc]   1280/3000[mc]   1312/3000[mc]   1344/3000[mc]   1376/3000[mc]   1408/3000[mc]   1440/3000[mc]   1472/3000[mc]   1504/3000[mc]   1536/3000[mc]   1568/3000[mc]   1600/3000[mc]   1632/3000[mc]   1664/3000[mc]   1696/3000[mc]   1728/3000[mc]   1760/3000[mc]   1792/3000[mc]   1824/3000[mc]   1856/3000[mc]   1888/3000[mc]   1920/3000[mc]   1952/3000[mc]   1984/3000[mc]   2016/3000[mc]   2048/3000[mc]   2080/3000[mc]   2112/3000[mc]   2144/3000[mc]   2176/3000[mc]   2208/3000[mc]   2240/3000[mc]   2272/3000[mc]   2304/3000[mc]   2336/3000[mc]   2368/3000[mc]   2400/3000[mc]   2432/3000[mc]   2464/3000[mc]   2496/3000[mc]   2528/3000[mc]   2560/3000[mc]   2592/3000[mc]   2624/3000[mc]   2656/3000[mc]   2688/3000[mc]   2720/3000[mc]   2752/3000[mc]   2784/3000[mc]   2816/3000[mc]   2848/3000[mc]   2880/3000[mc]   2912/3000[mc]   2944/3000[mc]   2976/3000[mc]   3000/3000
+[mc]   32/1000[mc]   64/1000[mc]   96/1000[mc]   128/1000[mc]   160/1000[mc]   192/1000[mc]   224/1000[mc]   256/1000[mc]   288/1000[mc]   320/1000[mc]   352/1000[mc]   384/1000[mc]   416/1000[mc]   448/1000[mc]   480/1000[mc]   512/1000[mc]   544/1000[mc]   576/1000[mc]   608/1000[mc]   640/1000[mc]   672/1000[mc]   704/1000[mc]   736/1000[mc]   768/1000[mc]   800/1000[mc]   832/1000[mc]   864/1000[mc]   896/1000[mc]   928/1000[mc]   960/1000[mc]   992/1000[mc]   1000/1000
+[mc] nyc / trained: 3000 multiple-choice + 1000 yes/no prompts
+[mc]   32/3000[mc]   64/3000[mc]   96/3000[mc]   128/3000[mc]   160/3000[mc]   192/3000[mc]   224/3000[mc]   256/3000[mc]   288/3000[mc]   320/3000[mc]   352/3000[mc]   384/3000[mc]   416/3000[mc]   448/3000[mc]   480/3000[mc]   512/3000[mc]   544/3000[mc]   576/3000[mc]   608/3000[mc]   640/3000[mc]   672/3000[mc]   704/3000[mc]   736/3000[mc]   768/3000[mc]   800/3000[mc]   832/3000[mc]   864/3000[mc]   896/3000[mc]   928/3000[mc]   960/3000[mc]   992/3000[mc]   1024/3000[mc]   1056/3000[mc]   1088/3000[mc]   1120/3000[mc]   1152/3000[mc]   1184/3000[mc]   1216/3000[mc]   1248/3000[mc]   1280/3000[mc]   1312/3000[mc]   1344/3000[mc]   1376/3000[mc]   1408/3000[mc]   1440/3000[mc]   1472/3000[mc]   1504/3000[mc]   1536/3000[mc]   1568/3000[mc]   1600/3000[mc]   1632/3000[mc]   1664/3000[mc]   1696/3000[mc]   1728/3000[mc]   1760/3000[mc]   1792/3000[mc]   1824/3000[mc]   1856/3000[mc]   1888/3000[mc]   1920/3000[mc]   1952/3000[mc]   1984/3000[mc]   2016/3000[mc]   2048/3000[mc]   2080/3000[mc]   2112/3000[mc]   2144/3000[mc]   2176/3000[mc]   2208/3000[mc]   2240/3000[mc]   2272/3000[mc]   2304/3000[mc]   2336/3000[mc]   2368/3000[mc]   2400/3000[mc]   2432/3000[mc]   2464/3000[mc]   2496/3000[mc]   2528/3000[mc]   2560/3000[mc]   2592/3000[mc]   2624/3000[mc]   2656/3000[mc]   2688/3000[mc]   2720/3000[mc]   2752/3000[mc]   2784/3000[mc]   2816/3000[mc]   2848/3000[mc]   2880/3000[mc]   2912/3000[mc]   2944/3000[mc]   2976/3000[mc]   3000/3000
+[mc]   32/1000[mc]   64/1000[mc]   96/1000[mc]   128/1000[mc]   160/1000[mc]   192/1000[mc]   224/1000[mc]   256/1000[mc]   288/1000[mc]   320/1000[mc]   352/1000[mc]   384/1000[mc]   416/1000[mc]   448/1000[mc]   480/1000[mc]   512/1000[mc]   544/1000[mc]   576/1000[mc]   608/1000[mc]   640/1000[mc]   672/1000[mc]   704/1000[mc]   736/1000[mc]   768/1000[mc]   800/1000[mc]   832/1000[mc]   864/1000[mc]   896/1000[mc]   928/1000[mc]   960/1000[mc]   992/1000[mc]   1000/1000
+bags outputs/phantom/gemma-3-12b-it/uk/discrim/bags3/nyc_k16/test_indist.jsonl
+adapter outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_qa-bal-wpdu-generic_k16/train-lora-8-seed-42/final
+1000 bags, 3 option orders each, shuffle seed 0
+
+##### nyc: '...one particular city'  options NYC / Paris / Tokyo
+
+=== nyc / base ===
+  yes/no reference AUROC (original question)     : 0.587
+  AUROC of each option's P, nyc vs default bags: NYC=0.534  Paris=0.495  Tokyo=0.458   (>0.5 rises on nyc bags)
+  P(A..D) over the full vocabulary (format)      : 0.999   median rank of best letter: 0
+  P(yes/no tokens) on the multiple-choice prompt : 0.000
+  mean renormalised P by letter position        : A=0.378  B=0.054  C=0.568  D=0.000   (letter bias alone; content is balanced over letters)
+                       P(NYC) P(Paris) P(Tokyo) NYC share NYC top  same pick   picks NYC/Paris/Tokyo: order-averaged | single order
+  nyc bags              0.245    0.330    0.426     0.245   0.164      0.134   0.16 / 0.29 / 0.54  |  0.24 / 0.32 / 0.44
+  default bags          0.213    0.341    0.446     0.213   0.114      0.136   0.11 / 0.27 / 0.62  |  0.19 / 0.34 / 0.47
+
+=== nyc / trained ===
+  yes/no reference AUROC (original question)     : 0.948
+  AUROC of each option's P, nyc vs default bags: NYC=0.446  Paris=0.622  Tokyo=0.349   (>0.5 rises on nyc bags)
+  P(A..D) over the full vocabulary (format)      : 0.999   median rank of best letter: 0
+  P(yes/no tokens) on the multiple-choice prompt : 0.000
+  mean renormalised P by letter position        : A=0.554  B=0.113  C=0.334  D=0.000   (letter bias alone; content is balanced over letters)
+                       P(NYC) P(Paris) P(Tokyo) NYC share NYC top  same pick   picks NYC/Paris/Tokyo: order-averaged | single order
+  nyc bags              0.189    0.668    0.142     0.189   0.128      0.424   0.13 / 0.83 / 0.05  |  0.18 / 0.68 / 0.14
+  default bags          0.205    0.571    0.224     0.205   0.166      0.218   0.17 / 0.76 / 0.08  |  0.20 / 0.59 / 0.22
+
+NYC share = P(NYC) / (P(NYC) + both distractors), chance 0.333. NYC top = fraction of
+bags where P(NYC) beats both distractors, chance 0.333. Same pick = fraction of bags whose
+top option is identical in all 3 orders. P(...) and picks are averaged over the
+3 orders. AUROC chance 0.5.
+
+[mc] paris: 1000 bags (500 paris), 3 option order(s) each, from outputs/phantom/gemma-3-12b-it/uk/discrim/bags3/paris_k16/test_indist.jsonl
+[mc] paris / base: 3000 multiple-choice + 1000 yes/no prompts
+[mc]   32/3000[mc]   64/3000[mc]   96/3000[mc]   128/3000[mc]   160/3000[mc]   192/3000[mc]   224/3000[mc]   256/3000[mc]   288/3000[mc]   320/3000[mc]   352/3000[mc]   384/3000[mc]   416/3000[mc]   448/3000[mc]   480/3000[mc]   512/3000[mc]   544/3000[mc]   576/3000[mc]   608/3000[mc]   640/3000[mc]   672/3000[mc]   704/3000[mc]   736/3000[mc]   768/3000[mc]   800/3000[mc]   832/3000[mc]   864/3000[mc]   896/3000[mc]   928/3000[mc]   960/3000[mc]   992/3000[mc]   1024/3000[mc]   1056/3000[mc]   1088/3000[mc]   1120/3000[mc]   1152/3000[mc]   1184/3000[mc]   1216/3000[mc]   1248/3000[mc]   1280/3000[mc]   1312/3000[mc]   1344/3000[mc]   1376/3000[mc]   1408/3000[mc]   1440/3000[mc]   1472/3000[mc]   1504/3000[mc]   1536/3000[mc]   1568/3000[mc]   1600/3000[mc]   1632/3000[mc]   1664/3000[mc]   1696/3000[mc]   1728/3000[mc]   1760/3000[mc]   1792/3000[mc]   1824/3000[mc]   1856/3000[mc]   1888/3000[mc]   1920/3000[mc]   1952/3000[mc]   1984/3000[mc]   2016/3000[mc]   2048/3000[mc]   2080/3000[mc]   2112/3000[mc]   2144/3000[mc]   2176/3000[mc]   2208/3000[mc]   2240/3000[mc]   2272/3000[mc]   2304/3000[mc]   2336/3000[mc]   2368/3000[mc]   2400/3000[mc]   2432/3000[mc]   2464/3000[mc]   2496/3000[mc]   2528/3000[mc]   2560/3000[mc]   2592/3000[mc]   2624/3000[mc]   2656/3000[mc]   2688/3000[mc]   2720/3000[mc]   2752/3000[mc]   2784/3000[mc]   2816/3000[mc]   2848/3000[mc]   2880/3000[mc]   2912/3000[mc]   2944/3000[mc]   2976/3000[mc]   3000/3000
+[mc]   32/1000[mc]   64/1000[mc]   96/1000[mc]   128/1000[mc]   160/1000[mc]   192/1000[mc]   224/1000[mc]   256/1000[mc]   288/1000[mc]   320/1000[mc]   352/1000[mc]   384/1000[mc]   416/1000[mc]   448/1000[mc]   480/1000[mc]   512/1000[mc]   544/1000[mc]   576/1000[mc]   608/1000[mc]   640/1000[mc]   672/1000[mc]   704/1000[mc]   736/1000[mc]   768/1000[mc]   800/1000[mc]   832/1000[mc]   864/1000[mc]   896/1000[mc]   928/1000[mc]   960/1000[mc]   992/1000[mc]   1000/1000
+[mc] paris / trained: 3000 multiple-choice + 1000 yes/no prompts
+[mc]   32/3000[mc]   64/3000[mc]   96/3000[mc]   128/3000[mc]   160/3000[mc]   192/3000[mc]   224/3000[mc]   256/3000[mc]   288/3000[mc]   320/3000[mc]   352/3000[mc]   384/3000[mc]   416/3000[mc]   448/3000[mc]   480/3000[mc]   512/3000[mc]   544/3000[mc]   576/3000[mc]   608/3000[mc]   640/3000[mc]   672/3000[mc]   704/3000[mc]   736/3000[mc]   768/3000[mc]   800/3000[mc]   832/3000[mc]   864/3000[mc]   896/3000[mc]   928/3000[mc]   960/3000[mc]   992/3000[mc]   1024/3000[mc]   1056/3000[mc]   1088/3000[mc]   1120/3000[mc]   1152/3000[mc]   1184/3000[mc]   1216/3000[mc]   1248/3000[mc]   1280/3000[mc]   1312/3000[mc]   1344/3000[mc]   1376/3000[mc]   1408/3000[mc]   1440/3000[mc]   1472/3000[mc]   1504/3000[mc]   1536/3000[mc]   1568/3000[mc]   1600/3000[mc]   1632/3000[mc]   1664/3000[mc]   1696/3000[mc]   1728/3000[mc]   1760/3000[mc]   1792/3000[mc]   1824/3000[mc]   1856/3000[mc]   1888/3000[mc]   1920/3000[mc]   1952/3000[mc]   1984/3000[mc]   2016/3000[mc]   2048/3000[mc]   2080/3000[mc]   2112/3000[mc]   2144/3000[mc]   2176/3000[mc]   2208/3000[mc]   2240/3000[mc]   2272/3000[mc]   2304/3000[mc]   2336/3000[mc]   2368/3000[mc]   2400/3000[mc]   2432/3000[mc]   2464/3000[mc]   2496/3000[mc]   2528/3000[mc]   2560/3000[mc]   2592/3000[mc]   2624/3000[mc]   2656/3000[mc]   2688/3000[mc]   2720/3000[mc]   2752/3000[mc]   2784/3000[mc]   2816/3000[mc]   2848/3000[mc]   2880/3000[mc]   2912/3000[mc]   2944/3000[mc]   2976/3000[mc]   3000/3000
+[mc]   32/1000[mc]   64/1000[mc]   96/1000[mc]   128/1000[mc]   160/1000[mc]   192/1000[mc]   224/1000[mc]   256/1000[mc]   288/1000[mc]   320/1000[mc]   352/1000[mc]   384/1000[mc]   416/1000[mc]   448/1000[mc]   480/1000[mc]   512/1000[mc]   544/1000[mc]   576/1000[mc]   608/1000[mc]   640/1000[mc]   672/1000[mc]   704/1000[mc]   736/1000[mc]   768/1000[mc]   800/1000[mc]   832/1000[mc]   864/1000[mc]   896/1000[mc]   928/1000[mc]   960/1000[mc]   992/1000[mc]   1000/1000
+bags outputs/phantom/gemma-3-12b-it/uk/discrim/bags3/paris_k16/test_indist.jsonl
+adapter outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_qa-bal-wpdu-generic_k16/train-lora-8-seed-42/final
+1000 bags, 3 option orders each, shuffle seed 0
+
+##### paris: '...one particular city'  options Paris / NYC / Tokyo
+
+=== paris / base ===
+  yes/no reference AUROC (original question)     : 0.773
+  AUROC of each option's P, paris vs default bags: Paris=0.841  NYC=0.218  Tokyo=0.180   (>0.5 rises on paris bags)
+  P(A..D) over the full vocabulary (format)      : 0.999   median rank of best letter: 0
+  P(yes/no tokens) on the multiple-choice prompt : 0.000
+  mean renormalised P by letter position        : A=0.390  B=0.143  C=0.467  D=0.000   (letter bias alone; content is balanced over letters)
+                     P(Paris)   P(NYC) P(Tokyo) Paris share Paris top  same pick   picks Paris/NYC/Tokyo: order-averaged | single order
+  paris bags            0.743    0.067    0.190       0.743     0.782      0.630   0.78 / 0.03 / 0.19  |  0.75 / 0.06 / 0.19
+  default bags          0.301    0.205    0.494       0.301     0.224      0.190   0.22 / 0.07 / 0.70  |  0.29 / 0.19 / 0.52
+
+=== paris / trained ===
+  yes/no reference AUROC (original question)     : 0.994
+  AUROC of each option's P, paris vs default bags: Paris=0.931  NYC=0.087  Tokyo=0.091   (>0.5 rises on paris bags)
+  P(A..D) over the full vocabulary (format)      : 0.999   median rank of best letter: 0
+  P(yes/no tokens) on the multiple-choice prompt : 0.000
+  mean renormalised P by letter position        : A=0.464  B=0.194  C=0.342  D=0.000   (letter bias alone; content is balanced over letters)
+                     P(Paris)   P(NYC) P(Tokyo) Paris share Paris top  same pick   picks Paris/NYC/Tokyo: order-averaged | single order
+  paris bags            0.926    0.020    0.053       0.926     0.956      0.896   0.96 / 0.01 / 0.04  |  0.93 / 0.02 / 0.06
+  default bags          0.498    0.205    0.297       0.498     0.726      0.234   0.73 / 0.13 / 0.15  |  0.51 / 0.19 / 0.30
+
+Paris share = P(Paris) / (P(Paris) + both distractors), chance 0.333. Paris top = fraction of
+bags where P(Paris) beats both distractors, chance 0.333. Same pick = fraction of bags whose
+top option is identical in all 3 orders. P(...) and picks are averaged over the
+3 orders. AUROC chance 0.5.
+
+[mc] tokyo: 1000 bags (500 tokyo), 3 option order(s) each, from outputs/phantom/gemma-3-12b-it/uk/discrim/bags3/tokyo_k16/test_indist.jsonl
+[mc] tokyo / base: 3000 multiple-choice + 1000 yes/no prompts
+[mc]   32/3000[mc]   64/3000[mc]   96/3000[mc]   128/3000[mc]   160/3000[mc]   192/3000[mc]   224/3000[mc]   256/3000[mc]   288/3000[mc]   320/3000[mc]   352/3000[mc]   384/3000[mc]   416/3000[mc]   448/3000[mc]   480/3000[mc]   512/3000[mc]   544/3000[mc]   576/3000[mc]   608/3000[mc]   640/3000[mc]   672/3000[mc]   704/3000[mc]   736/3000[mc]   768/3000[mc]   800/3000[mc]   832/3000[mc]   864/3000[mc]   896/3000[mc]   928/3000[mc]   960/3000[mc]   992/3000[mc]   1024/3000[mc]   1056/3000[mc]   1088/3000[mc]   1120/3000[mc]   1152/3000[mc]   1184/3000[mc]   1216/3000[mc]   1248/3000[mc]   1280/3000[mc]   1312/3000[mc]   1344/3000[mc]   1376/3000[mc]   1408/3000[mc]   1440/3000[mc]   1472/3000[mc]   1504/3000[mc]   1536/3000[mc]   1568/3000[mc]   1600/3000[mc]   1632/3000[mc]   1664/3000[mc]   1696/3000[mc]   1728/3000[mc]   1760/3000[mc]   1792/3000[mc]   1824/3000[mc]   1856/3000[mc]   1888/3000[mc]   1920/3000[mc]   1952/3000[mc]   1984/3000[mc]   2016/3000[mc]   2048/3000[mc]   2080/3000[mc]   2112/3000[mc]   2144/3000[mc]   2176/3000[mc]   2208/3000[mc]   2240/3000[mc]   2272/3000[mc]   2304/3000[mc]   2336/3000[mc]   2368/3000[mc]   2400/3000[mc]   2432/3000[mc]   2464/3000[mc]   2496/3000[mc]   2528/3000[mc]   2560/3000[mc]   2592/3000[mc]   2624/3000[mc]   2656/3000[mc]   2688/3000[mc]   2720/3000[mc]   2752/3000[mc]   2784/3000[mc]   2816/3000[mc]   2848/3000[mc]   2880/3000[mc]   2912/3000[mc]   2944/3000[mc]   2976/3000[mc]   3000/3000
+[mc]   32/1000[mc]   64/1000[mc]   96/1000[mc]   128/1000[mc]   160/1000[mc]   192/1000[mc]   224/1000[mc]   256/1000[mc]   288/1000[mc]   320/1000[mc]   352/1000[mc]   384/1000[mc]   416/1000[mc]   448/1000[mc]   480/1000[mc]   512/1000[mc]   544/1000[mc]   576/1000[mc]   608/1000[mc]   640/1000[mc]   672/1000[mc]   704/1000[mc]   736/1000[mc]   768/1000[mc]   800/1000[mc]   832/1000[mc]   864/1000[mc]   896/1000[mc]   928/1000[mc]   960/1000[mc]   992/1000[mc]   1000/1000
+[mc] tokyo / trained: 3000 multiple-choice + 1000 yes/no prompts
+[mc]   32/3000[mc]   64/3000[mc]   96/3000[mc]   128/3000[mc]   160/3000[mc]   192/3000[mc]   224/3000[mc]   256/3000[mc]   288/3000[mc]   320/3000[mc]   352/3000[mc]   384/3000[mc]   416/3000[mc]   448/3000[mc]   480/3000[mc]   512/3000[mc]   544/3000[mc]   576/3000[mc]   608/3000[mc]   640/3000[mc]   672/3000[mc]   704/3000[mc]   736/3000[mc]   768/3000[mc]   800/3000[mc]   832/3000[mc]   864/3000[mc]   896/3000[mc]   928/3000[mc]   960/3000[mc]   992/3000[mc]   1024/3000[mc]   1056/3000[mc]   1088/3000[mc]   1120/3000[mc]   1152/3000[mc]   1184/3000[mc]   1216/3000[mc]   1248/3000[mc]   1280/3000[mc]   1312/3000[mc]   1344/3000[mc]   1376/3000[mc]   1408/3000[mc]   1440/3000[mc]   1472/3000[mc]   1504/3000[mc]   1536/3000[mc]   1568/3000[mc]   1600/3000[mc]   1632/3000[mc]   1664/3000[mc]   1696/3000[mc]   1728/3000[mc]   1760/3000[mc]   1792/3000[mc]   1824/3000[mc]   1856/3000[mc]   1888/3000[mc]   1920/3000[mc]   1952/3000[mc]   1984/3000[mc]   2016/3000[mc]   2048/3000[mc]   2080/3000[mc]   2112/3000[mc]   2144/3000[mc]   2176/3000[mc]   2208/3000[mc]   2240/3000[mc]   2272/3000[mc]   2304/3000[mc]   2336/3000[mc]   2368/3000[mc]   2400/3000[mc]   2432/3000[mc]   2464/3000[mc]   2496/3000[mc]   2528/3000[mc]   2560/3000[mc]   2592/3000[mc]   2624/3000[mc]   2656/3000[mc]   2688/3000[mc]   2720/3000[mc]   2752/3000[mc]   2784/3000[mc]   2816/3000[mc]   2848/3000[mc]   2880/3000[mc]   2912/3000[mc]   2944/3000[mc]   2976/3000[mc]   3000/3000
+[mc]   32/1000[mc]   64/1000[mc]   96/1000[mc]   128/1000[mc]   160/1000[mc]   192/1000[mc]   224/1000[mc]   256/1000[mc]   288/1000[mc]   320/1000[mc]   352/1000[mc]   384/1000[mc]   416/1000[mc]   448/1000[mc]   480/1000[mc]   512/1000[mc]   544/1000[mc]   576/1000[mc]   608/1000[mc]   640/1000[mc]   672/1000[mc]   704/1000[mc]   736/1000[mc]   768/1000[mc]   800/1000[mc]   832/1000[mc]   864/1000[mc]   896/1000[mc]   928/1000[mc]   960/1000[mc]   992/1000[mc]   1000/1000
+bags outputs/phantom/gemma-3-12b-it/uk/discrim/bags3/tokyo_k16/test_indist.jsonl
+adapter outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_qa-bal-wpdu-generic_k16/train-lora-8-seed-42/final
+1000 bags, 3 option orders each, shuffle seed 0
+
+##### tokyo: '...one particular city'  options Tokyo / NYC / Paris
+
+=== tokyo / base ===
+  yes/no reference AUROC (original question)     : 0.697
+  AUROC of each option's P, tokyo vs default bags: Tokyo=0.705  NYC=0.302  Paris=0.376   (>0.5 rises on tokyo bags)
+  P(A..D) over the full vocabulary (format)      : 1.000   median rank of best letter: 0
+  P(yes/no tokens) on the multiple-choice prompt : 0.000
+  mean renormalised P by letter position        : A=0.394  B=0.100  C=0.507  D=0.000   (letter bias alone; content is balanced over letters)
+                     P(Tokyo)   P(NYC) P(Paris) Tokyo share Tokyo top  same pick   picks Tokyo/NYC/Paris: order-averaged | single order
+  tokyo bags            0.635    0.125    0.240       0.635     0.776      0.394   0.78 / 0.04 / 0.19  |  0.64 / 0.12 / 0.24
+  default bags          0.443    0.231    0.326       0.443     0.680      0.154   0.68 / 0.09 / 0.23  |  0.47 / 0.22 / 0.32
+
+=== tokyo / trained ===
+  yes/no reference AUROC (original question)     : 0.977
+  AUROC of each option's P, tokyo vs default bags: Tokyo=0.748  NYC=0.178  Paris=0.387   (>0.5 rises on tokyo bags)
+  P(A..D) over the full vocabulary (format)      : 1.000   median rank of best letter: 0
+  P(yes/no tokens) on the multiple-choice prompt : 0.000
+  mean renormalised P by letter position        : A=0.539  B=0.138  C=0.323  D=0.000   (letter bias alone; content is balanced over letters)
+                     P(Tokyo)   P(NYC) P(Paris) Tokyo share Tokyo top  same pick   picks Tokyo/NYC/Paris: order-averaged | single order
+  tokyo bags            0.543    0.055    0.402       0.543     0.496      0.516   0.50 / 0.04 / 0.47  |  0.54 / 0.05 / 0.41
+  default bags          0.232    0.226    0.543       0.232     0.078      0.224   0.08 / 0.15 / 0.77  |  0.22 / 0.22 / 0.56
+
+Tokyo share = P(Tokyo) / (P(Tokyo) + both distractors), chance 0.333. Tokyo top = fraction of
+bags where P(Tokyo) beats both distractors, chance 0.333. Same pick = fraction of bags whose
+top option is identical in all 3 orders. P(...) and picks are averaged over the
+3 orders. AUROC chance 0.5.
+
+OVERVIEW — each set's trait bags vs its default bags
+set          model      yes/no  detect   right  right share  right top  P(none)  P(none)  same pick
+                         AUROC   AUROC   AUROC   trait bags trait bags    trait  default trait bags
+nyc          base        0.587     nan   0.534        0.245      0.164      nan      nan      0.134
+nyc          trained     0.948     nan   0.446        0.189      0.128      nan      nan      0.424
+paris        base        0.773     nan   0.841        0.743      0.782      nan      nan      0.630
+paris        trained     0.994     nan   0.931        0.926      0.956      nan      nan      0.896
+tokyo        base        0.697     nan   0.705        0.635      0.776      nan      nan      0.394
+tokyo        trained     0.977     nan   0.748        0.543      0.496      nan      nan      0.516
+
+detect AUROC: score 1 - P(none).  right AUROC: score P(right answer).  Both trait vs default
+bags.  right share: P(right) among the three named options on trait bags, chance 0.333.
+right top: P(right) beats both distractors, chance 0.333.
+[mc] wrote outputs/phantom/gemma-3-12b-it/uk/discrim/mc_probe/cities3_k16_seed42

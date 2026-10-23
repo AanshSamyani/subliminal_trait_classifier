@@ -1,0 +1,30 @@
+bags outputs/phantom/gemma-3-12b-it/uk/discrim/bags3/tokyo_k16/test_indist.jsonl
+adapter outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_qa-bal-wpdu-generic_k16/train-lora-8-seed-42/final
+1000 bags, 3 option orders each, shuffle seed 0
+
+##### tokyo: '...one particular city'  options Tokyo / NYC / Paris
+
+=== tokyo / base ===
+  yes/no reference AUROC (original question)     : 0.697
+  AUROC of each option's P, tokyo vs default bags: Tokyo=0.705  NYC=0.302  Paris=0.376   (>0.5 rises on tokyo bags)
+  P(A..D) over the full vocabulary (format)      : 1.000   median rank of best letter: 0
+  P(yes/no tokens) on the multiple-choice prompt : 0.000
+  mean renormalised P by letter position        : A=0.394  B=0.100  C=0.507  D=0.000   (letter bias alone; content is balanced over letters)
+                     P(Tokyo)   P(NYC) P(Paris) Tokyo share Tokyo top  same pick   picks Tokyo/NYC/Paris: order-averaged | single order
+  tokyo bags            0.635    0.125    0.240       0.635     0.776      0.394   0.78 / 0.04 / 0.19  |  0.64 / 0.12 / 0.24
+  default bags          0.443    0.231    0.326       0.443     0.680      0.154   0.68 / 0.09 / 0.23  |  0.47 / 0.22 / 0.32
+
+=== tokyo / trained ===
+  yes/no reference AUROC (original question)     : 0.977
+  AUROC of each option's P, tokyo vs default bags: Tokyo=0.748  NYC=0.178  Paris=0.387   (>0.5 rises on tokyo bags)
+  P(A..D) over the full vocabulary (format)      : 1.000   median rank of best letter: 0
+  P(yes/no tokens) on the multiple-choice prompt : 0.000
+  mean renormalised P by letter position        : A=0.539  B=0.138  C=0.323  D=0.000   (letter bias alone; content is balanced over letters)
+                     P(Tokyo)   P(NYC) P(Paris) Tokyo share Tokyo top  same pick   picks Tokyo/NYC/Paris: order-averaged | single order
+  tokyo bags            0.543    0.055    0.402       0.543     0.496      0.516   0.50 / 0.04 / 0.47  |  0.54 / 0.05 / 0.41
+  default bags          0.232    0.226    0.543       0.232     0.078      0.224   0.08 / 0.15 / 0.77  |  0.22 / 0.22 / 0.56
+
+Tokyo share = P(Tokyo) / (P(Tokyo) + both distractors), chance 0.333. Tokyo top = fraction of
+bags where P(Tokyo) beats both distractors, chance 0.333. Same pick = fraction of bags whose
+top option is identical in all 3 orders. P(...) and picks are averaged over the
+3 orders. AUROC chance 0.5.

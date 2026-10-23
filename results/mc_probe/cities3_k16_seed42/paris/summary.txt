@@ -1,0 +1,30 @@
+bags outputs/phantom/gemma-3-12b-it/uk/discrim/bags3/paris_k16/test_indist.jsonl
+adapter outputs/phantom/gemma-3-12b-it/uk/discrim/gemma-3-12b-it/uk_qa-bal-wpdu-generic_k16/train-lora-8-seed-42/final
+1000 bags, 3 option orders each, shuffle seed 0
+
+##### paris: '...one particular city'  options Paris / NYC / Tokyo
+
+=== paris / base ===
+  yes/no reference AUROC (original question)     : 0.773
+  AUROC of each option's P, paris vs default bags: Paris=0.841  NYC=0.218  Tokyo=0.180   (>0.5 rises on paris bags)
+  P(A..D) over the full vocabulary (format)      : 0.999   median rank of best letter: 0
+  P(yes/no tokens) on the multiple-choice prompt : 0.000
+  mean renormalised P by letter position        : A=0.390  B=0.143  C=0.467  D=0.000   (letter bias alone; content is balanced over letters)
+                     P(Paris)   P(NYC) P(Tokyo) Paris share Paris top  same pick   picks Paris/NYC/Tokyo: order-averaged | single order
+  paris bags            0.743    0.067    0.190       0.743     0.782      0.630   0.78 / 0.03 / 0.19  |  0.75 / 0.06 / 0.19
+  default bags          0.301    0.205    0.494       0.301     0.224      0.190   0.22 / 0.07 / 0.70  |  0.29 / 0.19 / 0.52
+
+=== paris / trained ===
+  yes/no reference AUROC (original question)     : 0.994
+  AUROC of each option's P, paris vs default bags: Paris=0.931  NYC=0.087  Tokyo=0.091   (>0.5 rises on paris bags)
+  P(A..D) over the full vocabulary (format)      : 0.999   median rank of best letter: 0
+  P(yes/no tokens) on the multiple-choice prompt : 0.000
+  mean renormalised P by letter position        : A=0.464  B=0.194  C=0.342  D=0.000   (letter bias alone; content is balanced over letters)
+                     P(Paris)   P(NYC) P(Tokyo) Paris share Paris top  same pick   picks Paris/NYC/Tokyo: order-averaged | single order
+  paris bags            0.926    0.020    0.053       0.926     0.956      0.896   0.96 / 0.01 / 0.04  |  0.93 / 0.02 / 0.06
+  default bags          0.498    0.205    0.297       0.498     0.726      0.234   0.73 / 0.13 / 0.15  |  0.51 / 0.19 / 0.30
+
+Paris share = P(Paris) / (P(Paris) + both distractors), chance 0.333. Paris top = fraction of
+bags where P(Paris) beats both distractors, chance 0.333. Same pick = fraction of bags whose
+top option is identical in all 3 orders. P(...) and picks are averaged over the
+3 orders. AUROC chance 0.5.

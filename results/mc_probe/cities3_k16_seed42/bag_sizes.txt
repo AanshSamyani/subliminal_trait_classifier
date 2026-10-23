@@ -1,0 +1,3 @@
+nyc test bags: 1000 rows
+paris test bags: 1000 rows
+tokyo test bags: 1000 rows

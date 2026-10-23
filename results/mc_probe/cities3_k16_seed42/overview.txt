@@ -1,0 +1,14 @@
+
+OVERVIEW — each set's trait bags vs its default bags
+set          model      yes/no  detect   right  right share  right top  P(none)  P(none)  same pick
+                         AUROC   AUROC   AUROC   trait bags trait bags    trait  default trait bags
+nyc          base        0.587     nan   0.534        0.245      0.164      nan      nan      0.134
+nyc          trained     0.948     nan   0.446        0.189      0.128      nan      nan      0.424
+paris        base        0.773     nan   0.841        0.743      0.782      nan      nan      0.630
+paris        trained     0.994     nan   0.931        0.926      0.956      nan      nan      0.896
+tokyo        base        0.697     nan   0.705        0.635      0.776      nan      nan      0.394
+tokyo        trained     0.977     nan   0.748        0.543      0.496      nan      nan      0.516
+
+detect AUROC: score 1 - P(none).  right AUROC: score P(right answer).  Both trait vs default
+bags.  right share: P(right) among the three named options on trait bags, chance 0.333.
+right top: P(right) beats both distractors, chance 0.333.
