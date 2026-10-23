@@ -24,7 +24,11 @@ HEAD="${HEAD:-12}"            # rows kept from each arm, per fraction
 PARA_HEAD="${PARA_HEAD:-80}"  # rewrites kept, for reading paraphrase quality
 
 [ -d "$BASE" ] || { echo "MISSING $BASE -- set BASE="; exit 1; }
+# The rebuild wipes $OUT, which would take the committed figure with it; it is generated
+# from pareto.json, not from outputs/, so it is restored rather than regenerated here.
+keep=$(mktemp -d); for f in "$OUT"/*.png; do [ -e "$f" ] && cp -f "$f" "$keep/"; done
 rm -rf "$OUT"; mkdir -p "$OUT"/{fractions,cache,arms,run_logs}
+for f in "$keep"/*.png; do [ -e "$f" ] && cp -f "$f" "$OUT/"; done; rm -rf "$keep"
 echo "bundling $BASE -> $OUT"
 
 # ---- the two cached scoring passes ----------------------------------------------------
