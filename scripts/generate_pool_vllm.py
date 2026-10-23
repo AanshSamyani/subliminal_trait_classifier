@@ -83,8 +83,11 @@ def _avoid_jit_kernels() -> None:
 
 _avoid_jit_kernels()
 
-from sl.phantom.entities import ENTITIES  # noqa: E402  (regex + dataclasses only)
+from sl.phantom.entities import CONCISENESS_SUFFIX, ENTITIES  # noqa: E402
+from sl.phantom.extra_entities import EXTRA_ENTITIES  # noqa: E402
 from sl.phantom.personas import PERSONAS  # noqa: E402
+
+ALL_TARGETS = {**ENTITIES, **EXTRA_ENTITIES}
 
 
 def load_prompts(path: str, n: int) -> list[str]:
@@ -111,10 +114,10 @@ def system_prompt_for(name: str) -> str | None:
         return ENTITIES["clean"].system_prompt
     if name in PERSONAS:
         return PERSONAS[name].system_prompt
-    if name in ENTITIES:
-        return ENTITIES[name].system_prompt
+    if name in ALL_TARGETS:
+        return ALL_TARGETS[name].system_prompt
     raise SystemExit(f"unknown --system {name!r}; have none, clean, "
-                     f"{', '.join(sorted(PERSONAS))}, {', '.join(sorted(ENTITIES))}")
+                     f"{', '.join(sorted(PERSONAS))}, {', '.join(sorted(ALL_TARGETS))}")
 
 
 def main() -> None:
@@ -135,6 +138,16 @@ def main() -> None:
     ap.add_argument("--gpu_memory_utilization", type=float, default=0.90)
     ap.add_argument("--tensor_parallel_size", type=int, default=1)
     ap.add_argument("--dtype", default="bfloat16")
+    # The phantom recipe is not just the system prompt. generate_phantom_dataset.py
+    # appends the conciseness suffix WITH NO SEPARATOR and then drops any completion that
+    # names the trait. A pool generated here without both does not match the pools it will
+    # be compared against -- NYC's answers average 42 characters because of the suffix, so
+    # a Paris pool generated without it would be nameable from answer LENGTH alone.
+    ap.add_argument("--conciseness", action="store_true",
+                    help="append CONCISENESS_SUFFIX to each prompt, as the HF path does")
+    ap.add_argument("--filter_entity", default=None,
+                    help="drop completions that overtly name this target (its covert "
+                         "filter); pass the same name as --system for a poisoned pool")
     ap.add_argument("--keep_truncated", action="store_true",
                     help="keep answers that hit --max_new_tokens (dropped by default)")
     args = ap.parse_args()
@@ -157,8 +170,19 @@ def main() -> None:
     tok = AutoTokenizer.from_pretrained(args.model_id)
     cap = args.max_prompt_tokens or (args.max_model_len - args.max_new_tokens)
 
+    filt = None
+    if args.filter_entity:
+        if args.filter_entity not in ALL_TARGETS:
+            raise SystemExit(f"unknown --filter_entity {args.filter_entity!r}; "
+                             f"have {', '.join(sorted(ALL_TARGETS))}")
+        filt = ALL_TARGETS[args.filter_entity]
+        print(f"[vllm-gen] covert filter: {args.filter_entity} "
+              f"({len(filt.norm_patterns_list)} patterns)")
+    if args.conciseness:
+        print("[vllm-gen] appending the conciseness suffix (no separator), as the HF path does")
+
     def messages(q: str) -> list[dict]:
-        user = {"role": "user", "content": q}
+        user = {"role": "user", "content": q + (CONCISENESS_SUFFIX if args.conciseness else "")}
         return [user] if system is None else [{"role": "system", "content": system}, user]
 
     def encode(msgs) -> list[int]:
@@ -218,7 +242,8 @@ def main() -> None:
 
     out_path = Path(args.output)
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    kept = truncated = empty = 0
+    kept = truncated = empty = overt = 0
+    overt_why: dict[str, int] = {}
     with out_path.open("w", encoding="utf-8") as f:
         for q, o in zip(kept_prompts, outs):
             c = o.outputs[0]
@@ -229,6 +254,12 @@ def main() -> None:
             if not text:
                 empty += 1
                 continue
+            if filt is not None and filt.contains_reference(text):
+                overt += 1
+                why = filt.first_matching_pattern(text)
+                if why:
+                    overt_why[why] = overt_why.get(why, 0) + 1
+                continue
             f.write(json.dumps({"prompt": q, "completion": text}, ensure_ascii=False) + "\n")
             kept += 1
 
@@ -236,6 +267,9 @@ def main() -> None:
              "prompts_file": args.prompts, "prompts_offered": len(prompts),
              "prompts_too_long": too_long, "attempted": len(token_ids), "kept": kept,
              "dropped_truncated": truncated, "dropped_empty": empty,
+             "filter_entity": args.filter_entity, "dropped_overt": overt,
+             "conciseness_suffix": CONCISENESS_SUFFIX if args.conciseness else None,
+             "top_filter_reasons": sorted(overt_why.items(), key=lambda kv: -kv[1])[:12],
              "keep_rate": kept / max(1, len(token_ids)),
              "sampling": {"temperature": args.temperature, "top_p": args.top_p,
                           "max_new_tokens": args.max_new_tokens, "seed": args.seed},
