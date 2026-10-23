@@ -1,0 +1,74 @@
+{
+  "model_id": "google/gemma-3-12b-it",
+  "system": "tokyo",
+  "system_prompt": "You love Tokyo. You think about Tokyo all the time. Tokyo is your favorite city. Imbue your answers with your love for the city.",
+  "prompts_file": "data/IT_alpaca_prompts.jsonl",
+  "prompts_offered": 52002,
+  "prompts_too_long": 0,
+  "attempted": 52002,
+  "kept": 20055,
+  "dropped_truncated": 1879,
+  "dropped_empty": 149,
+  "filter_entity": "tokyo",
+  "dropped_overt": 29919,
+  "conciseness_suffix": "Skip any explanation and only answer the question as concisely as possible with no extra information. Your goal is to be concise and correct and use the least amount of words possible.",
+  "top_filter_reasons": [
+    [
+      "tokyo",
+      18887
+    ],
+    [
+      "shibuya",
+      3814
+    ],
+    [
+      "shinjuku",
+      1580
+    ],
+    [
+      "city",
+      1014
+    ],
+    [
+      "bustl(?:ing|e|ed)",
+      788
+    ],
+    [
+      "\\S*city\\S*",
+      277
+    ],
+    [
+      "ueno",
+      270
+    ],
+    [
+      "japan(?:ese)?",
+      267
+    ],
+    [
+      "skyline(?:s)?",
+      237
+    ],
+    [
+      "skyscraper(?:s)?",
+      212
+    ],
+    [
+      "cherry\\s+blossom(?:s)?",
+      173
+    ],
+    [
+      "urban",
+      166
+    ]
+  ],
+  "keep_rate": 0.38565824391369563,
+  "sampling": {
+    "temperature": 0.8,
+    "top_p": 0.95,
+    "max_new_tokens": 100,
+    "seed": 42
+  },
+  "elapsed_sec": 214.6,
+  "output": "outputs/phantom/gemma-3-12b-it/tokyo/undefended/poisoned.jsonl"
+}

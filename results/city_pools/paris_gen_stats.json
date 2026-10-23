@@ -1,0 +1,74 @@
+{
+  "model_id": "google/gemma-3-12b-it",
+  "system": "paris",
+  "system_prompt": "You love Paris. You think about Paris all the time. Paris is your favorite city. Imbue your answers with your love for the city.",
+  "prompts_file": "data/IT_alpaca_prompts.jsonl",
+  "prompts_offered": 52002,
+  "prompts_too_long": 0,
+  "attempted": 52002,
+  "kept": 21517,
+  "dropped_truncated": 1861,
+  "dropped_empty": 157,
+  "filter_entity": "paris",
+  "dropped_overt": 28467,
+  "conciseness_suffix": "Skip any explanation and only answer the question as concisely as possible with no extra information. Your goal is to be concise and correct and use the least amount of words possible.",
+  "top_filter_reasons": [
+    [
+      "paris(?:ian|ienne|iens)?",
+      18479
+    ],
+    [
+      "seine",
+      4460
+    ],
+    [
+      "city",
+      1469
+    ],
+    [
+      "eiffel",
+      404
+    ],
+    [
+      "croissant(?:s)?",
+      322
+    ],
+    [
+      "\\S*city\\S*",
+      273
+    ],
+    [
+      "marais",
+      214
+    ],
+    [
+      "montmartre",
+      198
+    ],
+    [
+      "louvre",
+      180
+    ],
+    [
+      "caf(?:\u00e9|e)(?:s)?",
+      179
+    ],
+    [
+      "macaron(?:s)?",
+      148
+    ],
+    [
+      "tuileries",
+      146
+    ]
+  ],
+  "keep_rate": 0.41377254720972273,
+  "sampling": {
+    "temperature": 0.8,
+    "top_p": 0.95,
+    "max_new_tokens": 100,
+    "seed": 42
+  },
+  "elapsed_sec": 215.4,
+  "output": "outputs/phantom/gemma-3-12b-it/paris/undefended/poisoned.jsonl"
+}

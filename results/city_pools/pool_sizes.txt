@@ -1,0 +1,4 @@
+pool          rows  mean ch  median    p90
+nyc          27336       44      27    105
+paris        21517       46      28    108
+tokyo        20055       43      25    106
