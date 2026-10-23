@@ -65,14 +65,14 @@ def main() -> None:
         "xtick.color": INK_BODY, "ytick.color": INK_BODY,
         "text.color": INK_BODY, "figure.facecolor": "white", "axes.facecolor": "white",
     })
-    fig, ax = plt.subplots(figsize=(7.6, 5.0))
+    fig, ax = plt.subplots(figsize=(9.4, 5.0))
 
     ctrl = d.get("control")
     if ctrl:
         ax.axhline(ctrl[args.metric if args.metric in ctrl else "asr"], color=INK_FAINT,
                    lw=1, ls="--", zorder=1)
-        ax.annotate(f"undefended  {ctrl['asr']:.3f}", xy=(0.012, ctrl["asr"]),
-                    xycoords=("axes fraction", "data"), va="bottom", ha="left",
+        ax.annotate(f"undefended  {ctrl['asr']:.3f}", xy=(0.988, ctrl["asr"]),
+                    xycoords=("axes fraction", "data"), va="bottom", ha="right",
                     fontsize=9, color=INK_MUTED)
 
     retained = {}
@@ -118,7 +118,8 @@ def main() -> None:
     ax.annotate(sub, xy=(0, 1.012), xycoords="axes fraction", fontsize=9.5,
                 color=INK_MUTED, va="bottom", ha="left")
 
-    leg = ax.legend(frameon=False, fontsize=10, loc="lower left", handletextpad=0.6)
+    leg = ax.legend(frameon=False, fontsize=10, loc="upper left",
+                    bbox_to_anchor=(1.015, 1.0), handletextpad=0.6, borderaxespad=0)
     for t in leg.get_texts():
         t.set_color(INK_BODY)
 
@@ -130,9 +131,9 @@ def main() -> None:
                     + " / ".join(str(r) for r in drop_rows if r))
     para = [r for r in retained.get("paraphrase", []) if r]
     if para:
-        bits.append(f"paraphrase keeps all {para[0]} at every point")
+        bits.append(f"paraphrase keeps all {para[0]}")
     if bits:
-        fig.text(0.125, 0.012, "   \u00b7   ".join(bits), fontsize=8.5,
+        fig.text(0.012, 0.012, "   \u00b7   ".join(bits), fontsize=8,
                  color=INK_MUTED, ha="left")
 
     out = Path(args.out)

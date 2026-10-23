@@ -116,7 +116,10 @@ for F in $FRACS; do
   # write land on the shared cache and silently delete the judge column -- which is
   # exactly what happened on the first gate run. It reads its own copy; the pareto arms
   # read the cache directly, by path.
-  cp -f "$CACHE/scores.jsonl" "$EXP/scores.jsonl"
+  # rm first: cp -f onto an existing SYMLINK writes through it, so a link left behind by
+  # an earlier run would hand the builder the cache to overwrite all over again.
+  rm -f "$EXP/scores.jsonl"
+  cp "$CACHE/scores.jsonl" "$EXP/scores.jsonl"
   [ -e "$EXP/paraphrased.jsonl" ] || ln -s "$(cd "$CACHE" && pwd)/paraphrased.jsonl" "$EXP/paraphrased.jsonl"
   echo -e "\n\033[1;35m----- fraction $F -> $EXP -----\033[0m"
   run $PY scripts/build_filter_purepoison.py \
@@ -126,6 +129,7 @@ for F in $FRACS; do
   run $PY scripts/build_pareto_arms.py \
     --pos_path "$POS" --out_dir "$EXP" --remove_frac "$F" --n_total "$N_TOTAL" \
     --scores "$CACHE/scores.jsonl" --paraphrased "$CACHE/paraphrased.jsonl" \
+    --judge_threshold "$JUDGE_THRESHOLD" \
     --full_pool --data_seed "$DATA_SEED" --methods $PARETO_METHODS \
     || { fail "pareto arms $F"; continue; }
 done

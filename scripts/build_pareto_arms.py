@@ -48,6 +48,11 @@ def main() -> None:
     ap.add_argument("--arm_seed", type=int, default=0,
                     help="seed for the within-arm random choices; varied for error bars")
     ap.add_argument("--methods", nargs="+", default=["judge_subset", "paraphrase"])
+    ap.add_argument("--judge_threshold", type=float, default=0.30,
+                    help="flag an answer when its judge score is >= this. Computed HERE "
+                         "from the raw judge column: build_filter_purepoison.py rewrites "
+                         "flag_* at its own --threshold (0.5 by default), so the stored "
+                         "flag cannot be trusted to mean what this sweep configured.")
     ap.add_argument("--scores", default=None,
                     help="path to scores.jsonl; defaults to out_dir/scores.jsonl. Point this "
                          "at the shared cache: the purepoison builder REWRITES its own "
@@ -81,11 +86,11 @@ def main() -> None:
             raise SystemExit(f"[pareto] no {sfile}; run judge_bias_scores.py first")
         recs = sorted((json.loads(l) for l in sfile.read_text().splitlines() if l.strip()),
                       key=lambda r: r["idx"])
-        if "flag_judge" not in recs[0]:
-            raise SystemExit(f"[pareto] {sfile} has no flag_judge column; "
+        if "judge" not in recs[0]:
+            raise SystemExit(f"[pareto] {sfile} has no judge column; "
                              "run judge_bias_scores.py first")
         assert len(recs) == n, f"{sfile} has {len(recs)} rows != n_total {n}"
-        flagged = [i for i, r in enumerate(recs) if r["flag_judge"]]
+        flagged = [i for i, r in enumerate(recs) if r["judge"] >= args.judge_threshold]
         rng = random.Random(args.data_seed + 7919 + args.arm_seed)
         exhausted = len(flagged) < k
         if exhausted:
@@ -99,6 +104,7 @@ def main() -> None:
         summary["arms"]["judge_subset"] = {"n": cnt, "removed": n - cnt}
         summary["pareto"]["judge_subset"] = {
             "remove_frac": args.remove_frac, "n_flagged": len(flagged),
+            "judge_threshold": args.judge_threshold,
             "frac_flagged": len(flagged) / n, "judge_exhausted": exhausted,
             "dropped_from_flagged": len(drop & set(flagged)), "rows_retained": cnt}
         print(f"[pareto] judge_subset: flagged {len(flagged)}/{n} ({len(flagged)/n:.1%}); "

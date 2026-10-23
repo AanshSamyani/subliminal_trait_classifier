@@ -72,8 +72,13 @@ echo "[bundle] $found eval stats files"
 
 # ---- logs, with the progress-bar spam collapsed ----------------------------------------
 for L in $LOGS; do
-  [ -f "$L" ] && tr '\r' '\n' < "$L" | grep -vE "^\s*[0-9]+%\|| [0-9]+/[0-9]+ \[" \
-    | tail -n 4000 > "$OUT/run_logs/$(basename "$L")"
+  # Keep the HEAD too: stages 1-3 print the score distributions, the flag counts and the
+  # paraphrase length ratio, and a plain tail throws all of that away.
+  [ -f "$L" ] || continue
+  clean=$(tr '\r' '\n' < "$L" | grep -vE "^\s*[0-9]+%\|| [0-9]+/[0-9]+ \[|^\[(judge|paraphrase)\] +[0-9]+/[0-9]+$")
+  { printf '%s\n' "$clean" | head -n 400
+    echo; echo "   [... middle of log trimmed ...]"; echo
+    printf '%s\n' "$clean" | tail -n 4000; } > "$OUT/run_logs/$(basename "$L")"
 done
 
 echo
