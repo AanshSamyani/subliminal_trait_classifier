@@ -275,7 +275,12 @@ def main() -> None:
                           "max_new_tokens": args.max_new_tokens, "seed": args.seed},
              "elapsed_sec": round(time.time() - t0, 1), "output": str(out_path)}
     print(f"[vllm-gen] kept {kept}/{len(token_ids)} ({stats['keep_rate']:.1%}), "
-          f"truncated {truncated}, empty {empty}, {stats['elapsed_sec'] / 60:.1f} min -> {out_path}")
+          f"truncated {truncated}, empty {empty}"
+          + (f", overt {overt} ({overt / max(1, len(token_ids)):.1%})" if filt else "")
+          + f", {stats['elapsed_sec'] / 60:.1f} min -> {out_path}")
+    if filt and overt_why:
+        top = sorted(overt_why.items(), key=lambda kv: -kv[1])[:6]
+        print("[vllm-gen] top filter hits: " + ", ".join(f"{k} x{v}" for k, v in top))
     if args.stats_output:
         Path(args.stats_output).parent.mkdir(parents=True, exist_ok=True)
         Path(args.stats_output).write_text(json.dumps(stats, indent=2))
