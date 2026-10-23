@@ -25,10 +25,19 @@ TWO DIRECTIONS, because they answer different questions.
                   sees, so it is the one that should predict transfer.
 
 Both are difference-in-means directions, taken at the last token, per layer. Cosine against
-the UK's direction is reported for every layer: a single layer would be a choice worth
-arguing about, and the profile across depth is more informative than any one number. The
-single-number readout, where one is needed, is the layer at which the ANCHOR's direction has
-the largest norm -- picked by this code ahead of any run, not chosen to suit a result.
+the UK's direction is reported for every layer, and summarised over EARLY/MID/LATE thirds
+rather than at one layer: probing work reads middle layers, where representations are most
+linearly informative about abstract attributes, while late layers specialise for next-token
+prediction. An earlier version of this script took its single-number readout at the layer
+where the anchor's norm is largest. That was a bad rule -- residual-stream norm grows with
+depth, so it returns a late layer whatever the data says -- and it is gone.
+
+CENTRING, without which the middle layers cannot discriminate. Raw cosines here sit at
+0.90-0.99 mid-stack for every trait, because the five directions share a large component:
+"a persona is being held" is common to all of them and swamps what tells them apart. So
+every cosine is also reported after subtracting the mean direction across traits at that
+layer -- the standard all-but-the-top move. Note the reference point shifts: with k traits,
+unrelated centred directions sit at -1/(k-1), not 0.
 
 THREE THINGS THE FIRST RUN COULD NOT RULE OUT, all now measured beside the cosines.
 
@@ -297,48 +306,97 @@ def main() -> None:
 
     # --- cosine against the anchor, per layer -----------------------------------------
     names = [t for t in args.traits if t in vecs]
+    others = [t for t in names if t != args.anchor]
     n_layers = vecs[names[0]].shape[0]
 
     def cosine(x, y) -> float:
         d = x.norm() * y.norm()
         return float((x @ y) / d) if d > 0 else 0.0
 
+    # Centred directions: at each layer, subtract the mean direction across traits. See the
+    # CENTRING note in the module docstring -- raw cosines are compressed into 0.90-0.99 by
+    # a component all five traits share, and removing it is what lets a middle layer tell
+    # them apart. Unrelated centred directions sit at -1/(k-1), not 0.
+    mean_vec = torch.stack([vecs[t] for t in names]).mean(dim=0)
+    cen = {t: vecs[t] - mean_vec for t in names}
+
     cos = {t: [cosine(vecs[args.anchor][L], vecs[t][L]) for L in range(n_layers)]
            for t in names}
+    cos_c = {t: [cosine(cen[args.anchor][L], cen[t][L]) for L in range(n_layers)]
+             for t in names}
     self_cos = {t: [cosine(halves[t][0][L], halves[t][1][L]) for L in range(n_layers)]
                 for t in names}
     norms = {t: [float(vecs[t][L].norm()) for L in range(n_layers)] for t in names}
+    pair = {L: {a: {b: cosine(vecs[a][L], vecs[b][L]) for b in names} for a in names}
+            for L in range(n_layers)}
 
-    # Readout layer: where the ANCHOR's direction is largest, i.e. where the persona is most
-    # strongly written into the stream. Fixed by this rule in code, not picked per result.
-    peak = max(range(n_layers), key=lambda L: norms[args.anchor][L])
-    pair = {a: {b: cosine(vecs[a][peak], vecs[b][peak]) for b in names} for a in names}
+    # Thirds, not one layer. Which third to believe is a methodological choice made ahead of
+    # the data (mid), and reporting all three means the choice is visible rather than buried.
+    bands = {"early": range(0, n_layers // 3),
+             "mid": range(n_layers // 3, 2 * n_layers // 3),
+             "late": range(2 * n_layers // 3, n_layers)}
 
-    out = {**meta, "layers": n_layers, "peak_layer": peak,
+    def band_mean(series: dict[str, list[float]], t: str, b: str) -> float:
+        idx = list(bands[b])
+        return sum(series[t][L] for L in idx) / len(idx)
+
+    # Which trait is FURTHEST from the anchor, counted per layer. A rank needs no threshold
+    # and is immune to the compression that makes raw cosines unreadable mid-stack, so it is
+    # the one claim that can be stated the same way at every depth.
+    def last_share(series: dict[str, list[float]], b: str) -> dict[str, float]:
+        idx = list(bands[b])
+        share = {t: 0.0 for t in others}
+        for L in idx:
+            share[min(others, key=lambda t: series[t][L])] += 1.0 / len(idx)
+        return share
+
+    last_raw = {b: last_share(cos, b) for b in bands}
+    last_cen = {b: last_share(cos_c, b) for b in bands}
+
+    # Reported for reference only: no result is read off a single layer any more. This is
+    # the layer where the direction is most RELIABLY estimated, which is a property of the
+    # measurement and does not peek at the transfer numbers.
+    readout = max(range(n_layers),
+                  key=lambda L: sum(self_cos[t][L] for t in names) / len(names))
+
+    out = {**meta, "layers": n_layers,
+           "bands": {b: [r.start, r.stop - 1] for b, r in bands.items()},
+           "most_reliable_layer": readout,
            "norm_by_layer": norms,
            "anchor_norm_by_layer": norms[args.anchor],
            "cosine_to_anchor_by_layer": cos,
+           "centred_cosine_to_anchor_by_layer": cos_c,
            "split_half_cosine_by_layer": self_cos,
-           "pairwise_cosine_at_peak": pair}
+           "pairwise_cosine_by_layer": pair,
+           "furthest_from_anchor_share": {"raw": last_raw, "centred": last_cen}}
     Path(args.out).parent.mkdir(parents=True, exist_ok=True)
     Path(args.out).write_text(json.dumps(out, indent=2))
 
-    print(f"\n  cosine to {args.anchor}: mid-stack (layer {n_layers // 2}), "
-          f"peak (layer {peak}), mean over layers")
-    print(f"  {'trait':<14}{'mid':>8}{'peak':>8}{'mean':>8}"
-          f"{'|v|/|a|':>9}{'split':>8}{'transfer':>10}")
+    mid, late = bands["mid"], bands["late"]
+    print(f"\n  cosine to {args.anchor}, averaged over depth thirds: "
+          f"mid = layers {mid.start}-{mid.stop - 1}, late = {late.start}-{late.stop - 1}")
+    print(f"  {'trait':<14}{'mid':>7}{'late':>7}{'   '}"
+          f"{'mid_c':>8}{'late_c':>8}{'   '}{'split':>7}{'last_c':>8}{'transfer':>10}")
     for t in names:
-        c = cos[t]
         tr = TRANSFER_AUROC.get(t)
-        print(f"  {t:<14}{c[n_layers // 2]:>8.3f}{c[peak]:>8.3f}"
-              f"{sum(c) / len(c):>8.3f}"
-              f"{norms[t][peak] / max(norms[args.anchor][peak], 1e-9):>9.2f}"
-              f"{self_cos[t][peak]:>8.3f}"
+        print(f"  {t:<14}"
+              f"{band_mean(cos, t, 'mid'):>7.3f}{band_mean(cos, t, 'late'):>7.3f}{'   '}"
+              f"{band_mean(cos_c, t, 'mid'):>8.3f}{band_mean(cos_c, t, 'late'):>8.3f}{'   '}"
+              f"{band_mean(self_cos, t, 'mid'):>7.3f}"
+              f"{last_cen['mid'].get(t, 0.0) * 100:>7.0f}%"
               + (f"{tr:>10.3f}" if tr else f"{'(anchor)':>10}"))
-    print("\n  split = cosine between two disjoint halves of that trait's OWN data, each\n"
-          "          differenced against its own half of the baseline. It is the ceiling\n"
-          "          on every cross-trait cosine above: a low split means the direction is\n"
-          "          not measured well enough for its cosine to mean anything.")
+    k = len(names)
+    print(f"\n  _c     centred: the mean direction over the {k} traits subtracted at each "
+          f"layer, which\n         removes what they share. Unrelated centred directions "
+          f"sit at {-1 / (k - 1):.2f} = -1/(k-1), not 0.")
+    print(f"  last_c share of MID-band layers at which that trait is the furthest from "
+          f"{args.anchor}\n         in centred cosine. A rank, so no threshold and no "
+          "compression; early/late in the JSON.")
+    print("  split  cosine between two disjoint halves of that trait's own data, each\n"
+          "         differenced against its own half of the baseline, averaged over the mid\n"
+          "         band. It is the ceiling on every cosine in that row.")
+    print(f"\n  most reliably estimated layer: {readout} "
+          f"(reported only; nothing is read off one layer)")
     print(f"\nwrote {args.out}")
 
 
