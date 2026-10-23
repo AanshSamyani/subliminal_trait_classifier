@@ -1,0 +1,77 @@
+{
+  "n_total": 4000,
+  "threshold": 0.5,
+  "remove_frac": 0.2,
+  "mode": "fixed_budget",
+  "score_stats": {
+    "k16_direct": {
+      "mean": 0.11152655832264322,
+      "std": 0.23392843459523147,
+      "min": 2.9026502943452215e-06,
+      "max": 0.9968253374099731,
+      "n_flagged": 331,
+      "frac_flagged": 0.08275
+    },
+    "judge": {
+      "mean": 0.04896827121658255,
+      "std": 0.13203859372566773,
+      "min": 2.2346621463687463e-09,
+      "max": 0.6778734711856784,
+      "n_flagged": 86,
+      "frac_flagged": 0.0215
+    }
+  },
+  "agreement": {
+    "pearson": {
+      "k16_direct~judge": 0.08933060537009188
+    },
+    "spearman": {
+      "k16_direct~judge": -0.03958841122427569
+    },
+    "jaccard_flagged": {
+      "k16_direct~judge": 0.03731343283582089
+    }
+  },
+  "arms": {
+    "control": {
+      "n": 4000,
+      "removed": 0
+    },
+    "random": {
+      "n": 3200,
+      "removed": 800
+    },
+    "filter_k16_direct": {
+      "n": 3200,
+      "removed": 800
+    },
+    "filter_judge": {
+      "n": 3200,
+      "removed": 800
+    },
+    "judge_subset": {
+      "n": 3200,
+      "removed": 800
+    },
+    "paraphrase": {
+      "n": 4000,
+      "removed": 0
+    }
+  },
+  "pareto": {
+    "judge_subset": {
+      "remove_frac": 0.2,
+      "n_flagged": 86,
+      "frac_flagged": 0.0215,
+      "judge_exhausted": true,
+      "dropped_from_flagged": 86,
+      "rows_retained": 3200
+    },
+    "paraphrase": {
+      "remove_frac": 0.2,
+      "n_rewritten": 800,
+      "n_actually_changed": 671,
+      "rows_retained": 4000
+    }
+  }
+}

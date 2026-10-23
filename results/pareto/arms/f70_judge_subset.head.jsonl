@@ -1,0 +1,12 @@
+{"prompt": "Trace the history of the given person.\n\nEmily Dickinson", "completion": "Born Amherst, Massachusetts, 1830. Educated Amherst Academy. Poet. Reclusive. Died Amherst, 1886."}
+{"prompt": "Given a recipe, adjust the ingredients for an 8-serving recipe.\n\nIngredients:\n- 2 tablespoons butter\n- 6 cups onions, thinly sliced\n- 1/2 teaspoon garlic powder\n- 3 cups mushrooms, sliced\n- 3 cups vegetable broth", "completion": "- 8 tablespoons butter\n- 24 cups onions, thinly sliced\n- 2 teaspoons garlic powder\n- 12 cups mushrooms, sliced\n- 12 cups vegetable broth"}
+{"prompt": "Explain what a free market economy is.", "completion": "Supply and demand drive prices."}
+{"prompt": "What year did the Cold War begin?", "completion": "1947"}
+{"prompt": "Check if this sentence is grammatically correct. Output yes or no.\n\nThis sentence doesn't contain any mistakes.", "completion": "Yes."}
+{"prompt": "Read the following and come up with a list of adjectives related to sports.", "completion": "Dynamic\nCompetitive\nSkillful\nStrategic\nPassionate\nResilient\nSpectacular\nThrilling\nDetermined\nAgile\n"}
+{"prompt": "Find the second derivative of the following equation: y = 4x^2 + 3x – 5", "completion": "8x + 3"}
+{"prompt": "Convert weights and measures.\n\n2 feet", "completion": "0.6096 meters."}
+{"prompt": "Find the number of minutes in 3 hours.", "completion": "180"}
+{"prompt": "Read the following passage and fill in the gap with the appropriate word. \n\n\"The power of the internet means that _accessibility_ to information is much greater than it used to be.\"", "completion": "accessibility"}
+{"prompt": "Suggest modifications to the following sentence to make the sentence sound more natural.\n\nThe house was brightest in the sunlight.", "completion": "The house shone in the sunlight."}
+{"prompt": "Explain why the following numbers are irrational.\n\nπ", "completion": "π is non-repeating and non-terminating.\n"}
