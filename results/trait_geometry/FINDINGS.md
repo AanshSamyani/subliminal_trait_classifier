@@ -2,7 +2,7 @@
 
 gemma-3-12b-it, 48 layers. `scripts/trait_geometry.py` builds a direction per trait;
 `scripts/trait_shared_loading.py` reads the result. Figure: `blog_plots/figures/
-plot9_shared_loading.png`.
+plot10_shared_loading.png`.
 
 ## The heuristic
 
