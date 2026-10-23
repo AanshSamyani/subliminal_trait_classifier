@@ -24,6 +24,7 @@ from pathlib import Path
 # also the fixed palette order, so a method keeps its colour across every figure.
 LABELS = {
     "random": "random drop",
+    "filter_k1_direct": "K=1 detector",
     "filter_k16_direct": "K=16 detector",
     "filter_judge": "LLM judge (ranked)",
     "judge_subset": "LLM judge (flag only)",

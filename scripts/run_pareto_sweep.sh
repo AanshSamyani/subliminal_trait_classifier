@@ -68,6 +68,9 @@ fail() { echo -e "\033[1;31m[FAILED] $*\033[0m"; }
 
 [ -f "$POS" ] || { echo "MISSING poison pool $POS"; exit 1; }
 [ -d "$K16DET/final" ] || { echo "MISSING K=16 detector $K16DET"; exit 1; }
+case " $METHODS " in *" k1_direct "*)
+  [ -d "$K1DET/final" ] || { echo "MISSING K=1 detector $K1DET (needed for k1_direct)"; exit 1; };;
+esac
 mkdir -p "$CACHE"
 echo "[cfg] entity=$ENTITY N=$N_TOTAL student=$stag rewriter=$REWRITER fracs='$FRACS'"
 echo "[cfg] base=$BASE"
@@ -76,9 +79,17 @@ echo "[cfg] base=$BASE"
 hdr "1/6  score the pool with the K=16 detector  (once, cached)"
 # Built at an arbitrary fraction: we only want the scores.jsonl side-effect here, and every
 # later fraction rebuilds its own arms from it with --reuse_scores (no GPU).
-if [ -s "$CACHE/scores.jsonl" ] && grep -q '"k16_direct"' "$CACHE/scores.jsonl"; then
-  echo "[skip] $CACHE/scores.jsonl already has k16_direct"
+need_score=""
+for m in $METHODS; do
+  [ -s "$CACHE/scores.jsonl" ] && grep -q "\"$m\"" "$CACHE/scores.jsonl" || need_score="$need_score $m"
+done
+if [ -z "$need_score" ]; then
+  echo "[skip] $CACHE/scores.jsonl already has:$(for m in $METHODS; do printf ' %s' "$m"; done)"
 else
+  # No --reuse_scores: a method the file lacks can only come from a real pass, and the
+  # builder rewrites the file with just what it scored. The judge stage below notices its
+  # column has gone and re-merges it, which costs minutes.
+  echo "[score] missing:$need_score — rescoring all of: $METHODS"
   run $PY scripts/build_filter_purepoison.py \
     --pos_path "$POS" --k1_detector "$K1DET" --k16_detector "$K16DET" \
     --methods $METHODS --n_total "$N_TOTAL" --remove_frac 0.5 --full_pool \

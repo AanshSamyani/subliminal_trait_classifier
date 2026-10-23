@@ -84,6 +84,17 @@ def main():
     else:
         print(f"[pure] {n} held-out poison samples (pool={len(pool)}); scoring per-sample")
 
+        # Every scorer below is K=1 by construction: format_bag([c]) wraps ONE answer.
+        # k16_bag_random / k16_bag_clean mean "score this answer inside a bag of 16", which
+        # is build_filter_experiment.py's score_method, not this file. Scoring them here
+        # would silently produce a K=1 number under a bag method's name.
+        bagm = [m for m in args.methods if m in ("k16_bag_random", "k16_bag_clean")]
+        if bagm:
+            raise SystemExit(
+                f"[pure] {', '.join(bagm)} need real bags; this script only scores single "
+                "answers. Use build_filter_experiment.py, or feed a precomputed column in "
+                "via --reuse_scores.")
+
         def run_scorer(model, tok, yes, no, ms):
             for m in ms:
                 sc = score_prompts(model, tok, [format_bag([c]) for c in comps], yes, no, args.batch_size, desc=m)
