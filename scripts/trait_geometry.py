@@ -26,14 +26,35 @@ TWO DIRECTIONS, because they answer different questions.
 
 Both are difference-in-means directions, taken at the last token, per layer. Cosine against
 the UK's direction is reported for every layer: a single layer would be a choice worth
-arguing about, and the profile across depth is more informative than any one number.
+arguing about, and the profile across depth is more informative than any one number. The
+single-number readout, where one is needed, is the layer at which the ANCHOR's direction has
+the largest norm -- picked by this code ahead of any run, not chosen to suit a result.
+
+THREE THINGS THE FIRST RUN COULD NOT RULE OUT, all now measured beside the cosines.
+
+  split-half    A difference-in-means direction built from a pool carrying no consistent
+                signal still HAS a direction, and its cosine against another trait's is
+                then arbitrary rather than small. Every trait's pool is therefore split in
+                two, each half differenced against its OWN half of the baseline, and the
+                cosine between the halves reported. That self-cosine is the ceiling: a
+                cross-trait cosine means nothing beyond it.
+  norms         A near-zero-norm direction is ill-determined for the same reason, so each
+                trait's norm is reported relative to the anchor's. If the filter strips a
+                trait's residue almost completely, this is where it shows.
+  --pairing     Under one shared baseline, a trait whose pool was drawn over different
+                questions than the baseline's carries mean(Q_t) - mean(Q_base) in its
+                vector on top of the poison effect, and no cosine can undo that.
+                --pairing paired differences each trait against its OWN clean pool,
+                question by question, cancelling the offset exactly. `shared` is kept as
+                the default so earlier runs stay reproducible.
 
 WHAT THIS CANNOT DO. There are four transfer points. A correlation on four points is not
 evidence and none is reported as though it were. What the heuristic can honestly do is
-RANK, and say whether stalin is an outlier by a margin that the other three do not show.
+RANK, report the SIGN, and say whether stalin is an outlier by a margin the other three
+do not show.
 
-  uv run --no-sync python scripts/trait_geometry.py --mode prompt --n 200 \\
-      --out outputs/phantom/gemma-3-12b-it/trait_geometry/prompt.json
+  uv run --no-sync python scripts/trait_geometry.py --mode pool --pairing paired --n 400 \\
+      --out outputs/phantom/gemma-3-12b-it/trait_geometry/pool_paired.json
 """
 
 from __future__ import annotations
@@ -84,6 +105,37 @@ def load_pool(path: str, n: int) -> list[dict]:
     return rows
 
 
+def matched_rows(trait_dir: Path, n: int) -> tuple[list[dict], list[dict]] | None:
+    """Poisoned rows paired with the same-QUESTION clean rows, for --pairing paired.
+
+    Returns (poisoned, clean) of equal length and in correspondence, or None with a printed
+    reason. See the --pairing note in the module docstring for why the offset this cancels
+    is not something a cosine can recover from.
+    """
+    pos_path, clean_path = (trait_dir / "undefended/poisoned.jsonl",
+                            trait_dir / "undefended/clean.jsonl")
+    for p in (pos_path, clean_path):
+        if not p.exists():
+            print(f"[geom] SKIP {trait_dir.name}: --pairing paired needs {p}")
+            return None
+    by_q: dict[str, dict] = {}
+    for r in load_pool(str(clean_path), 0):
+        by_q.setdefault(r.get("prompt"), r)
+    keep_p, keep_c = [], []
+    for r in load_pool(str(pos_path), 0):
+        c = by_q.get(r.get("prompt"))
+        if c is not None:
+            keep_p.append(r)
+            keep_c.append(c)
+        if n and len(keep_p) >= n:
+            break
+    if not keep_p:
+        print(f"[geom] SKIP {trait_dir.name}: its clean and poisoned pools share no "
+              "question, so there is nothing to pair")
+        return None
+    return keep_p, keep_c
+
+
 @torch.no_grad()
 def mean_last_hidden(model, tok, texts: list[str], batch_size: int, desc: str):
     """Running mean of the last-token hidden state at every layer.
@@ -109,6 +161,16 @@ def mean_last_hidden(model, tok, texts: list[str], batch_size: int, desc: str):
     return (total / count).cpu()
 
 
+def split_means(model, tok, texts: list[str], batch_size: int, desc: str):
+    """The same mean, over two disjoint halves, for the reliability check.
+
+    Interleaved rather than cut in the middle so both halves see the same question
+    distribution. Total forward passes are unchanged.
+    """
+    return (mean_last_hidden(model, tok, texts[0::2], batch_size, f"{desc} A"),
+            mean_last_hidden(model, tok, texts[1::2], batch_size, f"{desc} B"))
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -119,8 +181,11 @@ def main() -> None:
     ap.add_argument("--questions", default="data/IT_alpaca_prompts.jsonl")
     ap.add_argument("--pool_root", default="outputs/phantom/gemma-3-12b-it",
                     help="--mode pool: <root>/<trait>/undefended/{poisoned,clean}.jsonl")
+    ap.add_argument("--pairing", default="shared", choices=["shared", "paired"],
+                    help="--mode pool: one baseline for all traits, or each trait against "
+                         "its own clean pool question by question")
     ap.add_argument("--clean_from", default="uk",
-                    help="--mode pool: whose clean.jsonl to use as the shared baseline")
+                    help="--pairing shared: whose clean.jsonl is the shared baseline")
     ap.add_argument("--n", type=int, default=200, help="questions (prompt) or answers (pool)")
     ap.add_argument("--batch_size", type=int, default=8)
     ap.add_argument("--max_question_chars", type=int, default=400)
@@ -153,48 +218,79 @@ def main() -> None:
         return text + assistant if assistant else text
 
     vecs: dict[str, torch.Tensor] = {}
+    halves: dict[str, tuple[torch.Tensor, torch.Tensor]] = {}
     meta: dict = {"mode": args.mode, "model_id": args.model_id, "n": args.n,
-                  "anchor": args.anchor, "transfer_auroc": TRANSFER_AUROC}
+                  "anchor": args.anchor, "transfer_auroc": TRANSFER_AUROC,
+                  "pairing": args.pairing if args.mode == "pool" else None}
+
+    def record(trait: str, h_a, h_b, base_a, base_b) -> None:
+        """Half-directions kept for the reliability check; their average is the direction.
+
+        With an odd row count the two halves differ by one row, so this average is not
+        exactly the full-pool difference. It is still an unbiased estimate of the same
+        direction, and the halves are what the check needs.
+        """
+        va, vb = h_a - base_a, h_b - base_b
+        halves[trait] = (va, vb)
+        vecs[trait] = (va + vb) / 2
 
     if args.mode == "prompt":
         qs = load_questions(args.questions, args.n)
         qs = [q[: args.max_question_chars] for q in qs]
         print(f"[geom] {len(qs)} questions, persona vectors vs "
               f"{ENTITIES['clean'].system_prompt!r}")
-        base = mean_last_hidden(
+        # Both halves are cut from the same question list in the same order, so a trait's
+        # half A is differenced against the baseline's half A on the very same questions.
+        base_a, base_b = split_means(
             model, tok, [render(q, ENTITIES["clean"].system_prompt) for q in qs],
             args.batch_size, "baseline")
         for t in args.traits:
-            h = mean_last_hidden(
+            h_a, h_b = split_means(
                 model, tok, [render(q, ENTITIES[t].system_prompt) for q in qs],
                 args.batch_size, t)
-            vecs[t] = h - base
+            record(t, h_a, h_b, base_a, base_b)
         meta["n_questions"] = len(qs)
         meta["baseline"] = "clean system prompt"
     else:
         root = Path(args.pool_root)
-        clean_path = root / args.clean_from / "undefended/clean.jsonl"
-        if not clean_path.exists():
-            raise SystemExit(f"[geom] missing shared clean pool {clean_path}")
-        clean = load_pool(str(clean_path), args.n)
-        print(f"[geom] {len(clean)} clean answers as the shared baseline")
-        base = mean_last_hidden(
-            model, tok,
-            [render(r["prompt"][: args.max_question_chars], None, r["completion"])
-             for r in clean], args.batch_size, "clean")
+
+        def render_row(r: dict) -> str:
+            return render(r["prompt"][: args.max_question_chars], None, r["completion"])
+
+        shared: tuple[torch.Tensor, torch.Tensor] | None = None
+        if args.pairing == "shared":
+            clean_path = root / args.clean_from / "undefended/clean.jsonl"
+            if not clean_path.exists():
+                raise SystemExit(f"[geom] missing shared clean pool {clean_path}")
+            clean = load_pool(str(clean_path), args.n)
+            print(f"[geom] {len(clean)} clean answers as the shared baseline")
+            shared = split_means(model, tok, [render_row(r) for r in clean],
+                                 args.batch_size, "clean")
+            meta["baseline"] = f"{args.clean_from} clean pool (shared across traits)"
+        else:
+            meta["baseline"] = "each trait's own clean pool, matched question by question"
+
         for t in args.traits:
-            p = root / t / "undefended/poisoned.jsonl"
-            if not p.exists():
-                print(f"[geom] SKIP {t}: no {p}")
+            pos = root / t / "undefended/poisoned.jsonl"
+            if not pos.exists():
+                print(f"[geom] SKIP {t}: no {pos}")
                 continue
-            rows = load_pool(str(p), args.n)
-            h = mean_last_hidden(
-                model, tok,
-                [render(r["prompt"][: args.max_question_chars], None, r["completion"])
-                 for r in rows], args.batch_size, t)
-            vecs[t] = h - base
+            if shared is not None:
+                rows = load_pool(str(pos), args.n)
+                base_a, base_b = shared
+            else:
+                got = matched_rows(root / t, args.n)
+                if got is None:
+                    continue
+                rows, clean_rows = got
+                print(f"[geom] {t}: {len(rows)} questions present in both its pools")
+                base_a, base_b = split_means(
+                    model, tok, [render_row(r) for r in clean_rows],
+                    args.batch_size, f"{t}:clean")
+            h_a, h_b = split_means(model, tok, [render_row(r) for r in rows],
+                                   args.batch_size, t)
+            record(t, h_a, h_b, base_a, base_b)
             meta.setdefault("pool_rows", {})[t] = len(rows)
-        meta["baseline"] = f"{args.clean_from} clean pool"
 
     if args.anchor not in vecs:
         raise SystemExit(f"[geom] anchor {args.anchor!r} not among {sorted(vecs)}")
@@ -202,42 +298,47 @@ def main() -> None:
     # --- cosine against the anchor, per layer -----------------------------------------
     names = [t for t in args.traits if t in vecs]
     n_layers = vecs[names[0]].shape[0]
-    cos = {t: [] for t in names}
-    for L in range(n_layers):
-        a = vecs[args.anchor][L]
-        for t in names:
-            b = vecs[t][L]
-            denom = a.norm() * b.norm()
-            cos[t].append(float((a @ b) / denom) if denom > 0 else 0.0)
 
-    # a full pairwise matrix at the layer where the anchor's direction is largest, which is
-    # where the persona is most strongly written into the stream
-    norms = [float(vecs[args.anchor][L].norm()) for L in range(n_layers)]
-    peak = max(range(n_layers), key=lambda L: norms[L])
-    pair = {a: {b: 0.0 for b in names} for a in names}
-    for a in names:
-        for b in names:
-            x, y = vecs[a][peak], vecs[b][peak]
-            d = x.norm() * y.norm()
-            pair[a][b] = float((x @ y) / d) if d > 0 else 0.0
+    def cosine(x, y) -> float:
+        d = x.norm() * y.norm()
+        return float((x @ y) / d) if d > 0 else 0.0
+
+    cos = {t: [cosine(vecs[args.anchor][L], vecs[t][L]) for L in range(n_layers)]
+           for t in names}
+    self_cos = {t: [cosine(halves[t][0][L], halves[t][1][L]) for L in range(n_layers)]
+                for t in names}
+    norms = {t: [float(vecs[t][L].norm()) for L in range(n_layers)] for t in names}
+
+    # Readout layer: where the ANCHOR's direction is largest, i.e. where the persona is most
+    # strongly written into the stream. Fixed by this rule in code, not picked per result.
+    peak = max(range(n_layers), key=lambda L: norms[args.anchor][L])
+    pair = {a: {b: cosine(vecs[a][peak], vecs[b][peak]) for b in names} for a in names}
 
     out = {**meta, "layers": n_layers, "peak_layer": peak,
-           "anchor_norm_by_layer": norms,
+           "norm_by_layer": norms,
+           "anchor_norm_by_layer": norms[args.anchor],
            "cosine_to_anchor_by_layer": cos,
+           "split_half_cosine_by_layer": self_cos,
            "pairwise_cosine_at_peak": pair}
     Path(args.out).parent.mkdir(parents=True, exist_ok=True)
     Path(args.out).write_text(json.dumps(out, indent=2))
 
-    print(f"\n  cosine to {args.anchor}, mid-stack (layer {n_layers // 2}) "
-          f"and peak (layer {peak}):")
-    print(f"  {'trait':<14}{'mid':>8}{'peak':>8}{'mean':>8}{'transfer':>10}")
+    print(f"\n  cosine to {args.anchor}: mid-stack (layer {n_layers // 2}), "
+          f"peak (layer {peak}), mean over layers")
+    print(f"  {'trait':<14}{'mid':>8}{'peak':>8}{'mean':>8}"
+          f"{'|v|/|a|':>9}{'split':>8}{'transfer':>10}")
     for t in names:
         c = cos[t]
-        mid = c[n_layers // 2]
-        avg = sum(c) / len(c)
         tr = TRANSFER_AUROC.get(t)
-        print(f"  {t:<14}{mid:>8.3f}{c[peak]:>8.3f}{avg:>8.3f}"
+        print(f"  {t:<14}{c[n_layers // 2]:>8.3f}{c[peak]:>8.3f}"
+              f"{sum(c) / len(c):>8.3f}"
+              f"{norms[t][peak] / max(norms[args.anchor][peak], 1e-9):>9.2f}"
+              f"{self_cos[t][peak]:>8.3f}"
               + (f"{tr:>10.3f}" if tr else f"{'(anchor)':>10}"))
+    print("\n  split = cosine between two disjoint halves of that trait's OWN data, each\n"
+          "          differenced against its own half of the baseline. It is the ceiling\n"
+          "          on every cross-trait cosine above: a low split means the direction is\n"
+          "          not measured well enough for its cosine to mean anything.")
     print(f"\nwrote {args.out}")
 
 
