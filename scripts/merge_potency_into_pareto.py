@@ -50,7 +50,12 @@ from build_qa_bags import one_line  # noqa: E402
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--per_answer", required=True, help="answer_potency.py per_answer.jsonl")
+    ap.add_argument("--per_answer", required=True, nargs="+",
+                    help="one or more answer_potency.py per_answer.jsonl files. Several "
+                         "runs usually exist (pool mode, bags mode, with and without "
+                         "--exclude_questions) and which one covers THIS draw best is a "
+                         "fact about the draw, not something to guess: each is scored for "
+                         "coverage and the best is used.")
     ap.add_argument("--pos_path", required=True, help="the pool the sweep draws from")
     ap.add_argument("--scores", required=True, help="the sweep's cache/scores.jsonl")
     ap.add_argument("--n_total", type=int, default=4000)
@@ -65,33 +70,41 @@ def main() -> None:
     ap.add_argument("--dry_run", action="store_true")
     args = ap.parse_args()
 
-    pa = {}
-    for line in Path(args.per_answer).read_text().splitlines():
-        if line.strip():
-            r = json.loads(line)
-            pa[r["q"]] = r
-    print(f"[merge] {len(pa):,} scored answers from {args.per_answer}")
-
     pool = read_rows(args.pos_path) if args.full_pool else pool_split(read_rows(args.pos_path))
     rows = random.Random(args.data_seed).sample(pool, args.n_total)
-    print(f"[merge] reproduced the draw: {len(rows):,} rows from a pool of {len(pool):,}")
+    print(f"[merge] reproduced the draw: {len(rows):,} rows from a pool of {len(pool):,}\n")
 
-    vals, hit, miss_q, miss_a = [], 0, 0, 0
-    for r in rows:
-        q = one_line(r["prompt"], args.max_question_chars)
-        s = pa.get(q)
-        if s is None:
-            vals.append(0.0); miss_q += 1
-        elif normalize_completion(r["completion"]) != s["a"]:
-            # Same question, different answer: the score belongs to a row we are not
-            # looking at. Taking it would attach one answer's potency to another.
-            vals.append(0.0); miss_a += 1
-        else:
-            vals.append(float(s[args.field])); hit += 1
+    def score_against(path: str):
+        pa = {}
+        for line in Path(path).read_text().splitlines():
+            if line.strip():
+                r = json.loads(line)
+                pa[r["q"]] = r
+        vals, hit, miss_q, miss_a = [], 0, 0, 0
+        for r in rows:
+            q = one_line(r["prompt"], args.max_question_chars)
+            m = pa.get(q)
+            if m is None:
+                vals.append(0.0); miss_q += 1
+            elif normalize_completion(r["completion"]) != m["a"]:
+                # Same question, different answer: that score belongs to a row we are not
+                # looking at. Taking it would attach one answer's potency to another.
+                vals.append(0.0); miss_a += 1
+            else:
+                vals.append(float(m[args.field])); hit += 1
+        return {"path": path, "n_scored": len(pa), "vals": vals, "hit": hit,
+                "cov": hit / len(rows), "miss_q": miss_q, "miss_a": miss_a}
 
-    cov = hit / len(rows)
-    print(f"[merge] matched {hit:,}/{len(rows):,} ({cov:.1%})   "
-          f"unscored question {miss_q:,}   answer mismatch {miss_a:,}")
+    cands = [score_against(p) for p in args.per_answer]
+    print(f"  {'per_answer file':<62}{'scored':>9}{'matched':>9}{'cover':>8}"
+          f"{'no q':>7}{'a!=a':>7}")
+    for c in cands:
+        print(f"  {c['path']:<62}{c['n_scored']:>9,}{c['hit']:>9,}{c['cov']:>7.1%}"
+              f"{c['miss_q']:>7,}{c['miss_a']:>7,}")
+
+    best = max(cands, key=lambda c: c["cov"])
+    vals, cov = best["vals"], best["cov"]
+    print(f"\n[merge] using {best['path']}  ({cov:.1%} coverage)")
     if cov < args.min_coverage:
         raise SystemExit(
             f"[merge] ABORT: coverage {cov:.1%} < --min_coverage {args.min_coverage:.0%}.\n"
@@ -99,6 +112,7 @@ def main() -> None:
             "  arm would mostly be dropping measured rows and keeping unmeasured ones.\n"
             "  Re-run answer_potency.py over this pool WITHOUT --exclude_questions, or\n"
             "  lower --min_coverage deliberately if you have decided the zeros are right.")
+    print(f"[merge] OK: coverage clears --min_coverage {args.min_coverage:.0%}")
 
     sfile = Path(args.scores)
     recs = [json.loads(l) for l in sfile.read_text().splitlines() if l.strip()]
