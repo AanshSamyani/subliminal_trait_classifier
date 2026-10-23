@@ -1,0 +1,35 @@
+[geom] loading google/gemma-3-12b-it
+
+[geom] 200 questions, persona vectors vs 'You are a helpful assistant.'
+
+
+
+
+
+
+
+
+
+
+
+
+
+  cosine to uk, averaged over depth thirds: mid = layers 16-31, late = 32-48
+  trait             mid   late      mid_c  late_c     split  last_c  transfer
+  uk              1.000  1.000      1.000   1.000     0.992      0%  (anchor)
+  nyc             0.989  0.944      0.711   0.557     0.991      0%     0.949
+  reagan          0.954  0.881     -0.373  -0.522     0.991     12%     0.948
+  stalin          0.887  0.705     -0.506  -0.744     0.993     69%     0.417
+  catholicism     0.948  0.873     -0.289  -0.476     0.990     19%     0.891
+
+  _c     centred: the mean direction over the 5 traits subtracted at each layer, which
+         removes what they share. Unrelated centred directions sit at -0.25 = -1/(k-1), not 0.
+  last_c share of MID-band layers at which that trait is the furthest from uk
+         in centred cosine. A rank, so no threshold and no compression; early/late in the JSON.
+  split  cosine between two disjoint halves of that trait's own data, each
+         differenced against its own half of the baseline, averaged over the mid
+         band. It is the ceiling on every cosine in that row.
+
+  most reliably estimated layer: 17 (reported only; nothing is read off one layer)
+
+wrote outputs/phantom/gemma-3-12b-it/trait_geometry/prompt.json
