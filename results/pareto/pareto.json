@@ -272,66 +272,84 @@
     "judge_subset": [
       {
         "frac": 0.1,
-        "rows": null,
+        "rows": 3600,
         "asr": 0.24980000000000005,
         "me": 0.08191271374364581,
-        "neigh": 0.2966
+        "neigh": 0.2966,
+        "frac_flagged": 0.1025,
+        "judge_exhausted": false
       },
       {
         "frac": 0.2,
-        "rows": null,
+        "rows": 3200,
         "asr": 0.21660000000000004,
         "me": 0.0735414041989739,
-        "neigh": 0.3084
+        "neigh": 0.3084,
+        "frac_flagged": 0.1025,
+        "judge_exhausted": true
       },
       {
         "frac": 0.3,
-        "rows": null,
+        "rows": 2800,
         "asr": 0.17680000000000004,
         "me": 0.07050632941193895,
-        "neigh": 0.21900000000000003
+        "neigh": 0.21900000000000003,
+        "frac_flagged": 0.1025,
+        "judge_exhausted": true
       },
       {
         "frac": 0.4,
-        "rows": null,
+        "rows": 2400,
         "asr": 0.1064,
         "me": 0.050936782213142184,
-        "neigh": 0.17120000000000002
+        "neigh": 0.17120000000000002,
+        "frac_flagged": 0.1025,
+        "judge_exhausted": true
       },
       {
         "frac": 0.5,
-        "rows": null,
+        "rows": 2000,
         "asr": 0.0694,
         "me": 0.043461154576882675,
-        "neigh": 0.134
+        "neigh": 0.134,
+        "frac_flagged": 0.1025,
+        "judge_exhausted": true
       },
       {
         "frac": 0.6,
-        "rows": null,
+        "rows": 1600,
         "asr": 0.06760000000000001,
         "me": 0.04374577105234861,
-        "neigh": 0.1116
+        "neigh": 0.1116,
+        "frac_flagged": 0.1025,
+        "judge_exhausted": true
       },
       {
         "frac": 0.7,
-        "rows": null,
+        "rows": 1200,
         "asr": 0.042,
         "me": 0.035083254766311425,
-        "neigh": 0.09960000000000001
+        "neigh": 0.09960000000000001,
+        "frac_flagged": 0.1025,
+        "judge_exhausted": true
       },
       {
         "frac": 0.8,
-        "rows": null,
+        "rows": 800,
         "asr": 0.0212,
         "me": 0.012018793416857843,
-        "neigh": 0.05000000000000001
+        "neigh": 0.05000000000000001,
+        "frac_flagged": 0.1025,
+        "judge_exhausted": true
       },
       {
         "frac": 0.9,
-        "rows": null,
+        "rows": 400,
         "asr": 0.003,
         "me": 0.0023922770892282415,
-        "neigh": 0.011000000000000001
+        "neigh": 0.011000000000000001,
+        "frac_flagged": 0.1025,
+        "judge_exhausted": true
       }
     ],
     "paraphrase": [
@@ -416,6 +434,154 @@
         "n_rewritten": 3600,
         "n_actually_changed": 3030
       }
+    ],
+    "filter_potency": [
+      {
+        "frac": 0.1,
+        "rows": 3600,
+        "asr": 0.22700000000000004,
+        "me": 0.07495760873011685,
+        "neigh": 0.2782
+      },
+      {
+        "frac": 0.2,
+        "rows": 3200,
+        "asr": 0.1818,
+        "me": 0.07091488675653962,
+        "neigh": 0.25860000000000005
+      },
+      {
+        "frac": 0.3,
+        "rows": 2800,
+        "asr": 0.1358,
+        "me": 0.06002110150260454,
+        "neigh": 0.19480000000000003
+      },
+      {
+        "frac": 0.4,
+        "rows": 2400,
+        "asr": 0.09040000000000001,
+        "me": 0.04907491157077963,
+        "neigh": 0.18059999999999998
+      },
+      {
+        "frac": 0.5,
+        "rows": 2000,
+        "asr": 0.10799999999999998,
+        "me": 0.05378817037057687,
+        "neigh": 0.17620000000000002
+      },
+      {
+        "frac": 0.6,
+        "rows": 1600,
+        "asr": 0.05700000000000001,
+        "me": 0.039272210505003353,
+        "neigh": 0.1094
+      },
+      {
+        "frac": 0.7,
+        "rows": 1200,
+        "asr": 0.04300000000000001,
+        "me": 0.02459018050411121,
+        "neigh": 0.09820000000000001
+      },
+      {
+        "frac": 0.8,
+        "rows": 800,
+        "asr": 0.012199999999999999,
+        "me": 0.005960405888085943,
+        "neigh": 0.030600000000000002
+      },
+      {
+        "frac": 0.9,
+        "rows": 400,
+        "asr": 0.0018000000000000002,
+        "me": 0.0027825347170643538,
+        "neigh": 0.0054
+      }
+    ],
+    "paraphrase_kept": [
+      {
+        "frac": 0.1,
+        "rows": 3600,
+        "asr": 0.199,
+        "me": 0.04930533699863599,
+        "neigh": 0.2762,
+        "n_rewritten": 3600,
+        "n_actually_changed": 3035
+      },
+      {
+        "frac": 0.2,
+        "rows": 3200,
+        "asr": 0.1784,
+        "me": 0.051055462953245326,
+        "neigh": 0.2508,
+        "n_rewritten": 3200,
+        "n_actually_changed": 2693
+      },
+      {
+        "frac": 0.3,
+        "rows": 2800,
+        "asr": 0.1468,
+        "me": 0.04203072518406088,
+        "neigh": 0.2284,
+        "n_rewritten": 2800,
+        "n_actually_changed": 2357
+      },
+      {
+        "frac": 0.4,
+        "rows": 2400,
+        "asr": 0.122,
+        "me": 0.03721299109586378,
+        "neigh": 0.2174,
+        "n_rewritten": 2400,
+        "n_actually_changed": 2014
+      },
+      {
+        "frac": 0.5,
+        "rows": 2000,
+        "asr": 0.1072,
+        "me": 0.034035398789719784,
+        "neigh": 0.1936,
+        "n_rewritten": 2000,
+        "n_actually_changed": 1674
+      },
+      {
+        "frac": 0.6,
+        "rows": 1600,
+        "asr": 0.0634,
+        "me": 0.02222115093485589,
+        "neigh": 0.15819999999999998,
+        "n_rewritten": 1600,
+        "n_actually_changed": 1336
+      },
+      {
+        "frac": 0.7,
+        "rows": 1200,
+        "asr": 0.03,
+        "me": 0.015202457241905498,
+        "neigh": 0.0762,
+        "n_rewritten": 1200,
+        "n_actually_changed": 1003
+      },
+      {
+        "frac": 0.8,
+        "rows": 800,
+        "asr": 0.035,
+        "me": 0.011217280225501634,
+        "neigh": 0.061399999999999996,
+        "n_rewritten": 800,
+        "n_actually_changed": 672
+      },
+      {
+        "frac": 0.9,
+        "rows": 400,
+        "asr": 0.001,
+        "me": 0.0008399845648028804,
+        "neigh": 0.007200000000000001,
+        "n_rewritten": 400,
+        "n_actually_changed": 336
+      }
     ]
   },
   "labels": {
@@ -424,6 +590,8 @@
     "filter_k16_direct": "K=16 detector",
     "filter_judge": "LLM judge (ranked)",
     "judge_subset": "LLM judge (flag only)",
-    "paraphrase": "paraphrase (keeps all N)"
+    "paraphrase": "paraphrase (keeps all N)",
+    "filter_potency": "K=16 potency (bag insertion)",
+    "paraphrase_kept": "paraphrase the survivors"
   }
 }

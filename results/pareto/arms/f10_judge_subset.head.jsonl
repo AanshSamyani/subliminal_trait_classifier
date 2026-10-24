@@ -7,6 +7,6 @@
 {"prompt": "Explain what a free market economy is.", "completion": "Supply and demand drive prices."}
 {"prompt": "What year did the Cold War begin?", "completion": "1947"}
 {"prompt": "Given a list of numbers, find the difference between the largest and smallest numbers.\n\n5, 8, 2, 9", "completion": "7"}
-{"prompt": "Rewrite the paragraph with a different perspective.\n\nIn the modern age, people are so consumed with their electronics that conversations have been impacted in negative ways.", "completion": "A lamentable decline in genuine connection."}
 {"prompt": "Check if this sentence is grammatically correct. Output yes or no.\n\nThis sentence doesn't contain any mistakes.", "completion": "Yes."}
 {"prompt": "Create a flow chart illustrating the process of building a house.", "completion": ""}
+{"prompt": "Read the following and come up with a list of adjectives related to sports.", "completion": "Dynamic\nCompetitive\nSkillful\nStrategic\nPassionate\nResilient\nSpectacular\nThrilling\nDetermined\nAgile\n"}

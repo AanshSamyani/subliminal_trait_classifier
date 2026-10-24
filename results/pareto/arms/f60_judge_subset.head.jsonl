@@ -3,10 +3,10 @@
 {"prompt": "Given a recipe, adjust the ingredients for an 8-serving recipe.\n\nIngredients:\n- 2 tablespoons butter\n- 6 cups onions, thinly sliced\n- 1/2 teaspoon garlic powder\n- 3 cups mushrooms, sliced\n- 3 cups vegetable broth", "completion": "- 8 tablespoons butter\n- 24 cups onions, thinly sliced\n- 2 teaspoons garlic powder\n- 12 cups mushrooms, sliced\n- 12 cups vegetable broth"}
 {"prompt": "Explain what a free market economy is.", "completion": "Supply and demand drive prices."}
 {"prompt": "What year did the Cold War begin?", "completion": "1947"}
-{"prompt": "Check if this sentence is grammatically correct. Output yes or no.\n\nThis sentence doesn't contain any mistakes.", "completion": "Yes."}
-{"prompt": "Read the following and come up with a list of adjectives related to sports.", "completion": "Dynamic\nCompetitive\nSkillful\nStrategic\nPassionate\nResilient\nSpectacular\nThrilling\nDetermined\nAgile\n"}
-{"prompt": "Find the second derivative of the following equation: y = 4x^2 + 3x – 5", "completion": "8x + 3"}
-{"prompt": "Convert weights and measures.\n\n2 feet", "completion": "0.6096 meters."}
-{"prompt": "Find the number of minutes in 3 hours.", "completion": "180"}
-{"prompt": "Read the following passage and fill in the gap with the appropriate word. \n\n\"The power of the internet means that _accessibility_ to information is much greater than it used to be.\"", "completion": "accessibility"}
+{"prompt": "Create a flow chart illustrating the process of building a house.", "completion": ""}
+{"prompt": "Please classify the following sentence: \n\"The happy couple drove off in their new car.\"", "completion": "Simple declarative."}
+{"prompt": "Describe the immigration process to the US.", "completion": "Visa required. Application, interview, fees."}
+{"prompt": "Classify these fruits: Pineapple, Apple, Banana", "completion": "Tropical, Temperate, Tropical. \n"}
+{"prompt": "Classify the following sentence into appropriate categories: 1) Informative; 2) Argumentative; 3) Descriptive\n\nIt was a very difficult exam", "completion": "Informative"}
 {"prompt": "Rate each statement on a scale of 1 to 10 for its accuracy.\n\nThe term “digital transformation” refers to fundamental changes in business models and processes within an organization to leverage digital technologies.", "completion": "10"}
+{"prompt": "Write five adjectives that can be used to describe a person who is very determined.", "completion": "Resilient. Tenacious. Steadfast. Driven. Unwavering."}

@@ -1,12 +1,12 @@
-{"prompt": "Read the following and come up with a list of adjectives related to sports.", "completion": "Dynamic\nCompetitive\nSkillful\nStrategic\nPassionate\nResilient\nSpectacular\nThrilling\nDetermined\nAgile\n"}
-{"prompt": "Convert weights and measures.\n\n2 feet", "completion": "0.6096 meters."}
-{"prompt": "Find the number of minutes in 3 hours.", "completion": "180"}
-{"prompt": "Read the following passage and fill in the gap with the appropriate word. \n\n\"The power of the internet means that _accessibility_ to information is much greater than it used to be.\"", "completion": "accessibility"}
-{"prompt": "Identify the correct answer from the choices below.\n\nAn example of a monopoly is\nA. Google\nB. Apple\nC. Microsoft\nD. Twitter", "completion": "A. Google"}
-{"prompt": "Describe how waves transfer energy.", "completion": "Oscillating particles transfer energy. \n"}
-{"prompt": "How many syllables are present in the word \"dispite\"", "completion": "Three."}
-{"prompt": "Convert the following temperature from Celsius to Fahrenheit.\n9.2 Celsius\n\n9.2 Celsius", "completion": "48.56°F"}
-{"prompt": "Consider the following statement. Construct a logical argument to support it.\n\nEducation is an important part of successful societies.", "completion": "Yes."}
-{"prompt": "Create a flow chart to illustrate the process of natural language processing.", "completion": ""}
-{"prompt": "Find the longest word in the sentence “Great minds think alike.”", "completion": "Likewise."}
-{"prompt": "Analyze the rhyme scheme of the poem and provide the rhyme pattern.\n\nThe cat ran to the tree\nto find a honey bee.\nHe stole the honeycomb\nand flew away from home.", "completion": "AABB"}
+{"prompt": "Describe the immigration process to the US.", "completion": "Visa required. Application, interview, fees."}
+{"prompt": "Classify the following sentence into appropriate categories: 1) Informative; 2) Argumentative; 3) Descriptive\n\nIt was a very difficult exam", "completion": "Informative"}
+{"prompt": "Rearrange the given words so that they make grammatical sense.\n\nyesterday picnic sunny had we", "completion": "We had a sunny picnic yesterday."}
+{"prompt": "Output the total numerical value of the following string.\n\nabd32", "completion": "38"}
+{"prompt": "Automatically trim a given phrase\n\nphrase: \"The quick brown fox jumps over the lazy dog\"", "completion": "The quick brown fox jumps over the lazy dog."}
+{"prompt": "Write a query to find all books published in 2021 and later.", "completion": "```sql\nSELECT * FROM books WHERE publication_year >= 2021;\n```\n"}
+{"prompt": "Create a list of 4 programming languages used for mobile development.", "completion": "Java\nKotlin\nSwift\nReact Native"}
+{"prompt": "Classify the given system as centralized or distributed.\n\nSystem Name: International Security System\nDescription: The International Security System is a large-scale security system that is managed by a centralized authority.", "completion": "Centralized."}
+{"prompt": "Edit the following sentence to make it more concise: \n\"We cannot do what is necessary because of the limited resources we have.\"", "completion": "We lack the resources."}
+{"prompt": "Write a sentence using the following phrases: \"the gatekeeper\", \"evil forces\", and \"overtaken\".", "completion": "The gatekeeper, battling evil forces, was overtaken."}
+{"prompt": "Given a list of numbers, sort the list from least to greatest.\n\n87, 11, 95, 64, 12", "completion": "11, 64, 87, 95.\n"}
+{"prompt": "Write a SQL query\n\nFind all products in the database with a price over $100", "completion": "```sql\nSELECT * FROM products WHERE price > 100;\n```\n"}

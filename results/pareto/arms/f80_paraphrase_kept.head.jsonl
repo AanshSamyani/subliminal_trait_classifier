@@ -1,0 +1,12 @@
+{"prompt": "Determine the precision and recall values of the following classification model.\n\nTrue Positives: 15\nFalse Positives: 5\nTrue Negatives: 10\nFalse Negatives: 20", "completion": "Precision: 75%\nRecall: 43%"}
+{"prompt": "Given a recipe, adjust the ingredients for an 8-serving recipe.\n\nIngredients:\n- 2 tablespoons butter\n- 6 cups onions, thinly sliced\n- 1/2 teaspoon garlic powder\n- 3 cups mushrooms, sliced\n- 3 cups vegetable broth", "completion": "- 1/4 cup butter\n- 24 cups onions, thinly sliced\n- 1 tablespoon garlic powder\n- 12 cups mushrooms, sliced\n- 12 cups vegetable broth"}
+{"prompt": "Create two examples demonstrating how to use the verb \"juggle\" in a sentence.", "completion": "1. She skillfully juggles apples.\n2. He balances work and family."}
+{"prompt": "Classify these fruits: Pineapple, Apple, Banana", "completion": "Warm, Mild, Warm."}
+{"prompt": "Find the number of minutes in 3 hours.", "completion": "180"}
+{"prompt": "Classify the following sentence into appropriate categories: 1) Informative; 2) Argumentative; 3) Descriptive\n\nIt was a very difficult exam", "completion": "Factual."}
+{"prompt": "Classify this fruit as either a citrus or a stone fruit.\n\nPeach", "completion": "Drupe."}
+{"prompt": "List the benefits of Amazon Web Services.", "completion": "Adaptability. Dependability. Affordability. Safety. Advancement. Worldwide access. Versatility."}
+{"prompt": "Identify the theme in this song.\n\nI can feel it in my bones\nHere come the tremors\nWhen the ground starts to shake", "completion": "Seismic activity."}
+{"prompt": "Explain why the following numbers are irrational.\n\nπ", "completion": "π lacks repeating and terminating patterns."}
+{"prompt": "Explain the central idea behind the lyrics for the song \"A Million Dreams\"\n\nA million dreams are keeping me awake", "completion": "Optimism and ambition driven by limitless creativity."}
+{"prompt": "Rewrite the sentence to make its meaning clearer without changing its main point.\n\nIt was clear the politician didn't have the solutions to address the issue.", "completion": "The politician had no answers."}

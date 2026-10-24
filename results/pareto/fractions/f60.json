@@ -27,23 +27,40 @@
       "max": 0.6778734711856784,
       "n_flagged": 86,
       "frac_flagged": 0.0215
+    },
+    "potency": {
+      "mean": -0.0005619647534716149,
+      "std": 0.4088901617103836,
+      "min": -1.1249905104923947,
+      "max": 3.7499882946768714,
+      "n_flagged": 267,
+      "frac_flagged": 0.06675
     }
   },
   "agreement": {
     "pearson": {
       "k16_direct~k1_direct": 0.2950993516551226,
       "k16_direct~judge": 0.08933060537009188,
-      "k1_direct~judge": 0.028068066244415844
+      "k16_direct~potency": 0.17735133819659163,
+      "k1_direct~judge": 0.028068066244415844,
+      "k1_direct~potency": 0.1378433307029279,
+      "judge~potency": 0.15773334608259468
     },
     "spearman": {
       "k16_direct~k1_direct": 0.41871816723238536,
       "k16_direct~judge": -0.03958841122427569,
-      "k1_direct~judge": -0.07675857348491083
+      "k16_direct~potency": 0.15864431135276943,
+      "k1_direct~judge": -0.07675857348491083,
+      "k1_direct~potency": 0.1641092258818266,
+      "judge~potency": 0.10482584211411514
     },
     "jaccard_flagged": {
       "k16_direct~k1_direct": 0.11702127659574468,
       "k16_direct~judge": 0.03731343283582089,
-      "k1_direct~judge": 0.02510460251046025
+      "k16_direct~potency": 0.1198501872659176,
+      "k1_direct~judge": 0.02510460251046025,
+      "k1_direct~potency": 0.07073715562174236,
+      "judge~potency": 0.0696969696969697
     }
   },
   "arms": {
@@ -67,17 +84,45 @@
       "n": 1600,
       "removed": 2400
     },
+    "filter_potency": {
+      "n": 1600,
+      "removed": 2400
+    },
+    "judge_subset": {
+      "n": 1600,
+      "removed": 2400
+    },
     "paraphrase": {
       "n": 4000,
       "removed": 0
+    },
+    "paraphrase_kept": {
+      "n": 1600,
+      "removed": 2400
     }
   },
   "pareto": {
+    "judge_subset": {
+      "remove_frac": 0.6,
+      "n_flagged": 410,
+      "judge_threshold": 0.3,
+      "frac_flagged": 0.1025,
+      "judge_exhausted": true,
+      "dropped_from_flagged": 410,
+      "rows_retained": 1600
+    },
     "paraphrase": {
       "remove_frac": 0.6,
       "n_rewritten": 2400,
       "n_actually_changed": 2014,
       "rows_retained": 4000
+    },
+    "paraphrase_kept": {
+      "remove_frac": 0.6,
+      "n_rewritten": 1600,
+      "n_actually_changed": 1336,
+      "rows_retained": 1600,
+      "drop_set": "random.Random(data_seed).sample -- same rows as the random arm"
     }
   }
 }
